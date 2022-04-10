@@ -4,6 +4,7 @@
     "extension": "apps/extension",
     "extension-e2e": "apps/extension-e2e",
     "mobile": "apps/mobile",
-    "mobile-e2e": "apps/mobile-e2e"
+    "mobile-e2e": "apps/mobile-e2e",
+    "ui": "libs/ui"
   }
 }

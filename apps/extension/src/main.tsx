@@ -1,11 +1,8 @@
-import { StrictMode } from 'react';
-import * as ReactDOM from 'react-dom';
+import { AppRegistry } from 'react-native';
 
-import App from './app/app';
+import {App} from "@klaytn-wallet/ui";
 
-ReactDOM.render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-  document.getElementById('root')
-);
+AppRegistry.registerComponent('main', () => App);
+AppRegistry.runApplication('main', {
+  rootTag: document.getElementById('root'),
+});
