@@ -1,1 +1,1 @@
-export {App} from './lib/app/app';
+export {App} from './app/app';

@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve",
-    "build": "nx build",
-    "test": "nx test"
+    "ios": "nx run mobile:run-ios",
+    "android": "nx run mobile:run-android",
+    "extension": "nx run extension:build"
   },
   "private": true,
   "dependencies": {

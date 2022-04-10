@@ -1,0 +1,93 @@
+import React from 'react';
+import {SafeAreaView, ScrollView, Text} from "react-native";
+
+export const App = () => {
+  console.log('Shared App component rendering');
+
+  return (
+    <SafeAreaView>
+      <ScrollView>
+        <Text>Welcome1233</Text>
+        <Text>to</Text>
+        <Text>the</Text>
+        <Text>shared</Text>
+        <Text>code</Text>
+        <Text>Welcome123</Text>
+        <Text>to</Text>
+        <Text>the</Text>
+        <Text>shared</Text>
+        <Text>code</Text>
+        <Text>Welcome123</Text>
+        <Text>to</Text>
+        <Text>the</Text>
+        <Text>shared</Text>
+        <Text>code</Text>
+        <Text>Welcome123</Text>
+        <Text>to</Text>
+        <Text>the</Text>
+        <Text>shared</Text>
+        <Text>code</Text>
+        <Text>Welcome123</Text>
+        <Text>to</Text>
+        <Text>the</Text>
+        <Text>shared</Text>
+        <Text>code</Text>
+        <Text>Welcome123</Text>
+        <Text>to</Text>
+        <Text>the</Text>
+        <Text>shared</Text>
+        <Text>code</Text>
+        <Text>Welcome123</Text>
+        <Text>to</Text>
+        <Text>the</Text>
+        <Text>shared</Text>
+        <Text>code</Text>
+        <Text>Welcome123</Text>
+        <Text>to</Text>
+        <Text>the</Text>
+        <Text>shared</Text>
+        <Text>code</Text>
+        <Text>Welcome123</Text>
+        <Text>to</Text>
+        <Text>the</Text>
+        <Text>shared</Text>
+        <Text>code</Text>
+        <Text>Welcome123</Text>
+        <Text>to</Text>
+        <Text>the</Text>
+        <Text>shared</Text>
+        <Text>code</Text>
+        <Text>Welcome123</Text>
+        <Text>to</Text>
+        <Text>the</Text>
+        <Text>shared</Text>
+        <Text>code</Text>
+        <Text>Welcome123</Text>
+        <Text>to</Text>
+        <Text>the</Text>
+        <Text>shared</Text>
+        <Text>code</Text>
+        <Text>Welcome123</Text>
+        <Text>to</Text>
+        <Text>the</Text>
+        <Text>shared</Text>
+        <Text>code</Text>
+        <Text>Welcome123</Text>
+        <Text>to</Text>
+        <Text>the</Text>
+        <Text>shared</Text>
+        <Text>code</Text>
+        <Text>Welcome123</Text>
+        <Text>to</Text>
+        <Text>the</Text>
+        <Text>shared</Text>
+        <Text>code</Text>
+        <Text>Welcome123</Text>
+        <Text>to</Text>
+        <Text>the</Text>
+        <Text>shared</Text>
+        <Text>code</Text>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}

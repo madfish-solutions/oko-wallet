@@ -1,6 +1,6 @@
 {
   "root": "apps/extension",
-  "sourceRoot": "apps/extension/src",
+  "sourceRoot": "apps/extension",
   "projectType": "application",
   "targets": {
     "build": {
@@ -10,14 +10,16 @@
       "options": {
         "compiler": "babel",
         "outputPath": "dist/apps/extension",
-        "index": "apps/extension/src/index.html",
+        "index": "apps/extension/public/index.html",
         "baseHref": "/",
         "main": "apps/extension/src/main.tsx",
-        "polyfills": "apps/extension/src/polyfills.ts",
         "tsConfig": "apps/extension/tsconfig.app.json",
         "assets": [
-          "apps/extension/src/favicon.ico",
-          "apps/extension/src/assets"
+          {
+            "glob": "**",
+            "input": "apps/extension/public/",
+            "output": "."
+          }
         ],
         "styles": ["apps/extension/src/styles.css"],
         "scripts": [],
