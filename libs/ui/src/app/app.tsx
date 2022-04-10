@@ -1,12 +1,19 @@
-import React from 'react';
-import {SafeAreaView, ScrollView, Text} from "react-native";
+import React, {useEffect} from 'react';
+import {Platform, SafeAreaView, ScrollView, Text} from "react-native";
+import {TestComponent} from "./test-component/test-component";
 
 export const App = () => {
-  console.log('Shared App component rendering');
+  useEffect(() => {
+    console.log('Shared App component rendering');
+    console.log('OS:', Platform.OS);
+  }, []);
 
   return (
     <SafeAreaView>
       <ScrollView>
+        <TestComponent/>
+        <TestComponent/>
+        <TestComponent/>
         <Text>Welcome1233</Text>
         <Text>to</Text>
         <Text>the</Text>
