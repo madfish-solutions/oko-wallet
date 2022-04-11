@@ -5,7 +5,7 @@
   "scripts": {
     "ios": "nx run mobile:run-ios",
     "android": "nx run mobile:run-android",
-    "extension": "nx run extension:build --skip-nx-cache"
+    "extension": "nx run extension:build --watch --skip-nx-cache"
   },
   "private": true,
   "dependencies": {
