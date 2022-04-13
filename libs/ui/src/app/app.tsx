@@ -1,6 +1,13 @@
 import React, {useEffect} from 'react';
-import {Platform, SafeAreaView, ScrollView, Text} from "react-native";
-import {TestComponent} from "./test-component/test-component";
+import {Platform} from "react-native";
+import {NavigationContainer} from "@react-navigation/native";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {ScreensEnum, ScreensParamList} from "../enums/sreens.enum";
+import {WelcomeScreen} from "../screens/welcome-screen/welcome-screen";
+import {TestScreen} from "../screens/test-screen/test-screen";
+import {InnerScreen} from "../screens/inner-screen/inner-screen";
+
+const Stack = createNativeStackNavigator<ScreensParamList>();
 
 export const App = () => {
   useEffect(() => {
@@ -9,92 +16,12 @@ export const App = () => {
   }, []);
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <TestComponent/>
-        <TestComponent/>
-        <TestComponent/>
-        <Text>Welcome1233</Text>
-        <Text>to</Text>
-        <Text>the</Text>
-        <Text>shared</Text>
-        <Text>code</Text>
-        <Text>Welcome123</Text>
-        <Text>to</Text>
-        <Text>the</Text>
-        <Text>shared</Text>
-        <Text>code</Text>
-        <Text>Welcome123</Text>
-        <Text>to</Text>
-        <Text>the</Text>
-        <Text>shared</Text>
-        <Text>code</Text>
-        <Text>Welcome123</Text>
-        <Text>to</Text>
-        <Text>the</Text>
-        <Text>shared</Text>
-        <Text>code</Text>
-        <Text>Welcome123</Text>
-        <Text>to</Text>
-        <Text>the</Text>
-        <Text>shared</Text>
-        <Text>code</Text>
-        <Text>Welcome123</Text>
-        <Text>to</Text>
-        <Text>the</Text>
-        <Text>shared</Text>
-        <Text>code</Text>
-        <Text>Welcome123</Text>
-        <Text>to</Text>
-        <Text>the</Text>
-        <Text>shared</Text>
-        <Text>code</Text>
-        <Text>Welcome123</Text>
-        <Text>to</Text>
-        <Text>the</Text>
-        <Text>shared</Text>
-        <Text>code</Text>
-        <Text>Welcome123</Text>
-        <Text>to</Text>
-        <Text>the</Text>
-        <Text>shared</Text>
-        <Text>code</Text>
-        <Text>Welcome123</Text>
-        <Text>to</Text>
-        <Text>the</Text>
-        <Text>shared</Text>
-        <Text>code</Text>
-        <Text>Welcome123</Text>
-        <Text>to</Text>
-        <Text>the</Text>
-        <Text>shared</Text>
-        <Text>code</Text>
-        <Text>Welcome123</Text>
-        <Text>to</Text>
-        <Text>the</Text>
-        <Text>shared</Text>
-        <Text>code</Text>
-        <Text>Welcome123</Text>
-        <Text>to</Text>
-        <Text>the</Text>
-        <Text>shared</Text>
-        <Text>code</Text>
-        <Text>Welcome123</Text>
-        <Text>to</Text>
-        <Text>the</Text>
-        <Text>shared</Text>
-        <Text>code</Text>
-        <Text>Welcome123</Text>
-        <Text>to</Text>
-        <Text>the</Text>
-        <Text>shared</Text>
-        <Text>code</Text>
-        <Text>Welcome123</Text>
-        <Text>to</Text>
-        <Text>the</Text>
-        <Text>shared</Text>
-        <Text>code</Text>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name={ScreensEnum.Welcome} component={WelcomeScreen}/>
+        <Stack.Screen name={ScreensEnum.Test} component={TestScreen}/>
+        <Stack.Screen name={ScreensEnum.Inner} component={InnerScreen}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
