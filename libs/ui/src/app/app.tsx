@@ -2,12 +2,12 @@ import React, {useEffect} from 'react';
 import {Platform} from "react-native";
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {ScreensEnum} from "../enums/sreens.enum";
+import {ScreensEnum, ScreensParamList} from "../enums/sreens.enum";
 import {WelcomeScreen} from "../screens/welcome-screen/welcome-screen";
 import {TestScreen} from "../screens/test-screen/test-screen";
 import {InnerScreen} from "../screens/inner-screen/inner-screen";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<ScreensParamList>();
 
 export const App = () => {
   useEffect(() => {
