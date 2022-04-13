@@ -21,15 +21,14 @@ export const MnemonicTextInput: React.FC = () => {
   return (
     <View style={MnemonicTextInputStyles.root}>
       <StyledTextInput 
-        value="mnemonic phrase"
+        value="mnemonic phrase mnemonic phrase mnemonic phrase mnemonic phrase mnemonic phrase mnemonic phrase mnemonic phrase"
         ref={mnemonicInputRef} 
         editable={false}
         selectTextOnFocus
         onBlur={handleBlurOfMnemonicArea} 
         numberOfLines={6}
-        style={MnemonicTextInputStyles.textarea}
+        style={[MnemonicTextInputStyles.textarea]}
       />
-  
       {isShowOverlay && (
         <TouchableOpacity 
           onPress={handleOverlayPress} 

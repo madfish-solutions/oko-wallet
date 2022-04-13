@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { StyleProp, TextInput, TextInputProps, TextStyle } from 'react-native';
 
 import { StyledTextInputStyles } from './text-input.styles';

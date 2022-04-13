@@ -10,24 +10,22 @@
     "nx:clear": "rm -rf node_modules/.cache/nx"
   },
   "dependencies": {
-    "bip39": "^3.0.4",
-    "buffer": "^6.0.3",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.1",
+    "bip39": "^3.0.4",
+    "buffer": "^6.0.3",
     "core-js": "^3.6.5",
-    "crypto-browserify": "^3.12.0",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-native": "0.67.4",
-    "react-native-themis": "^0.14.4",
+    "react-native-bip39": "^2.3.0",
     "react-native-safe-area-context": "^4.2.4",
     "react-native-screens": "^3.13.1",
+    "react-native-themis": "^0.14.4",
     "react-native-web": "^0.17.7",
     "regenerator-runtime": "0.13.7",
-    "stream-browserify": "^3.0.0",
-    "tslib": "^2.0.0",
-    "wasm-themis": "^0.14.0"
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@nrwl/cli": "13.10.1",

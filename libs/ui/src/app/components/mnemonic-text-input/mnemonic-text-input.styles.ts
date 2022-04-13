@@ -5,6 +5,12 @@ export const MnemonicTextInputStyles = StyleSheet.create({
     position: 'relative',
     cursor: 'pointer',
   },
+  textarea: {
+    position: 'relative',
+    borderWidth: 3,
+    borderStyle: 'solid',
+    borderColor: "#e1e0e0",
+  },
   overlay: {
     position: 'absolute',
     display: 'flex',
@@ -12,8 +18,10 @@ export const MnemonicTextInputStyles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     height: '100%',
+    borderWidth: 3,
+    borderStyle: 'solid',
+    borderColor: "#e1e0e0",
     backgroundColor: 'rgba(237, 242, 247, 1)',
-    border: '3px solid #e1e0e0',
     borderRadius: 4,
   },
   text: {
@@ -23,8 +31,4 @@ export const MnemonicTextInputStyles = StyleSheet.create({
     color: '#979797',
     fontWeight: "700",
   },
-  textarea: {
-    position: 'relative',
-    border: '3px solid #e1e0e0',
-  }
 });

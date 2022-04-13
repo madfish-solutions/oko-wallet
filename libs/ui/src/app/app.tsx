@@ -2,14 +2,14 @@ import React, {useEffect} from 'react';
 import {Platform} from "react-native";
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
+
 import {ScreensEnum, ScreensParamList} from "../enums/sreens.enum";
 import {WelcomeScreen} from "../screens/welcome-screen/welcome-screen";
 import {TestScreen} from "../screens/test-screen/test-screen";
 import {InnerScreen} from "../screens/inner-screen/inner-screen";
-import { generateSeed } from './utils/keys.web';
+// import { generateMnemonic } from 'bip39';
 
 const Stack = createNativeStackNavigator<ScreensParamList>();
-
 
 export const App: React.FC = () => {
   useEffect(() => {
@@ -17,10 +17,19 @@ export const App: React.FC = () => {
     console.log('OS:', Platform.OS);
   }, []);
 
-  const test = async () => {
-    const value = await generateSeed();
-    return value;
-  };
+  // console.log(generateMnemonic(128));
+
+  // useEffect(() => {
+  //   const generateMnemonic = async () => {
+  //     try {
+  //       const mn = await bip39.generateMnemonic(256);
+  //       return mn;
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   }
+  //   generateMnemonic();
+  // }, []);
 
   return (
     <NavigationContainer>
