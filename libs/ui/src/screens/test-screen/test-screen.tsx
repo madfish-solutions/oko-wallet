@@ -5,10 +5,10 @@ import {NavigationBar} from "../../components/navigation-bar/navigation-bar";
 export const TestScreen = () => {
   return (
     <View>
-      <Text>Test</Text>
-      <Text>Test</Text>
-      <Text>Test</Text>
       <NavigationBar/>
+      <Text>Test Screen Content</Text>
+      <Text>Test Screen Content</Text>
+      <Text>Test Screen Content</Text>
     </View>
   );
 }

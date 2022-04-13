@@ -5,10 +5,10 @@ import {NavigationBar} from "../../components/navigation-bar/navigation-bar";
 export const WelcomeScreen = () => {
   return (
     <View>
-      <Text>Welcome</Text>
-      <Text>Welcome</Text>
-      <Text>Welcome</Text>
       <NavigationBar/>
+      <Text>Welcome Screen Content</Text>
+      <Text>Welcome Screen Content</Text>
+      <Text>Welcome Screen Content</Text>
     </View>
   );
 }

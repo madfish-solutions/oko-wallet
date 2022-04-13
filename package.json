@@ -6,7 +6,8 @@
   "scripts": {
     "android": "nx run mobile:run-android",
     "extension": "nx run extension:build --watch --skip-nx-cache",
-    "ios": "nx run mobile:run-ios"
+    "ios": "nx run mobile:run-ios",
+    "nx:clear": "rm -rf node_modules/.cache/nx"
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.10",
