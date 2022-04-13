@@ -6,7 +6,7 @@
     "build": {
       "executor": "@nrwl/web:webpack",
       "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
+      "defaultConfiguration": "development",
       "options": {
         "compiler": "babel",
         "outputPath": "dist/apps/extension",
@@ -23,9 +23,10 @@
         ],
         "styles": ["apps/extension/src/styles.css"],
         "scripts": [],
-        "webpackConfig": "@nrwl/react/plugins/webpack"
+        "webpackConfig": "apps/extension/webpack.config.js"
       },
       "configurations": {
+        "development": {},
         "production": {
           "fileReplacements": [
             {

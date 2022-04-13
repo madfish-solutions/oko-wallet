@@ -1,10 +1,15 @@
 import React, {useEffect} from 'react';
-import {Platform, SafeAreaView} from "react-native";
-
-import { Wrapper } from './components/wrapper';
-import { Title } from './components/title';
-import { MnemonicTextInput } from './components/mnemonic-text-input';
+import {Platform} from "react-native";
+import {NavigationContainer} from "@react-navigation/native";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {ScreensEnum, ScreensParamList} from "../enums/sreens.enum";
+import {WelcomeScreen} from "../screens/welcome-screen/welcome-screen";
+import {TestScreen} from "../screens/test-screen/test-screen";
+import {InnerScreen} from "../screens/inner-screen/inner-screen";
 import { generateSeed } from './utils/keys.web';
+
+const Stack = createNativeStackNavigator<ScreensParamList>();
+
 
 export const App: React.FC = () => {
   useEffect(() => {
@@ -17,26 +22,13 @@ export const App: React.FC = () => {
     return value;
   };
 
-  // useEffect(() => {
-  //   const generateSeed = async () => {
-  //     const key64 = await symmetricKey64();
-  //     const entropy = Array.from(Buffer.from(key64, 'base64'));
-    
-  //     return entropyToMnemonic(Buffer.from(entropy.slice(0, 16)));
-  //   };
-  //   console.log(generateSeed());
-  // }, []);
-
   return (
-    <SafeAreaView>
-      <Wrapper>
-        <Title 
-          description={'If you ever switch between browsers or devices, you will need this seed phrase to access your accounts. Keep it in secret.'}
-        >
-          Seed Phrase
-        </Title>
-        <MnemonicTextInput />
-      </Wrapper>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name={ScreensEnum.Welcome} component={WelcomeScreen}/>
+        <Stack.Screen name={ScreensEnum.Test} component={TestScreen}/>
+        <Stack.Screen name={ScreensEnum.Inner} component={InnerScreen}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
