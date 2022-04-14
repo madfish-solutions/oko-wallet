@@ -11,11 +11,12 @@
     "react": "*",
     "react-native": "*",
     "react-native-config": "*",
-    "react-native-themis": "*",
     "bip39": "*",
     "react-native-safe-area-context": "*",
     "react-native-screens": "*",
+    "react-native-themis": "*",
     "react-native-svg": "*",
-    "buffer": "*"
+    "buffer": "*",
+    "process": "*"
   }
 }
