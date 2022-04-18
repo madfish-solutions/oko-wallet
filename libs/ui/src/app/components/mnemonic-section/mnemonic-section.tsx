@@ -44,9 +44,9 @@ export const MnemonicSection: React.FC<MnemonicSectionProps> = ({
   }, [onPress]);
 
   const handleLayoutClick = useCallback((e: GestureResponderEvent) => {
-    // Add ref to TouchableOpacity
-    console.log(...[e.currentTarget]);
-    console.log(buttonRef.current);
+    // TODO: Add ref to TouchableOpacity
+    // console.log(...[e.currentTarget]);
+    // console.log(buttonRef.current);
   }, []);
 
   return (

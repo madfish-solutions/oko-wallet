@@ -14,7 +14,6 @@
   "dependencies": {
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.1",
-    "bip39": "^3.0.4",
     "buffer": "^4.9.2",
     "core-js": "^3.6.5",
     "ed25519-hd-key": "^1.2.0",
