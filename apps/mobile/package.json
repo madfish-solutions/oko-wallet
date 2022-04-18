@@ -17,6 +17,7 @@
     "react-native-themis": "*",
     "react-native-svg": "*",
     "buffer": "*",
-    "process": "*"
+    "process": "*",
+    "ed25519-hd-key": "*"
   }
 }

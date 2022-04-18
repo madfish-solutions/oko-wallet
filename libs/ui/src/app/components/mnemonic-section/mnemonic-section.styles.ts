@@ -1,15 +1,17 @@
 import { StyleSheet } from "react-native";
 
 export const MnemonicTextInputStyles = StyleSheet.create({
-  root: {
+  wrapper: {
     position: 'relative',
+    marginBottom: 8,
     cursor: 'pointer',
   },
   textarea: {
     position: 'relative',
-    borderWidth: 3,
-    borderStyle: 'solid',
-    borderColor: "#e1e0e0",
+    textAlignVertical: 'top',
+    minHeight: 140,
+    maxHeight: 140,
+    paddingTop: 12,
   },
   overlay: {
     position: 'absolute',
@@ -31,4 +33,15 @@ export const MnemonicTextInputStyles = StyleSheet.create({
     color: '#979797',
     fontWeight: "700",
   },
+  button: {
+    position: 'absolute',
+    bottom: 8,
+    right: 8,
+    fontSize: 18,
+    height: 28,
+    width: 100,
+    paddingRight: 8,
+    paddingLeft: 8,
+    borderRadius: 20
+  }
 });

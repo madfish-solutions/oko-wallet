@@ -14,7 +14,6 @@ export const StyledTextInput = forwardRef<TextInput, TextInputProps & StyledText
   <TextInput 
     ref={ref} 
     autoCapitalize="none"
-    multiline={true}
     style={[StyledTextInputStyles.root, style]}
     {...props} 
   />

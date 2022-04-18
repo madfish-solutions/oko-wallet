@@ -2,11 +2,12 @@ import { StyleSheet } from "react-native";
 
 export const StyledTextInputStyles = StyleSheet.create({
   root: {
-    textAlignVertical: 'top',
+    paddingLeft: 12,
+    paddingRight: 12,
     borderWidth: 1,
     borderStyle: 'solid',
-    borderColor: "#fff",
-    padding: 16,
+    borderColor: "#dcdcdc",
     borderRadius: 4,
+    backgroundColor: '#fff',
   },
 });
