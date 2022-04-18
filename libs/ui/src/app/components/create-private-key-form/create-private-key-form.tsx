@@ -38,13 +38,11 @@ export const CreatePrivateKeyForm: React.FC = () => {
 
   const onSubmit = useCallback(() => {
     // DEBUG
-    // console.log('Form submited!');
-
     const seed = mnemonicToSeedSync(mnemonic, 'password');
     console.log("SEED", seed);
 
     const getDeriveSeed = deriveSeed(seed, derivationPath);
-    console.log("DERIVE SEED", getDeriveSeed.slice(0, 32));
+    console.log("DERIVE SEED", getDeriveSeed.slice(0, 32).toString('hex'));
   }, [derivationPath, mnemonic]);
 
   useEffect(() => {
