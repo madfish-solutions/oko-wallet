@@ -1,11 +1,15 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { View } from 'react-native';
+import Caver from 'caver-js'
+import { mnemonicToSeedSync, entropyToMnemonic } from 'bip39';
 
 import { CreatePrivateKeyStyles } from './create-private-key-form.styles';
 
 import { FormSection } from '../from-section';
 import { MnemonicSection } from '../mnemonic-section';
 import { Button } from '../button';
+
+const caver = new Caver('https://api.baobab.klaytn.net:8651/');
 
 type CreatePrivateKeyFormType = {
   password: string;
@@ -24,7 +28,7 @@ export const CreatePrivateKeyForm: React.FC = () => {
     mnemonic: MNEMONIC,
   });
 
-  const setMnemonicPhrase = useCallback(async () => {
+  const setMnemonicPhrase = useCallback(() => {
     // => WARNING: Work only for mobile!
     // const mnemonic = await generateSeed();
     // setInitialFormValues((prev) => ({
@@ -33,15 +37,20 @@ export const CreatePrivateKeyForm: React.FC = () => {
     // }));
   }, []); 
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     // => WARNING: Work only for mobile!
-    // const seed = mnemonicToSeedSync(mnemonic, 'password');
-    // console.log("SEED", seed);
     // const getDeriveSeed = deriveSeed(seed, derivationPath);
     // console.log("DERIVE SEED", getDeriveSeed.slice(0, 32).toString('hex'));
     
     // DEBUG
     console.log("Submitted!");
+
+    const seed = mnemonicToSeedSync(MNEMONIC, '11111111Test');
+    const seedWithPassword = entropyToMnemonic(seed.slice(0, 32));
+    const newWallet = caver.klay.accounts.create(seedWithPassword);
+    const gen = caver.klay.accounts.privateKeyToPublicKey(newWallet.privateKey);
+    console.log(gen);
+    console.log({ prk: newWallet.privateKey, pkh: newWallet.address });
   }, []);
 
   useEffect(() => {
