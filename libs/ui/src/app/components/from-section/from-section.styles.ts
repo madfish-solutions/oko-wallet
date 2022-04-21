@@ -7,5 +7,9 @@ export const SectionStyles = StyleSheet.create({
   },
   input: {
     height: 38,
+  },
+  error: {
+    marginTop: 8,
+    color: 'red',
   }
 });

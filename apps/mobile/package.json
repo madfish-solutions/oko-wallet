@@ -20,7 +20,9 @@
     "bip39": "*",
     "caver-js": "*",
     "react-native-randombytes": "*",
-    "ed25519-hd-key": "*"
+    "ed25519-hd-key": "*",
+    "ethers": "*",
+    "react-hook-form": "*"
   },
   "react-native": {
     "_stream_transform": "readable-stream/transform",
