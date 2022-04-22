@@ -4,7 +4,6 @@ import { View } from 'react-native';
 import { Wallet } from 'ethers';
 import { useForm, Controller } from 'react-hook-form';
 
-import { generateSeed } from 'libs/ui/src/utils/keys.util';
 import { passwordValidationFactory } from 'libs/ui/src/utils/validate/validate-password-field.util';
 import { getAdvancedErrorMessage } from 'libs/ui/src/utils/validate/get-advanced-error-message.util';
 
@@ -34,14 +33,18 @@ export const CreatePrivateKeyForm: React.FC = () => {
 
   const { errors } = formState;
 
-  const generateMnemonic = useCallback(async () => {
-    const mnemonic = await generateSeed();
-    setValue('mnemonic', mnemonic);
-  }, [setValue]);
+  const generateMnemonic = useCallback(() => {
+    const { mnemonic: generatedMnemonic } = Wallet.createRandom();
+    return generatedMnemonic.phrase;
+  }, []);
+
+  const setMnemonicValue = useCallback(() => {
+    setValue('mnemonic', generateMnemonic());
+  }, [generateMnemonic, setValue]);
 
   useEffect(() => {
-    generateMnemonic();
-  }, [generateMnemonic]);
+    setMnemonicValue();
+  }, [setMnemonicValue]);
 
   const validatePassword = useMemo(
     () => passwordValidationFactory(),
@@ -54,19 +57,17 @@ export const CreatePrivateKeyForm: React.FC = () => {
   );
 
   const onSubmit = useCallback(async (values: FormTypes) => {
+    const { path } = values;
+    
+    const ethersWallet = Wallet.fromMnemonic(generateMnemonic(), path);
+  
     // DEBUG
     console.log('Submitted!', values);
-
-    const { path } = values;
-  
-    const { mnemonic: generatedMnemonic } = Wallet.createRandom();
-    
-    const ethersWallet = Wallet.fromMnemonic(generatedMnemonic.phrase, path);
     console.log('ethersWallet', {
       mnemonic: ethersWallet.mnemonic,
       private_key: ethersWallet.privateKey
     });
-  }, []);
+  }, [generateMnemonic]);
 
   return (
     <View>
@@ -110,7 +111,7 @@ export const CreatePrivateKeyForm: React.FC = () => {
             title='Seed Phrase'
             description='If you ever switch between browsers or devices, you will need this seed phrase to access your accounts. Keep it in secret.'
             numberOfLines={6}
-            onPress={generateMnemonic}
+            onPress={setMnemonicValue}
             onChangeText={onChange}
             mnemonic={value}
             multiline
