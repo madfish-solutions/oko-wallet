@@ -1,10 +1,8 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import React, { useCallback, useMemo } from 'react';
 import { View } from 'react-native';
-import Caver from 'caver-js'
-import { mnemonicToSeedSync, entropyToMnemonic } from 'bip39';
 import { Wallet } from 'ethers';
-import { useForm, Controller, FieldErrors, FormProvider } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 
 import { generateSeed } from 'libs/ui/src/utils/keys.util';
 import { passwordValidationFactory } from 'libs/ui/src/utils/validate/validate-password-field.util';
@@ -17,19 +15,12 @@ import { MnemonicSection } from '../mnemonic-section';
 import { Button } from '../button';
 import { useEffect } from 'react';
 
-const caver = new Caver('https://api.baobab.klaytn.net:8651/');
-
 export type FormTypes = {
   password: string;
   path: string;
   mnemonic: string;
 };
 
-// const TEZOS_BIP44_COINTYPE = 60;
-// const ACCOUNT_INDEX = 0;
-// const MNEMONIC = 'slide about century surface undo student crop someone million allow blanket aerobic';
-// const PASSWORD = '11111111Test';
-// const DERIVATION_PATH = `m/44'/${TEZOS_BIP44_COINTYPE}'/${ACCOUNT_INDEX}'/0'`;
 const ETH_PATH = `m/44'/60'/0'/0/0`;
 
 export const CreatePrivateKeyForm: React.FC = () => {
@@ -66,27 +57,15 @@ export const CreatePrivateKeyForm: React.FC = () => {
     // DEBUG
     console.log('Submitted!', values);
 
-    const { mnemonic, password, path } = values;
-    
-    // => WARNING: Work only for mobile!
-    // const getDeriveSeed = deriveSeed(seed, derivationPath);
-    // console.log("DERIVE SEED", getDeriveSeed.slice(0, 32).toString('hex'));
-
-    // const seed = mnemonicToSeedSync(mnemonic, password);
-    // const seedWithPassword = entropyToMnemonic(seed.slice(0, 32));
+    const { path } = values;
   
-    const ethersWallet = Wallet.fromMnemonic(mnemonic, path);
+    const { mnemonic: generatedMnemonic } = Wallet.createRandom();
+    
+    const ethersWallet = Wallet.fromMnemonic(generatedMnemonic.phrase, path);
     console.log('ethersWallet', {
       mnemonic: ethersWallet.mnemonic,
       private_key: ethersWallet.privateKey
     });
-
-    // WARNING: Caver-js generate different keys
-    // const caverJsWallet = caver.klay.accounts.create(seedWithPassword);
-    // console.log('caverJsWallet', {
-    //   private_key: caverJsWallet.privateKey,
-    //   address: caverJsWallet.address,
-    // });
   }, []);
 
   return (

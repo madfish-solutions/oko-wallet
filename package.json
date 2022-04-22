@@ -19,7 +19,6 @@
     "asyncstorage-down": "^4.2.0",
     "bip39": "^3.0.4",
     "buffer": "^4.9.2",
-    "caver-js": "^1.8.1",
     "console-browserify": "^1.2.0",
     "core-js": "^3.6.5",
     "ed25519-hd-key": "^1.2.0",
