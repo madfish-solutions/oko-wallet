@@ -4,4 +4,4 @@ export const symmetricKey = async (): Promise<string> => {
   await initialized;
 
   return new SymmetricKey().toString();
-}
+};

@@ -1,0 +1,84 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": [
+      "./apps/extension/tsconfig.json",
+      "./apps/mobile/tsconfig.json",
+      "./libs/ui/tsconfig.json"
+    ]
+  },
+  "extends": [
+    "@react-native-community",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "plugin:jest/recommended"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "prettier",
+    "import",
+    "jest"
+  ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    },
+    "jest": {
+      "version": 26
+    }
+  },
+  "rules": {
+    "newline-before-return": [
+      "error"
+    ],
+    "comma-dangle": [
+      "error",
+      "never"
+    ],
+    "no-void": "off",
+    "no-shadow": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "import/no-unresolved": "off",
+    "import/order": [
+      "error",
+      {
+        "pathGroups": [
+          {
+            "pattern": "react|react-native",
+            "group": "external",
+            "position": "before"
+          }
+        ],
+        "groups": [
+          [
+            "external",
+            "builtin"
+          ],
+          "internal",
+          [
+            "parent",
+            "sibling",
+            "index"
+          ]
+        ],
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        },
+        "newlines-between": "always"
+      }
+    ],
+    "@typescript-eslint/strict-boolean-expressions": "error",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-unnecessary-type-constraint": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "jest/no-done-callback": "off"
+  },
+  "globals": {
+    "localStorage": true
+  }
+}

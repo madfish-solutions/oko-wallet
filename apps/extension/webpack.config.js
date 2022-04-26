@@ -1,6 +1,6 @@
-const path = require('path');
-const CopyPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const appDirectory = path.resolve(__dirname);
@@ -10,14 +10,14 @@ const babelLoaderConfiguration = {
   use: {
     loader: 'babel-loader',
     options: {
-      "cwd": appDirectory,
-      "envName": "development",
-      "babelrc": true,
-      "cacheDirectory": true,
-      "rootMode": "upward",
-      "cacheCompression": false,
-      "presets": ["module:metro-react-native-babel-preset"],
-      "plugins": ["react-native-web"]
+      cwd: appDirectory,
+      envName: 'development',
+      babelrc: true,
+      cacheDirectory: true,
+      rootMode: 'upward',
+      cacheCompression: false,
+      presets: ['module:metro-react-native-babel-preset'],
+      plugins: ['react-native-web']
     }
   }
 };
@@ -28,40 +28,34 @@ const imageLoaderConfiguration = {
     loader: 'url-loader',
     options: {
       name: '[name].[ext]',
-      esModule: false,
+      esModule: false
     }
   }
 };
 
 const cssLoaderConfiguration = {
   test: /\.css$/i,
-  use: ["style-loader", "css-loader"],
+  use: ['style-loader', 'css-loader']
 };
 
 module.exports = {
-  target: "web",
+  target: 'web',
 
-  devtool: "source-map",
+  devtool: 'source-map',
 
   externals: {
-    'bufferutil': 'commonjs bufferutil',
-    'utf-8-validate': 'commonjs utf-8-validate',
+    bufferutil: 'commonjs bufferutil',
+    'utf-8-validate': 'commonjs utf-8-validate'
   },
 
-  entry: [
-    path.resolve(appDirectory, 'index.ts')
-  ],
+  entry: [path.resolve(appDirectory, 'index.ts')],
 
   output: {
     path: path.resolve(appDirectory, 'dist')
   },
 
   module: {
-    rules: [
-      babelLoaderConfiguration,
-      imageLoaderConfiguration,
-      cssLoaderConfiguration
-    ]
+    rules: [babelLoaderConfiguration, imageLoaderConfiguration, cssLoaderConfiguration]
   },
 
   resolve: {
@@ -70,18 +64,7 @@ module.exports = {
     },
     plugins: [new TsconfigPathsPlugin()],
     modules: [path.resolve(__dirname, 'node_modules')],
-    extensions: [
-      '.web.ts',
-      '.web.tsx',
-      '.web.mjs',
-      '.web.js',
-      '.web.jsx',
-      '.ts',
-      '.tsx',
-      '.mjs',
-      '.js',
-      '.jsx'
-    ],
+    extensions: ['.web.ts', '.web.tsx', '.web.mjs', '.web.js', '.web.jsx', '.ts', '.tsx', '.mjs', '.js', '.jsx'],
     fallback: {
       crypto: false,
       fs: false,
@@ -104,7 +87,7 @@ module.exports = {
         {
           from: 'public',
           globOptions: {
-            ignore: ["**/index.html"]
+            ignore: ['**/index.html']
           }
         },
         { from: 'node_modules/wasm-themis/src/libthemis.wasm' }
@@ -114,4 +97,4 @@ module.exports = {
       template: 'public/index.html'
     })
   ]
-}
+};

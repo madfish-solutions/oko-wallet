@@ -21,7 +21,13 @@
     "noEmit": true,
     "jsx": "react-native",
     "paths": {
-      "ui": ["../../libs/ui"]
+      "ui": [
+        "../../libs/ui"
+      ]
     }
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "webpack.config.js"
+  ]
 }

@@ -1,5 +1,6 @@
-import {entropyToMnemonic} from 'bip39';
-import {Buffer} from 'buffer';
+import { entropyToMnemonic } from 'bip39';
+import { Buffer } from 'buffer';
+
 import { symmetricKey } from '../themis/symmetric-key';
 
 export const generateSeed = async () => {

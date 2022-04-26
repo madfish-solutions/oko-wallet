@@ -5,13 +5,26 @@
   "license": "MIT",
   "author": "Andrii Ivaniv",
   "scripts": {
-    "install": "yarn install:extension && yarn install:mobile && yarn install:libs",
+    "install:all": "yarn && yarn install:extension && yarn install:mobile && yarn install:libs",
     "install:extension": "cd apps/extension && yarn",
     "install:mobile": "cd apps/mobile && yarn",
     "install:libs": "cd libs/ui && yarn",
     "extension": "cd apps/extension && yarn start",
     "android": "cd apps/extension && yarn android",
     "ios": "cd apps/mobile && yarn ios",
-    "ts": "cd libs/ui && yarn ts"
+    "ts": "cd libs/ui && yarn ts",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@react-native-community/eslint-config": "^3.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.21.0",
+    "@typescript-eslint/parser": "^5.21.0",
+    "eslint": "^8.14.0",
+    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^26.1.5",
+    "prettier": "^2.6.2",
+    "typescript": "^4.6.3"
   }
 }
