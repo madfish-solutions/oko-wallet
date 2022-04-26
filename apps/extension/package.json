@@ -26,6 +26,7 @@
     "@types/node": "^16.11.27",
     "@types/react": "^18.0.5",
     "@types/react-dom": "^18.0.1",
+    "@types/react-native": "^0.67.6",
     "babel-plugin-react-native-web": "^0.17.7",
     "copy-webpack-plugin": "^10.2.4",
     "html-webpack-plugin": "^5.5.0",

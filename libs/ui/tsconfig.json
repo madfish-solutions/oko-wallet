@@ -15,9 +15,6 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "rootDirs": [
-      "../../apps/extension",
-    ]
+    "resolveJsonModule": true
   }
 }

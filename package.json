@@ -5,8 +5,13 @@
   "license": "MIT",
   "author": "Andrii Ivaniv",
   "scripts": {
-    "android": "cd apps/extension && npm run android",
-    "extension": "cd apps/extension && npm run start",
-    "ios": "cd apps/mobile && npm run ios"
+    "install": "yarn install:extension && yarn install:mobile && yarn install:libs",
+    "install:extension": "cd apps/extension && yarn",
+    "install:mobile": "cd apps/mobile && yarn",
+    "install:libs": "cd libs/ui && yarn",
+    "extension": "cd apps/extension && yarn start",
+    "android": "cd apps/extension && yarn android",
+    "ios": "cd apps/mobile && yarn ios",
+    "ts": "cd libs/ui && yarn ts"
   }
 }

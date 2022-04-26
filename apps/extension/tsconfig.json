@@ -23,8 +23,5 @@
     "paths": {
       "ui": ["../../libs/ui"]
     }
-  },
-  "include": [
-    "src"
-  ]
+  }
 }

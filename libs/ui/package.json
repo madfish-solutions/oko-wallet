@@ -5,6 +5,16 @@
   "license": "MIT",
   "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "ts": "tsc --pretty"
+  },
+  "devDependencies": {
+    "@react-navigation/native": "^6.0.10",
+    "@react-navigation/native-stack": "^6.6.2",
+    "@types/react": "^18.0.7",
+    "@types/react-native": "^0.67.6",
+    "bip39": "^3.0.4",
+    "buffer": "^6.0.3",
+    "react-native-themis": "^0.14.4",
+    "wasm-themis": "^0.14.5"
   }
 }

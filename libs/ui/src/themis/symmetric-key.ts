@@ -1,7 +1,7 @@
 import { SymmetricKey, initialized } from 'wasm-themis';
 
-export const symmetricKey = async () => {
+export const symmetricKey = async (): Promise<string> => {
   await initialized;
 
-  return new SymmetricKey();
+  return new SymmetricKey().toString();
 }
