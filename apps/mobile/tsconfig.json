@@ -1,23 +1,29 @@
 {
-  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
+    "target": "esnext",
+    "module": "commonjs",
+    "lib": [
+      "es2017"
+    ],
+    "allowJs": true,
     "jsx": "react-native",
-    "lib": ["dom", "esnext"],
-    "moduleResolution": "node",
     "noEmit": true,
+    "isolatedModules": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "ui": [
+        "../../libs/ui"
+      ]
+    },
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "files": ["../../node_modules/@nrwl/react-native/typings/svg.d.ts"],
-  "include": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
-    }
-  ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "metro.config.js"
+  ]
 }
