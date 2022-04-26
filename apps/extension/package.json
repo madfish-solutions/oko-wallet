@@ -1,0 +1,58 @@
+{
+  "name": "klaytn-wallet-extension",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "start": "./node_modules/.bin/webpack --mode development --watch --config ./webpack.config.js"
+  },
+  "dependencies": {
+    "@react-navigation/native": "^6.0.10",
+    "@react-navigation/native-stack": "^6.6.1",
+    "bip39": "^3.0.4",
+    "buffer": "^6.0.3",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-native-safe-area-context": "^4.2.4",
+    "react-native-web": "^0.17.7",
+    "react-scripts": "5.0.1",
+    "wasm-themis": "^0.14.5"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.1.1",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^16.11.27",
+    "@types/react": "^18.0.5",
+    "@types/react-dom": "^18.0.1",
+    "babel-plugin-react-native-web": "^0.17.7",
+    "copy-webpack-plugin": "^10.2.4",
+    "html-webpack-plugin": "^5.5.0",
+    "metro-react-native-babel-preset": "^0.67.0",
+    "style-loader": "^3.3.1",
+    "tsconfig-paths-webpack-plugin": "^3.5.2",
+    "typescript": "^4.6.3",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  }
+}

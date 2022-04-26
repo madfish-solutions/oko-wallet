@@ -1,0 +1,12 @@
+{
+  "name": "klaytn-wallet",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "author": "Andrii Ivaniv",
+  "scripts": {
+    "android": "cd apps/extension && npm run android",
+    "extension": "cd apps/extension && npm run start",
+    "ios": "cd apps/mobile && npm run ios"
+  }
+}
