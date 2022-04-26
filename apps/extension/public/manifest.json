@@ -2,8 +2,8 @@
   "name": "Klaytn Wallet",
   "description": "Klaytn Wallet description",
   "version": "1.0",
-  "manifest_version": 3,
-  "action": {
+  "manifest_version": 2,
+  "browser_action": {
     "default_popup": "index.html",
     "default_title": "Open the popup"
   },
@@ -11,5 +11,6 @@
     "16": "mics/logo192.png",
     "48": "mics/logo192.png",
     "128": "mics/logo192.png"
-  }
+  },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

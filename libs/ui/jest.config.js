@@ -1,17 +1,13 @@
 module.exports = {
-  displayName: 'ui',
   preset: 'react-native',
-  testRunner: 'jest-jasmine2',
-  resolver: '@nrwl/jest/plugins/resolver',
-  moduleFileExtensions: ['ts', 'js', 'html', 'tsx', 'jsx'],
-  setupFilesAfterEnv: ['<rootDir>/test-setup.ts'],
+  setupFiles: ['<rootDir>/jest.setup.js'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  transformIgnorePatterns: [
+    'node_modules/(?!((jest-)?@react-native|react-native|react-native-themis|@react-navigation/.*))'
+  ],
   moduleNameMapper: {
-    '.svg': '@nrwl/react-native/plugins/jest/svg-mock',
+    '\\.svg': '<rootDir>/src/mocks/svg.mock.js',
+    '^react-native-themis': '<rootDir>/node_modules/react-native-themis/src/index.js'
   },
-  transform: {
-    '\\.(js|ts|tsx)$': require.resolve('react-native/jest/preprocessor.js'),
-    '^.+\\.(bmp|gif|jpg|jpeg|mp4|png|psd|svg|webp)$': require.resolve(
-      'react-native/jest/assetFileTransformer.js'
-    ),
-  },
+  timers: 'legacy'
 };
