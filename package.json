@@ -14,7 +14,8 @@
     "ios": "cd apps/mobile && yarn ios",
     "ts": "cd libs/ui && yarn ts",
     "lint": "eslint .",
-    "test": "cd libs/ui && yarn test"
+    "test": "cd libs/ui && yarn test",
+    "clear:watchman": "if [ -x \"$(command -v watchman)\" ]; then watchman watch-del-all; fi"
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "^3.0.1",
