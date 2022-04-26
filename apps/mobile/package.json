@@ -4,11 +4,11 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "android": "react-native run-android",
-    "clear:metro": "rm -rf $TMPDIR/haste-map-* || true && rm -rf $TMPDIR/metro-* || true",
     "postinstall": "rn-nodeify --install 'stream,buffer,process,events' --hack",
+    "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "ios:pods": "cd ios && pod install"
+    "ios:pods": "cd ios && pod install",
+    "clear:metro": "rm -rf $TMPDIR/haste-map-* || true && rm -rf $TMPDIR/metro-* || true"
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.10",
@@ -22,7 +22,7 @@
     "react-native-safe-area-context": "^4.2.4",
     "react-native-screens": "^3.13.1",
     "react-native-themis": "^0.14.4",
-    "stream-browserify": "^1.0.0"
+    "stream-browserify": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
