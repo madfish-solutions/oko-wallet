@@ -42,6 +42,7 @@
     "no-shadow": "off",
     "react-hooks/exhaustive-deps": "off",
     "import/no-unresolved": "off",
+    "import/default": "off",
     "import/order": [
       "error",
       {

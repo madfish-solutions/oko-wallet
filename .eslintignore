@@ -1,2 +1,5 @@
+dist/
+node_modules/
+Pods/
 webpack.config.js
 metro.config.js

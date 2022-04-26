@@ -13,7 +13,8 @@
     "android": "cd apps/extension && yarn android",
     "ios": "cd apps/mobile && yarn ios",
     "ts": "cd libs/ui && yarn ts",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "cd libs/ui && yarn test"
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "^3.0.1",
