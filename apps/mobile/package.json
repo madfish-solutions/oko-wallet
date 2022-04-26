@@ -22,7 +22,15 @@
     "react-native-randombytes": "*",
     "ed25519-hd-key": "*",
     "ethers": "*",
-    "react-hook-form": "*"
+    "react-hook-form": "*",
+    "react-redux": "*",
+    "redux-persist": "*",
+    "@reduxjs/toolkit": "*",
+    "redux-flipper": "*",
+    "redux-observable": "*",
+    "rxjs": "*",
+    "ts-action": "*",
+    "ts-action-operators": "*"
   },
   "react-native": {
     "_stream_transform": "readable-stream/transform",

@@ -10,13 +10,13 @@ export const NavigationBar = () => {
   return (
     <View style={NavigationBarStyles.container}>
       <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigation.navigate(ScreensEnum.Welcome)}>
-        <Text style={NavigationBarStyles.buttonText}>Welcome</Text>
+        <Text style={NavigationBarStyles.buttonText}>Mnemonic</Text>
       </TouchableOpacity>
       <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigation.navigate(ScreensEnum.Test)}>
-        <Text style={NavigationBarStyles.buttonText}>Test</Text>
+        <Text style={NavigationBarStyles.buttonText}>Redux</Text>
       </TouchableOpacity>
       <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigation.navigate(ScreensEnum.Inner)}>
-        <Text style={NavigationBarStyles.buttonText}>Inner</Text>
+        <Text style={NavigationBarStyles.buttonText}>...</Text>
       </TouchableOpacity>
     </View>
   );

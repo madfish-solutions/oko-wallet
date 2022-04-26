@@ -1,14 +1,16 @@
 import React from 'react';
-import {View, Text} from "react-native";
+import { Text } from "react-native";
+
+import { Wrapper } from '../../app/components/wrapper';
 import {NavigationBar} from "../../components/navigation-bar/navigation-bar";
 
-export const InnerScreen = () => {
+export const InnerScreen: React.FC = () => {
   return (
-    <View>
+    <Wrapper>
       <NavigationBar/>
       <Text>Inner Screen Content</Text>
       <Text>Inner Screen Content</Text>
       <Text>Inner Screen Content</Text>
-    </View>
+    </Wrapper>
   );
 }

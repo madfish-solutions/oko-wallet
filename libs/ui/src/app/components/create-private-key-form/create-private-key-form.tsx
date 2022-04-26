@@ -33,6 +33,7 @@ export const CreatePrivateKeyForm: React.FC = () => {
 
   const { errors } = formState;
 
+  // WARNING: Bad performance
   const generateMnemonic = useCallback(() => {
     const { mnemonic: generatedMnemonic } = Wallet.createRandom();
     return generatedMnemonic.phrase;

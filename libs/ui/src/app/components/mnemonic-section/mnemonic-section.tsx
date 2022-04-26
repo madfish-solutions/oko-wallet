@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useRef } from 'react';
-import { GestureResponderEvent, StyleProp, Text, TextInputProps, TextStyle, TouchableOpacity, View } from 'react-native';
+import React, { useCallback, useRef } from 'react';
+import { StyleProp, TextInputProps, TextStyle, TouchableOpacity, View } from 'react-native';
 
 import { MnemonicTextInputStyles } from './mnemonic-section.styles';
 
@@ -25,29 +25,12 @@ export const MnemonicSection: React.FC<MnemonicSectionProps> = ({
   style,
   ...props
 }) => {
-  const [isShowOverlay, setIsShowOverlay] = useState(true);
   const mnemonicInputRef = useRef(null);
   const buttonRef = useRef(null);
 
-  const handleOverlayPress = useCallback(() => { 
-    setIsShowOverlay(false);
-    (mnemonicInputRef.current as any).focus();
-  }, []);
-
-  const handleBlurOfMnemonicArea = useCallback(() => {
-    setIsShowOverlay(true);
-  }, []);
-
   const handleClick = useCallback(() => {
     onPress();
-    (mnemonicInputRef.current as any).focus();
   }, [onPress]);
-
-  const handleLayoutClick = useCallback((e: GestureResponderEvent) => {
-    // TODO: Add ref to TouchableOpacity
-    // console.log(...[e.currentTarget]);
-    // console.log(buttonRef.current);
-  }, []);
 
   return (
     <View style={[style]}>
@@ -55,7 +38,6 @@ export const MnemonicSection: React.FC<MnemonicSectionProps> = ({
         {title}
       </Title>
       <TouchableOpacity 
-        onPress={handleLayoutClick}
         style={[MnemonicTextInputStyles.wrapper]}
       >
         <StyledTextInput 
@@ -63,28 +45,17 @@ export const MnemonicSection: React.FC<MnemonicSectionProps> = ({
           value={mnemonic}
           ref={mnemonicInputRef} 
           selectTextOnFocus
-          onBlur={handleBlurOfMnemonicArea} 
           numberOfLines={numberOfLines}
           style={[MnemonicTextInputStyles.textarea]}
           {...props}
         />
-        <Button 
-          ref={buttonRef}
-          onPress={handleClick}
-          title="New phrase"
-          style={MnemonicTextInputStyles.button}
-        />
-        {isShowOverlay && (
-          <TouchableOpacity 
-            onPress={handleOverlayPress} 
-            style={MnemonicTextInputStyles.overlay}
-          >
-            <Text style={MnemonicTextInputStyles.text}>
-              Protected
-            </Text>
-          </TouchableOpacity>
-        )}
       </TouchableOpacity>
+      <Button 
+        ref={buttonRef}
+        onPress={handleClick}
+        title="New phrase"
+        style={MnemonicTextInputStyles.button}
+      />
     </View>
   ); 
 } 
