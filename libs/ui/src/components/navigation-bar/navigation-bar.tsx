@@ -3,6 +3,7 @@ import { TouchableOpacity, Text, View } from 'react-native';
 
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
+
 import { NavigationBarStyles } from './navigation-bar.styles';
 
 export const NavigationBar = () => {

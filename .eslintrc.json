@@ -59,8 +59,8 @@
             "builtin"
           ],
           "internal",
+          "parent",
           [
-            "parent",
             "sibling",
             "index"
           ]
