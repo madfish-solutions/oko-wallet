@@ -10,7 +10,7 @@
     "install:mobile": "cd apps/mobile && yarn",
     "install:libs": "cd libs/ui && yarn",
     "extension": "cd apps/extension && yarn start",
-    "android": "cd apps/extension && yarn android",
+    "android": "cd apps/mobile && yarn android",
     "ios": "cd apps/mobile && yarn ios",
     "ts": "cd libs/ui && yarn ts",
     "lint": "eslint .",
