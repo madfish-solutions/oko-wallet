@@ -1,6 +1,7 @@
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const appDirectory = path.resolve(__dirname);
@@ -59,6 +60,7 @@ module.exports = {
   },
 
   resolve: {
+    mainFields: ['browser', 'main', 'module'],
     alias: {
       'react-native$': 'react-native-web'
     },
@@ -82,6 +84,9 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.DefinePlugin({
+      __DEV__: JSON.stringify(process.env.NODE_ENV === 'development')
+    }),
     new CopyPlugin({
       patterns: [
         {
