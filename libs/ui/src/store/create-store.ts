@@ -1,13 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { configureStore } from '@reduxjs/toolkit';
+import { isDefined } from '@rnw-community/shared';
 import { Middleware } from 'redux';
+import createDebugger from 'redux-flipper';
 import { combineEpics, createEpicMiddleware, Epic, StateObservable } from 'redux-observable';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import { PersistConfig } from 'redux-persist/lib/types';
 import { Observable, catchError } from 'rxjs';
-// TODO: Maybe use for 'web' version
-// import storage from 'redux-persist/lib/storage';
 
 import { rootStateReducer } from './root-state.reducers';
 import { tokensReducers } from './tokens/tokens-reducers';
@@ -18,18 +18,15 @@ import { WalletRootState } from './wallet/wallet-state';
 export type RootState = WalletRootState & TokensRootState;
 
 const epicMiddleware = createEpicMiddleware();
-// eslint-disable-next-line @typescript-eslint/ban-types
-const middlewares: Array<Middleware<{}, RootState>> = [epicMiddleware];
+const middlewares: Array<Middleware<string, RootState>> = [epicMiddleware];
 
-// TODO: Add 'redux-flipper' for dubugging
-// if (__DEV__ && !isDefined(process.env.JEST_WORKER_ID)) {
-//   middlewares.push(createDebugger());
-// }
+if (__DEV__ && !isDefined(process.env.JEST_WORKER_ID)) {
+  middlewares.push(createDebugger());
+}
 
 const persistConfig: PersistConfig<RootState> = {
   key: 'root',
   version: 1,
-  // TODO: Maybe add swap on 'storage' on web version
   storage: AsyncStorage,
   stateReconciler: autoMergeLevel2
 };
