@@ -6,7 +6,7 @@ export const NavigationBarStyles = StyleSheet.create({
     justifyContent: 'space-around'
   },
   button: {
-    width: 100,
+    width: 90,
     padding: 8,
     borderWidth: 1,
     borderColor: 'blue',

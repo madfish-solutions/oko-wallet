@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { Platform } from 'react-native';
 
 import { ScreensEnum, ScreensParamList } from '../enums/sreens.enum';
+import { GenerateHdAccountScreen } from '../screens/generate-hd-account-screen/generate-hd-account-screen';
 import { InnerScreen } from '../screens/inner-screen/inner-screen';
 import { TestScreen } from '../screens/test-screen/test-screen';
 import { WelcomeScreen } from '../screens/welcome-screen/welcome-screen';
@@ -22,6 +23,7 @@ export const App = () => {
         <Stack.Screen name={ScreensEnum.Welcome} component={WelcomeScreen} />
         <Stack.Screen name={ScreensEnum.Test} component={TestScreen} />
         <Stack.Screen name={ScreensEnum.Inner} component={InnerScreen} />
+        <Stack.Screen name={ScreensEnum.GenerateHdAccount} component={GenerateHdAccountScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
