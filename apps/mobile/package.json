@@ -15,6 +15,7 @@
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.1",
     "@reduxjs/toolkit": "^1.8.1",
+    "@rnw-community/platform": "^0.10.0",
     "@rnw-community/shared": "^0.10.0",
     "bip39": "^3.0.4",
     "buffer": "^4.9.2",

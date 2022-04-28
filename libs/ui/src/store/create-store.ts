@@ -1,8 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { configureStore } from '@reduxjs/toolkit';
-import { isDefined } from '@rnw-community/shared';
 import { Middleware } from 'redux';
-import createDebugger from 'redux-flipper';
 import { combineEpics, createEpicMiddleware, Epic, StateObservable } from 'redux-observable';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
@@ -12,17 +10,14 @@ import { Observable, catchError } from 'rxjs';
 import { rootStateReducer } from './root-state.reducers';
 import { tokensReducers } from './tokens/tokens-reducers';
 import { TokensRootState } from './tokens/tokens-state';
+import { addFlipperDebugger } from './utils/filpper.util';
 import { walletReducers } from './wallet/wallet-reducers';
 import { WalletRootState } from './wallet/wallet-state';
 
 export type RootState = WalletRootState & TokensRootState;
 
 const epicMiddleware = createEpicMiddleware();
-const middlewares: Array<Middleware<string, RootState>> = [epicMiddleware];
-
-if (__DEV__ && !isDefined(process.env.JEST_WORKER_ID)) {
-  middlewares.push(createDebugger());
-}
+const middlewares: Array<Middleware<string, RootState>> = addFlipperDebugger([epicMiddleware]);
 
 const persistConfig: PersistConfig<RootState> = {
   key: 'root',
