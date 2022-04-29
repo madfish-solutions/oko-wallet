@@ -2,18 +2,24 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
-import { generateKlaytnHdAccount } from '../../utils/generateKlaytnHdAccount.util';
-import { generateTezosHdAccount } from '../../utils/generateTezosHdAccount.util';
+import { getEtherDerivationPath, getTezosDerivationPath } from '../../utils/derivationPath.utils';
+import { generateHdAccount } from '../../utils/generateHdAccount.util';
 
 import { SEED_PHRASE } from './constants';
 import { GenerateHdAccountStyles } from './generate-hd-account-screen.styles';
 
-const klaytnAccount0 = generateKlaytnHdAccount(SEED_PHRASE);
-const klaytnAccount1 = generateKlaytnHdAccount(SEED_PHRASE, 1);
+type Account = Record<string, string>;
 
-let tezos: Record<string, string> = {};
-generateTezosHdAccount(SEED_PHRASE).then(keys => {
-  tezos = { ...keys };
+let klaytnAccount0: Account, klaytnAccount1: Account, tezosAccount: Account;
+
+generateHdAccount(SEED_PHRASE, getEtherDerivationPath()).then(keys => {
+  klaytnAccount0 = { ...keys };
+});
+generateHdAccount(SEED_PHRASE, getEtherDerivationPath(1)).then(keys => {
+  klaytnAccount1 = { ...keys };
+});
+generateHdAccount(SEED_PHRASE, getTezosDerivationPath()).then(keys => {
+  tezosAccount = { ...keys };
 });
 
 export const GenerateHdAccountScreen = () => (
@@ -39,9 +45,9 @@ export const GenerateHdAccountScreen = () => (
       <View style={GenerateHdAccountStyles.block}>
         <Text style={GenerateHdAccountStyles.boldText}>Derivation path: m/44'/1729'/0'/0</Text>
         <Text style={GenerateHdAccountStyles.boldText}>Private key Tezos:</Text>
-        <Text>{tezos.privateKey}</Text>
+        <Text>{tezosAccount.privateKey}</Text>
         <Text style={GenerateHdAccountStyles.boldText}>Address key Tezos:</Text>
-        <Text>{tezos.address}</Text>
+        <Text>{tezosAccount.address}</Text>
       </View>
     </View>
   </View>
