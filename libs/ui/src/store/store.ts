@@ -1,5 +1,13 @@
-import { createStore } from './create-store';
-import { tokensEpics } from './tokens/tokens-epics';
-import { walletEpics } from './wallet/wallet-epics';
+import { appInfoEpics } from './app-info/app-info.epics';
+import { appInfoReducers } from './app-info/app-info.reducers';
+import { AppInfoRootState } from './app-info/app-info.state';
+import { createStore } from './utils/create-store';
 
-export const { store, persistor } = createStore(walletEpics, tokensEpics);
+export type RootState = AppInfoRootState;
+
+export const { store, persistor } = createStore<RootState>({
+  reducers: {
+    appInfo: appInfoReducers
+  },
+  epics: [appInfoEpics]
+});

@@ -1,4 +1,3 @@
-import { createActions } from './create-actions';
+import { createActions } from './utils/action.utils';
 
-// Will be root actions here
 export const resetApplicationAction = createActions('root/RESET_APPLICATION');
