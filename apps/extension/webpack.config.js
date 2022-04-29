@@ -16,9 +16,7 @@ const babelLoaderConfiguration = {
       babelrc: true,
       cacheDirectory: true,
       rootMode: 'upward',
-      cacheCompression: false,
-      presets: ['module:metro-react-native-babel-preset'],
-      plugins: ['react-native-web']
+      cacheCompression: false
     }
   }
 };
