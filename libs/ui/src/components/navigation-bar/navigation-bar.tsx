@@ -20,6 +20,12 @@ export const NavigationBar = () => {
       <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigation.navigate(ScreensEnum.Inner)}>
         <Text style={NavigationBarStyles.buttonText}>Inner</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={NavigationBarStyles.button}
+        onPress={() => navigation.navigate(ScreensEnum.GenerateHdAccount)}
+      >
+        <Text style={NavigationBarStyles.buttonText}>Generate Hd Account</Text>
+      </TouchableOpacity>
     </View>
   );
 };
