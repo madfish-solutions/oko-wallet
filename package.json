@@ -7,6 +7,7 @@
   "scripts": {
     "install:all": "yarn && yarn install:extension && yarn install:mobile && yarn install:libs",
     "install:package": "cd libs/ui && yarn add -D $Package && cd ../../ && cd apps/extension && yarn add $Package && cd .. && cd mobile && yarn add $Package",
+    "install:remove": "cd libs/ui && yarn remove $Package && cd ../../ && cd apps/extension && yarn remove $Package && cd .. && cd mobile && yarn remove $Package",
     "install:extension": "cd apps/extension && yarn",
     "install:mobile": "cd apps/mobile && yarn",
     "install:libs": "cd libs/ui && yarn",
