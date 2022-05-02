@@ -6,6 +6,6 @@ import { create } from 'react-test-renderer';
 import { App } from './App';
 
 // eslint-disable-next-line jest/expect-expect
-it('renders correctly', () => {
+it('renders correctly', async () => {
   create(<App />);
 });
