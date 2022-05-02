@@ -1,24 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import React from 'react';
+import { Button, Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
-import { generateSeed } from '../../utils/keys.util';
+import { generateRandomBalanceValueAction } from '../../store/app-info/app-info.actions';
+import { useRandomBalanceSelector } from '../../store/app-info/app-info.selectors';
 
 export const WelcomeScreen = () => {
-  const [seed, setSeed] = useState('');
+  const dispatch = useDispatch();
+  const randomBalance = useRandomBalanceSelector();
 
-  useEffect(() => {
-    generateSeed().then(newSeed => setSeed(newSeed));
-  }, []);
+  const handleGenerateNewBuild = () => dispatch(generateRandomBalanceValueAction.submit(1));
 
   return (
     <View>
       <NavigationBar />
-      <Text>Welcome Screen Content</Text>
-      <Text>Welcome Screen Content</Text>
-      <Text>Welcome Screen Content</Text>
-      <Text>Randomly generated SEED:</Text>
-      <Text>{seed}</Text>
+      <Button title="Action: Generate random value" onPress={handleGenerateNewBuild} />
+      <Text>{randomBalance.data}</Text>
     </View>
   );
 };
