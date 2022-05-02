@@ -2,8 +2,8 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
-import { getEtherDerivationPath, getTezosDerivationPath } from '../../utils/derivationPath.utils';
-import { generateHdAccount } from '../../utils/generateHdAccount.util';
+import { getEtherDerivationPath, getTezosDerivationPath } from '../../utils/derivation-path.utils';
+import { generateHdAccount } from '../../utils/generate-hd-account.util';
 
 import { SEED_PHRASE } from './constants';
 import { GenerateHdAccountStyles } from './generate-hd-account-screen.styles';
@@ -13,10 +13,10 @@ type Account = Record<string, string>;
 let klaytnAccount0: Account, klaytnAccount1: Account, tezosAccount: Account;
 
 generateHdAccount(SEED_PHRASE, getEtherDerivationPath()).then(keys => {
-  klaytnAccount0 = { ...keys };
+  klaytnAccount0 = keys;
 });
 generateHdAccount(SEED_PHRASE, getEtherDerivationPath(1)).then(keys => {
-  klaytnAccount1 = { ...keys };
+  klaytnAccount1 = keys;
 });
 generateHdAccount(SEED_PHRASE, getTezosDerivationPath()).then(keys => {
   tezosAccount = { ...keys };
