@@ -1,0 +1,4 @@
+import { TEZOS_BIP44_COINTYPE, ETHER_BIP44_COINTYPE } from '../constants/cointype';
+
+export const getEtherDerivationPath = (accountIndex = 0) => `m/44'/${ETHER_BIP44_COINTYPE}'/${accountIndex}'/0'`;
+export const getTezosDerivationPath = (accountIndex = 0) => `m/44'/${TEZOS_BIP44_COINTYPE}'/${accountIndex}'/0'`;
