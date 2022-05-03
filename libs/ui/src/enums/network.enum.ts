@@ -27,7 +27,7 @@ export enum BlockExplorerEnum {
 export enum RpcEnum {
   KlaytnMainnet = 'https://kaikas.cypress.klaytn.net:8651/',
   KlaytnBaobabTestnet = 'https://api.baobab.klaytn.net:8651',
-  Ethereum = 'https://mainnet.infura.io/v3/',
+  Ethereum = 'https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
   BinanceSmartChain = 'https://bsc-dataseed.binance.org/',
   Moonbeam = 'https://rpc.api.moonbeam.network',
   Tezos = 'https://mainnet.api.tez.ie'

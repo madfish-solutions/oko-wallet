@@ -2,7 +2,8 @@ export enum ScreensEnum {
   Welcome = 'Welcome',
   Test = 'Test',
   Inner = 'Inner',
-  GenerateHdAccount = 'Generate Hd Account'
+  GenerateHdAccount = 'Generate Hd Account',
+  Multichain = 'Multichain'
 }
 
 export type ScreensParamList = {
@@ -10,4 +11,5 @@ export type ScreensParamList = {
   [ScreensEnum.Test]: undefined;
   [ScreensEnum.Inner]: undefined;
   [ScreensEnum.GenerateHdAccount]: undefined;
+  [ScreensEnum.Multichain]: undefined;
 };

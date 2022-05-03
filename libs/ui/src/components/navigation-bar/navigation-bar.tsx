@@ -24,7 +24,10 @@ export const NavigationBar = () => {
         style={NavigationBarStyles.button}
         onPress={() => navigation.navigate(ScreensEnum.GenerateHdAccount)}
       >
-        <Text style={NavigationBarStyles.buttonText}>Generate Hd Account</Text>
+        <Text style={NavigationBarStyles.buttonText}>Hd Account</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigation.navigate(ScreensEnum.Multichain)}>
+        <Text style={NavigationBarStyles.buttonText}>Multichain</Text>
       </TouchableOpacity>
     </View>
   );

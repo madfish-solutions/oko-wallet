@@ -1,7 +1,11 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { StyleProp, TextStyle } from 'react-native';
+import { useDispatch } from 'react-redux';
 
-import { ChainType, ListOfChains } from '../../constants/list-of-chains';
+import { ListOfChains } from '../../constants/list-of-chains';
+import { NetworksValueEnum } from '../../enums/network.enum';
+import { getBalanceAction } from '../../store/wallet/wallet.actions';
+import { useSelectedAccount } from '../../store/wallet/wallet.selectors';
 import { Dropdown } from '../dropdown';
 
 type ChainsDropdownProps = {
@@ -9,9 +13,12 @@ type ChainsDropdownProps = {
 };
 
 export const ChainsDropdown: React.FC<ChainsDropdownProps> = () => {
-  const handleChainSelect = useCallback((value: ChainType) => {
-    console.log(`Selected network: ${value}`);
-  }, []);
+  const dispatch = useDispatch();
+  const { publicKeyHash: pkh } = useSelectedAccount();
+
+  const handleChainSelect = (network: NetworksValueEnum) => {
+    dispatch(getBalanceAction.submit({ network, pkh }));
+  };
 
   return <Dropdown onValueChange={handleChainSelect} items={ListOfChains} />;
 };

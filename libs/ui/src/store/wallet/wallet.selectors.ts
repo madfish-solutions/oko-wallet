@@ -14,3 +14,6 @@ export const useSelectedAccount = () => {
     [wallet.selectedAccountPublicKeyHash]
   );
 };
+
+export const useGetTokenData = () => useSelector<WalletRootState, WalletState['token']>(({ wallet }) => wallet.token);
+export const useGenNetwork = () => useSelector<WalletRootState, WalletState['network']>(({ wallet }) => wallet.network);
