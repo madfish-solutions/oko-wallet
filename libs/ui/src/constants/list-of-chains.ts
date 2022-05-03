@@ -1,4 +1,4 @@
-import { NetworksNameEnum, NetworksValueEnum } from './networks';
+import { NetworksNameEnum, NetworksValueEnum } from '../enums/network.enum';
 
 export type ChainType = {
   id?: number | string;

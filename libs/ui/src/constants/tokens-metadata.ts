@@ -1,4 +1,4 @@
-import { NetworksValueEnum } from './networks';
+import { NetworksValueEnum } from '../enums/network.enum';
 
 export const TokensMetadata = {
   [NetworksValueEnum.KlaytnMainnet]: {

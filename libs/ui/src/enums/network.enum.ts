@@ -1,0 +1,34 @@
+export enum NetworksNameEnum {
+  KlaytnMainnet = 'Klaytn Mainnet',
+  KlaytnBaobabTestnet = 'Baobab Testnet',
+  Ethereum = 'Ethereum',
+  BinanceSmartChain = 'Binace Smart Chain',
+  Moonbeam = 'Moonbeam',
+  Tezos = 'Tezos'
+}
+
+export enum NetworksValueEnum {
+  KlaytnMainnet = 'klaytnMainnet',
+  KlaytnBaobabTestnet = 'klaytnBaobabTestnet',
+  Ethereum = 'ethereum',
+  BinanceSmartChain = 'binaceSmartChain',
+  Moonbeam = 'moonbeam',
+  Tezos = 'tezos'
+}
+
+export enum BlockExplorerEnum {
+  KlaytnScope = 'https://scope.klaytn.com/',
+  Etherscan = 'https://etherscan.io',
+  Bscscan = 'https://bscscan.com',
+  Moonscan = 'https://moonbeam.moonscan.io/',
+  Tzkt = 'https://tzkt.io/'
+}
+
+export enum RpcEnum {
+  KlaytnMainnet = 'https://kaikas.cypress.klaytn.net:8651/',
+  KlaytnBaobabTestnet = 'https://api.baobab.klaytn.net:8651',
+  Ethereum = 'https://mainnet.infura.io/v3/',
+  BinanceSmartChain = 'https://bsc-dataseed.binance.org/',
+  Moonbeam = 'https://rpc.api.moonbeam.network',
+  Tezos = 'https://mainnet.api.tez.ie'
+}

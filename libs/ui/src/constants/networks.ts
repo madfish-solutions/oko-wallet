@@ -1,40 +1,7 @@
-import { RpcEnum, RpcUrl } from './rpc';
+import { BlockExplorerEnum, NetworksNameEnum, NetworksValueEnum } from '../enums/network.enum';
+import { NetworksType } from '../types/networks.type';
 
-export enum NetworksNameEnum {
-  KlaytnMainnet = 'Klaytn Mainnet',
-  KlaytnBaobabTestnet = 'Baobab Testnet',
-  Ethereum = 'Ethereum',
-  BinanceSmartChain = 'Binace Smart Chain',
-  Moonbeam = 'moonbeam',
-  Tezos = 'Tezos'
-}
-
-export enum NetworksValueEnum {
-  KlaytnMainnet = 'klaytnMainnet',
-  KlaytnBaobabTestnet = 'klaytnBaobabTestnet',
-  Ethereum = 'ethereum',
-  BinanceSmartChain = 'binaceSmartChain',
-  Moonbeam = 'moonbeam',
-  Tezos = 'tezos'
-}
-
-enum BlockExplorerEnum {
-  KlaytnScope = 'https://scope.klaytn.com/',
-  Etherscan = 'https://etherscan.io',
-  Bscscan = 'https://bscscan.com',
-  Moonscan = 'https://moonbeam.moonscan.io/',
-  Tzkt = 'https://tzkt.io/'
-}
-
-type NetworksType = {
-  [key in NetworksValueEnum]: {
-    chainId: number | string;
-    rpc: RpcEnum;
-    name: NetworksNameEnum;
-    tokenSymbol: string;
-    explorer?: BlockExplorerEnum;
-  };
-};
+import { RpcUrl } from './rpc';
 
 export const NETWORKS: NetworksType = {
   [NetworksValueEnum.KlaytnMainnet]: {
