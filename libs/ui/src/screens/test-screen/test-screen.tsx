@@ -2,27 +2,20 @@ import { getDefaultProvider, utils } from 'ethers';
 import React, { useCallback, useEffect } from 'react';
 import { View } from 'react-native';
 
-import { ListOfChains } from '../../components/list-of-chains';
+import { ChainsDropdown } from '../../components/chains-dropdown';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 
-// TODO: Delete later
-const network = 'rinkeby'; // use rinkeby testnet
+const network = 'https://moonbeam-alpha.api.onfinality.io/public';
 const provider = getDefaultProvider(network);
-const address = '0xF02c1c8e6114b1Dbe8937a39260b5b0a374432bB';
-
-const _global: any = global;
+const address = '0x84757a438E06631f34b2199B5D92e6865cE47D50';
 
 export const TestScreen = () => {
-  console.log(_global.window);
-
-  // Get ETH balance from 'Ethereum' testnet
+  // Get token balance from ethereum like network
   const getETHBalance = useCallback(async () => {
-    const balance = await provider.getBalance(address).then(balance => {
+    await provider.getBalance(address).then(balance => {
       const balanceInEth = utils.formatEther(balance);
       console.log(`balance: ${balanceInEth} ETH`);
     });
-
-    return balance;
   }, []);
 
   useEffect(() => {
@@ -32,7 +25,7 @@ export const TestScreen = () => {
   return (
     <View>
       <NavigationBar />
-      <ListOfChains />
+      <ChainsDropdown />
     </View>
   );
 };

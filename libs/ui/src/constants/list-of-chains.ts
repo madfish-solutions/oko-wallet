@@ -1,56 +1,40 @@
-export enum ListOfChainsEnum {
-  Klaytn = 'Klaytn',
-  BaobabTestnet = 'Baobab Testnet',
-  ETH = 'Ethereum',
-  BSC = 'Binace Smart Chain',
-  Moonbeen = 'Moonbeen',
-  Tezos = 'Tezos'
-}
-
-enum ListOfChainsValue {
-  Klaytn = 'klaytn',
-  BaobabTestnet = 'baobabTestnet',
-  ETH = 'ethereum',
-  BSC = 'binaceSmartChain',
-  Moonbeen = 'moonbeen',
-  Tezos = 'tezos'
-}
+import { NetworksNameEnum, NetworksValueEnum } from './networks';
 
 export type ChainType = {
   id?: number | string;
-  label: ListOfChainsEnum;
-  value: ListOfChainsValue;
+  label: NetworksNameEnum;
+  value: NetworksValueEnum;
 };
 
-export const LIST_OF_CHAINS: ChainType[] = [
+export const ListOfChains: ChainType[] = [
   {
     id: 0,
-    label: ListOfChainsEnum.Klaytn,
-    value: ListOfChainsValue.Klaytn
+    label: NetworksNameEnum.KlaytnMainnet,
+    value: NetworksValueEnum.KlaytnMainnet
   },
   {
     id: 1,
-    label: ListOfChainsEnum.BaobabTestnet,
-    value: ListOfChainsValue.BaobabTestnet
+    label: NetworksNameEnum.KlaytnBaobabTestnet,
+    value: NetworksValueEnum.KlaytnBaobabTestnet
   },
   {
     id: 2,
-    label: ListOfChainsEnum.ETH,
-    value: ListOfChainsValue.ETH
+    label: NetworksNameEnum.Ethereum,
+    value: NetworksValueEnum.Ethereum
   },
   {
     id: 3,
-    label: ListOfChainsEnum.BSC,
-    value: ListOfChainsValue.BSC
+    label: NetworksNameEnum.BinanceSmartChain,
+    value: NetworksValueEnum.BinanceSmartChain
   },
   {
     id: 4,
-    label: ListOfChainsEnum.Moonbeen,
-    value: ListOfChainsValue.Moonbeen
+    label: NetworksNameEnum.Moonbeam,
+    value: NetworksValueEnum.Moonbeam
   },
   {
     id: 5,
-    label: ListOfChainsEnum.Tezos,
-    value: ListOfChainsValue.Tezos
+    label: NetworksNameEnum.Tezos,
+    value: NetworksValueEnum.Tezos
   }
 ];
