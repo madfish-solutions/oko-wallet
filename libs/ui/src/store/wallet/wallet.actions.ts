@@ -1,3 +1,3 @@
 import { createAction } from '@reduxjs/toolkit';
 
-export const addAccountPublicKeyHash = createAction('wallet/ADD_ACCOUNT_PKH');
+export const generateHDAccount = createAction('wallet/GENERATE_HD_ACCOUNT');
