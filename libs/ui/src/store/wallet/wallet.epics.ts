@@ -7,17 +7,17 @@ import { getGasTokenBalance$ } from '../../utils/get-gas-token-balance';
 import { withSelectedAccount, withSelectedNetwork } from '../../utils/wallet.util';
 import { RootState } from '../store';
 
-import { getBalanceAction } from './wallet.actions';
+import { getGasTokenBalanceAction } from './wallet.actions';
 
 const getGasTokenBalanceEpic = (action$: Observable<Action>, state$: Observable<RootState>) =>
   action$.pipe(
-    ofType(getBalanceAction.submit),
+    ofType(getGasTokenBalanceAction.submit),
     withSelectedAccount(state$),
     withSelectedNetwork(state$),
     switchMap(([[, { publicKeyHash }], network]) =>
       getGasTokenBalance$(network, publicKeyHash).pipe(
-        map(({ gasToken, gasTokenBalance }) => getBalanceAction.success({ gasToken, gasTokenBalance })),
-        catchError(error => of(getBalanceAction.fail(error)))
+        map(({ gasToken, gasTokenBalance }) => getGasTokenBalanceAction.success({ gasToken, gasTokenBalance })),
+        catchError(error => of(getGasTokenBalanceAction.fail(error)))
       )
     )
   );
