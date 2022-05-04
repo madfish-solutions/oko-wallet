@@ -1,19 +1,22 @@
 import { combineEpics } from 'redux-observable';
-import { catchError, from, map, Observable, of, switchMap } from 'rxjs';
+import { catchError, map, Observable, of, switchMap } from 'rxjs';
 import { Action } from 'ts-action';
-import { ofType, toPayload } from 'ts-action-operators';
+import { ofType } from 'ts-action-operators';
 
-import { getBalance$ } from '../../utils/get-balance.util';
+import { getGasTokenBalance$ } from '../../utils/get-gas-token-balance';
+import { withSelectedAccount, withSelectedNetwork } from '../../utils/wallet.util';
+import { RootState } from '../store';
 
 import { getBalanceAction } from './wallet.actions';
 
-const getBalanceEpic = (action$: Observable<Action>) =>
+const getBalanceEpic = (action$: Observable<Action>, state$: Observable<RootState>) =>
   action$.pipe(
     ofType(getBalanceAction.submit),
-    toPayload(),
-    switchMap(({ network, pkh }) =>
-      from(getBalance$(network, pkh)).pipe(
-        map(({ balance, tokenSymbol }) => getBalanceAction.success({ balance, tokenSymbol })),
+    withSelectedAccount(state$),
+    withSelectedNetwork(state$),
+    switchMap(([[, { publicKeyHash }], network]) =>
+      getGasTokenBalance$(network, publicKeyHash).pipe(
+        map(({ gasToken, gasTokenBalance }) => getBalanceAction.success({ gasToken, gasTokenBalance })),
         catchError(error => of(getBalanceAction.fail(error)))
       )
     )

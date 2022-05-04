@@ -12,12 +12,13 @@ export const walletReducers = createReducer<WalletState>(appInfoInitialState, bu
     selectedAccountPublicKeyHash: mockHdAccount.publicKeyHash
   }));
 
-  builder.addCase(getBalanceAction.submit, (state, { payload }) => ({
+  builder.addCase(getBalanceAction.submit, (state, { payload: network }) => ({
     ...state,
-    network: payload.network
+    network
   }));
-  builder.addCase(getBalanceAction.success, (state, { payload: token }) => ({
+  builder.addCase(getBalanceAction.success, (state, { payload }) => ({
     ...state,
-    token
+    gasToken: payload.gasToken,
+    gasTokenBalance: payload.gasTokenBalance
   }));
 });

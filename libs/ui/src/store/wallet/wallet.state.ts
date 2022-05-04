@@ -1,28 +1,24 @@
+import { GasTokensMetadata } from '../../constants/gas-tokens-metadata';
 import { NetworksValueEnum } from '../../enums/network.enum';
+import { TokenType } from '../../types/token.type';
 import { AccountInterface } from '../interfaces/account.interface';
 
 export interface WalletRootState {
   wallet: WalletState;
 }
 
-export type TokenType = {
-  tokenSymbol: string;
-  balance: number;
-};
-
 export interface WalletState {
   accounts: AccountInterface[];
   selectedAccountPublicKeyHash: string;
   network: NetworksValueEnum;
-  token: TokenType;
+  gasToken: TokenType;
+  gasTokenBalance: string;
 }
 
 export const appInfoInitialState: WalletState = {
   accounts: [],
   selectedAccountPublicKeyHash: '',
   network: NetworksValueEnum.KlaytnMainnet,
-  token: {
-    tokenSymbol: '',
-    balance: 0
-  }
+  gasToken: GasTokensMetadata.klaytnMainnet,
+  gasTokenBalance: '0'
 };
