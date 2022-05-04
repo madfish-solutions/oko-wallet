@@ -1,7 +1,8 @@
 import { GasTokensMetadata } from '../../constants/gas-tokens-metadata';
-import { NetworksNameEnum } from '../../enums/network.enum';
 import { TokenType } from '../../types/token.type';
 import { AccountInterface } from '../interfaces/account.interface';
+import { LoadableEntityState } from '../interfaces/loadable-entity-state.interface';
+import { createEntity } from '../utils/entity.utils';
 
 export interface WalletRootState {
   wallet: WalletState;
@@ -10,15 +11,13 @@ export interface WalletRootState {
 export interface WalletState {
   accounts: AccountInterface[];
   selectedAccountPublicKeyHash: string;
-  network: string;
   gasToken: TokenType;
-  gasTokenBalance: string;
+  gasTokenBalance: LoadableEntityState<string>;
 }
 
 export const appInfoInitialState: WalletState = {
   accounts: [],
   selectedAccountPublicKeyHash: '',
-  network: NetworksNameEnum.KlaytnMainnet,
   gasToken: GasTokensMetadata['Klaytn Mainnet'],
-  gasTokenBalance: '0'
+  gasTokenBalance: createEntity('0')
 };

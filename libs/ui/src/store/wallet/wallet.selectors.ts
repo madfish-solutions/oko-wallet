@@ -2,11 +2,11 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { initialAccount } from '../../mocks/account.interface.mock';
-import { TokenWithBalanceType } from '../../types/token.type';
+import { TokenWithEntityBalanceType } from '../../types/token.type';
 
 import { WalletRootState, WalletState } from './wallet.state';
 
-export const useSelectedAccount = () => {
+export const useSelectedAccountSelector = () => {
   const wallet = useSelector<WalletRootState, WalletState>(({ wallet }) => wallet);
 
   return useMemo(
@@ -16,10 +16,8 @@ export const useSelectedAccount = () => {
   );
 };
 
-export const useGetGasTokenData = () =>
-  useSelector<WalletRootState, TokenWithBalanceType>(({ wallet }) => ({
+export const useGetGasTokenDataSelector = () =>
+  useSelector<WalletRootState, TokenWithEntityBalanceType>(({ wallet }) => ({
     gasToken: wallet.gasToken,
     gasTokenBalance: wallet.gasTokenBalance
   }));
-
-export const useGenNetwork = () => useSelector<WalletRootState, WalletState['network']>(({ wallet }) => wallet.network);

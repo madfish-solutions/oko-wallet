@@ -3,7 +3,7 @@ import { StyleProp, TextStyle } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { ListOfChains } from '../../constants/list-of-chains';
-import { getGasTokenBalanceAction } from '../../store/wallet/wallet.actions';
+import { changeNetworkAction } from '../../store/settings/settings.actions';
 import { Dropdown } from '../dropdown';
 
 type ChainsDropdownProps = {
@@ -14,7 +14,7 @@ export const ChainsDropdown: React.FC<ChainsDropdownProps> = () => {
   const dispatch = useDispatch();
 
   const handleChainSelect = (network: string) => {
-    dispatch(getGasTokenBalanceAction.submit(network));
+    dispatch(changeNetworkAction(network));
   };
 
   return <Dropdown onValueChange={handleChainSelect} items={ListOfChains} />;

@@ -16,8 +16,3 @@ export const withSelectedAccount =
         return [value, selectedAccount];
       })
     );
-
-export const withSelectedNetwork =
-  <T>(state$: Observable<WalletRootState>) =>
-  (observable$: Observable<T>) =>
-    observable$.pipe(withLatestFrom(state$, (value, { wallet }): [T, string] => [value, wallet.network]));
