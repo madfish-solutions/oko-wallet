@@ -30,6 +30,7 @@
     "react-native-flipper": "^0.144.0",
     "react-native-safe-area-context": "^4.2.4",
     "react-native-screens": "^3.13.1",
+    "react-native-sha256": "^1.4.7",
     "react-native-themis": "^0.14.4",
     "react-redux": "^8.0.1",
     "readable-stream": "^3.6.0",

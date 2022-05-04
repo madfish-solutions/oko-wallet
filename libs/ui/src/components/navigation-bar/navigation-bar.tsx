@@ -26,6 +26,9 @@ export const NavigationBar = () => {
       >
         <Text style={NavigationBarStyles.buttonText}>Generate Hd Account</Text>
       </TouchableOpacity>
+      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigation.navigate(ScreensEnum.Shelter)}>
+        <Text style={NavigationBarStyles.buttonText}>Shelter</Text>
+      </TouchableOpacity>
     </View>
   );
 };
