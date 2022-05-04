@@ -1,6 +1,5 @@
 import { Observable, withLatestFrom } from 'rxjs';
 
-import { NetworksValueEnum } from '../enums/network.enum';
 import { initialAccount } from '../mocks/account.interface.mock';
 import { AccountInterface } from '../store/interfaces/account.interface';
 import { WalletRootState } from '../store/wallet/wallet.state';
@@ -21,4 +20,4 @@ export const withSelectedAccount =
 export const withSelectedNetwork =
   <T>(state$: Observable<WalletRootState>) =>
   (observable$: Observable<T>) =>
-    observable$.pipe(withLatestFrom(state$, (value, { wallet }): [T, NetworksValueEnum] => [value, wallet.network]));
+    observable$.pipe(withLatestFrom(state$, (value, { wallet }): [T, string] => [value, wallet.network]));

@@ -2,11 +2,10 @@ import { getDefaultProvider } from 'ethers';
 import { from, map } from 'rxjs';
 
 import { NETWORKS } from '../constants/networks';
-import { NetworksValueEnum } from '../enums/network.enum';
 
 import { convertUnits } from './convertUnits';
 
-export const getGasTokenBalance$ = (network: NetworksValueEnum, pkh: string) => {
+export const getGasTokenBalance$ = (network: string, pkh: string) => {
   const { gasToken, rpc } = NETWORKS[network];
   const provider = getDefaultProvider(rpc);
 
