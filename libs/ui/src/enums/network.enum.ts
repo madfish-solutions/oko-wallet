@@ -7,15 +7,6 @@ export enum NetworksNameEnum {
   Tezos = 'Tezos'
 }
 
-export enum NetworksValueEnum {
-  KlaytnMainnet = 'klaytnMainnet',
-  KlaytnBaobabTestnet = 'klaytnBaobabTestnet',
-  Ethereum = 'ethereum',
-  BinanceSmartChain = 'binaceSmartChain',
-  Moonbeam = 'moonbeam',
-  Tezos = 'tezos'
-}
-
 export enum BlockExplorerEnum {
   KlaytnScope = 'https://scope.klaytn.com/',
   Etherscan = 'https://etherscan.io',

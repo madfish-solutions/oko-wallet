@@ -1,13 +1,11 @@
-import { BlockExplorerEnum, NetworksNameEnum, NetworksValueEnum, RpcEnum } from '../enums/network.enum';
-
 import { TokenType } from './token.type';
 
 export type NetworksType = {
-  [key in NetworksValueEnum]: {
+  [key: string]: {
     chainId: number | string;
-    rpc: RpcEnum;
-    name: NetworksNameEnum;
+    rpc: string;
+    name: string;
     gasToken: TokenType;
-    explorer?: BlockExplorerEnum;
+    explorer?: string;
   };
 };

@@ -1,40 +1,40 @@
-import { NetworksNameEnum, NetworksValueEnum } from '../enums/network.enum';
+import { NetworksNameEnum } from '../enums/network.enum';
 
 export type ChainType = {
   id?: number | string;
-  label: NetworksNameEnum;
-  value: NetworksValueEnum;
+  label: string;
+  value: string;
 };
 
 export const ListOfChains: ChainType[] = [
   {
     id: 0,
     label: NetworksNameEnum.KlaytnMainnet,
-    value: NetworksValueEnum.KlaytnMainnet
+    value: NetworksNameEnum.KlaytnMainnet
   },
   {
     id: 1,
     label: NetworksNameEnum.KlaytnBaobabTestnet,
-    value: NetworksValueEnum.KlaytnBaobabTestnet
+    value: NetworksNameEnum.KlaytnBaobabTestnet
   },
   {
     id: 2,
     label: NetworksNameEnum.Ethereum,
-    value: NetworksValueEnum.Ethereum
+    value: NetworksNameEnum.Ethereum
   },
   {
     id: 3,
     label: NetworksNameEnum.BinanceSmartChain,
-    value: NetworksValueEnum.BinanceSmartChain
+    value: NetworksNameEnum.BinanceSmartChain
   },
   {
     id: 4,
     label: NetworksNameEnum.Moonbeam,
-    value: NetworksValueEnum.Moonbeam
+    value: NetworksNameEnum.Moonbeam
   },
   {
     id: 5,
     label: NetworksNameEnum.Tezos,
-    value: NetworksValueEnum.Tezos
+    value: NetworksNameEnum.Tezos
   }
 ];

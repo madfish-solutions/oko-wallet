@@ -1,10 +1,10 @@
-import { NetworksValueEnum, RpcEnum } from '../enums/network.enum';
+import { NetworksNameEnum, RpcEnum } from '../enums/network.enum';
 
 export const RpcUrl = {
-  [NetworksValueEnum.KlaytnMainnet]: RpcEnum.KlaytnMainnet,
-  [NetworksValueEnum.KlaytnBaobabTestnet]: RpcEnum.KlaytnBaobabTestnet,
-  [NetworksValueEnum.Ethereum]: RpcEnum.Ethereum,
-  [NetworksValueEnum.BinanceSmartChain]: RpcEnum.BinanceSmartChain,
-  [NetworksValueEnum.Moonbeam]: RpcEnum.Moonbeam,
-  [NetworksValueEnum.Tezos]: RpcEnum.Tezos
+  [NetworksNameEnum.KlaytnMainnet]: RpcEnum.KlaytnMainnet,
+  [NetworksNameEnum.KlaytnBaobabTestnet]: RpcEnum.KlaytnBaobabTestnet,
+  [NetworksNameEnum.Ethereum]: RpcEnum.Ethereum,
+  [NetworksNameEnum.BinanceSmartChain]: RpcEnum.BinanceSmartChain,
+  [NetworksNameEnum.Moonbeam]: RpcEnum.Moonbeam,
+  [NetworksNameEnum.Tezos]: RpcEnum.Tezos
 };

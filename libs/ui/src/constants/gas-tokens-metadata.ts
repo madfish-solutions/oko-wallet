@@ -1,8 +1,8 @@
-import { NetworksValueEnum } from '../enums/network.enum';
+import { NetworksNameEnum } from '../enums/network.enum';
 import { TokenType } from '../types/token.type';
 
-export const GasTokensMetadata: Record<NetworksValueEnum, TokenType> = {
-  [NetworksValueEnum.KlaytnMainnet]: {
+export const GasTokensMetadata: Record<NetworksNameEnum, TokenType> = {
+  [NetworksNameEnum.KlaytnMainnet]: {
     name: 'Klaytn Token',
     symbol: 'KLAY',
     decimals: 18,
@@ -10,7 +10,7 @@ export const GasTokensMetadata: Record<NetworksValueEnum, TokenType> = {
     thumbnailUri: '',
     tokenId: undefined
   },
-  [NetworksValueEnum.KlaytnBaobabTestnet]: {
+  [NetworksNameEnum.KlaytnBaobabTestnet]: {
     name: 'Klaytn Token',
     symbol: 'KLAY',
     decimals: 18,
@@ -18,7 +18,7 @@ export const GasTokensMetadata: Record<NetworksValueEnum, TokenType> = {
     thumbnailUri: '',
     tokenId: undefined
   },
-  [NetworksValueEnum.Ethereum]: {
+  [NetworksNameEnum.Ethereum]: {
     name: 'Ether Token',
     symbol: 'ETH',
     decimals: 18,
@@ -26,7 +26,7 @@ export const GasTokensMetadata: Record<NetworksValueEnum, TokenType> = {
     thumbnailUri: '',
     tokenId: undefined
   },
-  [NetworksValueEnum.BinanceSmartChain]: {
+  [NetworksNameEnum.BinanceSmartChain]: {
     name: 'Binance Coin',
     symbol: 'BNB',
     decimals: 8,
@@ -34,7 +34,7 @@ export const GasTokensMetadata: Record<NetworksValueEnum, TokenType> = {
     thumbnailUri: '',
     tokenId: undefined
   },
-  [NetworksValueEnum.Moonbeam]: {
+  [NetworksNameEnum.Moonbeam]: {
     name: 'Moonbeam Token',
     symbol: 'GLMR',
     decimals: 9,
@@ -42,7 +42,7 @@ export const GasTokensMetadata: Record<NetworksValueEnum, TokenType> = {
     thumbnailUri: '',
     tokenId: undefined
   },
-  [NetworksValueEnum.Tezos]: {
+  [NetworksNameEnum.Tezos]: {
     name: 'Tezos Token',
     symbol: 'Tezos',
     decimals: 6,

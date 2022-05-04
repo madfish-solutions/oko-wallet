@@ -9,7 +9,7 @@ import { RootState } from '../store';
 
 import { getBalanceAction } from './wallet.actions';
 
-const getBalanceEpic = (action$: Observable<Action>, state$: Observable<RootState>) =>
+const getGasTokenBalanceEpic = (action$: Observable<Action>, state$: Observable<RootState>) =>
   action$.pipe(
     ofType(getBalanceAction.submit),
     withSelectedAccount(state$),
@@ -22,4 +22,4 @@ const getBalanceEpic = (action$: Observable<Action>, state$: Observable<RootStat
     )
   );
 
-export const walletEpics = combineEpics(getBalanceEpic);
+export const walletEpics = combineEpics(getGasTokenBalanceEpic);
