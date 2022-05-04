@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleProp, TextStyle } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { ListOfChains } from '../../constants/list-of-chains';
 import { changeNetworkAction } from '../../store/settings/settings.actions';
+import { getGasTokenBalanceAction } from '../../store/wallet/wallet.actions';
 import { Dropdown } from '../dropdown';
 
 type ChainsDropdownProps = {
@@ -16,6 +17,10 @@ export const ChainsDropdown: React.FC<ChainsDropdownProps> = () => {
   const handleChainSelect = (network: string) => {
     dispatch(changeNetworkAction(network));
   };
+
+  useEffect(() => {
+    dispatch(getGasTokenBalanceAction.submit());
+  }, []);
 
   return <Dropdown onValueChange={handleChainSelect} items={ListOfChains} />;
 };

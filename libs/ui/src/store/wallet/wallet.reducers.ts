@@ -1,18 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { mockHdAccount } from '../../mocks/account.interface.mock';
 import { createEntity } from '../utils/entity.utils';
 
-import { generateHDAccount, getGasTokenBalanceAction } from './wallet.actions';
-import { appInfoInitialState, WalletState } from './wallet.state';
+import { getGasTokenBalanceAction } from './wallet.actions';
+import { walletInitialState, WalletState } from './wallet.state';
 
-export const walletReducers = createReducer<WalletState>(appInfoInitialState, builder => {
-  builder.addCase(generateHDAccount, state => ({
-    ...state,
-    accounts: [mockHdAccount],
-    selectedAccountPublicKeyHash: mockHdAccount.publicKeyHash
-  }));
-
+export const walletReducers = createReducer<WalletState>(walletInitialState, builder => {
   builder.addCase(getGasTokenBalanceAction.submit, state => ({
     ...state,
     gasTokenBalance: createEntity(state.gasTokenBalance.data, true)
