@@ -22,5 +22,5 @@ export const ChainsDropdown: React.FC<ChainsDropdownProps> = () => {
     dispatch(getGasTokenBalanceAction.submit());
   }, []);
 
-  return <Dropdown onValueChange={handleChainSelect} items={ListOfChains} />;
+  return <Dropdown placeholder={ListOfChains[0]} onValueChange={handleChainSelect} items={ListOfChains} />;
 };
