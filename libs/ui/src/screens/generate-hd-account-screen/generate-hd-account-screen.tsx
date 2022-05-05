@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { NavigationBar } from '../../components/navigation-bar/navigation-bar-test';
 import { generateHDAccount } from '../../store/wallet/wallet.actions';
 import { getEtherDerivationPath, getTezosDerivationPath } from '../../utils/derivation-path.utils';
 import { generateHdAccount } from '../../utils/generate-hd-account.util';

@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { NavigationBar } from '../../components/navigation-bar/navigation-bar-test';
 import { generateRandomBalanceValueAction } from '../../store/app-info/app-info.actions';
 import { useRandomBalanceSelector } from '../../store/app-info/app-info.selectors';
 
