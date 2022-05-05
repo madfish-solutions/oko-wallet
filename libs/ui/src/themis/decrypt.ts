@@ -15,5 +15,7 @@ export const decrypt = async (passwordHash: string, key: string) => {
     const decrypted = Buffer.from(decryptedArray).toString();
 
     return decrypted;
+  } else {
+    throw Error('failed to decrypt message');
   }
 };

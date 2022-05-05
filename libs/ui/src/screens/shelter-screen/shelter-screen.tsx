@@ -27,8 +27,7 @@ export const ShelterScreen = () => {
 
   const dectyptButton = async () => {
     try {
-      const decr = await Shelter.decryptSensitiveData(password, SEED_PHRASE_KEY);
-      setDecrypt(decr);
+      Shelter.decryptSensitiveData(password, SEED_PHRASE_KEY).then(newDecrypted => setDecrypt(newDecrypted));
     } catch {
       console.log('Failed to decrypt seed Phrase');
     }
