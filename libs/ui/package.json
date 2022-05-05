@@ -50,6 +50,7 @@
     "@types/react": "^17"
   },
   "dependencies": {
+    "react-native-keychain": "^8.0.0",
     "react-native-sha256": "^1.4.7"
   }
 }
