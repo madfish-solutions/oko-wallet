@@ -1849,6 +1849,28 @@
     bignumber.js "^9.0.2"
     rxjs "^6.6.3"
 
+"@taquito/tzip12@^12.1.0":
+  version "12.1.0"
+  resolved "https://registry.yarnpkg.com/@taquito/tzip12/-/tzip12-12.1.0.tgz#896b3c4ded4ca0053e2497a2d5a51fed2d4c47f5"
+  integrity sha512-kYC5e3RXXspncMW9ntHYilN2P/zK3pbLs0XdRy4Dga6I+3spKFIK4UkwYAduSdG3yVbOPob4YGchWNACwizTBw==
+  dependencies:
+    "@taquito/michelson-encoder" "^12.1.0"
+    "@taquito/taquito" "^12.1.0"
+    "@taquito/tzip16" "^12.1.0"
+
+"@taquito/tzip16@^12.1.0":
+  version "12.1.0"
+  resolved "https://registry.yarnpkg.com/@taquito/tzip16/-/tzip16-12.1.0.tgz#454053138355227da0a14e6b85cddf2739cabc53"
+  integrity sha512-+pYfG+4DZs9N1cgyYD+k/DBRbl9hGClnBPbhh7D7aE25XjD/NXMQEm7w3WoE7lJKsVDwd6tuFJMC77NKwzkG6g==
+  dependencies:
+    "@taquito/http-utils" "^12.1.0"
+    "@taquito/michelson-encoder" "^12.1.0"
+    "@taquito/rpc" "^12.1.0"
+    "@taquito/taquito" "^12.1.0"
+    "@taquito/utils" "^12.1.0"
+    bignumber.js "^9.0.2"
+    crypto-js "^4.1.1"
+
 "@taquito/utils@^12.1.0":
   version "12.1.0"
   resolved "https://registry.yarnpkg.com/@taquito/utils/-/utils-12.1.0.tgz#f51c046d02ddccd616f5e2a0b2ce04d8e30f67b5"
@@ -3000,6 +3022,11 @@ cross-spawn@^7.0.3:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
+
+crypto-js@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.1.1.tgz#9e485bcf03521041bd85844786b83fb7619736cf"
+  integrity sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==
 
 cssom@^0.4.4:
   version "0.4.4"
@@ -5801,6 +5828,11 @@ react-native-codegen@^0.0.13:
     flow-parser "^0.121.0"
     jscodeshift "^0.13.1"
     nullthrows "^1.1.1"
+
+react-native-config@^1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-1.4.5.tgz#6fe5895410b75e44fe4f4bf00caaf894a0981f3a"
+  integrity sha512-5oiAsoW88SOYDg/0cleJ2vJDqv98FJUbFQYEnH4sdMtEn3AAT3lb7BkTGW8HO/t3Vk9VOruwxUUnO4tzuxzCsw==
 
 react-native-flipper@^0.144.0:
   version "0.144.0"
