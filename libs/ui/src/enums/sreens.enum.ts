@@ -1,15 +1,11 @@
 export enum ScreensEnum {
-  Welcome = 'Welcome',
-  Test = 'Test',
-  Inner = 'Inner',
-  GenerateHdAccount = 'Generate Hd Account',
-  Multichain = 'Multichain'
+  Wallet = 'Wallet',
+  Settings = 'Settings',
+  AddNetwork = 'Add network'
 }
 
 export type ScreensParamList = {
-  [ScreensEnum.Welcome]: undefined;
-  [ScreensEnum.Test]: undefined;
-  [ScreensEnum.Inner]: undefined;
-  [ScreensEnum.GenerateHdAccount]: undefined;
-  [ScreensEnum.Multichain]: undefined;
+  [ScreensEnum.Wallet]: undefined;
+  [ScreensEnum.Settings]: undefined;
+  [ScreensEnum.AddNetwork]: undefined;
 };

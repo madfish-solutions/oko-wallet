@@ -11,23 +11,8 @@ export const NavigationBar = () => {
 
   return (
     <View style={NavigationBarStyles.container}>
-      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigation.navigate(ScreensEnum.Welcome)}>
-        <Text style={NavigationBarStyles.buttonText}>Welcome</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigation.navigate(ScreensEnum.Test)}>
-        <Text style={NavigationBarStyles.buttonText}>Test</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigation.navigate(ScreensEnum.Inner)}>
-        <Text style={NavigationBarStyles.buttonText}>Inner</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={NavigationBarStyles.button}
-        onPress={() => navigation.navigate(ScreensEnum.GenerateHdAccount)}
-      >
-        <Text style={NavigationBarStyles.buttonText}>Hd Account</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigation.navigate(ScreensEnum.Multichain)}>
-        <Text style={NavigationBarStyles.buttonText}>Multichain</Text>
+      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigation.navigate(ScreensEnum.Settings)}>
+        <Text style={NavigationBarStyles.buttonText}>Settings</Text>
       </TouchableOpacity>
     </View>
   );

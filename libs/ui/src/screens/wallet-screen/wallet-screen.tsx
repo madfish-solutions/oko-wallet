@@ -3,11 +3,13 @@ import { Text, View } from 'react-native';
 
 import { ChainsDropdown } from '../../components/chains-dropdown';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { Title } from '../../components/title';
 import { useGetNetworkSelector } from '../../store/settings/settings.selectors';
 import { useGetGasTokenDataSelector } from '../../store/wallet/wallet.selectors';
-import { MultichainStyles } from '../inner-screen/multichain.styles';
 
-export const Multichain = () => {
+import { WalletScreenStyles } from './wallet-screen.styles';
+
+export const WalletScreen = () => {
   const { gasToken, gasTokenBalance } = useGetGasTokenDataSelector();
   const network = useGetNetworkSelector();
 
@@ -17,9 +19,10 @@ export const Multichain = () => {
   return (
     <View>
       <NavigationBar />
-      <View style={MultichainStyles.root}>
+      <Title>Wallet</Title>
+      <View style={WalletScreenStyles.root}>
         <ChainsDropdown />
-        <Text style={MultichainStyles.text}>{`Network: ${network}`}</Text>
+        <Text>{`Network: ${network}`}</Text>
         <Text>{`Balance: ${getGasTokenBalance()}`}</Text>
       </View>
     </View>

@@ -1,13 +1,14 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { Title } from '../../components/title';
 
-export const WelcomeScreen = () => {
+export const AddNetworkScreen = () => {
   return (
     <View>
       <NavigationBar />
-      <Text>Welcome screen</Text>
+      <Title>Add network</Title>
     </View>
   );
 };
