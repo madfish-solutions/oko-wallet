@@ -2,40 +2,35 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
-import { hashPassword } from '../../sha256/generateHash';
+import { Shelter } from '../../shelter/shelter';
 import { generateSeed } from '../../utils/keys.util';
-import { encrypt, decrypt, setStoredValue } from '../../utils/shelter.util';
 
 import { ShelterStyles } from './shelter-screen.styles';
 
 const SEED_PHRASE_KEY = 'seedPhrase';
-const PASSWORD_HASH = 'passwordHash';
 
 export const ShelterScreen = () => {
   const [seed, setSeed] = useState('');
   const [readyForEncrypt, setReadyForEncrypt] = useState(false);
-
   const [decrypted, setDecrypt] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [password, setPassword] = useState('');
 
   const passwordButton = async () => {
-    const hash = await hashPassword(newPassword);
     try {
-      await setStoredValue(PASSWORD_HASH, hash);
       setReadyForEncrypt(true);
-      const encrypted = await encrypt(seed, hash);
-      await setStoredValue(SEED_PHRASE_KEY, JSON.stringify(encrypted));
+      await Shelter.saveSensitiveData(seed, newPassword);
     } catch (e) {
-      console.log(e, 'failed to save passwordHash at localStorage');
+      console.log(e, 'failed to save seed phrase at localStorage');
     }
   };
 
   const dectyptButton = async () => {
-    const passwordHash = localStorage.getItem(PASSWORD_HASH);
-    const hashedInputPassword = await hashPassword(password);
-    if (passwordHash === hashedInputPassword) {
-      decrypt(passwordHash, SEED_PHRASE_KEY).then(decryptedSeed => setDecrypt(decryptedSeed));
+    try {
+      const decr = await Shelter.decryptSensitiveData(password, SEED_PHRASE_KEY);
+      setDecrypt(decr);
+    } catch {
+      console.log('Failed to decrypt seed Phrase');
     }
   };
 
