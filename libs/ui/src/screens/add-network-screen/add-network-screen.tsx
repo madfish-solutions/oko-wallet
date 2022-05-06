@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useState } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { Button } from '../../components/button';
@@ -23,6 +23,7 @@ export const AddNetworkScreen: FC = () => {
   const [chainId, setChainId] = useState('');
   const [gasTokenSymbol, setGasTokenSymbol] = useState('');
   const [explorer, setExplorer] = useState('');
+  const [error, setError] = useState('');
 
   const handleAddNetwork = useCallback(() => {
     const values: NetworkType = {
@@ -37,8 +38,18 @@ export const AddNetworkScreen: FC = () => {
       explorer
     };
 
-    dispatch(addNewNetworkAction(values));
-    navigate(ScreensEnum.Wallet);
+    const isValid = Object.values(values).every(field => {
+      if (typeof field === 'string') {
+        return field.trim() !== undefined && field.trim() !== '';
+      }
+    });
+
+    if (isValid) {
+      dispatch(addNewNetworkAction(values));
+      navigate(ScreensEnum.Wallet);
+    } else {
+      setError('Please, fill all fields!');
+    }
   }, [name, rpc, chainId, gasTokenSymbol, explorer]);
 
   return (
@@ -57,7 +68,7 @@ export const AddNetworkScreen: FC = () => {
           style={AddNetworkScreenStyles.input}
         />
         <Input value={explorer} onChangeText={setExplorer} title="Explorer" style={AddNetworkScreenStyles.input} />
-
+        {error && <Text style={AddNetworkScreenStyles.error}>{error}</Text>}
         <Button onPress={handleAddNetwork} textStyle={AddNetworkScreenStyles.text}>
           Add
         </Button>

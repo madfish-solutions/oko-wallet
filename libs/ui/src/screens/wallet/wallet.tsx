@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
-import { NetworksDropdown } from '../../components/network-dropdown';
+import { NetworksDropdown } from '../../components/networks-dropdown';
 import { Title } from '../../components/title';
 import { useGetGasTokenDataSelector } from '../../store/wallet/wallet.selectors';
 

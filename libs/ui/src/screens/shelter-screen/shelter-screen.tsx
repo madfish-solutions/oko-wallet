@@ -38,9 +38,6 @@ export const ShelterScreen = () => {
 
   return (
     <View>
-      <Text>Welcome Shelter Content</Text>
-      <Text>Welcome Shelter Content</Text>
-      <Text>Welcome Shelter Content</Text>
       <View style={ShelterStyles.container}>
         <Text style={ShelterStyles.seedHeader}>First of all, set your password:</Text>
         <TextInput

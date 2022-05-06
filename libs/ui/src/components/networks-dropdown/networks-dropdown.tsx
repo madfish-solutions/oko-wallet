@@ -6,7 +6,7 @@ import { changeNetworkAction } from '../../store/settings/settings.actions';
 import { useGetAllNetworksNameSelector, useGetNetworkSelector } from '../../store/settings/settings.selectors';
 import { Dropdown } from '../dropdown';
 
-import { NetworksDropdownStyles } from './network-dropdown.styles';
+import { NetworksDropdownStyles } from './networks-dropdown.styles';
 
 type NetworksDropdownProps = {
   style?: StyleProp<TextStyle>;

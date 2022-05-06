@@ -11,5 +11,9 @@ export const AddNetworkScreenStyles = StyleSheet.create({
   },
   text: {
     color: '#fff'
+  },
+  error: {
+    marginBottom: 8,
+    color: 'red'
   }
 });
