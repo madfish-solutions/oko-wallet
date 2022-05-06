@@ -41,6 +41,8 @@ export const AddNetwork: FC = () => {
     const isValid = Object.values(values).every(field => {
       if (typeof field === 'string') {
         return field.trim() !== undefined && field.trim() !== '';
+      } else {
+        return field !== undefined;
       }
     });
 
