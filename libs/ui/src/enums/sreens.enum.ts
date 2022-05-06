@@ -1,15 +1,15 @@
 export enum ScreensEnum {
-  Welcome = 'Welcome',
-  Test = 'Test',
-  Inner = 'Inner',
-  GenerateHdAccount = 'Generate Hd Account',
-  Shelter = 'Shelter'
+  ImportAccount = 'ImportAccount',
+  Receive = 'Receive',
+  Send = 'Send',
+  Settings = 'Settings',
+  Wallet = 'Wallet'
 }
 
 export type ScreensParamList = {
-  [ScreensEnum.Welcome]: undefined;
-  [ScreensEnum.Test]: undefined;
-  [ScreensEnum.Inner]: undefined;
-  [ScreensEnum.GenerateHdAccount]: undefined;
-  [ScreensEnum.Shelter]: undefined;
+  [ScreensEnum.ImportAccount]: undefined;
+  [ScreensEnum.Receive]: undefined;
+  [ScreensEnum.Send]: undefined;
+  [ScreensEnum.Settings]: undefined;
+  [ScreensEnum.Wallet]: undefined;
 };

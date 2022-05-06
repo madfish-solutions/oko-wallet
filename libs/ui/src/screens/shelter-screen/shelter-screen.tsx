@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 
-import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { Shelter } from '../../shelter/shelter';
 import { generateSeed } from '../../utils/keys.util';
 
@@ -39,7 +38,6 @@ export const ShelterScreen = () => {
 
   return (
     <View>
-      <NavigationBar />
       <Text>Welcome Shelter Content</Text>
       <Text>Welcome Shelter Content</Text>
       <Text>Welcome Shelter Content</Text>
