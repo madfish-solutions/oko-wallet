@@ -7,7 +7,7 @@ import { generateSeed } from '../../utils/keys.util';
 
 import { ShelterStyles } from './shelter-screen.styles';
 
-const SEED_PHRASE_KEY = 'seedPhrase';
+const KEY = 'sensetiveData';
 
 export const ShelterScreen = () => {
   const [seed, setSeed] = useState('');
@@ -25,9 +25,9 @@ export const ShelterScreen = () => {
     }
   };
 
-  const dectyptButton = async () => {
+  const decryptButton = async () => {
     try {
-      Shelter.decryptSensitiveData(password, SEED_PHRASE_KEY).then(newDecrypted => setDecrypt(newDecrypted));
+      Shelter.decryptSensitiveData(password, KEY).then(newDecrypted => setDecrypt(newDecrypted));
     } catch {
       console.log('Failed to decrypt seed Phrase');
     }
@@ -61,7 +61,7 @@ export const ShelterScreen = () => {
           value={password}
           placeholder="type password"
         />
-        <Button onPress={() => dectyptButton()} title="Decrypt" />
+        <Button onPress={() => decryptButton()} title="Decrypt" />
         {decrypted !== '' && <Text> DECRYPTED:</Text>}
         <Text style={ShelterStyles.seed}>{decrypted}</Text>
       </View>
