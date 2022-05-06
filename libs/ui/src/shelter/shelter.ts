@@ -1,4 +1,4 @@
-import { hashPassword } from '../sha256/generateHash';
+import { hashPassword } from '../sha256/generate-hash';
 import { decrypt } from '../themis/decrypt';
 import { encrypt } from '../themis/encrypt';
 import { setStoredValue } from '../utils/store.util';
