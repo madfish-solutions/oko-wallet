@@ -2,7 +2,7 @@ import { secureCellSealWithPassphraseDecrypt64 } from 'react-native-themis';
 
 import { getStoredValue, StoredSensetiveData } from '../utils/store.util.native';
 
-export const decrypt = async (passwordHash: string, key: string) => {
+export const decrypt = async (key: string, passwordHash: string) => {
   const encryptedData = await getStoredValue<StoredSensetiveData>(key);
   if (encryptedData !== undefined) {
     const decrypted = await secureCellSealWithPassphraseDecrypt64(
@@ -13,4 +13,5 @@ export const decrypt = async (passwordHash: string, key: string) => {
 
     return decrypted;
   }
+  throw Error('failed to decrypt message');
 };

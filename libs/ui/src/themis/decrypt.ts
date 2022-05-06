@@ -2,7 +2,7 @@ import { initialized, SecureCellSeal } from 'wasm-themis';
 
 import { getStoredValue, StoredSensetiveData } from '../utils/store.util';
 
-export const decrypt = async (passwordHash: string, key: string) => {
+export const decrypt = async (key: string, passwordHash: string) => {
   await initialized;
 
   const encryptedData = await getStoredValue<StoredSensetiveData>(key);
@@ -15,7 +15,6 @@ export const decrypt = async (passwordHash: string, key: string) => {
     const decrypted = Buffer.from(decryptedArray).toString();
 
     return decrypted;
-  } else {
-    throw Error('failed to decrypt message');
   }
+  throw Error('failed to decrypt message');
 };

@@ -11,9 +11,8 @@ export const getStoredValue = async <StoredSensetiveData>(key: string): Promise<
   const rawKeychainData = await Keychain.getGenericPassword(getKeychainOptions(key));
   if (rawKeychainData !== false) {
     return JSON.parse(rawKeychainData.password);
-  } else {
-    throw Error(`No record in Keychain [${key}]`);
   }
+  throw Error(`No record in Keychain [${key}]`);
 };
 
 export const setStoredValue = async (key: string, value: string) => {

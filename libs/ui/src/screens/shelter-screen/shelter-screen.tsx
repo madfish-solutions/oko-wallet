@@ -18,7 +18,7 @@ export const ShelterScreen = () => {
   const passwordButton = async () => {
     try {
       setReadyForEncrypt(true);
-      await Shelter.saveSensitiveData(seed, newPassword);
+      await Shelter.saveSensitiveData({ [KEY]: seed }, newPassword);
     } catch (e) {
       console.log(e, 'failed to save seed phrase at localStorage');
     }
@@ -26,7 +26,7 @@ export const ShelterScreen = () => {
 
   const decryptButton = async () => {
     try {
-      Shelter.decryptSensitiveData(password, KEY).then(newDecrypted => setDecrypt(newDecrypted));
+      Shelter.decryptSensitiveData(KEY, password).then(newDecrypted => setDecrypt(newDecrypted));
     } catch {
       console.log('Failed to decrypt seed Phrase');
     }
