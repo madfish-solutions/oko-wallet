@@ -70,7 +70,7 @@ export const AddNetwork: FC = () => {
           style={AddNetworkStyles.input}
         />
         <Input value={explorer} onChangeText={setExplorer} title="Explorer" style={AddNetworkStyles.input} />
-        {error && <Text style={AddNetworkStyles.error}>{error}</Text>}
+        {!!error && <Text style={AddNetworkStyles.error}>{error}</Text>}
         <Button onPress={handleAddNetwork} textStyle={AddNetworkStyles.text}>
           Add
         </Button>
