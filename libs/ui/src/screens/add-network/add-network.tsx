@@ -12,9 +12,9 @@ import { useNavigation } from '../../hooks/use-navigation.hook';
 import { addNewNetworkAction } from '../../store/settings/settings.actions';
 import { NetworkType } from '../../types/networks.type';
 
-import { AddNetworkScreenStyles } from './add-network-screen.styles';
+import { AddNetworkStyles } from './add-network.styles';
 
-export const AddNetworkScreen: FC = () => {
+export const AddNetwork: FC = () => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
 
@@ -57,19 +57,19 @@ export const AddNetworkScreen: FC = () => {
       <NavigationBar />
       <Title>Add network</Title>
 
-      <View style={AddNetworkScreenStyles.form}>
-        <Input value={name} onChangeText={setName} title="Name" style={AddNetworkScreenStyles.input} />
-        <Input value={rpc} onChangeText={setRpc} title="Rpc url" style={AddNetworkScreenStyles.input} />
-        <Input value={chainId} onChangeText={setChainId} title="Chain id" style={AddNetworkScreenStyles.input} />
+      <View style={AddNetworkStyles.form}>
+        <Input value={name} onChangeText={setName} title="Name" style={AddNetworkStyles.input} />
+        <Input value={rpc} onChangeText={setRpc} title="Rpc url" style={AddNetworkStyles.input} />
+        <Input value={chainId} onChangeText={setChainId} title="Chain id" style={AddNetworkStyles.input} />
         <Input
           value={gasTokenSymbol}
           onChangeText={setGasTokenSymbol}
           title="Token symbol"
-          style={AddNetworkScreenStyles.input}
+          style={AddNetworkStyles.input}
         />
-        <Input value={explorer} onChangeText={setExplorer} title="Explorer" style={AddNetworkScreenStyles.input} />
-        {error && <Text style={AddNetworkScreenStyles.error}>{error}</Text>}
-        <Button onPress={handleAddNetwork} textStyle={AddNetworkScreenStyles.text}>
+        <Input value={explorer} onChangeText={setExplorer} title="Explorer" style={AddNetworkStyles.input} />
+        {error && <Text style={AddNetworkStyles.error}>{error}</Text>}
+        <Button onPress={handleAddNetwork} textStyle={AddNetworkStyles.text}>
           Add
         </Button>
       </View>

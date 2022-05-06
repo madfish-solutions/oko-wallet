@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const AddNetworkScreenStyles = StyleSheet.create({
+export const AddNetworkStyles = StyleSheet.create({
   form: {
     display: 'flex',
     alignItems: 'center',
