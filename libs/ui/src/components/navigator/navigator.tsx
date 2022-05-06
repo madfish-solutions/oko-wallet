@@ -1,20 +1,40 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { AddNetworkScreen } from '../../screens/add-network-screen/add-network-screen';
-import { SettingsScreen } from '../../screens/settings-screen/settings-screen';
-import { WalletScreen } from '../../screens/wallet-screen/wallet-screen';
+import { ImportAccount } from '../../screens/import-account/import-account';
+import { Receive } from '../../screens/receive/receive';
+import { Send } from '../../screens/send/send';
+import { Settings } from '../../screens/settings/settings';
+import { Wallet } from '../../screens/wallet/wallet';
 
 const Stack = createNativeStackNavigator<ScreensParamList>();
 
-export const Navigator: FC = () => (
-  <NavigationContainer>
-    <Stack.Navigator>
-      <Stack.Screen name={ScreensEnum.Wallet} component={WalletScreen} />
-      <Stack.Screen name={ScreensEnum.Settings} component={SettingsScreen} />
-      <Stack.Screen name={ScreensEnum.AddNetwork} component={AddNetworkScreen} />
-    </Stack.Navigator>
-  </NavigationContainer>
-);
+export const Navigator: FC = () => {
+  const [isAuthorised, setIsAuthorised] = useState(false);
+
+  const handleAuthorisation = () => setIsAuthorised(true);
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        {!isAuthorised && (
+          <Stack.Screen name={ScreensEnum.ImportAccount}>
+            {props => <ImportAccount {...props} handleAuthorisation={handleAuthorisation} />}
+          </Stack.Screen>
+        )}
+        {isAuthorised && (
+          <>
+            <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
+            <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
+            <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
+            <Stack.Screen name={ScreensEnum.AddNetwork} component={AddNetworkScreen} />
+            <Stack.Screen name={ScreensEnum.Send} component={Send} />
+          </>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
