@@ -4,7 +4,7 @@ export const WalletScreenStyles = StyleSheet.create({
   root: {
     padding: 12
   },
-  dropdown: {
+  marginBottom: {
     marginBottom: 24
   }
 });

@@ -5,8 +5,7 @@ export const BackStyles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 12,
-    height: 32
+    height: 38
   },
   primary: {
     width: 170,

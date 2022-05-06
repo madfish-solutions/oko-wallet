@@ -19,7 +19,7 @@ export const DropdownStyles = StyleSheet.create({
   },
   dropdown: {
     position: 'absolute',
-    top: 'calc(100% + 4px)',
+    top: '110%',
     display: 'flex',
     width: '100%',
     paddingTop: 12,

@@ -19,8 +19,8 @@ export const WalletScreen = () => {
       <NavigationBar />
       <Title>Wallet</Title>
       <View style={WalletScreenStyles.root}>
-        <NetworksDropdown style={WalletScreenStyles.dropdown} />
-        <Text>{`Balance: ${getGasTokenBalance()}`}</Text>
+        <Text style={WalletScreenStyles.marginBottom}>{`Balance: ${getGasTokenBalance()}`}</Text>
+        <NetworksDropdown />
       </View>
     </View>
   );
