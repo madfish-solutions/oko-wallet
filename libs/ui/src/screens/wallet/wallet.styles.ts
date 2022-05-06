@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const WalletScreenStyles = StyleSheet.create({
+export const WalletStyles = StyleSheet.create({
   root: {
     padding: 12
   },

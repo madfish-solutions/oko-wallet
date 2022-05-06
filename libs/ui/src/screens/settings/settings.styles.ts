@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const SettingsScreenStyles = StyleSheet.create({
+export const SettingsStyles = StyleSheet.create({
   button: {
     textDecorationLine: 'underline'
   }

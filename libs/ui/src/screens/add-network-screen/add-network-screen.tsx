@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
@@ -14,7 +14,7 @@ import { NetworkType } from '../../types/networks.type';
 
 import { AddNetworkScreenStyles } from './add-network-screen.styles';
 
-export const AddNetworkScreen = () => {
+export const AddNetworkScreen: FC = () => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
 
