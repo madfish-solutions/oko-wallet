@@ -14,6 +14,4 @@ export const getStoredValue = async <StoredSensetiveData>(key: string): Promise<
   throw Error(`No record in Keychain [${key}]`);
 };
 
-export const setStoredValue = async (key: string, value: string) => {
-  localStorage.setItem(key, value);
-};
+export const setStoredValue = async (key: string, value: string) => localStorage.setItem(key, value);
