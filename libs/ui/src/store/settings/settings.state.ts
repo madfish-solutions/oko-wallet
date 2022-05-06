@@ -1,13 +1,17 @@
-import { NetworksNameEnum } from '../../enums/network.enum';
+import { NETWORKS } from '../../constants/networks';
+import { NetworksNameEnum } from '../../enums/networks.enum';
+import { NetworksType } from '../../types/networks.type';
 
 export interface SettingsRootState {
   settings: SettingsState;
 }
 
 export interface SettingsState {
-  network: string;
+  networks: NetworksType;
+  selectedNetwork: string;
 }
 
 export const settingsInitialState: SettingsState = {
-  network: NetworksNameEnum.KlaytnMainnet
+  networks: NETWORKS,
+  selectedNetwork: NETWORKS[NetworksNameEnum.KlaytnMainnet].name
 };

@@ -5,3 +5,19 @@ export const createActions = <CreatePayload = void, SuccessPayload = void, FailP
   success: createAction<SuccessPayload>(`${type}-SUCCESS`),
   fail: createAction<FailPayload>(`${type}-FAIL`)
 });
+
+export class Action {
+  node: string;
+
+  constructor(node: string) {
+    this.node = node;
+  }
+
+  generateAction<T>(name: string) {
+    return createAction<T>(`${this.node}/${name}`);
+  }
+
+  generateActions<S, T, A>(name: string) {
+    return createActions<S, T, A>(`${this.node}/${name}`);
+  }
+}

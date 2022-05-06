@@ -1,10 +1,7 @@
-import { createAction } from '@reduxjs/toolkit';
-
 import { TokenWithBalanceType } from '../../types/token.type';
-import { createActions } from '../utils/action.utils';
+import { Action } from '../utils/action.utils';
 
-export const generateHDAccount = createAction('wallet/GENERATE_HD_ACCOUNT');
+const { generateAction, generateActions } = new Action('wallet');
 
-export const getGasTokenBalanceAction = createActions<void, TokenWithBalanceType, string>(
-  'wallet/GET_GAS_TOKEN_BALANCE'
-);
+export const generateHDAccount = generateAction('GENERATE_HD_ACCOUNT');
+export const getGasTokenBalanceAction = generateActions<void, TokenWithBalanceType, string>('GET_GAS_TOKEN_BALANCE');

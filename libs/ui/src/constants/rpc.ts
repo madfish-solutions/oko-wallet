@@ -1,4 +1,4 @@
-import { NetworksNameEnum, RpcEnum } from '../enums/network.enum';
+import { NetworksNameEnum, RpcEnum } from '../enums/networks.enum';
 
 export const RpcUrl = {
   [NetworksNameEnum.KlaytnMainnet]: RpcEnum.KlaytnMainnet,

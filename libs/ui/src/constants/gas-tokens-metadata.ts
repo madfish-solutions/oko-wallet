@@ -1,4 +1,4 @@
-import { NetworksNameEnum } from '../enums/network.enum';
+import { NetworksNameEnum } from '../enums/networks.enum';
 import { TokenType } from '../types/token.type';
 
 export const GasTokensMetadata: Record<NetworksNameEnum, TokenType> = {

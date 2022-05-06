@@ -21,5 +21,5 @@ export enum RpcEnum {
   Ethereum = 'https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
   BinanceSmartChain = 'https://bsc-dataseed.binance.org/',
   Moonbeam = 'https://rpc.api.moonbeam.network',
-  Tezos = 'https://mainnet.api.tez.ie'
+  Tezos = 'https://mainnet-tezos.giganode.io'
 }

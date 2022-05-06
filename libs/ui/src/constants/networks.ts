@@ -1,4 +1,4 @@
-import { BlockExplorerEnum, NetworksNameEnum } from '../enums/network.enum';
+import { BlockExplorerEnum, NetworksNameEnum } from '../enums/networks.enum';
 import { NetworksType } from '../types/networks.type';
 
 import { GasTokensMetadata } from './gas-tokens-metadata';
