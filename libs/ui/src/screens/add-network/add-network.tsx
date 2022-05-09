@@ -25,7 +25,17 @@ export const AddNetwork: FC = () => {
   const [explorer, setExplorer] = useState('');
   const [error, setError] = useState('');
 
-  const handleAddNetwork = useCallback(() => {
+  const validateSubmitValue = (values: NetworkType) => {
+    return Object.values(values).every(field => {
+      if (typeof field === 'string') {
+        return field.trim() !== undefined && field.trim() !== '';
+      } else {
+        return field !== undefined;
+      }
+    });
+  };
+
+  const handleSubmitNewNetwork = useCallback(() => {
     const values: NetworkType = {
       name,
       rpc,
@@ -38,15 +48,7 @@ export const AddNetwork: FC = () => {
       explorer
     };
 
-    const isValid = Object.values(values).every(field => {
-      if (typeof field === 'string') {
-        return field.trim() !== undefined && field.trim() !== '';
-      } else {
-        return field !== undefined;
-      }
-    });
-
-    if (isValid) {
+    if (validateSubmitValue(values)) {
       dispatch(addNewNetworkAction(values));
       navigate(ScreensEnum.Wallet);
     } else {
@@ -71,7 +73,7 @@ export const AddNetwork: FC = () => {
         />
         <Input value={explorer} onChangeText={setExplorer} title="Explorer" style={AddNetworkStyles.input} />
         {!!error && <Text style={AddNetworkStyles.error}>{error}</Text>}
-        <Button onPress={handleAddNetwork} textStyle={AddNetworkStyles.text}>
+        <Button onPress={handleSubmitNewNetwork} textStyle={AddNetworkStyles.text}>
           Add
         </Button>
       </View>
