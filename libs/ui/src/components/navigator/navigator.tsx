@@ -8,6 +8,7 @@ import { Receive } from '../../screens/receive/receive';
 import { Send } from '../../screens/send/send';
 import { Settings } from '../../screens/settings/settings';
 import { Wallet } from '../../screens/wallet/wallet';
+import { TokenList } from '../../screens/token-list/token-list';
 
 const Stack = createNativeStackNavigator<ScreensParamList>();
 
@@ -30,6 +31,7 @@ export const Navigator: FC = () => {
             <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
             <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
             <Stack.Screen name={ScreensEnum.Send} component={Send} />
+            <Stack.Screen name={ScreensEnum.TokenList} component={TokenList} />
           </>
         )}
       </Stack.Navigator>

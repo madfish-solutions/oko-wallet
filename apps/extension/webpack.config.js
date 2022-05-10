@@ -68,16 +68,18 @@ module.exports = {
     fallback: {
       crypto: false,
       fs: false,
-      http: false,
-      https: false,
+      http: require.resolve('stream-http'),
+      https: require.resolve('https-browserify'),
       net: false,
       path: false,
-      stream: require.resolve('readable-stream'),
+      stream: require.resolve('stream-browserify'),
+      buffer: require.resolve("buffer"),
       tls: false,
       util: false,
       url: false,
       zlib: false,
-      ws: false
+      ws: false,
+      os: require.resolve('os-browserify/browser'),
     }
   },
 
@@ -98,6 +100,10 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: 'public/index.html'
-    })
+    }),
+    new webpack.ProvidePlugin({
+      process: "process/browser",
+      Buffer: ["buffer", "Buffer"],
+    }),
   ]
 };

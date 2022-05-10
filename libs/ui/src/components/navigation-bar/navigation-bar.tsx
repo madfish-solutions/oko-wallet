@@ -23,6 +23,9 @@ export const NavigationBar = () => {
       <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigation.navigate(ScreensEnum.Receive)}>
         <Text style={NavigationBarStyles.buttonText}>Receive</Text>
       </TouchableOpacity>
+      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigation.navigate(ScreensEnum.TokenList)}>
+        <Text style={NavigationBarStyles.buttonText}>Token List</Text>
+      </TouchableOpacity>
     </View>
   );
 };
