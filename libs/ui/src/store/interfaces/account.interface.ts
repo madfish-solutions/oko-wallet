@@ -5,4 +5,5 @@ export interface AccountInterface {
   type: AccountTypeEnum;
   publicKey: string;
   publicKeyHash: string;
+  accountIndex: number;
 }

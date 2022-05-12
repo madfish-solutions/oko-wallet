@@ -5,7 +5,7 @@ import { initialAccount } from '../../mocks/account.interface.mock';
 
 import { WalletRootState, WalletState } from './wallet.state';
 
-export const useSelectedAccount = () => {
+export const useSelectedAccountSelector = () => {
   const wallet = useSelector<WalletRootState, WalletState>(({ wallet }) => wallet);
 
   return useMemo(
@@ -14,3 +14,6 @@ export const useSelectedAccount = () => {
     [wallet.selectedAccountPublicKeyHash]
   );
 };
+
+export const useAccountsSelector = () =>
+  useSelector<WalletRootState, WalletState['accounts']>(({ wallet }) => wallet.accounts);

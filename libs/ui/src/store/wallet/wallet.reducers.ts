@@ -1,14 +1,16 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { mockHdAccount } from '../../mocks/account.interface.mock';
-
-import { generateHDAccount } from './wallet.actions';
+import { generateHDAccountAction, switchAccountAction } from './wallet.actions';
 import { appInfoInitialState, WalletState } from './wallet.state';
 
 export const walletReducers = createReducer<WalletState>(appInfoInitialState, builder => {
-  builder.addCase(generateHDAccount, state => ({
+  builder.addCase(generateHDAccountAction.success, (state, { payload: account }) => ({
     ...state,
-    accounts: [mockHdAccount],
-    selectedAccountPublicKeyHash: mockHdAccount.publicKeyHash
+    accounts: [...state.accounts, account],
+    selectedAccountPublicKeyHash: account.publicKeyHash
+  }));
+  builder.addCase(switchAccountAction, (state, { payload: account }) => ({
+    ...state,
+    selectedAccountPublicKeyHash: account.publicKeyHash
   }));
 });
