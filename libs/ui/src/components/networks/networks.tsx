@@ -1,30 +1,26 @@
-import { nanoid } from '@reduxjs/toolkit';
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { changeNetworkAction, getGasTokenBalanceAction } from '../../store/wallet/wallet.actions';
-import { useGetAllNetworks, useGetSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
-import { NetworkInrerface } from '../../types/networks.type';
+import { NetworkInterface } from '../../interfaces/network.interface';
+import { changeSelectedNetworkAction, loadGasTokenBalanceAction } from '../../store/wallet/wallet.actions';
+import { useAllNetworksSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
 
 import { NetworksStyles } from './networks.styles';
 
 export const Networks: React.FC = () => {
   const dispatch = useDispatch();
 
-  const selectedNetwork = useGetSelectedNetworkSelector();
-  const networks = useGetAllNetworks();
+  const selectedNetwork = useSelectedNetworkSelector();
+  const networks = useAllNetworksSelector();
 
-  const handleNetworkSelect = useCallback(
-    (networkParam: NetworkInrerface) => {
-      dispatch(changeNetworkAction(networkParam.rpcUrl));
-    },
-    [selectedNetwork]
-  );
+  const handleNetworkSelect = (newSelectedNetwork: NetworkInterface) => {
+    dispatch(changeSelectedNetworkAction(newSelectedNetwork.rpcUrl));
+  };
 
   useEffect(() => {
-    dispatch(getGasTokenBalanceAction.submit());
-  }, [selectedNetwork]);
+    dispatch(loadGasTokenBalanceAction.submit());
+  }, [selectedNetwork.rpcUrl]);
 
   return (
     <View>
@@ -34,7 +30,11 @@ export const Networks: React.FC = () => {
 
       <View>
         {networks.map(network => (
-          <TouchableOpacity key={nanoid()} onPress={() => handleNetworkSelect(network)} style={NetworksStyles.network}>
+          <TouchableOpacity
+            key={network.rpcUrl}
+            onPress={() => handleNetworkSelect(network)}
+            style={NetworksStyles.network}
+          >
             <Text>{network.name}</Text>
           </TouchableOpacity>
         ))}

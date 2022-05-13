@@ -3,15 +3,15 @@ import { Text, View } from 'react-native';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { Networks } from '../../components/networks';
-import { useGetGasTokenDataSelector } from '../../store/wallet/wallet.selectors';
+import { useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
 
 import { WalletStyles } from './wallet.styles';
 
 export const Wallet = () => {
-  const { gasToken, gasTokenBalance } = useGetGasTokenDataSelector();
+  const { gasTokenMetadata, gasTokenBalance } = useSelectedNetworkSelector();
 
   const getGasTokenBalanceWithLoading = () =>
-    gasTokenBalance.isLoading ? '...' : `${gasTokenBalance.data} ${gasToken.symbol}`;
+    gasTokenBalance.isLoading ? '...' : `${gasTokenBalance.data} ${gasTokenMetadata.symbol}`;
 
   return (
     <View>

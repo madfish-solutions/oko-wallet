@@ -1,10 +1,10 @@
 import { Observable, withLatestFrom } from 'rxjs';
 
-import { NETWORKS } from '../constants/networks';
+import { NETWORKS_DEFAULT_LIST } from '../constants/networks';
+import { AccountInterface } from '../interfaces/account.interface';
+import { NetworkInterface } from '../interfaces/network.interface';
 import { initialAccount } from '../mocks/account.interface.mock';
-import { AccountInterface } from '../store/interfaces/account.interface';
 import { WalletRootState } from '../store/wallet/wallet.state';
-import { NetworkInrerface } from '../types/networks.type';
 
 export const withSelectedAccount =
   <T>(state$: Observable<WalletRootState>) =>
@@ -23,9 +23,9 @@ export const withSelectedNetwork =
   <T>(state$: Observable<WalletRootState>) =>
   (observable$: Observable<T>) =>
     observable$.pipe(
-      withLatestFrom(state$, (value, { wallet }): [T, NetworkInrerface] => {
+      withLatestFrom(state$, (value, { wallet }): [T, NetworkInterface] => {
         const selectedNetwork =
-          wallet.networks.find(network => network.rpcUrl === wallet.selectedNetwork) ?? NETWORKS[0];
+          wallet.networks.find(network => network.rpcUrl === wallet.selectedNetworkRpcUrl) ?? NETWORKS_DEFAULT_LIST[0];
 
         return [value, selectedNetwork];
       })

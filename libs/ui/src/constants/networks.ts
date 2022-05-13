@@ -1,50 +1,83 @@
-import { BlockExplorerEnum } from '../enums/networks.enum';
-import { NetworkInrerface } from '../types/networks.type';
+import { NetworkInterface } from '../interfaces/network.interface';
+import { createEntity } from '../store/utils/entity.utils';
 
-import { GasTokensMetadata } from './gas-tokens-metadata';
-import { RpcUrl } from './rpc';
-
-export const NETWORKS: NetworkInrerface[] = [
+export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
   {
     chainId: '8217',
-    rpcUrl: RpcUrl['Klaytn Mainnet'],
+    rpcUrl: 'https://kaikas.cypress.klaytn.net:8651/',
     name: 'Klaytn Mainnet',
-    gasToken: GasTokensMetadata['Klaytn Mainnet'],
-    explorerUrl: BlockExplorerEnum.KlaytnScope
+    gasTokenMetadata: {
+      name: 'Klaytn Token',
+      symbol: 'KLAY',
+      decimals: 18,
+      thumbnailUri: ''
+    },
+    gasTokenBalance: createEntity('0'),
+    explorerUrl: 'https://scope.klaytn.com/'
   },
   {
     chainId: '1001',
-    rpcUrl: RpcUrl['Baobab Testnet'],
+    rpcUrl: 'https://api.baobab.klaytn.net:8651',
     name: 'Baobab Testnet',
-    gasToken: GasTokensMetadata['Baobab Testnet'],
-    explorerUrl: BlockExplorerEnum.KlaytnScope
+    gasTokenMetadata: {
+      name: 'Klaytn Token',
+      symbol: 'KLAY',
+      decimals: 18,
+      thumbnailUri: ''
+    },
+    gasTokenBalance: createEntity('0'),
+    explorerUrl: 'https://baobab.scope.klaytn.com/'
   },
   {
     chainId: '1',
-    rpcUrl: RpcUrl.Ethereum,
+    rpcUrl: 'https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
     name: 'Ethereum',
-    gasToken: GasTokensMetadata.Ethereum,
-    explorerUrl: BlockExplorerEnum.Etherscan
+    gasTokenMetadata: {
+      name: 'Ether Token',
+      symbol: 'ETH',
+      decimals: 18,
+      thumbnailUri: ''
+    },
+    gasTokenBalance: createEntity('0'),
+    explorerUrl: 'https://etherscan.io'
   },
   {
     chainId: '56',
-    rpcUrl: RpcUrl['Binance Smart Chain'],
+    rpcUrl: 'https://bsc-dataseed.binance.org/',
     name: 'Binance Smart Chain',
-    gasToken: GasTokensMetadata['Binance Smart Chain'],
-    explorerUrl: BlockExplorerEnum.Bscscan
+    gasTokenMetadata: {
+      name: 'Binance Coin',
+      symbol: 'BNB',
+      decimals: 8,
+      thumbnailUri: ''
+    },
+    gasTokenBalance: createEntity('0'),
+    explorerUrl: 'https://bscscan.com'
   },
   {
     chainId: '1284',
-    rpcUrl: RpcUrl.Moonbeam,
+    rpcUrl: 'https://rpc.api.moonbeam.network',
     name: 'Moonbeam',
-    gasToken: GasTokensMetadata.Moonbeam,
-    explorerUrl: BlockExplorerEnum.Moonscan
+    gasTokenMetadata: {
+      name: 'Moonbeam Token',
+      symbol: 'GLMR',
+      decimals: 9,
+      thumbnailUri: ''
+    },
+    gasTokenBalance: createEntity('0'),
+    explorerUrl: 'https://moonbeam.moonscan.io/'
   },
   {
     chainId: 'NetXdQprcVkpaWU',
-    rpcUrl: RpcUrl.Tezos,
+    rpcUrl: 'https://mainnet-tezos.giganode.io',
     name: 'Tezos',
-    gasToken: GasTokensMetadata.Tezos,
-    explorerUrl: BlockExplorerEnum.Tzkt
+    gasTokenMetadata: {
+      name: 'Tezos Token',
+      symbol: 'Tezos',
+      decimals: 6,
+      thumbnailUri: ''
+    },
+    gasTokenBalance: createEntity('0'),
+    explorerUrl: 'https://tzkt.io/'
   }
 ];

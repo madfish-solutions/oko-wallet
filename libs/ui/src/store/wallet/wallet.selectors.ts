@@ -1,9 +1,8 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { NETWORKS } from '../../constants/networks';
+import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { initialAccount } from '../../mocks/account.interface.mock';
-import { TokenWithEntityBalanceType } from '../../types/token.type';
 
 import { WalletRootState, WalletState } from './wallet.state';
 
@@ -16,19 +15,15 @@ export const useSelectedAccountSelector = () => {
     [wallet.selectedAccountPublicKeyHash]
   );
 };
-export const useGetGasTokenDataSelector = () =>
-  useSelector<WalletRootState, TokenWithEntityBalanceType>(({ wallet }) => ({
-    gasToken: wallet.gasToken,
-    gasTokenBalance: wallet.gasTokenBalance
-  }));
 
-export const useGetSelectedNetworkSelector = () => {
+export const useSelectedNetworkSelector = () => {
   const wallet = useSelector<WalletRootState, WalletState>(({ wallet }) => wallet);
 
   return useMemo(
-    () => wallet.networks.find(network => network.rpcUrl === wallet.selectedNetwork) ?? NETWORKS[0],
-    [wallet.selectedNetwork, wallet.networks]
+    () => wallet.networks.find(network => network.rpcUrl === wallet.selectedNetworkRpcUrl) ?? NETWORKS_DEFAULT_LIST[0],
+    [wallet.selectedNetworkRpcUrl, wallet.networks]
   );
 };
-export const useGetAllNetworks = () =>
+
+export const useAllNetworksSelector = () =>
   useSelector<WalletRootState, WalletState['networks']>(({ wallet }) => wallet.networks);

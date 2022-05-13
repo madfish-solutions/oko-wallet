@@ -4,12 +4,11 @@ import { useDispatch } from 'react-redux';
 
 import { Input } from '../../components/input';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
-import { GasTokensMetadata } from '../../constants/gas-tokens-metadata';
-import { RpcEnum } from '../../enums/networks.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
+import { NetworkInterface } from '../../interfaces/network.interface';
+import { createEntity } from '../../store/utils/entity.utils';
 import { addNewNetworkAction } from '../../store/wallet/wallet.actions';
-import { NetworkInrerface } from '../../types/networks.type';
 
 import { AddNetworkStyles } from './add-network.styles';
 
@@ -18,13 +17,13 @@ export const AddNetwork: FC = () => {
   const { navigate } = useNavigation();
 
   const [name, setName] = useState('');
-  const [rpcUrl, setRpcUrl] = useState(RpcEnum.KlaytnMainnet as string);
+  const [rpcUrl, setRpcUrl] = useState('');
   const [chainId, setChainId] = useState('');
   const [gasTokenSymbol, setGasTokenSymbol] = useState('');
   const [explorerUrl, setExplorerUrl] = useState('');
   const [error, setError] = useState('');
 
-  const validateSubmitValue = (values: NetworkInrerface) => {
+  const validateSubmitValue = (values: NetworkInterface) => {
     return Object.values(values).every(field => {
       if (typeof field === 'string') {
         return field.trim() !== undefined && field.trim() !== '';
@@ -35,15 +34,17 @@ export const AddNetwork: FC = () => {
   };
 
   const handleSubmitNewNetwork = useCallback(() => {
-    const values: NetworkInrerface = {
+    const values: NetworkInterface = {
       name,
       rpcUrl,
       chainId,
-      gasToken: {
+      gasTokenMetadata: {
         // TODO: Get token metadata from api
-        ...GasTokensMetadata['Klaytn Mainnet'],
-        symbol: gasTokenSymbol
+        name: 'Bitcoin',
+        symbol: gasTokenSymbol,
+        decimals: 8
       },
+      gasTokenBalance: createEntity('0'),
       explorerUrl
     };
 
