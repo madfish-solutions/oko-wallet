@@ -8,8 +8,8 @@ import { GasTokensMetadata } from '../../constants/gas-tokens-metadata';
 import { RpcEnum } from '../../enums/networks.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
-import { addNewNetworkAction } from '../../store/settings/settings.actions';
-import { NetworkType } from '../../types/networks.type';
+import { addNewNetworkAction } from '../../store/wallet/wallet.actions';
+import { NetworkInrerface } from '../../types/networks.type';
 
 import { AddNetworkStyles } from './add-network.styles';
 
@@ -18,13 +18,13 @@ export const AddNetwork: FC = () => {
   const { navigate } = useNavigation();
 
   const [name, setName] = useState('');
-  const [rpc, setRpc] = useState(RpcEnum.KlaytnMainnet as string);
+  const [rpcUrl, setRpcUrl] = useState(RpcEnum.KlaytnMainnet as string);
   const [chainId, setChainId] = useState('');
   const [gasTokenSymbol, setGasTokenSymbol] = useState('');
-  const [explorer, setExplorer] = useState('');
+  const [explorerUrl, setExplorerUrl] = useState('');
   const [error, setError] = useState('');
 
-  const validateSubmitValue = (values: NetworkType) => {
+  const validateSubmitValue = (values: NetworkInrerface) => {
     return Object.values(values).every(field => {
       if (typeof field === 'string') {
         return field.trim() !== undefined && field.trim() !== '';
@@ -35,16 +35,16 @@ export const AddNetwork: FC = () => {
   };
 
   const handleSubmitNewNetwork = useCallback(() => {
-    const values: NetworkType = {
+    const values: NetworkInrerface = {
       name,
-      rpc,
+      rpcUrl,
       chainId,
       gasToken: {
         // TODO: Get token metadata from api
         ...GasTokensMetadata['Klaytn Mainnet'],
         symbol: gasTokenSymbol
       },
-      explorer
+      explorerUrl
     };
 
     if (validateSubmitValue(values)) {
@@ -53,7 +53,7 @@ export const AddNetwork: FC = () => {
     } else {
       setError('Please, fill all fields!');
     }
-  }, [name, rpc, chainId, gasTokenSymbol, explorer]);
+  }, [name, rpcUrl, chainId, gasTokenSymbol, explorerUrl]);
 
   return (
     <View>
@@ -62,7 +62,7 @@ export const AddNetwork: FC = () => {
 
       <View style={AddNetworkStyles.form}>
         <Input value={name} onChangeText={setName} title="Name" style={AddNetworkStyles.input} />
-        <Input value={rpc} onChangeText={setRpc} title="Rpc url" style={AddNetworkStyles.input} />
+        <Input value={rpcUrl} onChangeText={setRpcUrl} title="Rpc url" style={AddNetworkStyles.input} />
         <Input value={chainId} onChangeText={setChainId} title="Chain id" style={AddNetworkStyles.input} />
         <Input
           value={gasTokenSymbol}
@@ -70,7 +70,7 @@ export const AddNetwork: FC = () => {
           title="Token symbol"
           style={AddNetworkStyles.input}
         />
-        <Input value={explorer} onChangeText={setExplorer} title="Explorer" style={AddNetworkStyles.input} />
+        <Input value={explorerUrl} onChangeText={setExplorerUrl} title="Explorer" style={AddNetworkStyles.input} />
         {!!error && <Text style={AddNetworkStyles.error}>{error}</Text>}
         <Button title="Add" onPress={handleSubmitNewNetwork} />
       </View>

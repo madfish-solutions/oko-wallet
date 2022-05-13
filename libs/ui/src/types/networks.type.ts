@@ -1,11 +1,9 @@
 import { TokenType } from './token.type';
 
-export type NetworkType = {
-  chainId: number | string;
-  rpc: string;
+export interface NetworkInrerface {
+  chainId: string;
+  rpcUrl: string;
   name: string;
   gasToken: TokenType;
-  explorer?: string;
-};
-
-export type NetworksType = Record<string, NetworkType>;
+  explorerUrl?: string;
+}

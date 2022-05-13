@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { createEntity } from '../utils/entity.utils';
 
-import { getGasTokenBalanceAction } from './wallet.actions';
+import { addNewNetworkAction, changeNetworkAction, getGasTokenBalanceAction } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 
 export const walletReducers = createReducer<WalletState>(walletInitialState, builder => {
@@ -18,5 +18,15 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
   builder.addCase(getGasTokenBalanceAction.fail, (state, { payload: error }) => ({
     ...state,
     gasTokenBalance: createEntity(state.gasTokenBalance.data, false, error)
+  }));
+
+  builder.addCase(changeNetworkAction, (state, { payload: networkRpcUrl }) => ({
+    ...state,
+    selectedNetwork: networkRpcUrl
+  }));
+  builder.addCase(addNewNetworkAction, (state, { payload: network }) => ({
+    ...state,
+    networks: [...state.networks, network],
+    selectedNetwork: network.rpcUrl
   }));
 });

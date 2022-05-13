@@ -3,12 +3,12 @@ import { getDefaultProvider } from 'ethers';
 import { from, map } from 'rxjs';
 
 import { NetworksNameEnum } from '../enums/networks.enum';
-import { NetworkType } from '../types/networks.type';
+import { NetworkInrerface } from '../types/networks.type';
 
 import { convertUnits } from './convertUnits';
 
-export const getGasTokenBalance$ = (network: NetworkType, pkh: string) => {
-  const { gasToken, rpc, name: networkName } = network;
+export const getGasTokenBalance$ = (network: NetworkInrerface, pkh: string) => {
+  const { gasToken, rpcUrl, name: networkName } = network;
 
   const getConvertedBalancePure = (balance: number): string =>
     convertUnits(balance, gasToken.decimals)
@@ -19,7 +19,7 @@ export const getGasTokenBalance$ = (network: NetworkType, pkh: string) => {
     // TODO: Delete later
     const tzAddress = 'tz1XstX8fYXPY5JNV6M2p1yLD6VNjX38YuQP';
 
-    const tezosToolkit = new TezosToolkit(rpc);
+    const tezosToolkit = new TezosToolkit(rpcUrl);
 
     return from(tezosToolkit.tz.getBalance(tzAddress)).pipe(
       map(balance => ({
@@ -29,7 +29,7 @@ export const getGasTokenBalance$ = (network: NetworkType, pkh: string) => {
     );
   }
 
-  const provider = getDefaultProvider(rpc);
+  const provider = getDefaultProvider(rpcUrl);
 
   return from(provider.getBalance(pkh)).pipe(
     map(balance => ({

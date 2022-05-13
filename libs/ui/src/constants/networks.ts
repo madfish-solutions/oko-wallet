@@ -1,50 +1,50 @@
-import { BlockExplorerEnum, NetworksNameEnum } from '../enums/networks.enum';
-import { NetworksType } from '../types/networks.type';
+import { BlockExplorerEnum } from '../enums/networks.enum';
+import { NetworkInrerface } from '../types/networks.type';
 
 import { GasTokensMetadata } from './gas-tokens-metadata';
 import { RpcUrl } from './rpc';
 
-export const NETWORKS: NetworksType = {
-  [NetworksNameEnum.KlaytnMainnet]: {
-    chainId: 8217,
-    rpc: RpcUrl['Klaytn Mainnet'],
+export const NETWORKS: NetworkInrerface[] = [
+  {
+    chainId: '8217',
+    rpcUrl: RpcUrl['Klaytn Mainnet'],
     name: 'Klaytn Mainnet',
     gasToken: GasTokensMetadata['Klaytn Mainnet'],
-    explorer: BlockExplorerEnum.KlaytnScope
+    explorerUrl: BlockExplorerEnum.KlaytnScope
   },
-  [NetworksNameEnum.KlaytnBaobabTestnet]: {
-    chainId: 1001,
-    rpc: RpcUrl['Baobab Testnet'],
+  {
+    chainId: '1001',
+    rpcUrl: RpcUrl['Baobab Testnet'],
     name: 'Baobab Testnet',
     gasToken: GasTokensMetadata['Baobab Testnet'],
-    explorer: BlockExplorerEnum.KlaytnScope
+    explorerUrl: BlockExplorerEnum.KlaytnScope
   },
-  [NetworksNameEnum.Ethereum]: {
-    chainId: 1,
-    rpc: RpcUrl.Ethereum,
+  {
+    chainId: '1',
+    rpcUrl: RpcUrl.Ethereum,
     name: 'Ethereum',
     gasToken: GasTokensMetadata.Ethereum,
-    explorer: BlockExplorerEnum.Etherscan
+    explorerUrl: BlockExplorerEnum.Etherscan
   },
-  [NetworksNameEnum.BinanceSmartChain]: {
-    chainId: 56,
-    rpc: RpcUrl['Binance Smart Chain'],
+  {
+    chainId: '56',
+    rpcUrl: RpcUrl['Binance Smart Chain'],
     name: 'Binance Smart Chain',
     gasToken: GasTokensMetadata['Binance Smart Chain'],
-    explorer: BlockExplorerEnum.Bscscan
+    explorerUrl: BlockExplorerEnum.Bscscan
   },
-  [NetworksNameEnum.Moonbeam]: {
-    chainId: 1284,
-    rpc: RpcUrl.Moonbeam,
+  {
+    chainId: '1284',
+    rpcUrl: RpcUrl.Moonbeam,
     name: 'Moonbeam',
     gasToken: GasTokensMetadata.Moonbeam,
-    explorer: BlockExplorerEnum.Moonscan
+    explorerUrl: BlockExplorerEnum.Moonscan
   },
-  [NetworksNameEnum.Tezos]: {
+  {
     chainId: 'NetXdQprcVkpaWU',
-    rpc: RpcUrl.Tezos,
+    rpcUrl: RpcUrl.Tezos,
     name: 'Tezos',
     gasToken: GasTokensMetadata.Tezos,
-    explorer: BlockExplorerEnum.Tzkt
+    explorerUrl: BlockExplorerEnum.Tzkt
   }
-};
+];

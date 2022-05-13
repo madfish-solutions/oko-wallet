@@ -3,39 +3,39 @@ import React, { useCallback, useEffect } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { changeNetworkAction } from '../../store/settings/settings.actions';
-import { useGetAllNetworksNameSelector, useGetNetworkSelector } from '../../store/settings/settings.selectors';
-import { getGasTokenBalanceAction } from '../../store/wallet/wallet.actions';
+import { changeNetworkAction, getGasTokenBalanceAction } from '../../store/wallet/wallet.actions';
+import { useGetAllNetworks, useGetSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
+import { NetworkInrerface } from '../../types/networks.type';
 
 import { NetworksStyles } from './networks.styles';
 
 export const Networks: React.FC = () => {
   const dispatch = useDispatch();
 
-  const network = useGetNetworkSelector();
-  const networksName = useGetAllNetworksNameSelector();
+  const selectedNetwork = useGetSelectedNetworkSelector();
+  const networks = useGetAllNetworks();
 
   const handleNetworkSelect = useCallback(
-    (network: string) => {
-      dispatch(changeNetworkAction(network));
+    (networkParam: NetworkInrerface) => {
+      dispatch(changeNetworkAction(networkParam.rpcUrl));
     },
-    [network]
+    [selectedNetwork]
   );
 
   useEffect(() => {
     dispatch(getGasTokenBalanceAction.submit());
-  }, []);
+  }, [selectedNetwork]);
 
   return (
     <View>
       <Text style={NetworksStyles.balanceWrapper}>
-        Current network: <Text style={NetworksStyles.balance}>{network}</Text>
+        Current network: <Text style={NetworksStyles.balance}>{selectedNetwork.name}</Text>
       </Text>
 
       <View>
-        {networksName.map(network => (
+        {networks.map(network => (
           <TouchableOpacity key={nanoid()} onPress={() => handleNetworkSelect(network)} style={NetworksStyles.network}>
-            <Text>{network}</Text>
+            <Text>{network.name}</Text>
           </TouchableOpacity>
         ))}
       </View>

@@ -4,8 +4,7 @@ import { Action } from 'ts-action';
 import { ofType } from 'ts-action-operators';
 
 import { getGasTokenBalance$ } from '../../utils/get-gas-token-balance';
-import { withSelectedNetwork } from '../../utils/settings.util';
-import { withSelectedAccount } from '../../utils/wallet.util';
+import { withSelectedAccount, withSelectedNetwork } from '../../utils/wallet.util';
 import { RootState } from '../store';
 
 import { getGasTokenBalanceAction } from './wallet.actions';
