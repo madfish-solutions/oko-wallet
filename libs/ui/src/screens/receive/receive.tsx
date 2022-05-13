@@ -1,11 +1,32 @@
-import React, { FC } from 'react';
-import { View, Text } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
+import React, { FC, useState } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import QRCode from 'react-native-qrcode-svg';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { useDelayedEffect } from '../../hooks/use-delayed-effect.hook';
+import { useSelectedAccount } from '../../store/wallet/wallet.selectors';
 
-export const Receive: FC = () => (
-  <View>
-    <NavigationBar />
-    <Text>Receive</Text>
-  </View>
-);
+export const Receive: FC = () => {
+  const [isCopied, setIsCopied] = useState(false);
+  const { publicKeyHash } = useSelectedAccount();
+
+  const handleCopyToClipboard = () => {
+    Clipboard.setString(publicKeyHash);
+    setIsCopied(true);
+  };
+
+  useDelayedEffect(() => setIsCopied(false), [isCopied]);
+
+  return (
+    <View>
+      <NavigationBar />
+      <QRCode value={publicKeyHash} />
+      <Text>{publicKeyHash}</Text>
+      <TouchableOpacity onPress={handleCopyToClipboard}>
+        <Text>Copy</Text>
+      </TouchableOpacity>
+      {isCopied && <Text>Copied!</Text>}
+    </View>
+  );
+};
