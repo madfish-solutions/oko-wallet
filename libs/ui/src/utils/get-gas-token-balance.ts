@@ -1,3 +1,4 @@
+import { TezosToolkit } from '@taquito/taquito';
 import { getDefaultProvider } from 'ethers';
 import { from, map } from 'rxjs';
 
@@ -5,8 +6,6 @@ import { NetworksNameEnum } from '../enums/networks.enum';
 import { NetworkType } from '../types/networks.type';
 
 import { convertUnits } from './convertUnits';
-import { readOnlySignerAccount } from './read-only.signer.util';
-import { createReadOnlyTezosToolkit } from './rpc/tezos-toolkit.utils';
 
 export const getGasTokenBalance$ = (network: NetworkType, pkh: string) => {
   const { gasToken, rpc, name: networkName } = network;
@@ -20,7 +19,9 @@ export const getGasTokenBalance$ = (network: NetworkType, pkh: string) => {
     // TODO: Delete later
     const tzAddress = 'tz1XstX8fYXPY5JNV6M2p1yLD6VNjX38YuQP';
 
-    return from(createReadOnlyTezosToolkit(rpc, readOnlySignerAccount).tz.getBalance(tzAddress)).pipe(
+    const tezosToolkit = new TezosToolkit(rpc);
+
+    return from(tezosToolkit.tz.getBalance(tzAddress)).pipe(
       map(balance => ({
         gasTokenBalance: getConvertedBalancePure(+balance),
         gasToken

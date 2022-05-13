@@ -15,7 +15,6 @@
     "@rnw-community/platform": "^0.10.0",
     "@rnw-community/shared": "^0.10.0",
     "@taquito/signer": "^12.1.0",
-    "@taquito/tzip12": "^12.1.0",
     "@taquito/utils": "^12.1.0",
     "bignumber.js": "^9.0.2",
     "bip39": "^3.0.4",
