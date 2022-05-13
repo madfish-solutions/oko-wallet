@@ -1,15 +1,9 @@
-import { AccountInterface } from '../interfaces/account.interface';
+import { WalletState } from './types';
 
-export interface WalletRootState {
-  wallet: WalletState;
-}
-
-export interface WalletState {
-  accounts: AccountInterface[];
-  selectedAccountPublicKeyHash: string;
-}
-
-export const appInfoInitialState: WalletState = {
+export const walletInitialState: WalletState = {
   accounts: [],
-  selectedAccountPublicKeyHash: ''
+  selectedAccountPublicKeyHash: '',
+  tokensMetadata: {},
+  settings: {},
+  selectedNetwork: 'Klaytn Mainnet'
 };
