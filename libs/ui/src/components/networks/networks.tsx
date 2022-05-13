@@ -1,24 +1,19 @@
+import { nanoid } from '@reduxjs/toolkit';
 import React, { useEffect, useState } from 'react';
-import { StyleProp, TextStyle } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { changeNetworkAction } from '../../store/settings/settings.actions';
 import { useGetAllNetworksNameSelector, useGetNetworkSelector } from '../../store/settings/settings.selectors';
-import { Dropdown } from '../dropdown';
 
-import { NetworksDropdownStyles } from './networks-dropdown.styles';
+import { NetworksStyles } from './networks.styles';
 
-type NetworksDropdownProps = {
-  style?: StyleProp<TextStyle>;
-};
-
-export const NetworksDropdown: React.FC<NetworksDropdownProps> = ({ style }) => {
+export const Networks: React.FC = () => {
   const dispatch = useDispatch();
 
   const network = useGetNetworkSelector();
   const networksName = useGetAllNetworksNameSelector();
 
-  const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<string>(network);
 
   useEffect(() => {
@@ -34,14 +29,18 @@ export const NetworksDropdown: React.FC<NetworksDropdownProps> = ({ style }) => 
   }, [network]);
 
   return (
-    <Dropdown
-      isOpen={isOpen}
-      setVisibleState={() => setIsOpen(!isOpen)}
-      onPress={handleNetworkSelect}
-      data={networksName}
-      selectedItem={selectedItem}
-      setSelectedItem={setSelectedItem}
-      style={[NetworksDropdownStyles.dropdown, style]}
-    />
+    <View>
+      <Text style={NetworksStyles.balanceWrapper}>
+        Current network: <Text style={NetworksStyles.balance}>{selectedItem}</Text>
+      </Text>
+
+      <View>
+        {networksName.map(network => (
+          <TouchableOpacity key={nanoid()} onPress={() => handleNetworkSelect(network)} style={NetworksStyles.network}>
+            <Text>{network}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+    </View>
   );
 };

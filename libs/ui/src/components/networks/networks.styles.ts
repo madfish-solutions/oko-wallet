@@ -1,13 +1,13 @@
 import { StyleSheet } from 'react-native';
 
-export const WalletStyles = StyleSheet.create({
-  root: {
-    padding: 12
-  },
+export const NetworksStyles = StyleSheet.create({
   balanceWrapper: {
-    marginBottom: 24
+    marginBottom: 8
   },
   balance: {
     fontWeight: '700'
+  },
+  network: {
+    marginBottom: 4
   }
 });

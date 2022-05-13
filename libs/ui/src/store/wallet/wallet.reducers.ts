@@ -15,12 +15,8 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     gasToken: payload.gasToken,
     gasTokenBalance: createEntity(payload.gasTokenBalance, false)
   }));
-  builder.addCase(getGasTokenBalanceAction.fail, (state, { payload: error }) => {
-    console.log('getGasTokenBalanceAction.fail', error);
-
-    return {
-      ...state,
-      gasTokenBalance: createEntity(state.gasTokenBalance.data, false)
-    };
-  });
+  builder.addCase(getGasTokenBalanceAction.fail, (state, { payload: error }) => ({
+    ...state,
+    gasTokenBalance: createEntity(state.gasTokenBalance.data, false, error)
+  }));
 });

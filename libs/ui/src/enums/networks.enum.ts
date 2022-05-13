@@ -2,7 +2,7 @@ export enum NetworksNameEnum {
   KlaytnMainnet = 'Klaytn Mainnet',
   KlaytnBaobabTestnet = 'Baobab Testnet',
   Ethereum = 'Ethereum',
-  BinanceSmartChain = 'Binace Smart Chain',
+  BinanceSmartChain = 'Binance Smart Chain',
   Moonbeam = 'Moonbeam',
   Tezos = 'Tezos'
 }

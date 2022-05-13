@@ -28,9 +28,9 @@ export const NETWORKS: NetworksType = {
   },
   [NetworksNameEnum.BinanceSmartChain]: {
     chainId: 56,
-    rpc: RpcUrl['Binace Smart Chain'],
+    rpc: RpcUrl['Binance Smart Chain'],
     name: 'Binace Smart Chain',
-    gasToken: GasTokensMetadata['Binace Smart Chain'],
+    gasToken: GasTokensMetadata['Binance Smart Chain'],
     explorer: BlockExplorerEnum.Bscscan
   },
   [NetworksNameEnum.Moonbeam]: {

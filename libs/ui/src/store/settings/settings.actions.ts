@@ -1,7 +1,6 @@
+import { createAction } from '@reduxjs/toolkit';
+
 import { NetworkType } from '../../types/networks.type';
-import { Action } from '../utils/action.utils';
 
-const { generateAction } = new Action('settings');
-
-export const changeNetworkAction = generateAction<string>('CHANGE_NETWORK');
-export const addNewNetworkAction = generateAction<NetworkType>('ADD_NEW_NETWORK');
+export const changeNetworkAction = createAction<string>('settings/CHANGE_NETWORK');
+export const addNewNetworkAction = createAction<NetworkType>('settings/ADD_NEW_NETWORK');
