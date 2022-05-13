@@ -8,13 +8,13 @@ import { useNavigation } from '../../hooks/use-navigation.hook';
 export const Settings = () => {
   const { navigate } = useNavigation();
 
-  const handleBack = () => navigate(ScreensEnum.AddNetwork);
+  const handlePress = () => navigate(ScreensEnum.AddNetwork);
 
   return (
     <View>
       <NavigationBar />
       <Text>Settings</Text>
-      <Button title="Add network" onPress={handleBack} />
+      <Button title="Add network" onPress={handlePress} />
     </View>
   );
 };

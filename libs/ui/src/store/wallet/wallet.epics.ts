@@ -3,7 +3,7 @@ import { catchError, map, Observable, of, switchMap } from 'rxjs';
 import { Action } from 'ts-action';
 import { ofType } from 'ts-action-operators';
 
-import { getGasTokenBalance$ } from '../../utils/get-gas-token-balance';
+import { getGasTokenBalance$ } from '../../utils/token.utils';
 import { withSelectedAccount, withSelectedNetwork } from '../../utils/wallet.util';
 import { RootState } from '../store';
 

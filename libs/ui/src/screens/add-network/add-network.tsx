@@ -2,7 +2,7 @@ import React, { FC, useCallback, useState } from 'react';
 import { View, Text, Button } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { Input } from '../../components/input';
+import { Input } from '../../components/input/input';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';

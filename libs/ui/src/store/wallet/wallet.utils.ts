@@ -7,14 +7,12 @@ export const updateSelectedNetworkState = (
   updateFunc: (selectedNetwork: NetworkInterface) => Partial<NetworkInterface>
 ): WalletState => ({
   ...state,
-  networks: state.networks.map(network => {
-    if (network.rpcUrl === state.selectedNetworkRpcUrl) {
-      return {
-        ...network,
-        ...updateFunc(network)
-      };
-    }
-
-    return network;
-  })
+  networks: state.networks.map(network =>
+    network.rpcUrl === state.selectedNetworkRpcUrl
+      ? {
+          ...network,
+          ...updateFunc(network)
+        }
+      : network
+  )
 });
