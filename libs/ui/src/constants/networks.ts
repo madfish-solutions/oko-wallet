@@ -29,7 +29,7 @@ export const NETWORKS: NetworksType = {
   [NetworksNameEnum.BinanceSmartChain]: {
     chainId: 56,
     rpc: RpcUrl['Binance Smart Chain'],
-    name: 'Binace Smart Chain',
+    name: 'Binance Smart Chain',
     gasToken: GasTokensMetadata['Binance Smart Chain'],
     explorer: BlockExplorerEnum.Bscscan
   },
