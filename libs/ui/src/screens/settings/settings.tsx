@@ -3,10 +3,9 @@ import { Button, Text, View } from 'react-native';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { ScreensEnum } from '../../enums/sreens.enum';
+import { NavigationProps } from '../../interfaces/navigation.interface';
 
-import { SettingProps } from './types';
-
-export const Settings: FC<SettingProps> = ({ navigation: { navigate } }) => {
+export const Settings: FC<NavigationProps<ScreensEnum.Settings>> = ({ navigation: { navigate } }) => {
   const navigateToAddNewToken = () => navigate(ScreensEnum.AddNewToken);
   const navigateToManageTokens = () => navigate(ScreensEnum.ManageTokens);
   const navigateToAddNetwork = () => navigate(ScreensEnum.AddNetwork);

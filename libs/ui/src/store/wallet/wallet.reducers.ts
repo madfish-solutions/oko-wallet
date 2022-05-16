@@ -54,12 +54,12 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         { tokenAddress, isVisible: true }
       ];
     })
-    .addCase(changeTokenVisibilityAction, (state, { payload: { tokenAddress, isVisible } }) => {
+    .addCase(changeTokenVisibilityAction, (state, { payload: tokenAddress }) => {
       const accountTokenSlug = getAccountTokenSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
       const token = state.settings[accountTokenSlug].find(token => token.tokenAddress === tokenAddress);
 
       if (token) {
-        token.isVisible = isVisible;
+        token.isVisible = !token.isVisible;
       }
     });
 });

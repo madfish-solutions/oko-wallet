@@ -10,10 +10,8 @@ export const ManageTokens: FC = () => {
   const dispatch = useDispatch();
   const allAccountTokens = useAllAccountTokensSelector();
 
-  const handleTokenVisibility = (
-    tokenAddress: AccountTokenInfo['tokenAddress'],
-    isVisible: AccountTokenInfo['isVisible']
-  ) => dispatch(changeTokenVisibilityAction({ tokenAddress, isVisible }));
+  const handleTokenVisibility = (tokenAddress: AccountTokenInfo['tokenAddress']) =>
+    dispatch(changeTokenVisibilityAction(tokenAddress));
 
   return (
     <View>
@@ -22,7 +20,7 @@ export const ManageTokens: FC = () => {
           <Text>Name: {name}</Text>
           <Text>Image URL: {imageUrl}</Text>
           <Text>isVisible: {isVisible.toString()}</Text>
-          <Pressable onPress={() => handleTokenVisibility(tokenAddress, !isVisible)}>
+          <Pressable onPress={() => handleTokenVisibility(tokenAddress)}>
             <Text>{isVisible ? 'Hide' : 'Show'}</Text>
           </Pressable>
         </Fragment>

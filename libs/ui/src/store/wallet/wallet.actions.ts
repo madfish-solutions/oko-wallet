@@ -12,7 +12,6 @@ export const changeSelectedNetworkAction = createAction<string>('wallet/CHANGE_S
 export const addNewNetworkAction = createAction<NetworkInterface>('wallet/ADD_NEW_NETWORK');
 
 export const addTokenMetadataAction = createAction<TokenMetadata>('wallet/ADD_TOKEN_METADATA');
-export const changeTokenVisibilityAction = createAction<{
-  tokenAddress: AccountTokenInfo['tokenAddress'];
-  isVisible: AccountTokenInfo['isVisible'];
-}>('wallet/CHANGE_TOKEN_VISIBILITY');
+export const changeTokenVisibilityAction = createAction<AccountTokenInfo['tokenAddress']>(
+  'wallet/CHANGE_TOKEN_VISIBILITY'
+);

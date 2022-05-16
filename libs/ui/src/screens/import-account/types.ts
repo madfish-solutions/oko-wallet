@@ -1,7 +1,6 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { ScreensEnum } from '../../enums/sreens.enum';
+import { NavigationProps } from '../../interfaces/navigation.interface';
 
-import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
-
-export interface ImportAccountProps extends NativeStackScreenProps<ScreensParamList, ScreensEnum.ImportAccount> {
+export interface ImportAccountProps extends NavigationProps<ScreensEnum.ImportAccount> {
   handleAuthorisation: () => void;
 }
