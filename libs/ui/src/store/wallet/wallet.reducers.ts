@@ -13,6 +13,16 @@ import { walletInitialState, WalletState } from './wallet.state';
 import { updateSelectedNetworkState } from './wallet.utils';
 
 export const walletReducers = createReducer<WalletState>(walletInitialState, builder => {
+  builder.addCase(generateHDAccountAction.success, (state, { payload: account }) => ({
+    ...state,
+    accounts: [...state.accounts, account],
+    selectedAccountPublicKeyHash: account.publicKeyHash
+  }));
+  builder.addCase(switchAccountAction, (state, { payload: account }) => ({
+    ...state,
+    selectedAccountPublicKeyHash: account.publicKeyHash
+  }));
+
   builder.addCase(loadGasTokenBalanceAction.submit, state =>
     updateSelectedNetworkState(state, selectedNetwork => ({
       gasTokenBalance: createEntity(selectedNetwork.gasTokenBalance.data, true)
@@ -37,15 +47,5 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     ...state,
     networks: [...state.networks, network],
     selectedNetworkRpcUrl: network.rpcUrl
-  }));
-
-  builder.addCase(generateHDAccountAction.success, (state, { payload: account }) => ({
-    ...state,
-    accounts: [...state.accounts, account],
-    selectedAccountPublicKeyHash: account.publicKeyHash
-  }));
-  builder.addCase(switchAccountAction, (state, { payload: account }) => ({
-    ...state,
-    selectedAccountPublicKeyHash: account.publicKeyHash
   }));
 });

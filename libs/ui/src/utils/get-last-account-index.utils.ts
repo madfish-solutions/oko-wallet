@@ -1,4 +1,4 @@
-import { AccountInterface } from '../store/interfaces/account.interface';
+import { AccountInterface } from '../interfaces/account.interface';
 
 export const getActualAccountIndex = (accounts: AccountInterface[]) => {
   const indexes = accounts.map(account => account.accountIndex);

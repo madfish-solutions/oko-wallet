@@ -19,14 +19,14 @@ const generateHDAccountEpic = (action$: Observable<Action>, state$: Observable<R
   action$.pipe(
     ofType(generateHDAccountAction.submit),
     withActualAccountIndex(state$),
-    switchMap(([, index]) =>
-      from(generateHdAccount(MOCK_HD_ACCOUNT.seed, getEtherDerivationPath(index))).pipe(
+    switchMap(([, accountIndex]) =>
+      from(generateHdAccount(MOCK_HD_ACCOUNT.seed, getEtherDerivationPath(accountIndex))).pipe(
         map((hdAccount: any) => {
           const account: AccountInterface = {
             ...mockHdAccount,
-            name: `Account ${index + 1}`,
+            name: `Account ${accountIndex + 1}`,
             publicKeyHash: hdAccount.address,
-            accountIndex: index
+            accountIndex
           };
 
           return generateHDAccountAction.success(account);

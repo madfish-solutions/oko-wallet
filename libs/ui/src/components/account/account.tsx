@@ -12,7 +12,7 @@ import { AccountStyles } from './account.styles';
 
 export const Account: FC = () => {
   const accounts = useAccountsSelector();
-  const selectedAccound = useSelectedAccountSelector();
+  const selectedAccount = useSelectedAccountSelector();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,8 +33,8 @@ export const Account: FC = () => {
     <View style={AccountStyles.root}>
       <View style={AccountStyles.container}>
         <View style={AccountStyles.selectedAccountInfo}>
-          <Text style={AccountStyles.selectedAccountName}>{selectedAccound.name}</Text>
-          <Text>{shortize(selectedAccound.publicKeyHash)}</Text>
+          <Text style={AccountStyles.selectedAccountName}>{selectedAccount.name}</Text>
+          <Text>{shortize(selectedAccount.publicKeyHash)}</Text>
         </View>
         <Text style={AccountStyles.allAccountsText}>All accounts:</Text>
         <ScrollView style={AccountStyles.accountsList}>
