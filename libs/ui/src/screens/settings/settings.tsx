@@ -7,17 +7,17 @@ import { ScreensEnum } from '../../enums/sreens.enum';
 import { SettingProps } from './types';
 
 export const Settings: FC<SettingProps> = ({ navigation: { navigate } }) => {
-    const navigateToAddNewToken = () => navigate(ScreensEnum.AddNewToken);
-    const navigateToManageTokens = () => navigate(ScreensEnum.ManageTokens);
-    const navigateToAddNetwork = () => navigate(ScreensEnum.AddNetwork);
+  const navigateToAddNewToken = () => navigate(ScreensEnum.AddNewToken);
+  const navigateToManageTokens = () => navigate(ScreensEnum.ManageTokens);
+  const navigateToAddNetwork = () => navigate(ScreensEnum.AddNetwork);
 
   return (
     <View>
       <NavigationBar />
       <Text>Settings</Text>
       <Button title="Add network" onPress={navigateToAddNetwork} />
-        <Button title="Add new token" onPress={navigateToAddNewToken} />
-        <Button title="Manage Tokens" onPress={navigateToManageTokens} />
+      <Button title="Add new token" onPress={navigateToAddNewToken} />
+      <Button title="Manage Tokens" onPress={navigateToManageTokens} />
     </View>
   );
 };

@@ -1,18 +1,7 @@
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
-import { AccountInterface } from '../../interfaces/account.interface';
-import { NetworkInterface } from '../../interfaces/network.interface';
 import { mockHdAccount } from '../../mocks/account.interface.mock';
 
-export interface WalletRootState {
-  wallet: WalletState;
-}
-
-export interface WalletState {
-  accounts: AccountInterface[];
-  selectedAccountPublicKeyHash: string;
-  networks: NetworkInterface[];
-  selectedNetworkRpcUrl: string;
-}
+import { WalletState } from './types';
 
 export const walletInitialState: WalletState = {
   accounts: [mockHdAccount],
@@ -20,5 +9,5 @@ export const walletInitialState: WalletState = {
   networks: NETWORKS_DEFAULT_LIST,
   selectedNetworkRpcUrl: NETWORKS_DEFAULT_LIST[0].rpcUrl,
   tokensMetadata: {},
-  settings: {},
+  settings: {}
 };

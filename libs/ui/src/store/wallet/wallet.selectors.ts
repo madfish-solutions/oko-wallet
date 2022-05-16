@@ -5,8 +5,7 @@ import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';
 
-import { WalletRootState, WalletState } from './wallet.state';
-import { TokenMetadata } from './types';
+import { WalletRootState, WalletState, TokenMetadata } from './types';
 
 export const useSelectedAccountSelector = () =>
   useSelector<WalletRootState, AccountInterface>(
@@ -27,9 +26,9 @@ export const useAllNetworksSelector = () =>
 
 export const useAllAccountTokens = () =>
   useSelector<WalletRootState, { tokenAddress: string; isVisible: boolean; url?: string; name: string }[]>(
-    ({ wallet: { settings, selectedAccountPublicKeyHash, tokensMetadata, selectedNetwork } }) =>
-      settings[selectedNetwork]?.[selectedAccountPublicKeyHash]?.map(({ tokenAddress, isVisible }) => {
-        const { name, url } = tokensMetadata[selectedNetwork][tokenAddress];
+    ({ wallet: { settings, selectedAccountPublicKeyHash, tokensMetadata, selectedNetworkRpcUrl } }) =>
+      settings[selectedNetworkRpcUrl]?.[selectedAccountPublicKeyHash]?.map(({ tokenAddress, isVisible }) => {
+        const { name, url } = tokensMetadata[selectedNetworkRpcUrl][tokenAddress];
 
         return {
           name,
@@ -42,9 +41,9 @@ export const useAllAccountTokens = () =>
 
 export const useVisibleAccountTokens = () => {
   return useSelector<WalletRootState, TokenMetadata[]>(
-    ({ wallet: { tokensMetadata, settings, selectedAccountPublicKeyHash, selectedNetwork } }) =>
-      settings[selectedNetwork]?.[selectedAccountPublicKeyHash]
+    ({ wallet: { tokensMetadata, settings, selectedAccountPublicKeyHash, selectedNetworkRpcUrl } }) =>
+      settings[selectedNetworkRpcUrl]?.[selectedAccountPublicKeyHash]
         ?.filter(({ isVisible }) => isVisible)
-        ?.map(({ tokenAddress }) => tokensMetadata[selectedNetwork][tokenAddress]) ?? []
+        ?.map(({ tokenAddress }) => tokensMetadata[selectedNetworkRpcUrl][tokenAddress]) ?? []
   );
 };

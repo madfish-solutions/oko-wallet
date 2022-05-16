@@ -4,7 +4,7 @@ import { NETWORKS_DEFAULT_LIST } from '../constants/networks';
 import { AccountInterface } from '../interfaces/account.interface';
 import { NetworkInterface } from '../interfaces/network.interface';
 import { initialAccount } from '../mocks/account.interface.mock';
-import { WalletRootState } from '../store/wallet/wallet.state';
+import { WalletRootState } from '../store/wallet/types';
 
 export const withSelectedAccount =
   <T>(state$: Observable<WalletRootState>) =>

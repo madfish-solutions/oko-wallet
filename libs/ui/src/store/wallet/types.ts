@@ -1,4 +1,5 @@
-import { AccountInterface } from '../interfaces/account.interface';
+import { AccountInterface } from '../../interfaces/account.interface';
+import { NetworkInterface } from '../../interfaces/network.interface';
 
 type NetworkName = string;
 
@@ -21,7 +22,8 @@ export interface TokenMetadata {
 export interface WalletState {
   accounts: AccountInterface[];
   selectedAccountPublicKeyHash: string;
+  networks: NetworkInterface[];
+  selectedNetworkRpcUrl: string;
   tokensMetadata: Record<NetworkName, Record<TokenMetadata['tokenAddress'], TokenMetadata>>;
   settings: Record<NetworkName, Record<WalletState['selectedAccountPublicKeyHash'], AccountTokenInfo[]>>;
-  selectedNetwork: NetworkName;
 }
