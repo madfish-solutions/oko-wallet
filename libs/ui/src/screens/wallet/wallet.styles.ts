@@ -47,6 +47,13 @@ export const WalletStyles = StyleSheet.create({
     color: '#fff'
   },
   address: {
-    fontSize: 12
+    fontSize: 12,
+    padding: 12
+  },
+  balanceWrapper: {
+    marginBottom: 24
+  },
+  balance: {
+    fontWeight: '700'
   }
 });

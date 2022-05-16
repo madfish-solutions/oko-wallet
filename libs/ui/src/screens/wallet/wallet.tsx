@@ -4,9 +4,14 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
-import { AccountInterface } from '../../store/interfaces/account.interface';
+import { Networks } from '../../components/networks/networks';
+import { AccountInterface } from '../../interfaces/account.interface';
 import { generateHDAccountAction, switchAccountAction } from '../../store/wallet/wallet.actions';
-import { useAccountsSelector, useSelectedAccountSelector } from '../../store/wallet/wallet.selectors';
+import {
+  useAccountsSelector,
+  useSelectedAccountSelector,
+  useSelectedNetworkSelector
+} from '../../store/wallet/wallet.selectors';
 import { shortize } from '../../utils/shortize.utils';
 
 import { WalletStyles } from './wallet.styles';
@@ -29,6 +34,12 @@ export const Wallet: FC = () => {
   const handleSwitchAccount = (account: AccountInterface) => {
     dispatch(switchAccountAction(account));
   };
+
+  const { gasTokenMetadata, gasTokenBalance } = useSelectedNetworkSelector();
+
+  const gasTokenBalanceWithLoading = gasTokenBalance.isLoading
+    ? '...'
+    : `${gasTokenBalance.data} ${gasTokenMetadata.symbol}`;
 
   return (
     <View>
@@ -60,6 +71,10 @@ export const Wallet: FC = () => {
             </View>
           </View>
         </View>
+        <Text style={WalletStyles.balanceWrapper}>
+          Balance: <Text style={WalletStyles.balance}>{gasTokenBalanceWithLoading}</Text>
+        </Text>
+        <Networks />
       </View>
     </View>
   );

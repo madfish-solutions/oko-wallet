@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { FC, useState } from 'react';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
+import { AddNetwork } from '../../screens/add-network/add-network';
 import { ImportAccount } from '../../screens/import-account/import-account';
 import { Receive } from '../../screens/receive/receive';
 import { Send } from '../../screens/send/send';
@@ -29,6 +30,7 @@ export const Navigator: FC = () => {
             <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
             <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
             <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
+            <Stack.Screen name={ScreensEnum.AddNetwork} component={AddNetwork} />
             <Stack.Screen name={ScreensEnum.Send} component={Send} />
           </>
         )}

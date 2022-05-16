@@ -1,4 +1,4 @@
-import { AccountTypeEnum } from '../../enums/account-type.enum';
+import { AccountTypeEnum } from '../enums/account-type.enum';
 
 export interface AccountInterface {
   name: string;
