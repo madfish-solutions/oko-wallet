@@ -5,14 +5,17 @@ import { useDispatch } from 'react-redux';
 
 import { AccountInterface } from '../../interfaces/account.interface';
 import { generateHDAccountAction, switchAccountAction } from '../../store/wallet/wallet.actions';
-import { useAccountsSelector, useSelectedAccountSelector } from '../../store/wallet/wallet.selectors';
+import {
+  useAccountsByBlockchainSelector,
+  useSelectedAccountByBlockchainSelector
+} from '../../store/wallet/wallet.selectors';
 import { shortize } from '../../utils/shortize.utils';
 
 import { AccountStyles } from './account.styles';
 
 export const Account: FC = () => {
-  const accounts = useAccountsSelector();
-  const selectedAccount = useSelectedAccountSelector();
+  const accounts = useAccountsByBlockchainSelector();
+  const selectedAccount = useSelectedAccountByBlockchainSelector();
   const dispatch = useDispatch();
 
   useEffect(() => {

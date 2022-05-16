@@ -5,11 +5,11 @@ import QRCode from 'react-native-qrcode-svg';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { useDelayedEffect } from '../../hooks/use-delayed-effect.hook';
-import { useSelectedAccountSelector } from '../../store/wallet/wallet.selectors';
+import { useSelectedAccountByBlockchainSelector } from '../../store/wallet/wallet.selectors';
 
 export const Receive: FC = () => {
   const [isCopied, setIsCopied] = useState(false);
-  const { publicKeyHash } = useSelectedAccountSelector();
+  const { publicKeyHash } = useSelectedAccountByBlockchainSelector();
 
   const handleCopyToClipboard = () => {
     Clipboard.setString(publicKeyHash);

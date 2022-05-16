@@ -13,11 +13,19 @@ import { walletInitialState, WalletState } from './wallet.state';
 import { updateSelectedNetworkState } from './wallet.utils';
 
 export const walletReducers = createReducer<WalletState>(walletInitialState, builder => {
-  builder.addCase(generateHDAccountAction.success, (state, { payload: account }) => ({
-    ...state,
-    accounts: [...state.accounts, account],
-    selectedAccountPublicKeyHash: account.publicKeyHash
-  }));
+  builder.addCase(generateHDAccountAction.success, (state, { payload: account }) => {
+    const isExist = state.accountsByBlockchain.hasOwnProperty(state.selectedBlockchain);
+
+    return {
+      ...state,
+      accountsByBlockchain: {
+        ...state.accountsByBlockchain,
+        [state.selectedBlockchain]:
+          isExist === true ? [...state.accountsByBlockchain[state.selectedBlockchain], account] : [account]
+      },
+      selectedAccountPublicKeyHash: account.publicKeyHash
+    };
+  });
   builder.addCase(switchAccountAction, (state, { payload: account }) => ({
     ...state,
     selectedAccountPublicKeyHash: account.publicKeyHash
@@ -39,9 +47,13 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     }))
   );
 
-  builder.addCase(changeSelectedNetworkAction, (state, { payload: networkRpcUrl }) => ({
+  builder.addCase(changeSelectedNetworkAction, (state, { payload: newSelectedNetwork }) => ({
     ...state,
-    selectedNetworkRpcUrl: networkRpcUrl
+    selectedNetworkRpcUrl: newSelectedNetwork.rpcUrl,
+    selectedBlockchain: newSelectedNetwork.blockchain,
+    selectedAccountPublicKeyHash: state.accountsByBlockchain.hasOwnProperty(newSelectedNetwork.blockchain)
+      ? state.accountsByBlockchain[newSelectedNetwork.blockchain][0].publicKeyHash
+      : ''
   }));
   builder.addCase(addNewNetworkAction, (state, { payload: network }) => ({
     ...state,

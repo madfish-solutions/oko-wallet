@@ -9,12 +9,9 @@ export const getGasTokenBalance$ = (network: NetworkInterface, pkh: string): Obs
 
   // TODO: How to define check tezos network
   if (networkName === 'Tezos') {
-    // TODO: Delete later
-    const tzAddress = 'tz1XstX8fYXPY5JNV6M2p1yLD6VNjX38YuQP';
-
     const tezosToolkit = new TezosToolkit(rpcUrl);
 
-    return from(tezosToolkit.tz.getBalance(tzAddress)).pipe(map(balance => balance.toFixed()));
+    return from(tezosToolkit.tz.getBalance(pkh)).pipe(map(balance => balance.toFixed()));
   }
 
   const provider = getDefaultProvider(rpcUrl);

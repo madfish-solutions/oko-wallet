@@ -9,5 +9,7 @@ export const switchAccountAction = createAction<AccountInterface>('wallet/SWITCH
 
 export const loadGasTokenBalanceAction = createActions<void, string, string>('wallet/LOAD_GAS_TOKEN_BALANCE');
 
-export const changeSelectedNetworkAction = createAction<string>('wallet/CHANGE_SELECTED_NETWORK');
+export const changeSelectedNetworkAction = createAction<{ rpcUrl: string; blockchain: string }>(
+  'wallet/CHANGE_SELECTED_NETWORK'
+);
 export const addNewNetworkAction = createAction<NetworkInterface>('wallet/ADD_NEW_NETWORK');

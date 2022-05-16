@@ -1,21 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { NetworkInterface } from '../../interfaces/network.interface';
-import { changeSelectedNetworkAction } from '../../store/wallet/wallet.actions';
-import { useAllNetworksSelector } from '../../store/wallet/wallet.selectors';
+import { changeSelectedNetworkAction, generateHDAccountAction } from '../../store/wallet/wallet.actions';
+import { useAccountIsExist, useAllNetworksSelector } from '../../store/wallet/wallet.selectors';
 
 import { NetworksStyles } from './networks.styles';
 
 export const Networks: React.FC = () => {
+  const isUserHasAccountBySelectedBlockchain = useAccountIsExist();
   const dispatch = useDispatch();
 
   const networks = useAllNetworksSelector();
 
   const handleNetworkSelect = (newSelectedNetwork: NetworkInterface) => {
-    dispatch(changeSelectedNetworkAction(newSelectedNetwork.rpcUrl));
+    dispatch(
+      changeSelectedNetworkAction({ rpcUrl: newSelectedNetwork.rpcUrl, blockchain: newSelectedNetwork.blockchain })
+    );
   };
+
+  useEffect(() => {
+    if (!isUserHasAccountBySelectedBlockchain) {
+      dispatch(generateHDAccountAction.submit());
+    }
+  }, [isUserHasAccountBySelectedBlockchain]);
 
   return (
     <View>

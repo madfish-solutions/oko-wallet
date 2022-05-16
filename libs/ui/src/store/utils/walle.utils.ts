@@ -8,8 +8,10 @@ export const withActualAccountIndex =
   (observable$: Observable<T>) =>
     observable$.pipe(
       withLatestFrom(state$, (value, { wallet }): [T, number] => {
-        const { accounts } = wallet;
-        const accountIndex = accounts.length ? getActualAccountIndex(accounts) : 0;
+        const { accountsByBlockchain, selectedBlockchain } = wallet;
+        const isExist = accountsByBlockchain.hasOwnProperty(selectedBlockchain);
+        const accounts = accountsByBlockchain[selectedBlockchain];
+        const accountIndex = isExist && accounts.length ? getActualAccountIndex(accounts) : 0;
 
         return [value, accountIndex];
       })

@@ -7,15 +7,17 @@ export interface WalletRootState {
 }
 
 export interface WalletState {
-  accounts: AccountInterface[];
+  accountsByBlockchain: Record<string, AccountInterface[]>;
   selectedAccountPublicKeyHash: string;
   networks: NetworkInterface[];
   selectedNetworkRpcUrl: string;
+  selectedBlockchain: string;
 }
 
 export const walletInitialState: WalletState = {
-  accounts: [],
+  accountsByBlockchain: {},
   selectedAccountPublicKeyHash: '',
   networks: NETWORKS_DEFAULT_LIST,
-  selectedNetworkRpcUrl: NETWORKS_DEFAULT_LIST[0].rpcUrl
+  selectedNetworkRpcUrl: NETWORKS_DEFAULT_LIST[0].rpcUrl,
+  selectedBlockchain: 'Ethereum'
 };
