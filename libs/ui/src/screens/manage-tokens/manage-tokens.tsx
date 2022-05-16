@@ -2,7 +2,7 @@ import React, { FC, Fragment } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { TokenMetadata, AccountTokenInfo } from '../../store/wallet/types';
+import { AccountTokenInfo } from '../../store/wallet/types';
 import { changeTokenVisibilityAction } from '../../store/wallet/wallet.actions';
 import { useAllAccountTokensSelector } from '../../store/wallet/wallet.selectors';
 
@@ -10,8 +10,10 @@ export const ManageTokens: FC = () => {
   const dispatch = useDispatch();
   const allAccountTokens = useAllAccountTokensSelector();
 
-  const handleTokenVisibility = (tokenAddress: TokenMetadata['address'], isVisible: AccountTokenInfo['isVisible']) =>
-    dispatch(changeTokenVisibilityAction({ tokenAddress, isVisible }));
+  const handleTokenVisibility = (
+    tokenAddress: AccountTokenInfo['tokenAddress'],
+    isVisible: AccountTokenInfo['isVisible']
+  ) => dispatch(changeTokenVisibilityAction({ tokenAddress, isVisible }));
 
   return (
     <View>
