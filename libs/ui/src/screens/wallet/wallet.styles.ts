@@ -7,7 +7,7 @@ export const WalletStyles = StyleSheet.create({
   balanceWrapper: {
     marginBottom: 24
   },
-  balance: {
+  boldText: {
     fontWeight: '700'
   }
 });

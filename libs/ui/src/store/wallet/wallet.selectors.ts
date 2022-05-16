@@ -5,7 +5,9 @@ import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';
 
-import { WalletRootState, WalletState, TokenMetadata } from './types';
+import { WalletRootState, WalletState, TokenMetadata, AllAccountTokens } from './types';
+import { getAccountTokenSlug } from './utils/get-account-token-slug';
+import { getMetadataSlug } from './utils/get-metadata-slug';
 
 export const useSelectedAccountSelector = () =>
   useSelector<WalletRootState, AccountInterface>(
@@ -24,26 +26,37 @@ export const useSelectedNetworkSelector = () =>
 export const useAllNetworksSelector = () =>
   useSelector<WalletRootState, WalletState['networks']>(({ wallet }) => wallet.networks);
 
-export const useAllAccountTokens = () =>
-  useSelector<WalletRootState, { tokenAddress: string; isVisible: boolean; url?: string; name: string }[]>(
-    ({ wallet: { settings, selectedAccountPublicKeyHash, tokensMetadata, selectedNetworkRpcUrl } }) =>
-      settings[selectedNetworkRpcUrl]?.[selectedAccountPublicKeyHash]?.map(({ tokenAddress, isVisible }) => {
-        const { name, url } = tokensMetadata[selectedNetworkRpcUrl][tokenAddress];
+export const useAllAccountTokensSelector = () =>
+  useSelector<WalletRootState, AllAccountTokens[]>(
+    ({ wallet: { settings, selectedAccountPublicKeyHash, tokensMetadata, selectedNetworkRpcUrl } }) => {
+      const accountTokenSlug = getAccountTokenSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
 
-        return {
-          name,
-          url,
-          tokenAddress,
-          isVisible
-        };
-      }) ?? []
+      return (
+        settings[accountTokenSlug]?.map(({ tokenAddress, isVisible }) => {
+          const metadataSlug = getMetadataSlug(selectedNetworkRpcUrl, tokenAddress);
+          const { name, imageUrl } = tokensMetadata[metadataSlug];
+
+          return {
+            name,
+            imageUrl,
+            tokenAddress,
+            isVisible
+          };
+        }) ?? []
+      );
+    }
   );
 
-export const useVisibleAccountTokens = () => {
+export const useVisibleAccountTokensSelector = () => {
   return useSelector<WalletRootState, TokenMetadata[]>(
-    ({ wallet: { tokensMetadata, settings, selectedAccountPublicKeyHash, selectedNetworkRpcUrl } }) =>
-      settings[selectedNetworkRpcUrl]?.[selectedAccountPublicKeyHash]
-        ?.filter(({ isVisible }) => isVisible)
-        ?.map(({ tokenAddress }) => tokensMetadata[selectedNetworkRpcUrl][tokenAddress]) ?? []
+    ({ wallet: { tokensMetadata, settings, selectedAccountPublicKeyHash, selectedNetworkRpcUrl } }) => {
+      const accountTokenSlug = getAccountTokenSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+
+      return (
+        settings[accountTokenSlug]
+          ?.filter(({ isVisible }) => isVisible)
+          ?.map(({ tokenAddress }) => tokensMetadata[getMetadataSlug(selectedNetworkRpcUrl, tokenAddress)]) ?? []
+      );
+    }
   );
 };

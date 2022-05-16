@@ -1,7 +1,8 @@
 import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 
-type NetworkName = string;
+type NetworkRpcUrlWithTokenAddress = string;
+type NetworkRpcUrWithPublicKeyHash = string;
 
 export interface WalletRootState {
   wallet: WalletState;
@@ -10,20 +11,23 @@ export interface WalletRootState {
 export interface AccountTokenInfo {
   tokenAddress: string;
   isVisible: boolean;
+  balance?: string;
 }
 
 export interface TokenMetadata {
-  tokenAddress: string;
+  address: string;
   name: string;
   decimals?: string;
-  url?: string;
+  imageUrl?: string;
 }
+
+export type AllAccountTokens = AccountTokenInfo & Omit<TokenMetadata, 'decimals' | 'address'>;
 
 export interface WalletState {
   accounts: AccountInterface[];
   selectedAccountPublicKeyHash: string;
   networks: NetworkInterface[];
   selectedNetworkRpcUrl: string;
-  tokensMetadata: Record<NetworkName, Record<TokenMetadata['tokenAddress'], TokenMetadata>>;
-  settings: Record<NetworkName, Record<WalletState['selectedAccountPublicKeyHash'], AccountTokenInfo[]>>;
+  tokensMetadata: Record<NetworkRpcUrlWithTokenAddress, TokenMetadata>;
+  settings: Record<NetworkRpcUrWithPublicKeyHash, AccountTokenInfo[]>;
 }

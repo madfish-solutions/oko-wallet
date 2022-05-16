@@ -6,32 +6,30 @@ import { addTokenMetadataAction } from '../../store/wallet/wallet.actions';
 
 export const AddNewToken: FC = () => {
   const dispatch = useDispatch();
-  const [contractAddress, setContractAddress] = useState('');
-  const [tokenName, setTokenName] = useState('');
-  const [tokenDecimals, setTokenDecimals] = useState('');
+  const [address, setAddress] = useState('');
+  const [name, setName] = useState('');
+  const [decimals, setDecimals] = useState('');
   const [imageUrl, setImageUrl] = useState('');
 
-  const onContractAddressChange = (contractAddressValue: string) => setContractAddress(contractAddressValue);
-  const onTokenNameChange = (tokenNameValue: string) => setTokenName(tokenNameValue);
-  const onTokenDecimalsChange = (tokenDecimalsValue: string) => setTokenDecimals(tokenDecimalsValue);
+  const onContractAddressChange = (contractAddressValue: string) => setAddress(contractAddressValue);
+  const onTokenNameChange = (tokenNameValue: string) => setName(tokenNameValue);
+  const onTokenDecimalsChange = (tokenDecimalsValue: string) => setDecimals(tokenDecimalsValue);
   const onImageUrChange = (tokenImageUrlValue: string) => setImageUrl(tokenImageUrlValue);
 
   const onAddToken = () => {
-    dispatch(
-      addTokenMetadataAction({ tokenAddress: contractAddress, name: tokenName, decimals: tokenDecimals, url: imageUrl })
-    );
+    dispatch(addTokenMetadataAction({ address, name, decimals, imageUrl }));
 
-    setContractAddress('');
-    setTokenName('');
-    setTokenDecimals('');
+    setAddress('');
+    setName('');
+    setDecimals('');
     setImageUrl('');
   };
 
   return (
     <View>
-      <TextInput placeholder="Contract Address" value={contractAddress} onChangeText={onContractAddressChange} />
-      <TextInput placeholder="Token Name" value={tokenName} onChangeText={onTokenNameChange} />
-      <TextInput placeholder="Token Decimals" value={tokenDecimals} onChangeText={onTokenDecimalsChange} />
+      <TextInput placeholder="Contract Address" value={address} onChangeText={onContractAddressChange} />
+      <TextInput placeholder="Token Name" value={name} onChangeText={onTokenNameChange} />
+      <TextInput placeholder="Token Decimals" value={decimals} onChangeText={onTokenDecimalsChange} />
       <TextInput placeholder="Image URL" value={imageUrl} onChangeText={onImageUrChange} />
       <Pressable onPress={onAddToken}>
         <Text>Add token</Text>

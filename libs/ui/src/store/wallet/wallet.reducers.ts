@@ -3,6 +3,8 @@ import { createReducer } from '@reduxjs/toolkit';
 import { createEntity } from '../utils/entity.utils';
 
 import { WalletState } from './types';
+import { getAccountTokenSlug } from './utils/get-account-token-slug';
+import { getMetadataSlug } from './utils/get-metadata-slug';
 import {
   addNewNetworkAction,
   changeSelectedNetworkAction,
@@ -40,37 +42,24 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       selectedNetworkRpcUrl: network.rpcUrl
     }))
     .addCase(addTokenMetadataAction, (state, { payload }) => {
-      const currentAccount = state.selectedAccountPublicKeyHash;
-      const currentNetwork = state.selectedNetworkRpcUrl;
-      const tokenAddress = payload.tokenAddress;
+      const { selectedAccountPublicKeyHash, selectedNetworkRpcUrl } = state;
+      const tokenAddress = payload.address;
 
-      state.tokensMetadata = {
-        ...state.tokensMetadata,
-        [currentNetwork]: {
-          ...state.tokensMetadata[currentNetwork],
-          [payload.tokenAddress]: payload
-        }
-      };
+      const metadataSlug = getMetadataSlug(selectedNetworkRpcUrl, tokenAddress);
+      const accountTokenSlug = getAccountTokenSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
 
-      state.settings = {
-        ...state.settings,
-        [currentNetwork]: {
-          ...state.settings[currentNetwork],
-          [currentAccount]: [
-            ...(state.settings[currentNetwork]?.[currentAccount] ?? []),
-            { tokenAddress, isVisible: true }
-          ]
-        }
-      };
+      state.tokensMetadata[metadataSlug] = payload;
+      state.settings[accountTokenSlug] = [
+        ...(state.settings[accountTokenSlug] ?? []),
+        { tokenAddress, isVisible: true }
+      ];
     })
     .addCase(changeTokenVisibilityAction, (state, { payload: { tokenAddress, isVisible } }) => {
-      const currentAccount = state.selectedAccountPublicKeyHash;
-      const currentToken = state.settings[state.selectedNetworkRpcUrl][currentAccount].find(
-        token => token.tokenAddress === tokenAddress
-      );
+      const accountTokenSlug = getAccountTokenSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
+      const token = state.settings[accountTokenSlug].find(token => token.tokenAddress === tokenAddress);
 
-      if (currentToken) {
-        currentToken.isVisible = isVisible;
+      if (token) {
+        token.isVisible = isVisible;
       }
     });
 });

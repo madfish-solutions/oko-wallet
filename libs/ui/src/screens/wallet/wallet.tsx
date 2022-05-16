@@ -3,13 +3,13 @@ import { View, Text } from 'react-native';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { Networks } from '../../components/networks/networks';
-import { useVisibleAccountTokens, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
+import { useVisibleAccountTokensSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
 
 import { WalletStyles } from './wallet.styles';
 
 export const Wallet: FC = () => {
   const { gasTokenMetadata, gasTokenBalance } = useSelectedNetworkSelector();
-  const visibleAccountTokens = useVisibleAccountTokens();
+  const visibleAccountTokens = useVisibleAccountTokensSelector();
 
   const gasTokenBalanceWithLoading = gasTokenBalance.isLoading
     ? '...'
@@ -20,16 +20,17 @@ export const Wallet: FC = () => {
       <NavigationBar />
       <View style={WalletStyles.root}>
         <Text style={WalletStyles.balanceWrapper}>
-          Balance: <Text style={WalletStyles.balance}>{gasTokenBalanceWithLoading}</Text>
+          Balance: <Text style={WalletStyles.boldText}>{gasTokenBalanceWithLoading}</Text>
         </Text>
         <Networks />
 
-        {visibleAccountTokens.map(({ tokenAddress, name, decimals, url }) => (
-          <Fragment key={tokenAddress}>
-            <Text>Address: {tokenAddress}</Text>
+        {!!visibleAccountTokens.length && <Text style={WalletStyles.boldText}>All visible tokens</Text>}
+        {visibleAccountTokens.map(({ address, name, decimals, imageUrl }) => (
+          <Fragment key={address}>
+            <Text>Address: {address}</Text>
             <Text>Name: {name}</Text>
             <Text>Decimals: {decimals}</Text>
-            <Text>URL: {url}</Text>
+            <Text>URL: {imageUrl}</Text>
           </Fragment>
         ))}
       </View>

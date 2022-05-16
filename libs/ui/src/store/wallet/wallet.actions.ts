@@ -13,6 +13,6 @@ export const addNewNetworkAction = createAction<NetworkInterface>('wallet/ADD_NE
 
 export const addTokenMetadataAction = createAction<TokenMetadata>('wallet/ADD_TOKEN_METADATA');
 export const changeTokenVisibilityAction = createAction<{
-  tokenAddress: TokenMetadata['tokenAddress'];
+  tokenAddress: TokenMetadata['address'];
   isVisible: AccountTokenInfo['isVisible'];
 }>('wallet/CHANGE_TOKEN_VISIBILITY');
