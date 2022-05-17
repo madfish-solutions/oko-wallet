@@ -14,14 +14,14 @@ import { updateSelectedNetworkState } from './wallet.utils';
 
 export const walletReducers = createReducer<WalletState>(walletInitialState, builder => {
   builder.addCase(generateHDAccountAction.success, (state, { payload: account }) => {
-    const isExist = state.accountsByBlockchain.hasOwnProperty(state.selectedBlockchain);
+    const isExist = state.accountsByBlockchain.hasOwnProperty(state.selectedNetworkType);
 
     return {
       ...state,
       accountsByBlockchain: {
         ...state.accountsByBlockchain,
-        [state.selectedBlockchain]:
-          isExist === true ? [...state.accountsByBlockchain[state.selectedBlockchain], account] : [account]
+        [state.selectedNetworkType]:
+          isExist === true ? [...state.accountsByBlockchain[state.selectedNetworkType], account] : [account]
       },
       selectedAccountPublicKeyHash: account.publicKeyHash
     };
@@ -50,7 +50,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
   builder.addCase(changeSelectedNetworkAction, (state, { payload: newSelectedNetwork }) => ({
     ...state,
     selectedNetworkRpcUrl: newSelectedNetwork.rpcUrl,
-    selectedBlockchain: newSelectedNetwork.blockchain,
+    selectedNetworkType: newSelectedNetwork.blockchain,
     selectedAccountPublicKeyHash: state.accountsByBlockchain.hasOwnProperty(newSelectedNetwork.blockchain)
       ? state.accountsByBlockchain[newSelectedNetwork.blockchain][0].publicKeyHash
       : ''

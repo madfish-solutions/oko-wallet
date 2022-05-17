@@ -11,10 +11,10 @@ export const withSelectedAccount =
   (observable$: Observable<T>) =>
     observable$.pipe(
       withLatestFrom(state$, (value, { wallet }): [T, AccountInterface] => {
-        const { selectedAccountPublicKeyHash, accountsByBlockchain, selectedBlockchain } = wallet;
-        const isExist = accountsByBlockchain.hasOwnProperty(selectedBlockchain);
+        const { selectedAccountPublicKeyHash, accountsByBlockchain, selectedNetworkType } = wallet;
+        const isExist = accountsByBlockchain.hasOwnProperty(selectedNetworkType);
         const selectedAccount = isExist
-          ? accountsByBlockchain[selectedBlockchain].find(
+          ? accountsByBlockchain[selectedNetworkType].find(
               account => account.publicKeyHash === selectedAccountPublicKeyHash
             ) ?? initialAccount
           : initialAccount;

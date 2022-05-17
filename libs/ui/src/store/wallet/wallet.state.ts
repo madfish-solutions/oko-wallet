@@ -12,7 +12,7 @@ export interface WalletState {
   selectedAccountPublicKeyHash: string;
   networks: NetworkInterface[];
   selectedNetworkRpcUrl: string;
-  selectedBlockchain: NetworkTypeEnum;
+  selectedNetworkType: NetworkTypeEnum;
 }
 
 export const walletInitialState: WalletState = {
@@ -20,5 +20,5 @@ export const walletInitialState: WalletState = {
   selectedAccountPublicKeyHash: '',
   networks: NETWORKS_DEFAULT_LIST,
   selectedNetworkRpcUrl: NETWORKS_DEFAULT_LIST[0].rpcUrl,
-  selectedBlockchain: NetworkTypeEnum.Ethereum
+  selectedNetworkType: NetworkTypeEnum.Ethereum
 };
