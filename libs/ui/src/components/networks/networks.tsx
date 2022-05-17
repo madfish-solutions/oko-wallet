@@ -16,7 +16,7 @@ export const Networks: React.FC = () => {
 
   const handleNetworkSelect = (newSelectedNetwork: NetworkInterface) => {
     dispatch(
-      changeSelectedNetworkAction({ rpcUrl: newSelectedNetwork.rpcUrl, blockchain: newSelectedNetwork.blockchain })
+      changeSelectedNetworkAction({ rpcUrl: newSelectedNetwork.rpcUrl, blockchain: newSelectedNetwork.networkType })
     );
   };
 

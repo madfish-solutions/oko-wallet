@@ -1,3 +1,4 @@
+import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { LoadableEntityState } from '../store/interfaces/loadable-entity-state.interface';
 
 import { GasTokenMetadataInterface } from './token.interface';
@@ -9,5 +10,5 @@ export interface NetworkInterface {
   gasTokenMetadata: GasTokenMetadataInterface;
   gasTokenBalance: LoadableEntityState<string>;
   explorerUrl?: string;
-  blockchain: string;
+  networkType: NetworkTypeEnum;
 }

@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 
+import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { createActions } from '../utils/action.utils';
@@ -9,7 +10,7 @@ export const switchAccountAction = createAction<AccountInterface>('wallet/SWITCH
 
 export const loadGasTokenBalanceAction = createActions<void, string, string>('wallet/LOAD_GAS_TOKEN_BALANCE');
 
-export const changeSelectedNetworkAction = createAction<{ rpcUrl: string; blockchain: string }>(
+export const changeSelectedNetworkAction = createAction<{ rpcUrl: string; blockchain: NetworkTypeEnum }>(
   'wallet/CHANGE_SELECTED_NETWORK'
 );
 export const addNewNetworkAction = createAction<NetworkInterface>('wallet/ADD_NEW_NETWORK');

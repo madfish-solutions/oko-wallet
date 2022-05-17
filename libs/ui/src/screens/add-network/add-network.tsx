@@ -1,9 +1,10 @@
 import React, { FC, useCallback, useState } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { Input } from '../../components/input/input';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { NetworkInterface } from '../../interfaces/network.interface';
@@ -22,6 +23,7 @@ export const AddNetwork: FC = () => {
   const [gasTokenSymbol, setGasTokenSymbol] = useState('');
   const [explorerUrl, setExplorerUrl] = useState('');
   const [error, setError] = useState('');
+  const [networkType, setNetworkType] = useState<NetworkTypeEnum>(NetworkTypeEnum.Ethereum);
 
   const validateSubmitValue = (values: NetworkInterface) => {
     return Object.values(values).every(field => {
@@ -31,6 +33,10 @@ export const AddNetwork: FC = () => {
         return field !== undefined;
       }
     });
+  };
+
+  const handleSelectNetworkType = (newNetworkType: NetworkTypeEnum) => {
+    setNetworkType(newNetworkType);
   };
 
   const handleSubmitNewNetwork = useCallback(() => {
@@ -45,7 +51,8 @@ export const AddNetwork: FC = () => {
         decimals: 8
       },
       gasTokenBalance: createEntity('0'),
-      explorerUrl
+      explorerUrl,
+      networkType
     };
 
     if (validateSubmitValue(values)) {
@@ -62,6 +69,14 @@ export const AddNetwork: FC = () => {
       <Text>Add network</Text>
 
       <View style={AddNetworkStyles.form}>
+        <View>
+          <TouchableOpacity onPress={() => handleSelectNetworkType(NetworkTypeEnum.Ethereum)}>
+            <Text>Ethereum</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleSelectNetworkType(NetworkTypeEnum.Tezos)}>
+            <Text>Tezos</Text>
+          </TouchableOpacity>
+        </View>
         <Input value={name} onChangeText={setName} title="Name" style={AddNetworkStyles.input} />
         <Input value={rpcUrl} onChangeText={setRpcUrl} title="Rpc url" style={AddNetworkStyles.input} />
         <Input value={chainId} onChangeText={setChainId} title="Chain id" style={AddNetworkStyles.input} />

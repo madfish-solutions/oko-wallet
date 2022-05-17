@@ -1,3 +1,4 @@
+import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { NetworkInterface } from '../interfaces/network.interface';
 import { createEntity } from '../store/utils/entity.utils';
 
@@ -14,7 +15,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://scope.klaytn.com/',
-    blockchain: 'Ethereum'
+    networkType: NetworkTypeEnum.Ethereum
   },
   {
     chainId: '1001',
@@ -28,7 +29,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://baobab.scope.klaytn.com/',
-    blockchain: 'Ethereum'
+    networkType: NetworkTypeEnum.Ethereum
   },
   {
     chainId: '1',
@@ -42,7 +43,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://etherscan.io',
-    blockchain: 'Ethereum'
+    networkType: NetworkTypeEnum.Ethereum
   },
   {
     chainId: '56',
@@ -56,7 +57,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://bscscan.com',
-    blockchain: 'Ethereum'
+    networkType: NetworkTypeEnum.Ethereum
   },
   {
     chainId: '1284',
@@ -70,7 +71,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://moonbeam.moonscan.io/',
-    blockchain: 'Ethereum'
+    networkType: NetworkTypeEnum.Ethereum
   },
   {
     chainId: 'NetXdQprcVkpaWU',
@@ -84,6 +85,6 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://tzkt.io/',
-    blockchain: 'Tezos'
+    networkType: NetworkTypeEnum.Tezos
   }
 ];

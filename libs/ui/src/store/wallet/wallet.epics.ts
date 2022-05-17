@@ -17,7 +17,7 @@ const generateHDAccountEpic = (action$: Observable<Action>, state$: Observable<R
     withSelectedNetwork(state$),
     withActualAccountIndex(state$),
     switchMap(([[, network], accountIndex]) =>
-      generateHdAccountByBlockchain$(network.blockchain, accountIndex).pipe(
+      generateHdAccountByBlockchain$(network.networkType, accountIndex).pipe(
         map(account => generateHDAccountAction.success(account)),
         catchError(error => of(generateHDAccountAction.fail(error)))
       )
