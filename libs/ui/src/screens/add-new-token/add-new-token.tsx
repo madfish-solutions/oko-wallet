@@ -11,8 +11,10 @@ export const AddNewToken: FC = () => {
   const [decimals, setDecimals] = useState('');
   const [imageUrl, setImageUrl] = useState('');
 
+  const onDecimalsChange = (decimalsValue: string) => setDecimals(decimalsValue.replace(/\D/g, ''));
+
   const onAddToken = () => {
-    dispatch(addTokenMetadataAction({ address, name, decimals, imageUrl }));
+    dispatch(addTokenMetadataAction({ address, name, decimals: Number(decimals), imageUrl }));
 
     setAddress('');
     setName('');
@@ -24,7 +26,7 @@ export const AddNewToken: FC = () => {
     <View>
       <TextInput placeholder="Contract Address" value={address} onChangeText={setAddress} />
       <TextInput placeholder="Token Name" value={name} onChangeText={setName} />
-      <TextInput placeholder="Token Decimals" value={decimals} onChangeText={setDecimals} />
+      <TextInput placeholder="Token Decimals" value={decimals} onChangeText={onDecimalsChange} keyboardType="numeric" />
       <TextInput placeholder="Image URL" value={imageUrl} onChangeText={setImageUrl} />
       <Pressable onPress={onAddToken}>
         <Text>Add token</Text>

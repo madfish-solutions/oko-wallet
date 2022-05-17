@@ -8,20 +8,20 @@ export interface WalletRootState {
   wallet: WalletState;
 }
 
-export interface AccountTokenInfo {
+export interface AccountTokenInterface {
   tokenAddress: string;
   isVisible: boolean;
-  balance?: string;
+  balance: string;
 }
 
 export interface TokenMetadata {
   address: string;
   name: string;
-  decimals?: string;
+  decimals: number;
   imageUrl?: string;
 }
 
-export type AllAccountTokens = AccountTokenInfo & Omit<TokenMetadata, 'decimals' | 'address'>;
+export type AllAccountTokens = AccountTokenInterface & Omit<TokenMetadata, 'decimals' | 'address'>;
 
 export interface WalletState {
   accounts: AccountInterface[];
@@ -29,5 +29,5 @@ export interface WalletState {
   networks: NetworkInterface[];
   selectedNetworkRpcUrl: string;
   tokensMetadata: Record<NetworkRpcUrlWithTokenAddress, TokenMetadata>;
-  settings: Record<NetworkRpcUrWithPublicKeyHash, AccountTokenInfo[]>;
+  settings: Record<NetworkRpcUrWithPublicKeyHash, AccountTokenInterface[]>;
 }

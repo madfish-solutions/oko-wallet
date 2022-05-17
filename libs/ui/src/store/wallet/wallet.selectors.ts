@@ -4,10 +4,10 @@ import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';
+import { getAccountAddressSlug } from '../../utils/address.util';
+import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 
 import { WalletRootState, WalletState, TokenMetadata, AllAccountTokens } from './types';
-import { getAccountTokenSlug } from './utils/get-account-token-slug';
-import { getMetadataSlug } from './utils/get-metadata-slug';
 
 export const useSelectedAccountSelector = () =>
   useSelector<WalletRootState, AccountInterface>(
@@ -29,18 +29,19 @@ export const useAllNetworksSelector = () =>
 export const useAllAccountTokensSelector = () =>
   useSelector<WalletRootState, AllAccountTokens[]>(
     ({ wallet: { settings, selectedAccountPublicKeyHash, tokensMetadata, selectedNetworkRpcUrl } }) => {
-      const accountTokenSlug = getAccountTokenSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+      const accountAddressSlug = getAccountAddressSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
 
       return (
-        settings[accountTokenSlug]?.map(({ tokenAddress, isVisible }) => {
-          const metadataSlug = getMetadataSlug(selectedNetworkRpcUrl, tokenAddress);
-          const { name, imageUrl } = tokensMetadata[metadataSlug];
+        settings[accountAddressSlug]?.map(({ tokenAddress, isVisible, balance }) => {
+          const tokenMetadataSlug = getTokenMetadataSlug(selectedNetworkRpcUrl, tokenAddress);
+          const { name, imageUrl } = tokensMetadata[tokenMetadataSlug];
 
           return {
             name,
             imageUrl,
             tokenAddress,
-            isVisible
+            isVisible,
+            balance
           };
         }) ?? []
       );
@@ -50,12 +51,12 @@ export const useAllAccountTokensSelector = () =>
 export const useVisibleAccountTokensSelector = () => {
   return useSelector<WalletRootState, TokenMetadata[]>(
     ({ wallet: { tokensMetadata, settings, selectedAccountPublicKeyHash, selectedNetworkRpcUrl } }) => {
-      const accountTokenSlug = getAccountTokenSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+      const accountAddressSlug = getAccountAddressSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
 
       return (
-        settings[accountTokenSlug]
+        settings[accountAddressSlug]
           ?.filter(({ isVisible }) => isVisible)
-          ?.map(({ tokenAddress }) => tokensMetadata[getMetadataSlug(selectedNetworkRpcUrl, tokenAddress)]) ?? []
+          ?.map(({ tokenAddress }) => tokensMetadata[getTokenMetadataSlug(selectedNetworkRpcUrl, tokenAddress)]) ?? []
       );
     }
   );

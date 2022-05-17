@@ -1,11 +1,14 @@
 import React, { FC } from 'react';
 import { Text, View } from 'react-native';
 
+import { TokenMetadata } from '../../../../store/wallet/types';
 import { WalletStyles } from '../../wallet.styles';
 
-import { AccountTokensProps } from './types';
+interface Props {
+  visibleAccountTokens: TokenMetadata[];
+}
 
-export const AccountTokens: FC<AccountTokensProps> = ({ visibleAccountTokens }) => (
+export const AccountTokens: FC<Props> = ({ visibleAccountTokens }) => (
   <>
     {!!visibleAccountTokens.length && <Text style={WalletStyles.boldText}>All visible tokens</Text>}
     {visibleAccountTokens.map(({ address, name, decimals, imageUrl }) => (
