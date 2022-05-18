@@ -1,6 +1,6 @@
 import { NetworkInterface } from '../../interfaces/network.interface';
 
-import { WalletState } from './types';
+import { WalletState } from './wallet.state';
 
 export const updateSelectedNetworkState = (
   state: WalletState,

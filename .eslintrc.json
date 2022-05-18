@@ -78,7 +78,8 @@
     "@typescript-eslint/no-unnecessary-type-constraint": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "jest/no-done-callback": "off",
-    "react/jsx-key": "error"
+    "react/jsx-key": "error",
+    "arrow-body-style": "error"
   },
   "globals": {
     "localStorage": true

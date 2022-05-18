@@ -1,2 +1,2 @@
-export const getAccountAddressSlug = (networkRpcUrl: string, publicKeyHash: string) =>
+export const getAccountTokensSlug = (networkRpcUrl: string, publicKeyHash: string) =>
   `${networkRpcUrl}_${publicKeyHash}`;

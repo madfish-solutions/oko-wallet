@@ -1,7 +1,7 @@
 import { createStore } from './utils/create-store';
-import { WalletRootState } from './wallet/types';
 import { walletEpics } from './wallet/wallet.epics';
 import { walletReducers } from './wallet/wallet.reducers';
+import { WalletRootState } from './wallet/wallet.state';
 
 export type RootState = WalletRootState;
 

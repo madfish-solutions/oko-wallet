@@ -1,12 +1,12 @@
 import { LoadableEntityState } from '../store/interfaces/loadable-entity-state.interface';
 
-import { GasTokenMetadataInterface } from './token.interface';
+import { GasTokenMetadata } from './token.interface';
 
 export interface NetworkInterface {
   chainId: string;
   rpcUrl: string;
   name: string;
-  gasTokenMetadata: GasTokenMetadataInterface;
+  gasTokenMetadata: GasTokenMetadata;
   gasTokenBalance: LoadableEntityState<string>;
   explorerUrl?: string;
 }
