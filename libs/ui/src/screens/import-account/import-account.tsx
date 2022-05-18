@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { View, Text, Pressable, TextInput, StyleSheet, Button, Dimensions } from 'react-native';
+import { View, Text, Pressable, TextInput, StyleSheet, Button } from 'react-native';
 
 import { useShelter } from '../../hooks/use-shelter.hook';
 import { useUnlock } from '../../hooks/use-unlock.hook';
