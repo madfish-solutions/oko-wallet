@@ -8,17 +8,19 @@ export interface WalletRootState {
 }
 
 export interface WalletState {
-  accountsByBlockchain: Record<string, AccountInterface[]>;
+  accounts: AccountInterface[];
   selectedAccountPublicKeyHash: string;
   networks: NetworkInterface[];
   selectedNetworkRpcUrl: string;
   selectedNetworkType: NetworkTypeEnum;
+  selectedAccountIndex: number;
 }
 
 export const walletInitialState: WalletState = {
-  accountsByBlockchain: {},
+  accounts: [],
   selectedAccountPublicKeyHash: '',
   networks: NETWORKS_DEFAULT_LIST,
   selectedNetworkRpcUrl: NETWORKS_DEFAULT_LIST[0].rpcUrl,
-  selectedNetworkType: NetworkTypeEnum.Ethereum
+  selectedNetworkType: NetworkTypeEnum.Ethereum,
+  selectedAccountIndex: 0
 };

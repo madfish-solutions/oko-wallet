@@ -4,19 +4,27 @@ import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { AccountInterface } from '../../interfaces/account.interface';
-import { generateHDAccountAction, switchAccountAction } from '../../store/wallet/wallet.actions';
 import {
-  useAccountsByBlockchainSelector,
-  useSelectedAccountByBlockchainSelector
+  changeAccountAndCreateNewNetworkTypeAction,
+  generateHDAccountAction,
+  switchAccountAction
+} from '../../store/wallet/wallet.actions';
+import {
+  useAllAccountsSelector,
+  useSelectedAccountPkhSelector,
+  useSelectedAccountSelector,
+  useSelectedNetworkTypeSelector
 } from '../../store/wallet/wallet.selectors';
 import { shortize } from '../../utils/shortize.utils';
 
 import { AccountStyles } from './account.styles';
 
 export const Account: FC = () => {
-  const accounts = useAccountsByBlockchainSelector();
-  const selectedAccount = useSelectedAccountByBlockchainSelector();
   const dispatch = useDispatch();
+  const accounts = useAllAccountsSelector();
+  const selectedAccount = useSelectedAccountSelector();
+  const pkh = useSelectedAccountPkhSelector();
+  const selectedNetworkType = useSelectedNetworkTypeSelector();
 
   useEffect(() => {
     if (!accounts.length) {
@@ -29,7 +37,13 @@ export const Account: FC = () => {
   };
 
   const handleSwitchAccount = (account: AccountInterface) => {
-    dispatch(switchAccountAction(account));
+    const isExist = account.networks.hasOwnProperty(selectedNetworkType);
+
+    if (isExist) {
+      dispatch(switchAccountAction(account));
+    } else {
+      dispatch(changeAccountAndCreateNewNetworkTypeAction.submit(account));
+    }
   };
 
   return (
@@ -37,16 +51,25 @@ export const Account: FC = () => {
       <View style={AccountStyles.container}>
         <View style={AccountStyles.selectedAccountInfo}>
           <Text style={AccountStyles.selectedAccountName}>{selectedAccount.name}</Text>
-          <Text>{shortize(selectedAccount.publicKeyHash)}</Text>
+          <Text>{shortize(pkh)}</Text>
         </View>
         <Text style={AccountStyles.allAccountsText}>All accounts:</Text>
         <ScrollView style={AccountStyles.accountsList}>
-          {accounts.map((account, index) => (
-            <TouchableOpacity key={nanoid()} onPress={() => handleSwitchAccount(account)} style={AccountStyles.account}>
-              <Text style={AccountStyles.textBlock}>{`${index + 1}. ${account.name}`}</Text>
-              <Text style={AccountStyles.publicKeyHash}>{shortize(account.publicKeyHash)}</Text>
-            </TouchableOpacity>
-          ))}
+          {accounts.map((account, index) => {
+            const isExist = account.networks.hasOwnProperty(selectedNetworkType);
+            const pkh = isExist ? shortize(account.networks[selectedNetworkType].publicKeyHash) : 'Not genarated';
+
+            return (
+              <TouchableOpacity
+                key={nanoid()}
+                onPress={() => handleSwitchAccount(account)}
+                style={AccountStyles.account}
+              >
+                <Text style={AccountStyles.textBlock}>{`${index + 1}. ${account.name}`}</Text>
+                <Text style={AccountStyles.publicKeyHash}>{pkh}</Text>
+              </TouchableOpacity>
+            );
+          })}
         </ScrollView>
       </View>
       <TouchableOpacity onPress={handleCreateAccount} style={AccountStyles.createAccountButton}>

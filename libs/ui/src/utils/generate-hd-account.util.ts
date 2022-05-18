@@ -22,24 +22,50 @@ export const generateHdAccount = async (seedPhrase: string, derivationPath: stri
   }
 };
 
-const derivationPathByBlockchain: Record<string, (accountIndex: number) => string> = {
+const derivationPathByNetworkType: Record<string, (accountIndex: number) => string> = {
   Ethereum: (accountIndex: number) => getEtherDerivationPath(accountIndex),
   Tezos: (accountIndex: number) => getTezosDerivationPath(accountIndex)
 };
 
 export const generateHdAccountByBlockchain$ = (
-  blockchain: string,
+  networkType: string,
   accountIndex: number
 ): Observable<AccountInterface> => {
-  const derivationPath = derivationPathByBlockchain[blockchain](accountIndex);
+  const derivationPath = derivationPathByNetworkType[networkType](accountIndex);
 
   // TODO: get seed phrase from Shelter
   return from(generateHdAccount(MOCK_HD_ACCOUNT.seed, derivationPath)).pipe(
     map((hdAccount: any) => ({
       ...mockHdAccount,
       name: `Account ${accountIndex + 1}`,
-      publicKeyHash: hdAccount.address,
-      accountIndex
+      accountIndex,
+      networks: {
+        [networkType]: {
+          publicKey: 'publicKey',
+          publicKeyHash: hdAccount.address
+        }
+      }
+    }))
+  );
+};
+
+export const generateNewNetworkTypeInAccount$ = (
+  networkType: string,
+  account: AccountInterface
+): Observable<AccountInterface> => {
+  const derivationPath = derivationPathByNetworkType[networkType](account.accountIndex);
+
+  // TODO: get seed phrase from Shelter
+  return from(generateHdAccount(MOCK_HD_ACCOUNT.seed, derivationPath)).pipe(
+    map((hdAccount: any) => ({
+      ...account,
+      networks: {
+        ...account.networks,
+        [networkType]: {
+          publicKey: 'publicKey',
+          publicKeyHash: hdAccount.address
+        }
+      }
     }))
   );
 };

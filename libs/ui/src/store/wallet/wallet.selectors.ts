@@ -17,40 +17,22 @@ export const useSelectedNetworkSelector = () =>
 export const useAllNetworksSelector = () =>
   useSelector<WalletRootState, WalletState['networks']>(({ wallet }) => wallet.networks);
 
-// NEW: Accounts by blockchain
-export const useAccountsByBlockchainSelector = () =>
-  useSelector<WalletRootState, AccountInterface[]>(({ wallet }) =>
-    wallet.accountsByBlockchain.hasOwnProperty(wallet.selectedNetworkType)
-      ? wallet.accountsByBlockchain[wallet.selectedNetworkType]
-      : []
-  );
-
-export const useSelectedAccountByBlockchainSelectorPure = () =>
+// NEW: Accounts
+export const useSelectedAccountSelector = () =>
   useSelector<WalletRootState, AccountInterface>(
     ({ wallet }) => {
-      const isExist = wallet.accountsByBlockchain.hasOwnProperty(wallet.selectedNetworkType);
+      const selectedAccount = wallet.accounts.find(account => account.accountIndex === wallet.selectedAccountIndex);
 
-      return isExist
-        ? wallet.accountsByBlockchain[wallet.selectedNetworkType].find(
-            account => account.publicKeyHash === wallet.selectedAccountPublicKeyHash
-          ) ?? initialAccount
-        : initialAccount;
+      return selectedAccount ?? initialAccount;
     },
     (left, right) => JSON.stringify(left) === JSON.stringify(right)
   );
 
-export const useSelectedAccountByBlockchainSelector = () => {
-  const accounts = useAccountsByBlockchainSelector();
-  const selectedAccount = useSelectedAccountByBlockchainSelectorPure();
+export const useSelectedAccountPkhSelector = () =>
+  useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedAccountPublicKeyHash);
 
-  return accounts.length ? selectedAccount : initialAccount;
-};
+export const useSelectedNetworkTypeSelector = () =>
+  useSelector<WalletRootState, WalletState['selectedNetworkType']>(({ wallet }) => wallet.selectedNetworkType);
 
 export const useAllAccountsSelector = () =>
-  useSelector<WalletRootState, WalletState['accountsByBlockchain']>(({ wallet }) => wallet.accountsByBlockchain);
-
-// Test
-export const useAccountIsExist = () =>
-  useSelector<WalletRootState, boolean>(({ wallet }) =>
-    wallet.accountsByBlockchain.hasOwnProperty(wallet.selectedNetworkType)
-  );
+  useSelector<WalletRootState, WalletState['accounts']>(({ wallet }) => wallet.accounts);

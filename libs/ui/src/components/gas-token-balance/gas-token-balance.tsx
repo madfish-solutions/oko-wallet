@@ -3,10 +3,7 @@ import { Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { loadGasTokenBalanceAction } from '../../store/wallet/wallet.actions';
-import {
-  useSelectedAccountByBlockchainSelector,
-  useSelectedNetworkSelector
-} from '../../store/wallet/wallet.selectors';
+import { useSelectedAccountPkhSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
 import { Networks } from '../networks/networks';
 
 import { GasTokenBalanceStyles } from './gas-token-balance.styles';
@@ -14,12 +11,12 @@ import { GasTokenBalanceStyles } from './gas-token-balance.styles';
 export const GasTokenBalance: FC = () => {
   const { gasTokenMetadata, gasTokenBalance } = useSelectedNetworkSelector();
   const selectedNetwork = useSelectedNetworkSelector();
-  const selectedAccount = useSelectedAccountByBlockchainSelector();
+  const pkh = useSelectedAccountPkhSelector();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(loadGasTokenBalanceAction.submit());
-  }, [selectedNetwork.rpcUrl, selectedAccount.publicKeyHash]);
+  }, [selectedNetwork.rpcUrl, pkh]);
 
   const gasTokenBalanceWithLoading = gasTokenBalance.isLoading
     ? '...'

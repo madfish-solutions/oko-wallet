@@ -1,30 +1,41 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { NetworkInterface } from '../../interfaces/network.interface';
-import { changeSelectedNetworkAction, generateHDAccountAction } from '../../store/wallet/wallet.actions';
-import { useAccountIsExist, useAllNetworksSelector } from '../../store/wallet/wallet.selectors';
+import {
+  changeSelectedNetworkAction,
+  changeSelectedNetworkAndCreateNetworkTypeByAccountAction
+} from '../../store/wallet/wallet.actions';
+import { useAllNetworksSelector, useSelectedAccountSelector } from '../../store/wallet/wallet.selectors';
 
 import { NetworksStyles } from './networks.styles';
 
 export const Networks: React.FC = () => {
-  const isUserHasAccountBySelectedBlockchain = useAccountIsExist();
   const dispatch = useDispatch();
-
+  const selectedAccount = useSelectedAccountSelector();
   const networks = useAllNetworksSelector();
 
-  const handleNetworkSelect = (newSelectedNetwork: NetworkInterface) => {
-    dispatch(
-      changeSelectedNetworkAction({ rpcUrl: newSelectedNetwork.rpcUrl, blockchain: newSelectedNetwork.networkType })
-    );
-  };
+  const handleNetworkSelect = ({ rpcUrl, networkType }: NetworkInterface) => {
+    const isExist = selectedAccount.networks.hasOwnProperty(networkType);
 
-  useEffect(() => {
-    if (!isUserHasAccountBySelectedBlockchain) {
-      dispatch(generateHDAccountAction.submit());
+    if (isExist) {
+      dispatch(
+        changeSelectedNetworkAction.submit({
+          rpcUrl,
+          networkType,
+          publicKeyHash: selectedAccount.networks[networkType].publicKeyHash
+        })
+      );
+    } else {
+      dispatch(
+        changeSelectedNetworkAndCreateNetworkTypeByAccountAction.submit({
+          rpcUrl,
+          networkType
+        })
+      );
     }
-  }, [isUserHasAccountBySelectedBlockchain]);
+  };
 
   return (
     <View>
