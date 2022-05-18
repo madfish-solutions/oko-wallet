@@ -5,7 +5,7 @@ import { ofType, toPayload } from 'ts-action-operators';
 
 import {
   generateHdAccountByNetworkType$,
-  generatNewHdAccountByNewNetworkTypeInSelectedAccount$
+  generateNewHdAccountByNewNetworkTypeInSelectedAccount$
 } from '../../utils/generate-hd-account.util';
 import { getGasTokenBalance$ } from '../../utils/token.utils';
 import { withSelectedAccount, withSelectedNetwork, withSelectedNetworkType } from '../../utils/wallet.util';
@@ -52,7 +52,7 @@ const generateHdAccountByNetworkTypeEpic = (action$: Observable<Action>, state$:
     map(account => account),
     withSelectedNetwork(state$),
     switchMap(([account, network]) =>
-      generatNewHdAccountByNewNetworkTypeInSelectedAccount$(network.networkType, account).pipe(
+      generateNewHdAccountByNewNetworkTypeInSelectedAccount$(network.networkType, account).pipe(
         map(account => generateHdAccountByNetworkTypeAction.success(account)),
         catchError(error => of(generateHdAccountByNetworkTypeAction.fail(error.message)))
       )

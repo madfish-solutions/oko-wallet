@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { generateHdAccountByNetworkTypeAction, changeNetworkAction } from '../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedAccountSelector } from '../../store/wallet/wallet.selectors';
+import { checkIsAccountExist } from '../../utils/check-is-account-exist.utils';
 
 import { NetworksStyles } from './networks.styles';
 
@@ -16,8 +17,7 @@ export const Networks: React.FC = () => {
   const handleNetworkSelect = ({ rpcUrl, networkType }: NetworkInterface) => {
     dispatch(changeNetworkAction({ rpcUrl, networkType, accontIndex: selectedAccount.accountIndex }));
 
-    const isExist = selectedAccount.networks.hasOwnProperty(networkType);
-    if (!isExist) {
+    if (!checkIsAccountExist(selectedAccount, networkType)) {
       dispatch(generateHdAccountByNetworkTypeAction.submit(selectedAccount));
     }
   };

@@ -15,7 +15,7 @@ export const changeNetworkAction = createAction<{
   rpcUrl: string;
   networkType: NetworkTypeEnum;
   accontIndex: number;
-}>('wallet/CHANGE_SELECTED_NETWORK');
+}>('wallet/CHANGE_NETWORK');
 
 export const generateHdAccountByNetworkTypeAction = createActions<AccountInterface, AccountInterface, string>(
   'wallet/GENERATE_HD_ACCOUNT_BY_NETWORK_TYPE'

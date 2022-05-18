@@ -6,7 +6,7 @@ import { initialAccount } from '../mocks/account.interface.mock';
 import { MOCK_HD_ACCOUNT } from '../mocks/hd-account.mock';
 
 import { getEtherDerivationPath, getTezosDerivationPath } from './derivation-path.utils';
-import { generateKlaytnHdAccount } from './generate-klaytn-hd-account.util';
+import { generateEthereumHdAccount } from './generate-klaytn-hd-account.util';
 import { generateTezosHdAccount } from './generate-tezos-hd-account.util';
 
 export const generateHdAccount = async (seedPhrase: string, derivationPath: string) => {
@@ -14,11 +14,11 @@ export const generateHdAccount = async (seedPhrase: string, derivationPath: stri
 
   switch (cointype.replace("'", '')) {
     case ETHER_BIP44_COINTYPE:
-      return generateKlaytnHdAccount(seedPhrase, derivationPath);
+      return generateEthereumHdAccount(seedPhrase, derivationPath);
     case TEZOS_BIP44_COINTYPE:
       return generateTezosHdAccount(seedPhrase, derivationPath);
     default:
-      return {};
+      return generateEthereumHdAccount(seedPhrase, derivationPath);
   }
 };
 
@@ -35,7 +35,7 @@ export const generateHdAccountByNetworkType$ = (
 
   // TODO: get seed phrase from Shelter
   return from(generateHdAccount(MOCK_HD_ACCOUNT.seed, derivationPath)).pipe(
-    map((hdAccount: any) => ({
+    map(hdAccount => ({
       ...initialAccount,
       name: `Account ${accountIndex + 1}`,
       accountIndex,
@@ -49,7 +49,7 @@ export const generateHdAccountByNetworkType$ = (
   );
 };
 
-export const generatNewHdAccountByNewNetworkTypeInSelectedAccount$ = (
+export const generateNewHdAccountByNewNetworkTypeInSelectedAccount$ = (
   networkType: string,
   account: AccountInterface
 ): Observable<AccountInterface> => {
@@ -57,7 +57,7 @@ export const generatNewHdAccountByNewNetworkTypeInSelectedAccount$ = (
 
   // TODO: get seed phrase from Shelter
   return from(generateHdAccount(MOCK_HD_ACCOUNT.seed, derivationPath)).pipe(
-    map((hdAccount: any) => ({
+    map(hdAccount => ({
       ...account,
       networks: {
         ...account.networks,

@@ -15,6 +15,7 @@ import {
   useSelectedAccountSelector,
   useSelectedNetworkTypeSelector
 } from '../../store/wallet/wallet.selectors';
+import { checkIsAccountExist } from '../../utils/check-is-account-exist.utils';
 import { shortize } from '../../utils/shortize.utils';
 
 import { AccountStyles } from './account.styles';
@@ -37,9 +38,7 @@ export const Account: FC = () => {
   };
 
   const handleSwitchAccount = (account: AccountInterface) => {
-    const isExist = account.networks.hasOwnProperty(selectedNetworkType);
-
-    if (isExist) {
+    if (checkIsAccountExist(account, selectedNetworkType)) {
       dispatch(changeAccountAction(account));
     } else {
       dispatch(generateHdAccountByNetworkTypeAction.submit(account));
@@ -56,8 +55,9 @@ export const Account: FC = () => {
         <Text style={AccountStyles.allAccountsText}>All accounts:</Text>
         <ScrollView style={AccountStyles.accountsList}>
           {accounts.map((account, index) => {
-            const isExist = account.networks.hasOwnProperty(selectedNetworkType);
-            const pkh = isExist ? shortize(account.networks[selectedNetworkType].publicKeyHash) : 'Not genarated';
+            const pkh = checkIsAccountExist(account, selectedNetworkType)
+              ? shortize(account.networks[selectedNetworkType].publicKeyHash)
+              : 'Not genarated';
 
             return (
               <TouchableOpacity

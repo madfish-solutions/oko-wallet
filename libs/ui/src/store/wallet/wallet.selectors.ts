@@ -17,7 +17,6 @@ export const useSelectedNetworkSelector = () =>
 export const useAllNetworksSelector = () =>
   useSelector<WalletRootState, WalletState['networks']>(({ wallet }) => wallet.networks);
 
-// NEW: Accounts
 export const useSelectedAccountSelector = () =>
   useSelector<WalletRootState, AccountInterface>(
     ({ wallet }) => {

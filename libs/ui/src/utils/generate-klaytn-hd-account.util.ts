@@ -1,4 +1,4 @@
 import { ethers } from 'ethers';
 
-export const generateKlaytnHdAccount = (seedPhrase: string, derivationPath: string) =>
+export const generateEthereumHdAccount = (seedPhrase: string, derivationPath: string) =>
   ethers.Wallet.fromMnemonic(seedPhrase, derivationPath);
