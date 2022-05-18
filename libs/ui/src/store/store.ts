@@ -1,4 +1,3 @@
-import { appInfoEpics } from './app-info/app-info.epics';
 import { appInfoReducers } from './app-info/app-info.reducers';
 import { AppInfoRootState } from './app-info/app-info.state';
 import { createStore } from './utils/create-store';
@@ -12,5 +11,5 @@ export const { store, persistor } = createStore<RootState>({
     appInfo: appInfoReducers,
     wallet: walletReducers
   },
-  epics: [appInfoEpics]
+  epics: []
 });
