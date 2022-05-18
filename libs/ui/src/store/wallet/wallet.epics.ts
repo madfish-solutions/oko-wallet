@@ -15,8 +15,8 @@ import { RootState } from '../store';
 import { withActualAccountIndex } from '../utils/walle.utils';
 
 import {
-  changeAccountAndCreateNewNetworkTypeAction,
-  changeSelectedNetworkAndCreateNetworkTypeByAccountAction,
+  changeAccountAndGenerateHdAccountByNetworkTypeAction,
+  changeNetworkAndGenerateHdAccountByNetworkTypeAction,
   generateHDAccountAction,
   loadGasTokenBalanceAction
 } from './wallet.actions';
@@ -53,27 +53,27 @@ const changeSelectedNetworkAndCreateNetworkTypeByAccountEpic = (
   state$: Observable<RootState>
 ) =>
   action$.pipe(
-    ofType(changeSelectedNetworkAndCreateNetworkTypeByAccountAction.submit),
+    ofType(changeNetworkAndGenerateHdAccountByNetworkTypeAction.submit),
     withSelectedNetwork(state$),
     withSelectedAccountIndex(state$),
     switchMap(([[, network], accountIndex]) =>
       generateHdAccountByBlockchain$(network.networkType, accountIndex).pipe(
-        map(account => changeSelectedNetworkAndCreateNetworkTypeByAccountAction.success(account)),
-        catchError(error => of(changeSelectedNetworkAndCreateNetworkTypeByAccountAction.fail(error.message)))
+        map(account => changeNetworkAndGenerateHdAccountByNetworkTypeAction.success(account)),
+        catchError(error => of(changeNetworkAndGenerateHdAccountByNetworkTypeAction.fail(error.message)))
       )
     )
   );
 
 const changeAccountAndCreateNewNetworkTypeEpic = (action$: Observable<Action>, state$: Observable<RootState>) =>
   action$.pipe(
-    ofType(changeAccountAndCreateNewNetworkTypeAction.submit),
+    ofType(changeAccountAndGenerateHdAccountByNetworkTypeAction.submit),
     toPayload(),
     map(account => account),
     withSelectedNetwork(state$),
     switchMap(([account, network]) =>
       generateNewNetworkTypeInAccount$(network.networkType, account).pipe(
-        map(account => changeAccountAndCreateNewNetworkTypeAction.success(account)),
-        catchError(error => of(changeAccountAndCreateNewNetworkTypeAction.fail(error.message)))
+        map(account => changeAccountAndGenerateHdAccountByNetworkTypeAction.success(account)),
+        catchError(error => of(changeAccountAndGenerateHdAccountByNetworkTypeAction.fail(error.message)))
       )
     )
   );

@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux';
 
 import { NetworkInterface } from '../../interfaces/network.interface';
 import {
-  changeSelectedNetworkAction,
-  changeSelectedNetworkAndCreateNetworkTypeByAccountAction
+  changeNetworkAction,
+  changeNetworkAndGenerateHdAccountByNetworkTypeAction
 } from '../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedAccountSelector } from '../../store/wallet/wallet.selectors';
 
@@ -21,7 +21,7 @@ export const Networks: React.FC = () => {
 
     if (isExist) {
       dispatch(
-        changeSelectedNetworkAction.submit({
+        changeNetworkAction.submit({
           rpcUrl,
           networkType,
           publicKeyHash: selectedAccount.networks[networkType].publicKeyHash
@@ -29,7 +29,7 @@ export const Networks: React.FC = () => {
       );
     } else {
       dispatch(
-        changeSelectedNetworkAndCreateNetworkTypeByAccountAction.submit({
+        changeNetworkAndGenerateHdAccountByNetworkTypeAction.submit({
           rpcUrl,
           networkType
         })

@@ -5,9 +5,9 @@ import { useDispatch } from 'react-redux';
 
 import { AccountInterface } from '../../interfaces/account.interface';
 import {
-  changeAccountAndCreateNewNetworkTypeAction,
+  changeAccountAndGenerateHdAccountByNetworkTypeAction,
   generateHDAccountAction,
-  switchAccountAction
+  changeAccountAction
 } from '../../store/wallet/wallet.actions';
 import {
   useAllAccountsSelector,
@@ -40,9 +40,9 @@ export const Account: FC = () => {
     const isExist = account.networks.hasOwnProperty(selectedNetworkType);
 
     if (isExist) {
-      dispatch(switchAccountAction(account));
+      dispatch(changeAccountAction(account));
     } else {
-      dispatch(changeAccountAndCreateNewNetworkTypeAction.submit(account));
+      dispatch(changeAccountAndGenerateHdAccountByNetworkTypeAction.submit(account));
     }
   };
 

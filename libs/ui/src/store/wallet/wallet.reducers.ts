@@ -5,32 +5,28 @@ import { createEntity } from '../utils/entity.utils';
 
 import {
   addNewNetworkAction,
-  changeAccountAndCreateNewNetworkTypeAction,
-  changeSelectedNetworkAction,
-  changeSelectedNetworkAndCreateNetworkTypeByAccountAction,
+  changeAccountAndGenerateHdAccountByNetworkTypeAction,
+  changeNetworkAction,
+  changeNetworkAndGenerateHdAccountByNetworkTypeAction,
   generateHDAccountAction,
   loadGasTokenBalanceAction,
-  switchAccountAction
+  changeAccountAction
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import { updateSelectedNetworkState } from './wallet.utils';
 
 export const walletReducers = createReducer<WalletState>(walletInitialState, builder => {
-  builder.addCase(generateHDAccountAction.success, (state, { payload: account }) => {
-    return {
-      ...state,
-      accounts: [...state.accounts, account].sort((a, b) => a.accountIndex - b.accountIndex),
-      selectedAccountPublicKeyHash: account.networks[state.selectedNetworkType].publicKeyHash,
-      selectedAccountIndex: account.accountIndex
-    };
-  });
-  builder.addCase(switchAccountAction, (state, { payload: account }) => {
-    return {
-      ...state,
-      selectedAccountPublicKeyHash: account.networks[state.selectedNetworkType].publicKeyHash,
-      selectedAccountIndex: account.accountIndex
-    };
-  });
+  builder.addCase(generateHDAccountAction.success, (state, { payload: account }) => ({
+    ...state,
+    accounts: [...state.accounts, account].sort((a, b) => a.accountIndex - b.accountIndex),
+    selectedAccountPublicKeyHash: account.networks[state.selectedNetworkType].publicKeyHash,
+    selectedAccountIndex: account.accountIndex
+  }));
+  builder.addCase(changeAccountAction, (state, { payload: account }) => ({
+    ...state,
+    selectedAccountPublicKeyHash: account.networks[state.selectedNetworkType].publicKeyHash,
+    selectedAccountIndex: account.accountIndex
+  }));
 
   builder.addCase(loadGasTokenBalanceAction.submit, state =>
     updateSelectedNetworkState(state, selectedNetwork => ({
@@ -48,21 +44,21 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     }))
   );
 
-  builder.addCase(changeSelectedNetworkAction.submit, (state, { payload: newSelectedNetwork }) => ({
+  builder.addCase(changeNetworkAction.submit, (state, { payload: newSelectedNetwork }) => ({
     ...state,
     selectedNetworkRpcUrl: newSelectedNetwork.rpcUrl,
     selectedNetworkType: newSelectedNetwork.networkType,
     selectedAccountPublicKeyHash: newSelectedNetwork.publicKeyHash
   }));
   builder.addCase(
-    changeSelectedNetworkAndCreateNetworkTypeByAccountAction.submit,
+    changeNetworkAndGenerateHdAccountByNetworkTypeAction.submit,
     (state, { payload: newSelectedNetwork }) => ({
       ...state,
       selectedNetworkRpcUrl: newSelectedNetwork.rpcUrl,
       selectedNetworkType: newSelectedNetwork.networkType
     })
   );
-  builder.addCase(changeSelectedNetworkAndCreateNetworkTypeByAccountAction.success, (state, { payload: account }) => {
+  builder.addCase(changeNetworkAndGenerateHdAccountByNetworkTypeAction.success, (state, { payload: account }) => {
     const selectedAccount =
       state.accounts.find(account => account.accountIndex === state.selectedAccountIndex) ?? initialAccount;
     const filteredAccounts = state.accounts.filter(account => account.accountIndex !== selectedAccount.accountIndex);
@@ -85,7 +81,8 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       selectedAccountIndex: account.accountIndex
     };
   });
-  builder.addCase(changeAccountAndCreateNewNetworkTypeAction.success, (state, { payload: newAccount }) => {
+
+  builder.addCase(changeAccountAndGenerateHdAccountByNetworkTypeAction.success, (state, { payload: newAccount }) => {
     const filteredAccounts = state.accounts.filter(account => account.accountIndex !== newAccount.accountIndex);
 
     return {
