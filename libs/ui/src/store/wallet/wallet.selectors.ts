@@ -19,11 +19,8 @@ export const useAllNetworksSelector = () =>
 
 export const useSelectedAccountSelector = () =>
   useSelector<WalletRootState, AccountInterface>(
-    ({ wallet }) => {
-      const selectedAccount = wallet.accounts.find(account => account.accountIndex === wallet.selectedAccountIndex);
-
-      return selectedAccount ?? initialAccount;
-    },
+    ({ wallet }) =>
+      wallet.accounts.find(account => account.accountIndex === wallet.selectedAccountIndex) ?? initialAccount,
     (left, right) => JSON.stringify(left) === JSON.stringify(right)
   );
 
