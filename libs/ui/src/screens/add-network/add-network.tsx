@@ -25,15 +25,14 @@ export const AddNetwork: FC = () => {
   const [error, setError] = useState('');
   const [networkType, setNetworkType] = useState<NetworkTypeEnum>(NetworkTypeEnum.Ethereum);
 
-  const validateSubmitValue = (values: NetworkInterface) => {
-    return Object.values(values).every(field => {
+  const validateSubmitValue = (values: NetworkInterface) =>
+    Object.values(values).every(field => {
       if (typeof field === 'string') {
         return field.trim() !== undefined && field.trim() !== '';
       } else {
         return field !== undefined;
       }
     });
-  };
 
   const handleSelectNetworkType = (newNetworkType: NetworkTypeEnum) => {
     setNetworkType(newNetworkType);

@@ -3,9 +3,11 @@ import { Button, View } from 'react-native';
 
 import { ShelterScreen } from '../shelter-screen/shelter-screen';
 
-import { ImportAccountProps } from './types';
+interface Props {
+  handleAuthorisation: () => void;
+}
 
-export const ImportAccount: FC<ImportAccountProps> = ({ handleAuthorisation }) => (
+export const ImportAccount: FC<Props> = ({ handleAuthorisation }) => (
   <View>
     <Button title="Get Authorisation" onPress={handleAuthorisation} />
     <ShelterScreen />
