@@ -8,11 +8,9 @@ type InputProps = {
   style?: StyleProp<TextStyle>;
 } & TextInputProps;
 
-export const Input: React.FC<InputProps> = ({ title, style, ...props }) => {
-  return (
-    <View style={InputStyles.root}>
-      <Text style={InputStyles.title}>{title}</Text>
-      <TextInput style={[InputStyles.input, style]} placeholder={props.placeholder ?? '...'} {...props} />
-    </View>
-  );
-};
+export const Input: React.FC<InputProps> = ({ title, style, ...props }) => (
+  <View style={InputStyles.root}>
+    <Text style={InputStyles.title}>{title}</Text>
+    <TextInput style={[InputStyles.input, style]} placeholder={props.placeholder ?? '...'} {...props} />
+  </View>
+);
