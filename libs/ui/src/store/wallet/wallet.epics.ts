@@ -37,8 +37,8 @@ const getGasTokenBalanceEpic = (action$: Observable<Action>, state$: Observable<
     withSelectedAccount(state$),
     withSelectedNetwork(state$),
     withSelectedNetworkType(state$),
-    switchMap(([[[, { networks }], network], networkType]) =>
-      getGasTokenBalance$(network, networks[networkType].publicKeyHash).pipe(
+    switchMap(([[[, { networksKeys }], network], networkType]) =>
+      getGasTokenBalance$(network, networksKeys[networkType].publicKeyHash).pipe(
         map(balance => loadGasTokenBalanceAction.success(balance)),
         catchError(error => of(loadGasTokenBalanceAction.fail(error.message)))
       )

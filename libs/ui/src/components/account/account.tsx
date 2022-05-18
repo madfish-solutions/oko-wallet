@@ -57,7 +57,7 @@ export const Account: FC = () => {
         <ScrollView style={AccountStyles.accountsList}>
           {accounts.map(account => {
             const pkh = checkIsNetworkTypeKeyExist(account, selectedNetworkType)
-              ? shortize(account.networks[selectedNetworkType].publicKeyHash)
+              ? shortize(account.networksKeys[selectedNetworkType].publicKeyHash)
               : 'Not generated';
 
             return (

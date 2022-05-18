@@ -9,6 +9,6 @@ export interface AccountInterface {
   name: string;
   type: AccountTypeEnum;
   accountIndex: number;
-  networks: Record<string, AccountByNetworkType>;
+  networksKeys: Record<string, AccountByNetworkType>;
   isVisible?: boolean;
 }

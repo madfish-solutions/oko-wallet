@@ -19,12 +19,12 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
   builder.addCase(generateHDAccountAction.success, (state, { payload: account }) => ({
     ...state,
     accounts: [...state.accounts, account].sort((a, b) => a.accountIndex - b.accountIndex),
-    selectedAccountPublicKeyHash: account.networks[state.selectedNetworkType].publicKeyHash,
+    selectedAccountPublicKeyHash: account.networksKeys[state.selectedNetworkType].publicKeyHash,
     selectedAccountIndex: account.accountIndex
   }));
   builder.addCase(changeAccountAction, (state, { payload: account }) => ({
     ...state,
-    selectedAccountPublicKeyHash: account.networks[state.selectedNetworkType].publicKeyHash,
+    selectedAccountPublicKeyHash: account.networksKeys[state.selectedNetworkType].publicKeyHash,
     selectedAccountIndex: account.accountIndex
   }));
 
@@ -53,7 +53,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       selectedNetworkRpcUrl: newSelectedNetwork.rpcUrl,
       selectedNetworkType: newSelectedNetwork.networkType,
       selectedAccountPublicKeyHash: checkIsNetworkTypeKeyExist(currentAccount, newSelectedNetwork.networkType)
-        ? currentAccount.networks[newSelectedNetwork.networkType].publicKeyHash
+        ? currentAccount.networksKeys[newSelectedNetwork.networkType].publicKeyHash
         : ''
     };
   });
@@ -64,7 +64,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     return {
       ...state,
       accounts: [...filteredAccounts, newAccount].sort((a, b) => a.accountIndex - b.accountIndex),
-      selectedAccountPublicKeyHash: newAccount.networks[state.selectedNetworkType].publicKeyHash,
+      selectedAccountPublicKeyHash: newAccount.networksKeys[state.selectedNetworkType].publicKeyHash,
       selectedAccountIndex: newAccount.accountIndex
     };
   });

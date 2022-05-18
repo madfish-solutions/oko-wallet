@@ -12,7 +12,7 @@ export const Receive: FC = () => {
   const selectedAccount = useSelectedAccountSelector();
   const networkType = useSelectedNetworkTypeSelector();
 
-  const publicKeyHash = useMemo(() => selectedAccount.networks[networkType].publicKeyHash, [networkType]);
+  const publicKeyHash = useMemo(() => selectedAccount.networksKeys[networkType].publicKeyHash, [networkType]);
 
   const handleCopyToClipboard = () => {
     Clipboard.setString(publicKeyHash);

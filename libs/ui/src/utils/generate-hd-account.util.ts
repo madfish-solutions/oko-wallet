@@ -60,7 +60,7 @@ export const generateNewHdAccountByNewNetworkTypeInSelectedAccount$ = (
     map(hdAccount => ({
       ...account,
       networks: {
-        ...account.networks,
+        ...account.networksKeys,
         [networkType]: {
           publicKey: 'publicKey',
           publicKeyHash: hdAccount.address
