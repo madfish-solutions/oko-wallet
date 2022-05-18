@@ -3,8 +3,8 @@ import { forkJoin, of, switchMap, Observable, from, BehaviorSubject } from 'rxjs
 import { catchError, map } from 'rxjs/operators';
 
 import { AccountTypeEnum } from '../enums/account-type.enum';
+import { AccountInterface } from '../interfaces/account.interface';
 import { hashPassword } from '../sha256/generate-hash';
-import { AccountInterface } from '../store/interfaces/account.interface';
 import { decrypt } from '../themis/decrypt';
 import { encrypt } from '../themis/encrypt';
 import { getEtherDerivationPath } from '../utils/derivation-path.utils';
@@ -19,8 +19,8 @@ export class Shelter {
 
   static hashPasswordObservable$ = (input: string) => from(hashPassword(input));
 
-  static saveSensitiveData = async (sensetiveData: Record<string, string>, password: string) => {
-    return Promise.all(
+  static saveSensitiveData = async (sensetiveData: Record<string, string>, password: string) =>
+    Promise.all(
       Object.entries(sensetiveData).map(async ([key, value]) => {
         const dataToSave = await encrypt(value, password);
         setStoredValue(key, JSON.stringify(dataToSave));
@@ -28,14 +28,13 @@ export class Shelter {
         return dataToSave;
       })
     );
-  };
 
   static importAccount$ = (
     seedPhrase: string,
     password: string,
     hdAccountsLength = 1
-  ): Observable<AccountInterface[]> => {
-    return Shelter.hashPasswordObservable$(password).pipe(
+  ): Observable<AccountInterface[]> =>
+    Shelter.hashPasswordObservable$(password).pipe(
       switchMap(passwordHash => {
         Shelter._hashPassword$.next(passwordHash);
 
@@ -57,14 +56,12 @@ export class Shelter {
                     passwordHash
                   )
                 ).pipe(
-                  map(() => {
-                    return {
-                      name,
-                      type: AccountTypeEnum.HD_ACCOUNT,
-                      publicKey,
-                      publicKeyHash: address
-                    };
-                  })
+                  map(() => ({
+                    name,
+                    type: AccountTypeEnum.HD_ACCOUNT,
+                    publicKey,
+                    publicKeyHash: address
+                  }))
                 )
               )
             );
@@ -72,7 +69,6 @@ export class Shelter {
         );
       })
     );
-  };
 
   static decryptSensitiveData = async (key: string, password: string) => {
     const decrypted = await decrypt(key, password);
@@ -82,10 +78,10 @@ export class Shelter {
 
   static lockApp = () => Shelter._hashPassword$.next(INITIAL_PASSWORD);
 
-  static unlockApp$ = (password: string) => {
-    return Shelter.hashPasswordObservable$(password).pipe(
-      switchMap(passwordHash => {
-        return from(Shelter.decryptSensitiveData(PASSWORD_CHECK, passwordHash)).pipe(
+  static unlockApp$ = (password: string) =>
+    Shelter.hashPasswordObservable$(password).pipe(
+      switchMap(passwordHash =>
+        from(Shelter.decryptSensitiveData(PASSWORD_CHECK, passwordHash)).pipe(
           map(decrypted => {
             if (decrypted !== undefined) {
               Shelter._hashPassword$.next(passwordHash);
@@ -96,8 +92,7 @@ export class Shelter {
             return false;
           }),
           catchError(() => of(false))
-        );
-      })
+        )
+      )
     );
-  };
 }
