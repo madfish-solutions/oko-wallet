@@ -4,9 +4,8 @@ import { getStoredValue, StoredSensetiveData } from '../utils/store.util';
 
 export const decrypt = async (key: string, passwordHash: string) => {
   await initialized;
-
   const encryptedData = await getStoredValue<StoredSensetiveData>(key);
-  if (encryptedData !== undefined) {
+  if (encryptedData !== null) {
     const encryptedArray = Uint8Array.from(Object.values(encryptedData.encrypted));
     const context = new Uint8Array([...Buffer.from(passwordHash)]);
     const saltArray = Uint8Array.from(Object.values(encryptedData.symmetricKey));
@@ -16,5 +15,4 @@ export const decrypt = async (key: string, passwordHash: string) => {
 
     return decrypted;
   }
-  throw Error('failed to decrypt message');
 };

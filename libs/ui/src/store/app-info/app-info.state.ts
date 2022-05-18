@@ -7,8 +7,10 @@ export interface AppInfoRootState {
 
 export interface AppInfoState {
   randomBalance: LoadableEntityState<number>;
+  isUnlocked: boolean;
 }
 
 export const appInfoInitialState: AppInfoState = {
-  randomBalance: createEntity(0)
+  randomBalance: createEntity(0),
+  isUnlocked: true
 };

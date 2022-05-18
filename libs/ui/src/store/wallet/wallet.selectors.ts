@@ -11,6 +11,6 @@ export const useSelectedAccount = () => {
   return useMemo(
     () =>
       wallet.accounts.find(account => account.publicKeyHash === wallet.selectedAccountPublicKeyHash) ?? initialAccount,
-    [wallet.selectedAccountPublicKeyHash]
+    [wallet.selectedAccountPublicKeyHash, wallet.accounts.length]
   );
 };

@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { createEntity } from '../utils/entity.utils';
 
-import { generateRandomBalanceValueAction } from './app-info.actions';
+import { generateRandomBalanceValueAction, unlockAppAction } from './app-info.actions';
 import { appInfoInitialState, AppInfoState } from './app-info.state';
 
 export const appInfoReducers = createReducer<AppInfoState>(appInfoInitialState, builder => {
@@ -17,5 +17,9 @@ export const appInfoReducers = createReducer<AppInfoState>(appInfoInitialState, 
   builder.addCase(generateRandomBalanceValueAction.fail, (state, { payload: error }) => ({
     ...state,
     randomBalance: createEntity(state.randomBalance.data, false, error)
+  }));
+  builder.addCase(unlockAppAction, (state, { payload }) => ({
+    ...state,
+    isUnlocked: payload
   }));
 });

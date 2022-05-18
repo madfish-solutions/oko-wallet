@@ -5,13 +5,10 @@ export interface StoredSensetiveData {
   encrypted: object;
 }
 
-export const getStoredValue = async <StoredSensetiveData>(key: string): Promise<StoredSensetiveData> => {
+export const getStoredValue = async <StoredSensetiveData>(key: string): Promise<StoredSensetiveData | null> => {
   const encryptedData = localStorage.getItem(key);
 
-  if (encryptedData !== null) {
-    return JSON.parse(encryptedData);
-  }
-  throw Error(`No record in Keychain [${key}]`);
+  return encryptedData !== null ? JSON.parse(encryptedData) : null;
 };
 
 export const setStoredValue = async (key: string, value: string) => localStorage.setItem(key, value);

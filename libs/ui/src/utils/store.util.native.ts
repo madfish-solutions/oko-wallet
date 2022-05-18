@@ -7,12 +7,13 @@ export interface StoredSensetiveData {
   encrypted: string;
 }
 
-export const getStoredValue = async <StoredSensetiveData>(key: string): Promise<StoredSensetiveData> => {
+export const getStoredValue = async <StoredSensetiveData>(key: string): Promise<StoredSensetiveData | null> => {
   const rawKeychainData = await Keychain.getGenericPassword(getKeychainOptions(key));
   if (rawKeychainData !== false) {
     return JSON.parse(rawKeychainData.password);
   }
-  throw Error(`No record in Keychain [${key}]`);
+
+  return null;
 };
 
 export const setStoredValue = async (key: string, value: string) => {
