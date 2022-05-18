@@ -44,13 +44,12 @@ export const createStore = <S, A extends Action = AnyAction>({
 
   const store = configureStore({
     reducer: persistedReducer,
-    middleware: getDefaultMiddleware => {
-      return getDefaultMiddleware({
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware({
         serializableCheck: {
           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
         }
-      }).concat(middlewares);
-    }
+      }).concat(middlewares)
   });
 
   const persistor = persistStore(store);

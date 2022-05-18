@@ -3,10 +3,12 @@ import { View, Text, Pressable, TextInput, StyleSheet, Button } from 'react-nati
 
 import { useShelter } from '../../hooks/use-shelter.hook';
 import { useUnlock } from '../../hooks/use-unlock.hook';
-import { useIsUnlockedSelector } from '../../store/app-info/app-info.selectors';
-import { useSelectedAccount } from '../../store/wallet/wallet.selectors';
+import { useIsUnlockedSelector } from '../../store/app-info/app-info-selectors';
+import { useSelectedAccountSelector } from '../../store/wallet/wallet.selectors';
 
-import { ImportAccountProps } from './types';
+interface ImportAccountProps {
+  handleAuthorisation: () => void;
+}
 
 export const ImportAccount: FC<ImportAccountProps> = ({ handleAuthorisation }) => {
   const [seed, setSeed] = useState('');
@@ -14,7 +16,7 @@ export const ImportAccount: FC<ImportAccountProps> = ({ handleAuthorisation }) =
   const { importWallet } = useShelter();
   const { unlock, lock } = useUnlock();
   const isUnlocked = useIsUnlockedSelector();
-  const { publicKey, publicKeyHash } = useSelectedAccount();
+  const { publicKey, publicKeyHash } = useSelectedAccountSelector();
 
   const styles = StyleSheet.create({
     input: {

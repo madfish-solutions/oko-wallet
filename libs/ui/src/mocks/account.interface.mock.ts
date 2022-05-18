@@ -1,5 +1,5 @@
 import { AccountTypeEnum } from '../enums/account-type.enum';
-import { AccountInterface } from '../store/interfaces/account.interface';
+import { AccountInterface } from '../interfaces/account.interface';
 
 export const mockHdAccount: AccountInterface = {
   name: 'Mock HD Account',

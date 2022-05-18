@@ -3,16 +3,17 @@ import { StyleSheet } from 'react-native';
 export const NavigationBarStyles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%'
+    backgroundColor: '#ff821b'
   },
   button: {
-    padding: 6,
+    margin: 4,
+    padding: 8,
     borderWidth: 1,
-    borderColor: 'blue'
+    borderColor: '#fff',
+    borderRadius: 4
   },
   buttonText: {
-    color: 'blue',
+    color: '#fff',
     textAlign: 'center'
   }
 });
