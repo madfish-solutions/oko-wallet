@@ -3,10 +3,7 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { NetworkInterface } from '../../interfaces/network.interface';
-import {
-  changeNetworkAction,
-  changeNetworkAndGenerateHdAccountByNetworkTypeAction
-} from '../../store/wallet/wallet.actions';
+import { generateHdAccountByNetworkTypeAction, changeNetworkAction } from '../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedAccountSelector } from '../../store/wallet/wallet.selectors';
 
 import { NetworksStyles } from './networks.styles';
@@ -17,23 +14,11 @@ export const Networks: React.FC = () => {
   const networks = useAllNetworksSelector();
 
   const handleNetworkSelect = ({ rpcUrl, networkType }: NetworkInterface) => {
-    const isExist = selectedAccount.networks.hasOwnProperty(networkType);
+    dispatch(changeNetworkAction({ rpcUrl, networkType, accontIndex: selectedAccount.accountIndex }));
 
-    if (isExist) {
-      dispatch(
-        changeNetworkAction.submit({
-          rpcUrl,
-          networkType,
-          publicKeyHash: selectedAccount.networks[networkType].publicKeyHash
-        })
-      );
-    } else {
-      dispatch(
-        changeNetworkAndGenerateHdAccountByNetworkTypeAction.submit({
-          rpcUrl,
-          networkType
-        })
-      );
+    const isExist = selectedAccount.networks.hasOwnProperty(networkType);
+    if (!isExist) {
+      dispatch(generateHdAccountByNetworkTypeAction.submit(selectedAccount));
     }
   };
 

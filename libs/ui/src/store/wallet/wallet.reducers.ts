@@ -5,9 +5,8 @@ import { createEntity } from '../utils/entity.utils';
 
 import {
   addNewNetworkAction,
-  changeAccountAndGenerateHdAccountByNetworkTypeAction,
+  generateHdAccountByNetworkTypeAction,
   changeNetworkAction,
-  changeNetworkAndGenerateHdAccountByNetworkTypeAction,
   generateHDAccountAction,
   loadGasTokenBalanceAction,
   changeAccountAction
@@ -44,45 +43,21 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     }))
   );
 
-  builder.addCase(changeNetworkAction.submit, (state, { payload: newSelectedNetwork }) => ({
-    ...state,
-    selectedNetworkRpcUrl: newSelectedNetwork.rpcUrl,
-    selectedNetworkType: newSelectedNetwork.networkType,
-    selectedAccountPublicKeyHash: newSelectedNetwork.publicKeyHash
-  }));
-  builder.addCase(
-    changeNetworkAndGenerateHdAccountByNetworkTypeAction.submit,
-    (state, { payload: newSelectedNetwork }) => ({
-      ...state,
-      selectedNetworkRpcUrl: newSelectedNetwork.rpcUrl,
-      selectedNetworkType: newSelectedNetwork.networkType
-    })
-  );
-  builder.addCase(changeNetworkAndGenerateHdAccountByNetworkTypeAction.success, (state, { payload: account }) => {
-    const selectedAccount =
-      state.accounts.find(account => account.accountIndex === state.selectedAccountIndex) ?? initialAccount;
-    const filteredAccounts = state.accounts.filter(account => account.accountIndex !== selectedAccount.accountIndex);
+  builder.addCase(changeNetworkAction, (state, { payload: newSelectedNetwork }) => {
+    const currentAccount =
+      state.accounts.find(account => account.accountIndex === newSelectedNetwork.accontIndex) ?? initialAccount;
+    const isExist = currentAccount.networks.hasOwnProperty(newSelectedNetwork.networkType);
 
     return {
       ...state,
-      accounts: [
-        ...filteredAccounts,
-        {
-          ...selectedAccount,
-          networks: {
-            ...selectedAccount.networks,
-            [state.selectedNetworkType]: {
-              ...account.networks[state.selectedNetworkType]
-            }
-          }
-        }
-      ].sort((a, b) => a.accountIndex - b.accountIndex),
-      selectedAccountPublicKeyHash: account.networks[state.selectedNetworkType].publicKeyHash,
-      selectedAccountIndex: account.accountIndex
+      selectedNetworkRpcUrl: newSelectedNetwork.rpcUrl,
+      selectedNetworkType: newSelectedNetwork.networkType,
+      selectedAccountPublicKeyHash:
+        isExist === true ? currentAccount.networks[newSelectedNetwork.networkType].publicKeyHash : ''
     };
   });
 
-  builder.addCase(changeAccountAndGenerateHdAccountByNetworkTypeAction.success, (state, { payload: newAccount }) => {
+  builder.addCase(generateHdAccountByNetworkTypeAction.success, (state, { payload: newAccount }) => {
     const filteredAccounts = state.accounts.filter(account => account.accountIndex !== newAccount.accountIndex);
 
     return {

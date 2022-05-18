@@ -2,7 +2,7 @@ import { Observable, from, map } from 'rxjs';
 
 import { TEZOS_BIP44_COINTYPE, ETHER_BIP44_COINTYPE } from '../constants/cointype';
 import { AccountInterface } from '../interfaces/account.interface';
-import { mockHdAccount } from '../mocks/account.interface.mock';
+import { initialAccount } from '../mocks/account.interface.mock';
 import { MOCK_HD_ACCOUNT } from '../mocks/hd-account.mock';
 
 import { getEtherDerivationPath, getTezosDerivationPath } from './derivation-path.utils';
@@ -27,7 +27,7 @@ const derivationPathByNetworkType: Record<string, (accountIndex: number) => stri
   Tezos: (accountIndex: number) => getTezosDerivationPath(accountIndex)
 };
 
-export const generateHdAccountByBlockchain$ = (
+export const generateHdAccountByNetworkType$ = (
   networkType: string,
   accountIndex: number
 ): Observable<AccountInterface> => {
@@ -36,12 +36,12 @@ export const generateHdAccountByBlockchain$ = (
   // TODO: get seed phrase from Shelter
   return from(generateHdAccount(MOCK_HD_ACCOUNT.seed, derivationPath)).pipe(
     map((hdAccount: any) => ({
-      ...mockHdAccount,
+      ...initialAccount,
       name: `Account ${accountIndex + 1}`,
       accountIndex,
       networks: {
         [networkType]: {
-          publicKey: 'publicKey',
+          publicKey: '',
           publicKeyHash: hdAccount.address
         }
       }
@@ -49,7 +49,7 @@ export const generateHdAccountByBlockchain$ = (
   );
 };
 
-export const generateNewNetworkTypeInAccount$ = (
+export const generatNewHdAccountByNewNetworkTypeInSelectedAccount$ = (
   networkType: string,
   account: AccountInterface
 ): Observable<AccountInterface> => {

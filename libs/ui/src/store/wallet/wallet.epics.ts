@@ -3,20 +3,17 @@ import { map, Observable, of, catchError, switchMap } from 'rxjs';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
-import { generateHdAccountByBlockchain$, generateNewNetworkTypeInAccount$ } from '../../utils/generate-hd-account.util';
-import { getGasTokenBalance$ } from '../../utils/token.utils';
 import {
-  withSelectedAccount,
-  withSelectedAccountIndex,
-  withSelectedNetwork,
-  withSelectedNetworkType
-} from '../../utils/wallet.util';
+  generateHdAccountByNetworkType$,
+  generatNewHdAccountByNewNetworkTypeInSelectedAccount$
+} from '../../utils/generate-hd-account.util';
+import { getGasTokenBalance$ } from '../../utils/token.utils';
+import { withSelectedAccount, withSelectedNetwork, withSelectedNetworkType } from '../../utils/wallet.util';
 import { RootState } from '../store';
 import { withActualAccountIndex } from '../utils/walle.utils';
 
 import {
-  changeAccountAndGenerateHdAccountByNetworkTypeAction,
-  changeNetworkAndGenerateHdAccountByNetworkTypeAction,
+  generateHdAccountByNetworkTypeAction,
   generateHDAccountAction,
   loadGasTokenBalanceAction
 } from './wallet.actions';
@@ -27,7 +24,7 @@ const generateHDAccountEpic = (action$: Observable<Action>, state$: Observable<R
     withSelectedNetwork(state$),
     withActualAccountIndex(state$),
     switchMap(([[, network], accountIndex]) =>
-      generateHdAccountByBlockchain$(network.networkType, accountIndex).pipe(
+      generateHdAccountByNetworkType$(network.networkType, accountIndex).pipe(
         map(account => generateHDAccountAction.success(account)),
         catchError(error => of(generateHDAccountAction.fail(error)))
       )
@@ -48,32 +45,16 @@ const getGasTokenBalanceEpic = (action$: Observable<Action>, state$: Observable<
     )
   );
 
-const changeSelectedNetworkAndCreateNetworkTypeByAccountEpic = (
-  action$: Observable<Action>,
-  state$: Observable<RootState>
-) =>
+const generateHdAccountByNetworkTypeEpic = (action$: Observable<Action>, state$: Observable<RootState>) =>
   action$.pipe(
-    ofType(changeNetworkAndGenerateHdAccountByNetworkTypeAction.submit),
-    withSelectedNetwork(state$),
-    withSelectedAccountIndex(state$),
-    switchMap(([[, network], accountIndex]) =>
-      generateHdAccountByBlockchain$(network.networkType, accountIndex).pipe(
-        map(account => changeNetworkAndGenerateHdAccountByNetworkTypeAction.success(account)),
-        catchError(error => of(changeNetworkAndGenerateHdAccountByNetworkTypeAction.fail(error.message)))
-      )
-    )
-  );
-
-const changeAccountAndCreateNewNetworkTypeEpic = (action$: Observable<Action>, state$: Observable<RootState>) =>
-  action$.pipe(
-    ofType(changeAccountAndGenerateHdAccountByNetworkTypeAction.submit),
+    ofType(generateHdAccountByNetworkTypeAction.submit),
     toPayload(),
     map(account => account),
     withSelectedNetwork(state$),
     switchMap(([account, network]) =>
-      generateNewNetworkTypeInAccount$(network.networkType, account).pipe(
-        map(account => changeAccountAndGenerateHdAccountByNetworkTypeAction.success(account)),
-        catchError(error => of(changeAccountAndGenerateHdAccountByNetworkTypeAction.fail(error.message)))
+      generatNewHdAccountByNewNetworkTypeInSelectedAccount$(network.networkType, account).pipe(
+        map(account => generateHdAccountByNetworkTypeAction.success(account)),
+        catchError(error => of(generateHdAccountByNetworkTypeAction.fail(error.message)))
       )
     )
   );
@@ -81,6 +62,5 @@ const changeAccountAndCreateNewNetworkTypeEpic = (action$: Observable<Action>, s
 export const walletEpics = combineEpics(
   generateHDAccountEpic,
   getGasTokenBalanceEpic,
-  changeSelectedNetworkAndCreateNetworkTypeByAccountEpic,
-  changeAccountAndCreateNewNetworkTypeEpic
+  generateHdAccountByNetworkTypeEpic
 );

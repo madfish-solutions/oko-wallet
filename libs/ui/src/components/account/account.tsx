@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { AccountInterface } from '../../interfaces/account.interface';
 import {
-  changeAccountAndGenerateHdAccountByNetworkTypeAction,
+  generateHdAccountByNetworkTypeAction,
   generateHDAccountAction,
   changeAccountAction
 } from '../../store/wallet/wallet.actions';
@@ -42,7 +42,7 @@ export const Account: FC = () => {
     if (isExist) {
       dispatch(changeAccountAction(account));
     } else {
-      dispatch(changeAccountAndGenerateHdAccountByNetworkTypeAction.submit(account));
+      dispatch(generateHdAccountByNetworkTypeAction.submit(account));
     }
   };
 
