@@ -23,15 +23,14 @@ export const AddNetwork: FC = () => {
   const [explorerUrl, setExplorerUrl] = useState('');
   const [error, setError] = useState('');
 
-  const validateSubmitValue = (values: NetworkInterface) => {
-    return Object.values(values).every(field => {
+  const validateSubmitValue = (values: NetworkInterface) =>
+    Object.values(values).every(field => {
       if (typeof field === 'string') {
         return field.trim() !== undefined && field.trim() !== '';
       } else {
         return field !== undefined;
       }
     });
-  };
 
   const handleSubmitNewNetwork = useCallback(() => {
     const values: NetworkInterface = {

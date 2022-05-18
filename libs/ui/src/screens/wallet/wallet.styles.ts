@@ -4,10 +4,10 @@ export const WalletStyles = StyleSheet.create({
   root: {
     padding: 12
   },
-  balanceWrapper: {
+  wrapper: {
     marginBottom: 24
   },
-  balance: {
+  boldText: {
     fontWeight: '700'
   }
 });

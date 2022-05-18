@@ -7,20 +7,20 @@ import { useNavigation } from '../../hooks/use-navigation.hook';
 import { NavigationBarStyles } from './navigation-bar.styles';
 
 export const NavigationBar = () => {
-  const navigation = useNavigation();
+  const { navigate } = useNavigation();
 
   return (
     <View style={NavigationBarStyles.container}>
-      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigation.navigate(ScreensEnum.Wallet)}>
+      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigate(ScreensEnum.Wallet)}>
         <Text style={NavigationBarStyles.buttonText}>Wallet</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigation.navigate(ScreensEnum.Settings)}>
+      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigate(ScreensEnum.Settings)}>
         <Text style={NavigationBarStyles.buttonText}>Settings</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigation.navigate(ScreensEnum.Send)}>
+      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigate(ScreensEnum.Send)}>
         <Text style={NavigationBarStyles.buttonText}>Send</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigation.navigate(ScreensEnum.Receive)}>
+      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigate(ScreensEnum.Receive)}>
         <Text style={NavigationBarStyles.buttonText}>Receive</Text>
       </TouchableOpacity>
     </View>

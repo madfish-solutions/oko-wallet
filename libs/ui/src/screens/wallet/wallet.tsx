@@ -1,14 +1,16 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, { FC } from 'react';
+import { View, Text } from 'react-native';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { Networks } from '../../components/networks/networks';
-import { useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
+import { useVisibleAccountTokensSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
 
+import { AccountTokens } from './components/account-tokens/account-tokens';
 import { WalletStyles } from './wallet.styles';
 
-export const Wallet = () => {
+export const Wallet: FC = () => {
   const { gasTokenMetadata, gasTokenBalance } = useSelectedNetworkSelector();
+  const visibleAccountTokens = useVisibleAccountTokensSelector();
 
   const gasTokenBalanceWithLoading = gasTokenBalance.isLoading
     ? '...'
@@ -18,10 +20,11 @@ export const Wallet = () => {
     <View>
       <NavigationBar />
       <View style={WalletStyles.root}>
-        <Text style={WalletStyles.balanceWrapper}>
-          Balance: <Text style={WalletStyles.balance}>{gasTokenBalanceWithLoading}</Text>
+        <Text style={WalletStyles.wrapper}>
+          Balance: <Text style={WalletStyles.boldText}>{gasTokenBalanceWithLoading}</Text>
         </Text>
         <Networks />
+        <AccountTokens visibleAccountTokens={visibleAccountTokens} />
       </View>
     </View>
   );
