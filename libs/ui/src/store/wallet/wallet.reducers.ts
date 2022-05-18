@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 import { initialAccount } from '../../mocks/account.interface.mock';
-import { checkIsAccountExist } from '../../utils/check-is-account-exist.utils';
+import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-account-exist.utils';
 import { createEntity } from '../utils/entity.utils';
 
 import {
@@ -46,13 +46,13 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
 
   builder.addCase(changeNetworkAction, (state, { payload: newSelectedNetwork }) => {
     const currentAccount =
-      state.accounts.find(account => account.accountIndex === newSelectedNetwork.accontIndex) ?? initialAccount;
+      state.accounts.find(account => account.accountIndex === newSelectedNetwork.accountIndex) ?? initialAccount;
 
     return {
       ...state,
       selectedNetworkRpcUrl: newSelectedNetwork.rpcUrl,
       selectedNetworkType: newSelectedNetwork.networkType,
-      selectedAccountPublicKeyHash: checkIsAccountExist(currentAccount, newSelectedNetwork.networkType)
+      selectedAccountPublicKeyHash: checkIsNetworkTypeKeyExist(currentAccount, newSelectedNetwork.networkType)
         ? currentAccount.networks[newSelectedNetwork.networkType].publicKeyHash
         : ''
     };

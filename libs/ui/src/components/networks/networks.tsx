@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { generateHdAccountByNetworkTypeAction, changeNetworkAction } from '../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedAccountSelector } from '../../store/wallet/wallet.selectors';
-import { checkIsAccountExist } from '../../utils/check-is-account-exist.utils';
+import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-account-exist.utils';
 
 import { NetworksStyles } from './networks.styles';
 
@@ -14,10 +14,10 @@ export const Networks: React.FC = () => {
   const selectedAccount = useSelectedAccountSelector();
   const networks = useAllNetworksSelector();
 
-  const handleNetworkSelect = ({ rpcUrl, networkType }: NetworkInterface) => {
-    dispatch(changeNetworkAction({ rpcUrl, networkType, accontIndex: selectedAccount.accountIndex }));
+  const handleSelectNetwork = ({ rpcUrl, networkType }: NetworkInterface) => {
+    dispatch(changeNetworkAction({ rpcUrl, networkType, accountIndex: selectedAccount.accountIndex }));
 
-    if (!checkIsAccountExist(selectedAccount, networkType)) {
+    if (!checkIsNetworkTypeKeyExist(selectedAccount, networkType)) {
       dispatch(generateHdAccountByNetworkTypeAction.submit(selectedAccount));
     }
   };
@@ -29,7 +29,7 @@ export const Networks: React.FC = () => {
         {networks.map((network, index) => (
           <TouchableOpacity
             key={network.rpcUrl}
-            onPress={() => handleNetworkSelect(network)}
+            onPress={() => handleSelectNetwork(network)}
             style={NetworksStyles.network}
           >
             <Text>{`${index + 1}. ${network.name}`}</Text>

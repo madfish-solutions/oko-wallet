@@ -1,4 +1,3 @@
-import { nanoid } from '@reduxjs/toolkit';
 import React, { FC, useEffect } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -15,7 +14,7 @@ import {
   useSelectedAccountSelector,
   useSelectedNetworkTypeSelector
 } from '../../store/wallet/wallet.selectors';
-import { checkIsAccountExist } from '../../utils/check-is-account-exist.utils';
+import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-account-exist.utils';
 import { shortize } from '../../utils/shortize.utils';
 
 import { AccountStyles } from './account.styles';
@@ -27,18 +26,20 @@ export const Account: FC = () => {
   const pkh = useSelectedAccountPkhSelector();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
 
+  const dispatchGenerateHDAccount = () => dispatch(generateHDAccountAction.submit());
+
   useEffect(() => {
     if (!accounts.length) {
-      dispatch(generateHDAccountAction.submit());
+      dispatchGenerateHDAccount();
     }
   }, []);
 
-  const handleCreateAccount = async () => {
-    dispatch(generateHDAccountAction.submit());
+  const handleCreateAccount = () => {
+    dispatchGenerateHDAccount();
   };
 
-  const handleSwitchAccount = (account: AccountInterface) => {
-    if (checkIsAccountExist(account, selectedNetworkType)) {
+  const handleChangeAccount = (account: AccountInterface) => {
+    if (checkIsNetworkTypeKeyExist(account, selectedNetworkType)) {
       dispatch(changeAccountAction(account));
     } else {
       dispatch(generateHdAccountByNetworkTypeAction.submit(account));
@@ -54,18 +55,18 @@ export const Account: FC = () => {
         </View>
         <Text style={AccountStyles.allAccountsText}>All accounts:</Text>
         <ScrollView style={AccountStyles.accountsList}>
-          {accounts.map((account, index) => {
-            const pkh = checkIsAccountExist(account, selectedNetworkType)
+          {accounts.map(account => {
+            const pkh = checkIsNetworkTypeKeyExist(account, selectedNetworkType)
               ? shortize(account.networks[selectedNetworkType].publicKeyHash)
-              : 'Not genarated';
+              : 'Not generated';
 
             return (
               <TouchableOpacity
-                key={nanoid()}
-                onPress={() => handleSwitchAccount(account)}
+                key={account.accountIndex}
+                onPress={() => handleChangeAccount(account)}
                 style={AccountStyles.account}
               >
-                <Text style={AccountStyles.textBlock}>{`${index + 1}. ${account.name}`}</Text>
+                <Text style={AccountStyles.textBlock}>{account.name}</Text>
                 <Text style={AccountStyles.publicKeyHash}>{pkh}</Text>
               </TouchableOpacity>
             );
