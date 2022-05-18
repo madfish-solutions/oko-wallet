@@ -34,11 +34,11 @@ export const useAccountTokensSelector = () =>
       const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
 
       return (
-        accountsTokens[accountTokensSlug]?.map(({ tokenAddress, ...restAccountsTokens }) => {
-          const tokenMetadataSlug = getTokenMetadataSlug(selectedNetworkRpcUrl, tokenAddress);
+        accountsTokens[accountTokensSlug]?.map(accountToken => {
+          const tokenMetadataSlug = getTokenMetadataSlug(selectedNetworkRpcUrl, accountToken.tokenAddress);
 
           return {
-            ...restAccountsTokens,
+            ...accountToken,
             ...tokensMetadata[tokenMetadataSlug]
           };
         }) ?? []
