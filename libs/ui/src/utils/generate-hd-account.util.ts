@@ -39,7 +39,7 @@ export const generateHdAccountByNetworkType$ = (
       ...initialAccount,
       name: `Account ${accountIndex + 1}`,
       accountIndex,
-      networks: {
+      networksKeys: {
         [networkType]: {
           publicKey: '',
           publicKeyHash: hdAccount.address
@@ -59,7 +59,7 @@ export const generateNewHdAccountByNewNetworkTypeInSelectedAccount$ = (
   return from(generateHdAccount(MOCK_HD_ACCOUNT.seed, derivationPath)).pipe(
     map(hdAccount => ({
       ...account,
-      networks: {
+      networksKeys: {
         ...account.networksKeys,
         [networkType]: {
           publicKey: 'publicKey',
