@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import { View, Text, TextInput, Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { addTokenMetadataAction } from '../../store/wallet/wallet.actions';
 
 export const AddNewToken: FC = () => {
@@ -26,6 +27,7 @@ export const AddNewToken: FC = () => {
 
   return (
     <View>
+      <NavigationBar />
       <TextInput placeholder="Token Address" value={tokenAddress} onChangeText={setTokenAddress} />
       <TextInput placeholder="Token Name" value={name} onChangeText={setName} />
       <TextInput placeholder="Token Symbol" value={symbol} onChangeText={setSymbol} />
