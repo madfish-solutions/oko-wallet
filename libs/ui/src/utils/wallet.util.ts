@@ -38,8 +38,3 @@ export const withSelectedNetworkType =
     observable$.pipe(
       withLatestFrom(state$, (value, { wallet }): [T, NetworkTypeEnum] => [value, wallet.selectedNetworkType])
     );
-
-export const withSelectedAccountIndex =
-  <T>(state$: Observable<WalletRootState>) =>
-  (observable$: Observable<T>) =>
-    observable$.pipe(withLatestFrom(state$, (value, { wallet }): [T, number] => [value, wallet.selectedAccountIndex]));
