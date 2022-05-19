@@ -10,3 +10,8 @@ export interface NetworkInterface {
   gasTokenBalance: LoadableEntityState<string>;
   explorerUrl?: string;
 }
+
+export interface SpecificNetworkInterface {
+  id: 'string';
+  rpcUrls: string[];
+}

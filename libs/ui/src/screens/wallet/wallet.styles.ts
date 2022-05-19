@@ -5,7 +5,8 @@ export const WalletStyles = StyleSheet.create({
     padding: 12
   },
   wrapper: {
-    marginBottom: 24
+    marginBottom: 24,
+    color: '#000',
   },
   boldText: {
     fontWeight: '700'

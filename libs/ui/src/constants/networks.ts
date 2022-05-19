@@ -1,10 +1,10 @@
-import { NetworkInterface } from '../interfaces/network.interface';
+import { NetworkInterface, SpecificNetworkInterface } from '../interfaces/network.interface';
 import { createEntity } from '../store/utils/entity.utils';
 
 export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
   {
     chainId: '8217',
-    rpcUrl: 'https://kaikas.cypress.klaytn.net:8651/',
+    rpcUrl: 'https://public-node-api.klaytnapi.com/v1/cypress',
     name: 'Klaytn Mainnet',
     gasTokenMetadata: {
       name: 'Klaytn Token',
@@ -79,5 +79,16 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://tzkt.io/'
+  }
+];
+
+export const SPECIFIC_NETWORKS: SpecificNetworkInterface[] = [
+  {
+    id: 'tezos',
+    rpcUrls: [
+      'https://mainnet-node.madfish.solutions',
+      'https://mainnet-tezos.giganode.io',
+      'https://mainnet.smartpy.io'
+    ],
   }
 ];
