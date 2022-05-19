@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { generateHdAccountByNetworkTypeAction, changeNetworkAction } from '../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedAccountSelector } from '../../store/wallet/wallet.selectors';
-import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-account-exist.utils';
+import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-network-type-key-exist';
 
 import { NetworksStyles } from './networks.styles';
 

@@ -6,7 +6,7 @@ import { initialAccount } from '../mocks/account.interface.mock';
 import { MOCK_HD_ACCOUNT } from '../mocks/hd-account.mock';
 
 import { getEtherDerivationPath, getTezosDerivationPath } from './derivation-path.utils';
-import { generateEthereumHdAccount } from './generate-klaytn-hd-account.util';
+import { generateEthereumHdAccount } from './generate-ethereum-hd-account.util';
 import { generateTezosHdAccount } from './generate-tezos-hd-account.util';
 
 export const generateHdAccount = async (seedPhrase: string, derivationPath: string) => {

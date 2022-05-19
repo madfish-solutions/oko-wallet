@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { initialAccount } from '../../mocks/account.interface.mock';
 import { getAccountTokensSlug } from '../../utils/address.util';
-import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-account-exist.utils';
+import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-network-type-key-exist';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { createEntity } from '../utils/entity.utils';
 

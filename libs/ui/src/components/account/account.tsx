@@ -14,7 +14,7 @@ import {
   useSelectedAccountSelector,
   useSelectedNetworkTypeSelector
 } from '../../store/wallet/wallet.selectors';
-import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-account-exist.utils';
+import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-network-type-key-exist';
 import { shortize } from '../../utils/shortize.utils';
 
 import { AccountStyles } from './account.styles';
