@@ -12,6 +12,6 @@ export interface NetworkInterface {
 }
 
 export interface SpecificNetworkInterface {
-  id: 'string';
+  id: string;
   rpcUrls: string[];
 }

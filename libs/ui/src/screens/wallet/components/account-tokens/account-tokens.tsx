@@ -1,23 +1,17 @@
 import React, { FC } from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 
-import { TokenMetadata } from '../../../../interfaces/token-metadata.interface';
+import { Token } from '../../../../interfaces/token.interface';
 import { WalletStyles } from '../../wallet.styles';
+import { AccountToken } from './account-token';
 
 interface Props {
-  visibleAccountTokens: TokenMetadata[];
+  visibleAccountTokens: Token[];
 }
 
 export const AccountTokens: FC<Props> = ({ visibleAccountTokens }) => (
   <>
     {!!visibleAccountTokens.length && <Text style={WalletStyles.boldText}>All visible tokens</Text>}
-    {visibleAccountTokens.map(({ tokenAddress, name, decimals, thumbnailUri }) => (
-      <View style={WalletStyles.wrapper} key={tokenAddress}>
-        <Text>Address: {tokenAddress}</Text>
-        <Text>Name: {name}</Text>
-        <Text>Decimals: {decimals}</Text>
-        <Text>Thumbnail: {thumbnailUri}</Text>
-      </View>
-    ))}
+    {visibleAccountTokens.map(token => <AccountToken key={token.tokenAddress} token={token} />)}
   </>
 );
