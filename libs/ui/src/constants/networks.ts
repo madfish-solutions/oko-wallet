@@ -89,6 +89,6 @@ export const SPECIFIC_NETWORKS: SpecificNetworkInterface[] = [
       'https://mainnet-node.madfish.solutions',
       'https://mainnet-tezos.giganode.io',
       'https://mainnet.smartpy.io'
-    ],
+    ]
   }
 ];

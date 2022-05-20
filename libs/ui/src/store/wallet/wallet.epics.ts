@@ -23,17 +23,17 @@ const getGasTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Obser
   );
 
 const getTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Observable<RootState>) =>
-    action$.pipe(
-        ofType(loadAccountTokenBalanceAction.submit),
-        toPayload(),
-        withSelectedAccount(state$),
-        withSelectedNetwork(state$),
-        concatMap(([[ { token }, { publicKeyHash }], network]) =>
-            getTokenBalance$(network, publicKeyHash, token).pipe(
-                map(balance => loadAccountTokenBalanceAction.success({ token, balance })),
-                catchError(error => of(loadAccountTokenBalanceAction.fail({ token, error: error.message})))
-            )
-        )
-    );
+  action$.pipe(
+    ofType(loadAccountTokenBalanceAction.submit),
+    toPayload(),
+    withSelectedAccount(state$),
+    withSelectedNetwork(state$),
+    concatMap(([[{ token }, { publicKeyHash }], network]) =>
+      getTokenBalance$(network, publicKeyHash, token).pipe(
+        map(balance => loadAccountTokenBalanceAction.success({ token, balance })),
+        catchError(error => of(loadAccountTokenBalanceAction.fail({ token, error: error.message })))
+      )
+    )
+  );
 
 export const walletEpics = combineEpics(getGasTokenBalanceEpic, getTokenBalanceEpic);

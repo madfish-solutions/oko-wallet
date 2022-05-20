@@ -32,20 +32,20 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         gasTokenBalance: createEntity(selectedNetwork.gasTokenBalance.data, false, error)
       }))
     )
-    .addCase(loadAccountTokenBalanceAction.submit, (state, { payload: { token } })  =>
-        updateAccountTokenState(state, token.tokenAddress,accountToken => ({
-          balance: createEntity(accountToken.balance.data, true)
-        }))
+    .addCase(loadAccountTokenBalanceAction.submit, (state, { payload: { token } }) =>
+      updateAccountTokenState(state, token.tokenAddress, accountToken => ({
+        balance: createEntity(accountToken.balance.data, true)
+      }))
     )
     .addCase(loadAccountTokenBalanceAction.success, (state, { payload: { token, balance } }) =>
-        updateAccountTokenState(state, token.tokenAddress, () => ({
-          balance: createEntity(balance, false)
-        }))
+      updateAccountTokenState(state, token.tokenAddress, () => ({
+        balance: createEntity(balance, false)
+      }))
     )
     .addCase(loadAccountTokenBalanceAction.fail, (state, { payload: { token, error } }) =>
-        updateAccountTokenState(state, token.tokenAddress,accountToken => ({
-          balance: createEntity(accountToken.balance.data, false, error)
-        }))
+      updateAccountTokenState(state, token.tokenAddress, accountToken => ({
+        balance: createEntity(accountToken.balance.data, false, error)
+      }))
     )
     .addCase(changeSelectedNetworkAction, (state, { payload: networkRpcUrl }) => ({
       ...state,
