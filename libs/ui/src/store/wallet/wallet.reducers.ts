@@ -22,9 +22,9 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       ...state,
       accounts: [...state.accounts, account]
     }))
-    .addCase(setSelectedAccountAction, (state, payload) => ({
+    .addCase(setSelectedAccountAction, (state, { payload }) => ({
       ...state,
-      selectedAccountPublicKeyHash: payload.payload ?? ''
+      selectedAccountPublicKeyHash: payload ?? ''
     }))
     .addCase(loadGasTokenBalanceAction.submit, state =>
       updateSelectedNetworkState(state, selectedNetwork => ({

@@ -1,12 +1,10 @@
-import { useCallback, useEffect, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Subject, switchMap } from 'rxjs';
 
 import { Shelter } from '../shelter/shelter';
-import { unlockAppAction } from '../store/app-info/app-info.actions';
 
 export const useUnlock = () => {
-  const dispatch = useDispatch();
+  const [isLocked, setIsLocked] = useState(Shelter.getIsLocked());
 
   const unlock$ = useMemo(() => new Subject<string>(), []);
 
@@ -14,18 +12,23 @@ export const useUnlock = () => {
 
   const lock = useCallback(() => {
     Shelter.lockApp();
-    dispatch(unlockAppAction(false));
   }, []);
 
   useEffect(() => {
-    const subscription = unlock$.pipe(switchMap(password => Shelter.unlockApp$(password))).subscribe(result => {
-      dispatch(unlockAppAction(result));
-    });
+    const subscriptions = [
+      Shelter.isLocked$.subscribe(value => setIsLocked(value)),
+      unlock$.pipe(switchMap(password => Shelter.unlockApp$(password))).subscribe(result => {
+        if (result) {
+          setIsLocked(false);
+        }
+      })
+    ];
 
-    return () => subscription.unsubscribe();
-  }, [dispatch, unlock$]);
+    return () => subscriptions.forEach(subscription => subscription.unsubscribe());
+  }, [unlock$]);
 
   return {
+    isLocked,
     unlock,
     lock
   };
