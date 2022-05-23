@@ -1,6 +1,6 @@
 import * as Keychain from 'react-native-keychain';
 
-import { getKeychainOptions } from './keychain.utils';
+import { getKeychainOptions } from './keychain.utils.native';
 
 export interface StoredSensetiveData {
   symmetricKey: string;
