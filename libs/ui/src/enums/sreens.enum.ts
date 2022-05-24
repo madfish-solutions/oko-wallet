@@ -6,7 +6,8 @@ export enum ScreensEnum {
   Send = 'Send',
   Settings = 'Settings',
   Wallet = 'Wallet',
-  AddNetwork = 'AddNetwork'
+  AddNetwork = 'AddNetwork',
+  ConnectToDapps = 'ConnectToDapps'
 }
 
 export type ScreensParamList = {
@@ -18,4 +19,5 @@ export type ScreensParamList = {
   [ScreensEnum.Settings]: undefined;
   [ScreensEnum.Wallet]: undefined;
   [ScreensEnum.AddNetwork]: undefined;
+  [ScreensEnum.ConnectToDapps]: undefined;
 };
