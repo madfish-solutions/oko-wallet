@@ -18,15 +18,17 @@ export const AddNewToken: FC = () => {
   const onDecimalsChange = (decimalsValue: string) => setDecimals(decimalsValue.replace(/\D/g, ''));
 
   const onAddToken = () => {
-    dispatch(addTokenMetadataAction({
+    dispatch(
+      addTokenMetadataAction({
         tokenAddress,
         name,
         symbol,
         thumbnailUri,
         decimals: Number(decimals),
         tokenId,
-        tokenType,
-    }));
+        tokenType
+      })
+    );
 
     setTokenAddress('');
     setName('');
@@ -45,7 +47,7 @@ export const AddNewToken: FC = () => {
       <TextInput placeholder="Token Decimals" value={decimals} onChangeText={onDecimalsChange} keyboardType="numeric" />
       <TextInput placeholder="Thumbnail Uri" value={thumbnailUri} onChangeText={seThumbnailUri} />
       <TextInput placeholder="Token Id (for Tezos)" value={tokenId} onChangeText={seTokenId} />
-      <TextInput placeholder="Token type (for Tezos)" value={tokenId} onChangeText={seTokenId} />
+      <TextInput placeholder="Token type (for Tezos)" value={tokenId} onChangeText={seTokenType} />
       <Pressable onPress={onAddToken}>
         <Text>Add token</Text>
       </Pressable>

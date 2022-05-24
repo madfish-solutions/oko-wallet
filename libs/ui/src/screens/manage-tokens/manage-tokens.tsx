@@ -17,12 +17,7 @@ export const ManageTokens: FC = () => {
   return (
     <View>
       <NavigationBar />
-      {accountTokens.map(({
-                            tokenAddress,
-                            name,
-                            thumbnailUri, tokenId,
-                            tokenType,
-                            isVisible }) => (
+      {accountTokens.map(({ tokenAddress, name, thumbnailUri, tokenId, tokenType, isVisible }) => (
         <Fragment key={tokenAddress}>
           <Text>Token Address: {tokenAddress}</Text>
           <Text>Name: {name}</Text>
