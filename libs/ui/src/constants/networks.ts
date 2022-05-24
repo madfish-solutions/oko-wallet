@@ -1,5 +1,5 @@
 import { SpecificNetworksEnum } from '../enums/specific-networks.enum';
-import { NetworkInterface, SpecificNetworkInterface } from '../interfaces/network.interface';
+import { NetworkInterface, SpecificNetwork } from '../interfaces/network.interface';
 import { createEntity } from '../store/utils/entity.utils';
 
 export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
@@ -83,7 +83,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
   }
 ];
 
-export const SPECIFIC_NETWORKS: SpecificNetworkInterface[] = [
+export const SPECIFIC_NETWORKS: SpecificNetwork[] = [
   {
     id: SpecificNetworksEnum.TEZOS,
     rpcUrls: [

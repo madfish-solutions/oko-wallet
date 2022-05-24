@@ -12,7 +12,8 @@ import { TokenMetadata } from '../interfaces/token-metadata.interface';
 import { getSpecificNetworkId } from './network.util';
 
 // TODO: Delete later
-const tzAddress = 'tz1XstX8fYXPY5JNV6M2p1yLD6VNjX38YuQP';
+//const tzAddress = 'tz1XstX8fYXPY5JNV6M2p1yLD6VNjX38YuQP';
+const tzAddress = 'tz1ikJViYJks7MhiDi2jjEddJzexzHHFA5no';
 
 export const getGasTokenBalance$ = (network: NetworkInterface, pkh: string): Observable<string> => {
   const {

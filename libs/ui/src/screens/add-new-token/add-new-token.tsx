@@ -11,9 +11,9 @@ export const AddNewToken: FC = () => {
   const [name, setName] = useState('');
   const [symbol, setSymbol] = useState('');
   const [decimals, setDecimals] = useState('');
-  const [thumbnailUri, seThumbnailUri] = useState('');
-  const [tokenId, seTokenId] = useState<string | undefined>();
-  const [tokenType, seTokenType] = useState<string | undefined>();
+  const [thumbnailUri, setThumbnailUri] = useState('');
+  const [tokenId, setTokenId] = useState('');
+  const [tokenType, setTokenType] = useState('');
 
   const onDecimalsChange = (decimalsValue: string) => setDecimals(decimalsValue.replace(/\D/g, ''));
 
@@ -25,8 +25,8 @@ export const AddNewToken: FC = () => {
         symbol,
         thumbnailUri,
         decimals: Number(decimals),
-        tokenId,
-        tokenType
+        tokenId: tokenId || undefined,
+        tokenType: tokenType || undefined
       })
     );
 
@@ -34,8 +34,9 @@ export const AddNewToken: FC = () => {
     setName('');
     setSymbol('');
     setDecimals('');
-    seThumbnailUri('');
-    seTokenId('');
+    setThumbnailUri('');
+    setTokenId('');
+    setTokenType('');
   };
 
   return (
@@ -45,9 +46,9 @@ export const AddNewToken: FC = () => {
       <TextInput placeholder="Token Name" value={name} onChangeText={setName} />
       <TextInput placeholder="Token Symbol" value={symbol} onChangeText={setSymbol} />
       <TextInput placeholder="Token Decimals" value={decimals} onChangeText={onDecimalsChange} keyboardType="numeric" />
-      <TextInput placeholder="Thumbnail Uri" value={thumbnailUri} onChangeText={seThumbnailUri} />
-      <TextInput placeholder="Token Id (for Tezos)" value={tokenId} onChangeText={seTokenId} />
-      <TextInput placeholder="Token type (for Tezos)" value={tokenId} onChangeText={seTokenType} />
+      <TextInput placeholder="Thumbnail Uri" value={thumbnailUri} onChangeText={setThumbnailUri} />
+      <TextInput placeholder="Token Id (for Tezos)" value={tokenId} onChangeText={setTokenId} />
+      <TextInput placeholder="Token type (for Tezos)" value={tokenType} onChangeText={setTokenType} />
       <Pressable onPress={onAddToken}>
         <Text>Add token</Text>
       </Pressable>

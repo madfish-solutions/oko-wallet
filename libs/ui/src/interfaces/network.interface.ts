@@ -12,7 +12,7 @@ export interface NetworkInterface {
   explorerUrl?: string;
 }
 
-export interface SpecificNetworkInterface {
+export interface SpecificNetwork {
   id: SpecificNetworksEnum;
   rpcUrls: string[];
 }
