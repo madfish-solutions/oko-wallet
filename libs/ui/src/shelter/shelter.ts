@@ -32,16 +32,6 @@ export class Shelter {
       )
     );
 
-  static saveSensitiveData = async (sensetiveData: Record<string, string>, password: string) =>
-    Promise.all(
-      Object.entries(sensetiveData).map(async ([key, value]) => {
-        const dataToSave = await encrypt(value, password);
-        setStoredValue(key, JSON.stringify(dataToSave));
-
-        return dataToSave;
-      })
-    );
-
   static importAccount$ = (
     seedPhrase: string,
     password: string,
