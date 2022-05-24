@@ -4,7 +4,7 @@ import { Text } from 'react-native';
 import { Token } from '../../../../interfaces/token.interface';
 import { WalletStyles } from '../../wallet.styles';
 
-import { AccountToken } from './account-token';
+import { AccountToken } from './components/account-token';
 
 interface Props {
   visibleAccountTokens: Token[];

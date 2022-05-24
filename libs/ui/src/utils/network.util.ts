@@ -8,5 +8,5 @@ export const getSpecificNetworkId = (networkRpcUrl: string): string | undefined 
     networkData.rpcUrls.find(specificNetworkRpcUrl => urlCompare(specificNetworkRpcUrl, networkRpcUrl))
   );
 
-  return specificNetwork && specificNetwork.id;
+  return specificNetwork?.id;
 };
