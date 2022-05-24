@@ -1,5 +1,6 @@
-import { NetworkInterface, SpecificNetworkInterface } from '../interfaces/network.interface';
-import { createEntity } from '../store/utils/entity.utils';
+import {NetworkInterface, SpecificNetworkInterface} from '../interfaces/network.interface';
+import {createEntity} from '../store/utils/entity.utils';
+import {SpecificNetworksEnum} from "../enums/specific-networks.enum";
 
 export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
   {
@@ -69,7 +70,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
   },
   {
     chainId: 'NetXdQprcVkpaWU',
-    rpcUrl: 'https://mainnet-tezos.giganode.io',
+    rpcUrl: 'https://mainnet-node.madfish.solutions',
     name: 'Tezos',
     gasTokenMetadata: {
       name: 'Tezos Token',
@@ -84,7 +85,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
 
 export const SPECIFIC_NETWORKS: SpecificNetworkInterface[] = [
   {
-    id: 'tezos',
+    id: SpecificNetworksEnum.TEZOS,
     rpcUrls: [
       'https://mainnet-node.madfish.solutions',
       'https://mainnet-tezos.giganode.io',

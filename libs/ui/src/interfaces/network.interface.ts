@@ -1,6 +1,7 @@
 import { LoadableEntityState } from '../store/interfaces/loadable-entity-state.interface';
 
 import { GasTokenMetadata } from './token.interface';
+import { SpecificNetworksEnum } from '../enums/specific-networks.enum';
 
 export interface NetworkInterface {
   chainId: string;
@@ -12,6 +13,6 @@ export interface NetworkInterface {
 }
 
 export interface SpecificNetworkInterface {
-  id: string;
+  id: SpecificNetworksEnum;
   rpcUrls: string[];
 }

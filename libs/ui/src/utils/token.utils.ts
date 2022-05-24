@@ -1,13 +1,16 @@
-import { TezosToolkit } from '@taquito/taquito';
-import { getDefaultProvider, Contract } from 'ethers';
-import { formatUnits } from 'ethers/lib/utils';
-import { from, map, switchMap, Observable } from 'rxjs';
+import {TezosToolkit} from '@taquito/taquito';
+import {Contract, getDefaultProvider} from 'ethers';
+import {formatUnits} from 'ethers/lib/utils';
+import {TezosTokenTypeEnum} from '../enums/tezos-token-type.enum';
+import {from, map, Observable, switchMap} from 'rxjs';
 
 import genericErc20Abi from '../constants/erc20Abi.json';
-import { NetworkInterface } from '../interfaces/network.interface';
-import { TokenMetadata } from '../interfaces/token-metadata.interface';
+import {NetworkInterface} from '../interfaces/network.interface';
+import {TokenMetadata} from '../interfaces/token-metadata.interface';
+import {SpecificNetworksEnum} from '../enums/specific-networks.enum';
 
-import { getSpecificNetworkId } from './network.util';
+import {getSpecificNetworkId} from './network.util';
+
 
 // TODO: Delete later
 const tzAddress = 'tz1XstX8fYXPY5JNV6M2p1yLD6VNjX38YuQP';
@@ -21,7 +24,7 @@ export const getGasTokenBalance$ = (network: NetworkInterface, pkh: string): Obs
   const specificNetworkId = getSpecificNetworkId(rpcUrl);
 
   switch (specificNetworkId) {
-    case 'tezos':
+    case SpecificNetworksEnum.TEZOS:
       const tezosToolkit = new TezosToolkit(rpcUrl);
 
       return from(tezosToolkit.tz.getBalance(tzAddress)).pipe(map(balance => formatUnits(balance.toFixed(), decimals)));
@@ -34,20 +37,25 @@ export const getGasTokenBalance$ = (network: NetworkInterface, pkh: string): Obs
 
 export const getTokenBalance$ = (network: NetworkInterface, pkh: string, token: TokenMetadata): Observable<string> => {
   const { rpcUrl } = network;
-  const { tokenAddress, decimals } = token;
+  const { tokenAddress, decimals, tokenId = '0', tokenType } = token;
 
   const specificNetworkId = getSpecificNetworkId(rpcUrl);
 
   switch (specificNetworkId) {
-    case 'tezos':
+    case SpecificNetworksEnum.TEZOS:
       const tezosToolkit = new TezosToolkit(rpcUrl);
 
       return from(tezosToolkit.contract.at(tokenAddress)).pipe(
-        switchMap(contract =>
-          from(contract.views.balance_of([{ owner: tzAddress, token_id: '0' }]).read()).pipe(
-            map(response => formatUnits(response[0].balance.toFixed(), decimals))
-          )
-        )
+          switchMap(contract => {
+            if (tokenType === TezosTokenTypeEnum.FA_1_2) {
+              return contract.views.getBalance(tzAddress).read();
+            } else {
+              return from(contract.views.balance_of([{ owner: tzAddress, token_id: tokenId }]).read()).pipe(
+                  map(response => response[0].balance)
+              );
+            }
+          }),
+          map(balance => formatUnits(balance.toFixed(), decimals))
       );
   }
 

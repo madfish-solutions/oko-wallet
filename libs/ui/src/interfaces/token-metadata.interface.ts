@@ -4,4 +4,6 @@ export interface TokenMetadata {
   decimals: number;
   symbol: string;
   thumbnailUri?: string;
+  tokenId?: string;
+  tokenType?: string;
 }

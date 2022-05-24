@@ -17,11 +17,18 @@ export const ManageTokens: FC = () => {
   return (
     <View>
       <NavigationBar />
-      {accountTokens.map(({ tokenAddress, name, thumbnailUri, isVisible }) => (
+      {accountTokens.map(({
+                            tokenAddress,
+                            name,
+                            thumbnailUri, tokenId,
+                            tokenType,
+                            isVisible }) => (
         <Fragment key={tokenAddress}>
           <Text>Token Address: {tokenAddress}</Text>
           <Text>Name: {name}</Text>
           <Text>Thumbnail Uri: {thumbnailUri}</Text>
+          <Text>Token ID (for Tezos): {tokenId}</Text>
+          <Text>Token Type (for Tezos): {tokenType}</Text>
           <Text>isVisible: {isVisible.toString()}</Text>
           <Pressable onPress={() => handleTokenVisibility(tokenAddress)}>
             <Text>{isVisible ? 'Hide' : 'Show'}</Text>
