@@ -4,7 +4,7 @@ import { Subject, switchMap } from 'rxjs';
 import { Shelter } from '../shelter/shelter';
 
 export const useUnlock = () => {
-  const [isLocked, setIsLocked] = useState(Shelter.getIsLocked());
+  const [isLocked, setIsLocked] = useState(() => Shelter.getIsLocked());
 
   const unlock$ = useMemo(() => new Subject<string>(), []);
 
