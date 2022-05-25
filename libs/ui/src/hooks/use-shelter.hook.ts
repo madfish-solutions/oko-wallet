@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Subject } from 'rxjs';
 
@@ -16,7 +16,7 @@ export const useShelter = () => {
     return () => subscription.unsubscribe();
   }, [dispatch, importWallet$]);
 
-  const importWallet = (params: ImportWalletParams) => importWallet$.next(params);
+  const importWallet = useCallback((params: ImportWalletParams) => importWallet$.next(params), [importWallet$]);
 
   return {
     importWallet

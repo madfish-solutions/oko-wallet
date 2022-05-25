@@ -10,9 +10,7 @@ export const useUnlock = () => {
 
   const unlock = useCallback((password: string) => unlock$.next(password), [unlock$]);
 
-  const lock = useCallback(() => {
-    Shelter.lockApp();
-  }, []);
+  const lock = useCallback(() => Shelter.lockApp(), []);
 
   useEffect(() => {
     const subscriptions = [
