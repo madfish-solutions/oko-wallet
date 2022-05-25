@@ -1,3 +1,5 @@
+import '@ethersproject/shims';
+
 /* eslint-disable @typescript-eslint/no-var-requires */
 if (typeof __dirname === 'undefined') {
   global.__dirname = '/';
