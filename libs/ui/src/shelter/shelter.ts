@@ -11,11 +11,11 @@ import { getEtherDerivationPath } from '../utils/derivation-path.utils';
 import { generateHdAccount } from '../utils/generate-hd-account.util';
 import { setStoredValue } from '../utils/store.util';
 
-const PASSWORD_CHECK = 'app-password';
-const INITIAL_PASSWORD = '';
+const PASSWORD_CHECK_KEY = 'app-password';
+const INITIAL_PASSWORD_HASH = '';
 
 export class Shelter {
-  private static _hashPassword$ = new BehaviorSubject(INITIAL_PASSWORD);
+  private static _hashPassword$ = new BehaviorSubject(INITIAL_PASSWORD_HASH);
 
   static hashPasswordObservable$ = (input: string) => from(hashPassword(input));
 
@@ -51,7 +51,7 @@ export class Shelter {
                 Shelter.saveSensitiveData$({
                   [publicKey]: privateKey,
                   seedPhrase,
-                  [PASSWORD_CHECK]: generateMnemonic()
+                  [PASSWORD_CHECK_KEY]: generateMnemonic()
                 }).pipe(
                   map(() => ({
                     name,
@@ -69,12 +69,12 @@ export class Shelter {
 
   static decryptSensitiveData$ = (key: string, passwordHash: string) => from(decrypt(key, passwordHash));
 
-  static lockApp = () => Shelter._hashPassword$.next(INITIAL_PASSWORD);
+  static lockApp = () => Shelter._hashPassword$.next(INITIAL_PASSWORD_HASH);
 
   static unlockApp$ = (password: string) =>
     Shelter.hashPasswordObservable$(password).pipe(
       switchMap(passwordHash =>
-        Shelter.decryptSensitiveData$(PASSWORD_CHECK, passwordHash).pipe(
+        Shelter.decryptSensitiveData$(PASSWORD_CHECK_KEY, passwordHash).pipe(
           map(decrypted => {
             if (decrypted !== undefined) {
               Shelter._hashPassword$.next(passwordHash);
@@ -89,7 +89,7 @@ export class Shelter {
       )
     );
 
-  static isLocked$ = Shelter._hashPassword$.pipe(map(password => password === INITIAL_PASSWORD));
+  static isLocked$ = Shelter._hashPassword$.pipe(map(password => password === INITIAL_PASSWORD_HASH));
 
-  static getIsLocked = () => Shelter._hashPassword$.getValue() === INITIAL_PASSWORD;
+  static getIsLocked = () => Shelter._hashPassword$.getValue() === INITIAL_PASSWORD_HASH;
 }
