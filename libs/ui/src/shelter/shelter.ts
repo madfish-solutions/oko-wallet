@@ -9,7 +9,7 @@ import { decrypt } from '../themis/decrypt';
 import { encrypt } from '../themis/encrypt';
 import { getEtherDerivationPath } from '../utils/derivation-path.utils';
 import { generateHdAccount } from '../utils/generate-hd-account.util';
-import { generatePassword$ } from '../utils/hash.utils';
+import { generateHash$ } from '../utils/hash.utils';
 import { setStoredValue } from '../utils/store.util';
 
 const PASSWORD_CHECK_KEY = 'app-password';
@@ -40,7 +40,7 @@ export class Shelter {
   static lockApp = () => Shelter._passwordHash$.next(INITIAL_PASSWORD_HASH);
 
   static unlockApp$ = (password: string) =>
-    generatePassword$(password).pipe(
+    generateHash$(password).pipe(
       switchMap(passwordHash =>
         Shelter.decryptSensitiveData$(PASSWORD_CHECK_KEY, passwordHash).pipe(
           map(decrypted => {
@@ -62,7 +62,7 @@ export class Shelter {
     password: string,
     hdAccountsLength = 1
   ): Observable<AccountInterface[]> =>
-    generatePassword$(password).pipe(
+    generateHash$(password).pipe(
       switchMap(passwordHash => {
         Shelter._passwordHash$.next(passwordHash);
 

@@ -1,6 +1,6 @@
 import { from, map } from 'rxjs';
 
-export const generatePassword$ = (password: string) => {
+export const generateHash$ = (password: string) => {
   const utf8 = new TextEncoder().encode(password);
 
   return from(crypto.subtle.digest('SHA-256', utf8)).pipe(
