@@ -21,7 +21,7 @@ export const ImportAccount: FC<Props> = ({ handleAuthorisation }) => {
   const { publicKey, publicKeyHash } = useSelectedAccountSelector();
   const dispatch = useDispatch();
 
-  const handleImportAccount = () => importWallet({ seedPhrase: seed, password, hdAccountsLength: 1 });
+  const handleImportAccount = () => importWallet({ seedPhrase: seed, password, hdAccountsLength: 2 });
 
   const handleLockApp = () => {
     setPassword('');
