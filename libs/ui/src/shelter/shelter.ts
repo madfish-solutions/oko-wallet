@@ -4,27 +4,25 @@ import { catchError, map } from 'rxjs/operators';
 
 import { AccountTypeEnum } from '../enums/account-type.enum';
 import { AccountInterface } from '../interfaces/account.interface';
-import { hashPassword } from '../sha256/generate-hash';
 import { decrypt } from '../themis/decrypt';
 import { encrypt } from '../themis/encrypt';
 import { getEtherDerivationPath } from '../utils/derivation-path.utils';
 import { generateHdAccount } from '../utils/generate-hd-account.util';
+import { generatePassword$ } from '../utils/hash.utils';
 import { setStoredValue } from '../utils/store.util';
 
 const PASSWORD_CHECK_KEY = 'app-password';
 const INITIAL_PASSWORD_HASH = '';
 
 export class Shelter {
-  private static _hashPassword$ = new BehaviorSubject(INITIAL_PASSWORD_HASH);
-
-  static hashPasswordObservable$ = (input: string) => from(hashPassword(input));
+  private static _passwordHash$ = new BehaviorSubject(INITIAL_PASSWORD_HASH);
 
   static saveSensitiveData$ = (sensitiveData: Record<string, string>) =>
     forkJoin(
       Object.entries(sensitiveData).map(entry =>
         of(entry).pipe(
           switchMap(([key, value]) =>
-            from(encrypt(value, Shelter._hashPassword$.getValue())).pipe(
+            from(encrypt(value, Shelter._passwordHash$.getValue())).pipe(
               switchMap(encrypted => from(setStoredValue(key, JSON.stringify(encrypted))))
             )
           )
@@ -37,9 +35,9 @@ export class Shelter {
     password: string,
     hdAccountsLength = 1
   ): Observable<AccountInterface[]> =>
-    Shelter.hashPasswordObservable$(password).pipe(
+    generatePassword$(password).pipe(
       switchMap(passwordHash => {
-        Shelter._hashPassword$.next(passwordHash);
+        Shelter._passwordHash$.next(passwordHash);
 
         return forkJoin(
           [...Array(hdAccountsLength).keys()].map(hdAccIndex => {
@@ -69,15 +67,15 @@ export class Shelter {
 
   static decryptSensitiveData$ = (key: string, passwordHash: string) => from(decrypt(key, passwordHash));
 
-  static lockApp = () => Shelter._hashPassword$.next(INITIAL_PASSWORD_HASH);
+  static lockApp = () => Shelter._passwordHash$.next(INITIAL_PASSWORD_HASH);
 
   static unlockApp$ = (password: string) =>
-    Shelter.hashPasswordObservable$(password).pipe(
+    generatePassword$(password).pipe(
       switchMap(passwordHash =>
         Shelter.decryptSensitiveData$(PASSWORD_CHECK_KEY, passwordHash).pipe(
           map(decrypted => {
             if (decrypted !== undefined) {
-              Shelter._hashPassword$.next(passwordHash);
+              Shelter._passwordHash$.next(passwordHash);
 
               return true;
             }
@@ -89,7 +87,7 @@ export class Shelter {
       )
     );
 
-  static isLocked$ = Shelter._hashPassword$.pipe(map(password => password === INITIAL_PASSWORD_HASH));
+  static isLocked$ = Shelter._passwordHash$.pipe(map(password => password === INITIAL_PASSWORD_HASH));
 
-  static getIsLocked = () => Shelter._hashPassword$.getValue() === INITIAL_PASSWORD_HASH;
+  static getIsLocked = () => Shelter._passwordHash$.getValue() === INITIAL_PASSWORD_HASH;
 }
