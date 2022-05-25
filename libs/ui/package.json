@@ -8,6 +8,9 @@
     "ts": "tsc --pretty",
     "test": "./node_modules/.bin/jest"
   },
+  "dependencies": {
+    "@ethersproject/shims": "^5.6.0"
+  },
   "devDependencies": {
     "@react-native-async-storage/async-storage": "^1.17.3",
     "@react-native-clipboard/clipboard": "^1.10.0",
