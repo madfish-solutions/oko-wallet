@@ -2,7 +2,6 @@ import { Dispatch } from '@reduxjs/toolkit';
 import { Subject, switchMap } from 'rxjs';
 
 import { addHdAccountAction, setSelectedAccountAction } from '../../store/wallet/wallet.actions';
-import { getStoredValue } from '../../utils/store.util';
 import { ImportWalletParams } from '../import-wallet-params.interface';
 import { Shelter } from '../shelter';
 
@@ -17,10 +16,9 @@ export const importWalletSubscription = (importWallet$: Subject<ImportWalletPara
       if (importedAccounts !== undefined) {
         const firstAccount = importedAccounts[0];
         dispatch(setSelectedAccountAction(firstAccount.publicKeyHash));
+
         for (const account of importedAccounts) {
-          getStoredValue(account.publicKey).then(() => {
-            dispatch(addHdAccountAction(account));
-          });
+          dispatch(addHdAccountAction(account));
         }
       }
     });

@@ -11,6 +11,8 @@ export const getKeychainOptions = (key: string): Keychain.Options => ({
   securityLevel: isAndroid ? Keychain.SECURITY_LEVEL.SECURE_HARDWARE : undefined
 });
 
+// pseudo async function as we don't need to wait until Keychain will remove all data
+// (common async solution stops reset process)
 export const resetStore$ = () => {
   Keychain.getAllGenericPasswordServices()
     .then(keychainServicesArray => {

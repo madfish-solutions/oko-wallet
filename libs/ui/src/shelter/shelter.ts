@@ -1,3 +1,4 @@
+import { isDefined } from '@rnw-community/shared';
 import { generateMnemonic } from 'bip39';
 import { forkJoin, of, switchMap, Observable, from, BehaviorSubject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -43,7 +44,7 @@ export class Shelter {
       switchMap(passwordHash =>
         Shelter.decryptSensitiveData$(PASSWORD_CHECK_KEY, passwordHash).pipe(
           map(decrypted => {
-            if (decrypted !== undefined) {
+            if (isDefined(decrypted)) {
               Shelter._passwordHash$.next(passwordHash);
 
               return true;
