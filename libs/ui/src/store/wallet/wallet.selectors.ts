@@ -18,6 +18,9 @@ export const useSelectedAccountSelector = () =>
     (left, right) => JSON.stringify(left) === JSON.stringify(right)
   );
 
+export const usePublicKeyHashSelector = () =>
+  useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedAccountPublicKeyHash);
+
 export const useSelectedNetworkSelector = () =>
   useSelector<WalletRootState, NetworkInterface>(
     ({ wallet }) =>
