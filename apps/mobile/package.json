@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "postinstall": "rn-nodeify --install 'stream,buffer,process,events' --hack",
+    "postinstall": "rn-nodeify --install 'stream,buffer,process,events,crypto' --hack",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "ios:pods": "cd ios && pod install",
@@ -48,7 +48,9 @@
     "rxjs": "^7.5.5",
     "stream-browserify": "^3.0.0",
     "ts-action": "^11.0.0",
-    "ts-action-operators": "^9.1.2"
+    "ts-action-operators": "^9.1.2",
+    "react-native-crypto": "^2.1.0",
+    "react-native-randombytes": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -70,7 +72,8 @@
     "_stream_writable": "readable-stream/writable",
     "_stream_duplex": "readable-stream/duplex",
     "_stream_passthrough": "readable-stream/passthrough",
-    "stream": "stream-browserify"
+    "stream": "stream-browserify",
+    "crypto": "react-native-crypto"
   },
   "react-native": {
     "_stream_transform": "readable-stream/transform",
@@ -78,6 +81,7 @@
     "_stream_writable": "readable-stream/writable",
     "_stream_duplex": "readable-stream/duplex",
     "_stream_passthrough": "readable-stream/passthrough",
-    "stream": "stream-browserify"
+    "stream": "stream-browserify",
+    "crypto": "react-native-crypto"
   }
 }

@@ -14,6 +14,7 @@
     "extension": "cd apps/extension && yarn start",
     "android": "cd apps/mobile && yarn android",
     "ios": "cd apps/mobile && yarn ios",
+    "ios:pods": "cd apps/mobile/ios && pod install",
     "ts": "cd libs/ui && yarn ts",
     "lint": "eslint .",
     "test": "cd libs/ui && yarn test",
