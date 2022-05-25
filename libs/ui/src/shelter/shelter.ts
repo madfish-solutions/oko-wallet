@@ -17,55 +17,24 @@ const INITIAL_PASSWORD_HASH = '';
 export class Shelter {
   private static _passwordHash$ = new BehaviorSubject(INITIAL_PASSWORD_HASH);
 
-  static saveSensitiveData$ = (sensitiveData: Record<string, string>) =>
+  private static saveSensitiveData$ = (sensitiveData: Record<string, string>) =>
     forkJoin(
       Object.entries(sensitiveData).map(entry =>
         of(entry).pipe(
           switchMap(([key, value]) =>
             from(encrypt(value, Shelter._passwordHash$.getValue())).pipe(
-              switchMap(encrypted => from(setStoredValue(key, JSON.stringify(encrypted))))
+              switchMap(encryptedValue => setStoredValue(key, JSON.stringify(encryptedValue)))
             )
           )
         )
       )
     );
 
-  static importAccount$ = (
-    seedPhrase: string,
-    password: string,
-    hdAccountsLength = 1
-  ): Observable<AccountInterface[]> =>
-    generatePassword$(password).pipe(
-      switchMap(passwordHash => {
-        Shelter._passwordHash$.next(passwordHash);
+  private static decryptSensitiveData$ = (key: string, passwordHash: string) => from(decrypt(key, passwordHash));
 
-        return forkJoin(
-          [...Array(hdAccountsLength).keys()].map(hdAccIndex => {
-            const account = generateHdAccount(seedPhrase, getEtherDerivationPath(hdAccIndex));
-            const name = `Account ${hdAccIndex + 1}`;
+  static isLocked$ = Shelter._passwordHash$.pipe(map(password => password === INITIAL_PASSWORD_HASH));
 
-            return from(account).pipe(
-              switchMap(({ privateKey, publicKey, address }) =>
-                Shelter.saveSensitiveData$({
-                  [publicKey]: privateKey,
-                  seedPhrase,
-                  [PASSWORD_CHECK_KEY]: generateMnemonic()
-                }).pipe(
-                  map(() => ({
-                    name,
-                    type: AccountTypeEnum.HD_ACCOUNT,
-                    publicKey,
-                    publicKeyHash: address
-                  }))
-                )
-              )
-            );
-          })
-        );
-      })
-    );
-
-  static decryptSensitiveData$ = (key: string, passwordHash: string) => from(decrypt(key, passwordHash));
+  static getIsLocked = () => Shelter._passwordHash$.getValue() === INITIAL_PASSWORD_HASH;
 
   static lockApp = () => Shelter._passwordHash$.next(INITIAL_PASSWORD_HASH);
 
@@ -87,7 +56,47 @@ export class Shelter {
       )
     );
 
-  static isLocked$ = Shelter._passwordHash$.pipe(map(password => password === INITIAL_PASSWORD_HASH));
+  static importAccount$ = (
+    seedPhrase: string,
+    password: string,
+    hdAccountsLength = 1
+  ): Observable<AccountInterface[]> =>
+    generatePassword$(password).pipe(
+      switchMap(passwordHash => {
+        Shelter._passwordHash$.next(passwordHash);
 
-  static getIsLocked = () => Shelter._passwordHash$.getValue() === INITIAL_PASSWORD_HASH;
+        return forkJoin(
+          [...Array(hdAccountsLength).keys()].map(hdAccountIndex =>
+            from(generateHdAccount(seedPhrase, getEtherDerivationPath(hdAccountIndex))).pipe(
+              map(({ privateKey, publicKey, address }) => {
+                const name = `Account ${hdAccountIndex + 1}`;
+
+                return {
+                  privateData: {
+                    [publicKey]: privateKey
+                  },
+                  publicData: {
+                    name,
+                    type: AccountTypeEnum.HD_ACCOUNT,
+                    publicKey,
+                    publicKeyHash: address
+                  }
+                };
+              })
+            )
+          )
+        ).pipe(
+          switchMap(accountsData => {
+            const privateData = accountsData.reduce((prev, curr) => ({ ...prev, ...curr.privateData }), {});
+            const publicData = accountsData.map(({ publicData }) => publicData);
+
+            return Shelter.saveSensitiveData$({
+              seedPhrase,
+              [PASSWORD_CHECK_KEY]: generateMnemonic(),
+              ...privateData
+            }).pipe(map(() => publicData));
+          })
+        );
+      })
+    );
 }
