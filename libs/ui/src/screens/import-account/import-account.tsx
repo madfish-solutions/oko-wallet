@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { View, Text, Pressable, TextInput, Button } from 'react-native';
+import { View, Text, TextInput, Button } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { useShelter } from '../../hooks/use-shelter.hook';
@@ -9,11 +9,7 @@ import { useSelectedAccountSelector } from '../../store/wallet/wallet.selectors'
 
 import { ImportAccountStyles } from './import-account.styles';
 
-interface Props {
-  handleAuthorisation: () => void;
-}
-
-export const ImportAccount: FC<Props> = ({ handleAuthorisation }) => {
+export const ImportAccount: FC = () => {
   const [seed, setSeed] = useState('');
   const [password, setPassword] = useState('');
   const { importWallet } = useShelter();
@@ -36,10 +32,6 @@ export const ImportAccount: FC<Props> = ({ handleAuthorisation }) => {
 
   return (
     <View>
-      <Pressable onPress={handleAuthorisation}>
-        <Text>Get Authorisation</Text>
-      </Pressable>
-
       {publicKey === '' && (
         <View style={ImportAccountStyles.view}>
           <Text> IMPORT ACCOUNT </Text>

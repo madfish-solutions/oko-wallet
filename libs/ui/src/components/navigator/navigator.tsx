@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { AddNetwork } from '../../screens/add-network/add-network';
@@ -11,22 +11,17 @@ import { Receive } from '../../screens/receive/receive';
 import { Send } from '../../screens/send/send';
 import { Settings } from '../../screens/settings/settings';
 import { Wallet } from '../../screens/wallet/wallet';
+import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
 
 const Stack = createNativeStackNavigator<ScreensParamList>();
 
 export const Navigator: FC = () => {
-  const [isAuthorised, setIsAuthorised] = useState(false);
-
-  const handleAuthorisation = () => setIsAuthorised(true);
+  const isAuthorised = useIsAuthorisedSelector();
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {!isAuthorised && (
-          <Stack.Screen name={ScreensEnum.ImportAccount}>
-            {props => <ImportAccount {...props} handleAuthorisation={handleAuthorisation} />}
-          </Stack.Screen>
-        )}
+        {!isAuthorised && <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />}
         {isAuthorised && (
           <>
             <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
