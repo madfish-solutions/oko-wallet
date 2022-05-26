@@ -6,6 +6,8 @@ import { createEntity } from '../utils/entity.utils';
 
 import {
   addNewNetworkAction,
+  addHdAccountAction,
+  setSelectedAccountAction,
   changeSelectedNetworkAction,
   loadGasTokenBalanceAction,
   addTokenMetadataAction,
@@ -16,6 +18,14 @@ import { updateSelectedNetworkState } from './wallet.utils';
 
 export const walletReducers = createReducer<WalletState>(walletInitialState, builder => {
   builder
+    .addCase(addHdAccountAction, (state, { payload: account }) => ({
+      ...state,
+      accounts: [...state.accounts, account]
+    }))
+    .addCase(setSelectedAccountAction, (state, { payload: selectedAccount }) => ({
+      ...state,
+      selectedAccountPublicKeyHash: selectedAccount ?? ''
+    }))
     .addCase(loadGasTokenBalanceAction.submit, state =>
       updateSelectedNetworkState(state, selectedNetwork => ({
         gasTokenBalance: createEntity(selectedNetwork.gasTokenBalance.data, true)
