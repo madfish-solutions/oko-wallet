@@ -22,6 +22,7 @@ export const useConnectToDapp = () => {
   const [connected, setConnected] = useState<boolean>(false);
   const pkh = usePublicKeyHashSelector();
   const [address, setAddress] = useState<string>(pkh);
+  const [payload, setPayload] = useState<any>(null);
 
   useEffect(() => {
     if (connector) {
@@ -46,11 +47,12 @@ export const useConnectToDapp = () => {
         }
       });
 
-      connector.on('connect', error => {
+      connector.on('connect', (error, payload) => {
         if (error) {
           throw error;
         }
 
+        setPayload(payload);
         setConnected(true);
       });
 
@@ -120,6 +122,7 @@ export const useConnectToDapp = () => {
     peerMeta,
     connected,
     uri,
-    address
+    address,
+    payload
   };
 };

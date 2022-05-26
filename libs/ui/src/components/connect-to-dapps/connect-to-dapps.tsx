@@ -5,7 +5,7 @@ import { useConnectToDapp } from '../../hooks/connect-to-dapp.hook';
 import { Input } from '../input/input';
 
 export const ConnectToDapps = () => {
-  const { setUriValue, onSubmit, approveSession, rejectSession, uri, peerMeta, connected, address } =
+  const { setUriValue, onSubmit, approveSession, rejectSession, uri, peerMeta, connected, address, payload } =
     useConnectToDapp();
 
   return (
@@ -37,7 +37,7 @@ export const ConnectToDapps = () => {
           <Text>
             {JSON.stringify(
               {
-                payload: null,
+                payload,
                 activeIndex: 0,
                 results: [],
                 address
