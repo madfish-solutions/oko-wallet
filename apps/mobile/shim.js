@@ -1,5 +1,3 @@
-import '@ethersproject/shims';
-
 /* eslint-disable @typescript-eslint/no-var-requires */
 if (typeof __dirname === 'undefined') {
   global.__dirname = '/';
@@ -33,3 +31,10 @@ if (typeof localStorage !== 'undefined') {
 // If using the crypto shim, uncomment the following line to ensure
 // crypto is loaded first, so it can populate global.crypto
 require('crypto');
+
+// Shims required for ethers in constrained environments:
+// - atob
+// - btoa
+// - nextTick
+// - FileReader.prototype.readAsArrayBuffer
+require('@ethersproject/shims');
