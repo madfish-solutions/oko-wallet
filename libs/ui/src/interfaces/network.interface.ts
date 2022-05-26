@@ -1,4 +1,4 @@
-import { SpecificNetworksEnum } from '../enums/specific-networks.enum';
+import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { LoadableEntityState } from '../store/interfaces/loadable-entity-state.interface';
 
 import { GasTokenMetadata } from './token.interface';
@@ -12,7 +12,8 @@ export interface NetworkInterface {
   explorerUrl?: string;
 }
 
-export interface SpecificNetwork {
-  id: SpecificNetworksEnum;
-  rpcUrls: string[];
-}
+export type NetworkChainIdsByNetworkType = Partial<{
+  [networkType in NetworkTypeEnum]: {
+    [networkName: string]: string;
+  };
+}>;

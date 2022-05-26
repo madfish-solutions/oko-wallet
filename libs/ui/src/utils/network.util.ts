@@ -1,13 +1,8 @@
-// @ts-ignore
-import urlCompare from 'url-compare';
+import { NETWORK_CHAIN_IDS_BY_NETWORK_TYPE, DEFAULT_NETWORK_TYPE } from '../constants/networks';
+import { NetworkTypeEnum } from '../enums/network-type.enum';
+import { NetworkInterface } from '../interfaces/network.interface';
 
-import { SPECIFIC_NETWORKS } from '../constants/networks';
-import { SpecificNetworksEnum } from '../enums/specific-networks.enum';
-
-export const getSpecificNetworkId = (networkRpcUrl: string): SpecificNetworksEnum | undefined => {
-  const specificNetwork = SPECIFIC_NETWORKS.find(networkData =>
-    networkData.rpcUrls.find(specificNetworkRpcUrl => urlCompare(specificNetworkRpcUrl, networkRpcUrl))
-  );
-
-  return specificNetwork?.id;
-};
+export const getNetworkType = ({ chainId }: NetworkInterface): NetworkTypeEnum =>
+  (Object.entries(NETWORK_CHAIN_IDS_BY_NETWORK_TYPE).find(([_, chainIds]) =>
+    Object.values(chainIds).includes(chainId)
+  )?.[0] as NetworkTypeEnum) || DEFAULT_NETWORK_TYPE;

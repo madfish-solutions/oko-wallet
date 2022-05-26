@@ -1,5 +1,5 @@
-import { SpecificNetworksEnum } from '../enums/specific-networks.enum';
-import { NetworkInterface, SpecificNetwork } from '../interfaces/network.interface';
+import { NetworkTypeEnum } from '../enums/network-type.enum';
+import { NetworkChainIdsByNetworkType, NetworkInterface } from '../interfaces/network.interface';
 import { createEntity } from '../store/utils/entity.utils';
 
 export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
@@ -83,13 +83,19 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
   }
 ];
 
-export const SPECIFIC_NETWORKS: SpecificNetwork[] = [
-  {
-    id: SpecificNetworksEnum.TEZOS,
-    rpcUrls: [
-      'https://mainnet-node.madfish.solutions',
-      'https://mainnet-tezos.giganode.io',
-      'https://mainnet.smartpy.io'
-    ]
+export const DEFAULT_NETWORK_TYPE: NetworkTypeEnum = NetworkTypeEnum.EVM;
+
+export const NETWORK_CHAIN_IDS_BY_NETWORK_TYPE: NetworkChainIdsByNetworkType = {
+  [NetworkTypeEnum.Tezos]: {
+    MAINNET: 'NetXdQprcVkpaWU',
+    CARTHAGENET: 'NetXjD3HPJJjmcd',
+    DELPHINET: 'NetXm8tYqnMWky1',
+    EDONET: 'NetXSgo1ZT2DRUG',
+    FLORENCENET: 'NetXxkAx4woPLyu',
+    GRANADANET: 'NetXz969SFaFn8k',
+    HANGZHOUNET: 'NetXZSsxBpMQeAT',
+    ITHACANET: 'NetXbhmtAbMukLc',
+    ITHACANET2: 'NetXnHfVqm9iesp',
+    JAKARTANET2: 'NetXLH1uAxK7CCh'
   }
-];
+};
