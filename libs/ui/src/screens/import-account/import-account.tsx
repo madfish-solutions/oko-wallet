@@ -6,32 +6,30 @@ import { useShelter } from '../../hooks/use-shelter.hook';
 import { ImportAccountStyles } from './import-account.styles';
 
 export const ImportAccount: FC = () => {
-  const [seed, setSeed] = useState('');
+  const [seed, setSeed] = useState('tired cousin aerobic voyage risk pink point stool dog hello april pioneer');
   const [password, setPassword] = useState('');
   const { importWallet } = useShelter();
 
   const handleImportAccount = () => importWallet({ seedPhrase: seed, password, hdAccountsLength: 2 });
 
   return (
-    <View>
-      <View style={ImportAccountStyles.view}>
-        <Text> IMPORT ACCOUNT </Text>
-        <TextInput
-          style={ImportAccountStyles.input}
-          onChangeText={setSeed}
-          value={seed}
-          placeholder="write seed phrase"
-        />
+    <View style={ImportAccountStyles.view}>
+      <Text> IMPORT ACCOUNT </Text>
+      <TextInput
+        style={ImportAccountStyles.input}
+        onChangeText={setSeed}
+        value={seed}
+        placeholder="write seed phrase"
+      />
 
-        <TextInput
-          style={ImportAccountStyles.input}
-          onChangeText={setPassword}
-          value={password}
-          placeholder="set password"
-        />
+      <TextInput
+        style={ImportAccountStyles.input}
+        onChangeText={setPassword}
+        value={password}
+        placeholder="set password"
+      />
 
-        <Button onPress={handleImportAccount} title="import account" color="#841584" />
-      </View>
+      <Button onPress={handleImportAccount} title="import account" color="#841584" />
     </View>
   );
 };
