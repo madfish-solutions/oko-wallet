@@ -23,7 +23,7 @@ export const Settings: FC = () => {
       <Button title="Add new token" onPress={navigateToAddNewToken} />
       <Button title="Manage Tokens" onPress={navigateToManageTokens} />
       <ResetWallet />
-      <Button onPress={() => lock()} title="lock app" color="#841584" />
+      <Button onPress={lock} title="lock app" color="#841584" />
     </View>
   );
 };
