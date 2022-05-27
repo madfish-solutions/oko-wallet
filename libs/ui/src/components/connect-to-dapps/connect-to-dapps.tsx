@@ -5,7 +5,7 @@ import { useConnectToDapp } from '../../hooks/connect-to-dapp.hook';
 import { Input } from '../input/input';
 
 export const ConnectToDapps = () => {
-  const { setUriValue, onSubmit, approveSession, rejectSession, uri, peerMeta, connected, address, payload } =
+  const { setUriValue, onSubmit, killSession, connected, peerMeta, approveSession, rejectSession, address, uri } =
     useConnectToDapp();
 
   return (
@@ -13,8 +13,9 @@ export const ConnectToDapps = () => {
       <Text>Connect to Dapp</Text>
       <Input value={uri} onChangeText={setUriValue} />
       <Button title="Connect" onPress={onSubmit} />
+      <Button title="killSession" onPress={killSession} />
 
-      {!connected && peerMeta.name && (
+      {!connected && peerMeta.name !== '' ? (
         <View>
           <Text>Dapp confirmation request:</Text>
           <Text>
@@ -29,25 +30,23 @@ export const ConnectToDapps = () => {
           <Button onPress={approveSession} title="Approve" />
           <Button onPress={rejectSession} title="Reject" />
         </View>
-      )}
+      ) : null}
 
-      {connected && (
+      {connected ? (
         <View>
           <Text>{`Connected to: ${peerMeta.name}`}</Text>
           <Text>
             {JSON.stringify(
               {
-                payload,
-                activeIndex: 0,
-                results: [],
-                address
+                address,
+                peerMeta
               },
               null,
               2
             )}
           </Text>
         </View>
-      )}
+      ) : null}
     </View>
   );
 };

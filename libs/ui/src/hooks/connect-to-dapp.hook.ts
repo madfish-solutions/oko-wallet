@@ -1,13 +1,9 @@
 import WalletConnect from '@walletconnect/client';
 import { useEffect, useState } from 'react';
 
+import { BSC_RPC } from '../constants/defaults';
 import { usePublicKeyHashSelector } from '../store/wallet/wallet.selectors';
-
-// Connect to pancakeswap.finance
-const BSC_RPC = {
-  url: 'https://bsc-dataseed.binance.org/',
-  chainId: 56
-};
+import { getCachedSession } from '../utils/dapps/get-cached-session.utils';
 
 export const useConnectToDapp = () => {
   const [connector, setConnector] = useState<WalletConnect | null>(null);
@@ -21,12 +17,39 @@ export const useConnectToDapp = () => {
   });
   const [connected, setConnected] = useState<boolean>(false);
   const pkh = usePublicKeyHashSelector();
-  const [address, setAddress] = useState<string>(pkh);
-  const [payload, setPayload] = useState<any>(null);
+
+  // useEffect(() => {
+  //   const session = getCachedSession();
+
+  //   if (session) {
+  //     const walletConnector = new WalletConnect({ session });
+
+  //     walletConnector.updateSession({
+  //       chainId: BSC_RPC.chainId,
+  //       accounts: [pkh]
+  //     });
+  //     walletConnector.connect();
+
+  //     setConnector(walletConnector);
+
+  //     console.log(walletConnector);
+  //   }
+  // }, [pkh]);
+
+  // useEffect(() => {
+  //   const session = getCachedSession();
+
+  //   if (session) {
+  //     setPeerMeta(session.peerMeta as any);
+  //     setConnected(session.connected);
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (connector) {
       connector.on('session_request', (error, payload) => {
+        console.log('SESSION_REQUEST');
+
         if (error) {
           throw error;
         }
@@ -36,42 +59,56 @@ export const useConnectToDapp = () => {
       });
 
       connector.on('session_update', error => {
+        console.log('SESSION_UPDATE');
+
         if (error) {
           throw error;
         }
+
+        setConnected(true);
       });
 
       connector.on('call_request', async error => {
+        console.log('CALL_REQUEST');
+
         if (error) {
           throw error;
         }
       });
 
-      connector.on('connect', (error, payload) => {
+      connector.on('connect', error => {
+        console.log('CONNECT');
+
         if (error) {
           throw error;
         }
 
-        setPayload(payload);
         setConnected(true);
       });
 
       connector.on('disconnect', error => {
+        console.log('DISCONNECT');
+
         if (error) {
           throw error;
         }
+
+        setConnected(false);
+        setPeerMeta({
+          description: '',
+          url: '',
+          icons: [],
+          name: '',
+          ssl: false
+        });
       });
 
-      if (connector.connected) {
-        const { accounts } = connector;
-        const index = 0;
-        const address = accounts[index];
-        setAddress(address);
-        setConnected(true);
-      }
-      setConnector(connector);
+      // if (connector.connected) {
+      //   setConnected(true);
+      // }
+      // setConnector(connector);
     }
-  }, [connector]);
+  }, [connector, pkh]);
 
   const setUriValue = (newUri: string) => {
     setUri(newUri);
@@ -102,7 +139,11 @@ export const useConnectToDapp = () => {
 
   const approveSession = () => {
     if (connector) {
-      connector.approveSession({ accounts: [address], rpcUrl: BSC_RPC.url, chainId: BSC_RPC.chainId });
+      connector.approveSession({
+        accounts: [pkh],
+        rpcUrl: BSC_RPC.url,
+        chainId: BSC_RPC.chainId
+      });
     }
     setConnector(connector);
   };
@@ -114,15 +155,25 @@ export const useConnectToDapp = () => {
     setConnector(connector);
   };
 
+  const killSession = () => {
+    const session = getCachedSession();
+
+    if (session) {
+      const walletConnector = new WalletConnect({ session });
+      walletConnector.killSession();
+      setConnector(walletConnector);
+    }
+  };
+
   return {
     approveSession,
     rejectSession,
     onSubmit,
     setUriValue,
+    killSession,
     peerMeta,
     connected,
     uri,
-    address,
-    payload
+    address: pkh
   };
 };
