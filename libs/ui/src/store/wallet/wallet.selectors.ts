@@ -51,3 +51,9 @@ export const useVisibleAccountTokensSelector = () => {
 
   return useMemo(() => accountTokens.filter(({ isVisible }) => isVisible), [accountTokens]);
 };
+
+export const useIsAuthorisedSelector = () => {
+  const accounts = useSelector<WalletRootState, AccountInterface[]>(({ wallet }) => wallet.accounts);
+
+  return useMemo(() => accounts.length > 0, [accounts.length]);
+};
