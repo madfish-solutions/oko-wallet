@@ -14,6 +14,6 @@ export const UnlockStyles = StyleSheet.create({
   root: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: '#FFF',
-    height: Platform.OS === 'android' ? '100%' : '100vh'
+    height: Platform.OS === 'web' ? '100vh' : '100%'
   }
 });
