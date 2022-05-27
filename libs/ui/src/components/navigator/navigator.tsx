@@ -1,3 +1,4 @@
+import { PortalProvider } from '@gorhom/portal';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { FC } from 'react';
@@ -23,22 +24,24 @@ export const Navigator: FC = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        {!isAuthorised && <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />}
-        {isLocked && isAuthorised && <Stack.Screen name={ScreensEnum.Unlock} component={UnlockApp} />}
-
-        {isAuthorised && !isLocked && (
-          <>
-            <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
-            <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
-            <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
-            <Stack.Screen name={ScreensEnum.AddNetwork} component={AddNetwork} />
-            <Stack.Screen name={ScreensEnum.Send} component={Send} />
-            <Stack.Screen name={ScreensEnum.AddNewToken} component={AddNewToken} />
-            <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
-          </>
-        )}
-      </Stack.Navigator>
+      <PortalProvider>
+        <Stack.Navigator>
+          {isAuthorised ? (
+            <>
+              <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
+              <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
+              <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
+              <Stack.Screen name={ScreensEnum.AddNetwork} component={AddNetwork} />
+              <Stack.Screen name={ScreensEnum.Send} component={Send} />
+              <Stack.Screen name={ScreensEnum.AddNewToken} component={AddNewToken} />
+              <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
+            </>
+          ) : (
+            <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />
+          )}
+        </Stack.Navigator>
+      </PortalProvider>
+      {isLocked && isAuthorised && <UnlockApp />}
     </NavigationContainer>
   );
 };

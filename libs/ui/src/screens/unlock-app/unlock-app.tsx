@@ -10,18 +10,16 @@ export const UnlockApp: FC = () => {
   const { unlock } = useUnlock();
 
   return (
-    <View>
-      <View>
-        <Text style={UnlockStyles.text}> Please, write your password</Text>
-        <TextInput style={UnlockStyles.input} onChangeText={setPassword} value={password} placeholder="type password" />
-        <Button
-          onPress={() => {
-            unlock(password);
-          }}
-          title="unlock"
-          color="#841584"
-        />
-      </View>
+    <View style={UnlockStyles.root}>
+      <Text style={UnlockStyles.text}> Please, write your password</Text>
+      <TextInput style={UnlockStyles.input} onChangeText={setPassword} value={password} placeholder="type password" />
+      <Button
+        onPress={() => {
+          unlock(password);
+        }}
+        title="unlock"
+        color="#841584"
+      />
     </View>
   );
 };

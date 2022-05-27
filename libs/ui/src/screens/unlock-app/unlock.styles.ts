@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export const UnlockStyles = StyleSheet.create({
   input: {
@@ -10,5 +10,10 @@ export const UnlockStyles = StyleSheet.create({
   text: {
     fontSize: 24,
     fontWeight: '700'
+  },
+  root: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: '#FFF',
+    height: Platform.OS === 'android' ? '100%' : '100vh'
   }
 });
