@@ -8,26 +8,30 @@ import { loadEvmGasTokenBalance$, loadEvmTokenBalance$ } from './by-network-type
 import { loadTezosGasTokenBalance$, loadTezosTokenBalance$ } from './by-network-types/token.utils.tezos';
 import { getNetworkType } from './network.util';
 
-export const getGasTokenBalance$ = (network: NetworkInterface, pkh: string): Observable<string> => {
+export const getGasTokenBalance$ = (network: NetworkInterface, publicKeyHash: string): Observable<string> => {
   const networkType = getNetworkType(network);
 
   switch (networkType) {
     case NetworkTypeEnum.Tezos:
-      return loadTezosGasTokenBalance$(network);
+      return loadTezosGasTokenBalance$(network, publicKeyHash);
 
     default:
-      return loadEvmGasTokenBalance$(network, pkh);
+      return loadEvmGasTokenBalance$(network, publicKeyHash);
   }
 };
 
-export const getTokenBalance$ = (network: NetworkInterface, pkh: string, token: TokenMetadata): Observable<string> => {
+export const getTokenBalance$ = (
+  network: NetworkInterface,
+  publicKeyHash: string,
+  token: TokenMetadata
+): Observable<string> => {
   const networkType = getNetworkType(network);
 
   switch (networkType) {
     case NetworkTypeEnum.Tezos:
-      return loadTezosTokenBalance$(network, pkh, token);
+      return loadTezosTokenBalance$(network, publicKeyHash, token);
 
     default:
-      return loadEvmTokenBalance$(network, pkh, token);
+      return loadEvmTokenBalance$(network, publicKeyHash, token);
   }
 };

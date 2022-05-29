@@ -86,16 +86,16 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
 export const DEFAULT_NETWORK_TYPE: NetworkTypeEnum = NetworkTypeEnum.EVM;
 
 export const NETWORK_CHAIN_IDS_BY_NETWORK_TYPE: NetworkChainIdsByNetworkType = {
-  [NetworkTypeEnum.Tezos]: {
-    MAINNET: 'NetXdQprcVkpaWU',
-    CARTHAGENET: 'NetXjD3HPJJjmcd',
-    DELPHINET: 'NetXm8tYqnMWky1',
-    EDONET: 'NetXSgo1ZT2DRUG',
-    FLORENCENET: 'NetXxkAx4woPLyu',
-    GRANADANET: 'NetXz969SFaFn8k',
-    HANGZHOUNET: 'NetXZSsxBpMQeAT',
-    ITHACANET: 'NetXbhmtAbMukLc',
-    ITHACANET2: 'NetXnHfVqm9iesp',
-    JAKARTANET2: 'NetXLH1uAxK7CCh'
-  }
+  [NetworkTypeEnum.Tezos]: [
+    'NetXdQprcVkpaWU',
+    'NetXjD3HPJJjmcd',
+    'NetXm8tYqnMWky1',
+    'NetXSgo1ZT2DRUG',
+    'NetXxkAx4woPLyu',
+    'NetXz969SFaFn8k',
+    'NetXZSsxBpMQeAT',
+    'NetXbhmtAbMukLc',
+    'NetXnHfVqm9iesp',
+    'NetXLH1uAxK7CCh'
+  ]
 };

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { Token } from '../../../../../interfaces/token.interface';
 import { loadAccountTokenBalanceAction } from '../../../../../store/wallet/wallet.actions';
+import { formatUnits } from '../../../../../utils/units.utils';
 import { WalletStyles } from '../../../wallet.styles';
 
 interface Props {
@@ -18,6 +19,8 @@ export const AccountToken: FC<Props> = ({ token }) => {
     dispatch(loadAccountTokenBalanceAction.submit({ token }));
   }, []);
 
+  const balanceWithLoading = balance.isLoading ? '...' : formatUnits(balance.data, decimals);
+
   return (
     <View style={WalletStyles.wrapper}>
       <Text>Address: {tokenAddress}</Text>
@@ -26,7 +29,7 @@ export const AccountToken: FC<Props> = ({ token }) => {
       <Text>Thumbnail: {thumbnailUri}</Text>
       <Text>
         {'Balance: '}
-        <Text style={WalletStyles.boldText}>{balance.isLoading ? '...' : balance.data}</Text>
+        <Text style={WalletStyles.boldText}>{balanceWithLoading}</Text>
       </Text>
     </View>
   );

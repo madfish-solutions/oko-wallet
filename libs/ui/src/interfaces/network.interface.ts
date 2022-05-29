@@ -13,7 +13,5 @@ export interface NetworkInterface {
 }
 
 export type NetworkChainIdsByNetworkType = Partial<{
-  [networkType in NetworkTypeEnum]: {
-    [networkName: string]: string;
-  };
+  [networkType in NetworkTypeEnum]: string[];
 }>;
