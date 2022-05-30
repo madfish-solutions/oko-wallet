@@ -3,7 +3,7 @@ export interface TokenMetadata {
   name: string;
   decimals: number;
   symbol: string;
+  tokenId: string;
   thumbnailUri?: string;
-  tokenId?: string;
   tokenType?: string;
 }

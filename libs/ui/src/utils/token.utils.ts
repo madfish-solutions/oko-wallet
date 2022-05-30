@@ -35,3 +35,5 @@ export const getTokenBalance$ = (
       return loadEvmTokenBalance$(network, publicKeyHash, token);
   }
 };
+
+export const getTokenSlug = ({ tokenAddress, tokenId }: TokenMetadata) => `${tokenAddress}_${tokenId}`;

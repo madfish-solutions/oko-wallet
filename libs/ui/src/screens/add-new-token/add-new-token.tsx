@@ -25,7 +25,7 @@ export const AddNewToken: FC = () => {
         symbol,
         thumbnailUri,
         decimals: Number(decimals),
-        tokenId: tokenId || undefined,
+        tokenId: tokenId,
         tokenType: tokenType || undefined
       })
     );
@@ -47,7 +47,7 @@ export const AddNewToken: FC = () => {
       <TextInput placeholder="Token Symbol" value={symbol} onChangeText={setSymbol} />
       <TextInput placeholder="Token Decimals" value={decimals} onChangeText={onDecimalsChange} keyboardType="numeric" />
       <TextInput placeholder="Thumbnail Uri" value={thumbnailUri} onChangeText={setThumbnailUri} />
-      <TextInput placeholder="Token Id (for Tezos)" value={tokenId} onChangeText={setTokenId} />
+      <TextInput placeholder="Token Id" value={tokenId} onChangeText={setTokenId} />
       <TextInput placeholder="Token type (for Tezos)" value={tokenType} onChangeText={setTokenType} />
       <Pressable onPress={onAddToken}>
         <Text>Add token</Text>

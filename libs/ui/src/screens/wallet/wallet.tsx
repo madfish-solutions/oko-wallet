@@ -10,7 +10,7 @@ import { AccountTokens } from './components/account-tokens/account-tokens';
 import { WalletStyles } from './wallet.styles';
 
 export const Wallet: FC = () => {
-  const { gasTokenMetadata, gasTokenBalance, rpcUrl } = useSelectedNetworkSelector();
+  const { gasTokenMetadata, gasTokenBalance } = useSelectedNetworkSelector();
   const visibleAccountTokens = useVisibleAccountTokensSelector();
 
   const gasTokenBalanceWithLoading = gasTokenBalance.isLoading
@@ -25,7 +25,7 @@ export const Wallet: FC = () => {
           Balance: <Text style={WalletStyles.boldText}>{gasTokenBalanceWithLoading}</Text>
         </Text>
         <Networks />
-        <AccountTokens selectedNetworkRpcUrl={rpcUrl} visibleAccountTokens={visibleAccountTokens} />
+        <AccountTokens visibleAccountTokens={visibleAccountTokens} />
       </View>
     </View>
   );

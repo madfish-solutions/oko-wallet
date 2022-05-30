@@ -22,7 +22,7 @@ export const ManageTokens: FC = () => {
           <Text>Token Address: {tokenAddress}</Text>
           <Text>Name: {name}</Text>
           <Text>Thumbnail Uri: {thumbnailUri}</Text>
-          <Text>Token ID (for Tezos): {tokenId}</Text>
+          <Text>Token ID: {tokenId}</Text>
           <Text>Token Type (for Tezos): {tokenType}</Text>
           <Text>isVisible: {isVisible.toString()}</Text>
           <Pressable onPress={() => handleTokenVisibility(tokenAddress)}>
