@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
@@ -27,12 +27,6 @@ export const Account: FC = () => {
   const selectedNetworkType = useSelectedNetworkTypeSelector();
 
   const dispatchGenerateHDAccount = () => dispatch(generateHDAccountAction.submit());
-
-  useEffect(() => {
-    if (!accounts.length) {
-      dispatchGenerateHDAccount();
-    }
-  }, []);
 
   const handleCreateAccount = () => {
     dispatchGenerateHDAccount();

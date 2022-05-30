@@ -1,15 +1,35 @@
-import React, { FC } from 'react';
-import { Button, View } from 'react-native';
+import React, { FC, useState } from 'react';
+import { View, Text, TextInput, Button } from 'react-native';
 
-import { ShelterScreen } from '../shelter-screen/shelter-screen';
+import { useShelter } from '../../hooks/use-shelter.hook';
 
-interface Props {
-  handleAuthorisation: () => void;
-}
+import { ImportAccountStyles } from './import-account.styles';
 
-export const ImportAccount: FC<Props> = ({ handleAuthorisation }) => (
-  <View>
-    <Button title="Get Authorisation" onPress={handleAuthorisation} />
-    <ShelterScreen />
-  </View>
-);
+export const ImportAccount: FC = () => {
+  const [seed, setSeed] = useState('tired cousin aerobic voyage risk pink point stool dog hello april pioneer');
+  const [password, setPassword] = useState('');
+  const { importWallet } = useShelter();
+
+  const handleImportAccount = () => importWallet({ seedPhrase: seed, password, hdAccountsLength: 2 });
+
+  return (
+    <View style={ImportAccountStyles.view}>
+      <Text> IMPORT ACCOUNT </Text>
+      <TextInput
+        style={ImportAccountStyles.input}
+        onChangeText={setSeed}
+        value={seed}
+        placeholder="write seed phrase"
+      />
+
+      <TextInput
+        style={ImportAccountStyles.input}
+        onChangeText={setPassword}
+        value={password}
+        placeholder="set password"
+      />
+
+      <Button onPress={handleImportAccount} title="import account" color="#841584" />
+    </View>
+  );
+};

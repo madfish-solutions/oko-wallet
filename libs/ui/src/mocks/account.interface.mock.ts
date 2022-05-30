@@ -8,8 +8,8 @@ export const mockHdAccount: AccountInterface = {
   accountIndex: 0,
   networksKeys: {
     [NetworkTypeEnum.Ethereum]: {
-      publicKey: 'publicKey',
-      publicKeyHash: '0x84757a438E06631f34b2199B5D9asdasd2e6865cE47D50'
+      publicKey: '',
+      publicKeyHash: ''
     }
   },
   isVisible: true

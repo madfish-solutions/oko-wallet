@@ -9,6 +9,8 @@ import { createActions } from '../utils/action.utils';
 
 export const generateHDAccountAction = createActions<void, AccountInterface, string>('wallet/GENERATE_HD_ACCOUNT');
 export const changeAccountAction = createAction<AccountInterface>('wallet/CHANGE_ACCOUNT');
+export const setSelectedAccountAction = createAction<string>('wallet/SET_SELECTED_ACCOUNT');
+export const addHdAccountAction = createAction<AccountInterface>('wallet/ADD_HD_ACCOUNT');
 
 export const loadGasTokenBalanceAction = createActions<void, string, string>('wallet/LOAD_GAS_TOKEN_BALANCE');
 
