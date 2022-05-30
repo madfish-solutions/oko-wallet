@@ -1,19 +1,20 @@
 import * as Keychain from 'react-native-keychain';
 
-import { getKeychainOptions } from './keychain.utils';
+import { getKeychainOptions } from './keychain.utils.native';
 
 export interface StoredSensetiveData {
   symmetricKey: string;
   encrypted: string;
 }
 
-export const getStoredValue = async <StoredSensetiveData>(key: string): Promise<StoredSensetiveData | null> => {
+export const getStoredValue = async <StoredSensetiveData>(key: string): Promise<StoredSensetiveData> => {
   const rawKeychainData = await Keychain.getGenericPassword(getKeychainOptions(key));
+
   if (rawKeychainData !== false) {
     return JSON.parse(rawKeychainData.password);
   }
 
-  return null;
+  throw Error(`No record in Keychain [${key}]`);
 };
 
 export const setStoredValue = async (key: string, value: string) => {

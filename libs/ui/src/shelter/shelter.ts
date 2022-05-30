@@ -1,90 +1,51 @@
+import { isDefined } from '@rnw-community/shared';
 import { generateMnemonic } from 'bip39';
 import { forkJoin, of, switchMap, Observable, from, BehaviorSubject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { AccountTypeEnum } from '../enums/account-type.enum';
 import { AccountInterface } from '../interfaces/account.interface';
-import { hashPassword } from '../sha256/generate-hash';
 import { decrypt } from '../themis/decrypt';
 import { encrypt } from '../themis/encrypt';
 import { getEtherDerivationPath } from '../utils/derivation-path.utils';
 import { generateHdAccount } from '../utils/generate-hd-account.util';
+import { generateHash$ } from '../utils/hash.utils';
 import { setStoredValue } from '../utils/store.util';
 
-const PASSWORD_CHECK = 'app-password';
-const INITIAL_PASSWORD = 'password';
+const PASSWORD_CHECK_KEY = 'app-password';
+const INITIAL_PASSWORD_HASH = '';
 
 export class Shelter {
-  private static _hashPassword$ = new BehaviorSubject(INITIAL_PASSWORD);
+  private static _passwordHash$ = new BehaviorSubject(INITIAL_PASSWORD_HASH);
 
-  static hashPasswordObservable$ = (input: string) => from(hashPassword(input));
-
-  static saveSensitiveData = async (sensetiveData: Record<string, string>, password: string) =>
-    Promise.all(
-      Object.entries(sensetiveData).map(async ([key, value]) => {
-        const dataToSave = await encrypt(value, password);
-        setStoredValue(key, JSON.stringify(dataToSave));
-
-        return dataToSave;
-      })
+  private static saveSensitiveData$ = (sensitiveData: Record<string, string>) =>
+    forkJoin(
+      Object.entries(sensitiveData).map(entry =>
+        of(entry).pipe(
+          switchMap(([key, value]) =>
+            from(encrypt(value, Shelter._passwordHash$.getValue())).pipe(
+              switchMap(encryptedValue => setStoredValue(key, JSON.stringify(encryptedValue)))
+            )
+          )
+        )
+      )
     );
 
-  static importAccount$ = (
-    seedPhrase: string,
-    password: string,
-    hdAccountsLength = 1
-  ): Observable<AccountInterface[]> =>
-    Shelter.hashPasswordObservable$(password).pipe(
-      switchMap(passwordHash => {
-        Shelter._hashPassword$.next(passwordHash);
+  private static decryptSensitiveData$ = (key: string, passwordHash: string) => from(decrypt(key, passwordHash));
 
-        return forkJoin(
-          [...Array(hdAccountsLength).keys()].map(hdAccIndex => {
-            const account = generateHdAccount(seedPhrase, getEtherDerivationPath(hdAccIndex));
-            const name = `Account ${hdAccIndex + 1}`;
+  static isLocked$ = Shelter._passwordHash$.pipe(map(password => password === INITIAL_PASSWORD_HASH));
 
-            return from(account).pipe(
-              switchMap(({ privateKey, publicKey, address }) =>
-                of(
-                  Shelter.saveSensitiveData(
-                    {
-                      [publicKey]: privateKey,
-                      seedPhrase,
-                      networksKey: 'Etherium',
-                      [PASSWORD_CHECK]: generateMnemonic()
-                    },
-                    passwordHash
-                  )
-                ).pipe(
-                  map(() => ({
-                    name,
-                    type: AccountTypeEnum.HD_ACCOUNT,
-                    publicKey,
-                    publicKeyHash: address
-                  }))
-                )
-              )
-            );
-          })
-        );
-      })
-    );
+  static getIsLocked = () => Shelter._passwordHash$.getValue() === INITIAL_PASSWORD_HASH;
 
-  static decryptSensitiveData = async (key: string, password: string) => {
-    const decrypted = await decrypt(key, password);
-
-    return decrypted;
-  };
-
-  static lockApp = () => Shelter._hashPassword$.next(INITIAL_PASSWORD);
+  static lockApp = () => Shelter._passwordHash$.next(INITIAL_PASSWORD_HASH);
 
   static unlockApp$ = (password: string) =>
-    Shelter.hashPasswordObservable$(password).pipe(
+    generateHash$(password).pipe(
       switchMap(passwordHash =>
-        from(Shelter.decryptSensitiveData(PASSWORD_CHECK, passwordHash)).pipe(
+        Shelter.decryptSensitiveData$(PASSWORD_CHECK_KEY, passwordHash).pipe(
           map(decrypted => {
-            if (decrypted !== undefined) {
-              Shelter._hashPassword$.next(passwordHash);
+            if (isDefined(decrypted)) {
+              Shelter._passwordHash$.next(passwordHash);
 
               return true;
             }
@@ -94,5 +55,49 @@ export class Shelter {
           catchError(() => of(false))
         )
       )
+    );
+
+  static importAccount$ = (
+    seedPhrase: string,
+    password: string,
+    hdAccountsLength = 1
+  ): Observable<AccountInterface[]> =>
+    generateHash$(password).pipe(
+      switchMap(passwordHash => {
+        Shelter._passwordHash$.next(passwordHash);
+
+        return forkJoin(
+          [...Array(hdAccountsLength).keys()].map(hdAccountIndex =>
+            from(generateHdAccount(seedPhrase, getEtherDerivationPath(hdAccountIndex))).pipe(
+              map(({ privateKey, publicKey, address }) => {
+                const name = `Account ${hdAccountIndex + 1}`;
+
+                return {
+                  privateData: {
+                    [publicKey]: privateKey
+                  },
+                  publicData: {
+                    name,
+                    type: AccountTypeEnum.HD_ACCOUNT,
+                    publicKey,
+                    publicKeyHash: address
+                  }
+                };
+              })
+            )
+          )
+        ).pipe(
+          switchMap(accountsData => {
+            const privateData = accountsData.reduce((prev, curr) => ({ ...prev, ...curr.privateData }), {});
+            const publicData = accountsData.map(({ publicData }) => publicData);
+
+            return Shelter.saveSensitiveData$({
+              seedPhrase,
+              [PASSWORD_CHECK_KEY]: generateMnemonic(),
+              ...privateData
+            }).pipe(map(() => publicData));
+          })
+        );
+      })
     );
 }

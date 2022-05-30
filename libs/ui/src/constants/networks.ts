@@ -4,7 +4,7 @@ import { createEntity } from '../store/utils/entity.utils';
 export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
   {
     chainId: '8217',
-    rpcUrl: 'https://kaikas.cypress.klaytn.net:8651/',
+    rpcUrl: 'https://public-node-api.klaytnapi.com/v1/cypress',
     name: 'Klaytn Mainnet',
     gasTokenMetadata: {
       name: 'Klaytn Token',

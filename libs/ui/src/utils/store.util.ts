@@ -1,14 +1,18 @@
 import { SymmetricKey } from 'wasm-themis';
 
-export interface StoredSensetiveData {
+export interface StoredSensitiveData {
   symmetricKey: SymmetricKey;
   encrypted: object;
 }
 
-export const getStoredValue = async <StoredSensetiveData>(key: string): Promise<StoredSensetiveData | null> => {
+export const getStoredValue = async <StoredSensetiveData>(key: string): Promise<StoredSensetiveData> => {
   const encryptedData = localStorage.getItem(key);
 
-  return encryptedData !== null ? JSON.parse(encryptedData) : null;
+  if (encryptedData !== null) {
+    return JSON.parse(encryptedData);
+  }
+
+  throw Error(`No record in Keychain [${key}]`);
 };
 
 export const setStoredValue = async (key: string, value: string) => localStorage.setItem(key, value);

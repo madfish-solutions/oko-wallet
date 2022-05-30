@@ -1,86 +1,35 @@
 import React, { FC, useState } from 'react';
-import { View, Text, Pressable, TextInput, StyleSheet, Button } from 'react-native';
+import { View, Text, TextInput, Button } from 'react-native';
 
 import { useShelter } from '../../hooks/use-shelter.hook';
-import { useUnlock } from '../../hooks/use-unlock.hook';
-import { useIsUnlockedSelector } from '../../store/app-info/app-info-selectors';
-import { useSelectedAccountSelector } from '../../store/wallet/wallet.selectors';
 
-interface ImportAccountProps {
-  handleAuthorisation: () => void;
-}
+import { ImportAccountStyles } from './import-account.styles';
 
-export const ImportAccount: FC<ImportAccountProps> = ({ handleAuthorisation }) => {
-  const [seed, setSeed] = useState('');
+export const ImportAccount: FC = () => {
+  const [seed, setSeed] = useState('tired cousin aerobic voyage risk pink point stool dog hello april pioneer');
   const [password, setPassword] = useState('');
   const { importWallet } = useShelter();
-  const { unlock, lock } = useUnlock();
-  const isUnlocked = useIsUnlockedSelector();
-  const { publicKey, publicKeyHash } = useSelectedAccountSelector();
 
-  const styles = StyleSheet.create({
-    input: {
-      height: 40,
-      margin: 12,
-      borderWidth: 1,
-      padding: 10
-    },
-    view: {
-      display: 'flex',
-      marginTop: 40,
-      justifyContent: 'center',
-      alignItems: 'center'
-    }
-  });
+  const handleImportAccount = () => importWallet({ seedPhrase: seed, password, hdAccountsLength: 1 });
 
   return (
-    <View>
-      <Pressable onPress={handleAuthorisation}>
-        <Text>Get Authorisation</Text>
-      </Pressable>
+    <View style={ImportAccountStyles.view}>
+      <Text> IMPORT ACCOUNT </Text>
+      <TextInput
+        style={ImportAccountStyles.input}
+        onChangeText={setSeed}
+        value={seed}
+        placeholder="write seed phrase"
+      />
 
-      {publicKey === '' && (
-        <View style={styles.view}>
-          <Text> IMPORT ACCOUNT </Text>
-          <TextInput style={styles.input} onChangeText={setSeed} value={seed} placeholder="write seed phrase" />
+      <TextInput
+        style={ImportAccountStyles.input}
+        onChangeText={setPassword}
+        value={password}
+        placeholder="set password"
+      />
 
-          <TextInput style={styles.input} onChangeText={setPassword} value={password} placeholder="set password" />
-
-          <Button
-            onPress={() => {
-              importWallet({ seedPhrase: seed, password, hdAccountsLength: 1 });
-            }}
-            title="import account"
-            color="#841584"
-          />
-        </View>
-      )}
-      {publicKey !== '' && isUnlocked && (
-        <View style={styles.view}>
-          <Text> your address is {publicKeyHash} </Text>
-          <Button
-            onPress={() => {
-              setPassword('');
-              lock();
-            }}
-            title="lock app"
-            color="#841584"
-          />
-        </View>
-      )}
-      {publicKey !== '' && !isUnlocked && (
-        <View style={styles.view}>
-          <Text> Please, write your password</Text>
-          <TextInput style={styles.input} onChangeText={setPassword} value={password} placeholder="type password" />
-          <Button
-            onPress={() => {
-              unlock(password);
-            }}
-            title="unlock"
-            color="#841584"
-          />
-        </View>
-      )}
+      <Button onPress={handleImportAccount} title="import account" color="#841584" />
     </View>
   );
 };

@@ -1,6 +1,6 @@
 import { TEZOS_BIP44_COINTYPE } from '../constants/cointype';
 
-import { generateKlaytnHdAccount } from './generate-klaytn-hd-account.util';
+import { generateEvmHdAccount } from './generate-klaytn-hd-account.util';
 import { generateTezosHdAccount } from './generate-tezos-hd-account.util';
 
 export const generateHdAccount = async (seedPhrase: string, derivationPath: string) => {
@@ -9,6 +9,6 @@ export const generateHdAccount = async (seedPhrase: string, derivationPath: stri
     case TEZOS_BIP44_COINTYPE:
       return generateTezosHdAccount(seedPhrase, derivationPath);
     default:
-      return generateKlaytnHdAccount(seedPhrase, derivationPath);
+      return generateEvmHdAccount(seedPhrase, derivationPath);
   }
 };
