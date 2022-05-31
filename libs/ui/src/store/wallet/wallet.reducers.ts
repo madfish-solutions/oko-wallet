@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { TOKEN_DEFAULT_LIST } from '../../constants/tokens';
+import { TOKENS_DEFAULT_LIST } from '../../constants/tokens';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { createEntity } from '../utils/entity.utils';
@@ -21,29 +21,17 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
   builder
     .addCase(addHdAccountAction, (state, { payload: account }) => {
       const { networks, selectedAccountPublicKeyHash, selectedNetworkRpcUrl } = state;
-
-      let defaultMetadata = {};
-
-      TOKEN_DEFAULT_LIST[networks[0].chainId].map(({ tokenAddress, name, decimals, symbol }) => {
-        const tokenMetadataSlug = getTokenMetadataSlug(selectedNetworkRpcUrl, tokenAddress);
-
-        defaultMetadata = { ...defaultMetadata, [tokenMetadataSlug]: { name, symbol, decimals, tokenAddress } };
-      });
-
       const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
-      const defaultAccountsTokens = TOKEN_DEFAULT_LIST[networks[0].chainId].map(
-        ({ tokenAddress, isVisible, balance }) => ({
-          tokenAddress,
-          isVisible,
-          balance
-        })
-      );
+      const defaultAccountsTokens = TOKENS_DEFAULT_LIST[networks[0].chainId].map(({ tokenAddress }) => ({
+        tokenAddress,
+        isVisible: true,
+        balance: '0'
+      }));
 
       return {
         ...state,
         accounts: [...state.accounts, account],
-        accountsTokens: { [accountTokensSlug]: defaultAccountsTokens },
-        tokensMetadata: defaultMetadata
+        accountsTokens: { [accountTokensSlug]: defaultAccountsTokens }
       };
     })
     .addCase(setSelectedAccountAction, (state, { payload: selectedAccount }) => ({
