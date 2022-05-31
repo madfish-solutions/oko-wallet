@@ -1,6 +1,8 @@
 import { Token } from '../interfaces/token.interface';
 
-export const TOKEN_DEFAULT_LIST: Record<string, Token[]> = {
+type NetworkChainId = string;
+
+export const TOKEN_DEFAULT_LIST: Record<NetworkChainId, Token[]> = {
   '8217': [
     {
       tokenAddress: '0x02cbe46fb8a1f579254a9b485788f2d86cad51aa',
@@ -60,7 +62,7 @@ export const TOKEN_DEFAULT_LIST: Record<string, Token[]> = {
       tokenAddress: '0xfd844c2fca5e595004b17615f891620d1cb9bbb2',
       isVisible: true,
       balance: '0',
-      name: 'WKLAY',
+      name: 'Wrapped KLAY',
       symbol: 'WKLAY',
       decimals: 18,
       thumbnailUri: ''
@@ -69,7 +71,7 @@ export const TOKEN_DEFAULT_LIST: Record<string, Token[]> = {
       tokenAddress: '0xdcd62c57182e780e23d2313c4782709da85b9d6c',
       isVisible: true,
       balance: '0',
-      name: 'SSX',
+      name: 'SOMESING',
       symbol: 'SSX',
       decimals: 18,
       thumbnailUri: ''
@@ -78,7 +80,7 @@ export const TOKEN_DEFAULT_LIST: Record<string, Token[]> = {
       tokenAddress: '0xdb116e2dc96b4e69e3544f41b50550436579979a',
       isVisible: true,
       balance: '0',
-      name: 'KFI',
+      name: 'KlayFi Finance',
       symbol: 'KFI',
       decimals: 18,
       thumbnailUri: ''
@@ -105,7 +107,7 @@ export const TOKEN_DEFAULT_LIST: Record<string, Token[]> = {
       tokenAddress: '0x9e481eb17d3c3c07d7a6ab571b4ba8ef432b5cf2',
       isVisible: true,
       balance: '0',
-      name: 'MCC',
+      name: 'MyCreditChain',
       symbol: 'MCC',
       decimals: 18,
       thumbnailUri: ''
