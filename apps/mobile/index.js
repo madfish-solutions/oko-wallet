@@ -1,5 +1,4 @@
 import './shim.js';
-import '@ethersproject/shims';
 
 import { AppRegistry } from 'react-native';
 import { App } from 'ui';

@@ -12,8 +12,8 @@ export const AddNewToken: FC = () => {
   const [symbol, setSymbol] = useState('');
   const [decimals, setDecimals] = useState('');
   const [thumbnailUri, setThumbnailUri] = useState('');
-  const [tokenId, setTokenId] = useState('');
-  const [tokenType, setTokenType] = useState('');
+  const [tezosTokenId, setTezosTokenId] = useState('');
+  const [tezosTokenType, setTezosTokenType] = useState('');
 
   const onDecimalsChange = (decimalsValue: string) => setDecimals(decimalsValue.replace(/\D/g, ''));
 
@@ -25,8 +25,8 @@ export const AddNewToken: FC = () => {
         symbol,
         thumbnailUri,
         decimals: Number(decimals),
-        tokenId: tokenId,
-        tokenType: tokenType || undefined
+        tezosTokenId: tezosTokenId || undefined,
+        tezosTokenType: tezosTokenType || undefined
       })
     );
 
@@ -35,8 +35,8 @@ export const AddNewToken: FC = () => {
     setSymbol('');
     setDecimals('');
     setThumbnailUri('');
-    setTokenId('');
-    setTokenType('');
+    setTezosTokenId('');
+    setTezosTokenType('');
   };
 
   return (
@@ -47,8 +47,8 @@ export const AddNewToken: FC = () => {
       <TextInput placeholder="Token Symbol" value={symbol} onChangeText={setSymbol} />
       <TextInput placeholder="Token Decimals" value={decimals} onChangeText={onDecimalsChange} keyboardType="numeric" />
       <TextInput placeholder="Thumbnail Uri" value={thumbnailUri} onChangeText={setThumbnailUri} />
-      <TextInput placeholder="Token Id" value={tokenId} onChangeText={setTokenId} />
-      <TextInput placeholder="Token type (for Tezos)" value={tokenType} onChangeText={setTokenType} />
+      <TextInput placeholder="Token Id (for Tezos)" value={tezosTokenId} onChangeText={setTezosTokenId} />
+      <TextInput placeholder="Token type (for Tezos)" value={tezosTokenType} onChangeText={setTezosTokenType} />
       <Pressable onPress={onAddToken}>
         <Text>Add token</Text>
       </Pressable>

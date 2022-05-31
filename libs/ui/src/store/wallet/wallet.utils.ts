@@ -1,6 +1,8 @@
 import { AccountToken } from '../../interfaces/account-token.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
+import { Token } from '../../interfaces/token.interface';
 import { getAccountTokensSlug } from '../../utils/address.util';
+import { getTokenSlug } from '../../utils/token.utils';
 
 import { WalletState } from './wallet.state';
 
@@ -21,18 +23,19 @@ export const updateSelectedNetworkState = (
 
 export const updateAccountTokenState = (
   state: WalletState,
-  tokenAddress: string,
+  token: Token,
   updateFunc: (token: AccountToken) => Partial<AccountToken>
 ): WalletState => {
   const { selectedNetworkRpcUrl, selectedAccountPublicKeyHash, accountsTokens } = state;
   const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+  const tokenSlug = getTokenSlug(token);
 
   return {
     ...state,
     accountsTokens: {
       ...accountsTokens,
       [accountTokensSlug]: accountsTokens[accountTokensSlug].map(accountToken =>
-        accountToken.tokenAddress === tokenAddress
+        getTokenSlug(accountToken) === tokenSlug
           ? {
               ...accountToken,
               ...updateFunc(accountToken)

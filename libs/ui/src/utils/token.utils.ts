@@ -1,8 +1,9 @@
 import { Observable } from 'rxjs';
 
 import { NetworkTypeEnum } from '../enums/network-type.enum';
+import { AccountToken } from '../interfaces/account-token.interface';
 import { NetworkInterface } from '../interfaces/network.interface';
-import { TokenMetadata } from '../interfaces/token-metadata.interface';
+import { Token } from '../interfaces/token.interface';
 
 import { loadEvmGasTokenBalance$, loadEvmTokenBalance$ } from './by-network-types/token.utils.evm';
 import { loadTezosGasTokenBalance$, loadTezosTokenBalance$ } from './by-network-types/token.utils.tezos';
@@ -23,7 +24,7 @@ export const getGasTokenBalance$ = (network: NetworkInterface, publicKeyHash: st
 export const getTokenBalance$ = (
   network: NetworkInterface,
   publicKeyHash: string,
-  token: TokenMetadata
+  token: Token
 ): Observable<string> => {
   const networkType = getNetworkType(network);
 
@@ -36,4 +37,4 @@ export const getTokenBalance$ = (
   }
 };
 
-export const getTokenSlug = ({ tokenAddress, tokenId }: TokenMetadata) => `${tokenAddress}_${tokenId}`;
+export const getTokenSlug = ({ tokenAddress, tokenId }: AccountToken) => `${tokenAddress}_${tokenId}`;
