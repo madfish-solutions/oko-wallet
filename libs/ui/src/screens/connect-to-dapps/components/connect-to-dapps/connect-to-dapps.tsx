@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, Text, View } from 'react-native';
 
-import { useConnectToDapp } from '../../hooks/connect-to-dapp.hook';
-import { Input } from '../input/input';
+import { Input } from '../../../../components/input/input';
+import { useConnectToDapp } from '../../../../hooks/connect-to-dapp.hook';
 
 export const ConnectToDapps = () => {
   const { setUriValue, onSubmit, killSession, connected, peerMeta, approveSession, rejectSession, address, uri } =

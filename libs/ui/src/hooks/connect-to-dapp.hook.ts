@@ -1,117 +1,115 @@
 import WalletConnect from '@walletconnect/client';
 import { useEffect, useState } from 'react';
 
-import { BSC_RPC } from '../constants/defaults';
-import { usePublicKeyHashSelector } from '../store/wallet/wallet.selectors';
+import { ClientPeerMeta } from '../interfaces/connect-wallet.interface';
+import { useSelectedAccountPkhSekector } from '../store/wallet/wallet.selectors';
 import { getCachedSession } from '../utils/dapps/get-cached-session.utils';
+
+const peerMetaInitialValue = {
+  description: '',
+  url: '',
+  icons: [],
+  name: '',
+  ssl: false
+};
 
 export const useConnectToDapp = () => {
   const [connector, setConnector] = useState<WalletConnect | null>(null);
   const [uri, setUri] = useState<string>('');
-  const [peerMeta, setPeerMeta] = useState({
-    description: '',
-    url: '',
-    icons: [],
-    name: '',
-    ssl: false
-  });
+  const [peerMeta, setPeerMeta] = useState<ClientPeerMeta>(peerMetaInitialValue);
   const [connected, setConnected] = useState<boolean>(false);
-  const pkh = usePublicKeyHashSelector();
+  const [chainId, setChainId] = useState<number>(1);
 
-  // useEffect(() => {
-  //   const session = getCachedSession();
+  const selectedAccountPkh = useSelectedAccountPkhSekector();
 
-  //   if (session) {
-  //     const walletConnector = new WalletConnect({ session });
+  useEffect(() => {
+    const session = getCachedSession();
 
-  //     walletConnector.updateSession({
-  //       chainId: BSC_RPC.chainId,
-  //       accounts: [pkh]
-  //     });
-  //     walletConnector.connect();
-
-  //     setConnector(walletConnector);
-
-  //     console.log(walletConnector);
-  //   }
-  // }, [pkh]);
-
-  // useEffect(() => {
-  //   const session = getCachedSession();
-
-  //   if (session) {
-  //     setPeerMeta(session.peerMeta as any);
-  //     setConnected(session.connected);
-  //   }
-  // }, []);
+    if (session && session.peerMeta) {
+      setPeerMeta(session.peerMeta);
+      setConnected(session.connected);
+    }
+  }, []);
 
   useEffect(() => {
     if (connector) {
       connector.on('session_request', (error, payload) => {
-        console.log('SESSION_REQUEST');
-
         if (error) {
-          throw error;
+          throw `session_request: ${error}`;
         }
-        const { peerMeta } = payload.params[0];
-        // Payload has chainId
+        const { peerMeta, chainId } = payload.params[0];
+
+        setChainId(chainId);
         setPeerMeta(peerMeta);
       });
 
       connector.on('session_update', error => {
-        console.log('SESSION_UPDATE');
-
         if (error) {
-          throw error;
+          throw `session_update: ${error}`;
         }
 
         setConnected(true);
       });
 
       connector.on('call_request', async error => {
-        console.log('CALL_REQUEST');
-
         if (error) {
-          throw error;
+          throw `call_request: ${error}`;
         }
       });
 
       connector.on('connect', error => {
-        console.log('CONNECT');
-
         if (error) {
-          throw error;
+          throw `connect: ${error}`;
         }
 
         setConnected(true);
       });
 
       connector.on('disconnect', error => {
-        console.log('DISCONNECT');
-
         if (error) {
-          throw error;
+          throw `disconnect: ${error}`;
         }
 
         setConnected(false);
-        setPeerMeta({
-          description: '',
-          url: '',
-          icons: [],
-          name: '',
-          ssl: false
-        });
+        setPeerMeta(peerMetaInitialValue);
       });
 
-      // if (connector.connected) {
-      //   setConnected(true);
-      // }
-      // setConnector(connector);
+      if (connector.connected) {
+        setConnected(true);
+      }
+      setConnector(connector);
     }
-  }, [connector, pkh]);
+  }, [connector, selectedAccountPkh]);
 
   const setUriValue = (newUri: string) => {
     setUri(newUri);
+  };
+
+  const approveSession = () => {
+    if (connector) {
+      connector.approveSession({
+        accounts: [selectedAccountPkh],
+        chainId: chainId
+      });
+    }
+    setConnector(connector);
+  };
+
+  const rejectSession = () => {
+    if (connector) {
+      connector.rejectSession();
+    }
+    setConnector(connector);
+  };
+
+  const killSession = () => {
+    const session = getCachedSession();
+
+    if (session) {
+      const walletConnector = new WalletConnect({ session });
+      walletConnector.killSession();
+      setConnector(walletConnector);
+    }
   };
 
   const onSubmit = async () => {
@@ -137,34 +135,6 @@ export const useConnectToDapp = () => {
     }
   };
 
-  const approveSession = () => {
-    if (connector) {
-      connector.approveSession({
-        accounts: [pkh],
-        rpcUrl: BSC_RPC.url,
-        chainId: BSC_RPC.chainId
-      });
-    }
-    setConnector(connector);
-  };
-
-  const rejectSession = () => {
-    if (connector) {
-      connector.rejectSession();
-    }
-    setConnector(connector);
-  };
-
-  const killSession = () => {
-    const session = getCachedSession();
-
-    if (session) {
-      const walletConnector = new WalletConnect({ session });
-      walletConnector.killSession();
-      setConnector(walletConnector);
-    }
-  };
-
   return {
     approveSession,
     rejectSession,
@@ -174,6 +144,6 @@ export const useConnectToDapp = () => {
     peerMeta,
     connected,
     uri,
-    address: pkh
+    address: selectedAccountPkh
   };
 };

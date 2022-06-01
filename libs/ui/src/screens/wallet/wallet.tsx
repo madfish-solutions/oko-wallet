@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { Networks } from '../../components/networks/networks';
+import { mockAccountsAddresses } from '../../constants/accounts';
 import { switchAccount } from '../../store/wallet/wallet.actions';
 import { useVisibleAccountTokensSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
-import { ACCOUNT_1, ACCOUNT_2 } from '../../store/wallet/wallet.state';
 
 import { AccountTokens } from './components/account-tokens/account-tokens';
 import { WalletStyles } from './wallet.styles';
@@ -32,8 +32,8 @@ export const Wallet: FC = () => {
         <Networks />
         <AccountTokens visibleAccountTokens={visibleAccountTokens} />
         <View>
-          <Button title="Account 1" onPress={() => handleSwitchAccount(ACCOUNT_1)} />
-          <Button title="Account 2" onPress={() => handleSwitchAccount(ACCOUNT_2)} />
+          <Button title="Account 1" onPress={() => handleSwitchAccount(mockAccountsAddresses.account_1)} />
+          <Button title="Account 2" onPress={() => handleSwitchAccount(mockAccountsAddresses.account_2)} />
         </View>
       </View>
     </View>
