@@ -1,9 +1,8 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import { View, Text, TextInput } from 'react-native';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { Networks } from '../../components/networks/networks';
-import { Token } from '../../interfaces/token.interface';
 import { useVisibleAccountTokensSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
 
 import { AccountTokens } from './components/account-tokens/account-tokens';
@@ -13,17 +12,17 @@ export const Wallet: FC = () => {
   const { gasTokenMetadata, gasTokenBalance } = useSelectedNetworkSelector();
   const visibleAccountTokens = useVisibleAccountTokensSelector();
   const [inputNameSearch, setInputNameSearch] = useState('');
-  const [FiltredTokens, setFiltredTokens] = useState<Token[]>([]);
 
-  useEffect(() => {
-    setFiltredTokens(
+  const filtredTokens = useMemo(
+    () =>
       visibleAccountTokens.filter(
-        ({ name, symbol }) =>
+        ({ name, symbol, tokenAddress }) =>
           name.toLowerCase().includes(inputNameSearch.toLowerCase()) ||
-          symbol.toLowerCase().includes(inputNameSearch.toLowerCase())
-      )
-    );
-  }, [inputNameSearch]);
+          symbol.toLowerCase().includes(inputNameSearch.toLowerCase()) ||
+          tokenAddress.toLowerCase().includes(inputNameSearch.toLowerCase())
+      ),
+    [inputNameSearch]
+  );
 
   const gasTokenBalanceWithLoading = gasTokenBalance.isLoading
     ? '...'
@@ -43,7 +42,7 @@ export const Wallet: FC = () => {
           value={inputNameSearch}
           placeholder="find token..."
         />
-        <AccountTokens visibleAccountTokens={inputNameSearch ? FiltredTokens : visibleAccountTokens} />
+        <AccountTokens visibleAccountTokens={inputNameSearch ? filtredTokens : visibleAccountTokens} />
       </View>
     </View>
   );
