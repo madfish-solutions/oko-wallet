@@ -13,16 +13,18 @@ export const Wallet: FC = () => {
   const visibleAccountTokens = useVisibleAccountTokensSelector();
   const [inputNameSearch, setInputNameSearch] = useState('');
 
-  const filtredTokens = useMemo(
-    () =>
-      visibleAccountTokens.filter(
+  const filteredTokens = useMemo(() => {
+    if (inputNameSearch) {
+      return visibleAccountTokens.filter(
         ({ name, symbol, tokenAddress }) =>
           name.toLowerCase().includes(inputNameSearch.toLowerCase()) ||
           symbol.toLowerCase().includes(inputNameSearch.toLowerCase()) ||
           tokenAddress.toLowerCase().includes(inputNameSearch.toLowerCase())
-      ),
-    [inputNameSearch]
-  );
+      );
+    }
+
+    return visibleAccountTokens;
+  }, [inputNameSearch]);
 
   const gasTokenBalanceWithLoading = gasTokenBalance.isLoading
     ? '...'
@@ -42,7 +44,7 @@ export const Wallet: FC = () => {
           value={inputNameSearch}
           placeholder="find token..."
         />
-        <AccountTokens visibleAccountTokens={inputNameSearch ? filtredTokens : visibleAccountTokens} />
+        <AccountTokens visibleAccountTokens={filteredTokens} />
       </View>
     </View>
   );
