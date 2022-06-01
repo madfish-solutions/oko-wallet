@@ -1,4 +1,5 @@
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
+import { defaultTokensMetadata } from '../../constants/tokens';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { AccountToken } from '../../interfaces/account-token.interface';
 import { AccountInterface } from '../../interfaces/account.interface';
@@ -30,6 +31,6 @@ export const walletInitialState: WalletState = {
   selectedNetworkRpcUrl: NETWORKS_DEFAULT_LIST[0].rpcUrl,
   selectedNetworkType: NetworkTypeEnum.Ethereum,
   selectedAccountIndex: 0,
-  tokensMetadata: {},
+  tokensMetadata: defaultTokensMetadata,
   accountsTokens: {}
 };
