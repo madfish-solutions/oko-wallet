@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { Networks } from '../../components/networks/networks';
 import { mockAccountsAddresses } from '../../constants/accounts';
-import { switchAccount } from '../../store/wallet/wallet.actions';
+import { switchAccountAction } from '../../store/wallet/wallet.actions';
 import { useVisibleAccountTokensSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
 
 import { AccountTokens } from './components/account-tokens/account-tokens';
@@ -20,7 +20,7 @@ export const Wallet: FC = () => {
     ? '...'
     : `${gasTokenBalance.data} ${gasTokenMetadata.symbol}`;
 
-  const handleSwitchAccount = (pkh: string) => dispatch(switchAccount(pkh));
+  const handleSwitchAccount = (pkh: string) => dispatch(switchAccountAction(pkh));
 
   return (
     <View>

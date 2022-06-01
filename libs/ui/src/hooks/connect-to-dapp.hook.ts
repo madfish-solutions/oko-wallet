@@ -1,9 +1,8 @@
 import WalletConnect from '@walletconnect/client';
 import { useEffect, useState } from 'react';
 
-import { ClientPeerMeta } from '../interfaces/connect-wallet.interface';
+import { ClientPeerMeta, WalletConnectSession } from '../interfaces/connect-wallet.interface';
 import { useSelectedAccountPkhSekector } from '../store/wallet/wallet.selectors';
-import { getCachedSession } from '../utils/dapps/get-cached-session.utils';
 
 const peerMetaInitialValue = {
   description: '',
@@ -22,10 +21,13 @@ export const useConnectToDapp = () => {
 
   const selectedAccountPkh = useSelectedAccountPkhSekector();
 
+  const getCachedSession = (): WalletConnectSession | null =>
+    JSON.parse(localStorage.getItem('walletconnect') as string) ?? null;
+
   useEffect(() => {
     const session = getCachedSession();
 
-    if (session && session.peerMeta) {
+    if (session !== null && session.peerMeta) {
       setPeerMeta(session.peerMeta);
       setConnected(session.connected);
     }
@@ -37,6 +39,7 @@ export const useConnectToDapp = () => {
         if (error) {
           throw `session_request: ${error}`;
         }
+
         const { peerMeta, chainId } = payload.params[0];
 
         setChainId(chainId);
@@ -47,8 +50,6 @@ export const useConnectToDapp = () => {
         if (error) {
           throw `session_update: ${error}`;
         }
-
-        setConnected(true);
       });
 
       connector.on('call_request', async error => {
@@ -74,16 +75,9 @@ export const useConnectToDapp = () => {
         setPeerMeta(peerMetaInitialValue);
       });
 
-      if (connector.connected) {
-        setConnected(true);
-      }
       setConnector(connector);
     }
   }, [connector, selectedAccountPkh]);
-
-  const setUriValue = (newUri: string) => {
-    setUri(newUri);
-  };
 
   const approveSession = () => {
     if (connector) {
@@ -139,7 +133,7 @@ export const useConnectToDapp = () => {
     approveSession,
     rejectSession,
     onSubmit,
-    setUriValue,
+    setUri,
     killSession,
     peerMeta,
     connected,

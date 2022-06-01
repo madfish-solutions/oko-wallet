@@ -12,14 +12,14 @@ import {
   loadGasTokenBalanceAction,
   addTokenMetadataAction,
   changeTokenVisibilityAction,
-  switchAccount
+  switchAccountAction
 } from './wallet.actions';
 import { WalletState, walletInitialState } from './wallet.state';
 import { updateSelectedNetworkState } from './wallet.utils';
 
 export const walletReducers = createReducer<WalletState>(walletInitialState, builder => {
   builder
-    .addCase(switchAccount, (state, { payload: pkh }) => ({
+    .addCase(switchAccountAction, (state, { payload: pkh }) => ({
       ...state,
       selectedAccountPublicKeyHash: pkh
     }))

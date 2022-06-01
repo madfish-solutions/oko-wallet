@@ -5,13 +5,13 @@ import { Input } from '../../../../components/input/input';
 import { useConnectToDapp } from '../../../../hooks/connect-to-dapp.hook';
 
 export const ConnectToDapps = () => {
-  const { setUriValue, onSubmit, killSession, connected, peerMeta, approveSession, rejectSession, address, uri } =
+  const { setUri, onSubmit, killSession, connected, peerMeta, approveSession, rejectSession, address, uri } =
     useConnectToDapp();
 
   return (
     <View>
       <Text>Connect to Dapp</Text>
-      <Input value={uri} onChangeText={setUriValue} />
+      <Input value={uri} onChangeText={setUri} />
       <Button title="Connect" onPress={onSubmit} />
       <Button title="killSession" onPress={killSession} />
 
