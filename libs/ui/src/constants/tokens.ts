@@ -1,5 +1,4 @@
 import { TokenMetadata } from '../interfaces/token-metadata.interface';
-//import { Token } from '../interfaces/token.interface';
 import { getTokenMetadataSlug } from '../utils/token-metadata.util';
 
 import { NETWORKS_DEFAULT_LIST } from './networks';
