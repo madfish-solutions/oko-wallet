@@ -1,9 +1,9 @@
-import { Observable, from, map } from 'rxjs';
+import { Observable, from, map, switchMap } from 'rxjs';
 
 import { TEZOS_BIP44_COINTYPE } from '../constants/cointype';
 import { AccountInterface } from '../interfaces/account.interface';
 import { initialAccount } from '../mocks/account.interface.mock';
-import { MOCK_HD_ACCOUNT } from '../mocks/hd-account.mock';
+import { Shelter } from '../shelter/shelter';
 
 import { getEtherDerivationPath, getTezosDerivationPath } from './derivation-path.utils';
 import { generateEvmHdAccount } from './generate-ethereum-hd-account.util';
@@ -30,39 +30,45 @@ export const generateHdAccountByNetworkType$ = (
 ): Observable<AccountInterface> => {
   const derivationPath = derivationPathByNetworkType[networkType](accountIndex);
 
-  // TODO: get seed phrase from Shelter
-  return from(generateHdAccount(MOCK_HD_ACCOUNT.seed, derivationPath)).pipe(
-    map(hdAccount => ({
-      ...initialAccount,
-      name: `Account ${accountIndex + 1}`,
-      accountIndex,
-      networksKeys: {
-        [networkType]: {
-          publicKey: '',
-          publicKeyHash: hdAccount.address
-        }
-      }
-    }))
+  return Shelter.revealSeedPhrase$().pipe(
+    switchMap(seedPhrase =>
+      from(generateHdAccount(seedPhrase, derivationPath)).pipe(
+        map(({ publicKey, address: publicKeyHash }) => ({
+          ...initialAccount,
+          name: `Account ${accountIndex + 1}`,
+          accountIndex,
+          networksKeys: {
+            [networkType]: {
+              publicKey,
+              publicKeyHash
+            }
+          }
+        }))
+      )
+    )
   );
 };
 
-export const generateNewHdAccountByNewNetworkTypeInSelectedAccount$ = (
+export const generateHdAccountByNetworkTypeInSelectedAccount$ = (
   networkType: string,
   account: AccountInterface
 ): Observable<AccountInterface> => {
   const derivationPath = derivationPathByNetworkType[networkType](account.accountIndex);
 
-  // TODO: get seed phrase from Shelter
-  return from(generateHdAccount(MOCK_HD_ACCOUNT.seed, derivationPath)).pipe(
-    map(hdAccount => ({
-      ...account,
-      networksKeys: {
-        ...account.networksKeys,
-        [networkType]: {
-          publicKey: 'publicKey',
-          publicKeyHash: hdAccount.address
-        }
-      }
-    }))
+  return Shelter.revealSeedPhrase$().pipe(
+    switchMap(seedPhrase =>
+      from(generateHdAccount(seedPhrase, derivationPath)).pipe(
+        map(({ publicKey, address: publicKeyHash }) => ({
+          ...account,
+          networksKeys: {
+            ...account.networksKeys,
+            [networkType]: {
+              publicKey,
+              publicKeyHash
+            }
+          }
+        }))
+      )
+    )
   );
 };

@@ -26,10 +26,8 @@ export const Account: FC = () => {
   const pkh = useSelectedAccountPkhSelector();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
 
-  const dispatchGenerateHDAccount = () => dispatch(generateHDAccountAction.submit());
-
   const handleCreateAccount = () => {
-    dispatchGenerateHDAccount();
+    dispatch(generateHDAccountAction.submit());
   };
 
   const handleChangeAccount = (account: AccountInterface) => {

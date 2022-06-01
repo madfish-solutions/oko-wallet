@@ -58,6 +58,8 @@ export class Shelter {
       )
     );
 
+  static revealSeedPhrase$ = () => Shelter.decryptSensitiveData$('seedPhrase', Shelter._passwordHash$.getValue());
+
   static importAccount$ = (
     seedPhrase: string,
     password: string,
