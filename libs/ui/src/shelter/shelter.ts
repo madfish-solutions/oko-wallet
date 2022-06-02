@@ -1,5 +1,8 @@
+import { Provider } from '@ethersproject/abstract-provider';
 import { isDefined } from '@rnw-community/shared';
+import { InMemorySigner } from '@taquito/signer';
 import { generateMnemonic } from 'bip39';
+import { ethers } from 'ethers';
 import { forkJoin, of, switchMap, Observable, from, BehaviorSubject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -100,4 +103,18 @@ export class Shelter {
         );
       })
     );
+
+  private static revealPrivateKey$ = (publicKey: string) =>
+    Shelter.decryptSensitiveData$(publicKey, Shelter._passwordHash$.getValue());
+
+  static getEvmSigner$ = (publicKey: string, provider: Provider) =>
+    Shelter.revealPrivateKey$(publicKey).pipe(map(privateKey => new ethers.Wallet(privateKey, provider)));
+
+  static getTezosSigner$ = () => {
+    const tezosPrivateKey =
+      'edskS7p3cBsczMrWz4ocDmFneWM8Yg5otAidAhfDVCzuqEKoyijhmsgHvsKfg6dKJ32YrGHUKjpced6HoeFCH9fafKQC35f822';
+
+    // TODO Get real tezos private key from shelter
+    return of(new InMemorySigner(tezosPrivateKey));
+  };
 }

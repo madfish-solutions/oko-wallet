@@ -1,11 +1,30 @@
-import React, { FC } from 'react';
-import { View, Text } from 'react-native';
+import React, { FC, useState } from 'react';
+import { View, TextInput, Pressable, Text } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { sendAssetAction } from '../../store/wallet/wallet.actions';
+import { useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
 
-export const Send: FC = () => (
-  <View>
-    <NavigationBar />
-    <Text>Send</Text>
-  </View>
-);
+export const Send: FC = () => {
+  const dispatch = useDispatch();
+  const {
+    gasTokenMetadata: { name }
+  } = useSelectedNetworkSelector();
+  const [amount, setAmount] = useState('');
+  const [receiverPublicKeyHash, setReceiverPublicKeyHash] = useState('');
+
+  const onSend = () => dispatch(sendAssetAction.submit({ amount, receiverPublicKeyHash }));
+
+  return (
+    <View>
+      <NavigationBar />
+      <Text>You can send Gas Token: {name}</Text>
+      <TextInput placeholder="Amount" value={amount} onChangeText={setAmount} />
+      <TextInput placeholder="Recipient" value={receiverPublicKeyHash} onChangeText={setReceiverPublicKeyHash} />
+      <Pressable onPress={onSend}>
+        <Text>Send</Text>
+      </Pressable>
+    </View>
+  );
+};

@@ -1,4 +1,5 @@
-import { NetworkInterface } from '../interfaces/network.interface';
+import { NetworkTypeEnum } from '../enums/network-type.enum';
+import { NetworkChainIdsByNetworkType, NetworkInterface } from '../interfaces/network.interface';
 import { createEntity } from '../store/utils/entity.utils';
 
 export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
@@ -18,7 +19,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
   {
     chainId: '1001',
     rpcUrl: 'https://api.baobab.klaytn.net:8651',
-    name: 'Baobab Testnet',
+    name: 'Klaytn Baobab Testnet',
     gasTokenMetadata: {
       name: 'Klaytn Token',
       symbol: 'KLAY',
@@ -31,7 +32,20 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
   {
     chainId: '1',
     rpcUrl: 'https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
-    name: 'Ethereum',
+    name: 'Ethereum Mainnet',
+    gasTokenMetadata: {
+      name: 'Ether Token',
+      symbol: 'ETH',
+      decimals: 18,
+      thumbnailUri: ''
+    },
+    gasTokenBalance: createEntity('0'),
+    explorerUrl: 'https://etherscan.io/'
+  },
+  {
+    chainId: '4',
+    rpcUrl: 'https://rinkeby.infura.io/v3/6b0e2185e8a84c0c8106307118b22e29',
+    name: 'Ethereum Rinkeby Testnet',
     gasTokenMetadata: {
       name: 'Ether Token',
       symbol: 'ETH',
@@ -69,8 +83,8 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
   },
   {
     chainId: 'NetXdQprcVkpaWU',
-    rpcUrl: 'https://mainnet-tezos.giganode.io',
-    name: 'Tezos',
+    rpcUrl: 'https://mainnet-node.madfish.solutions',
+    name: 'Tezos Mainnet',
     gasTokenMetadata: {
       name: 'Tezos Token',
       symbol: 'Tezos',
@@ -79,5 +93,35 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://tzkt.io/'
+  },
+  {
+    chainId: 'NetXnHfVqm9iesp',
+    rpcUrl: 'https://ithacanet.ecadinfra.com/',
+    name: 'Tezos Ithacanet Testnet',
+    gasTokenMetadata: {
+      name: 'Tezos Token',
+      symbol: 'Tezos',
+      decimals: 6,
+      thumbnailUri: ''
+    },
+    gasTokenBalance: createEntity('0'),
+    explorerUrl: 'https://ithacanet.tzkt.io/'
   }
 ];
+
+export const DEFAULT_NETWORK_TYPE: NetworkTypeEnum = NetworkTypeEnum.EVM;
+
+export const NETWORK_CHAIN_IDS_BY_NETWORK_TYPE: NetworkChainIdsByNetworkType = {
+  [NetworkTypeEnum.Tezos]: [
+    'NetXdQprcVkpaWU',
+    'NetXjD3HPJJjmcd',
+    'NetXm8tYqnMWky1',
+    'NetXSgo1ZT2DRUG',
+    'NetXxkAx4woPLyu',
+    'NetXz969SFaFn8k',
+    'NetXZSsxBpMQeAT',
+    'NetXbhmtAbMukLc',
+    'NetXnHfVqm9iesp',
+    'NetXLH1uAxK7CCh'
+  ]
+};
