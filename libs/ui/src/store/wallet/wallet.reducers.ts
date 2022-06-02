@@ -1,6 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { TOKENS_DEFAULT_LIST } from '../../constants/tokens';
 import { initialAccount } from '../../mocks/account.interface.mock';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-network-type-key-exist';
@@ -12,7 +11,6 @@ import {
   createHdAccountWithOtherNetworkTypeAction,
   changeNetworkAction,
   createHdAccountAction,
-  addHdAccountAction,
   setSelectedAccountAction,
   loadGasTokenBalanceAction,
   changeAccountAction,
@@ -20,25 +18,34 @@ import {
   changeTokenVisibilityAction
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
-import { updateSelectedNetworkState } from './wallet.utils';
+import { getDefaultAccountTokens, updateSelectedNetworkState } from './wallet.utils';
 
 export const walletReducers = createReducer<WalletState>(walletInitialState, builder => {
   builder
-    .addCase(addHdAccountAction, (state, { payload: account }) => {
-      const { networks, selectedAccountPublicKeyHash, selectedNetworkRpcUrl } = state;
-      const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
-      const defaultAccountsTokens = TOKENS_DEFAULT_LIST[networks[0].chainId].map(({ tokenAddress }) => ({
-        tokenAddress,
-        isVisible: true,
-        balance: '0'
-      }));
+    .addCase(createHdAccountAction, (state, { payload: account }) => {
+      const { accountTokensSlug, defaultAccountTokens } = getDefaultAccountTokens(state, account);
 
       return {
         ...state,
-        accounts: [...state.accounts, account],
-        accountsTokens: { [accountTokensSlug]: defaultAccountsTokens }
+        accounts: [...state.accounts, account].sort((a, b) => a.accountIndex - b.accountIndex),
+        selectedAccountPublicKeyHash: account.networksKeys[state.selectedNetworkType].publicKeyHash,
+        selectedAccountIndex: account.accountIndex,
+        accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: defaultAccountTokens }
       };
     })
+    .addCase(createHdAccountWithOtherNetworkTypeAction, (state, { payload: newAccount }) => {
+      const { accountTokensSlug, defaultAccountTokens } = getDefaultAccountTokens(state, newAccount);
+      const accountsWithoutCurrent = state.accounts.filter(account => account.accountIndex !== newAccount.accountIndex);
+
+      return {
+        ...state,
+        accounts: [...accountsWithoutCurrent, newAccount].sort((a, b) => a.accountIndex - b.accountIndex),
+        selectedAccountPublicKeyHash: newAccount.networksKeys[state.selectedNetworkType].publicKeyHash,
+        selectedAccountIndex: newAccount.accountIndex,
+        accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: defaultAccountTokens }
+      };
+    });
+  builder
     .addCase(setSelectedAccountAction, (state, { payload: selectedAccount }) => ({
       ...state,
       selectedAccountPublicKeyHash: selectedAccount ?? ''
@@ -104,23 +111,6 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
 
       return { ...state, accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: updatedAccountTokens } };
     });
-
-  builder.addCase(createHdAccountAction, (state, { payload: account }) => ({
-    ...state,
-    accounts: [...state.accounts, account].sort((a, b) => a.accountIndex - b.accountIndex),
-    selectedAccountPublicKeyHash: account.networksKeys[state.selectedNetworkType].publicKeyHash,
-    selectedAccountIndex: account.accountIndex
-  }));
-  builder.addCase(createHdAccountWithOtherNetworkTypeAction, (state, { payload: newAccount }) => {
-    const filteredAccounts = state.accounts.filter(account => account.accountIndex !== newAccount.accountIndex);
-
-    return {
-      ...state,
-      accounts: [...filteredAccounts, newAccount].sort((a, b) => a.accountIndex - b.accountIndex),
-      selectedAccountPublicKeyHash: newAccount.networksKeys[state.selectedNetworkType].publicKeyHash,
-      selectedAccountIndex: newAccount.accountIndex
-    };
-  });
 
   builder.addCase(changeAccountAction, (state, { payload: account }) => ({
     ...state,

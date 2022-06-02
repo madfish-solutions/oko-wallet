@@ -2,6 +2,9 @@ import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { NetworkInterface } from '../interfaces/network.interface';
 import { createEntity } from '../store/utils/entity.utils';
 
+export const getCurrentNetworkChainId = (rpcUrl: string) =>
+  NETWORKS_DEFAULT_LIST.find(network => network.rpcUrl === rpcUrl)?.chainId ?? NETWORKS_DEFAULT_LIST[0].chainId;
+
 export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
   {
     chainId: '8217',

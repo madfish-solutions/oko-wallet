@@ -120,8 +120,6 @@ export class Shelter {
     const accountIndex = accountsLength + 1;
     const derivationPath = derivationPathByNetworkType[networkType](accountIndex);
 
-    console.log(`Account ${accountIndex}`, accountIndex, networkType, derivationPath);
-
     return Shelter.revealSeedPhrase$().pipe(
       switchMap(seedPhrase =>
         from(generateHdAccount(seedPhrase, derivationPath)).pipe(
