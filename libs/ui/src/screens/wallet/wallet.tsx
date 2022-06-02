@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { View, Text } from 'react-native';
+import React, { FC, useMemo, useState } from 'react';
+import { View, Text, TextInput } from 'react-native';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { Networks } from '../../components/networks/networks';
@@ -11,6 +11,20 @@ import { WalletStyles } from './wallet.styles';
 export const Wallet: FC = () => {
   const { gasTokenMetadata, gasTokenBalance } = useSelectedNetworkSelector();
   const visibleAccountTokens = useVisibleAccountTokensSelector();
+  const [inputNameSearch, setInputNameSearch] = useState('');
+
+  const filteredTokens = useMemo(() => {
+    if (inputNameSearch) {
+      return visibleAccountTokens.filter(
+        ({ name, symbol, tokenAddress }) =>
+          name.toLowerCase().includes(inputNameSearch.toLowerCase()) ||
+          symbol.toLowerCase().includes(inputNameSearch.toLowerCase()) ||
+          tokenAddress.toLowerCase().includes(inputNameSearch.toLowerCase())
+      );
+    }
+
+    return visibleAccountTokens;
+  }, [inputNameSearch]);
 
   const gasTokenBalanceWithLoading = gasTokenBalance.isLoading
     ? '...'
@@ -24,7 +38,13 @@ export const Wallet: FC = () => {
           Balance: <Text style={WalletStyles.boldText}>{gasTokenBalanceWithLoading}</Text>
         </Text>
         <Networks />
-        <AccountTokens visibleAccountTokens={visibleAccountTokens} />
+        <TextInput
+          style={WalletStyles.input}
+          onChangeText={setInputNameSearch}
+          value={inputNameSearch}
+          placeholder="find token..."
+        />
+        <AccountTokens visibleAccountTokens={filteredTokens} />
       </View>
     </View>
   );
