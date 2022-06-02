@@ -1,5 +1,5 @@
 import React, { FC, useMemo, useState } from 'react';
-import { TextInput, View } from 'react-native';
+import { Text, TextInput, View } from 'react-native';
 
 import { useVisibleAccountTokensSelector } from '../../../../store/wallet/wallet.selectors';
 import { AccountTokensList } from '../account-tokens-list/account-tokens-list';
@@ -11,7 +11,7 @@ export const AccountTokens: FC = () => {
   const [inputNameSearch, setInputNameSearch] = useState('');
 
   const accountTokens = useMemo(() => {
-    if (inputNameSearch) {
+    if (inputNameSearch && visibleAccountTokens.length) {
       return visibleAccountTokens.filter(
         ({ name, symbol, tokenAddress }) =>
           name.toLowerCase().includes(inputNameSearch.toLowerCase()) ||
@@ -21,7 +21,7 @@ export const AccountTokens: FC = () => {
     }
 
     return visibleAccountTokens;
-  }, [inputNameSearch]);
+  }, [inputNameSearch, visibleAccountTokens]);
 
   return (
     <View style={AccountTokensStyles.root}>
@@ -31,7 +31,7 @@ export const AccountTokens: FC = () => {
         value={inputNameSearch}
         placeholder="Find token..."
       />
-      {accountTokens.length ? <AccountTokensList accountTokens={accountTokens} /> : 'Tokens not found!'}
+      {accountTokens.length ? <AccountTokensList accountTokens={accountTokens} /> : <Text>Tokens not found!</Text>}
     </View>
   );
 };

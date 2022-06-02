@@ -31,8 +31,10 @@ export const getDefaultAccountTokens = (state: WalletState, account: AccountInte
   return {
     accountTokensSlug,
     defaultAccountTokens: TOKENS_DEFAULT_LIST[getCurrentNetworkChainId(selectedNetworkRpcUrl)].map(
-      ({ tokenAddress }) => ({
+      ({ tokenAddress, name, symbol }) => ({
         tokenAddress,
+        name,
+        symbol,
         isVisible: true,
         balance: '0'
       })
