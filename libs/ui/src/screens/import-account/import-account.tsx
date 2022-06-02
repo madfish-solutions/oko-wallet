@@ -10,7 +10,7 @@ export const ImportAccount: FC = () => {
   const [password, setPassword] = useState('');
   const { importWallet } = useShelter();
 
-  const handleImportAccount = () => importWallet({ seedPhrase: seed, password, hdAccountsLength: 2 });
+  const handleImportAccount = () => importWallet({ seedPhrase: seed, password, hdAccountsLength: 1 });
 
   return (
     <View style={ImportAccountStyles.view}>
