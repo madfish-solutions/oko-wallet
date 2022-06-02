@@ -151,8 +151,6 @@ export class Shelter {
   ): Observable<AccountInterface | undefined> => {
     const derivationPath = derivationPathByNetworkType[networkType](account.accountIndex);
 
-    console.log(account, networkType);
-
     return Shelter.revealSeedPhrase$().pipe(
       switchMap(seedPhrase =>
         from(generateHdAccount(seedPhrase, derivationPath)).pipe(

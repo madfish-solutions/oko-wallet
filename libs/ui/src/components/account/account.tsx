@@ -32,7 +32,7 @@ export const Account: FC = () => {
     if (checkIsNetworkTypeKeyExist(account, selectedNetworkType)) {
       dispatch(changeAccountAction(account));
     } else {
-      createHdAccountWithOtherNetworkType(account);
+      createHdAccountWithOtherNetworkType(account, selectedNetworkType);
     }
   };
 

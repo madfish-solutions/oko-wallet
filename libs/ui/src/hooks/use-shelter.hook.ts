@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { EMPTY, Subject } from 'rxjs';
 
+import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { AccountInterface } from '../interfaces/account.interface';
 import { ImportWalletParams } from '../shelter/import-wallet-params.interface';
 import {
@@ -18,11 +19,12 @@ export const useShelter = () => {
 
   const importWallet$ = useMemo(() => new Subject<ImportWalletParams>(), []);
   const createHdAccount$ = useMemo(() => new Subject(), []);
-  const createHdAccountWithOtherNetworkType$ = useMemo(() => new Subject<AccountInterface>(), []);
+  const createHdAccountWithOtherNetworkType$ = useMemo(
+    () => new Subject<{ account: AccountInterface; networkType: NetworkTypeEnum }>(),
+    []
+  );
 
   useEffect(() => {
-    console.log('useEffect', networkType);
-
     const subscriptions = [
       importWalletSubscription(importWallet$, dispatch),
       createHdAccountSubscription({
@@ -33,7 +35,6 @@ export const useShelter = () => {
       }),
       createHdAccountWithOtherNetworkTypeSubscription({
         createHdAccount$: createHdAccountWithOtherNetworkType$,
-        networkType,
         dispatch
       })
     ];
@@ -44,7 +45,8 @@ export const useShelter = () => {
   const importWallet = useCallback((params: ImportWalletParams) => importWallet$.next(params), [importWallet$]);
   const createHdAccount = () => createHdAccount$.next(EMPTY);
   const createHdAccountWithOtherNetworkType = useCallback(
-    (account: AccountInterface) => createHdAccountWithOtherNetworkType$.next(account),
+    (account: AccountInterface, networkType: NetworkTypeEnum) =>
+      createHdAccountWithOtherNetworkType$.next({ account, networkType }),
     [createHdAccount$]
   );
 

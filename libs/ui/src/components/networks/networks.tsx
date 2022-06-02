@@ -20,7 +20,7 @@ export const Networks: React.FC = () => {
     dispatch(changeNetworkAction({ rpcUrl, networkType, accountIndex: selectedAccount.accountIndex }));
 
     if (!checkIsNetworkTypeKeyExist(selectedAccount, networkType)) {
-      createHdAccountWithOtherNetworkType(selectedAccount);
+      createHdAccountWithOtherNetworkType(selectedAccount, networkType);
     }
   };
 
