@@ -2,12 +2,9 @@ import React, { FC } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import { useShelter } from '../../hooks/use-shelter.hook';
 import { AccountInterface } from '../../interfaces/account.interface';
-import {
-  generateHdAccountByNetworkTypeAction,
-  generateHDAccountAction,
-  changeAccountAction
-} from '../../store/wallet/wallet.actions';
+import { changeAccountAction } from '../../store/wallet/wallet.actions';
 import {
   useAllAccountsSelector,
   useSelectedAccountPkhSelector,
@@ -25,16 +22,17 @@ export const Account: FC = () => {
   const selectedAccount = useSelectedAccountSelector();
   const pkh = useSelectedAccountPkhSelector();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
+  const { createHdAccount, createHdAccountWithOtherNetworkType } = useShelter();
 
   const handleCreateAccount = () => {
-    dispatch(generateHDAccountAction.submit());
+    createHdAccount();
   };
 
   const handleChangeAccount = (account: AccountInterface) => {
     if (checkIsNetworkTypeKeyExist(account, selectedNetworkType)) {
       dispatch(changeAccountAction(account));
     } else {
-      dispatch(generateHdAccountByNetworkTypeAction.submit(account));
+      createHdAccountWithOtherNetworkType(account);
     }
   };
 

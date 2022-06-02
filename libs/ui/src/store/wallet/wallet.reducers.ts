@@ -9,9 +9,9 @@ import { createEntity } from '../utils/entity.utils';
 
 import {
   addNewNetworkAction,
-  generateHdAccountByNetworkTypeAction,
+  createHdAccountWithOtherNetworkTypeAction,
   changeNetworkAction,
-  generateHDAccountAction,
+  createHdAccountAction,
   addHdAccountAction,
   setSelectedAccountAction,
   loadGasTokenBalanceAction,
@@ -105,13 +105,13 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       return { ...state, accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: updatedAccountTokens } };
     });
 
-  builder.addCase(generateHDAccountAction.success, (state, { payload: account }) => ({
+  builder.addCase(createHdAccountAction, (state, { payload: account }) => ({
     ...state,
     accounts: [...state.accounts, account].sort((a, b) => a.accountIndex - b.accountIndex),
     selectedAccountPublicKeyHash: account.networksKeys[state.selectedNetworkType].publicKeyHash,
     selectedAccountIndex: account.accountIndex
   }));
-  builder.addCase(generateHdAccountByNetworkTypeAction.success, (state, { payload: newAccount }) => {
+  builder.addCase(createHdAccountWithOtherNetworkTypeAction, (state, { payload: newAccount }) => {
     const filteredAccounts = state.accounts.filter(account => account.accountIndex !== newAccount.accountIndex);
 
     return {

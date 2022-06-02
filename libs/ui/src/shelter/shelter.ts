@@ -6,10 +6,11 @@ import { catchError, map } from 'rxjs/operators';
 import { AccountTypeEnum } from '../enums/account-type.enum';
 import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { AccountInterface } from '../interfaces/account.interface';
+import { initialAccount } from '../mocks/account.interface.mock';
 import { decrypt } from '../themis/decrypt';
 import { encrypt } from '../themis/encrypt';
 import { getEtherDerivationPath } from '../utils/derivation-path.utils';
-import { generateHdAccount } from '../utils/generate-hd-account.util';
+import { derivationPathByNetworkType, generateHdAccount } from '../utils/generate-hd-account.util';
 import { generateHash$ } from '../utils/hash.utils';
 import { setStoredValue } from '../utils/store.util';
 
@@ -60,6 +61,9 @@ export class Shelter {
 
   static revealSeedPhrase$ = () => Shelter.decryptSensitiveData$('seedPhrase', Shelter._passwordHash$.getValue());
 
+  static savePrivateKey$ = (publicKeyHash: string, privateKey: string) =>
+    Shelter.saveSensitiveData$({ [publicKeyHash]: privateKey });
+
   static importAccount$ = (
     seedPhrase: string,
     password: string,
@@ -108,4 +112,66 @@ export class Shelter {
         );
       })
     );
+
+  static createHdAccount$ = (
+    networkType: NetworkTypeEnum,
+    accountsLength: number
+  ): Observable<AccountInterface | undefined> => {
+    const accountIndex = accountsLength + 1;
+    const derivationPath = derivationPathByNetworkType[networkType](accountIndex);
+
+    console.log(`Account ${accountIndex}`, accountIndex, networkType, derivationPath);
+
+    return Shelter.revealSeedPhrase$().pipe(
+      switchMap(seedPhrase =>
+        from(generateHdAccount(seedPhrase, derivationPath)).pipe(
+          switchMap(({ publicKey, address: publicKeyHash, privateKey }) =>
+            Shelter.savePrivateKey$(publicKeyHash, privateKey).pipe(
+              map(() => ({
+                ...initialAccount,
+                name: `Account ${accountIndex}`,
+                accountIndex,
+                networksKeys: {
+                  [networkType]: {
+                    publicKey,
+                    publicKeyHash
+                  }
+                }
+              }))
+            )
+          )
+        )
+      )
+    );
+  };
+
+  static createHdAccountWithOtherNetworkType$ = (
+    networkType: NetworkTypeEnum,
+    account: AccountInterface
+  ): Observable<AccountInterface | undefined> => {
+    const derivationPath = derivationPathByNetworkType[networkType](account.accountIndex);
+
+    console.log(account, networkType);
+
+    return Shelter.revealSeedPhrase$().pipe(
+      switchMap(seedPhrase =>
+        from(generateHdAccount(seedPhrase, derivationPath)).pipe(
+          switchMap(({ publicKey, address: publicKeyHash, privateKey }) =>
+            Shelter.savePrivateKey$(publicKeyHash, privateKey).pipe(
+              map(() => ({
+                ...account,
+                networksKeys: {
+                  ...account.networksKeys,
+                  [networkType]: {
+                    publicKey,
+                    publicKeyHash
+                  }
+                }
+              }))
+            )
+          )
+        )
+      )
+    );
+  };
 }
