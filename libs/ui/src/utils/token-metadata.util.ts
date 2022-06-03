@@ -1,2 +1,2 @@
-export const getTokenMetadataSlug = (networkRpcUrl: string, tokenAddress: string, tokenId: string) =>
-  `${networkRpcUrl}_${tokenAddress}_${tokenId}`;
+export const getTokenMetadataSlug = (networkRpcUrl: string, tokenAddress: string, tokenId?: string) =>
+  `${networkRpcUrl}_${tokenAddress}_${tokenId ?? '0'}`;

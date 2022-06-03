@@ -14,7 +14,7 @@ export const loadTezosGasTokenBalance$ = ({ rpcUrl }: NetworkInterface, publicKe
 export const loadTezosTokenBalance$ = (
   { rpcUrl }: NetworkInterface,
   publicKeyHash: string,
-  { tokenAddress, tezosTokenId = '0', tezosTokenType }: Token
+  { tokenAddress, tokenId = '0', tezosTokenType }: Token
 ): Observable<string> => {
   const tezosToolkit = new TezosToolkit(rpcUrl);
 
@@ -23,7 +23,7 @@ export const loadTezosTokenBalance$ = (
       if (tezosTokenType === TezosTokenTypeEnum.FA_1_2) {
         return contract.views.getBalance(publicKeyHash).read();
       } else {
-        return from(contract.views.balance_of([{ owner: publicKeyHash, token_id: tezosTokenId }]).read()).pipe(
+        return from(contract.views.balance_of([{ owner: publicKeyHash, token_id: tokenId }]).read()).pipe(
           map(response => response[0].balance.toString())
         );
       }

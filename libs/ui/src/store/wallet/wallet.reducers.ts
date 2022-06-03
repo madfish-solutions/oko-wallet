@@ -1,7 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 import { getAccountTokensSlug } from '../../utils/address.util';
-import { generateUniqueId } from '../../utils/base.utils';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { createEntity } from '../utils/entity.utils';
 
@@ -67,8 +66,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     }))
     .addCase(addTokenMetadataAction, (state, { payload: tokenMetadataInput }) => {
       const { selectedAccountPublicKeyHash, selectedNetworkRpcUrl } = state;
-      const { tokenAddress, ...tokenMetadata } = tokenMetadataInput;
-      const tokenId = '' + generateUniqueId();
+      const { tokenAddress, tokenId, ...tokenMetadata } = tokenMetadataInput;
       const tokenMetadataSlug = getTokenMetadataSlug(selectedNetworkRpcUrl, tokenAddress, tokenId);
       const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
 
@@ -90,7 +88,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         accountsTokens[accountTokensSlug] = [
           ...accountsTokens[accountTokensSlug],
           {
-            tokenId: '' + generateUniqueId(),
+            tokenId,
             tokenAddress,
             isVisible: true,
             balance: createEntity('0')

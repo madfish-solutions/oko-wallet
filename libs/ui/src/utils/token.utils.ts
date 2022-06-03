@@ -37,4 +37,4 @@ export const getTokenBalance$ = (
   }
 };
 
-export const getTokenSlug = ({ tokenAddress, tokenId }: AccountToken) => `${tokenAddress}_${tokenId}`;
+export const getTokenSlug = ({ tokenAddress, tokenId }: AccountToken) => `${tokenAddress}_${tokenId ?? '0'}`;
