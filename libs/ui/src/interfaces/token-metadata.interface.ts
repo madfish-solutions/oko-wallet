@@ -4,4 +4,5 @@ export interface TokenMetadata {
   decimals: number;
   symbol: string;
   thumbnailUri?: string;
+  artifactUri?: string;
 }

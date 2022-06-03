@@ -12,6 +12,7 @@ export const Settings: FC = () => {
   const { lock } = useUnlock();
 
   const navigateToAddNewToken = () => navigate(ScreensEnum.AddNewToken);
+  const navigateToAddNewCollectible = () => navigate(ScreensEnum.AddNewCollectible);
   const navigateToManageTokens = () => navigate(ScreensEnum.ManageTokens);
   const navigateToAddNetwork = () => navigate(ScreensEnum.AddNetwork);
 
@@ -21,6 +22,7 @@ export const Settings: FC = () => {
       <Text>Settings</Text>
       <Button title="Add network" onPress={navigateToAddNetwork} />
       <Button title="Add new token" onPress={navigateToAddNewToken} />
+      <Button title="Add new collectible" onPress={navigateToAddNewCollectible} />
       <Button title="Manage Tokens" onPress={navigateToManageTokens} />
       <ResetWallet />
       <Button onPress={lock} title="lock app" color="#841584" />
