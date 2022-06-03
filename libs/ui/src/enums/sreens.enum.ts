@@ -1,6 +1,5 @@
 export enum ScreensEnum {
   AddNewToken = 'AddNewToken',
-  AddNewCollectible = 'AddNewCollectible',
   ImportAccount = 'ImportAccount',
   ManageTokens = 'ManageTokens',
   Receive = 'Receive',
@@ -13,7 +12,6 @@ export enum ScreensEnum {
 
 export type ScreensParamList = {
   [ScreensEnum.AddNewToken]: undefined;
-  [ScreensEnum.AddNewCollectible]: undefined;
   [ScreensEnum.ImportAccount]: undefined;
   [ScreensEnum.ManageTokens]: undefined;
   [ScreensEnum.Receive]: undefined;

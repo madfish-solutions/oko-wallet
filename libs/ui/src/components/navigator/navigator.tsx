@@ -4,7 +4,6 @@ import React, { FC } from 'react';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useUnlock } from '../../hooks/use-unlock.hook';
-import { AddNewCollectible } from '../../screens/add-collectibles/add-new-collectible';
 import { AddNetwork } from '../../screens/add-network/add-network';
 import { AddNewToken } from '../../screens/add-new-token/add-new-token';
 import { ImportAccount } from '../../screens/import-account/import-account';
@@ -33,7 +32,6 @@ export const Navigator: FC = () => {
             <Stack.Screen name={ScreensEnum.AddNetwork} component={AddNetwork} />
             <Stack.Screen name={ScreensEnum.Send} component={Send} />
             <Stack.Screen name={ScreensEnum.AddNewToken} component={AddNewToken} />
-            <Stack.Screen name={ScreensEnum.AddNewCollectible} component={AddNewCollectible} />
             <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
           </>
         ) : (
