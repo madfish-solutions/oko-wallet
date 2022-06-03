@@ -15,7 +15,7 @@ export const ConnectToDapps = () => {
       <Button title="Connect" onPress={onSubmit} />
       <Button title="killSession" onPress={killSession} />
 
-      {!connected && peerMeta.name !== '' ? (
+      {!connected && peerMeta.name !== '' && (
         <View>
           <Text>Dapp confirmation request:</Text>
           <Text>
@@ -30,9 +30,9 @@ export const ConnectToDapps = () => {
           <Button onPress={approveSession} title="Approve" />
           <Button onPress={rejectSession} title="Reject" />
         </View>
-      ) : null}
+      )}
 
-      {connected ? (
+      {connected && (
         <View>
           <Text>{`Connected to: ${peerMeta.name}`}</Text>
           <Text>
@@ -46,7 +46,7 @@ export const ConnectToDapps = () => {
             )}
           </Text>
         </View>
-      ) : null}
+      )}
     </View>
   );
 };
