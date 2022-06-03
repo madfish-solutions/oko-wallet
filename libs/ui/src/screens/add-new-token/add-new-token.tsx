@@ -48,6 +48,7 @@ export const AddNewToken: FC = () => {
       <TextInput placeholder="Token Symbol" value={symbol} onChangeText={setSymbol} />
       <TextInput placeholder="Token Decimals" value={decimals} onChangeText={onDecimalsChange} keyboardType="numeric" />
       <TextInput placeholder="Thumbnail Uri" value={thumbnailUri} onChangeText={seThumbnailUri} />
+      <TextInput placeholder="artifact Uri" value={thumbnailUri} onChangeText={setArtifactUri} />
       <Pressable onPress={onAddToken}>
         <Text>Add token</Text>
       </Pressable>
