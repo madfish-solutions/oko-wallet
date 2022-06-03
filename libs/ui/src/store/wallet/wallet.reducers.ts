@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 
+import { TOKENS_DEFAULT_LIST } from '../../constants/tokens';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { createEntity } from '../utils/entity.utils';
@@ -19,10 +20,21 @@ import { updateSelectedNetworkState, updateAccountTokenState } from './wallet.ut
 
 export const walletReducers = createReducer<WalletState>(walletInitialState, builder => {
   builder
-    .addCase(addHdAccountAction, (state, { payload: account }) => ({
-      ...state,
-      accounts: [...state.accounts, account]
-    }))
+    .addCase(addHdAccountAction, (state, { payload: account }) => {
+      const { networks, selectedAccountPublicKeyHash, selectedNetworkRpcUrl } = state;
+      const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+      const defaultAccountsTokens = TOKENS_DEFAULT_LIST[networks[0].chainId].map(({ tokenAddress }) => ({
+        tokenAddress,
+        isVisible: true,
+        balance: '0'
+      }));
+
+      return {
+        ...state,
+        accounts: [...state.accounts, account],
+        accountsTokens: { [accountTokensSlug]: defaultAccountsTokens }
+      };
+    })
     .addCase(setSelectedAccountAction, (state, { payload: selectedAccount }) => ({
       ...state,
       selectedAccountPublicKeyHash: selectedAccount ?? ''

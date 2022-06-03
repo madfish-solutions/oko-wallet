@@ -1,4 +1,5 @@
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
+import { defaultTokensMetadata } from '../../constants/tokens';
 import { AccountToken } from '../../interfaces/account-token.interface';
 import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
@@ -25,6 +26,6 @@ export const walletInitialState: WalletState = {
   selectedAccountPublicKeyHash: '',
   networks: NETWORKS_DEFAULT_LIST,
   selectedNetworkRpcUrl: NETWORKS_DEFAULT_LIST[0].rpcUrl,
-  tokensMetadata: {},
+  tokensMetadata: defaultTokensMetadata,
   accountsTokens: {}
 };
