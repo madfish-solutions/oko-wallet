@@ -8,7 +8,7 @@ import { TokenMetadata } from '../../interfaces/token-metadata.interface';
 import { createActions } from '../utils/action.utils';
 
 export const createHdAccountAction = createAction<AccountInterface>('wallet/CREATE_HD_ACCOUNT');
-export const createHdAccountWithOtherNetworkTypeAction = createAction<AccountInterface>(
+export const createHdAccountForNewNetworkTypeAction = createAction<AccountInterface>(
   'wallet/CREATE_HD_ACCOUNT_WITH_OTHER_NETWORK_TYPE'
 );
 export const changeAccountAction = createAction<AccountInterface>('wallet/CHANGE_ACCOUNT');

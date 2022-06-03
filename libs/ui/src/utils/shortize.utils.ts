@@ -1,2 +1,2 @@
-export const shortize = (str: string, start?: number, end?: number): string =>
-  str && `${str.slice(0, start ?? 7)}...${str.slice(end ?? -4)}`;
+export const shortize = (str: string, start = 7, end = -4): string =>
+  str && `${str.slice(0, start)}...${str.slice(end)}`;

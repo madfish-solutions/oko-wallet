@@ -14,7 +14,7 @@ export const withSelectedAccount =
       withLatestFrom(state$, (value, { wallet }): [T, AccountInterface] => {
         const { accounts, selectedAccountIndex } = wallet;
         const selectedAccount =
-          accounts.find(account => account.accountIndex === selectedAccountIndex) ?? initialAccount;
+          accounts.find(({ accountIndex }) => accountIndex === selectedAccountIndex) ?? initialAccount;
 
         return [value, selectedAccount];
       })
@@ -26,7 +26,7 @@ export const withSelectedNetwork =
     observable$.pipe(
       withLatestFrom(state$, (value, { wallet }): [T, NetworkInterface] => {
         const selectedNetwork =
-          wallet.networks.find(network => network.rpcUrl === wallet.selectedNetworkRpcUrl) ?? NETWORKS_DEFAULT_LIST[0];
+          wallet.networks.find(({ rpcUrl }) => rpcUrl === wallet.selectedNetworkRpcUrl) ?? NETWORKS_DEFAULT_LIST[0];
 
         return [value, selectedNetwork];
       })

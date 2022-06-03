@@ -5,10 +5,12 @@ export type AccountByNetworkType = {
   publicKeyHash: string;
 };
 
+type NetworkType = string;
+
 export interface AccountInterface {
   name: string;
   type: AccountTypeEnum;
   accountIndex: number;
-  networksKeys: Record<string, AccountByNetworkType>;
+  networksKeys: Record<NetworkType, AccountByNetworkType>;
   isVisible?: boolean;
 }

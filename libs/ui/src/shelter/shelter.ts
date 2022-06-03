@@ -143,7 +143,7 @@ export class Shelter {
     );
   };
 
-  static createHdAccountWithOtherNetworkType$ = (
+  static createHdAccountForNewNetworkType$ = (
     networkType: NetworkTypeEnum,
     account: AccountInterface
   ): Observable<AccountInterface | undefined> => {

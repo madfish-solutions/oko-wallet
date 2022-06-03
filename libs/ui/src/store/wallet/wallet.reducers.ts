@@ -8,7 +8,7 @@ import { createEntity } from '../utils/entity.utils';
 
 import {
   addNewNetworkAction,
-  createHdAccountWithOtherNetworkTypeAction,
+  createHdAccountForNewNetworkTypeAction,
   changeNetworkAction,
   createHdAccountAction,
   setSelectedAccountAction,
@@ -33,7 +33,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: defaultAccountTokens }
       };
     })
-    .addCase(createHdAccountWithOtherNetworkTypeAction, (state, { payload: newAccount }) => {
+    .addCase(createHdAccountForNewNetworkTypeAction, (state, { payload: newAccount }) => {
       const { accountTokensSlug, defaultAccountTokens } = getDefaultAccountTokens(state, newAccount);
       const accountsWithoutCurrent = state.accounts.filter(account => account.accountIndex !== newAccount.accountIndex);
 

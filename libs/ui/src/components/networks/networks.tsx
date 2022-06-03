@@ -14,13 +14,13 @@ export const Networks: React.FC = () => {
   const dispatch = useDispatch();
   const selectedAccount = useSelectedAccountSelector();
   const networks = useAllNetworksSelector();
-  const { createHdAccountWithOtherNetworkType } = useShelter();
+  const { createHdAccountForNewNetworkType } = useShelter();
 
   const handleSelectNetwork = ({ rpcUrl, networkType }: NetworkInterface) => {
     dispatch(changeNetworkAction({ rpcUrl, networkType, accountIndex: selectedAccount.accountIndex }));
 
     if (!checkIsNetworkTypeKeyExist(selectedAccount, networkType)) {
-      createHdAccountWithOtherNetworkType(selectedAccount, networkType);
+      createHdAccountForNewNetworkType(selectedAccount, networkType);
     }
   };
 

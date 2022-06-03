@@ -22,17 +22,13 @@ export const Account: FC = () => {
   const selectedAccount = useSelectedAccountSelector();
   const pkh = useSelectedAccountPkhSelector();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
-  const { createHdAccount, createHdAccountWithOtherNetworkType } = useShelter();
-
-  const handleCreateAccount = () => {
-    createHdAccount();
-  };
+  const { createHdAccount, createHdAccountForNewNetworkType } = useShelter();
 
   const handleChangeAccount = (account: AccountInterface) => {
     if (checkIsNetworkTypeKeyExist(account, selectedNetworkType)) {
       dispatch(changeAccountAction(account));
     } else {
-      createHdAccountWithOtherNetworkType(account, selectedNetworkType);
+      createHdAccountForNewNetworkType(account, selectedNetworkType);
     }
   };
 
@@ -63,7 +59,7 @@ export const Account: FC = () => {
           })}
         </ScrollView>
       </View>
-      <TouchableOpacity onPress={handleCreateAccount} style={AccountStyles.createAccountButton}>
+      <TouchableOpacity onPress={createHdAccount} style={AccountStyles.createAccountButton}>
         <Text>Create account</Text>
       </TouchableOpacity>
     </View>

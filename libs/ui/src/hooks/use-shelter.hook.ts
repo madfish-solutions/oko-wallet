@@ -7,7 +7,7 @@ import { AccountInterface } from '../interfaces/account.interface';
 import { ImportWalletParams } from '../shelter/import-wallet-params.interface';
 import {
   createHdAccountSubscription,
-  createHdAccountWithOtherNetworkTypeSubscription
+  createHdAccountForNewNetworkTypeSubscription
 } from '../shelter/utils/create-hd-account-subscription.util';
 import { importWalletSubscription } from '../shelter/utils/import-wallet-subscription.util';
 import { useAllAccountsSelector, useSelectedNetworkTypeSelector } from '../store/wallet/wallet.selectors';
@@ -19,7 +19,7 @@ export const useShelter = () => {
 
   const importWallet$ = useMemo(() => new Subject<ImportWalletParams>(), []);
   const createHdAccount$ = useMemo(() => new Subject(), []);
-  const createHdAccountWithOtherNetworkType$ = useMemo(
+  const createHdAccountForNewNetworkType$ = useMemo(
     () => new Subject<{ account: AccountInterface; networkType: NetworkTypeEnum }>(),
     []
   );
@@ -33,26 +33,26 @@ export const useShelter = () => {
         accountsLength: accounts.length,
         dispatch
       }),
-      createHdAccountWithOtherNetworkTypeSubscription({
-        createHdAccount$: createHdAccountWithOtherNetworkType$,
+      createHdAccountForNewNetworkTypeSubscription({
+        createHdAccount$: createHdAccountForNewNetworkType$,
         dispatch
       })
     ];
 
     return () => subscriptions.forEach(subscription => subscription.unsubscribe());
-  }, [dispatch, importWallet$, createHdAccount$, createHdAccountWithOtherNetworkType$, accounts, networkType]);
+  }, [dispatch, importWallet$, createHdAccount$, createHdAccountForNewNetworkType$, accounts, networkType]);
 
   const importWallet = useCallback((params: ImportWalletParams) => importWallet$.next(params), [importWallet$]);
   const createHdAccount = () => createHdAccount$.next(EMPTY);
-  const createHdAccountWithOtherNetworkType = useCallback(
+  const createHdAccountForNewNetworkType = useCallback(
     (account: AccountInterface, networkType: NetworkTypeEnum) =>
-      createHdAccountWithOtherNetworkType$.next({ account, networkType }),
+      createHdAccountForNewNetworkType$.next({ account, networkType }),
     [createHdAccount$]
   );
 
   return {
     importWallet,
     createHdAccount,
-    createHdAccountWithOtherNetworkType
+    createHdAccountForNewNetworkType
   };
 };

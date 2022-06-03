@@ -1,7 +1,7 @@
 import { switchMap } from 'rxjs';
 
 import { CreateHdAccountType, CreateHdAccountWithOtherNewtorkType } from '../../interfaces/create-hd-account.interface';
-import { createHdAccountWithOtherNetworkTypeAction, createHdAccountAction } from '../../store/wallet/wallet.actions';
+import { createHdAccountForNewNetworkTypeAction, createHdAccountAction } from '../../store/wallet/wallet.actions';
 import { Shelter } from '../shelter';
 
 export const createHdAccountSubscription = ({
@@ -16,14 +16,14 @@ export const createHdAccountSubscription = ({
     }
   });
 
-export const createHdAccountWithOtherNetworkTypeSubscription = ({
+export const createHdAccountForNewNetworkTypeSubscription = ({
   createHdAccount$,
   dispatch
 }: CreateHdAccountWithOtherNewtorkType) =>
   createHdAccount$
-    .pipe(switchMap(({ account, networkType }) => Shelter.createHdAccountWithOtherNetworkType$(networkType, account)))
+    .pipe(switchMap(({ account, networkType }) => Shelter.createHdAccountForNewNetworkType$(networkType, account)))
     .subscribe(account => {
       if (account !== undefined) {
-        dispatch(createHdAccountWithOtherNetworkTypeAction(account));
+        dispatch(createHdAccountForNewNetworkTypeAction(account));
       }
     });

@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useMemo } from 'react';
 import { Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
@@ -9,7 +9,10 @@ import { Networks } from '../networks/networks';
 import { GasTokenBalanceStyles } from './gas-token-balance.styles';
 
 export const GasTokenBalance: FC = () => {
-  const { gasTokenMetadata, gasTokenBalance } = useSelectedNetworkSelector();
+  const {
+    gasTokenMetadata,
+    gasTokenBalance: { isLoading, data: balance }
+  } = useSelectedNetworkSelector();
   const selectedNetwork = useSelectedNetworkSelector();
   const pkh = useSelectedAccountPkhSelector();
   const dispatch = useDispatch();
@@ -18,9 +21,10 @@ export const GasTokenBalance: FC = () => {
     dispatch(loadGasTokenBalanceAction.submit());
   }, [selectedNetwork.rpcUrl, pkh]);
 
-  const gasTokenBalanceWithLoading = gasTokenBalance.isLoading
-    ? '...'
-    : `${gasTokenBalance.data} ${gasTokenMetadata.symbol}`;
+  const gasTokenBalanceWithLoading = useMemo(
+    () => (isLoading ? '...' : `${balance} ${gasTokenMetadata.symbol}`),
+    [isLoading]
+  );
 
   return (
     <View style={GasTokenBalanceStyles.root}>
