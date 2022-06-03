@@ -61,7 +61,7 @@ export class Shelter {
 
   static revealSeedPhrase$ = () => Shelter.decryptSensitiveData$('seedPhrase', Shelter._passwordHash$.getValue());
 
-  static savePrivateKey$ = (publicKeyHash: string, privateKey: string) =>
+  private static savePrivateKey$ = (publicKeyHash: string, privateKey: string) =>
     Shelter.saveSensitiveData$({ [publicKeyHash]: privateKey });
 
   static importAccount$ = (
