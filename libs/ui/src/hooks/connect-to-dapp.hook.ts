@@ -14,10 +14,10 @@ const peerMetaInitialValue = {
 
 export const useConnectToDapp = () => {
   const [connector, setConnector] = useState<WalletConnect | null>(null);
-  const [uri, setUri] = useState<string>('');
+  const [uri, setUri] = useState('');
   const [peerMeta, setPeerMeta] = useState<ClientPeerMeta>(peerMetaInitialValue);
-  const [connected, setConnected] = useState<boolean>(false);
-  const [chainId, setChainId] = useState<number>(1);
+  const [connected, setConnected] = useState(false);
+  const [chainId, setChainId] = useState(1);
 
   const selectedAccountPkh = useSelectedAccountPkhSekector();
 
@@ -83,7 +83,7 @@ export const useConnectToDapp = () => {
     if (connector) {
       connector.approveSession({
         accounts: [selectedAccountPkh],
-        chainId: chainId
+        chainId
       });
     }
     setConnector(connector);
@@ -107,11 +107,7 @@ export const useConnectToDapp = () => {
   };
 
   const onSubmit = async () => {
-    const uriIsString = typeof uri === 'string';
-
-    if (uriIsString) {
-      await connectWalletToDapp();
-    }
+    await connectWalletToDapp();
   };
 
   const connectWalletToDapp = async () => {
