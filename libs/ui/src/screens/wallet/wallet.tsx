@@ -25,7 +25,7 @@ export const Wallet: FC = () => {
     }
 
     return visibleAccountTokens;
-  }, [inputNameSearch]);
+  }, [inputNameSearch, visibleAccountTokens]);
 
   const gasTokenBalanceWithLoading = gasTokenBalance.isLoading
     ? '...'

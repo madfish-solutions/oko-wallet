@@ -23,10 +23,11 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     .addCase(addHdAccountAction, (state, { payload: account }) => {
       const { networks, selectedAccountPublicKeyHash, selectedNetworkRpcUrl } = state;
       const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+
       const defaultAccountsTokens = TOKENS_DEFAULT_LIST[networks[0].chainId].map(({ tokenAddress }) => ({
         tokenAddress,
         isVisible: true,
-        balance: '0'
+        balance: createEntity('0')
       }));
 
       return {
@@ -76,9 +77,9 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       networks: [...state.networks, network],
       selectedNetworkRpcUrl: network.rpcUrl
     }))
-    .addCase(addTokenMetadataAction, (state, { payload: tokenMetadataInput }) => {
+    .addCase(addTokenMetadataAction, (state, { payload: tokenInput }) => {
       const { selectedAccountPublicKeyHash, selectedNetworkRpcUrl } = state;
-      const { tokenAddress, tokenId, ...tokenMetadata } = tokenMetadataInput;
+      const { tokenAddress, tokenId, ...tokenMetadata } = tokenInput;
       const tokenMetadataSlug = getTokenMetadataSlug(selectedNetworkRpcUrl, tokenAddress, tokenId);
       const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
 

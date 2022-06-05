@@ -5,8 +5,3 @@ export interface TokenMetadata {
   thumbnailUri?: string;
   tezosTokenType?: string;
 }
-
-export interface TokenMetadataInput extends TokenMetadata {
-  tokenAddress: string;
-  tokenId?: string;
-}

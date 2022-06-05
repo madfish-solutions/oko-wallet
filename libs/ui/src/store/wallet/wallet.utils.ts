@@ -29,12 +29,17 @@ export const updateAccountTokenState = (
   const { selectedNetworkRpcUrl, selectedAccountPublicKeyHash, accountsTokens } = state;
   const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
   const tokenSlug = getTokenSlug(token);
+  const targetAccountTokens = accountsTokens[accountTokensSlug];
+
+  if (typeof targetAccountTokens === 'undefined') {
+    return state;
+  }
 
   return {
     ...state,
     accountsTokens: {
       ...accountsTokens,
-      [accountTokensSlug]: accountsTokens[accountTokensSlug].map(accountToken =>
+      [accountTokensSlug]: targetAccountTokens.map(accountToken =>
         getTokenSlug(accountToken) === tokenSlug
           ? {
               ...accountToken,

@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 
 import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
-import { TokenMetadataInput } from '../../interfaces/token-metadata.interface';
+import { AccountTokenInput } from '../../interfaces/token-input.interface';
 import { Token } from '../../interfaces/token.interface';
 import { createActions } from '../utils/action.utils';
 
@@ -20,5 +20,5 @@ export const loadAccountTokenBalanceAction = createActions<
 export const changeSelectedNetworkAction = createAction<string>('wallet/CHANGE_SELECTED_NETWORK');
 export const addNewNetworkAction = createAction<NetworkInterface>('wallet/ADD_NEW_NETWORK');
 
-export const addTokenMetadataAction = createAction<TokenMetadataInput>('wallet/ADD_TOKEN_METADATA');
+export const addTokenMetadataAction = createAction<AccountTokenInput>('wallet/ADD_TOKEN_METADATA');
 export const changeTokenVisibilityAction = createAction<Token>('wallet/CHANGE_TOKEN_VISIBILITY');
