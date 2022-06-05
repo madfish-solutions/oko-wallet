@@ -4,4 +4,5 @@ export interface TokenMetadata {
   symbol: string;
   thumbnailUri?: string;
   tezosTokenType?: string;
+  artifactUri?: string;
 }
