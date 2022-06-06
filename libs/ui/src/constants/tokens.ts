@@ -83,7 +83,7 @@ export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = 
       tokenAddress: '0x3cb6be2fc6677a63cb52b07aed523f93f5a06cb4',
       name: 'OBSR',
       symbol: 'OBSR',
-      decimals: 18,
+      decimals: 8,
       thumbnailUri: ''
     },
     {
@@ -111,7 +111,7 @@ export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = 
       tokenAddress: '0x9eaefb09fe4aabfbe6b1ca316a3c36afc83a393f',
       name: 'oXRP',
       symbol: 'oXRP',
-      decimals: 18,
+      decimals: 6,
       thumbnailUri: ''
     }
   ]
