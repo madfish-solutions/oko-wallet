@@ -1,18 +1,19 @@
-import { combineEpics } from 'redux-observable';
-import { catchError, map, Observable, of, switchMap } from 'rxjs';
+import { combineEpics, Epic } from 'redux-observable';
+import { catchError, map, Observable, of, switchMap, concatMap } from 'rxjs';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
 import { ScreensEnum } from '../../enums/sreens.enum';
-import { getGasTokenBalance$ } from '../../utils/token.utils';
+import { getGasTokenBalance$, getTokenBalance$ } from '../../utils/token.utils';
 import { withSelectedAccount, withSelectedNetwork } from '../../utils/wallet.util';
 import { navigateAction } from '../root-state.actions';
 import { RootState } from '../store';
+import { createEntity } from '../utils/entity.utils';
 
-import { loadGasTokenBalanceAction, sendAssetAction } from './wallet.actions';
+import { loadGasTokenBalanceAction, loadAccountTokenBalanceAction, sendAssetAction } from './wallet.actions';
 import { getTransferParams$ } from './wallet.utils';
 
-const getGasTokenBalanceEpic = (action$: Observable<Action>, state$: Observable<RootState>) =>
+const getGasTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Observable<RootState>) =>
   action$.pipe(
     ofType(loadGasTokenBalanceAction.submit),
     withSelectedAccount(state$),
@@ -25,7 +26,28 @@ const getGasTokenBalanceEpic = (action$: Observable<Action>, state$: Observable<
     )
   );
 
-const sendAssetEpic = (action$: Observable<Action>, state$: Observable<RootState>) =>
+const getTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Observable<RootState>) =>
+  action$.pipe(
+    ofType(loadAccountTokenBalanceAction.submit),
+    toPayload(),
+    withSelectedAccount(state$),
+    withSelectedNetwork(state$),
+    concatMap(([[{ token }, { publicKeyHash }], network]) =>
+      getTokenBalance$(network, publicKeyHash, token).pipe(
+        map(balance =>
+          loadAccountTokenBalanceAction.success({
+            token: {
+              ...token,
+              balance: createEntity(balance)
+            }
+          })
+        ),
+        catchError(error => of(loadAccountTokenBalanceAction.fail({ token, error: error.message })))
+      )
+    )
+  );
+
+const sendAssetEpic: Epic = (action$: Observable<Action>, state$: Observable<RootState>) =>
   action$.pipe(
     ofType(sendAssetAction.submit),
     toPayload(),
@@ -37,4 +59,4 @@ const sendAssetEpic = (action$: Observable<Action>, state$: Observable<RootState
     )
   );
 
-export const walletEpics = combineEpics(getGasTokenBalanceEpic, sendAssetEpic);
+export const walletEpics = combineEpics(getGasTokenBalanceEpic, getTokenBalanceEpic, sendAssetEpic);
