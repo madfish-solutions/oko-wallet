@@ -5,7 +5,7 @@ import { from, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { parseTezosTransferParams } from '../../../../../utils/parse-tezos-transfer-params.utils';
-import { createReadOnlyTezosToolkit } from '../../../../../utils/tezos-rpc/tezos-toolkit.utils';
+import { createReadOnlyTezosToolkit } from '../../../../../utils/tezos-toolkit.utils';
 import { ConfirmationProps } from '../../../types';
 
 type EstimationInterface = Pick<Estimate, 'suggestedFeeMutez' | 'gasLimit' | 'storageLimit'>;

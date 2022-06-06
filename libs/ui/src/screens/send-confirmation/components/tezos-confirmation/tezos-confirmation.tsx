@@ -4,7 +4,7 @@ import { Text } from 'react-native';
 
 import { Shelter } from '../../../../shelter/shelter';
 import { parseTezosTransferParams } from '../../../../utils/parse-tezos-transfer-params.utils';
-import { createTezosToolkit } from '../../../../utils/tezos-rpc/tezos-toolkit.utils';
+import { createTezosToolkit } from '../../../../utils/tezos-toolkit.utils';
 import { ConfirmationProps } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
 
