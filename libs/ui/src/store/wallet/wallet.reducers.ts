@@ -11,21 +11,23 @@ import {
   setSelectedAccountAction,
   changeSelectedNetworkAction,
   loadGasTokenBalanceAction,
+  loadAccountTokenBalanceAction,
   addTokenMetadataAction,
   changeTokenVisibilityAction
 } from './wallet.actions';
 import { WalletState, walletInitialState } from './wallet.state';
-import { updateSelectedNetworkState } from './wallet.utils';
+import { updateSelectedNetworkState, updateAccountTokenState } from './wallet.utils';
 
 export const walletReducers = createReducer<WalletState>(walletInitialState, builder => {
   builder
     .addCase(addHdAccountAction, (state, { payload: account }) => {
       const { networks, selectedAccountPublicKeyHash, selectedNetworkRpcUrl } = state;
       const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+
       const defaultAccountsTokens = TOKENS_DEFAULT_LIST[networks[0].chainId].map(({ tokenAddress }) => ({
         tokenAddress,
         isVisible: true,
-        balance: '0'
+        balance: createEntity('0')
       }));
 
       return {
@@ -53,6 +55,19 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         gasTokenBalance: createEntity(selectedNetwork.gasTokenBalance.data, false, error)
       }))
     )
+    .addCase(loadAccountTokenBalanceAction.submit, (state, { payload: { token } }) =>
+      updateAccountTokenState(state, token, accountToken => ({
+        balance: createEntity(accountToken.balance.data, true)
+      }))
+    )
+    .addCase(loadAccountTokenBalanceAction.success, (state, { payload: { token } }) =>
+      updateAccountTokenState(state, token, () => token)
+    )
+    .addCase(loadAccountTokenBalanceAction.fail, (state, { payload: { token, error } }) =>
+      updateAccountTokenState(state, token, accountToken => ({
+        balance: createEntity(accountToken.balance.data, false, error)
+      }))
+    )
     .addCase(changeSelectedNetworkAction, (state, { payload: networkRpcUrl }) => ({
       ...state,
       selectedNetworkRpcUrl: networkRpcUrl
@@ -62,11 +77,10 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       networks: [...state.networks, network],
       selectedNetworkRpcUrl: network.rpcUrl
     }))
-    .addCase(addTokenMetadataAction, (state, { payload: tokenMetadata }) => {
+    .addCase(addTokenMetadataAction, (state, { payload: tokenInput }) => {
       const { selectedAccountPublicKeyHash, selectedNetworkRpcUrl } = state;
-      const { tokenAddress } = tokenMetadata;
-
-      const tokenMetadataSlug = getTokenMetadataSlug(selectedNetworkRpcUrl, tokenAddress);
+      const { tokenAddress, tokenId, ...tokenMetadata } = tokenInput;
+      const tokenMetadataSlug = getTokenMetadataSlug(selectedNetworkRpcUrl, tokenAddress, tokenId);
       const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
 
       const accountsTokens = {
@@ -74,7 +88,8 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         [accountTokensSlug]: [...(state.accountsTokens[accountTokensSlug] ?? [])]
       };
       const existingTokenIndex = state.accountsTokens[accountTokensSlug]?.findIndex(
-        ({ tokenAddress: existingTokenAddress }) => existingTokenAddress === tokenAddress
+        ({ tokenId: existingTokenId, tokenAddress: existingTokenAddress }) =>
+          tokenId === existingTokenId && tokenAddress === existingTokenAddress
       );
 
       if (existingTokenIndex > -1) {
@@ -85,7 +100,12 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       } else {
         accountsTokens[accountTokensSlug] = [
           ...accountsTokens[accountTokensSlug],
-          { tokenAddress, isVisible: true, balance: '0' }
+          {
+            tokenId,
+            tokenAddress,
+            isVisible: true,
+            balance: createEntity('0')
+          }
         ];
       }
 
@@ -98,14 +118,9 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         }
       };
     })
-    .addCase(changeTokenVisibilityAction, (state, { payload: tokenAddress }) => {
-      const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
-      const updatedAccountTokens = state.accountsTokens[accountTokensSlug].map(accountToken =>
-        accountToken.tokenAddress === tokenAddress
-          ? { ...accountToken, isVisible: !accountToken.isVisible }
-          : accountToken
-      );
-
-      return { ...state, accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: updatedAccountTokens } };
-    });
+    .addCase(changeTokenVisibilityAction, (state, { payload: token }) =>
+      updateAccountTokenState(state, token, accountToken => ({
+        isVisible: !accountToken.isVisible
+      }))
+    );
 });

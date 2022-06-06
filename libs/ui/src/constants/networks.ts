@@ -1,4 +1,5 @@
-import { NetworkInterface } from '../interfaces/network.interface';
+import { NetworkTypeEnum } from '../enums/network-type.enum';
+import { NetworkChainIdsByNetworkType, NetworkInterface } from '../interfaces/network.interface';
 import { createEntity } from '../store/utils/entity.utils';
 
 export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
@@ -69,7 +70,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
   },
   {
     chainId: 'NetXdQprcVkpaWU',
-    rpcUrl: 'https://mainnet-tezos.giganode.io',
+    rpcUrl: 'https://mainnet-node.madfish.solutions',
     name: 'Tezos',
     gasTokenMetadata: {
       name: 'Tezos Token',
@@ -81,3 +82,20 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     explorerUrl: 'https://tzkt.io/'
   }
 ];
+
+export const DEFAULT_NETWORK_TYPE: NetworkTypeEnum = NetworkTypeEnum.EVM;
+
+export const NETWORK_CHAIN_IDS_BY_NETWORK_TYPE: NetworkChainIdsByNetworkType = {
+  [NetworkTypeEnum.Tezos]: [
+    'NetXdQprcVkpaWU',
+    'NetXjD3HPJJjmcd',
+    'NetXm8tYqnMWky1',
+    'NetXSgo1ZT2DRUG',
+    'NetXxkAx4woPLyu',
+    'NetXz969SFaFn8k',
+    'NetXZSsxBpMQeAT',
+    'NetXbhmtAbMukLc',
+    'NetXnHfVqm9iesp',
+    'NetXLH1uAxK7CCh'
+  ]
+};

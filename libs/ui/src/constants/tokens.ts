@@ -1,4 +1,4 @@
-import { TokenMetadata } from '../interfaces/token-metadata.interface';
+import { AccountTokenInput } from '../interfaces/token-input.interface';
 import { getTokenMetadataSlug } from '../utils/token-metadata.util';
 
 import { NETWORKS_DEFAULT_LIST } from './networks';
@@ -7,7 +7,7 @@ type NetworkChainId = string;
 
 const KLAYTN_CHAIN_ID = '8217';
 
-export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, TokenMetadata[]> = {
+export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = {
   [KLAYTN_CHAIN_ID]: [
     {
       tokenAddress: '0x02cbe46fb8a1f579254a9b485788f2d86cad51aa',
@@ -97,7 +97,7 @@ export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, TokenMetadata[]> = {
       tokenAddress: '0xcee8faf64bb97a73bb51e115aa89c17ffa8dd167',
       name: 'oUSDT',
       symbol: 'oUSDT',
-      decimals: 18,
+      decimals: 6,
       thumbnailUri: ''
     },
     {
@@ -118,13 +118,13 @@ export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, TokenMetadata[]> = {
 };
 
 export const defaultTokensMetadata = TOKENS_DEFAULT_LIST[NETWORKS_DEFAULT_LIST[0].chainId].reduce(
-  (acc, { name, symbol, decimals, tokenAddress }) => {
-    const tokenMetadataSlug = getTokenMetadataSlug(NETWORKS_DEFAULT_LIST[0].rpcUrl, tokenAddress);
+  (acc, { tokenAddress, tokenId, ...tokenMetadata }) => {
+    const tokenMetadataSlug = getTokenMetadataSlug(NETWORKS_DEFAULT_LIST[0].rpcUrl, tokenAddress, tokenId);
 
-    return (acc = {
+    return {
       ...acc,
-      [tokenMetadataSlug]: { name, symbol, decimals, tokenAddress }
-    });
+      [tokenMetadataSlug]: tokenMetadata
+    };
   },
   {}
 );

@@ -11,9 +11,10 @@ export const AddNewToken: FC = () => {
   const [name, setName] = useState('');
   const [symbol, setSymbol] = useState('');
   const [decimals, setDecimals] = useState('');
-  const [thumbnailUri, seThumbnailUri] = useState('');
-  const [artifactUri, setArtifactUri] = useState('');
+  const [thumbnailUri, setThumbnailUri] = useState('');
   const [tokenId, setTokenId] = useState('');
+  const [artifactUri, setArtifactUri] = useState('');
+  const [tezosTokenType, setTezosTokenType] = useState('');
 
   const onDecimalsChange = (decimalsValue: string) => setDecimals(decimalsValue.replace(/\D/g, ''));
 
@@ -21,12 +22,13 @@ export const AddNewToken: FC = () => {
     dispatch(
       addTokenMetadataAction({
         tokenAddress,
-        tokenId,
         name,
         symbol,
         thumbnailUri,
+        decimals: Number(decimals),
+        tokenId: tokenId || undefined,
         artifactUri,
-        decimals: Number(decimals)
+        tezosTokenType: tezosTokenType || undefined
       })
     );
 
@@ -34,21 +36,23 @@ export const AddNewToken: FC = () => {
     setName('');
     setSymbol('');
     setDecimals('');
-    seThumbnailUri('');
-    setArtifactUri('');
+    setThumbnailUri('');
     setTokenId('');
+    setArtifactUri('');
+    setTezosTokenType('');
   };
 
   return (
     <View>
       <NavigationBar />
       <TextInput placeholder="Token Address" value={tokenAddress} onChangeText={setTokenAddress} />
-      <TextInput placeholder="Token ID" value={tokenId} onChangeText={setTokenId} />
       <TextInput placeholder="Token Name" value={name} onChangeText={setName} />
       <TextInput placeholder="Token Symbol" value={symbol} onChangeText={setSymbol} />
       <TextInput placeholder="Token Decimals" value={decimals} onChangeText={onDecimalsChange} keyboardType="numeric" />
-      <TextInput placeholder="Thumbnail Uri" value={thumbnailUri} onChangeText={seThumbnailUri} />
-      <TextInput placeholder="artifact Uri" value={artifactUri} onChangeText={setArtifactUri} />
+      <TextInput placeholder="Thumbnail Uri" value={thumbnailUri} onChangeText={setThumbnailUri} />
+      <TextInput placeholder="Token Id" value={tokenId} onChangeText={setTokenId} />
+      <TextInput placeholder="Artifact Uri" value={artifactUri} onChangeText={setArtifactUri} />
+      <TextInput placeholder="Token type (for Tezos)" value={tezosTokenType} onChangeText={setTezosTokenType} />
       <Pressable onPress={onAddToken}>
         <Text>Add token</Text>
       </Pressable>
