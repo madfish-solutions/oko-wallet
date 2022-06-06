@@ -2,9 +2,9 @@ import { createAction } from '@reduxjs/toolkit';
 
 import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
+import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
 import { AccountTokenInput } from '../../interfaces/token-input.interface';
 import { Token } from '../../interfaces/token.interface';
-import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
 import { createActions } from '../utils/action.utils';
 
 export const setSelectedAccountAction = createAction<string>('wallet/SET_SELECTED_ACCOUNT');
