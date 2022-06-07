@@ -4,11 +4,12 @@ import { forkJoin, of, switchMap, Observable, from, BehaviorSubject } from 'rxjs
 import { catchError, map } from 'rxjs/operators';
 
 import { AccountTypeEnum } from '../enums/account-type.enum';
+import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { AccountInterface } from '../interfaces/account.interface';
 import { decrypt } from '../themis/decrypt';
 import { encrypt } from '../themis/encrypt';
 import { getEtherDerivationPath } from '../utils/derivation-path.utils';
-import { generateHdAccount } from '../utils/generate-hd-account.util';
+import { derivationPathByNetworkType, generateHdAccount } from '../utils/generate-hd-account.util';
 import { generateHash$ } from '../utils/hash.utils';
 import { setStoredValue } from '../utils/store.util';
 
@@ -57,6 +58,11 @@ export class Shelter {
       )
     );
 
+  static revealSeedPhrase$ = () => Shelter.decryptSensitiveData$('seedPhrase', Shelter._passwordHash$.getValue());
+
+  private static savePrivateKey$ = (publicKeyHash: string, privateKey: string) =>
+    Shelter.saveSensitiveData$({ [publicKeyHash]: privateKey });
+
   static importAccount$ = (
     seedPhrase: string,
     password: string,
@@ -79,8 +85,13 @@ export class Shelter {
                   publicData: {
                     name,
                     type: AccountTypeEnum.HD_ACCOUNT,
-                    publicKey,
-                    publicKeyHash: address
+                    accountIndex: hdAccountIndex,
+                    networksKeys: {
+                      [NetworkTypeEnum.EVM]: {
+                        publicKey,
+                        publicKeyHash: address
+                      }
+                    }
                   }
                 };
               })
@@ -100,4 +111,34 @@ export class Shelter {
         );
       })
     );
+
+  static createHdAccount$ = (
+    networkType: NetworkTypeEnum,
+    accountIndex: number
+  ): Observable<AccountInterface | undefined> => {
+    const derivationPath = derivationPathByNetworkType[networkType](accountIndex);
+
+    return Shelter.revealSeedPhrase$().pipe(
+      switchMap(seedPhrase =>
+        from(generateHdAccount(seedPhrase, derivationPath)).pipe(
+          switchMap(({ publicKey, address: publicKeyHash, privateKey }) =>
+            Shelter.savePrivateKey$(publicKeyHash, privateKey).pipe(
+              map(() => ({
+                name: `Account ${accountIndex}`,
+                accountIndex,
+                networksKeys: {
+                  [networkType]: {
+                    publicKey,
+                    publicKeyHash
+                  }
+                },
+                type: AccountTypeEnum.HD_ACCOUNT,
+                isVisible: true
+              }))
+            )
+          )
+        )
+      )
+    );
+  };
 }

@@ -1,21 +1,56 @@
-import React, { FC } from 'react';
-import { Text } from 'react-native';
+import React, { FC, useMemo, useState } from 'react';
+import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-import { Token } from '../../../../interfaces/token.interface';
-import { getTokenSlug } from '../../../../utils/token.utils';
-import { WalletStyles } from '../../wallet.styles';
+import { useCollectiblesSelector, useVisibleAccountTokensSelector } from '../../../../store/wallet/wallet.selectors';
+import { AccountTokensList } from '../account-tokens-list/account-tokens-list';
+import { Collectibles } from '../collectibles/collectibles';
 
-import { AccountToken } from './components/account-token';
+import { AccountTokensStyles } from './account-tokens.styles';
 
-interface Props {
-  visibleAccountTokens: Token[];
-}
+export const AccountTokens: FC = () => {
+  const visibleAccountTokens = useVisibleAccountTokensSelector();
+  const [inputNameSearch, setInputNameSearch] = useState('');
+  const [isTokensShow, setIsTokensShow] = useState(true);
+  const collectibles = useCollectiblesSelector();
 
-export const AccountTokens: FC<Props> = ({ visibleAccountTokens }) => (
-  <>
-    {!!visibleAccountTokens.length && <Text style={WalletStyles.boldText}>All visible tokens</Text>}
-    {visibleAccountTokens.map(token => (
-      <AccountToken key={getTokenSlug(token)} token={token} />
-    ))}
-  </>
-);
+  const accountTokens = useMemo(() => {
+    if (inputNameSearch && visibleAccountTokens.length) {
+      return visibleAccountTokens.filter(
+        ({ name, symbol, tokenAddress }) =>
+          name.toLowerCase().includes(inputNameSearch.toLowerCase()) ||
+          symbol.toLowerCase().includes(inputNameSearch.toLowerCase()) ||
+          tokenAddress.toLowerCase().includes(inputNameSearch.toLowerCase())
+      );
+    }
+
+    return visibleAccountTokens;
+  }, [inputNameSearch, visibleAccountTokens]);
+
+  return (
+    <View style={AccountTokensStyles.root}>
+      <TextInput
+        style={AccountTokensStyles.input}
+        onChangeText={setInputNameSearch}
+        value={inputNameSearch}
+        placeholder="Find token..."
+      />
+      <View style={AccountTokensStyles.switchButton}>
+        <TouchableOpacity onPress={() => setIsTokensShow(true)}>
+          <Text>Tokens</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setIsTokensShow(false)}>
+          <Text>Collectibles</Text>
+        </TouchableOpacity>
+      </View>
+      {accountTokens.length ? (
+        isTokensShow ? (
+          <AccountTokensList accountTokens={accountTokens} />
+        ) : (
+          <Collectibles collectibles={collectibles} />
+        )
+      ) : (
+        <Text>Tokens not found!</Text>
+      )}
+    </View>
+  );
+};

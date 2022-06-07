@@ -10,6 +10,7 @@ export interface NetworkInterface {
   gasTokenMetadata: GasTokenMetadata;
   gasTokenBalance: LoadableEntityState<string>;
   explorerUrl?: string;
+  networkType: NetworkTypeEnum;
 }
 
 export type NetworkChainIdsByNetworkType = Partial<{

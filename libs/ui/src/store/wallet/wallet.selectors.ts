@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
+import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { Token } from '../../interfaces/token.interface';
@@ -11,13 +12,7 @@ import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { isCollectible } from '../../utils/token.utils';
 
 import { WalletRootState, WalletState } from './wallet.state';
-
-export const useSelectedAccountSelector = () =>
-  useSelector<WalletRootState, AccountInterface>(
-    ({ wallet }) =>
-      wallet.accounts.find(account => account.publicKeyHash === wallet.selectedAccountPublicKeyHash) ?? initialAccount,
-    (left, right) => JSON.stringify(left) === JSON.stringify(right)
-  );
+import { getSelectedNetworkType } from './wallet.utils';
 
 export const useSelectedNetworkSelector = () =>
   useSelector<WalletRootState, NetworkInterface>(
@@ -28,6 +23,35 @@ export const useSelectedNetworkSelector = () =>
 
 export const useAllNetworksSelector = () =>
   useSelector<WalletRootState, WalletState['networks']>(({ wallet }) => wallet.networks);
+
+export const useSelectedNetworkTypeSelector = () =>
+  useSelector<WalletRootState, NetworkTypeEnum>(({ wallet }) => getSelectedNetworkType(wallet));
+
+export const useSelectedAccountSelector = () =>
+  useSelector<WalletRootState, AccountInterface>(
+    ({ wallet }) => {
+      const { accounts, selectedAccountPublicKeyHash } = wallet;
+
+      const selectedNetworkType = getSelectedNetworkType(wallet);
+      const selectedAccount =
+        accounts.find(account => {
+          const isExist = account.networksKeys.hasOwnProperty(selectedNetworkType);
+
+          return isExist
+            ? account.networksKeys[selectedNetworkType]?.publicKeyHash === selectedAccountPublicKeyHash
+            : null;
+        }) ?? initialAccount;
+
+      return selectedAccount;
+    },
+    (left, right) => JSON.stringify(left) === JSON.stringify(right)
+  );
+
+export const useSelectedAccountPkhSelector = () =>
+  useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedAccountPublicKeyHash);
+
+export const useAllAccountsSelector = () =>
+  useSelector<WalletRootState, WalletState['accounts']>(({ wallet }) => wallet.accounts);
 
 export const useAccountAssetsSelector = () =>
   useSelector<WalletRootState, Token[]>(
@@ -64,9 +88,9 @@ export const useVisibleAccountTokensSelector = () => {
 };
 
 export const useCollectiblesSelector = () => {
-  const collectibles = useAccountAssetsSelector();
+  const assets = useAccountAssetsSelector();
 
-  return useMemo(() => collectibles.filter(token => isCollectible(token)), [collectibles]);
+  return useMemo(() => assets.filter(token => isCollectible(token)), [assets]);
 };
 
 export const useIsAuthorisedSelector = () => {
