@@ -45,9 +45,9 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         accountsTokens: updateAccountsTokensState(state, newAccount)
       };
     })
-    .addCase(setSelectedAccountAction, (state, { payload: selectedAccount }) => ({
+    .addCase(setSelectedAccountAction, (state, { payload: selectedAccountPublicKeyHash }) => ({
       ...state,
-      selectedAccountPublicKeyHash: selectedAccount ?? ''
+      selectedAccountPublicKeyHash
     }));
   builder
     .addCase(loadGasTokenBalanceAction.submit, state =>
@@ -149,7 +149,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     const selectedAccount =
       state.accounts.find(account =>
         account.networksKeys.hasOwnProperty(prevNetworkType)
-          ? account.networksKeys[prevNetworkType].publicKeyHash === state.selectedAccountPublicKeyHash
+          ? account.networksKeys[prevNetworkType]?.publicKeyHash === state.selectedAccountPublicKeyHash
           : null
       ) ?? initialAccount;
 

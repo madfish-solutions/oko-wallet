@@ -12,7 +12,6 @@ import {
   useSelectedNetworkTypeSelector
 } from '../../store/wallet/wallet.selectors';
 import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-network-type-key-exist';
-import { shortize } from '../../utils/shortize.utils';
 
 import { AccountStyles } from './account.styles';
 
@@ -37,13 +36,13 @@ export const Account: FC = () => {
       <View style={AccountStyles.container}>
         <View style={AccountStyles.selectedAccountInfo}>
           <Text style={AccountStyles.selectedAccountName}>{selectedAccount.name}</Text>
-          <Text>{shortize(pkh)}</Text>
+          <Text>{pkh.substring(0, 12)}</Text>
         </View>
         <Text style={AccountStyles.allAccountsText}>All accounts:</Text>
         <ScrollView style={AccountStyles.accountsList}>
           {accounts.map(account => {
             const pkh = checkIsNetworkTypeKeyExist(account, selectedNetworkType)
-              ? shortize(account.networksKeys[selectedNetworkType].publicKeyHash)
+              ? account.networksKeys[selectedNetworkType]?.publicKeyHash.substring(0, 12)
               : 'Not generated';
 
             return (

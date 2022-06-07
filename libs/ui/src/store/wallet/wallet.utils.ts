@@ -7,6 +7,7 @@ import { NetworkInterface } from '../../interfaces/network.interface';
 import { Token } from '../../interfaces/token.interface';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-network-type-key-exist';
+import { getString } from '../../utils/get-string.utils';
 import { getTokenSlug } from '../../utils/token.utils';
 import { createEntity } from '../utils/entity.utils';
 
@@ -94,7 +95,7 @@ export const getSelectedNetworkType = (state: WalletState): NetworkTypeEnum =>
   state.networks.find(network => network.rpcUrl === state.selectedNetworkRpcUrl)?.networkType ?? NetworkTypeEnum.EVM;
 
 export const getPublicKeyHash = (account: AccountInterface, networkType: NetworkTypeEnum): string =>
-  checkIsNetworkTypeKeyExist(account, networkType) ? account.networksKeys[networkType].publicKeyHash : '';
+  checkIsNetworkTypeKeyExist(account, networkType) ? getString(account.networksKeys[networkType]?.publicKeyHash) : '';
 
 export const getCurrentNetworkChainId = (rpcUrl: string) =>
   NETWORKS_DEFAULT_LIST.find(network => network.rpcUrl === rpcUrl)?.chainId ?? NETWORKS_DEFAULT_LIST[0].chainId;

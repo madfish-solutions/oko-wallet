@@ -3,6 +3,7 @@ import { Subject, switchMap } from 'rxjs';
 
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { createHdAccountAction, setSelectedAccountAction } from '../../store/wallet/wallet.actions';
+import { getString } from '../../utils/get-string.utils';
 import { ImportWalletParams } from '../import-wallet-params.interface';
 import { Shelter } from '../shelter';
 
@@ -16,7 +17,7 @@ export const importWalletSubscription = (importWallet$: Subject<ImportWalletPara
     .subscribe(importedAccounts => {
       if (importedAccounts !== undefined) {
         const firstAccount = importedAccounts[0];
-        dispatch(setSelectedAccountAction(firstAccount.networksKeys[NetworkTypeEnum.EVM].publicKeyHash));
+        dispatch(setSelectedAccountAction(getString(firstAccount.networksKeys[NetworkTypeEnum.EVM]?.publicKeyHash)));
 
         for (const account of importedAccounts) {
           dispatch(createHdAccountAction(account));

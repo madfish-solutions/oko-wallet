@@ -12,11 +12,13 @@ export const Receive: FC = () => {
   const selectedAccount = useSelectedAccountSelector();
   const networkType = useSelectedNetworkTypeSelector();
 
-  const publicKeyHash = useMemo(() => selectedAccount.networksKeys[networkType].publicKeyHash, [networkType]);
+  const publicKeyHash = useMemo(() => selectedAccount.networksKeys[networkType]?.publicKeyHash, [networkType]);
 
   const handleCopyToClipboard = () => {
-    Clipboard.setString(publicKeyHash);
-    setIsCopied(true);
+    if (typeof publicKeyHash === 'string') {
+      Clipboard.setString(publicKeyHash);
+      setIsCopied(true);
+    }
   };
 
   useDelayedEffect(() => setIsCopied(false), [isCopied]);

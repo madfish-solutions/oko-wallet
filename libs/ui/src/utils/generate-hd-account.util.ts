@@ -16,6 +16,6 @@ export const generateHdAccount = async (seedPhrase: string, derivationPath: stri
 };
 
 export const derivationPathByNetworkType: Record<NetworkTypeEnum, (accountIndex: number) => string> = {
-  EVM: (accountIndex: number) => getEtherDerivationPath(accountIndex),
-  Tezos: (accountIndex: number) => getTezosDerivationPath(accountIndex)
+  [NetworkTypeEnum.EVM]: (accountIndex: number) => getEtherDerivationPath(accountIndex),
+  [NetworkTypeEnum.Tezos]: (accountIndex: number) => getTezosDerivationPath(accountIndex)
 };

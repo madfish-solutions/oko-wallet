@@ -18,7 +18,7 @@ export const withSelectedAccount =
         const selectedAccount =
           accounts.find(({ networksKeys }) =>
             networksKeys.hasOwnProperty(selectedNetworkType)
-              ? networksKeys[selectedNetworkType].publicKeyHash === selectedAccountPublicKeyHash
+              ? networksKeys[selectedNetworkType]?.publicKeyHash === selectedAccountPublicKeyHash
               : null
           ) ?? initialAccount;
 
