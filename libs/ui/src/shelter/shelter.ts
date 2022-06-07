@@ -88,7 +88,7 @@ export class Shelter {
                     type: AccountTypeEnum.HD_ACCOUNT,
                     accountIndex: hdAccountIndex,
                     networksKeys: {
-                      [NetworkTypeEnum.Ethereum]: {
+                      [NetworkTypeEnum.EVM]: {
                         publicKey,
                         publicKeyHash: address
                       }

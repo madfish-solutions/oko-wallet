@@ -7,7 +7,7 @@ export const initialAccount: AccountInterface = {
   type: AccountTypeEnum.HD_ACCOUNT,
   accountIndex: 0,
   networksKeys: {
-    [NetworkTypeEnum.Ethereum]: {
+    [NetworkTypeEnum.EVM]: {
       publicKey: '',
       publicKeyHash: ''
     }

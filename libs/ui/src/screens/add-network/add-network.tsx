@@ -23,7 +23,7 @@ export const AddNetwork: FC = () => {
   const [gasTokenSymbol, setGasTokenSymbol] = useState('');
   const [explorerUrl, setExplorerUrl] = useState('');
   const [error, setError] = useState('');
-  const [networkType, setNetworkType] = useState<NetworkTypeEnum>(NetworkTypeEnum.Ethereum);
+  const [networkType, setNetworkType] = useState<NetworkTypeEnum>(NetworkTypeEnum.EVM);
 
   const validateSubmitValue = (values: NetworkInterface) =>
     Object.values(values).every(field => {
@@ -69,7 +69,7 @@ export const AddNetwork: FC = () => {
 
       <View style={AddNetworkStyles.form}>
         <View>
-          <TouchableOpacity onPress={() => handleSelectNetworkType(NetworkTypeEnum.Ethereum)}>
+          <TouchableOpacity onPress={() => handleSelectNetworkType(NetworkTypeEnum.EVM)}>
             <Text>Ethereum</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => handleSelectNetworkType(NetworkTypeEnum.Tezos)}>

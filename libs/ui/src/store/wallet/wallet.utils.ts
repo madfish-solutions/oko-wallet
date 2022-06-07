@@ -1,10 +1,14 @@
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { TOKENS_DEFAULT_LIST } from '../../constants/tokens';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
+import { AccountToken } from '../../interfaces/account-token.interface';
 import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
+import { Token } from '../../interfaces/token.interface';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-network-type-key-exist';
+import { getTokenSlug } from '../../utils/token.utils';
+import { createEntity } from '../utils/entity.utils';
 
 import { WalletState } from './wallet.state';
 
@@ -49,16 +53,45 @@ export const getDefaultAccountTokens = (state: WalletState, account: AccountInte
           name,
           symbol,
           isVisible: true,
-          balance: '0'
+          balance: createEntity('0')
         })
       )
     };
   }
 };
 
+export const updateAccountTokenState = (
+  state: WalletState,
+  token: Token,
+  updateFunc: (token: AccountToken) => Partial<AccountToken>
+): WalletState => {
+  const { selectedNetworkRpcUrl, selectedAccountPublicKeyHash, accountsTokens } = state;
+  const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+  const tokenSlug = getTokenSlug(token);
+  const targetAccountTokens = accountsTokens[accountTokensSlug];
+
+  if (typeof targetAccountTokens === 'undefined') {
+    return state;
+  }
+
+  return {
+    ...state,
+    accountsTokens: {
+      ...accountsTokens,
+      [accountTokensSlug]: targetAccountTokens.map(accountToken =>
+        getTokenSlug(accountToken) === tokenSlug
+          ? {
+              ...accountToken,
+              ...updateFunc(accountToken)
+            }
+          : accountToken
+      )
+    }
+  };
+};
+
 export const getSelectedNetworkType = (state: WalletState): NetworkTypeEnum =>
-  state.networks.find(network => network.rpcUrl === state.selectedNetworkRpcUrl)?.networkType ??
-  NetworkTypeEnum.Ethereum;
+  state.networks.find(network => network.rpcUrl === state.selectedNetworkRpcUrl)?.networkType ?? NetworkTypeEnum.EVM;
 
 export const getPublicKeyHash = (account: AccountInterface, networkType: NetworkTypeEnum): string =>
   checkIsNetworkTypeKeyExist(account, networkType) ? account.networksKeys[networkType].publicKeyHash : '';

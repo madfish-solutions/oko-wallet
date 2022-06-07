@@ -16,7 +16,7 @@ export const importWalletSubscription = (importWallet$: Subject<ImportWalletPara
     .subscribe(importedAccounts => {
       if (importedAccounts !== undefined) {
         const firstAccount = importedAccounts[0];
-        dispatch(setSelectedAccountAction(firstAccount.networksKeys[NetworkTypeEnum.Ethereum].publicKeyHash));
+        dispatch(setSelectedAccountAction(firstAccount.networksKeys[NetworkTypeEnum.EVM].publicKeyHash));
 
         for (const account of importedAccounts) {
           dispatch(createHdAccountAction(account));

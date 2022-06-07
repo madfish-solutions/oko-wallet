@@ -1,5 +1,5 @@
 import { NetworkTypeEnum } from '../enums/network-type.enum';
-import { NetworkInterface } from '../interfaces/network.interface';
+import { NetworkChainIdsByNetworkType, NetworkInterface } from '../interfaces/network.interface';
 import { createEntity } from '../store/utils/entity.utils';
 
 export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
@@ -15,7 +15,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://scope.klaytn.com/',
-    networkType: NetworkTypeEnum.Ethereum
+    networkType: NetworkTypeEnum.EVM
   },
   {
     chainId: '1001',
@@ -29,7 +29,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://baobab.scope.klaytn.com/',
-    networkType: NetworkTypeEnum.Ethereum
+    networkType: NetworkTypeEnum.EVM
   },
   {
     chainId: '1',
@@ -43,7 +43,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://etherscan.io',
-    networkType: NetworkTypeEnum.Ethereum
+    networkType: NetworkTypeEnum.EVM
   },
   {
     chainId: '56',
@@ -57,7 +57,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://bscscan.com',
-    networkType: NetworkTypeEnum.Ethereum
+    networkType: NetworkTypeEnum.EVM
   },
   {
     chainId: '1284',
@@ -71,11 +71,11 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://moonbeam.moonscan.io/',
-    networkType: NetworkTypeEnum.Ethereum
+    networkType: NetworkTypeEnum.EVM
   },
   {
     chainId: 'NetXdQprcVkpaWU',
-    rpcUrl: 'https://mainnet-tezos.giganode.io',
+    rpcUrl: 'https://mainnet-node.madfish.solutions',
     name: 'Tezos',
     gasTokenMetadata: {
       name: 'Tezos Token',
@@ -88,3 +88,20 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     networkType: NetworkTypeEnum.Tezos
   }
 ];
+
+export const DEFAULT_NETWORK_TYPE: NetworkTypeEnum = NetworkTypeEnum.EVM;
+
+export const NETWORK_CHAIN_IDS_BY_NETWORK_TYPE: NetworkChainIdsByNetworkType = {
+  [NetworkTypeEnum.Tezos]: [
+    'NetXdQprcVkpaWU',
+    'NetXjD3HPJJjmcd',
+    'NetXm8tYqnMWky1',
+    'NetXSgo1ZT2DRUG',
+    'NetXxkAx4woPLyu',
+    'NetXz969SFaFn8k',
+    'NetXZSsxBpMQeAT',
+    'NetXbhmtAbMukLc',
+    'NetXnHfVqm9iesp',
+    'NetXLH1uAxK7CCh'
+  ]
+};

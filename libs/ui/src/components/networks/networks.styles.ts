@@ -5,7 +5,7 @@ export const NetworksStyles = StyleSheet.create({
     marginBottom: 4,
     textTransform: 'uppercase'
   },
-  network: {
-    marginBottom: 4
+  networkName: {
+    color: '#000'
   }
 });

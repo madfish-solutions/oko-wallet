@@ -1,4 +1,4 @@
 export enum NetworkTypeEnum {
-  Ethereum = 'Ethereum',
+  EVM = 'EVM',
   Tezos = 'Tezos'
 }

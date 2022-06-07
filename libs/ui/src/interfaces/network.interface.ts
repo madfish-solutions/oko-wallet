@@ -12,3 +12,7 @@ export interface NetworkInterface {
   explorerUrl?: string;
   networkType: NetworkTypeEnum;
 }
+
+export type NetworkChainIdsByNetworkType = Partial<{
+  [networkType in NetworkTypeEnum]: string[];
+}>;

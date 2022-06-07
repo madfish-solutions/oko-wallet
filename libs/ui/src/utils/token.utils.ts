@@ -1,20 +1,40 @@
-import { TezosToolkit } from '@taquito/taquito';
-import { getDefaultProvider } from 'ethers';
-import { from, map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
+import { NetworkTypeEnum } from '../enums/network-type.enum';
+import { AccountToken } from '../interfaces/account-token.interface';
 import { NetworkInterface } from '../interfaces/network.interface';
+import { Token } from '../interfaces/token.interface';
 
-export const getGasTokenBalance$ = (network: NetworkInterface, pkh: string): Observable<string> => {
-  const { rpcUrl, name: networkName } = network;
+import { loadEvmGasTokenBalance$, loadEvmTokenBalance$ } from './by-network-types/token.utils.evm';
+import { loadTezosGasTokenBalance$, loadTezosTokenBalance$ } from './by-network-types/token.utils.tezos';
+import { getNetworkType } from './network.util';
 
-  // TODO: How to define check tezos network
-  if (networkName === 'Tezos') {
-    const tezosToolkit = new TezosToolkit(rpcUrl);
+export const getGasTokenBalance$ = (network: NetworkInterface, publicKeyHash: string): Observable<string> => {
+  const networkType = getNetworkType(network);
 
-    return from(tezosToolkit.tz.getBalance(pkh)).pipe(map(balance => balance.toFixed()));
+  switch (networkType) {
+    case NetworkTypeEnum.Tezos:
+      return loadTezosGasTokenBalance$(network, publicKeyHash);
+
+    default:
+      return loadEvmGasTokenBalance$(network, publicKeyHash);
   }
-
-  const provider = getDefaultProvider(rpcUrl);
-
-  return from(provider.getBalance(pkh)).pipe(map(balance => balance.toString()));
 };
+
+export const getTokenBalance$ = (
+  network: NetworkInterface,
+  publicKeyHash: string,
+  token: Token
+): Observable<string> => {
+  const networkType = getNetworkType(network);
+
+  switch (networkType) {
+    case NetworkTypeEnum.Tezos:
+      return loadTezosTokenBalance$(network, publicKeyHash, token);
+
+    default:
+      return loadEvmTokenBalance$(network, publicKeyHash, token);
+  }
+};
+
+export const getTokenSlug = ({ tokenAddress, tokenId }: AccountToken) => `${tokenAddress}_${tokenId ?? '0'}`;

@@ -28,13 +28,9 @@ export const Networks: React.FC = () => {
     <View>
       <Text style={NetworksStyles.allNetworksText}>All networks:</Text>
       <View>
-        {networks.map((network, index) => (
-          <TouchableOpacity
-            key={network.rpcUrl}
-            onPress={() => handleSelectNetwork(network)}
-            style={NetworksStyles.network}
-          >
-            <Text>{`${index + 1}. ${network.name}`}</Text>
+        {networks.map(network => (
+          <TouchableOpacity key={network.rpcUrl} onPress={() => handleSelectNetwork(network)}>
+            <Text style={NetworksStyles.networkName}>{network.name}</Text>
           </TouchableOpacity>
         ))}
       </View>

@@ -37,3 +37,10 @@ export const withSelectedNetwork =
         return [value, selectedNetwork];
       })
     );
+
+export const withSelectedPublicKeyHash =
+  <T>(state$: Observable<WalletRootState>) =>
+  (observable$: Observable<T>) =>
+    observable$.pipe(
+      withLatestFrom(state$, (value, { wallet }): [T, string] => [value, wallet.selectedAccountPublicKeyHash])
+    );
