@@ -14,7 +14,8 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://scope.klaytn.com/'
+    explorerUrl: 'https://scope.klaytn.com/',
+    networkType: NetworkTypeEnum.EVM
   },
   {
     chainId: '1001',
@@ -27,7 +28,8 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://baobab.scope.klaytn.com/'
+    explorerUrl: 'https://baobab.scope.klaytn.com/',
+    networkType: NetworkTypeEnum.EVM
   },
   {
     chainId: '1',
@@ -40,7 +42,8 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://etherscan.io'
+    explorerUrl: 'https://etherscan.io',
+    networkType: NetworkTypeEnum.EVM
   },
   {
     chainId: '56',
@@ -53,7 +56,8 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://bscscan.com'
+    explorerUrl: 'https://bscscan.com',
+    networkType: NetworkTypeEnum.EVM
   },
   {
     chainId: '1284',
@@ -66,7 +70,8 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://moonbeam.moonscan.io/'
+    explorerUrl: 'https://moonbeam.moonscan.io/',
+    networkType: NetworkTypeEnum.EVM
   },
   {
     chainId: 'NetXdQprcVkpaWU',
@@ -79,7 +84,8 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://tzkt.io/'
+    explorerUrl: 'https://tzkt.io/',
+    networkType: NetworkTypeEnum.Tezos
   }
 ];
 
