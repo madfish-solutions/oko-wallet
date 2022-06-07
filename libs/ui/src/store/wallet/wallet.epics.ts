@@ -3,8 +3,9 @@ import { catchError, map, Observable, of, switchMap, concatMap } from 'rxjs';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
+import { getString } from '../../utils/get-string.utils';
 import { getGasTokenBalance$, getTokenBalance$ } from '../../utils/token.utils';
-import { withSelectedAccount, withSelectedNetwork } from '../../utils/wallet.util';
+import { withSelectedAccount, withSelectedNetwork, withSelectedPublicKeyHash } from '../../utils/wallet.util';
 import { RootState } from '../store';
 import { createEntity } from '../utils/entity.utils';
 
@@ -15,8 +16,8 @@ const getGasTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Obser
     ofType(loadGasTokenBalanceAction.submit),
     withSelectedAccount(state$),
     withSelectedNetwork(state$),
-    switchMap(([[, { publicKeyHash }], network]) =>
-      getGasTokenBalance$(network, publicKeyHash).pipe(
+    switchMap(([[, { networksKeys }], network]) =>
+      getGasTokenBalance$(network, getString(networksKeys[network.networkType]?.publicKeyHash)).pipe(
         map(balance => loadGasTokenBalanceAction.success(balance)),
         catchError(error => of(loadGasTokenBalanceAction.fail(error.message)))
       )
@@ -27,9 +28,9 @@ const getTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Observab
   action$.pipe(
     ofType(loadAccountTokenBalanceAction.submit),
     toPayload(),
-    withSelectedAccount(state$),
+    withSelectedPublicKeyHash(state$),
     withSelectedNetwork(state$),
-    concatMap(([[{ token }, { publicKeyHash }], network]) =>
+    concatMap(([[{ token }, publicKeyHash], network]) =>
       getTokenBalance$(network, publicKeyHash, token).pipe(
         map(balance =>
           loadAccountTokenBalanceAction.success({
