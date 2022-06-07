@@ -7,6 +7,7 @@ import { Networks } from '../../components/networks/networks';
 import { mockAccountsAddresses } from '../../constants/accounts';
 import { switchAccountAction } from '../../store/wallet/wallet.actions';
 import { useVisibleAccountTokensSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
+import { formatUnits } from '../../utils/units.utils';
 
 import { AccountTokens } from './components/account-tokens/account-tokens';
 import { WalletStyles } from './wallet.styles';
@@ -28,11 +29,11 @@ export const Wallet: FC = () => {
     }
 
     return visibleAccountTokens;
-  }, [inputNameSearch]);
+  }, [inputNameSearch, visibleAccountTokens]);
 
   const gasTokenBalanceWithLoading = gasTokenBalance.isLoading
     ? '...'
-    : `${gasTokenBalance.data} ${gasTokenMetadata.symbol}`;
+    : `${formatUnits(gasTokenBalance.data, gasTokenMetadata.decimals)} ${gasTokenMetadata.symbol}`;
 
   const handleSwitchAccount = (pkh: string) => dispatch(switchAccountAction(pkh));
 

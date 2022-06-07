@@ -34,9 +34,9 @@ export const useConnectToDapp = () => {
   }, []);
 
   useEffect(() => {
-    if (connector) {
+    if (connector !== null) {
       connector.on('session_request', (error, payload) => {
-        if (error) {
+        if (error !== null) {
           throw `session_request: ${error}`;
         }
 
@@ -47,19 +47,19 @@ export const useConnectToDapp = () => {
       });
 
       connector.on('session_update', error => {
-        if (error) {
+        if (error !== null) {
           throw `session_update: ${error}`;
         }
       });
 
       connector.on('call_request', async error => {
-        if (error) {
+        if (error !== null) {
           throw `call_request: ${error}`;
         }
       });
 
       connector.on('connect', error => {
-        if (error) {
+        if (error !== null) {
           throw `connect: ${error}`;
         }
 
@@ -67,7 +67,7 @@ export const useConnectToDapp = () => {
       });
 
       connector.on('disconnect', error => {
-        if (error) {
+        if (error !== null) {
           throw `disconnect: ${error}`;
         }
 
@@ -80,7 +80,7 @@ export const useConnectToDapp = () => {
   }, [connector, selectedAccountPkh]);
 
   const approveSession = () => {
-    if (connector) {
+    if (connector !== null) {
       connector.approveSession({
         accounts: [selectedAccountPkh],
         chainId
@@ -90,7 +90,7 @@ export const useConnectToDapp = () => {
   };
 
   const rejectSession = () => {
-    if (connector) {
+    if (connector !== null) {
       connector.rejectSession();
     }
     setConnector(connector);
@@ -114,7 +114,7 @@ export const useConnectToDapp = () => {
     try {
       const walletConnector = new WalletConnect({ uri });
 
-      if (!walletConnector.connected) {
+      if (walletConnector.connected === false) {
         await walletConnector.createSession();
       }
 

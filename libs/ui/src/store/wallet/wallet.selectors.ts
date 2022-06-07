@@ -38,7 +38,11 @@ export const useAccountTokensSelector = () =>
 
       return (
         accountsTokens[accountTokensSlug]?.map(accountToken => {
-          const tokenMetadataSlug = getTokenMetadataSlug(selectedNetworkRpcUrl, accountToken.tokenAddress);
+          const tokenMetadataSlug = getTokenMetadataSlug(
+            selectedNetworkRpcUrl,
+            accountToken.tokenAddress,
+            accountToken.tokenId
+          );
 
           return {
             ...accountToken,
