@@ -48,7 +48,6 @@
     "redux-flipper": "^2.0.1",
     "redux-observable": "^2.0.0",
     "redux-persist": "^6.0.0",
-    "rn-nodeify": "^10.3.0",
     "rxjs": "^7.5.5",
     "ts-action": "^11.0.0",
     "ts-action-operators": "^9.1.2",

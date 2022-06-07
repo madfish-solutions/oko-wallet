@@ -22,5 +22,3 @@ export const addNewNetworkAction = createAction<NetworkInterface>('wallet/ADD_NE
 
 export const addTokenMetadataAction = createAction<AccountTokenInput>('wallet/ADD_TOKEN_METADATA');
 export const changeTokenVisibilityAction = createAction<Token>('wallet/CHANGE_TOKEN_VISIBILITY');
-
-export const switchAccountAction = createAction<string>('wallet/SWITCH_ACCOUNT');

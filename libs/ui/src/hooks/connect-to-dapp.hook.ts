@@ -2,7 +2,7 @@ import WalletConnect from '@walletconnect/client';
 import { useEffect, useState } from 'react';
 
 import { ClientPeerMeta, WalletConnectSession } from '../interfaces/connect-wallet.interface';
-import { useSelectedAccountPkhSekector } from '../store/wallet/wallet.selectors';
+import { useSelectedAccountPublicKeyHashSelector } from '../store/wallet/wallet.selectors';
 
 const peerMetaInitialValue = {
   description: '',
@@ -19,7 +19,7 @@ export const useConnectToDapp = () => {
   const [connected, setConnected] = useState(false);
   const [chainId, setChainId] = useState(1);
 
-  const selectedAccountPkh = useSelectedAccountPkhSekector();
+  const selectedAccountPkh = useSelectedAccountPublicKeyHashSelector();
 
   const getCachedSession = (): WalletConnectSession | null =>
     JSON.parse(localStorage.getItem('walletconnect') as string) ?? null;

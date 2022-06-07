@@ -1,4 +1,3 @@
-import { mockAccountsAddresses } from '../../constants/accounts';
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { defaultTokensMetadata } from '../../constants/tokens';
 import { AccountToken } from '../../interfaces/account-token.interface';
@@ -24,7 +23,7 @@ export interface WalletState {
 
 export const walletInitialState: WalletState = {
   accounts: [],
-  selectedAccountPublicKeyHash: mockAccountsAddresses.account_1,
+  selectedAccountPublicKeyHash: '',
   networks: NETWORKS_DEFAULT_LIST,
   selectedNetworkRpcUrl: NETWORKS_DEFAULT_LIST[0].rpcUrl,
   tokensMetadata: defaultTokensMetadata,

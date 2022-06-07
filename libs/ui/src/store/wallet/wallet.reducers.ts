@@ -13,8 +13,7 @@ import {
   loadGasTokenBalanceAction,
   loadAccountTokenBalanceAction,
   addTokenMetadataAction,
-  changeTokenVisibilityAction,
-  switchAccountAction
+  changeTokenVisibilityAction
 } from './wallet.actions';
 import { WalletState, walletInitialState } from './wallet.state';
 import { updateSelectedNetworkState, updateAccountTokenState } from './wallet.utils';
@@ -37,10 +36,6 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         accountsTokens: { [accountTokensSlug]: defaultAccountsTokens }
       };
     })
-    .addCase(switchAccountAction, (state, { payload: pkh }) => ({
-      ...state,
-      selectedAccountPublicKeyHash: pkh
-    }))
     .addCase(setSelectedAccountAction, (state, { payload: selectedAccount }) => ({
       ...state,
       selectedAccountPublicKeyHash: selectedAccount ?? ''
