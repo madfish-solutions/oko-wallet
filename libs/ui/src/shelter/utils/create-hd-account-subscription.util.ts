@@ -1,7 +1,7 @@
-import { switchMap } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 
 import { CreateHdAccountType, CreateHdAccountWithOtherNewtorkType } from '../../interfaces/create-hd-account.interface';
-import { createHdAccountForNewNetworkTypeAction, createHdAccountAction } from '../../store/wallet/wallet.actions';
+import { createHdAccountAction, createHdAccountForNewNetworkTypeAction } from '../../store/wallet/wallet.actions';
 import { Shelter } from '../shelter';
 
 export const createHdAccountSubscription = ({
@@ -10,18 +10,33 @@ export const createHdAccountSubscription = ({
   accountsLength,
   dispatch
 }: CreateHdAccountType) =>
-  createHdAccount$.pipe(switchMap(() => Shelter.createHdAccount$(networkType, accountsLength))).subscribe(account => {
-    if (account !== undefined) {
-      dispatch(createHdAccountAction(account));
-    }
-  });
+  createHdAccount$
+    .pipe(switchMap(() => Shelter.createHdAccount$(networkType, accountsLength + 1)))
+    .subscribe(account => {
+      if (account !== undefined) {
+        dispatch(createHdAccountAction(account));
+      }
+    });
 
 export const createHdAccountForNewNetworkTypeSubscription = ({
   createHdAccount$,
   dispatch
 }: CreateHdAccountWithOtherNewtorkType) =>
   createHdAccount$
-    .pipe(switchMap(({ account, networkType }) => Shelter.createHdAccountForNewNetworkType$(networkType, account)))
+    .pipe(
+      switchMap(({ account, networkType }) =>
+        Shelter.createHdAccount$(networkType, account.accountIndex).pipe(
+          map(newAccount => ({
+            ...newAccount,
+            ...account,
+            networksKeys: {
+              ...account.networksKeys,
+              ...newAccount?.networksKeys
+            }
+          }))
+        )
+      )
+    )
     .subscribe(account => {
       if (account !== undefined) {
         dispatch(createHdAccountForNewNetworkTypeAction(account));

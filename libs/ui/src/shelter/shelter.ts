@@ -6,7 +6,6 @@ import { catchError, map } from 'rxjs/operators';
 import { AccountTypeEnum } from '../enums/account-type.enum';
 import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { AccountInterface } from '../interfaces/account.interface';
-import { initialAccount } from '../mocks/account.interface.mock';
 import { decrypt } from '../themis/decrypt';
 import { encrypt } from '../themis/encrypt';
 import { getEtherDerivationPath } from '../utils/derivation-path.utils';
@@ -115,9 +114,8 @@ export class Shelter {
 
   static createHdAccount$ = (
     networkType: NetworkTypeEnum,
-    accountsLength: number
+    accountIndex: number
   ): Observable<AccountInterface | undefined> => {
-    const accountIndex = accountsLength + 1;
     const derivationPath = derivationPathByNetworkType[networkType](accountIndex);
 
     return Shelter.revealSeedPhrase$().pipe(
@@ -126,7 +124,6 @@ export class Shelter {
           switchMap(({ publicKey, address: publicKeyHash, privateKey }) =>
             Shelter.savePrivateKey$(publicKeyHash, privateKey).pipe(
               map(() => ({
-                ...initialAccount,
                 name: `Account ${accountIndex}`,
                 accountIndex,
                 networksKeys: {
@@ -134,35 +131,9 @@ export class Shelter {
                     publicKey,
                     publicKeyHash
                   }
-                }
-              }))
-            )
-          )
-        )
-      )
-    );
-  };
-
-  static createHdAccountForNewNetworkType$ = (
-    networkType: NetworkTypeEnum,
-    account: AccountInterface
-  ): Observable<AccountInterface | undefined> => {
-    const derivationPath = derivationPathByNetworkType[networkType](account.accountIndex);
-
-    return Shelter.revealSeedPhrase$().pipe(
-      switchMap(seedPhrase =>
-        from(generateHdAccount(seedPhrase, derivationPath)).pipe(
-          switchMap(({ publicKey, address: publicKeyHash, privateKey }) =>
-            Shelter.savePrivateKey$(publicKeyHash, privateKey).pipe(
-              map(() => ({
-                ...account,
-                networksKeys: {
-                  ...account.networksKeys,
-                  [networkType]: {
-                    publicKey,
-                    publicKeyHash
-                  }
-                }
+                },
+                type: AccountTypeEnum.HD_ACCOUNT,
+                isVisible: true
               }))
             )
           )
