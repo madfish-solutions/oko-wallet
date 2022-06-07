@@ -38,3 +38,5 @@ export const getTokenBalance$ = (
 };
 
 export const getTokenSlug = ({ tokenAddress, tokenId }: AccountToken) => `${tokenAddress}_${tokenId ?? '0'}`;
+
+export const isCollectible = (asset: Token) => asset.artifactUri !== undefined && asset.artifactUri !== null;

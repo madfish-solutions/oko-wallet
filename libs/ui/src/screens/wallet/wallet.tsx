@@ -1,18 +1,25 @@
 import React, { FC, useMemo, useState } from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { Networks } from '../../components/networks/networks';
-import { useVisibleAccountTokensSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
+import {
+  useVisibleAccountTokensSelector,
+  useSelectedNetworkSelector,
+  useCollectiblesSelector
+} from '../../store/wallet/wallet.selectors';
 import { formatUnits } from '../../utils/units.utils';
 
 import { AccountTokens } from './components/account-tokens/account-tokens';
+import { Collectibles } from './components/collectibles/collectibles';
 import { WalletStyles } from './wallet.styles';
 
 export const Wallet: FC = () => {
   const { gasTokenMetadata, gasTokenBalance } = useSelectedNetworkSelector();
   const visibleAccountTokens = useVisibleAccountTokensSelector();
   const [inputNameSearch, setInputNameSearch] = useState('');
+  const [isTokensShow, setIsTokensShow] = useState(true);
+  const collectibles = useCollectiblesSelector();
 
   const filteredTokens = useMemo(() => {
     if (inputNameSearch) {
@@ -45,7 +52,19 @@ export const Wallet: FC = () => {
           value={inputNameSearch}
           placeholder="find token..."
         />
-        <AccountTokens visibleAccountTokens={filteredTokens} />
+        <View style={WalletStyles.switchButton}>
+          <TouchableOpacity onPress={() => setIsTokensShow(true)}>
+            <Text>Tokens</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setIsTokensShow(false)}>
+            <Text>Collectibles</Text>
+          </TouchableOpacity>
+        </View>
+        {isTokensShow ? (
+          <AccountTokens visibleAccountTokens={filteredTokens} />
+        ) : (
+          <Collectibles collectibles={collectibles} />
+        )}
       </View>
     </View>
   );
