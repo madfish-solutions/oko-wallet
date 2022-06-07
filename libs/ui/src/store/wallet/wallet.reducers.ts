@@ -1,8 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 
+import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { initialAccount } from '../../mocks/account.interface.mock';
 import { getAccountTokensSlug } from '../../utils/address.util';
-import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-network-type-key-exist';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { createEntity } from '../utils/entity.utils';
 
@@ -18,31 +18,29 @@ import {
   changeTokenVisibilityAction
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
-import { getDefaultAccountTokens, updateSelectedNetworkState } from './wallet.utils';
+import {
+  getPublicKeyHash,
+  getSelectedNetworkType,
+  updateAccountsTokensState,
+  updateSelectedNetworkState
+} from './wallet.utils';
 
 export const walletReducers = createReducer<WalletState>(walletInitialState, builder => {
   builder
-    .addCase(createHdAccountAction, (state, { payload: account }) => {
-      const { accountTokensSlug, defaultAccountTokens } = getDefaultAccountTokens(state, account);
-
-      return {
-        ...state,
-        accounts: [...state.accounts, account].sort((a, b) => a.accountIndex - b.accountIndex),
-        selectedAccountPublicKeyHash: account.networksKeys[state.selectedNetworkType].publicKeyHash,
-        selectedAccountIndex: account.accountIndex,
-        accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: defaultAccountTokens }
-      };
-    })
+    .addCase(createHdAccountAction, (state, { payload: newAccount }) => ({
+      ...state,
+      accounts: [...state.accounts, newAccount].sort((a, b) => a.accountIndex - b.accountIndex),
+      selectedAccountPublicKeyHash: getPublicKeyHash(newAccount, getSelectedNetworkType(state)),
+      accountsTokens: updateAccountsTokensState(state, newAccount)
+    }))
     .addCase(createHdAccountForNewNetworkTypeAction, (state, { payload: newAccount }) => {
-      const { accountTokensSlug, defaultAccountTokens } = getDefaultAccountTokens(state, newAccount);
       const accountsWithoutCurrent = state.accounts.filter(account => account.accountIndex !== newAccount.accountIndex);
 
       return {
         ...state,
         accounts: [...accountsWithoutCurrent, newAccount].sort((a, b) => a.accountIndex - b.accountIndex),
-        selectedAccountPublicKeyHash: newAccount.networksKeys[state.selectedNetworkType].publicKeyHash,
-        selectedAccountIndex: newAccount.accountIndex,
-        accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: defaultAccountTokens }
+        selectedAccountPublicKeyHash: getPublicKeyHash(newAccount, getSelectedNetworkType(state)),
+        accountsTokens: updateAccountsTokensState(state, newAccount)
       };
     });
   builder
@@ -114,8 +112,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
 
   builder.addCase(changeAccountAction, (state, { payload: account }) => ({
     ...state,
-    selectedAccountPublicKeyHash: account.networksKeys[state.selectedNetworkType].publicKeyHash,
-    selectedAccountIndex: account.accountIndex
+    selectedAccountPublicKeyHash: getPublicKeyHash(account, getSelectedNetworkType(state))
   }));
 
   builder.addCase(addNewNetworkAction, (state, { payload: network }) => ({
@@ -123,17 +120,23 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     networks: [...state.networks, network],
     selectedNetworkRpcUrl: network.rpcUrl
   }));
-  builder.addCase(changeNetworkAction, (state, { payload: newSelectedNetwork }) => {
-    const currentAccount =
-      state.accounts.find(account => account.accountIndex === newSelectedNetwork.accountIndex) ?? initialAccount;
+  builder.addCase(changeNetworkAction, (state, { payload: selectedNetworkRpcUrl }) => {
+    const prevNetworkType = getSelectedNetworkType(state);
+    const newNetworkType =
+      state.networks.find(network => network.rpcUrl === selectedNetworkRpcUrl)?.networkType ?? NetworkTypeEnum.Ethereum;
+
+    const selectedAccount =
+      state.accounts.find(account =>
+        account.networksKeys.hasOwnProperty(prevNetworkType)
+          ? account.networksKeys[prevNetworkType].publicKeyHash === state.selectedAccountPublicKeyHash
+          : null
+      ) ?? initialAccount;
 
     return {
       ...state,
-      selectedNetworkRpcUrl: newSelectedNetwork.rpcUrl,
-      selectedNetworkType: newSelectedNetwork.networkType,
-      selectedAccountPublicKeyHash: checkIsNetworkTypeKeyExist(currentAccount, newSelectedNetwork.networkType)
-        ? currentAccount.networksKeys[newSelectedNetwork.networkType].publicKeyHash
-        : ''
+      selectedNetworkRpcUrl,
+      selectedAccountPublicKeyHash: getPublicKeyHash(selectedAccount, newNetworkType),
+      accountsTokens: updateAccountsTokensState({ ...state, selectedNetworkRpcUrl }, selectedAccount)
     };
   });
 });

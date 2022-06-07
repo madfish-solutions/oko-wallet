@@ -17,7 +17,7 @@ export const Networks: React.FC = () => {
   const { createHdAccountForNewNetworkType } = useShelter();
 
   const handleSelectNetwork = ({ rpcUrl, networkType }: NetworkInterface) => {
-    dispatch(changeNetworkAction({ rpcUrl, networkType, accountIndex: selectedAccount.accountIndex }));
+    dispatch(changeNetworkAction(rpcUrl));
 
     if (!checkIsNetworkTypeKeyExist(selectedAccount, networkType)) {
       createHdAccountForNewNetworkType(selectedAccount, networkType);

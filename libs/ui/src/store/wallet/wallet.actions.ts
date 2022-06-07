@@ -1,6 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { AccountToken } from '../../interfaces/account-token.interface';
 import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
@@ -17,11 +16,7 @@ export const setSelectedAccountAction = createAction<string>('wallet/SET_SELECTE
 export const loadGasTokenBalanceAction = createActions<void, string, string>('wallet/LOAD_GAS_TOKEN_BALANCE');
 
 export const addNewNetworkAction = createAction<NetworkInterface>('wallet/ADD_NEW_NETWORK');
-export const changeNetworkAction = createAction<{
-  rpcUrl: string;
-  networkType: NetworkTypeEnum;
-  accountIndex: number;
-}>('wallet/CHANGE_NETWORK');
+export const changeNetworkAction = createAction<string>('wallet/CHANGE_NETWORK');
 
 export const addTokenMetadataAction = createAction<TokenMetadata>('wallet/ADD_TOKEN_METADATA');
 export const changeTokenVisibilityAction = createAction<AccountToken['tokenAddress']>('wallet/CHANGE_TOKEN_VISIBILITY');

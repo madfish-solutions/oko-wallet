@@ -1,4 +1,5 @@
 import { TEZOS_BIP44_COINTYPE } from '../constants/cointype';
+import { NetworkTypeEnum } from '../enums/network-type.enum';
 
 import { getEtherDerivationPath, getTezosDerivationPath } from './derivation-path.utils';
 import { generateEvmHdAccount } from './generate-ethereum-hd-account.util';
@@ -14,7 +15,7 @@ export const generateHdAccount = async (seedPhrase: string, derivationPath: stri
   }
 };
 
-export const derivationPathByNetworkType: Record<string, (accountIndex: number) => string> = {
+export const derivationPathByNetworkType: Record<NetworkTypeEnum, (accountIndex: number) => string> = {
   Ethereum: (accountIndex: number) => getEtherDerivationPath(accountIndex),
   Tezos: (accountIndex: number) => getTezosDerivationPath(accountIndex)
 };
