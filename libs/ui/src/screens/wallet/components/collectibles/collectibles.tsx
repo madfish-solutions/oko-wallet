@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { Text } from 'react-native';
 
 import { Token } from '../../../../interfaces/token.interface';
+import { getTokenSlug } from '../../../../utils/token.utils';
 import { WalletStyles } from '../../wallet.styles';
 
 import { Collectible } from './components/collectible';
@@ -14,7 +15,7 @@ export const Collectibles: FC<Props> = ({ collectibles }) => (
   <>
     {!!collectibles.length && <Text style={WalletStyles.boldText}>All visible NFT's</Text>}
     {collectibles.map(collectible => (
-      <Collectible key={`${collectible.tokenAddress}${collectible.tokenId}`} token={collectible} />
+      <Collectible key={getTokenSlug(collectible)} token={collectible} />
     ))}
   </>
 );

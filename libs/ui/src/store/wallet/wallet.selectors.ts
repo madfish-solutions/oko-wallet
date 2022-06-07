@@ -64,9 +64,9 @@ export const useVisibleAccountTokensSelector = () => {
 };
 
 export const useCollectiblesSelector = () => {
-  const accountTokens = useAccountAssetsSelector();
+  const collectibles = useAccountAssetsSelector();
 
-  return useMemo(() => accountTokens.filter(token => isCollectible(token)), [accountTokens]);
+  return useMemo(() => collectibles.filter(token => isCollectible(token)), [collectibles]);
 };
 
 export const useIsAuthorisedSelector = () => {
