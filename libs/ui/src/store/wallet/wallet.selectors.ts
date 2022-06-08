@@ -13,6 +13,9 @@ import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { WalletRootState, WalletState } from './wallet.state';
 import { getSelectedNetworkType } from './wallet.utils';
 
+export const useSelectedAccountPublicKeyHashSelector = () =>
+  useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedAccountPublicKeyHash);
+
 export const useSelectedNetworkSelector = () =>
   useSelector<WalletRootState, NetworkInterface>(
     ({ wallet }) =>

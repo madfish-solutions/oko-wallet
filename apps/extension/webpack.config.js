@@ -77,7 +77,8 @@ module.exports = {
       util: false,
       url: false,
       zlib: false,
-      ws: false
+      ws: false,
+      os: false
     }
   },
 
