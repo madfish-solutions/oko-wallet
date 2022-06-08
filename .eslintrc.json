@@ -79,7 +79,9 @@
     "@typescript-eslint/ban-ts-comment": "off",
     "jest/no-done-callback": "off",
     "react/jsx-key": "error",
-    "arrow-body-style": "error"
+    "arrow-body-style": "error",
+    "object-shorthand": "error",
+    "no-else-return": "error"
   },
   "globals": {
     "localStorage": true
