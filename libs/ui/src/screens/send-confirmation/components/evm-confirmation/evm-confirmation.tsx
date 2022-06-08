@@ -3,8 +3,7 @@ import { ethers } from 'ethers';
 import React, { FC, useCallback, useState } from 'react';
 import { Text } from 'react-native';
 
-import { Shelter } from '../../../../shelter/shelter';
-import { getDefaultEvmProvider } from '../../../../utils/get-default-evm-provider.utils';
+import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { ConfirmationProps } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
 
@@ -16,25 +15,27 @@ interface Props extends ConfirmationProps {
   transferParams: EvmTransferParams;
 }
 
-export const EvmConfirmation: FC<Props> = ({ network, sender, transferParams }) => {
+export const EvmConfirmation: FC<Props> = ({ network, sender: { publicKey }, transferParams }) => {
+  const { getEvmSigner } = useShelter();
   const { estimations, isLoading } = useEvmEstimations(network);
   const [transactionHash, setTransactionHash] = useState('');
 
   const onSend = useCallback(() => {
-    const provider = getDefaultEvmProvider(network.rpcUrl);
+    if (estimations?.gasPrice) {
+      const transactionParams = {
+        gasPrice: estimations.gasPrice,
+        gasLimit: GAS_LIMIT,
+        to: transferParams.to,
+        value: ethers.utils.parseUnits(transferParams.value as string)
+      };
 
-    Shelter.getEvmSigner$(sender.publicKey, provider).subscribe(async signer => {
-      if (estimations?.gasPrice) {
-        const txSend = await signer.sendTransaction({
-          gasPrice: estimations.gasPrice,
-          gasLimit: GAS_LIMIT,
-          to: transferParams.to,
-          value: ethers.utils.parseUnits(transferParams.value as string)
-        });
-
-        setTransactionHash(txSend.hash);
-      }
-    });
+      getEvmSigner({
+        publicKey,
+        transactionParams,
+        rpcUrl: network.rpcUrl,
+        successCallback: transactionResponse => setTransactionHash(transactionResponse.hash)
+      });
+    }
   }, [estimations]);
 
   return (

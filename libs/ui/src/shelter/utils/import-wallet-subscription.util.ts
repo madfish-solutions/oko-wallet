@@ -2,7 +2,7 @@ import { Dispatch } from '@reduxjs/toolkit';
 import { Subject, switchMap } from 'rxjs';
 
 import { addHdAccountAction, setSelectedAccountAction } from '../../store/wallet/wallet.actions';
-import { ImportWalletParams } from '../import-wallet-params.interface';
+import { ImportWalletParams } from '../interfaces/import-wallet-params.interface';
 import { Shelter } from '../shelter';
 
 export const importWalletSubscription = (importWallet$: Subject<ImportWalletParams>, dispatch: Dispatch) =>

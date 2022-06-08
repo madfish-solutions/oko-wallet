@@ -1,10 +1,8 @@
-import { TransferParams as TezosTransferParams } from '@taquito/taquito/dist/types/operations/types';
+import { TransferParams as TezosTransferParams } from '@taquito/taquito';
 import React, { FC, useCallback, useState } from 'react';
 import { Text } from 'react-native';
 
-import { Shelter } from '../../../../shelter/shelter';
-import { parseTezosTransferParams } from '../../../../utils/parse-tezos-transfer-params.utils';
-import { createTezosToolkit } from '../../../../utils/tezos-toolkit.utils';
+import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { ConfirmationProps } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
 
@@ -15,21 +13,19 @@ interface Props extends ConfirmationProps {
 }
 
 export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }) => {
+  const { getTezosSigner } = useShelter();
   const { estimations, isLoading } = useTezosEstimations({ sender, transferParams, network });
   const [transactionHash, setTransactionHash] = useState('');
 
-  const onSend = useCallback(() => {
-    Shelter.getTezosSigner$().subscribe(async signer => {
-      const tezosToolkit = createTezosToolkit(network.rpcUrl);
-      tezosToolkit.setSignerProvider(signer);
-
-      const txSend = await tezosToolkit.contract
-        .batch(parseTezosTransferParams({ ...transferParams, ...estimations }))
-        .send();
-
-      setTransactionHash(txSend.hash);
-    });
-  }, [estimations]);
+  const onSend = useCallback(
+    () =>
+      getTezosSigner({
+        rpcUrl: network.rpcUrl,
+        transactionParams: { ...transferParams, ...estimations },
+        successCallback: transactionResponse => setTransactionHash(transactionResponse.hash)
+      }),
+    [estimations]
+  );
 
   return (
     <Confirmation

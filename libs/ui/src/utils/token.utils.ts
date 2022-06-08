@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 
 import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { AccountToken } from '../interfaces/account-token.interface';
+import { AccountInterface } from '../interfaces/account.interface';
 import { NetworkInterface } from '../interfaces/network.interface';
 import { Token } from '../interfaces/token.interface';
 
@@ -9,31 +10,31 @@ import { loadEvmGasTokenBalance$, loadEvmTokenBalance$ } from './by-network-type
 import { loadTezosGasTokenBalance$, loadTezosTokenBalance$ } from './by-network-types/token.utils.tezos';
 import { getNetworkType } from './network.util';
 
-export const getGasTokenBalance$ = (network: NetworkInterface, publicKeyHash: string): Observable<string> => {
+export const getGasTokenBalance$ = (network: NetworkInterface, account: AccountInterface): Observable<string> => {
   const networkType = getNetworkType(network);
 
   switch (networkType) {
     case NetworkTypeEnum.Tezos:
-      return loadTezosGasTokenBalance$(network, publicKeyHash);
+      return loadTezosGasTokenBalance$(network, account);
 
     default:
-      return loadEvmGasTokenBalance$(network, publicKeyHash);
+      return loadEvmGasTokenBalance$(network, account.publicKeyHash);
   }
 };
 
 export const getTokenBalance$ = (
   network: NetworkInterface,
-  publicKeyHash: string,
+  account: AccountInterface,
   token: Token
 ): Observable<string> => {
   const networkType = getNetworkType(network);
 
   switch (networkType) {
     case NetworkTypeEnum.Tezos:
-      return loadTezosTokenBalance$(network, publicKeyHash, token);
+      return loadTezosTokenBalance$(network, account, token);
 
     default:
-      return loadEvmTokenBalance$(network, publicKeyHash, token);
+      return loadEvmTokenBalance$(network, account.publicKeyHash, token);
   }
 };
 

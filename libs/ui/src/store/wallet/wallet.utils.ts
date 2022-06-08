@@ -1,13 +1,10 @@
-import { Observable, of } from 'rxjs';
-
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { AccountToken } from '../../interfaces/account-token.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
 import { Token } from '../../interfaces/token.interface';
-import { TransferParams } from '../../interfaces/transfer-params.interface';
 import { getAccountTokensSlug } from '../../utils/address.util';
-import { getNetworkType } from '../../utils/network.utils';
+import { getNetworkType } from '../../utils/network.util';
 import { getTokenSlug } from '../../utils/token.utils';
 
 import { WalletState } from './wallet.state';
@@ -57,10 +54,10 @@ export const updateAccountTokenState = (
   };
 };
 
-export const getTransferParams$ = (
+export const getTransferParams = (
   { receiverPublicKeyHash, amount }: SendAssetPayload,
   selectedNetwork: NetworkInterface
-): Observable<TransferParams> => {
+) => {
   let transferParams;
 
   if (getNetworkType(selectedNetwork) === NetworkTypeEnum.Tezos) {
@@ -75,5 +72,5 @@ export const getTransferParams$ = (
     };
   }
 
-  return of(transferParams);
+  return transferParams;
 };

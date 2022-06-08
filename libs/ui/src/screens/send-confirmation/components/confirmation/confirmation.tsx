@@ -1,3 +1,4 @@
+import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
@@ -10,7 +11,7 @@ interface Props {
   isLoading: boolean;
   transactionHash: string;
   network: NetworkInterface;
-  onSend: () => void;
+  onSend: OnEventFn;
   transferParams: TransferParams;
 }
 

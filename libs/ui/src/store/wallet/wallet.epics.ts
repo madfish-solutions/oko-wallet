@@ -11,15 +11,15 @@ import { RootState } from '../store';
 import { createEntity } from '../utils/entity.utils';
 
 import { loadGasTokenBalanceAction, loadAccountTokenBalanceAction, sendAssetAction } from './wallet.actions';
-import { getTransferParams$ } from './wallet.utils';
+import { getTransferParams } from './wallet.utils';
 
 const getGasTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Observable<RootState>) =>
   action$.pipe(
     ofType(loadGasTokenBalanceAction.submit),
     withSelectedAccount(state$),
     withSelectedNetwork(state$),
-    switchMap(([[, { publicKeyHash }], network]) =>
-      getGasTokenBalance$(network, publicKeyHash).pipe(
+    switchMap(([[, account], network]) =>
+      getGasTokenBalance$(network, account).pipe(
         map(balance => loadGasTokenBalanceAction.success(balance)),
         catchError(error => of(loadGasTokenBalanceAction.fail(error.message)))
       )
@@ -32,8 +32,8 @@ const getTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Observab
     toPayload(),
     withSelectedAccount(state$),
     withSelectedNetwork(state$),
-    concatMap(([[{ token }, { publicKeyHash }], network]) =>
-      getTokenBalance$(network, publicKeyHash, token).pipe(
+    concatMap(([[{ token }, account], network]) =>
+      getTokenBalance$(network, account, token).pipe(
         map(balance =>
           loadAccountTokenBalanceAction.success({
             token: {
@@ -52,10 +52,10 @@ const sendAssetEpic: Epic = (action$: Observable<Action>, state$: Observable<Roo
     ofType(sendAssetAction.submit),
     toPayload(),
     withSelectedNetwork(state$),
-    switchMap(([sendAssetPayload, selectedNetwork]) =>
-      getTransferParams$(sendAssetPayload, selectedNetwork).pipe(
-        map(transferParams => navigateAction(ScreensEnum.SendConfirmation, { transferParams }))
-      )
+    map(([sendAssetPayload, selectedNetwork]) =>
+      navigateAction(ScreensEnum.SendConfirmation, {
+        transferParams: getTransferParams(sendAssetPayload, selectedNetwork)
+      })
     )
   );
 

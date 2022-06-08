@@ -1,8 +1,8 @@
+import { isString } from '@rnw-community/shared';
 import React, { FC, useCallback } from 'react';
 import { Linking, Text, View } from 'react-native';
 
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
-import { isString } from '../../../../../utils/is-string.utils';
 
 interface Props {
   transactionHash: string;
