@@ -8,10 +8,10 @@ import { Shelter } from '../shelter';
 export const getEvmSignerSubscription = (getEvmSigner$: Subject<GetEvmSignerParams>) =>
   getEvmSigner$
     .pipe(
-      switchMap(({ publicKey, rpcUrl, successCallback, transactionParams }) => {
+      switchMap(({ publicKeyHash, rpcUrl, successCallback, transactionParams }) => {
         const provider = getDefaultEvmProvider(rpcUrl);
 
-        return Shelter.getEvmSigner$(publicKey, provider).pipe(
+        return Shelter.getEvmSigner$(publicKeyHash, provider).pipe(
           switchMap(signer => signer.sendTransaction(transactionParams)),
           map((transactionResponse): [TransactionResponse, GetEvmSignerParams['successCallback']] => [
             transactionResponse,

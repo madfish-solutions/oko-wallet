@@ -3,6 +3,7 @@ import React, { FC, useCallback, useState } from 'react';
 import { Text } from 'react-native';
 
 import { useShelter } from '../../../../hooks/use-shelter.hook';
+import { getString } from '../../../../utils/get-string.utils';
 import { ConfirmationProps } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
 
@@ -20,6 +21,7 @@ export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }
   const onSend = useCallback(
     () =>
       getTezosSigner({
+        publicKeyHash: getString(sender.networksKeys[network.networkType]?.publicKeyHash),
         rpcUrl: network.rpcUrl,
         transactionParams: { ...transferParams, ...estimations },
         successCallback: transactionResponse => setTransactionHash(transactionResponse.hash)

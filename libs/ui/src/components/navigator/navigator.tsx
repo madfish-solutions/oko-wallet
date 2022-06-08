@@ -6,6 +6,7 @@ import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { AddNetwork } from '../../screens/add-network/add-network';
 import { AddNewToken } from '../../screens/add-new-token/add-new-token';
+import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
 import { ImportAccount } from '../../screens/import-account/import-account';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
@@ -36,6 +37,7 @@ export const Navigator: FC = () => {
             <Stack.Screen name={ScreensEnum.Send} component={Send} />
             <Stack.Screen name={ScreensEnum.AddNewToken} component={AddNewToken} />
             <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
+            <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
             <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
           </>
         ) : (

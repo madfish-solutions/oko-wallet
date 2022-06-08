@@ -4,6 +4,7 @@ import React, { FC, useCallback, useState } from 'react';
 import { Text } from 'react-native';
 
 import { useShelter } from '../../../../hooks/use-shelter.hook';
+import { getString } from '../../../../utils/get-string.utils';
 import { ConfirmationProps } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
 
@@ -15,7 +16,7 @@ interface Props extends ConfirmationProps {
   transferParams: EvmTransferParams;
 }
 
-export const EvmConfirmation: FC<Props> = ({ network, sender: { publicKey }, transferParams }) => {
+export const EvmConfirmation: FC<Props> = ({ network, sender: { networksKeys }, transferParams }) => {
   const { getEvmSigner } = useShelter();
   const { estimations, isLoading } = useEvmEstimations(network);
   const [transactionHash, setTransactionHash] = useState('');
@@ -30,8 +31,8 @@ export const EvmConfirmation: FC<Props> = ({ network, sender: { publicKey }, tra
       };
 
       getEvmSigner({
-        publicKey,
         transactionParams,
+        publicKeyHash: getString(networksKeys[network.networkType]?.publicKeyHash),
         rpcUrl: network.rpcUrl,
         successCallback: transactionResponse => setTransactionHash(transactionResponse.hash)
       });

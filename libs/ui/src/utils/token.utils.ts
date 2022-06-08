@@ -8,6 +8,7 @@ import { Token } from '../interfaces/token.interface';
 
 import { loadEvmGasTokenBalance$, loadEvmTokenBalance$ } from './by-network-types/token.utils.evm';
 import { loadTezosGasTokenBalance$, loadTezosTokenBalance$ } from './by-network-types/token.utils.tezos';
+import { getString } from './get-string.utils';
 import { getNetworkType } from './network.util';
 
 export const getGasTokenBalance$ = (network: NetworkInterface, account: AccountInterface): Observable<string> => {
@@ -18,7 +19,7 @@ export const getGasTokenBalance$ = (network: NetworkInterface, account: AccountI
       return loadTezosGasTokenBalance$(network, account);
 
     default:
-      return loadEvmGasTokenBalance$(network, account.publicKeyHash);
+      return loadEvmGasTokenBalance$(network, getString(account.networksKeys[network.networkType]?.publicKeyHash));
   }
 };
 
@@ -34,8 +35,10 @@ export const getTokenBalance$ = (
       return loadTezosTokenBalance$(network, account, token);
 
     default:
-      return loadEvmTokenBalance$(network, account.publicKeyHash, token);
+      return loadEvmTokenBalance$(network, getString(account.networksKeys[network.networkType]?.publicKeyHash), token);
   }
 };
 
 export const getTokenSlug = ({ tokenAddress, tokenId }: AccountToken) => `${tokenAddress}_${tokenId ?? '0'}`;
+
+export const isCollectible = (asset: Token) => asset.artifactUri !== undefined && asset.artifactUri !== null;

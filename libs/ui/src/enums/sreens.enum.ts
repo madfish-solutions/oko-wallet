@@ -10,6 +10,7 @@ export enum ScreensEnum {
   SendConfirmation = 'SendConfirmation',
   Settings = 'Settings',
   Wallet = 'Wallet',
+  ConnectToDapps = 'ConnectToDapps',
   Unlock = 'unlock'
 }
 
@@ -25,5 +26,6 @@ export type ScreensParamList = {
   };
   [ScreensEnum.Settings]: undefined;
   [ScreensEnum.Wallet]: undefined;
+  [ScreensEnum.ConnectToDapps]: undefined;
   [ScreensEnum.Unlock]: undefined;
 };

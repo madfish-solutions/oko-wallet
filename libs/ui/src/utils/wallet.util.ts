@@ -5,15 +5,22 @@ import { AccountInterface } from '../interfaces/account.interface';
 import { NetworkInterface } from '../interfaces/network.interface';
 import { initialAccount } from '../mocks/account.interface.mock';
 import { WalletRootState } from '../store/wallet/wallet.state';
+import { getSelectedNetworkType } from '../store/wallet/wallet.utils';
 
 export const withSelectedAccount =
   <T>(state$: Observable<WalletRootState>) =>
   (observable$: Observable<T>) =>
     observable$.pipe(
       withLatestFrom(state$, (value, { wallet }): [T, AccountInterface] => {
-        const { selectedAccountPublicKeyHash, accounts } = wallet;
+        const { accounts, selectedAccountPublicKeyHash } = wallet;
+
+        const selectedNetworkType = getSelectedNetworkType(wallet);
         const selectedAccount =
-          accounts.find(account => account.publicKeyHash === selectedAccountPublicKeyHash) ?? initialAccount;
+          accounts.find(({ networksKeys }) =>
+            networksKeys.hasOwnProperty(selectedNetworkType)
+              ? networksKeys[selectedNetworkType]?.publicKeyHash === selectedAccountPublicKeyHash
+              : null
+          ) ?? initialAccount;
 
         return [value, selectedAccount];
       })
@@ -25,8 +32,15 @@ export const withSelectedNetwork =
     observable$.pipe(
       withLatestFrom(state$, (value, { wallet }): [T, NetworkInterface] => {
         const selectedNetwork =
-          wallet.networks.find(network => network.rpcUrl === wallet.selectedNetworkRpcUrl) ?? NETWORKS_DEFAULT_LIST[0];
+          wallet.networks.find(({ rpcUrl }) => rpcUrl === wallet.selectedNetworkRpcUrl) ?? NETWORKS_DEFAULT_LIST[0];
 
         return [value, selectedNetwork];
       })
+    );
+
+export const withSelectedPublicKeyHash =
+  <T>(state$: Observable<WalletRootState>) =>
+  (observable$: Observable<T>) =>
+    observable$.pipe(
+      withLatestFrom(state$, (value, { wallet }): [T, string] => [value, wallet.selectedAccountPublicKeyHash])
     );
