@@ -15,18 +15,22 @@ interface UseEstimationsArgs extends ConfirmationProps {
   transferParams: TezosTransferParams;
 }
 
-export const useTezosEstimations = ({ sender, transferParams, network }: UseEstimationsArgs) => {
+export const useTezosEstimations = ({
+  sender,
+  transferParams,
+  network: { rpcUrl, networkType }
+}: UseEstimationsArgs) => {
   const [estimations, setEstimations] = useState<EstimationInterface[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const tezosToolkit = createReadOnlyTezosToolkit(network.rpcUrl, sender);
+    const tezosToolkit = createReadOnlyTezosToolkit(rpcUrl, sender);
 
     const subscription = from(
       tezosToolkit.estimate.batch(
         parseTezosTransferParams(transferParams).map(param => ({
           ...param,
-          source: getPublicKeyHash(sender, network.networkType)
+          source: getPublicKeyHash(sender, networkType)
         }))
       )
     )
@@ -46,7 +50,7 @@ export const useTezosEstimations = ({ sender, transferParams, network }: UseEsti
       });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [rpcUrl, sender]);
 
   return useMemo(() => ({ estimations, isLoading }), [estimations, isLoading]);
 };

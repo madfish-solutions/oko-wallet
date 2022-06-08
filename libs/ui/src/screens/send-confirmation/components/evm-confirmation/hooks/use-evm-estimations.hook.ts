@@ -5,12 +5,12 @@ import { from } from 'rxjs';
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
 import { getDefaultEvmProvider } from '../../../../../utils/get-default-evm-provider.utils';
 
-export const useEvmEstimations = (network: NetworkInterface) => {
+export const useEvmEstimations = ({ rpcUrl }: NetworkInterface) => {
   const [estimations, setEstimations] = useState<FeeData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const provider = getDefaultEvmProvider(network.rpcUrl);
+    const provider = getDefaultEvmProvider(rpcUrl);
 
     const subscription = from(provider.getFeeData()).subscribe(value => {
       setIsLoading(false);
@@ -21,7 +21,7 @@ export const useEvmEstimations = (network: NetworkInterface) => {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [rpcUrl]);
 
   return useMemo(() => ({ estimations, isLoading }), [estimations, isLoading]);
 };
