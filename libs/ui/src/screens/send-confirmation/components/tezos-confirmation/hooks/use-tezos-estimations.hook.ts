@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { from, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { getString } from '../../../../../utils/get-string.utils';
+import { getPublicKeyHash } from '../../../../../store/wallet/wallet.utils';
 import { parseTezosTransferParams } from '../../../../../utils/parse-tezos-transfer-params.utils';
 import { createReadOnlyTezosToolkit } from '../../../../../utils/tezos-toolkit.utils';
 import { ConfirmationProps } from '../../../types';
@@ -26,7 +26,7 @@ export const useTezosEstimations = ({ sender, transferParams, network }: UseEsti
       tezosToolkit.estimate.batch(
         parseTezosTransferParams(transferParams).map(param => ({
           ...param,
-          source: getString(sender.networksKeys[network.networkType]?.publicKeyHash)
+          source: getPublicKeyHash(sender, network.networkType)
         }))
       )
     )

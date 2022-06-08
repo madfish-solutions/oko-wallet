@@ -106,19 +106,15 @@ export const getTransferParams = (
   { receiverPublicKeyHash, amount }: SendAssetPayload,
   selectedNetwork: NetworkInterface
 ) => {
-  let transferParams;
-
   if (getNetworkType(selectedNetwork) === NetworkTypeEnum.Tezos) {
-    transferParams = {
+    return {
       to: receiverPublicKeyHash,
       amount: Number(amount)
     };
-  } else {
-    transferParams = {
-      to: receiverPublicKeyHash,
-      value: amount
-    };
   }
 
-  return transferParams;
+  return {
+    to: receiverPublicKeyHash,
+    value: amount
+  };
 };

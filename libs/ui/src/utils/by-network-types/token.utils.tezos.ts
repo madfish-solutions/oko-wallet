@@ -31,11 +31,11 @@ export const loadTezosTokenBalance$ = (
     switchMap(contract => {
       if (tezosTokenType === TezosTokenTypeEnum.FA_1_2) {
         return contract.views.getBalance(publicKeyHash).read();
-      } else {
-        return from(contract.views.balance_of([{ owner: publicKeyHash, token_id: tokenId }]).read()).pipe(
-          map(response => response[0].balance.toString())
-        );
       }
+
+      return from(contract.views.balance_of([{ owner: publicKeyHash, token_id: tokenId }]).read()).pipe(
+        map(response => response[0].balance.toString())
+      );
     })
   );
 };

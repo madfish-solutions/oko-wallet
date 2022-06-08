@@ -80,7 +80,8 @@
     "jest/no-done-callback": "off",
     "react/jsx-key": "error",
     "arrow-body-style": "error",
-    "object-shorthand": "error"
+    "object-shorthand": "error",
+    "no-else-return": "error"
   },
   "globals": {
     "localStorage": true

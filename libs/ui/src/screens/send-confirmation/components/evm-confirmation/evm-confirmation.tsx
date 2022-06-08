@@ -8,9 +8,8 @@ import { getString } from '../../../../utils/get-string.utils';
 import { ConfirmationProps } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
 
+import { GAS_LIMIT } from './constants/ethereum-gas-limit';
 import { useEvmEstimations } from './hooks/use-evm-estimations.hook';
-
-const GAS_LIMIT = 21000;
 
 interface Props extends ConfirmationProps {
   transferParams: EvmTransferParams;
