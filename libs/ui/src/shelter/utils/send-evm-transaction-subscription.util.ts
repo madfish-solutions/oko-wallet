@@ -5,8 +5,8 @@ import { getDefaultEvmProvider } from '../../utils/get-default-evm-provider.util
 import { GetEvmSignerParams } from '../interfaces/get-evm-signer-params.interface';
 import { Shelter } from '../shelter';
 
-export const getEvmSignerSubscription = (getEvmSigner$: Subject<GetEvmSignerParams>) =>
-  getEvmSigner$
+export const sendEvmTransactionSubscription = (sendEvmTransaction$: Subject<GetEvmSignerParams>) =>
+  sendEvmTransaction$
     .pipe(
       switchMap(({ publicKeyHash, rpcUrl, successCallback, transactionParams }) => {
         const provider = getDefaultEvmProvider(rpcUrl);

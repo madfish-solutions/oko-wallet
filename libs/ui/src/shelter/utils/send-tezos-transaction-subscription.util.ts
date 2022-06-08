@@ -6,8 +6,8 @@ import { createTezosToolkit } from '../../utils/tezos-toolkit.utils';
 import { GetTezosSignerParams } from '../interfaces/get-tezos-signer-params.interface';
 import { Shelter } from '../shelter';
 
-export const getTezosSignerSubscription = (getTezosSigner$: Subject<GetTezosSignerParams>) =>
-  getTezosSigner$
+export const sendTezosTransactionSubscription = (sendTezosTransaction$: Subject<GetTezosSignerParams>) =>
+  sendTezosTransaction$
     .pipe(
       switchMap(({ rpcUrl, successCallback, transactionParams, publicKeyHash }) =>
         Shelter.getTezosSigner$(publicKeyHash).pipe(
