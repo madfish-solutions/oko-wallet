@@ -14,7 +14,6 @@
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.2",
     "@reduxjs/toolkit": "^1.8.1",
-    "@rnw-community/platform": "^0.10.0",
     "@rnw-community/shared": "^0.10.0",
     "@taquito/signer": "^12.1.1",
     "@taquito/taquito": "^12.1.1",
