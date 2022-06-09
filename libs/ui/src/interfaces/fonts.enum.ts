@@ -3,5 +3,5 @@ export enum FontsEnum {
   interBold = 'Inter-Bold',
   interSemiBold = 'Inter-SemiBold',
   ibmPlexSansBold = 'IBMPlexSans-Bold',
-  ibmPlexSansMedium = 'Rubik-Medium'
+  ibmPlexSansMedium = 'IBMPlexSans-Medium'
 }
