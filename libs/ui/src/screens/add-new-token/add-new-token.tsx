@@ -27,7 +27,7 @@ export const AddNewToken: FC = () => {
         thumbnailUri,
         decimals: Number(decimals),
         tokenId: tokenId || undefined,
-        artifactUri,
+        artifactUri: artifactUri || undefined,
         tezosTokenType: tezosTokenType || undefined
       })
     );
