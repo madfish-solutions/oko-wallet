@@ -13,5 +13,14 @@ export const AccountTokensStyles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10
+  },
+  switchButton: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+  image: {
+    width: 40,
+    height: 40
   }
 });

@@ -1,14 +1,17 @@
 import React, { FC, useMemo, useState } from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-import { useVisibleAccountTokensSelector } from '../../../../store/wallet/wallet.selectors';
+import { useCollectiblesSelector, useVisibleAccountTokensSelector } from '../../../../store/wallet/wallet.selectors';
 import { AccountTokensList } from '../account-tokens-list/account-tokens-list';
+import { Collectibles } from '../collectibles/collectibles';
 
 import { AccountTokensStyles } from './account-tokens.styles';
 
 export const AccountTokens: FC = () => {
   const visibleAccountTokens = useVisibleAccountTokensSelector();
   const [inputNameSearch, setInputNameSearch] = useState('');
+  const [isTokensShow, setIsTokensShow] = useState(true);
+  const collectibles = useCollectiblesSelector();
 
   const accountTokens = useMemo(() => {
     if (inputNameSearch && visibleAccountTokens.length) {
@@ -31,7 +34,23 @@ export const AccountTokens: FC = () => {
         value={inputNameSearch}
         placeholder="Find token..."
       />
-      {accountTokens.length ? <AccountTokensList accountTokens={accountTokens} /> : <Text>Tokens not found!</Text>}
+      <View style={AccountTokensStyles.switchButton}>
+        <TouchableOpacity onPress={() => setIsTokensShow(true)}>
+          <Text>Tokens</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setIsTokensShow(false)}>
+          <Text>Collectibles</Text>
+        </TouchableOpacity>
+      </View>
+      {accountTokens.length ? (
+        isTokensShow ? (
+          <AccountTokensList accountTokens={accountTokens} />
+        ) : (
+          <Collectibles collectibles={collectibles} />
+        )
+      ) : (
+        <Text>Tokens not found!</Text>
+      )}
     </View>
   );
 };

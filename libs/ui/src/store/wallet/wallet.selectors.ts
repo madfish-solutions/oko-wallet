@@ -9,9 +9,13 @@ import { Token } from '../../interfaces/token.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
+import { isCollectible } from '../../utils/token.utils';
 
 import { WalletRootState, WalletState } from './wallet.state';
 import { getSelectedNetworkType } from './wallet.utils';
+
+export const useSelectedAccountPublicKeyHashSelector = () =>
+  useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedAccountPublicKeyHash);
 
 export const useSelectedNetworkSelector = () =>
   useSelector<WalletRootState, NetworkInterface>(
@@ -52,7 +56,7 @@ export const useSelectedAccountPkhSelector = () =>
 export const useAllAccountsSelector = () =>
   useSelector<WalletRootState, WalletState['accounts']>(({ wallet }) => wallet.accounts);
 
-export const useAccountTokensSelector = () =>
+export const useAccountAssetsSelector = () =>
   useSelector<WalletRootState, Token[]>(
     ({ wallet: { accountsTokens, selectedAccountPublicKeyHash, tokensMetadata, selectedNetworkRpcUrl } }) => {
       const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
@@ -74,10 +78,22 @@ export const useAccountTokensSelector = () =>
     }
   );
 
+export const useAccountTokensSelector = () => {
+  const assets = useAccountAssetsSelector();
+
+  return useMemo(() => assets.filter(token => !isCollectible(token)), [assets]);
+};
+
 export const useVisibleAccountTokensSelector = () => {
   const accountTokens = useAccountTokensSelector();
 
   return useMemo(() => accountTokens.filter(({ isVisible }) => isVisible), [accountTokens]);
+};
+
+export const useCollectiblesSelector = () => {
+  const assets = useAccountAssetsSelector();
+
+  return useMemo(() => assets.filter(token => isCollectible(token)), [assets]);
 };
 
 export const useIsAuthorisedSelector = () => {
