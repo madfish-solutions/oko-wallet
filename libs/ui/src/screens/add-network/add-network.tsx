@@ -29,9 +29,9 @@ export const AddNetwork: FC = () => {
     Object.values(values).every(field => {
       if (typeof field === 'string') {
         return field.trim() !== undefined && field.trim() !== '';
-      } else {
-        return field !== undefined;
       }
+
+      return field !== undefined;
     });
 
   const handleSelectNetworkType = (newNetworkType: NetworkTypeEnum) => {

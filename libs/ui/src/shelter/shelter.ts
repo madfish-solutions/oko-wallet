@@ -1,5 +1,8 @@
+import { Provider } from '@ethersproject/abstract-provider';
 import { isDefined } from '@rnw-community/shared';
+import { InMemorySigner } from '@taquito/signer';
 import { generateMnemonic } from 'bip39';
+import { ethers } from 'ethers';
 import { forkJoin, of, switchMap, Observable, from, BehaviorSubject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -80,7 +83,7 @@ export class Shelter {
 
                 return {
                   privateData: {
-                    [publicKey]: privateKey
+                    [address]: privateKey
                   },
                   publicData: {
                     name,
@@ -141,4 +144,13 @@ export class Shelter {
       )
     );
   };
+
+  private static revealPrivateKey$ = (publicKeyHash: string) =>
+    Shelter.decryptSensitiveData$(publicKeyHash, Shelter._passwordHash$.getValue());
+
+  static getEvmSigner$ = (publicKeyHash: string, provider: Provider) =>
+    Shelter.revealPrivateKey$(publicKeyHash).pipe(map(privateKey => new ethers.Wallet(privateKey, provider)));
+
+  static getTezosSigner$ = (publicKeyHash: string) =>
+    Shelter.revealPrivateKey$(publicKeyHash).pipe(map(privateKey => new InMemorySigner(privateKey)));
 }
