@@ -3,7 +3,7 @@ import { FontsEnum } from '../interfaces/fonts.enum';
 export const typography = {
   headlineInterBold34: {
     fontFamily: FontsEnum.interBold,
-    fontSize: 22
+    fontSize: 34
   },
   headlineInterBold28: {
     fontFamily: FontsEnum.interBold,

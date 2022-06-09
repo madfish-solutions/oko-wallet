@@ -18,7 +18,7 @@ export const AccountStyles = StyleSheet.create({
     marginBottom: 24
   },
   selectedAccountName: {
-    ...typography.headlineInterRegular22
+    ...typography.headlineInterBold22
   },
   allAccountsText: {
     textTransform: 'uppercase'

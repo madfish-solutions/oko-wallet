@@ -1,17 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 
 @font-face {
-  font-family: "Inter";
-  /* src: url("./fonts/Inter-Bold.ttf") format('truetype'); */
-  /* src: local('Inter'), url("./fonts/Inter-Bold.ttf") format('ttf'); */
-  src: url("./fonts/Inter-Bold.woff2") format('woff2'), url('./fonts/Inter-Bold.woff') format('woff');
+  font-family: "Inter-Bold";
+  src: url("./fonts/Inter-Bold.ttf") format('truetype');
   font-style: normal;
   font-weight: 700;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Inter";
+  font-family: "Inter-SemiBold";
   src: url("./fonts/Inter-SemiBold.ttf") format('truetype');
   font-style: normal;
   font-weight: 600;
@@ -19,7 +17,7 @@
 }
 
 @font-face {
-  font-family: "Inter";
+  font-family: "Inter-Regular";
   src: url("./fonts/Inter-Regular.ttf") format('truetype');
   font-style: normal;
   font-weight: 400;
@@ -27,15 +25,7 @@
 }
 
 @font-face {
-  font-family: "Inter";
-  src: url("./fonts/Inter-Regular.ttf") format('truetype');
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "IBM Plex Sans";
+  font-family: "IBMPlexSans-Bold";
   src: url("./fonts/IBMPlexSans-Bold.ttf") format('truetype');
   font-style: normal;
   font-weight: 700;
@@ -43,7 +33,7 @@
 }
 
 @font-face {
-  font-family: "IBM Plex Sans";
+  font-family: "IBMPlexSans-Medium";
   src: url("./fonts/IBMPlexSans-Medium.ttf") format('truetype');
   font-style: normal;
   font-weight: 500;
