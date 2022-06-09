@@ -7,4 +7,3 @@ jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter.js');
 import './src/mocks/react-native-async-storage.mock';
 import './src/mocks/react-native-reanimated.mock';
 import './src/mocks/react-native-themis.mock';
-import './src/mocks/rnw-community-platform.mock';
