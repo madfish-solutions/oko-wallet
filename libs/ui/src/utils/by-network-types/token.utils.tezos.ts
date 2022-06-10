@@ -5,18 +5,17 @@ import { TezosTokenTypeEnum } from '../../enums/tezos-token-type.enum';
 import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { Token } from '../../interfaces/token.interface';
-import { convertUnits } from '../convert-units';
 import { getString } from '../get-string.utils';
 import { createReadOnlyTezosToolkit } from '../tezos-toolkit.utils';
 
 export const loadTezosGasTokenBalance$ = (
-  { rpcUrl, gasTokenMetadata: { decimals } }: NetworkInterface,
+  { rpcUrl }: NetworkInterface,
   account: AccountInterface
 ): Observable<string> => {
   const tezosToolkit = createReadOnlyTezosToolkit(rpcUrl, account);
 
   return from(tezosToolkit.tz.getBalance(getString(account.networksKeys[NetworkTypeEnum.Tezos]?.publicKeyHash))).pipe(
-    map(balance => convertUnits(+balance, decimals).toString())
+    map(balance => balance.toString())
   );
 };
 

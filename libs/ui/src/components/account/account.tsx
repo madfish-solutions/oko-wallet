@@ -11,6 +11,7 @@ import {
   useSelectedAccountSelector,
   useSelectedNetworkTypeSelector
 } from '../../store/wallet/wallet.selectors';
+import { getPublicKeyHash } from '../../store/wallet/wallet.utils';
 import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-network-type-key-exist';
 
 import { AccountStyles } from './account.styles';
@@ -42,7 +43,7 @@ export const Account: FC = () => {
         <ScrollView style={AccountStyles.accountsList}>
           {accounts.map(account => {
             const pkh = checkIsNetworkTypeKeyExist(account, selectedNetworkType)
-              ? account.networksKeys[selectedNetworkType]?.publicKeyHash.substring(0, 12)
+              ? getPublicKeyHash(account, selectedNetworkType).substring(0, 12)
               : 'Not generated';
 
             return (
