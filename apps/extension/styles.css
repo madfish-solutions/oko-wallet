@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: "Inter-Bold";
-  src: url("./fonts/Inter-Bold.ttf") format('truetype');
+  src: url("./assets/fonts/Inter-Bold.ttf") format('truetype');
   font-style: normal;
   font-weight: 700;
   font-display: swap;
@@ -10,7 +10,7 @@
 
 @font-face {
   font-family: "Inter-SemiBold";
-  src: url("./fonts/Inter-SemiBold.ttf") format('truetype');
+  src: url("./assets/fonts/Inter-SemiBold.ttf") format('truetype');
   font-style: normal;
   font-weight: 600;
   font-display: swap;
@@ -18,7 +18,7 @@
 
 @font-face {
   font-family: "Inter-Regular";
-  src: url("./fonts/Inter-Regular.ttf") format('truetype');
+  src: url("./assets/fonts/Inter-Regular.ttf") format('truetype');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -26,7 +26,7 @@
 
 @font-face {
   font-family: "IBMPlexSans-Bold";
-  src: url("./fonts/IBMPlexSans-Bold.ttf") format('truetype');
+  src: url("./assets/fonts/IBMPlexSans-Bold.ttf") format('truetype');
   font-style: normal;
   font-weight: 700;
   font-display: swap;
@@ -34,7 +34,7 @@
 
 @font-face {
   font-family: "IBMPlexSans-Medium";
-  src: url("./fonts/IBMPlexSans-Medium.ttf") format('truetype');
+  src: url("./assets/fonts/IBMPlexSans-Medium.ttf") format('truetype');
   font-style: normal;
   font-weight: 500;
   font-display: swap;
