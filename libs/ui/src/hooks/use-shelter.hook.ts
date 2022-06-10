@@ -36,7 +36,7 @@ export const useShelter = () => {
       createHdAccountSubscription({
         createHdAccount$,
         networkType,
-        accountsLength: accounts.length,
+        accountIndex: accounts.length,
         dispatch
       }),
       createHdAccountForNewNetworkTypeSubscription({

@@ -7,7 +7,7 @@ import { Shelter } from '../shelter';
 export const createHdAccountSubscription = ({
   createHdAccount$,
   networkType,
-  accountsLength: accountIndex,
+  accountIndex,
   dispatch
 }: CreateHdAccountType) =>
   createHdAccount$.pipe(switchMap(() => Shelter.createHdAccount$(networkType, accountIndex))).subscribe(account => {
