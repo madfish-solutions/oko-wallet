@@ -1,5 +1,6 @@
+import { NetworkGroupEnum } from '../enums/network-group.enum';
 import { NetworkTypeEnum } from '../enums/network-type.enum';
-import { NetworkChainIdsByNetworkType, NetworkInterface } from '../interfaces/network.interface';
+import { NetworkChainIdsByNetworkGroup, NetworkInterface } from '../interfaces/network.interface';
 import { createEntity } from '../store/utils/entity.utils';
 
 export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
@@ -85,8 +86,8 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
 
 export const DEFAULT_NETWORK_TYPE: NetworkTypeEnum = NetworkTypeEnum.EVM;
 
-export const NETWORK_CHAIN_IDS_BY_NETWORK_TYPE: NetworkChainIdsByNetworkType = {
-  [NetworkTypeEnum.Tezos]: [
+export const NETWORK_CHAIN_IDS_BY_NETWORK_GROUP: NetworkChainIdsByNetworkGroup = {
+  [NetworkGroupEnum.Tezos]: [
     'NetXdQprcVkpaWU',
     'NetXjD3HPJJjmcd',
     'NetXm8tYqnMWky1',
@@ -97,5 +98,21 @@ export const NETWORK_CHAIN_IDS_BY_NETWORK_TYPE: NetworkChainIdsByNetworkType = {
     'NetXbhmtAbMukLc',
     'NetXnHfVqm9iesp',
     'NetXLH1uAxK7CCh'
+  ],
+  [NetworkGroupEnum.Klaytn]: [
+    '8217', //Klaytn mainnet
+    '1001' //Baobab
+  ],
+  [NetworkGroupEnum.BSC]: [
+    '56', //Smart Chain
+    '97' //Smart Chain - Testnet
   ]
 };
+
+export const ETHERSCAN_SUPPORTED_NETWORKS_CHAIN_IDS = [
+  '1', //homestead,
+  '3', //ropsten,
+  '4', //rinkeby
+  '5', //goerli
+  '42' //kovan
+];

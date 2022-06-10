@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 
 import { AccountInterface } from '../../interfaces/account.interface';
+import { ActivityItem } from '../../interfaces/activity-item.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { AccountTokenInput } from '../../interfaces/token-input.interface';
 import { Token } from '../../interfaces/token.interface';
@@ -22,3 +23,5 @@ export const addNewNetworkAction = createAction<NetworkInterface>('wallet/ADD_NE
 
 export const addTokenMetadataAction = createAction<AccountTokenInput>('wallet/ADD_TOKEN_METADATA');
 export const changeTokenVisibilityAction = createAction<Token>('wallet/CHANGE_TOKEN_VISIBILITY');
+
+export const loadActivityAction = createActions<void, ActivityItem[], string>('wallet/LOAD_ACTIVITY');

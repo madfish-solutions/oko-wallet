@@ -3,7 +3,11 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { NetworkInterface } from '../../interfaces/network.interface';
-import { changeSelectedNetworkAction, loadGasTokenBalanceAction } from '../../store/wallet/wallet.actions';
+import {
+  changeSelectedNetworkAction,
+  loadGasTokenBalanceAction,
+  loadActivityAction
+} from '../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
 
 import { NetworksStyles } from './networks.styles';
@@ -20,6 +24,7 @@ export const Networks: React.FC = () => {
 
   useEffect(() => {
     dispatch(loadGasTokenBalanceAction.submit());
+    dispatch(loadActivityAction.submit());
   }, [selectedNetwork.rpcUrl]);
 
   return (

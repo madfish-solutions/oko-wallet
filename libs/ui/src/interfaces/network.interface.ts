@@ -1,4 +1,4 @@
-import { NetworkTypeEnum } from '../enums/network-type.enum';
+import { NetworkGroupEnum } from '../enums/network-group.enum';
 import { LoadableEntityState } from '../store/interfaces/loadable-entity-state.interface';
 
 import { GasTokenMetadata } from './token.interface';
@@ -12,6 +12,6 @@ export interface NetworkInterface {
   explorerUrl?: string;
 }
 
-export type NetworkChainIdsByNetworkType = Partial<{
-  [networkType in NetworkTypeEnum]: string[];
+export type NetworkChainIdsByNetworkGroup = Partial<{
+  [networkType in NetworkGroupEnum]: string[];
 }>;
