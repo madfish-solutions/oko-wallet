@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { loadGasTokenBalanceAction } from '../../store/wallet/wallet.actions';
 import { useSelectedAccountPkhSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
-import { convertUnits } from '../../utils/convert-units';
+import { formatUnits } from '../../utils/units.utils';
 import { Networks } from '../networks/networks';
 
 import { GasTokenBalanceStyles } from './gas-token-balance.styles';
@@ -23,7 +23,7 @@ export const GasTokenBalance: FC = () => {
   }, [selectedNetwork.rpcUrl, pkh]);
 
   const gasTokenBalanceWithLoading = useMemo(
-    () => (isLoading ? '...' : `${convertUnits(balance, decimals)} ${symbol}`),
+    () => (isLoading ? '...' : `${formatUnits(balance, decimals)} ${symbol}`),
     [isLoading]
   );
 
