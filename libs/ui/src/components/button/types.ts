@@ -1,3 +1,6 @@
-import { colorScheme } from './constants/color-scheme';
+import { FC, SVGProps } from 'react';
 
-export type ButtonColor = keyof typeof colorScheme;
+import { themes } from './constants/themes';
+
+export type Theme = keyof typeof themes;
+export type Icon = FC<SVGProps<SVGElement>>;

@@ -1,25 +1,25 @@
-import React, { FC, useMemo, SVGProps } from 'react';
+import React, { FC } from 'react';
 import { Pressable, PressableProps, Text, View } from 'react-native';
 
-import { buttonStyles } from './button.styles';
-import { ButtonColor } from './types';
+import { styles as buttonStyles } from './button.styles';
+import { Theme, Icon } from './types';
 
 interface Props extends PressableProps {
   title: string;
-  color?: ButtonColor;
-  RightIcon?: FC<SVGProps<SVGElement>>;
-  LeftIcon?: FC<SVGProps<SVGElement>>;
+  theme?: Theme;
+  RightIcon?: Icon;
+  LeftIcon?: Icon;
 }
 
-export const Button: FC<Props> = ({ title, color = 'grey', RightIcon, LeftIcon, ...restProps }) => {
-  const ButtonStyles = useMemo(() => buttonStyles(color), [color]);
+export const Button: FC<Props> = ({ title, theme = 'primary', RightIcon, LeftIcon, ...restProps }) => {
+  const styles = buttonStyles(theme);
 
   return (
-    <Pressable {...restProps} style={ButtonStyles.container}>
-      <View style={ButtonStyles.contentWrapper}>
-        {LeftIcon && <LeftIcon style={ButtonStyles.leftIcon} />}
-        <Text style={ButtonStyles.text}>{title}</Text>
-        {RightIcon && <RightIcon style={ButtonStyles.rightIcon} />}
+    <Pressable {...restProps} style={styles.root}>
+      <View style={styles.wrapper}>
+        {LeftIcon && <LeftIcon style={styles.leftIcon} />}
+        <Text style={styles.text}>{title}</Text>
+        {RightIcon && <RightIcon style={styles.rightIcon} />}
       </View>
     </Pressable>
   );

@@ -1,21 +1,23 @@
 import { StyleSheet } from 'react-native';
 
-import { colorScheme } from './constants/color-scheme';
-import { ButtonColor } from './types';
+import { getCustomSize } from '../../styles/format-size';
 
-export const buttonStyles = (buttonColor: ButtonColor) => {
-  const { backgroundColor, color } = colorScheme[buttonColor];
+import { themes } from './constants/themes';
+import { Theme } from './types';
+
+export const styles = (theme: Theme) => {
+  const { backgroundColor, color } = themes[theme];
 
   return StyleSheet.create({
-    container: {
+    root: {
       backgroundColor,
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      borderRadius: 4,
-      paddingVertical: 15
+      borderRadius: getCustomSize(0.5),
+      paddingVertical: getCustomSize(1.875)
     },
-    contentWrapper: {
+    wrapper: {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center'
@@ -26,10 +28,10 @@ export const buttonStyles = (buttonColor: ButtonColor) => {
       // ...taglineInterSemiBoldUppercase13
     },
     rightIcon: {
-      marginLeft: 10
+      marginLeft: getCustomSize(1.25)
     },
     leftIcon: {
-      marginRight: 10
+      marginRight: getCustomSize(1.25)
     }
   });
 };
