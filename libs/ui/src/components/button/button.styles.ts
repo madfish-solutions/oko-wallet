@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 import { getCustomSize } from '../../styles/format-size';
+import { typography } from '../../styles/typography';
 
 import { themes } from './constants/themes';
 import { Theme } from './types';
@@ -23,9 +24,8 @@ export const styles = (theme: Theme) => {
       justifyContent: 'center'
     },
     text: {
-      color
-      // TODO uncomment when fonts will be merged
-      // ...taglineInterSemiBoldUppercase13
+      color,
+      ...typography.taglineInterSemiBoldUppercase13
     },
     rightIcon: {
       marginLeft: getCustomSize(1.25)
