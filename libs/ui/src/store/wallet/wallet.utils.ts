@@ -4,10 +4,12 @@ import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { AccountToken } from '../../interfaces/account-token.interface';
 import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
+import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
 import { Token } from '../../interfaces/token.interface';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-network-type-key-exist';
 import { getString } from '../../utils/get-string.utils';
+import { getNetworkType } from '../../utils/network.util';
 import { getTokenSlug } from '../../utils/token.utils';
 import { createEntity } from '../utils/entity.utils';
 
@@ -99,3 +101,20 @@ export const getPublicKeyHash = (account: AccountInterface, networkType: Network
 
 export const getCurrentNetworkChainId = (rpcUrl: string) =>
   NETWORKS_DEFAULT_LIST.find(network => network.rpcUrl === rpcUrl)?.chainId ?? NETWORKS_DEFAULT_LIST[0].chainId;
+
+export const getTransferParams = (
+  { receiverPublicKeyHash, amount }: SendAssetPayload,
+  selectedNetwork: NetworkInterface
+) => {
+  if (getNetworkType(selectedNetwork) === NetworkTypeEnum.Tezos) {
+    return {
+      to: receiverPublicKeyHash,
+      amount: Number(amount)
+    };
+  }
+
+  return {
+    to: receiverPublicKeyHash,
+    value: amount
+  };
+};

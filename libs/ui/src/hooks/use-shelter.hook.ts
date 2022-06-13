@@ -4,12 +4,16 @@ import { EMPTY, Subject } from 'rxjs';
 
 import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { AccountInterface } from '../interfaces/account.interface';
-import { ImportWalletParams } from '../shelter/import-wallet-params.interface';
+import { GetEvmSignerParams } from '../shelter/interfaces/get-evm-signer-params.interface';
+import { GetTezosSignerParams } from '../shelter/interfaces/get-tezos-signer-params.interface';
+import { ImportWalletParams } from '../shelter/interfaces/import-wallet-params.interface';
 import {
   createHdAccountSubscription,
   createHdAccountForNewNetworkTypeSubscription
 } from '../shelter/utils/create-hd-account-subscription.util';
 import { importWalletSubscription } from '../shelter/utils/import-wallet-subscription.util';
+import { sendEvmTransactionSubscription } from '../shelter/utils/send-evm-transaction-subscription.util';
+import { sendTezosTransactionSubscription } from '../shelter/utils/send-tezos-transaction-subscription.util';
 import { useAllAccountsSelector, useSelectedNetworkTypeSelector } from '../store/wallet/wallet.selectors';
 
 export const useShelter = () => {
@@ -18,6 +22,8 @@ export const useShelter = () => {
   const accounts = useAllAccountsSelector();
 
   const importWallet$ = useMemo(() => new Subject<ImportWalletParams>(), []);
+  const sendEvmTransaction$ = useMemo(() => new Subject<GetEvmSignerParams>(), []);
+  const sendTezosTransaction$ = useMemo(() => new Subject<GetTezosSignerParams>(), []);
   const createHdAccount$ = useMemo(() => new Subject(), []);
   const createHdAccountForNewNetworkType$ = useMemo(
     () => new Subject<{ account: AccountInterface; networkType: NetworkTypeEnum }>(),
@@ -30,17 +36,19 @@ export const useShelter = () => {
       createHdAccountSubscription({
         createHdAccount$,
         networkType,
-        accountsLength: accounts.length,
+        accountIndex: accounts.length,
         dispatch
       }),
       createHdAccountForNewNetworkTypeSubscription({
         createHdAccount$: createHdAccountForNewNetworkType$,
         dispatch
-      })
+      }),
+      sendEvmTransactionSubscription(sendEvmTransaction$),
+      sendTezosTransactionSubscription(sendTezosTransaction$)
     ];
 
     return () => subscriptions.forEach(subscription => subscription.unsubscribe());
-  }, [dispatch, importWallet$, createHdAccount$, createHdAccountForNewNetworkType$, accounts, networkType]);
+  }, [accounts, networkType]);
 
   const importWallet = useCallback((params: ImportWalletParams) => importWallet$.next(params), [importWallet$]);
   const createHdAccount = () => createHdAccount$.next(EMPTY);
@@ -49,10 +57,20 @@ export const useShelter = () => {
       createHdAccountForNewNetworkType$.next({ account, networkType }),
     [createHdAccount$]
   );
+  const getEvmSigner = useCallback(
+    (params: GetEvmSignerParams) => sendEvmTransaction$.next(params),
+    [sendEvmTransaction$]
+  );
+  const getTezosSigner = useCallback(
+    (params: GetTezosSignerParams) => sendTezosTransaction$.next(params),
+    [sendTezosTransaction$]
+  );
 
   return {
     importWallet,
     createHdAccount,
-    createHdAccountForNewNetworkType
+    createHdAccountForNewNetworkType,
+    getEvmSigner,
+    getTezosSigner
   };
 };

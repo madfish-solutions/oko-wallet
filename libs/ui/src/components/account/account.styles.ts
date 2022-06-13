@@ -24,8 +24,6 @@ export const AccountStyles = StyleSheet.create({
     textTransform: 'uppercase'
   },
   accountsList: {
-    maxHeight: 200,
-    height: '100%',
     marginTop: 4
   },
   account: {
