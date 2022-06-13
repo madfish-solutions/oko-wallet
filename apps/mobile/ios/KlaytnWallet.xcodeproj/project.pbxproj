@@ -16,6 +16,7 @@
 		7699B88040F8A987B510C191 /* libPods-KlaytnWallet-KlaytnWalletTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-KlaytnWallet-KlaytnWalletTests.a */; };
 		7CDB2E6D6F36403E96063F0E /* IBMPlexSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0140F1E0FC034FC3BB6C9A5A /* IBMPlexSans-Medium.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		D4C45830C59924C01F44DD12 /* libPods-KlaytnWallet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-KlaytnWallet.a */; };
 		D958CE21568E485C8E79CFE2 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 61B9774BD7A2433983ACC23C /* Inter-Regular.ttf */; };
 		EA83E2C05701443C8AC139A4 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6463F9ABF5DB4D8A83DC595F /* Inter-SemiBold.ttf */; };
 /* End PBXBuildFile section */
@@ -68,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4C45830C59924C01F44DD12 /* libPods-KlaytnWallet.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -587,6 +589,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				"EXCLUDED_ARCHS[sdk=*]" = arm64;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -658,6 +661,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				"EXCLUDED_ARCHS[sdk=*]" = arm64;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

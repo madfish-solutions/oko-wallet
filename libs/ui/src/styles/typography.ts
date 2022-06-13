@@ -1,6 +1,7 @@
 import { FontsEnum } from '../interfaces/fonts.enum';
+import { Typography } from '../interfaces/typography.interface';
 
-export const typography = {
+export const typography: Typography = {
   headlineInterBold34: {
     fontFamily: FontsEnum.interBold,
     fontSize: 34

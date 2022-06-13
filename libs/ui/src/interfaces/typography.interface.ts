@@ -1,8 +1,3 @@
-import { typography } from '../styles/typography';
+import { TextStyle } from 'react-native';
 
-interface FontStyles {
-  fontFamily: string;
-  fontSize: number;
-}
-
-export type Typography = Record<keyof typeof typography, FontStyles>;
+export type Typography = Record<string, TextStyle>;
