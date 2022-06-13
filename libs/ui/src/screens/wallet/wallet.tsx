@@ -3,6 +3,7 @@ import { ScrollView, View } from 'react-native';
 
 import { Account } from '../../components/account/account';
 import { GasTokenBalance } from '../../components/gas-token-balance/gas-token-balance';
+import { Header } from '../../components/header/header';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 
@@ -14,6 +15,7 @@ export const Wallet: FC = () => {
 
   return (
     <View style={WalletStyles.root}>
+      <Header />
       <NavigationBar />
       <ScrollView scrollEnabled={!isLocked}>
         <Account />
