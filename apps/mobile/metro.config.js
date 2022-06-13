@@ -8,6 +8,7 @@ module.exports = {
                 inlineRequires: true,
             },
         }),
+        babelTransformerPath: require.resolve('react-native-svg-transformer')
     },
     watchFolders: [
         path.resolve(__dirname, '../../libs/ui'),
