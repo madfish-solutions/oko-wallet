@@ -1,5 +1,6 @@
-import { isWeb } from '@rnw-community/platform';
 import { StyleSheet } from 'react-native';
+
+import { isWeb } from '../../utils/platform.utils';
 
 export const WalletStyles = StyleSheet.create({
   root: {
