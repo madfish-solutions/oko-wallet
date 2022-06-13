@@ -1,6 +1,14 @@
 const path = require('path');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { getDefaultConfig } = require('metro-config');
 
-module.exports = {
+module.exports = (async () => {
+
+    const {
+        resolver: { sourceExts, assetExts }
+      } = await getDefaultConfig(__dirname);
+    
+      return {
     transformer: {
         getTransformOptions: async () => ({
             transform: {
@@ -27,6 +35,9 @@ module.exports = {
                     return path.join(process.cwd(), `node_modules/${name}`)
                 }
             }
-        )
+        ),
+        assetExts: assetExts.filter(ext => ext !== 'svg'),
+        sourceExts: [...sourceExts, 'svg']
     }
-};
+}
+})();

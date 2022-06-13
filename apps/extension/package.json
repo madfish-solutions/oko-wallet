@@ -17,6 +17,7 @@
     "@taquito/taquito": "^12.1.1",
     "@taquito/utils": "^12.1.0",
     "@walletconnect/client": "^1.7.8",
+    "babel-loader": "^8.2.5",
     "bignumber.js": "^9.0.2",
     "bip39": "^3.0.4",
     "buffer": "^6.0.3",
@@ -38,6 +39,7 @@
     "wasm-themis": "^0.14.5"
   },
   "devDependencies": {
+    "@dr.pogodin/babel-preset-svgr": "^1.4.1",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
     "@types/node": "^16.11.27",

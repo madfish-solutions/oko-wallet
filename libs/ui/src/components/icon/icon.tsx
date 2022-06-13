@@ -16,11 +16,8 @@ export interface IconProps {
   style?: ViewStyle;
 }
 
-export const Icon: FC<IconProps> = ({ name, size = getCustomSize(3), width = size, height = size, color }) => {
+export const Icon: FC<IconProps> = ({ name, size = getCustomSize(3), width = size, height = size, color, style }) => {
   const Svg = useMemo(() => iconNameMap[name], [name]);
-  console.log(Svg, 'svg');
-  console.log(name);
-  console.log(iconNameMap[name], 'icon');
 
-  return <Svg width={width} height={height} color={color} />;
+  return <Svg width={width} height={height} color={color} style={style} />;
 };
