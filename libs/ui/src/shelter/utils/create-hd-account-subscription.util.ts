@@ -7,16 +7,14 @@ import { Shelter } from '../shelter';
 export const createHdAccountSubscription = ({
   createHdAccount$,
   networkType,
-  accountsLength,
+  accountIndex,
   dispatch
 }: CreateHdAccountType) =>
-  createHdAccount$
-    .pipe(switchMap(() => Shelter.createHdAccount$(networkType, accountsLength + 1)))
-    .subscribe(account => {
-      if (account !== undefined) {
-        dispatch(createHdAccountAction(account));
-      }
-    });
+  createHdAccount$.pipe(switchMap(() => Shelter.createHdAccount$(networkType, accountIndex))).subscribe(account => {
+    if (account !== undefined) {
+      dispatch(createHdAccountAction(account));
+    }
+  });
 
 export const createHdAccountForNewNetworkTypeSubscription = ({
   createHdAccount$,
