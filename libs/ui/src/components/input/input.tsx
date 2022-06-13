@@ -1,11 +1,13 @@
 import React from 'react';
-import { StyleProp, TextInput, TextStyle, TextInputProps, View, Text } from 'react-native';
+import { TextInput, TextInputProps, View, Text } from 'react-native';
+
+import { StylePropsType } from '../../interfaces/style.interface';
 
 import { InputStyles } from './input.styles';
 
 type InputProps = {
   title?: string;
-  style?: StyleProp<TextStyle>;
+  style?: StylePropsType;
 } & TextInputProps;
 
 export const Input: React.FC<InputProps> = ({ title, style, ...props }) => (

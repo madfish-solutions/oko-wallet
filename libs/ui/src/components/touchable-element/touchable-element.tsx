@@ -1,7 +1,8 @@
 import { isDefined } from '@rnw-community/shared';
 import React, { FC } from 'react';
-import { StyleProp, Text, TextStyle, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 
+import { StylePropsType } from '../../interfaces/style.interface';
 import { ImageContainer, ImageContainerType } from '../image-container/image-container';
 
 import { TouchableElementStyles } from './touchable-element.styles';
@@ -11,7 +12,7 @@ interface Props {
   uri?: string;
   type?: ImageContainerType;
   onPress: () => void;
-  style?: StyleProp<TextStyle>;
+  style?: StylePropsType;
 }
 
 export const TouchableElement: FC<Props> = ({ text, type, uri, onPress, style }) => {

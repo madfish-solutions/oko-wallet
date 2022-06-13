@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Button, Text, View } from 'react-native';
 
+import { Header } from '../../components/header/header';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { ResetWallet } from '../../components/reset-wallet/reset-wallet';
 import { ScreensEnum } from '../../enums/sreens.enum';
@@ -17,6 +18,7 @@ export const Settings: FC = () => {
 
   return (
     <View>
+      <Header />
       <NavigationBar />
       <Text>Settings</Text>
       <Button title="Add network" onPress={navigateToAddNetwork} />

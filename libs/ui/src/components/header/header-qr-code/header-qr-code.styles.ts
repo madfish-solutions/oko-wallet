@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
 
-import { colors } from '../../../../styles/colors';
-import { getCustomSize } from '../../../../styles/format-size';
+import { colors } from '../../../styles/colors';
+import { getCustomSize } from '../../../styles/format-size';
 
-export const QRCodeStyles = StyleSheet.create({
+export const styles = StyleSheet.create({
   root: {
     // width: getCustomSize(43),
     flexDirection: 'row',
@@ -13,6 +13,7 @@ export const QRCodeStyles = StyleSheet.create({
     borderRadius: getCustomSize(1.75)
   },
   wrapper: {
+    flex: 2,
     justifyContent: 'space-between',
     marginRight: getCustomSize(2),
     paddingRight: getCustomSize(4),
@@ -29,7 +30,6 @@ export const QRCodeStyles = StyleSheet.create({
     textTransform: 'uppercase'
   },
   address: {
-    width: getCustomSize(18.875),
     marginBottom: getCustomSize(1.75),
     color: colors.textGrey1,
     fontSize: getCustomSize(1.625),
@@ -39,7 +39,12 @@ export const QRCodeStyles = StyleSheet.create({
   icon: {
     color: colors.orange
   },
+  container: {
+    borderRadius: getCustomSize(0.25),
+    overflow: 'hidden'
+  },
   qrcode: {
+    flex: 1,
     width: getCustomSize(14),
     height: getCustomSize(14),
     backgroundColor: colors.textGrey1,

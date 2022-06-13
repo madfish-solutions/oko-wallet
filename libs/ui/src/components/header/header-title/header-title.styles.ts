@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
 
-import { colors } from '../../../../styles/colors';
-import { getCustomSize } from '../../../../styles/format-size';
+import { colors } from '../../../styles/colors';
+import { getCustomSize } from '../../../styles/format-size';
 
-export const TitleStyles = StyleSheet.create({
+export const styles = StyleSheet.create({
   root: {
     flexDirection: 'row',
     justifyContent: 'space-between',
