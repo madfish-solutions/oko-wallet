@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { ClientPeerMeta, WalletConnectSession } from '../interfaces/connect-wallet.interface';
 import { useSelectedAccountPublicKeyHashSelector } from '../store/wallet/wallet.selectors';
 
+import { useLocalStorage } from './use-local-storage.hook';
+
 const peerMetaInitialValue = {
   description: '',
   url: '',
@@ -18,20 +20,19 @@ export const useConnectToDapp = () => {
   const [peerMeta, setPeerMeta] = useState<ClientPeerMeta>(peerMetaInitialValue);
   const [connected, setConnected] = useState(false);
   const [chainId, setChainId] = useState(1);
+  const { clearStorage, localStorageValue, setLocalStorageValue } = useLocalStorage<WalletConnectSession | null>(
+    'walletconnect',
+    null
+  );
 
   const selectedAccountPkh = useSelectedAccountPublicKeyHashSelector();
 
-  const getCachedSession = (): WalletConnectSession | null =>
-    JSON.parse(localStorage.getItem('walletconnect') as string) ?? null;
-
   useEffect(() => {
-    const session = getCachedSession();
-
-    if (session !== null && session.peerMeta) {
-      setPeerMeta(session.peerMeta);
-      setConnected(session.connected);
+    if (localStorageValue !== null && localStorageValue.peerMeta) {
+      setPeerMeta(localStorageValue.peerMeta);
+      setConnected(localStorageValue.connected);
     }
-  }, []);
+  }, [localStorageValue]);
 
   useEffect(() => {
     if (connector !== null) {
@@ -97,12 +98,14 @@ export const useConnectToDapp = () => {
   };
 
   const killSession = () => {
-    const session = getCachedSession();
+    if (localStorageValue) {
+      console.log('killSession', localStorageValue);
 
-    if (session) {
-      const walletConnector = new WalletConnect({ session });
+      const walletConnector = new WalletConnect({ session: localStorageValue });
       walletConnector.killSession();
+      clearStorage('walletconnect');
       setConnector(walletConnector);
+      setLocalStorageValue(walletConnector);
     }
   };
 
@@ -120,6 +123,7 @@ export const useConnectToDapp = () => {
 
       setUri('');
       setConnector(walletConnector);
+      setLocalStorageValue(walletConnector);
     } catch (error) {
       throw error;
     }
