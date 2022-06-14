@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { ClientPeerMeta, WalletConnectSession } from '../interfaces/connect-wallet.interface';
 import { useSelectedAccountPublicKeyHashSelector } from '../store/wallet/wallet.selectors';
+import { isWeb } from '../utils/platform.utils';
 
 import { useLocalStorage } from './use-local-storage.hook';
 
@@ -86,6 +87,24 @@ export const useConnectToDapp = () => {
         accounts: [selectedAccountPkh],
         chainId
       });
+
+      if (!isWeb) {
+        const dataToAsyncStore = {
+          accounts: connector.accounts,
+          bridge: connector.bridge,
+          chainId: connector.chainId,
+          clientId: connector.clientId,
+          clientMeta: connector.clientMeta,
+          connected: connector.connected,
+          handshakeId: connector.handshakeId,
+          handshakeTopic: connector.handshakeTopic,
+          key: connector.key,
+          peerId: connector.peerId,
+          peerMeta: connector.peerMeta
+        };
+
+        setLocalStorageValue(dataToAsyncStore);
+      }
     }
     setConnector(connector);
   };
@@ -99,13 +118,15 @@ export const useConnectToDapp = () => {
 
   const killSession = () => {
     if (localStorageValue) {
-      console.log('killSession', localStorageValue);
-
       const walletConnector = new WalletConnect({ session: localStorageValue });
       walletConnector.killSession();
-      clearStorage('walletconnect');
       setConnector(walletConnector);
-      setLocalStorageValue(walletConnector);
+    }
+
+    if (!isWeb) {
+      clearStorage('walletconnect');
+      setPeerMeta(peerMetaInitialValue);
+      setConnected(false);
     }
   };
 
@@ -123,7 +144,6 @@ export const useConnectToDapp = () => {
 
       setUri('');
       setConnector(walletConnector);
-      setLocalStorageValue(walletConnector);
     } catch (error) {
       throw error;
     }
@@ -138,6 +158,7 @@ export const useConnectToDapp = () => {
     peerMeta,
     connected,
     uri,
-    address: selectedAccountPkh
+    address: selectedAccountPkh,
+    clearStorage
   };
 };

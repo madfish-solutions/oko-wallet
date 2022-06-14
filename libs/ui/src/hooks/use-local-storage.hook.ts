@@ -1,7 +1,6 @@
 import { isDefined } from '@rnw-community/shared';
 import * as React from 'react';
 
-// TODO: reuse in other places (eg. saving.ts & popup-mode/index.ts)
 export const useLocalStorage = <T>(key: string, initialValue: T) => {
   const [localStorageValue, setLocalStorageValue] = React.useState<T>(() => {
     try {

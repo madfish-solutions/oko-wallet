@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isDefined } from '@rnw-community/shared';
 import { useEffect, useState } from 'react';
 
-// TODO: reuse in other places (eg. saving.ts & popup-mode/index.ts)
 export const useLocalStorage = <T>(key: string, initialValue: T) => {
   const [localStorageValue, setLocalStorageValue] = useState<T>(initialValue);
 
@@ -35,7 +34,7 @@ export const useLocalStorage = <T>(key: string, initialValue: T) => {
 
   const clearStorage = async (key: string) => {
     await AsyncStorage.removeItem(key);
-    // AsyncStorage.clear();
+    setLocalStorageValue(initialValue);
   };
 
   return {
