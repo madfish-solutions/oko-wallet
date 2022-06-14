@@ -1,8 +1,8 @@
 import { isDefined } from '@rnw-community/shared';
-import * as React from 'react';
+import { useState } from 'react';
 
 export const useLocalStorage = <T>(key: string, initialValue: T) => {
-  const [localStorageValue, setLocalStorageValue] = React.useState<T>(() => {
+  const [localStorageValue, setLocalStorageValue] = useState<T>(() => {
     try {
       const item = localStorage.getItem(key);
 
