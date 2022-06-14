@@ -29,7 +29,7 @@ export const useConnectToDapp = () => {
   const selectedAccountPkh = useSelectedAccountPublicKeyHashSelector();
 
   useEffect(() => {
-    if (localStorageValue !== null && localStorageValue.peerMeta) {
+    if (localStorageValue?.peerMeta) {
       setPeerMeta(localStorageValue.peerMeta);
       setConnected(localStorageValue.connected);
     }
