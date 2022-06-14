@@ -1,20 +1,12 @@
 import { StyleSheet } from 'react-native';
 
-export const NavigationBarStyles = StyleSheet.create({
-  container: {
+import { colors } from '../../styles/colors';
+
+export const styles = StyleSheet.create({
+  root: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 24,
-    backgroundColor: '#ff821b'
-  },
-  button: {
-    margin: 4,
-    padding: 8,
-    borderWidth: 1,
-    borderColor: '#fff',
-    borderRadius: 4
-  },
-  buttonText: {
-    color: '#fff',
-    textAlign: 'center'
+    backgroundColor: colors.navGrey1
   }
 });
