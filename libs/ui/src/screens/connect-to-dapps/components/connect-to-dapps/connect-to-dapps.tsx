@@ -5,15 +5,30 @@ import { Input } from '../../../../components/input/input';
 import { useConnectToDapp } from '../../../../hooks/connect-to-dapp.hook';
 
 export const ConnectToDapps = () => {
-  const { setUri, onSubmit, killSession, connected, peerMeta, approveSession, rejectSession, address, uri } =
-    useConnectToDapp();
+  const {
+    setUri,
+    onSubmit,
+    killSession,
+    connected,
+    peerMeta,
+    approveSession,
+    rejectSession,
+    address,
+    uri,
+    isConnecting
+  } = useConnectToDapp();
 
   return (
     <View>
       <Text>Connect to Dapp</Text>
       <Input value={uri} onChangeText={setUri} />
-      <Button title="Connect" onPress={onSubmit} />
-      <Button title="killSession" onPress={killSession} />
+      {!connected ? (
+        <Button title="Connect" onPress={onSubmit} disabled={isConnecting} />
+      ) : (
+        <Button title="killSession" onPress={killSession} />
+      )}
+
+      {isConnecting && <Text>Connecting...</Text>}
 
       {!connected && peerMeta.name !== '' && (
         <View>
