@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { ClientPeerMeta, WalletConnectSession } from '../interfaces/connect-wallet.interface';
 import { useSelectedAccountPublicKeyHashSelector } from '../store/wallet/wallet.selectors';
 
+import { useLocalStorage } from './use-local-storage.hook';
+
 const peerMetaInitialValue = {
   description: '',
   url: '',
@@ -18,20 +20,20 @@ export const useConnectToDapp = () => {
   const [peerMeta, setPeerMeta] = useState<ClientPeerMeta>(peerMetaInitialValue);
   const [connected, setConnected] = useState(false);
   const [chainId, setChainId] = useState(1);
+  const { clearStorage, localStorageValue, setLocalStorageValue } = useLocalStorage<WalletConnectSession | null>(
+    'walletconnect',
+    null
+  );
+  const [isConnecting, setIsConnecting] = useState(false);
 
   const selectedAccountPkh = useSelectedAccountPublicKeyHashSelector();
 
-  const getCachedSession = (): WalletConnectSession | null =>
-    JSON.parse(localStorage.getItem('walletconnect') as string) ?? null;
-
   useEffect(() => {
-    const session = getCachedSession();
-
-    if (session !== null && session.peerMeta) {
-      setPeerMeta(session.peerMeta);
-      setConnected(session.connected);
+    if (localStorageValue?.peerMeta) {
+      setPeerMeta(localStorageValue.peerMeta);
+      setConnected(localStorageValue.connected);
     }
-  }, []);
+  }, [localStorageValue]);
 
   useEffect(() => {
     if (connector !== null) {
@@ -42,6 +44,7 @@ export const useConnectToDapp = () => {
 
         const { peerMeta, chainId } = payload.params[0];
 
+        setIsConnecting(false);
         setChainId(chainId);
         setPeerMeta(peerMeta);
       });
@@ -73,6 +76,8 @@ export const useConnectToDapp = () => {
 
         setConnected(false);
         setPeerMeta(peerMetaInitialValue);
+        clearStorage('walletconnect');
+        setConnector(null);
       });
 
       setConnector(connector);
@@ -85,6 +90,22 @@ export const useConnectToDapp = () => {
         accounts: [selectedAccountPkh],
         chainId
       });
+
+      const dataToAsyncStore = {
+        accounts: connector.accounts,
+        bridge: connector.bridge,
+        chainId: connector.chainId,
+        clientId: connector.clientId,
+        clientMeta: connector.clientMeta,
+        connected: connector.connected,
+        handshakeId: connector.handshakeId,
+        handshakeTopic: connector.handshakeTopic,
+        key: connector.key,
+        peerId: connector.peerId,
+        peerMeta: connector.peerMeta
+      };
+
+      setLocalStorageValue(dataToAsyncStore);
     }
     setConnector(connector);
   };
@@ -97,12 +118,13 @@ export const useConnectToDapp = () => {
   };
 
   const killSession = () => {
-    const session = getCachedSession();
-
-    if (session) {
-      const walletConnector = new WalletConnect({ session });
+    if (localStorageValue) {
+      const walletConnector = new WalletConnect({ session: localStorageValue });
       walletConnector.killSession();
       setConnector(walletConnector);
+      clearStorage('walletconnect');
+      setPeerMeta(peerMetaInitialValue);
+      setConnected(false);
     }
   };
 
@@ -112,6 +134,8 @@ export const useConnectToDapp = () => {
 
   const connectWalletToDapp = async () => {
     try {
+      setIsConnecting(true);
+
       const walletConnector = new WalletConnect({ uri });
 
       if (walletConnector.connected === false) {
@@ -134,6 +158,8 @@ export const useConnectToDapp = () => {
     peerMeta,
     connected,
     uri,
-    address: selectedAccountPkh
+    address: selectedAccountPkh,
+    clearStorage,
+    isConnecting
   };
 };
