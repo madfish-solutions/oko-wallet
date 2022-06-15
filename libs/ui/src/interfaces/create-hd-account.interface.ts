@@ -8,7 +8,7 @@ import { AccountInterface } from './account.interface';
 export type CreateHdAccountType = {
   createHdAccount$: Subject<unknown>;
   networkType: NetworkTypeEnum;
-  accountsLength: number;
+  accountIndex: number;
   dispatch: Dispatch;
 };
 

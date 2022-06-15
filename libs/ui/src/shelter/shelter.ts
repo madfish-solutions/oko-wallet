@@ -127,7 +127,7 @@ export class Shelter {
           switchMap(({ publicKey, address: publicKeyHash, privateKey }) =>
             Shelter.savePrivateKey$(publicKeyHash, privateKey).pipe(
               map(() => ({
-                name: `Account ${accountIndex}`,
+                name: `Account ${accountIndex + 1}`,
                 accountIndex,
                 networksKeys: {
                   [networkType]: {

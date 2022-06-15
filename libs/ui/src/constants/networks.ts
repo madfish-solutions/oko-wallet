@@ -66,7 +66,8 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     gasTokenMetadata: {
       name: 'Binance Coin',
       symbol: 'BNB',
-      decimals: 8,
+      // TODO: Correct decimals are 8, but from RPC we get 18
+      decimals: 18,
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),

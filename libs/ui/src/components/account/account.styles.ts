@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+import { typography } from '../../styles/typography';
+
 export const AccountStyles = StyleSheet.create({
   root: {
     flexDirection: 'row',
@@ -16,14 +18,12 @@ export const AccountStyles = StyleSheet.create({
     marginBottom: 24
   },
   selectedAccountName: {
-    fontWeight: '700'
+    ...typography.headlineInterBold22
   },
   allAccountsText: {
     textTransform: 'uppercase'
   },
   accountsList: {
-    maxHeight: 200,
-    height: '100%',
     marginTop: 4
   },
   account: {
