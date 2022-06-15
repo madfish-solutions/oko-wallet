@@ -1,6 +1,13 @@
 const path = require('path');
+const { getDefaultConfig } = require('metro-config');
 
-module.exports = {
+module.exports = (async () => {
+
+    const {
+        resolver: { sourceExts, assetExts }
+      } = await getDefaultConfig(__dirname);
+    
+      return {
     transformer: {
         getTransformOptions: async () => ({
             transform: {
@@ -8,6 +15,7 @@ module.exports = {
                 inlineRequires: true,
             },
         }),
+        babelTransformerPath: require.resolve('react-native-svg-transformer')
     },
     watchFolders: [
         path.resolve(__dirname, '../../libs/ui'),
@@ -26,6 +34,9 @@ module.exports = {
                     return path.join(process.cwd(), `node_modules/${name}`)
                 }
             }
-        )
+        ),
+        assetExts: assetExts.filter(ext => ext !== 'svg'),
+        sourceExts: [...sourceExts, 'svg']
     }
-};
+}
+})();
