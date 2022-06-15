@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import { colors } from '../../../styles/colors';
 import { getCustomSize } from '../../../styles/format-size';
+import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
@@ -9,16 +10,17 @@ export const styles = StyleSheet.create({
     alignItems: 'center'
   },
   icon: {
-    marginRight: getCustomSize(0.5),
-    color: colors.orange
+    marginRight: getCustomSize(0.5)
   },
   balance: {
     marginRight: getCustomSize(0.5),
     color: colors.textGrey1,
-    fontSize: getCustomSize(3.5)
+    ...typography.numbersIBMPlexSansMedium22,
+    letterSpacing: getCustomSize(0.04375)
   },
   currency: {
     color: colors.textGrey2,
-    fontSize: getCustomSize(3.5)
+    ...typography.numbersIBMPlexSansMedium22,
+    letterSpacing: getCustomSize(0.04375)
   }
 });

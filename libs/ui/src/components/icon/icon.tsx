@@ -6,20 +6,27 @@ import { getCustomSize } from '../../styles/format-size';
 import { iconNameMap } from './icon-name-map';
 import { IconNameEnum } from './icon-name.enum';
 
-interface Props {
+export interface IconProps {
   name: IconNameEnum;
   size?: number;
   width?: number;
   height?: number;
   color?: string;
-  style?: ViewStyle;
+  iconStyle?: ViewStyle;
 }
 
-export const Icon: FC<Props> = ({ name, size = getCustomSize(3), width = size, height = size, color, style }) => {
+export const Icon: FC<IconProps> = ({
+  name,
+  size = getCustomSize(3),
+  width = size,
+  height = size,
+  color,
+  iconStyle
+}) => {
   const Svg = useMemo(() => iconNameMap[name], [name]);
 
   return (
-    <View style={style}>
+    <View style={iconStyle}>
       <Svg width={width} height={height} color={color} />
     </View>
   );

@@ -1,27 +1,32 @@
 import React, { FC } from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 
 import { useSelectedAccountPublicKeyHashSelector } from '../../../store/wallet/wallet.selectors';
+import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { isWeb } from '../../../utils/platform.utils';
+import { IconNameEnum } from '../../icon/icon-name.enum';
+import { Row } from '../../row/row';
+import { TouchableIcon } from '../../touchable-icon/touchable-icon';
 
 import { styles } from './header-account-address.styles';
 
 export const HeaderAccountAddress: FC = () => {
   const address = useSelectedAccountPublicKeyHashSelector();
 
+  const copyAddress = () => handleCopyToClipboard(address);
+
   return (
-    <View style={styles.root}>
-      {/* TODO: Add copy icon */}
+    <Row>
       {isWeb ? (
         <>
-          <Text style={styles.icon}>CC</Text>
+          <TouchableIcon name={IconNameEnum.Copy} onPress={copyAddress} iconStyle={styles.icon} />
           <Text style={styles.address} ellipsizeMode="middle" numberOfLines={1}>
-            {address}
+            3CKM...5rNX
           </Text>
         </>
       ) : (
-        <Text style={styles.icon}>qr-code</Text>
+        <TouchableIcon name={IconNameEnum.Qrscan} onPress={copyAddress} />
       )}
-    </View>
+    </Row>
   );
 };

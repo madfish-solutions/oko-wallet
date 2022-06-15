@@ -1,4 +1,3 @@
-import Clipboard from '@react-native-clipboard/clipboard';
 import React, { FC } from 'react';
 import { Text, View } from 'react-native';
 import QRCodeLibrary from 'react-native-qrcode-svg';
@@ -6,6 +5,11 @@ import QRCodeLibrary from 'react-native-qrcode-svg';
 import { StylePropsType } from '../../../interfaces/style.interface';
 import { useSelectedAccountPublicKeyHashSelector } from '../../../store/wallet/wallet.selectors';
 import { colors } from '../../../styles/colors';
+import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
+import { Column } from '../../column/column';
+import { IconNameEnum } from '../../icon/icon-name.enum';
+import { Row } from '../../row/row';
+import { TouchableIcon } from '../../touchable-icon/touchable-icon';
 
 import { styles } from './header-qr-code.styles';
 
@@ -15,18 +19,13 @@ interface Props {
 
 export const HeaderQRCode: FC<Props> = ({ style }) => {
   const address = useSelectedAccountPublicKeyHashSelector();
+  console.log('ADDRESS:', address);
 
-  const handleCopyToClipboard = () => {
-    if (typeof address === 'string') {
-      Clipboard.setString(address);
-    }
-  };
+  const copyAddress = () => handleCopyToClipboard(address);
 
   return (
-    // TODO: Add Row
-    <View style={[styles.root, style]}>
-      {/* TODO: Add Column component */}
-      <View style={styles.wrapper}>
+    <Row style={[styles.root, style]}>
+      <Column style={styles.wrapper}>
         <Text style={styles.text}>
           Share this address
           {'\n'}
@@ -35,14 +34,11 @@ export const HeaderQRCode: FC<Props> = ({ style }) => {
         <Text style={styles.address} numberOfLines={2}>
           {address}
         </Text>
-        {/* Add svg */}
-        <Text onPress={handleCopyToClipboard} style={styles.icon}>
-          copy
-        </Text>
-      </View>
+        <TouchableIcon name={IconNameEnum.Copy} onPress={copyAddress} />
+      </Column>
       <View style={styles.container}>
-        <QRCodeLibrary backgroundColor="transparent" color={colors.textGrey1} value={address} size={112} />
+        <QRCodeLibrary backgroundColor="transparent" color={colors.textGrey1} value={address ?? 'Nothing'} size={112} />
       </View>
-    </View>
+    </Row>
   );
 };

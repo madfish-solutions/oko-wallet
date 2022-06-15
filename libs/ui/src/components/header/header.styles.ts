@@ -10,11 +10,6 @@ export const styles = StyleSheet.create({
     borderBottomLeftRadius: getCustomSize(3),
     borderBottomRightRadius: getCustomSize(3)
   },
-  wrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
   marginBottom: {
     marginBottom: getCustomSize(2)
   },

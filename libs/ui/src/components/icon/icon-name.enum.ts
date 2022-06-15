@@ -1,4 +1,5 @@
 export enum IconNameEnum {
+  AccountLogo = 'AccountLogo',
   Activity = 'Activity',
   Add = 'Add',
   ArrowLeft = 'ArrowLeft',
@@ -24,5 +25,10 @@ export enum IconNameEnum {
   Stake = 'Stake',
   Swap = 'Swap',
   Topup = 'Topup',
-  X = 'X'
+  X = 'X',
+  // networks
+  Klaytn = 'Klaytn',
+  Ethereum = 'Ethereum',
+  BinanceSmartChain = 'BinanceSmartChain',
+  NetworkFallback = 'NetworkFallback'
 }

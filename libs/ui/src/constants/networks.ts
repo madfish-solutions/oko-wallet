@@ -1,3 +1,4 @@
+import { IconNameEnum } from '../components/icon/icon-name.enum';
 import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { NetworkChainIdsByNetworkType, NetworkInterface } from '../interfaces/network.interface';
 import { createEntity } from '../store/utils/entity.utils';
@@ -15,7 +16,8 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://scope.klaytn.com/',
-    networkType: NetworkTypeEnum.EVM
+    networkType: NetworkTypeEnum.EVM,
+    iconName: IconNameEnum.Klaytn
   },
   {
     chainId: '1001',
@@ -29,7 +31,8 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://baobab.scope.klaytn.com/',
-    networkType: NetworkTypeEnum.EVM
+    networkType: NetworkTypeEnum.EVM,
+    iconName: IconNameEnum.Klaytn
   },
   {
     chainId: '1',
@@ -43,7 +46,8 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://etherscan.io/',
-    networkType: NetworkTypeEnum.EVM
+    networkType: NetworkTypeEnum.EVM,
+    iconName: IconNameEnum.Ethereum
   },
   {
     chainId: '4',
@@ -57,7 +61,8 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://rinkeby.etherscan.io/',
-    networkType: NetworkTypeEnum.EVM
+    networkType: NetworkTypeEnum.EVM,
+    iconName: IconNameEnum.Ethereum
   },
   {
     chainId: '56',
@@ -72,7 +77,8 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://bscscan.com',
-    networkType: NetworkTypeEnum.EVM
+    networkType: NetworkTypeEnum.EVM,
+    iconName: IconNameEnum.BinanceSmartChain
   },
   {
     chainId: '1284',

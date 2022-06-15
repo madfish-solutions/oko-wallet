@@ -1,3 +1,4 @@
+import { IconNameEnum } from '../components/icon/icon-name.enum';
 import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { LoadableEntityState } from '../store/interfaces/loadable-entity-state.interface';
 
@@ -11,6 +12,7 @@ export interface NetworkInterface {
   gasTokenBalance: LoadableEntityState<string>;
   explorerUrl?: string;
   networkType: NetworkTypeEnum;
+  iconName?: IconNameEnum;
 }
 
 export type NetworkChainIdsByNetworkType = Partial<{

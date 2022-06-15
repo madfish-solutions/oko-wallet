@@ -12,7 +12,7 @@ import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { isCollectible } from '../../utils/token.utils';
 
 import { WalletRootState, WalletState } from './wallet.state';
-import { getSelectedNetworkType } from './wallet.utils';
+import { getPublicKeyHash, getSelectedNetworkType } from './wallet.utils';
 
 export const useSelectedAccountPublicKeyHashSelector = () =>
   useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedAccountPublicKeyHash);
@@ -40,9 +40,7 @@ export const useSelectedAccountSelector = () =>
         accounts.find(account => {
           const isExist = account.networksKeys.hasOwnProperty(selectedNetworkType);
 
-          return isExist
-            ? account.networksKeys[selectedNetworkType]?.publicKeyHash === selectedAccountPublicKeyHash
-            : null;
+          return isExist ? getPublicKeyHash(account, selectedNetworkType) === selectedAccountPublicKeyHash : null;
         }) ?? initialAccount;
 
       return selectedAccount;

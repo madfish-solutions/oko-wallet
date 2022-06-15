@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { SvgProps } from 'react-native-svg';
 
+import AccountLogo from './assets/account-logo.svg';
 import ActivityIcon from './assets/activity.svg';
 import AddIcon from './assets/add.svg';
 import ArrowLeftIcon from './assets/arrow-left.svg';
@@ -28,8 +29,13 @@ import SwapIcon from './assets/swap.svg';
 import TopupIcon from './assets/topup.svg';
 import XIcon from './assets/x.svg';
 import { IconNameEnum } from './icon-name.enum';
+import BinanceSmartChain from './networks/bsc.svg';
+import Ethereum from './networks/ethereum.svg';
+import NetworkFallback from './networks/fallback.svg';
+import Klaytn from './networks/klaytn.svg';
 
 export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
+  [IconNameEnum.AccountLogo]: AccountLogo,
   [IconNameEnum.Activity]: ActivityIcon,
   [IconNameEnum.Add]: AddIcon,
   [IconNameEnum.ArrowLeft]: ArrowLeftIcon,
@@ -55,5 +61,9 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Stake]: StakeIcon,
   [IconNameEnum.Swap]: SwapIcon,
   [IconNameEnum.Topup]: TopupIcon,
-  [IconNameEnum.X]: XIcon
+  [IconNameEnum.X]: XIcon,
+  [IconNameEnum.Klaytn]: Klaytn,
+  [IconNameEnum.Ethereum]: Ethereum,
+  [IconNameEnum.BinanceSmartChain]: BinanceSmartChain,
+  [IconNameEnum.NetworkFallback]: NetworkFallback
 };

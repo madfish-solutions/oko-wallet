@@ -70,6 +70,11 @@ export const typography: Typography = {
     fontFamily: FontsEnum.interRegular,
     fontSize: 11
   },
+  captionInterRegularUppercase11: {
+    fontFamily: FontsEnum.interRegular,
+    fontSize: 11,
+    textTransform: 'uppercase'
+  },
   captionInterSemiBoldUnderline11: {
     fontFamily: FontsEnum.interSemiBold,
     fontSize: 11,
@@ -98,6 +103,11 @@ export const typography: Typography = {
   numbersIBMPlexSansMedium13: {
     fontFamily: FontsEnum.ibmPlexSansMedium,
     fontSize: 13
+  },
+  numbersIBMPlexSansMediumUppercase13: {
+    fontFamily: FontsEnum.ibmPlexSansMedium,
+    fontSize: 13,
+    textTransform: 'uppercase'
   },
   numbersIBMPlexSansMedium11: {
     fontFamily: FontsEnum.ibmPlexSansMedium,

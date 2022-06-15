@@ -2,10 +2,10 @@ import { StyleSheet } from 'react-native';
 
 import { colors } from '../../../styles/colors';
 import { getCustomSize } from '../../../styles/format-size';
+import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
-    // width: getCustomSize(43),
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: getCustomSize(2),
@@ -14,7 +14,6 @@ export const styles = StyleSheet.create({
   },
   wrapper: {
     flex: 2,
-    justifyContent: 'space-between',
     marginRight: getCustomSize(2),
     paddingRight: getCustomSize(4),
     borderRightWidth: getCustomSize(0.125),
@@ -23,18 +22,18 @@ export const styles = StyleSheet.create({
   text: {
     marginBottom: getCustomSize(1.5),
     color: colors.textGrey3,
-    fontSize: getCustomSize(1.375)
+    ...typography.captionInterRegular11
   },
   symbol: {
     color: colors.textGrey1,
-    textTransform: 'uppercase'
+    ...typography.captionInterRegularUppercase11
   },
   address: {
     marginBottom: getCustomSize(1.75),
     color: colors.textGrey1,
-    fontSize: getCustomSize(1.625),
     lineHeight: getCustomSize(2.25),
-    textTransform: 'uppercase'
+    ...typography.numbersIBMPlexSansMediumUppercase13,
+    letterSpacing: -0.08
   },
   icon: {
     color: colors.orange

@@ -4,6 +4,6 @@ export const RowStyles = StyleSheet.create({
   root: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: '100%'
+    justifyContent: 'space-between'
   }
 });
