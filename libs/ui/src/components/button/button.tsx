@@ -13,18 +13,27 @@ interface Props extends PressableProps {
   theme?: Theme;
   rightIcon?: IconNameEnum;
   leftIcon?: IconNameEnum;
+  iconSize?: number;
 }
 
-export const Button: FC<Props> = ({ title, theme = 'primary', rightIcon, leftIcon, ...restProps }) => {
+const defaultIconSize = getCustomSize(2);
+
+export const Button: FC<Props> = ({
+  title,
+  theme = 'primary',
+  rightIcon,
+  leftIcon,
+  iconSize = defaultIconSize,
+  ...restProps
+}) => {
   const styles = buttonStyles(theme);
-  const svgSize = getCustomSize(2);
 
   return (
     <Pressable {...restProps} style={styles.root}>
       <View style={styles.wrapper}>
-        {leftIcon && <Icon name={leftIcon} size={svgSize} style={styles.leftIcon} />}
+        {leftIcon && <Icon name={leftIcon} size={iconSize} style={styles.leftIcon} />}
         <Text style={styles.text}>{title}</Text>
-        {rightIcon && <Icon name={rightIcon} size={svgSize} style={styles.rightIcon} />}
+        {rightIcon && <Icon name={rightIcon} size={iconSize} style={styles.rightIcon} />}
       </View>
     </Pressable>
   );
