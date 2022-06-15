@@ -1,5 +1,6 @@
 import { Dispatch } from '@reduxjs/toolkit';
-import { Subject, switchMap } from 'rxjs';
+import { Subject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { createHdAccountAction, setSelectedAccountAction } from '../../store/wallet/wallet.actions';

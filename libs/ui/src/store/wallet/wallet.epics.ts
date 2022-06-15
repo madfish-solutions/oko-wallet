@@ -1,5 +1,6 @@
 import { combineEpics, Epic } from 'redux-observable';
-import { catchError, map, Observable, of, switchMap, concatMap } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError, map, switchMap, concatMap } from 'rxjs/operators';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
