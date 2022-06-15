@@ -16,7 +16,7 @@ export const styles = (theme: Theme) => {
       alignItems: 'center',
       justifyContent: 'center',
       borderRadius: getCustomSize(0.5),
-      paddingVertical: getCustomSize(1.875)
+      paddingVertical: getCustomSize(1.5)
     },
     wrapper: {
       flexDirection: 'row',
@@ -28,10 +28,10 @@ export const styles = (theme: Theme) => {
       ...typography.taglineInterSemiBoldUppercase13
     },
     rightIcon: {
-      marginLeft: getCustomSize(1.25)
+      marginLeft: getCustomSize(0.5)
     },
     leftIcon: {
-      marginRight: getCustomSize(1.25)
+      marginRight: getCustomSize(0.5)
     }
   });
 };
