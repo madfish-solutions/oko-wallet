@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from 'react';
-import { ViewStyle } from 'react-native';
+import { View, ViewStyle } from 'react-native';
 
 import { getCustomSize } from '../../styles/format-size';
 
@@ -18,5 +18,9 @@ interface Props {
 export const Icon: FC<Props> = ({ name, size = getCustomSize(3), width = size, height = size, color, style }) => {
   const Svg = useMemo(() => iconNameMap[name], [name]);
 
-  return <Svg width={width} height={height} color={color} style={style} />;
+  return (
+    <View style={style}>
+      <Svg width={width} height={height} color={color} />
+    </View>
+  );
 };
