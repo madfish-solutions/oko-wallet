@@ -6,8 +6,6 @@ import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
-    flexDirection: 'row',
-    alignItems: 'center',
     padding: getCustomSize(0.5),
     backgroundColor: colors.navGrey1,
     borderRadius: getCustomSize(1.75)

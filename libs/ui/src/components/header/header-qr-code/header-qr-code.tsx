@@ -3,8 +3,12 @@ import { Text, View } from 'react-native';
 import QRCodeLibrary from 'react-native-qrcode-svg';
 
 import { StylePropsType } from '../../../interfaces/style.interface';
-import { useSelectedAccountPublicKeyHashSelector } from '../../../store/wallet/wallet.selectors';
+import {
+  useSelectedAccountPublicKeyHashSelector,
+  useSelectedNetworkSelector
+} from '../../../store/wallet/wallet.selectors';
 import { colors } from '../../../styles/colors';
+import { getCustomSize } from '../../../styles/format-size';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { Column } from '../../column/column';
 import { IconNameEnum } from '../../icon/icon-name.enum';
@@ -19,6 +23,7 @@ interface Props {
 
 export const HeaderQRCode: FC<Props> = ({ style }) => {
   const address = useSelectedAccountPublicKeyHashSelector();
+  const { name } = useSelectedNetworkSelector();
 
   const copyAddress = () => handleCopyToClipboard(address);
 
@@ -28,7 +33,7 @@ export const HeaderQRCode: FC<Props> = ({ style }) => {
         <Text style={styles.text}>
           Share this address
           {'\n'}
-          for receive <Text style={styles.symbol}>KLAY</Text> tokens
+          for receive <Text style={styles.symbol}>{name}</Text> network tokens
         </Text>
         <Text style={styles.address} numberOfLines={2}>
           {address}
@@ -36,7 +41,12 @@ export const HeaderQRCode: FC<Props> = ({ style }) => {
         <TouchableIcon name={IconNameEnum.Copy} onPress={copyAddress} />
       </Column>
       <View style={styles.container}>
-        <QRCodeLibrary backgroundColor="transparent" color={colors.textGrey1} value={address ?? 'Nothing'} size={112} />
+        <QRCodeLibrary
+          backgroundColor="transparent"
+          color={colors.textGrey1}
+          value={address}
+          size={getCustomSize(14)}
+        />
       </View>
     </Row>
   );

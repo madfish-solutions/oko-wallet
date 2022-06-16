@@ -49,13 +49,7 @@ export const Header: FC = () => {
         </>
       )}
 
-      {canGoBack() && (
-        <>
-          {/* TODO: Update later */}
-          {/* <HeaderAccountBalance textStyle={{ fontSize: getCustomSize(2.5) }} style={styles.balance} /> */}
-          <HeaderTitle text="Title" />
-        </>
-      )}
+      {canGoBack() && <HeaderTitle text="Title" />}
     </View>
   );
 };

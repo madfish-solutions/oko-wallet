@@ -27,6 +27,7 @@ export const HeaderAccountBalance: FC<Props> = ({ textStyle, style }) => {
         onPress={changeBalanceVisibility}
         iconStyle={styles.icon}
       />
+      {/* TODO: Add real balance value */}
       <Text style={[styles.balance, textStyle]}>4,123.00 M</Text>
       <Text style={[styles.currency, textStyle]}>$</Text>
     </Row>

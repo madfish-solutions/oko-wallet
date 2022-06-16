@@ -20,8 +20,8 @@ export const HeaderAccountAddress: FC = () => {
       {isWeb ? (
         <>
           <TouchableIcon name={IconNameEnum.Copy} onPress={copyAddress} iconStyle={styles.icon} />
-          <Text style={styles.address} ellipsizeMode="middle" numberOfLines={1}>
-            3CKM...5rNX
+          <Text ellipsizeMode="middle" numberOfLines={1} style={styles.address}>
+            {address}
           </Text>
         </>
       ) : (

@@ -26,14 +26,14 @@ export const styles = StyleSheet.create({
   },
   symbol: {
     color: colors.textGrey1,
-    ...typography.captionInterRegularUppercase11
+    ...typography.captionInterRegular11
   },
   address: {
     marginBottom: getCustomSize(1.75),
     color: colors.textGrey1,
     lineHeight: getCustomSize(2.25),
     ...typography.numbersIBMPlexSansMediumUppercase13,
-    letterSpacing: -0.08
+    letterSpacing: getCustomSize(-0.01)
   },
   icon: {
     color: colors.orange

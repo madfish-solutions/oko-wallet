@@ -12,6 +12,6 @@ export const styles = StyleSheet.create({
     width: getCustomSize(10),
     color: colors.textGrey1,
     ...typography.numbersIBMPlexSansMediumUppercase13,
-    letterSpacing: 0.337647
+    letterSpacing: getCustomSize(0.0422)
   }
 });

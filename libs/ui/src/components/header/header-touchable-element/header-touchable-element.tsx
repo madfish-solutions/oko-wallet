@@ -7,6 +7,7 @@ import { getCustomSize } from '../../../styles/format-size';
 import { IconContainerType, IconWithBorder } from '../../icon-with-border/icon-with-border';
 import { Icon } from '../../icon/icon';
 import { IconNameEnum } from '../../icon/icon-name.enum';
+import { Row } from '../../row/row';
 
 import { styles } from './header-touchable-element.styles';
 
@@ -30,10 +31,14 @@ export const HeaderTouchableElement: FC<Props> = ({
   const arrowMarginLeft = isDefined(text) ? undefined : styles.arrow;
 
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.root, paddingRight, style]}>
-      <IconWithBorder type={type}>{children}</IconWithBorder>
-      {isDefined(text) && <Text style={styles.text}>{text}</Text>}
-      {isShowDropdownArrow && <Icon name={IconNameEnum.Dropdown} size={getCustomSize(2)} iconStyle={arrowMarginLeft} />}
+    <TouchableOpacity onPress={onPress} style={[paddingRight, style]}>
+      <Row style={styles.root}>
+        <IconWithBorder type={type}>{children}</IconWithBorder>
+        {isDefined(text) && <Text style={styles.text}>{text}</Text>}
+        {isShowDropdownArrow && (
+          <Icon name={IconNameEnum.Dropdown} size={getCustomSize(2)} iconStyle={arrowMarginLeft} />
+        )}
+      </Row>
     </TouchableOpacity>
   );
 };
