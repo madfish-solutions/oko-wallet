@@ -6,7 +6,6 @@ import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector
 } from '../../store/wallet/wallet.selectors';
-import { getString } from '../../utils/get-string.utils';
 import { isWeb } from '../../utils/platform.utils';
 import { Icon } from '../icon/icon';
 import { IconNameEnum } from '../icon/icon-name.enum';
@@ -35,15 +34,9 @@ export const Header: FC = () => {
           <Icon name={iconName ?? IconNameEnum.NetworkFallback} />
         </HeaderTouchableElement>
 
-        {isWeb ? (
-          <HeaderTouchableElement onPress={selectAccount}>
-            <Icon name={IconNameEnum.AccountLogo} />
-          </HeaderTouchableElement>
-        ) : (
-          <HeaderTouchableElement onPress={selectAccount}>
-            <RobotIcon seed={getString(address)} />
-          </HeaderTouchableElement>
-        )}
+        <HeaderTouchableElement onPress={selectAccount}>
+          <RobotIcon seed={address} />
+        </HeaderTouchableElement>
       </Row>
 
       {!canGoBack() && (

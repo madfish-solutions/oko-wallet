@@ -1269,6 +1269,13 @@
   resolved "https://registry.yarnpkg.com/@dicebear/avatars-bottts-sprites/-/avatars-bottts-sprites-4.10.2.tgz#3c826c395012a05f27cc0a2f2e0329182092ff4b"
   integrity sha512-gvjRZzLZgRnMyZvDPCt5RlEcov8bTIN5PcVDe+YPIRoj1kXRypJ1bwBvVEwPoglTDoCbHXXXxpqZ/Ll7R3fGMQ==
 
+"@dicebear/avatars-jdenticon-sprites@^4.10.2":
+  version "4.10.2"
+  resolved "https://registry.yarnpkg.com/@dicebear/avatars-jdenticon-sprites/-/avatars-jdenticon-sprites-4.10.2.tgz#f3e5b6ca90aa55a6759332251c9f41db7b6aa960"
+  integrity sha512-hQ4fHGatQRgnvFBVFwxAnIMMFHPuxP8pyNtWf3Erim46HhrzDgtfQK1Bu9p00vLvZYglMiqyqSBLL87rQ5AaMg==
+  dependencies:
+    jdenticon "^2.1.1"
+
 "@dicebear/avatars@^4.10.2":
   version "4.10.2"
   resolved "https://registry.yarnpkg.com/@dicebear/avatars/-/avatars-4.10.2.tgz#140ff080752d2923ffdba7f4664c8937999bfd3f"
@@ -3953,6 +3960,11 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001317:
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001332.tgz"
   integrity sha512-10T30NYOEQtN6C11YGg411yebhvpnC6Z102+B95eAsN0oB6KUs01ivE8u+G6FMIRtIrVlYXhL+LUwQ3/hXwDWw==
 
+canvas-renderer@~2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/canvas-renderer/-/canvas-renderer-2.1.1.tgz#d91fe9511ab48056ff9fa8a04514bede76535f55"
+  integrity sha512-/V0XetN7s1Mk3NO7x2wxPZYv0pLMQtGAhecuOuKR88beiYCUle1AbCcFZNLu+4NVzi9RVHS0rXtIgzPEaKidLw==
+
 case-sensitive-paths-webpack-plugin@^2.4.0:
   version "2.4.0"
   resolved "https://registry.npmjs.org/case-sensitive-paths-webpack-plugin/-/case-sensitive-paths-webpack-plugin-2.4.0.tgz"
@@ -6428,6 +6440,14 @@ jake@^10.8.5:
     chalk "^4.0.2"
     filelist "^1.0.1"
     minimatch "^3.0.4"
+
+jdenticon@^2.1.1:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/jdenticon/-/jdenticon-2.2.0.tgz#6a9d9cb2134a7848ff21d59b3871148cbc6af87f"
+  integrity sha512-WGqwpjN9pab/Sah9pGnFH5tQc3HF3WbLV/tPVbykvk5nuAkxG/zhzQYWC2owvpnS+/A0HmlSx35rtY8kyN+x7Q==
+  dependencies:
+    "@types/node" "*"
+    canvas-renderer "~2.1.1"
 
 jest-changed-files@^27.5.1:
   version "27.5.1"
