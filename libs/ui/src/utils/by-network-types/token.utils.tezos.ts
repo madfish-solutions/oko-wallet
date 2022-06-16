@@ -1,4 +1,5 @@
-import { from, map, Observable, switchMap } from 'rxjs';
+import { from, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { TezosTokenTypeEnum } from '../../enums/tezos-token-type.enum';

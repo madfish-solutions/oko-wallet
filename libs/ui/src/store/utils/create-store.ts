@@ -5,7 +5,8 @@ import { combineEpics, createEpicMiddleware, Epic, StateObservable } from 'redux
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import { PersistConfig } from 'redux-persist/lib/types';
-import { Observable, catchError } from 'rxjs';
+import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { rootStateReducer } from '../root-state.reducers';
 

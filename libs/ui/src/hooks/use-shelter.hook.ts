@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { EMPTY, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { AccountInterface } from '../interfaces/account.interface';
+import { CreateHdAccountForNewNetworkParams, CreateHdAccountParams } from '../interfaces/create-hd-account.interface';
 import { GetEvmSignerParams } from '../shelter/interfaces/get-evm-signer-params.interface';
 import { GetTezosSignerParams } from '../shelter/interfaces/get-tezos-signer-params.interface';
 import { ImportWalletParams } from '../shelter/interfaces/import-wallet-params.interface';
@@ -24,23 +25,18 @@ export const useShelter = () => {
   const importWallet$ = useMemo(() => new Subject<ImportWalletParams>(), []);
   const sendEvmTransaction$ = useMemo(() => new Subject<GetEvmSignerParams>(), []);
   const sendTezosTransaction$ = useMemo(() => new Subject<GetTezosSignerParams>(), []);
-  const createHdAccount$ = useMemo(() => new Subject(), []);
-  const createHdAccountForNewNetworkType$ = useMemo(
-    () => new Subject<{ account: AccountInterface; networkType: NetworkTypeEnum }>(),
-    []
-  );
+  const createHdAccount$ = useMemo(() => new Subject<CreateHdAccountParams>(), []);
+  const createHdAccountForNewNetworkType$ = useMemo(() => new Subject<CreateHdAccountForNewNetworkParams>(), []);
 
   useEffect(() => {
     const subscriptions = [
       importWalletSubscription(importWallet$, dispatch),
       createHdAccountSubscription({
         createHdAccount$,
-        networkType,
-        accountIndex: accounts.length,
         dispatch
       }),
       createHdAccountForNewNetworkTypeSubscription({
-        createHdAccount$: createHdAccountForNewNetworkType$,
+        createHdAccountForNewNetworkType$,
         dispatch
       }),
       sendEvmTransactionSubscription(sendEvmTransaction$),
@@ -48,10 +44,13 @@ export const useShelter = () => {
     ];
 
     return () => subscriptions.forEach(subscription => subscription.unsubscribe());
-  }, [accounts, networkType]);
+  }, [importWallet$, createHdAccount$, createHdAccountForNewNetworkType$, sendEvmTransaction$, sendTezosTransaction$]);
 
   const importWallet = useCallback((params: ImportWalletParams) => importWallet$.next(params), [importWallet$]);
-  const createHdAccount = () => createHdAccount$.next(EMPTY);
+  const createHdAccount = useCallback(
+    () => createHdAccount$.next({ accountIndex: accounts.length, networkType }),
+    [createHdAccount$, accounts.length, networkType]
+  );
   const createHdAccountForNewNetworkType = useCallback(
     (account: AccountInterface, networkType: NetworkTypeEnum) =>
       createHdAccountForNewNetworkType$.next({ account, networkType }),
