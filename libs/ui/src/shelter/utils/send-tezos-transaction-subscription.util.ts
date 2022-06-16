@@ -1,5 +1,6 @@
 import { BatchOperation } from '@taquito/taquito';
-import { Subject, switchMap, map } from 'rxjs';
+import { Subject } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
 
 import { parseTezosTransferParams } from '../../utils/parse-tezos-transfer-params.utils';
 import { createTezosToolkit } from '../../utils/tezos-toolkit.utils';

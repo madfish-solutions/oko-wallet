@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Subject, switchMap } from 'rxjs';
+import { Subject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { Shelter } from '../shelter/shelter';
 

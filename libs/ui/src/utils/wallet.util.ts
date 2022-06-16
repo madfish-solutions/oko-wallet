@@ -1,4 +1,5 @@
-import { Observable, withLatestFrom } from 'rxjs';
+import { Observable } from 'rxjs';
+import { withLatestFrom } from 'rxjs/operators';
 
 import { NETWORKS_DEFAULT_LIST } from '../constants/networks';
 import { AccountInterface } from '../interfaces/account.interface';

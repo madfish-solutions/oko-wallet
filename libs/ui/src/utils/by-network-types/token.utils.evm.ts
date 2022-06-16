@@ -1,5 +1,6 @@
 import { Contract, getDefaultProvider, BigNumber } from 'ethers';
-import { map, from, Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import genericErc20Abi from '../../constants/erc20Abi.json';
 import { NetworkInterface } from '../../interfaces/network.interface';
