@@ -1,11 +1,9 @@
 import { TransferParams as TezosTransferParams } from '@taquito/taquito';
-import { BigNumber } from 'bignumber.js';
 import React, { FC, useCallback, useState } from 'react';
 import { Text } from 'react-native';
 
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
-import { mutezToTz } from '../../../../utils/tezos.util';
 import { formatUnits } from '../../../../utils/units.utils';
 import { ConfirmationProps } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
@@ -29,8 +27,7 @@ export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }
   const [{ storageLimit, gasLimit, suggestedFeeMutez, minimalFeePerStorageByteMutez } = {} as EstimationInterface] =
     estimations;
 
-  const storageFee =
-    storageLimit && mutezToTz(new BigNumber(storageLimit).times(minimalFeePerStorageByteMutez), decimals).toString();
+  const storageFee = storageLimit && formatUnits(storageLimit * minimalFeePerStorageByteMutez, decimals);
   const formattedSuggestedFeeMutez = suggestedFeeMutez && formatUnits(suggestedFeeMutez, decimals);
 
   const onSend = useCallback(
