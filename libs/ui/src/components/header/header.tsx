@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 import { View } from 'react-native';
 
@@ -21,6 +21,7 @@ import { styles } from './header.styles';
 
 export const Header: FC = () => {
   const { canGoBack } = useNavigation();
+  const { name } = useRoute();
   const { name: networkName, iconName } = useSelectedNetworkSelector();
   const address = useSelectedAccountPublicKeyHashSelector();
 
@@ -51,7 +52,7 @@ export const Header: FC = () => {
         </>
       )}
 
-      {canGoBack() && <HeaderTitle text="Title" />}
+      {canGoBack() && <HeaderTitle text={name} />}
     </View>
   );
 };
