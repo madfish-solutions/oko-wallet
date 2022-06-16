@@ -4,10 +4,11 @@ import { Text } from 'react-native';
 
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
+import { formatUnits } from '../../../../utils/units.utils';
 import { ConfirmationProps } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
 
-import { useTezosEstimations } from './hooks/use-tezos-estimations.hook';
+import { EstimationInterface, useTezosEstimations } from './hooks/use-tezos-estimations.hook';
 
 interface Props extends ConfirmationProps {
   transferParams: TezosTransferParams;
@@ -18,11 +19,22 @@ export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }
   const { estimations, isLoading } = useTezosEstimations({ sender, transferParams, network });
   const [transactionHash, setTransactionHash] = useState('');
 
+  const {
+    rpcUrl,
+    gasTokenMetadata: { decimals },
+    networkType
+  } = network;
+  const [{ storageLimit, gasLimit, suggestedFeeMutez, minimalFeePerStorageByteMutez } = {} as EstimationInterface] =
+    estimations;
+
+  const storageFee = storageLimit && formatUnits(storageLimit * minimalFeePerStorageByteMutez, decimals);
+  const formattedSuggestedFeeMutez = suggestedFeeMutez && formatUnits(suggestedFeeMutez, decimals);
+
   const onSend = useCallback(
     () =>
       getTezosSigner({
-        publicKeyHash: getPublicKeyHash(sender, network.networkType),
-        rpcUrl: network.rpcUrl,
+        rpcUrl,
+        publicKeyHash: getPublicKeyHash(sender, networkType),
         transactionParams: { ...transferParams, ...estimations },
         successCallback: transactionResponse => setTransactionHash(transactionResponse.hash)
       }),
@@ -39,9 +51,10 @@ export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }
     >
       <>
         <Text>Amount: {transferParams.amount}</Text>
-        <Text>Storage limit: {estimations[0]?.storageLimit}</Text>
-        <Text>Gas limit: {estimations[0]?.gasLimit}</Text>
-        <Text>Fee: {estimations[0]?.suggestedFeeMutez}</Text>
+        <Text>Storage limit: {storageLimit}</Text>
+        {storageLimit > 0 && <Text>Storage Fee: {storageFee}</Text>}
+        <Text>Gas limit: {gasLimit}</Text>
+        <Text>TX Fee: {formattedSuggestedFeeMutez}</Text>
       </>
     </Confirmation>
   );

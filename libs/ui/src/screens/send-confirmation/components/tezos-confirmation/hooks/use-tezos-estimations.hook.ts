@@ -9,7 +9,9 @@ import { parseTezosTransferParams } from '../../../../../utils/parse-tezos-trans
 import { createReadOnlyTezosToolkit } from '../../../../../utils/tezos-toolkit.utils';
 import { ConfirmationProps } from '../../../types';
 
-type EstimationInterface = Pick<Estimate, 'suggestedFeeMutez' | 'gasLimit' | 'storageLimit'>;
+export interface EstimationInterface extends Pick<Estimate, 'suggestedFeeMutez' | 'gasLimit' | 'storageLimit'> {
+  minimalFeePerStorageByteMutez: number;
+}
 
 interface UseEstimationsArgs extends ConfirmationProps {
   transferParams: TezosTransferParams;
@@ -36,11 +38,15 @@ export const useTezosEstimations = ({
     )
       .pipe(
         map(estimates =>
-          estimates.map<EstimationInterface>(({ suggestedFeeMutez, gasLimit, storageLimit }) => ({
-            suggestedFeeMutez,
-            gasLimit,
-            storageLimit
-          }))
+          estimates.map<EstimationInterface>(
+            // @ts-ignore
+            ({ suggestedFeeMutez, gasLimit, storageLimit, minimalFeePerStorageByteMutez }) => ({
+              suggestedFeeMutez,
+              gasLimit,
+              storageLimit,
+              minimalFeePerStorageByteMutez
+            })
+          )
         ),
         catchError(() => of([]))
       )
