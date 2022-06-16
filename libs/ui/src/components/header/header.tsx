@@ -27,10 +27,12 @@ export const Header: FC = () => {
   const selectNetwork = () => null;
   const selectAccount = () => null;
 
+  const networkNameVisibility = canGoBack() ? '' : networkName;
+
   return (
     <View style={styles.root}>
       <Row style={styles.marginBottom}>
-        <HeaderTouchableElement onPress={selectNetwork} isShowDropdownArrow text={networkName}>
+        <HeaderTouchableElement onPress={selectNetwork} text={networkNameVisibility} isShowDropdownArrow>
           <Icon name={iconName ?? IconNameEnum.NetworkFallback} />
         </HeaderTouchableElement>
 
