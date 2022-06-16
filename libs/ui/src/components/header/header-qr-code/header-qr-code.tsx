@@ -19,7 +19,6 @@ interface Props {
 
 export const HeaderQRCode: FC<Props> = ({ style }) => {
   const address = useSelectedAccountPublicKeyHashSelector();
-  console.log('ADDRESS:', address);
 
   const copyAddress = () => handleCopyToClipboard(address);
 
