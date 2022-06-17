@@ -38,6 +38,7 @@
     "wasm-themis": "^0.14.5"
   },
   "devDependencies": {
+    "@dr.pogodin/babel-preset-svgr": "^1.4.1",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
     "@types/node": "^16.11.27",

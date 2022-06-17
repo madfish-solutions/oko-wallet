@@ -1,5 +1,6 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider';
-import { Subject, switchMap, map } from 'rxjs';
+import { Subject } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
 
 import { getDefaultEvmProvider } from '../../utils/get-default-evm-provider.utils';
 import { GetEvmSignerParams } from '../interfaces/get-evm-signer-params.interface';

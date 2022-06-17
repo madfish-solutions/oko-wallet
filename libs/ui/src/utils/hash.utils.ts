@@ -1,4 +1,5 @@
-import { from, map } from 'rxjs';
+import { from } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export const generateHash$ = (password: string) => {
   const utf8 = new TextEncoder().encode(password);

@@ -7,7 +7,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const appDirectory = path.resolve(__dirname);
 
 const babelLoaderConfiguration = {
-  test: /\.([jt])sx?$/,
+  test: /\.(js|jsx|ts|tsx|svg)$/,
   use: {
     loader: 'babel-loader',
     options: {
@@ -22,7 +22,7 @@ const babelLoaderConfiguration = {
 };
 
 const imageLoaderConfiguration = {
-  test: /\.(gif|jpe?g|png|svg)$/,
+  test: /\.(gif|jpe?g|png)$/,
   use: {
     loader: 'url-loader',
     options: {

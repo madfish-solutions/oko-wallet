@@ -3,8 +3,8 @@ import { isDefined } from '@rnw-community/shared';
 import { InMemorySigner } from '@taquito/signer';
 import { generateMnemonic } from 'bip39';
 import { ethers } from 'ethers';
-import { forkJoin, of, switchMap, Observable, from, BehaviorSubject } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { forkJoin, of, Observable, from, BehaviorSubject } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { AccountTypeEnum } from '../enums/account-type.enum';
 import { NetworkTypeEnum } from '../enums/network-type.enum';
