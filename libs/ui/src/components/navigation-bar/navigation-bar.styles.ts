@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 export const NavigationBarStyles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    marginBottom: 24,
     backgroundColor: '#ff821b'
   },
   button: {

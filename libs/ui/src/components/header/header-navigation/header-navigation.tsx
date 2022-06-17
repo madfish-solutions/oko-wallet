@@ -6,13 +6,13 @@ import { IconNameEnum } from '../../icon/icon-name.enum';
 import { Row } from '../../row/row';
 import { TouchableIcon } from '../../touchable-icon/touchable-icon';
 
-import { styles } from './header-title.styles';
+import { styles } from './header-navigation.styles';
 
 interface Props {
   text: string;
 }
 
-export const HeaderTitle: FC<Props> = ({ text }) => {
+export const HeaderNavigation: FC<Props> = ({ text }) => {
   const { goBack } = useNavigation();
 
   return (
