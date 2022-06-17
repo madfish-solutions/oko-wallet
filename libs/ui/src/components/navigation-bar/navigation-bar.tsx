@@ -1,8 +1,11 @@
 import { isDefined } from '@rnw-community/shared';
 import React from 'react';
-import { View } from 'react-native';
 
 import { ScreensEnum } from '../../enums/sreens.enum';
+import { getCustomSize } from '../../styles/format-size';
+import { Divider } from '../divider/divider';
+import { IconNameEnum } from '../icon/icon-name.enum';
+import { Row } from '../row/row';
 
 import { styles } from './navigation-bar.styles';
 import { walletStackScreens } from './screen-stacks/wallet-screens.stack';
@@ -13,15 +16,30 @@ export const NavigationBar = () => {
     isDefined(ScreensEnum.Wallet) && screensStack.includes(ScreensEnum.Wallet);
 
   return (
-    <View style={styles.root}>
-      <TabBarButton routeName={ScreensEnum.Wallet} focused={isStackFocused(walletStackScreens)} />
-      <TabBarButton routeName={ScreensEnum.Settings} focused={isStackFocused(walletStackScreens)} />
-      {/* <TabBarButton routeName={ScreensEnum.Send} focused={isStackFocused(walletStackScreens)} />
-      <TabBarButton routeName={ScreensEnum.Receive} focused={isStackFocused(walletStackScreens)} /> */}
-
-      {/* <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigate(ScreensEnum.ConnectToDapps)}>
-        <Text style={NavigationBarStyles.buttonText}>Dapps</Text>
-      </TouchableOpacity> */}
-    </View>
+    <Row style={styles.root}>
+      <TabBarButton
+        routeName={ScreensEnum.Wallet}
+        name={IconNameEnum.Swap}
+        focused={isStackFocused(walletStackScreens)}
+      />
+      <Divider size={getCustomSize(3)} />
+      <TabBarButton
+        routeName={ScreensEnum.Receive}
+        name={IconNameEnum.Receive}
+        focused={isStackFocused(walletStackScreens)}
+      />
+      <Divider size={getCustomSize(3)} />
+      <TabBarButton
+        routeName={ScreensEnum.Send}
+        name={IconNameEnum.Send}
+        focused={isStackFocused(walletStackScreens)}
+      />
+      <Divider size={getCustomSize(3)} />
+      <TabBarButton
+        routeName={ScreensEnum.Settings}
+        name={IconNameEnum.Settings}
+        focused={isStackFocused(walletStackScreens)}
+      />
+    </Row>
   );
 };

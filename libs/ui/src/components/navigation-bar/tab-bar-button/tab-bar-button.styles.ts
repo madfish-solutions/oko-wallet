@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    height: getCustomSize(5),
     paddingVertical: getCustomSize(1),
     paddingHorizontal: getCustomSize(2.5),
     borderRadius: getCustomSize(1.75),
