@@ -16,22 +16,6 @@ export const styles = StyleSheet.create({
     borderWidth: getCustomSize(0.25),
     borderColor: colors.bgGrey2
   },
-  iconWrapper: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 24,
-    height: 24
-  },
-  icon: {
-    color: colors.orange,
-    fontSize: getCustomSize(2.5)
-  },
-  iconRight: {
-    marginLeft: getCustomSize(0.5)
-  },
-  iconLeft: {
-    marginRight: getCustomSize(0.5)
-  },
   lable: {
     color: colors.textGrey1
   }
