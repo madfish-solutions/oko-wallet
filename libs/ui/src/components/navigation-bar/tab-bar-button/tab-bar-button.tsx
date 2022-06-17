@@ -3,7 +3,8 @@ import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
 
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
-import { Icon, IconProps } from '../../icon/icon';
+import { Icon } from '../../icon/icon';
+import { IconProps } from '../../icon/icon.interface';
 
 import { styles } from './tab-bar-button.styles';
 
