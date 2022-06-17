@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from 'react';
-import { StyleProp, TextStyle, View } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 
 import { getCustomSize } from '../../styles/format-size';
 
@@ -12,7 +12,7 @@ export interface IconProps {
   width?: number;
   height?: number;
   color?: string;
-  iconStyle?: StyleProp<TextStyle>;
+  iconStyle?: StyleProp<ViewStyle>;
 }
 
 export const Icon: FC<IconProps> = ({
