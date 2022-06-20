@@ -6,6 +6,7 @@ import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
 import { Token } from '../../interfaces/token.interface';
+import { initialAccount } from '../../mocks/account.interface.mock';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-network-type-key-exist';
 import { getString } from '../../utils/get-string.utils';
@@ -38,27 +39,27 @@ export const updateAccountsTokensState = (state: WalletState, account: AccountIn
 
   return { ...state.accountsTokens, ...prepareAccountTokens };
 };
+
 export const getDefaultAccountTokens = (state: WalletState, account: AccountInterface) => {
-  const { selectedNetworkRpcUrl } = state;
+  const { networks, selectedNetworkRpcUrl } = state;
 
   const accountTokensSlug = getAccountTokensSlug(
     selectedNetworkRpcUrl,
     getPublicKeyHash(account, getSelectedNetworkType(state))
   );
-  const isChainIdExist = TOKENS_DEFAULT_LIST.hasOwnProperty(getCurrentNetworkChainId(selectedNetworkRpcUrl));
 
-  if (isChainIdExist) {
+  const currentNetwork = networks.find(network => network.rpcUrl === selectedNetworkRpcUrl);
+
+  if (currentNetwork && currentNetwork.chainId && TOKENS_DEFAULT_LIST.hasOwnProperty(currentNetwork.chainId)) {
     return {
       accountTokensSlug,
-      defaultAccountTokens: TOKENS_DEFAULT_LIST[getCurrentNetworkChainId(selectedNetworkRpcUrl)].map(
-        ({ tokenAddress, name, symbol }) => ({
-          tokenAddress,
-          name,
-          symbol,
-          isVisible: true,
-          balance: createEntity('0')
-        })
-      )
+      defaultAccountTokens: TOKENS_DEFAULT_LIST[currentNetwork.chainId].map(({ tokenAddress, name, symbol }) => ({
+        tokenAddress,
+        name,
+        symbol,
+        isVisible: true,
+        balance: createEntity('0')
+      }))
     };
   }
 };
@@ -118,3 +119,10 @@ export const getTransferParams = (
     value: amount
   };
 };
+
+export const getSelectedAccount = (state: WalletState, networkType: NetworkTypeEnum) =>
+  state.accounts.find(account =>
+    account.networksKeys.hasOwnProperty(networkType)
+      ? account.networksKeys[networkType]?.publicKeyHash === state.selectedAccountPublicKeyHash
+      : null
+  ) ?? initialAccount;
