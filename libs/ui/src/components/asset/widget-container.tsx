@@ -6,7 +6,7 @@ import { Icon } from '../icon/icon';
 import { IconNameEnum } from '../icon/icon-name.enum';
 import { Row } from '../row/row';
 
-import { styles } from './asset.styles';
+import { styles } from './widget-container.styles';
 
 interface Props {
   iconName: IconNameEnum;
