@@ -1,7 +1,7 @@
 {
   "presets": [
     "module:metro-react-native-babel-preset",
-    "@dr.pogodin/babel-preset-svgr"
+    ["@dr.pogodin/babel-preset-svgr", { "svgr": "require('./svgr.config')" }]
   ],
   "plugins": [
     "react-native-web"
