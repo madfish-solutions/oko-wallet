@@ -8,7 +8,8 @@ export const styles = StyleSheet.create({
   root: {
     backgroundColor: colors.bgGrey2,
     borderRadius: getCustomSize(2),
-    paddingBottom: getCustomSize(0.25)
+    paddingBottom: getCustomSize(0.25),
+    paddingHorizontal: getCustomSize(0.25)
   },
   header: {
     justifyContent: 'flex-start',
