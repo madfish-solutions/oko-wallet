@@ -31,9 +31,9 @@ export const Button: FC<Props> = ({
   return (
     <Pressable {...restProps} style={styles.root}>
       <View style={styles.wrapper}>
-        {leftIcon && <Icon name={leftIcon} size={iconSize} style={styles.leftIcon} />}
+        {leftIcon && <Icon name={leftIcon} size={iconSize} iconStyle={styles.leftIcon} />}
         <Text style={styles.text}>{title}</Text>
-        {rightIcon && <Icon name={rightIcon} size={iconSize} style={styles.rightIcon} />}
+        {rightIcon && <Icon name={rightIcon} size={iconSize} iconStyle={styles.rightIcon} />}
       </View>
     </Pressable>
   );
