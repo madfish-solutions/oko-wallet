@@ -1,9 +1,9 @@
 import React, { FC, useMemo, useState } from 'react';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 
+import { Collectibles } from '../../../../components/collectibles/collectibles';
 import { useCollectiblesSelector, useVisibleAccountTokensSelector } from '../../../../store/wallet/wallet.selectors';
 import { AccountTokensList } from '../account-tokens-list/account-tokens-list';
-import { Collectibles } from '../collectibles/collectibles';
 
 import { AccountTokensStyles } from './account-tokens.styles';
 

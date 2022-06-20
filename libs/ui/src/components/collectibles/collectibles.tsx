@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { PressableProps, View } from 'react-native';
+import { View, Image, Pressable } from 'react-native';
 
 import { Token } from '../../interfaces/token.interface';
 import { Button } from '../button/button';
@@ -8,13 +8,14 @@ import { WidgetContainer } from '../widget-container/widget-container';
 
 import { styles } from './collectibles.styles';
 
-interface Props extends PressableProps {
-  //@TODO : CHECK PROPS
+interface Props {
   collectibles: Token[];
 }
 
 const EMPTY_NFT = 'Receive your first NFT';
 const COLLECTIBLES = 'Collectibles';
+const RECEIVE = 'RECEIVE';
+const VIEW_ALL = 'VIEW ALL';
 
 export const Collectibles: FC<Props> = ({ collectibles }) => {
   if (collectibles.length === 0) {
@@ -24,9 +25,21 @@ export const Collectibles: FC<Props> = ({ collectibles }) => {
       </WidgetContainer>
     );
   }
-  if (collectibles.length < 3) {
-    return <View />;
-  }
 
-  return <View />;
+  return (
+    <WidgetContainer title={COLLECTIBLES} iconName={IconNameEnum.Nft} style={styles.emptyNFT}>
+      <View style={styles.wrapper}>
+        <Pressable style={styles.pressable}>
+          <Image source={{ uri: collectibles[0].artifactUri }} style={[styles.image, styles.imageFirst]} />
+          {collectibles[1] !== undefined && (
+            <Image source={{ uri: collectibles[1].artifactUri }} style={styles.image} />
+          )}
+        </Pressable>
+        <View style={styles.buttons}>
+          <Button title={RECEIVE} rightIcon={IconNameEnum.Receive} style={[styles.button, styles.buttonTop]} />
+          <Button title={VIEW_ALL} rightIcon={IconNameEnum.ArrowRight} style={[styles.button, styles.buttonBottom]} />
+        </View>
+      </View>
+    </WidgetContainer>
+  );
 };
