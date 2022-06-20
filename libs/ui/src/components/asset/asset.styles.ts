@@ -6,24 +6,19 @@ import { typography } from '../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
-    flexGrow: 1,
-    flexShrink: 1,
     backgroundColor: colors.bgGrey2,
-    paddingLeft: getCustomSize(3),
-    paddingRight: getCustomSize(3)
+    borderRadius: getCustomSize(2),
+    paddingBottom: getCustomSize(0.25)
   },
   header: {
-    display: 'flex',
-    flexDirection: 'row',
     justifyContent: 'flex-start',
-    paddingVertical: getCustomSize(1),
-    paddingLeft: getCustomSize(1.25),
+    padding: getCustomSize(1),
     color: colors.border
   },
   text: {
-    display: 'flex',
-    color: '#F8F8F8',
     ...typography.bodyInterSemiBold15,
+    lineHeight: 20,
+    color: colors.textGrey1,
     marginLeft: getCustomSize(0.75),
     alignItems: 'center'
   }
