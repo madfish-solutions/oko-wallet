@@ -14,12 +14,12 @@ export const Wallet: FC = () => {
 
   return (
     <View style={WalletStyles.root}>
-      <NavigationBar />
       <ScrollView scrollEnabled={!isLocked}>
         <Account />
         <GasTokenBalance />
         <AccountTokens />
       </ScrollView>
+      <NavigationBar />
     </View>
   );
 };

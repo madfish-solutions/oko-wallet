@@ -1,31 +1,45 @@
+import { isDefined } from '@rnw-community/shared';
 import React from 'react';
-import { TouchableOpacity, Text, View } from 'react-native';
 
 import { ScreensEnum } from '../../enums/sreens.enum';
-import { useNavigation } from '../../hooks/use-navigation.hook';
+import { getCustomSize } from '../../styles/format-size';
+import { Divider } from '../divider/divider';
+import { IconNameEnum } from '../icon/icon-name.enum';
+import { Row } from '../row/row';
 
-import { NavigationBarStyles } from './navigation-bar.styles';
+import { styles } from './navigation-bar.styles';
+import { walletStackScreens } from './screen-stacks/wallet-screens.stack';
+import { TabBarButton } from './tab-bar-button/tab-bar-button';
 
 export const NavigationBar = () => {
-  const { navigate } = useNavigation();
+  const isStackFocused = (screensStack: ScreensEnum[]) =>
+    isDefined(ScreensEnum.Wallet) && screensStack.includes(ScreensEnum.Wallet);
 
   return (
-    <View style={NavigationBarStyles.container}>
-      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigate(ScreensEnum.Wallet)}>
-        <Text style={NavigationBarStyles.buttonText}>Wallet</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigate(ScreensEnum.Settings)}>
-        <Text style={NavigationBarStyles.buttonText}>Settings</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigate(ScreensEnum.Send)}>
-        <Text style={NavigationBarStyles.buttonText}>Send</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigate(ScreensEnum.Receive)}>
-        <Text style={NavigationBarStyles.buttonText}>Receive</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={NavigationBarStyles.button} onPress={() => navigate(ScreensEnum.ConnectToDapps)}>
-        <Text style={NavigationBarStyles.buttonText}>Dapps</Text>
-      </TouchableOpacity>
-    </View>
+    <Row style={styles.root}>
+      <TabBarButton
+        routeName={ScreensEnum.Wallet}
+        name={IconNameEnum.Swap}
+        focused={isStackFocused(walletStackScreens)}
+      />
+      <Divider size={getCustomSize(3)} />
+      <TabBarButton
+        routeName={ScreensEnum.Receive}
+        name={IconNameEnum.Receive}
+        focused={isStackFocused(walletStackScreens)}
+      />
+      <Divider size={getCustomSize(3)} />
+      <TabBarButton
+        routeName={ScreensEnum.Send}
+        name={IconNameEnum.Send}
+        focused={isStackFocused(walletStackScreens)}
+      />
+      <Divider size={getCustomSize(3)} />
+      <TabBarButton
+        routeName={ScreensEnum.Settings}
+        name={IconNameEnum.Settings}
+        focused={isStackFocused(walletStackScreens)}
+      />
+    </Row>
   );
 };

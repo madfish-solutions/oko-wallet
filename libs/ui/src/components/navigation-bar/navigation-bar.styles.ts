@@ -1,20 +1,17 @@
 import { StyleSheet } from 'react-native';
 
-export const NavigationBarStyles = StyleSheet.create({
-  container: {
+import { colors } from '../../styles/colors';
+import { getCustomSize } from '../../styles/format-size';
+
+export const styles = StyleSheet.create({
+  root: {
     flexDirection: 'row',
-    marginBottom: 24,
-    backgroundColor: '#ff821b'
-  },
-  button: {
-    margin: 4,
-    padding: 8,
-    borderWidth: 1,
-    borderColor: '#fff',
-    borderRadius: 4
-  },
-  buttonText: {
-    color: '#fff',
-    textAlign: 'center'
+    justifyContent: 'space-between',
+    paddingHorizontal: getCustomSize(3),
+    paddingTop: getCustomSize(2),
+    paddingBottom: getCustomSize(4),
+    backgroundColor: colors.navGrey1,
+    borderTopLeftRadius: getCustomSize(1.75),
+    borderTopRightRadius: getCustomSize(1.75)
   }
 });
