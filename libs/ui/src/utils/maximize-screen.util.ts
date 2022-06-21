@@ -1,14 +1,14 @@
 import { browser } from 'webextension-polyfill-ts';
 
-export function openInFullPage() {
+export const openInFullPage = () => {
   const { search, hash } = window.location;
   const url = createUrl('index.html', search, hash);
   browser.tabs.create({
     url: browser.runtime.getURL(url)
   });
-}
+};
 
-export function createUrl(pathname = '/', search = '', hash = ''): string {
+const createUrl = (pathname = '/', search = '', hash = ''): string => {
   if (search && !search.startsWith('?')) {
     search = `?${search}`;
   }
@@ -17,4 +17,4 @@ export function createUrl(pathname = '/', search = '', hash = ''): string {
   }
 
   return `${pathname}${search}${hash}`;
-}
+};
