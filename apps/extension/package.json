@@ -22,7 +22,6 @@
     "buffer": "^6.0.3",
     "ed25519-hd-key": "^1.2.0",
     "ethers": "^5.6.4",
-    "jest-webextension-mock": "^3.7.22",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-native-qrcode-svg": "^6.1.2",

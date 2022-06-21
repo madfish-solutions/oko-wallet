@@ -31,7 +31,6 @@
     "ed25519-hd-key": "^1.2.0",
     "ethers": "^5.6.4",
     "jest": "^27.5.1",
-    "jest-webextension-mock": "^3.7.22",
     "react": "^17.0.2",
     "react-native": "^0.68.1",
     "react-native-flipper": "^0.144.0",
@@ -57,5 +56,8 @@
   },
   "resolutions": {
     "@types/react": "^17"
+  },
+  "dependencies": {
+    "jest-webextension-mock": "^3.7.22"
   }
 }
