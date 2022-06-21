@@ -51,7 +51,8 @@
     "rxjs": "^7.5.5",
     "stream-browserify": "^3.0.0",
     "ts-action": "^11.0.0",
-    "ts-action-operators": "^9.1.2"
+    "ts-action-operators": "^9.1.2",
+    "webextension-polyfill-ts": "^0.26.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
