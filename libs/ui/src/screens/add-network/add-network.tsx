@@ -69,11 +69,15 @@ export const AddNetwork: FC = () => {
       return setError('Please, add other rpc-url!');
     }
 
-    dispatch(addNewNetworkAction(values));
     if (!checkIsNetworkTypeKeyExist(selectedAccount, networkType)) {
-      createHdAccountForNewNetworkType(selectedAccount, networkType);
+      createHdAccountForNewNetworkType(selectedAccount, networkType, () => {
+        dispatch(addNewNetworkAction(values));
+        navigate(ScreensEnum.Wallet);
+      });
+    } else {
+      dispatch(addNewNetworkAction(values));
+      navigate(ScreensEnum.Wallet);
     }
-    navigate(ScreensEnum.Wallet);
   }, [name, rpcUrl, chainId, gasTokenSymbol, explorerUrl, networkType]);
 
   return (

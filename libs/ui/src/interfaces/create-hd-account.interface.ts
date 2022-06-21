@@ -18,6 +18,7 @@ export type CreateHdAccountType = {
 export interface CreateHdAccountForNewNetworkParams {
   account: AccountInterface;
   networkType: NetworkTypeEnum;
+  callback?: () => void;
 }
 
 export type CreateHdAccountForNewNetworkType = {
