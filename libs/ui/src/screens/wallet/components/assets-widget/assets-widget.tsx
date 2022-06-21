@@ -21,13 +21,13 @@ export const AssetsWidget: FC<Props> = ({ assetsNumber }) => {
   const accountTokens = useVisibleAccountTokensSelector();
   const visibleAccountTokens = useMemo(
     () => (assetsNumber !== undefined ? accountTokens.slice(0, assetsNumber) : accountTokens),
-    [assetsNumber]
+    [assetsNumber, accountTokens]
   );
 
   return (
     <WidgetContainer iconName={IconNameEnum.Assets} title="Assets">
       <View style={styles.root}>
-        <Row>
+        <Row style={styles.upperButtons}>
           <Button title="Swap" leftIcon={IconNameEnum.Swap} />
           <Divider />
           <Button title="Top up" rightIcon={IconNameEnum.Topup} />
