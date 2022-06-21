@@ -8,7 +8,8 @@ import { formatUnits } from '../../../../utils/units.utils';
 import { ConfirmationProps } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
 
-import { EstimationInterface, useTezosEstimations } from './hooks/use-tezos-estimations.hook';
+import { useTezosEstimations } from './hooks/use-tezos-estimations.hook';
+import { useTezosFees } from './hooks/use-tezos-fees.hook';
 
 interface Props extends ConfirmationProps {
   transferParams: TezosTransferParams;
@@ -17,25 +18,26 @@ interface Props extends ConfirmationProps {
 export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }) => {
   const { getTezosSigner } = useShelter();
   const { estimations, isLoading } = useTezosEstimations({ sender, transferParams, network });
+  const fees = useTezosFees(estimations);
   const [transactionHash, setTransactionHash] = useState('');
 
+  const minimalFeePerStorageByteMutez = estimations[0]?.minimalFeePerStorageByteMutez ?? 0;
   const {
     rpcUrl,
     gasTokenMetadata: { decimals },
     networkType
   } = network;
-  const [{ storageLimit, gasLimit, suggestedFeeMutez, minimalFeePerStorageByteMutez } = {} as EstimationInterface] =
-    estimations;
+  const { storageLimit, gasLimit, fee, revealGasFee } = fees;
 
   const storageFee = storageLimit && formatUnits(storageLimit * minimalFeePerStorageByteMutez, decimals);
-  const formattedSuggestedFeeMutez = suggestedFeeMutez && formatUnits(suggestedFeeMutez, decimals);
+  const formattedFee = fee && formatUnits(fee, decimals);
 
   const onSend = useCallback(
     () =>
       getTezosSigner({
         rpcUrl,
         publicKeyHash: getPublicKeyHash(sender, networkType),
-        transactionParams: { ...transferParams, ...estimations },
+        transactionParams: { ...transferParams, fee: fee - revealGasFee, storageLimit, gasLimit },
         successCallback: transactionResponse => setTransactionHash(transactionResponse.hash)
       }),
     [estimations]
@@ -54,7 +56,7 @@ export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }
         <Text>Storage limit: {storageLimit}</Text>
         {storageLimit > 0 && <Text>Storage Fee: {storageFee}</Text>}
         <Text>Gas limit: {gasLimit}</Text>
-        <Text>TX Fee: {formattedSuggestedFeeMutez}</Text>
+        <Text>TX Fee: {formattedFee}</Text>
       </>
     </Confirmation>
   );
