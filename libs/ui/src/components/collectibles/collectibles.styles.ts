@@ -12,13 +12,18 @@ export const styles = StyleSheet.create({
     height: 98,
     width: 98,
     borderRadius: getCustomSize(0.5),
-    backgroundColor: colors.navGrey1
+    backgroundColor: colors.navGrey1,
+    justifyContent: 'center'
   },
   imageFirst: {
     borderTopLeftRadius: getCustomSize(1.75),
     borderTopRightRadius: getCustomSize(0.5),
     borderBottomLeftRadius: getCustomSize(1.75),
     borderBottomRightRadius: getCustomSize(0.5)
+  },
+  icon: {
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   wrapper: {
     flexDirection: 'row',
