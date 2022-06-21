@@ -13,7 +13,8 @@ export const styles = StyleSheet.create({
     width: 98,
     borderRadius: getCustomSize(0.5),
     backgroundColor: colors.navGrey1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginRight: getCustomSize(0.25)
   },
   imageFirst: {
     borderTopLeftRadius: getCustomSize(1.75),
@@ -28,12 +29,11 @@ export const styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
     width: '100%',
-    gap: getCustomSize(0.25),
+    marginRight: getCustomSize(0.25),
     paddingHorizontal: getCustomSize(0.25)
   },
   pressable: {
-    flexDirection: 'row',
-    gap: getCustomSize(0.25)
+    flexDirection: 'row'
   },
   buttons: {
     flexGrow: 1,
