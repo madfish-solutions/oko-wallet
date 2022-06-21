@@ -8,5 +8,5 @@ type Props = {
 };
 
 export const ScreenContainer: FC<Props> = ({ children, style }) => (
-  <ScrollView style={[ScreenContainerStyles.root, style]}> {children} </ScrollView>
+  <ScrollView style={[ScreenContainerStyles.root, style]}>{children}</ScrollView>
 );
