@@ -16,7 +16,7 @@ interface Props {
 }
 
 export const Token: FC<Props> = ({ imageSource, symbol, balance, isGasToken = false }) => (
-  <Row style={styles.tokenInfoContainer}>
+  <Row style={styles.root}>
     <Row style={styles.token}>
       {/*TODO Change to reusable component, when header be merged*/}
       <Image style={styles.tokenImage} source={imageSource} />

@@ -5,7 +5,7 @@ import { getCustomSize } from '../../../../../../styles/format-size';
 import { typography } from '../../../../../../styles/typography';
 
 export const styles = StyleSheet.create({
-  tokenInfoContainer: {
+  root: {
     justifyContent: 'space-between',
     backgroundColor: colors.navGrey1,
     borderRadius: getCustomSize(0.5),
@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     width: getCustomSize(3),
     height: getCustomSize(3),
     borderWidth: getCustomSize(0.25),
-    borderRadius: getCustomSize(1.375),
+    borderRadius: getCustomSize(8),
     marginRight: getCustomSize(0.5)
   },
   text: {
