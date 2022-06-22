@@ -4,25 +4,30 @@ import React, { FC, useCallback, useState } from 'react';
 import { Text } from 'react-native';
 
 import { useShelter } from '../../../../hooks/use-shelter.hook';
-import { getString } from '../../../../utils/get-string.utils';
+import {
+  useSelectedAccountPublicKeyHashSelector,
+  useSelectedNetworkSelector
+} from '../../../../store/wallet/wallet.selectors';
 import { formatUnits } from '../../../../utils/units.utils';
-import { ConfirmationProps } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
 
 import { GAS_LIMIT } from './constants/ethereum-gas-limit';
 import { useEvmEstimations } from './hooks/use-evm-estimations.hook';
 
-interface Props extends ConfirmationProps {
+interface Props {
   transferParams: EvmTransferParams;
 }
 
-export const EvmConfirmation: FC<Props> = ({ network, sender: { networksKeys }, transferParams }) => {
+export const EvmConfirmation: FC<Props> = ({ transferParams }) => {
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
+  const network = useSelectedNetworkSelector();
+
   const { getEvmSigner } = useShelter();
   const { estimations, isLoading } = useEvmEstimations(network);
+
   const [transactionHash, setTransactionHash] = useState('');
 
   const {
-    networkType,
     rpcUrl,
     gasTokenMetadata: { decimals }
   } = network;
@@ -42,7 +47,7 @@ export const EvmConfirmation: FC<Props> = ({ network, sender: { networksKeys }, 
       getEvmSigner({
         rpcUrl,
         transactionParams,
-        publicKeyHash: getString(networksKeys[networkType]?.publicKeyHash),
+        publicKeyHash,
         successCallback: transactionResponse => setTransactionHash(transactionResponse.hash)
       });
     }

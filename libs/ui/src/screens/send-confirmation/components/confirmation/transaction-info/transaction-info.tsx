@@ -12,7 +12,7 @@ interface Props {
 export const TransactionInfo: FC<Props> = ({ transactionHash, network: { explorerUrl } }) => {
   const onBlockchainExplorerPress = () => {
     if (isString(explorerUrl)) {
-      return Linking.openURL(explorerUrl);
+      return Linking.openURL(`${explorerUrl}${transactionHash}`);
     }
   };
 
@@ -20,7 +20,7 @@ export const TransactionInfo: FC<Props> = ({ transactionHash, network: { explore
     <View>
       <Text>The transaction was done, hash:</Text>
       <Text selectable={true}>{transactionHash}</Text>
-      {isString(explorerUrl) && <Text onPress={onBlockchainExplorerPress}>Block explorer {explorerUrl}</Text>}
+      {isString(explorerUrl) && <Text onPress={onBlockchainExplorerPress}>Click to watch transaction status</Text>}
     </View>
   );
 };

@@ -3,26 +3,32 @@ import React, { FC, useCallback, useState } from 'react';
 import { Text } from 'react-native';
 
 import { useShelter } from '../../../../hooks/use-shelter.hook';
-import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
+import {
+  useSelectedAccountPublicKeyHashSelector,
+  useSelectedAccountSelector,
+  useSelectedNetworkSelector
+} from '../../../../store/wallet/wallet.selectors';
 import { formatUnits } from '../../../../utils/units.utils';
-import { ConfirmationProps } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
 
 import { EstimationInterface, useTezosEstimations } from './hooks/use-tezos-estimations.hook';
 
-interface Props extends ConfirmationProps {
+interface Props {
   transferParams: TezosTransferParams;
 }
 
-export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }) => {
+export const TezosConfirmation: FC<Props> = ({ transferParams }) => {
   const { getTezosSigner } = useShelter();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
+  const sender = useSelectedAccountSelector();
+  const network = useSelectedNetworkSelector();
+
   const { estimations, isLoading } = useTezosEstimations({ sender, transferParams, network });
   const [transactionHash, setTransactionHash] = useState('');
 
   const {
     rpcUrl,
-    gasTokenMetadata: { decimals },
-    networkType
+    gasTokenMetadata: { decimals }
   } = network;
   const [{ storageLimit, gasLimit, suggestedFeeMutez, minimalFeePerStorageByteMutez } = {} as EstimationInterface] =
     estimations;
@@ -34,7 +40,7 @@ export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }
     () =>
       getTezosSigner({
         rpcUrl,
-        publicKeyHash: getPublicKeyHash(sender, networkType),
+        publicKeyHash,
         transactionParams: { ...transferParams, ...estimations },
         successCallback: transactionResponse => setTransactionHash(transactionResponse.hash)
       }),

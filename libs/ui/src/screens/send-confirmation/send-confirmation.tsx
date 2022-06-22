@@ -7,8 +7,7 @@ import { View } from 'react-native';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
-import { useSelectedAccountSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
-import { getNetworkType } from '../../utils/network.util';
+import { useSelectedNetworkTypeSelector } from '../../store/wallet/wallet.selectors';
 
 import { EvmConfirmation } from './components/evm-confirmation/evm-confirmation';
 import { TezosConfirmation } from './components/tezos-confirmation/tezos-confirmation';
@@ -17,14 +16,13 @@ export const SendConfirmation: FC = () => {
   const {
     params: { transferParams }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendConfirmation>>();
-  const network = useSelectedNetworkSelector();
-  const account = useSelectedAccountSelector();
+  const networkType = useSelectedNetworkTypeSelector();
 
   const confirmationComponent =
-    getNetworkType(network) === NetworkTypeEnum.Tezos ? (
-      <TezosConfirmation network={network} sender={account} transferParams={transferParams as TezosTransferParams} />
+    networkType === NetworkTypeEnum.Tezos ? (
+      <TezosConfirmation transferParams={transferParams as TezosTransferParams} />
     ) : (
-      <EvmConfirmation network={network} sender={account} transferParams={transferParams as EvmTransferParams} />
+      <EvmConfirmation transferParams={transferParams as EvmTransferParams} />
     );
 
   return (

@@ -14,7 +14,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://scope.klaytn.com/',
+    explorerUrl: 'https://scope.klaytn.com/txs/',
     networkType: NetworkTypeEnum.EVM
   },
   {
