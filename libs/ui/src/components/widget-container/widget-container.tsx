@@ -20,6 +20,6 @@ export const WidgetContainer: FC<Props> = ({ children, style, iconName, title })
       <Icon name={iconName} color={colors.border} />
       <Text style={styles.text}>{title}</Text>
     </Row>
-    {children}
+    <View style={styles.children}>{children}</View>
   </View>
 );

@@ -1,21 +1,40 @@
 import React, { FC } from 'react';
-import { Text } from 'react-native';
+import { View, Pressable } from 'react-native';
 
-import { Token } from '../../../../interfaces/token.interface';
-import { getTokenSlug } from '../../../../utils/token.utils';
+import { Button } from '../../../../components/button/button';
+import { Divider } from '../../../../components/divider/divider';
+import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
+import { Row } from '../../../../components/row/row';
+import { WidgetContainer } from '../../../../components/widget-container/widget-container';
+import { useCollectiblesWidgetSelector } from '../../../../store/wallet/wallet.selectors';
 
-import { CollectiblesStyles } from './collectibles.styles';
-import { Collectible } from './components/collectible';
+import { styles } from './collectibles.styles';
+import { CollectibleImages } from './components/collectible';
 
-interface Props {
-  collectibles: Token[];
-}
+const EMPTY_NFT = 'Receive your first NFT';
+const COLLECTIBLES = 'Collectibles';
+const RECEIVE = 'RECEIVE';
+const VIEW_ALL = 'VIEW ALL';
 
-export const Collectibles: FC<Props> = ({ collectibles }) => (
-  <>
-    {!!collectibles.length && <Text style={CollectiblesStyles.boldText}>All visible NFT's</Text>}
-    {collectibles.map(collectible => (
-      <Collectible key={getTokenSlug(collectible)} token={collectible} />
-    ))}
-  </>
-);
+export const Collectibles: FC = () => {
+  const collectibles = useCollectiblesWidgetSelector();
+
+  return (
+    <WidgetContainer title={COLLECTIBLES} iconName={IconNameEnum.Nft}>
+      {collectibles.length === 0 ? (
+        <Button title={EMPTY_NFT} leftIcon={IconNameEnum.Receive} />
+      ) : (
+        <Row>
+          <Pressable style={styles.pressable}>
+            <CollectibleImages collectibles={collectibles} />
+          </Pressable>
+          <View style={styles.buttons}>
+            <Button title={RECEIVE} rightIcon={IconNameEnum.Receive} />
+            <Divider />
+            <Button title={VIEW_ALL} rightIcon={IconNameEnum.ArrowRight} />
+          </View>
+        </Row>
+      )}
+    </WidgetContainer>
+  );
+};
