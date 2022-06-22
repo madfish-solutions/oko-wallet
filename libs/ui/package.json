@@ -51,9 +51,13 @@
     "rxjs": "^7.5.5",
     "ts-action": "^11.0.0",
     "ts-action-operators": "^9.1.2",
-    "wasm-themis": "^0.14.5"
+    "wasm-themis": "^0.14.5",
+    "webextension-polyfill-ts": "^0.26.0"
   },
   "resolutions": {
     "@types/react": "^17"
+  },
+  "dependencies": {
+    "jest-webextension-mock": "^3.7.22"
   }
 }

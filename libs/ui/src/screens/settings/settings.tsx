@@ -6,6 +6,8 @@ import { ResetWallet } from '../../components/reset-wallet/reset-wallet';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useUnlock } from '../../hooks/use-unlock.hook';
+import { openInFullPage } from '../../utils/maximize-screen.util';
+import { isWeb } from '../../utils/platform.utils';
 
 export const Settings: FC = () => {
   const { navigate } = useNavigation();
@@ -15,6 +17,10 @@ export const Settings: FC = () => {
   const navigateToManageTokens = () => navigate(ScreensEnum.ManageTokens);
   const navigateToAddNetwork = () => navigate(ScreensEnum.AddNetwork);
 
+  const handleMaximiseViewClick = () => {
+    openInFullPage();
+  };
+
   return (
     <View>
       <Text>Settings</Text>
@@ -23,6 +29,7 @@ export const Settings: FC = () => {
       <Button title="Manage Tokens" onPress={navigateToManageTokens} />
       <ResetWallet />
       <Button onPress={lock} title="lock app" color="#841584" />
+      {isWeb && <Button title="Maximize screen" onPress={handleMaximiseViewClick} color="#ffa500" />}
       <NavigationBar />
     </View>
   );
