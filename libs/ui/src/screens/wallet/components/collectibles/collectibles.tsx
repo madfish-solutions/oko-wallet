@@ -21,7 +21,7 @@ export const Collectibles: FC = () => {
 
   return (
     <WidgetContainer title={COLLECTIBLES} iconName={IconNameEnum.Nft}>
-      {collectibles.length === 0 ? (
+      {!collectibles.length ? (
         <Button title={EMPTY_NFT} leftIcon={IconNameEnum.Receive} />
       ) : (
         <Row>

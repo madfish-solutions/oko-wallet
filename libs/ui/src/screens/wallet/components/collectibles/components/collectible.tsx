@@ -1,11 +1,13 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { View, Image, Animated, Easing } from 'react-native';
 
+import { Divider } from '../../../../../components/divider/divider';
 import { Icon } from '../../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../../components/icon/icon-name.enum';
 import { Token } from '../../../../../interfaces/token.interface';
 import { getCustomSize } from '../../../../../styles/format-size';
-import { styles } from '../collectibles.styles';
+
+import { styles } from './collectible.styles';
 
 interface Props {
   collectibles: Token[];
@@ -55,6 +57,7 @@ export const CollectibleImages: FC<Props> = ({ collectibles }) => {
             style={styles.image}
             onLoadEnd={() => setImageIsLoaded(true)}
           />
+          <Divider />
         </>
       ))}
     </>
