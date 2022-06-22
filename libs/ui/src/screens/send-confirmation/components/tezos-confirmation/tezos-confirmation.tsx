@@ -37,6 +37,8 @@ export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }
       getTezosSigner({
         rpcUrl,
         publicKeyHash: getPublicKeyHash(sender, networkType),
+        // Remove revealGasGee from sum
+        // Taquito will add it by himselself
         transactionParams: { ...transferParams, fee: fee - revealGasFee, storageLimit, gasLimit },
         successCallback: transactionResponse => setTransactionHash(transactionResponse.hash)
       }),
