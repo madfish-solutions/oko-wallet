@@ -52,8 +52,8 @@ export const useShelter = () => {
     [createHdAccount$, accounts.length, networkType]
   );
   const createHdAccountForNewNetworkType = useCallback(
-    (account: AccountInterface, networkType: NetworkTypeEnum, callback?: () => void) =>
-      createHdAccountForNewNetworkType$.next({ account, networkType, callback }),
+    (account: AccountInterface, networkType: NetworkTypeEnum, successCallback?: () => void) =>
+      createHdAccountForNewNetworkType$.next({ account, networkType, successCallback }),
     [createHdAccount$]
   );
   const getEvmSigner = useCallback(

@@ -1,4 +1,3 @@
-import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { TOKENS_DEFAULT_LIST } from '../../constants/tokens';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { AccountToken } from '../../interfaces/account-token.interface';
@@ -99,9 +98,6 @@ export const getSelectedNetworkType = (state: WalletState): NetworkTypeEnum =>
 
 export const getPublicKeyHash = (account: AccountInterface, networkType: NetworkTypeEnum): string =>
   checkIsNetworkTypeKeyExist(account, networkType) ? getString(account.networksKeys[networkType]?.publicKeyHash) : '';
-
-export const getCurrentNetworkChainId = (rpcUrl: string) =>
-  NETWORKS_DEFAULT_LIST.find(network => network.rpcUrl === rpcUrl)?.chainId ?? NETWORKS_DEFAULT_LIST[0].chainId;
 
 export const getTransferParams = (
   { receiverPublicKeyHash, amount }: SendAssetPayload,
