@@ -22,7 +22,7 @@ export const SendConfirmation: FC = () => {
 
   const confirmationComponent =
     getNetworkType(network) === NetworkTypeEnum.Tezos ? (
-      <TezosConfirmation network={network} sender={account} transferParams={transferParams as TezosTransferParams} />
+      <TezosConfirmation network={network} sender={account} transferParams={transferParams as TezosTransferParams[]} />
     ) : (
       <EvmConfirmation network={network} sender={account} transferParams={transferParams as EvmTransferParams} />
     );

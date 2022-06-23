@@ -12,13 +12,13 @@ import { useTezosEstimations } from './hooks/use-tezos-estimations.hook';
 import { useTezosFees } from './hooks/use-tezos-fees.hook';
 
 interface Props extends ConfirmationProps {
-  transferParams: TezosTransferParams;
+  transferParams: TezosTransferParams[];
 }
 
 export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }) => {
   const { getTezosSigner } = useShelter();
   const { estimations, isLoading } = useTezosEstimations({ sender, transferParams, network });
-  const fees = useTezosFees(estimations);
+  const fees = useTezosFees(transferParams, estimations);
   const [transactionHash, setTransactionHash] = useState('');
 
   const minimalFeePerStorageByteMutez = estimations[0]?.minimalFeePerStorageByteMutez ?? 0;
@@ -38,7 +38,7 @@ export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }
         rpcUrl,
         publicKeyHash: getPublicKeyHash(sender, networkType),
         // Tezos Taquito will add revealGasGee by himself
-        transactionParams: { ...transferParams, fee: fee - revealGasFee, storageLimit, gasLimit },
+        transactionParams: { ...transferParams[0], fee: fee - revealGasFee, storageLimit, gasLimit },
         successCallback: transactionResponse => setTransactionHash(transactionResponse.hash)
       }),
     [estimations]
@@ -53,7 +53,7 @@ export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }
       transferParams={transferParams}
     >
       <>
-        <Text>Amount: {transferParams.amount}</Text>
+        <Text>Amount: {transferParams[0].amount}</Text>
         <Text>Storage limit: {storageLimit}</Text>
         {storageLimit > 0 && <Text>Storage Fee: {storageFee}</Text>}
         <Text>Gas limit: {gasLimit}</Text>

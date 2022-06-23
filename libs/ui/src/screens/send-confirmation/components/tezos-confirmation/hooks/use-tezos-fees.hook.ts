@@ -1,8 +1,9 @@
+import { TransferParams as TezosTransferParams } from '@taquito/taquito/dist/types/operations/types';
 import { useMemo } from 'react';
 
 import { EstimationInterface } from './use-tezos-estimations.hook';
 
-export const useTezosFees = (estimationsList: EstimationInterface[]) =>
+export const useTezosFees = (transferParams: TezosTransferParams[], estimationsList: EstimationInterface[]) =>
   useMemo(() => {
     const estimationWasSuccessful = estimationsList.length > 0;
 
@@ -18,7 +19,7 @@ export const useTezosFees = (estimationsList: EstimationInterface[]) =>
     }
 
     const { suggestedFeeMutez, gasLimit, storageLimit } = estimationsList[0];
-    const withReveal = estimationsList.length === 2;
+    const withReveal = estimationsList.length === transferParams.length + 1;
 
     fees = {
       fee: suggestedFeeMutez,

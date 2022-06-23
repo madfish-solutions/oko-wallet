@@ -14,7 +14,7 @@ export interface EstimationInterface extends Pick<Estimate, 'suggestedFeeMutez' 
 }
 
 interface UseEstimationsArgs extends ConfirmationProps {
-  transferParams: TezosTransferParams;
+  transferParams: TezosTransferParams[];
 }
 
 export const useTezosEstimations = ({
@@ -30,7 +30,7 @@ export const useTezosEstimations = ({
 
     const subscription = from(
       tezosToolkit.estimate.batch(
-        parseTezosTransferParams(transferParams).map(param => ({
+        parseTezosTransferParams(transferParams[0]).map(param => ({
           ...param,
           source: getPublicKeyHash(sender, networkType)
         }))

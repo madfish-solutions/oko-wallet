@@ -107,10 +107,12 @@ export const getTransferParams = (
   selectedNetwork: NetworkInterface
 ) => {
   if (getNetworkType(selectedNetwork) === NetworkTypeEnum.Tezos) {
-    return {
-      to: receiverPublicKeyHash,
-      amount: Number(amount)
-    };
+    return [
+      {
+        to: receiverPublicKeyHash,
+        amount: Number(amount)
+      }
+    ];
   }
 
   return {
