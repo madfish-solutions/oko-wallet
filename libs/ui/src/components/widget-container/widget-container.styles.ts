@@ -25,8 +25,6 @@ export const styles = StyleSheet.create({
   },
   children: {
     overflow: 'hidden',
-    borderRadius: getCustomSize(1.75),
-    marginBottom: getCustomSize(0.25),
-    marginHorizontal: getCustomSize(0.25)
+    borderRadius: getCustomSize(1.75)
   }
 });
