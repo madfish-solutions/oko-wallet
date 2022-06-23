@@ -36,6 +36,12 @@ export const TezosConfirmation: FC<Props> = ({ transferParams }) => {
   const storageFee = storageLimit && formatUnits(storageLimit * minimalFeePerStorageByteMutez, decimals);
   const formattedSuggestedFeeMutez = suggestedFeeMutez && formatUnits(suggestedFeeMutez, decimals);
 
+  console.log('LOGGER', {
+    rpcUrl,
+    publicKeyHash,
+    transactionParams: { ...transferParams, ...estimations }
+  });
+
   const onSend = useCallback(
     () =>
       getTezosSigner({

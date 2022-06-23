@@ -6,7 +6,7 @@ import { NETWORKS_DEFAULT_LIST } from './networks';
 type NetworkChainId = string;
 
 const KLAYTN_CHAIN_ID = '8217';
-const TEZOS_CHAIN_ID = 'NetXdQprcVkpaWU';
+export const TEZOS_CHAIN_ID = 'NetXdQprcVkpaWU';
 
 export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = {
   [KLAYTN_CHAIN_ID]: [
@@ -119,8 +119,17 @@ export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = 
   [TEZOS_CHAIN_ID]: [
     {
       tokenAddress: 'KT193D4vozYnhGJQVtw7CoxxqphqUEEwK6Vb',
+      tokenId: '0',
       name: 'Quipuswap Governance Token',
       symbol: 'QUIPU',
+      decimals: 6,
+      thumbnailUri: ''
+    },
+    {
+      tokenAddress: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
+      tokenId: '',
+      name: 'Kolibri',
+      symbol: 'KUSD',
       decimals: 6,
       thumbnailUri: ''
     }
