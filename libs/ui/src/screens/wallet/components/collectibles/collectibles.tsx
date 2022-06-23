@@ -7,6 +7,7 @@ import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';
 import { WidgetContainer } from '../../../../components/widget-container/widget-container';
 import { useCollectiblesWidgetSelector } from '../../../../store/wallet/wallet.selectors';
+import { isEmptyArray } from '../../../../utils/array.utils';
 import { getTokenSlug } from '../../../../utils/token.utils';
 
 import { styles } from './collectibles.styles';
@@ -22,7 +23,7 @@ export const CollectiblesWidget: FC = () => {
 
   return (
     <WidgetContainer title={COLLECTIBLES} iconName={IconNameEnum.Nft}>
-      {collectibles.length === 0 ? (
+      {isEmptyArray(collectibles) ? (
         <Button title={EMPTY_NFT} leftIcon={IconNameEnum.Receive} />
       ) : (
         <Row>
