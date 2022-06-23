@@ -7,7 +7,7 @@ import { IconNameEnum } from '../../../../../components/icon/icon-name.enum';
 import { Token } from '../../../../../interfaces/token.interface';
 import { getCustomSize } from '../../../../../styles/format-size';
 
-import { styles } from './collectible-iamge.styles';
+import { styles } from './collectible-image.styles';
 
 interface Props {
   collectible: Token;
