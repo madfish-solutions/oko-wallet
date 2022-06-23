@@ -49,14 +49,9 @@ export const EvmConfirmation: FC<Props> = ({ network, sender: { networksKeys }, 
   }, [estimations]);
 
   return (
-    <Confirmation
-      isLoading={isLoading}
-      transactionHash={transactionHash}
-      network={network}
-      onSend={onSend}
-      transferParams={transferParams}
-    >
+    <Confirmation isLoading={isLoading} transactionHash={transactionHash} network={network} onSend={onSend}>
       <>
+        <Text>To: {transferParams.to}</Text>
         <Text>Amount: {transferParams.value}</Text>
         <Text>Gas Price: {gasPrice}</Text>
         <Text>TX Fee: {transactionFee}</Text>

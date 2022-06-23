@@ -45,14 +45,9 @@ export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }
   );
 
   return (
-    <Confirmation
-      isLoading={isLoading}
-      transactionHash={transactionHash}
-      network={network}
-      onSend={onSend}
-      transferParams={transferParams}
-    >
+    <Confirmation isLoading={isLoading} transactionHash={transactionHash} network={network} onSend={onSend}>
       <>
+        <Text>To: {transferParams[0].to}</Text>
         <Text>Amount: {transferParams[0].amount}</Text>
         <Text>Storage limit: {storageLimit}</Text>
         {storageLimit > 0 && <Text>Storage Fee: {storageFee}</Text>}

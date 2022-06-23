@@ -3,7 +3,6 @@ import React, { FC } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { NetworkInterface } from '../../../../interfaces/network.interface';
-import { TransferParams } from '../../../../interfaces/transfer-params.interface';
 
 import { TransactionInfo } from './transaction-info/transaction-info';
 
@@ -12,15 +11,13 @@ interface Props {
   transactionHash: string;
   network: NetworkInterface;
   onSend: OnEventFn;
-  transferParams: TransferParams;
 }
 
-export const Confirmation: FC<Props> = ({ children, isLoading, transactionHash, network, onSend, transferParams }) => (
+export const Confirmation: FC<Props> = ({ children, isLoading, transactionHash, network, onSend }) => (
   <View>
     {isLoading && <Text>Loading...</Text>}
     {!isLoading && (
       <>
-        <Text>To: {transferParams.to}</Text>
         {children}
         {!transactionHash && (
           <Pressable onPress={onSend}>
