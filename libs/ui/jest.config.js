@@ -1,6 +1,6 @@
 module.exports = {
   preset: 'react-native',
-  setupFiles: ['<rootDir>/jest.setup.js'],
+  setupFiles: ['<rootDir>/jest.setup.js', 'jest-webextension-mock'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   transformIgnorePatterns: [
     'node_modules/(?!((jest-)?@react-native|react-native|react-native-themis|@react-navigation/.*))'

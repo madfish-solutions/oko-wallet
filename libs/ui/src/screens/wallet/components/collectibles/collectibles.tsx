@@ -17,7 +17,7 @@ const COLLECTIBLES = 'Collectibles';
 const RECEIVE = 'RECEIVE';
 const VIEW_ALL = 'VIEW ALL';
 
-export const Collectibles: FC = () => {
+export const CollectiblesWidget: FC = () => {
   const collectibles = useCollectiblesWidgetSelector();
 
   return (

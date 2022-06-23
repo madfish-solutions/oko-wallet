@@ -2,11 +2,12 @@ import React, { FC } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { Account } from '../../components/account/account';
-import { GasTokenBalance } from '../../components/gas-token-balance/gas-token-balance';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { Networks } from '../../components/networks/networks';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 
-import { AccountTokens } from './components/account-tokens/account-tokens';
+import { AssetsWidget } from './components/assets-widget/assets-widget';
+import { CollectiblesWidget } from './components/collectibles/collectibles';
 import { WalletStyles } from './wallet.styles';
 
 export const Wallet: FC = () => {
@@ -16,8 +17,9 @@ export const Wallet: FC = () => {
     <View style={WalletStyles.root}>
       <ScrollView scrollEnabled={!isLocked}>
         <Account />
-        <GasTokenBalance />
-        <AccountTokens />
+        <Networks />
+        <AssetsWidget />
+        <CollectiblesWidget />
       </ScrollView>
       <NavigationBar />
     </View>

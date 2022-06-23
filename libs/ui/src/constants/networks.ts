@@ -11,7 +11,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       name: 'Klaytn Token',
       symbol: 'KLAY',
       decimals: 18,
-      thumbnailUri: ''
+      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4256.png'
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://scope.klaytn.com/',
@@ -25,7 +25,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       name: 'Klaytn Token',
       symbol: 'KLAY',
       decimals: 18,
-      thumbnailUri: ''
+      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4256.png'
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://baobab.scope.klaytn.com/',
@@ -96,7 +96,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       name: 'Tezos Token',
       symbol: 'Tezos',
       decimals: 6,
-      thumbnailUri: ''
+      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/2011.png'
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://tzkt.io/',
@@ -110,7 +110,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       name: 'Tezos Token',
       symbol: 'Tezos',
       decimals: 6,
-      thumbnailUri: ''
+      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/2011.png'
     },
     gasTokenBalance: createEntity('0'),
     explorerUrl: 'https://ithacanet.tzkt.io/',
