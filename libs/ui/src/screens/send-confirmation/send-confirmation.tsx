@@ -1,6 +1,6 @@
 import { TransactionRequest as EvmTransferParams } from '@ethersproject/abstract-provider';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { TransferParams as TezosTransferParams } from '@taquito/taquito/dist/types/operations/types';
+import { ParamsWithKind } from '@taquito/taquito/dist/types/operations/types';
 import React, { FC } from 'react';
 import { View } from 'react-native';
 
@@ -22,7 +22,7 @@ export const SendConfirmation: FC = () => {
 
   const confirmationComponent =
     getNetworkType(network) === NetworkTypeEnum.Tezos ? (
-      <TezosConfirmation network={network} sender={account} transferParams={transferParams as TezosTransferParams[]} />
+      <TezosConfirmation network={network} sender={account} transferParams={transferParams as ParamsWithKind[]} />
     ) : (
       <EvmConfirmation network={network} sender={account} transferParams={transferParams as EvmTransferParams} />
     );

@@ -1,4 +1,4 @@
 import { TransactionRequest as EvmTransferParams } from '@ethersproject/abstract-provider';
-import { TransferParams as TezosTransferParams } from '@taquito/taquito/dist/types/operations/types';
+import { ParamsWithKind } from '@taquito/taquito';
 
-export type TransferParams = TezosTransferParams[] | EvmTransferParams;
+export type TransferParams = ParamsWithKind[] | EvmTransferParams;

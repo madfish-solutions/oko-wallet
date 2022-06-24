@@ -1,39 +1,56 @@
-import { TransferParams as TezosTransferParams } from '@taquito/taquito/dist/types/operations/types';
+import { ParamsWithKind, OpKind } from '@taquito/taquito';
 import { useMemo } from 'react';
 
 import { EstimationInterface } from './use-tezos-estimations.hook';
 
-export const useTezosFees = (transferParams: TezosTransferParams[], estimationsList: EstimationInterface[]) =>
+export const useTezosFees = (transferParams: ParamsWithKind[], estimationsList: EstimationInterface[]) =>
   useMemo(() => {
     const estimationWasSuccessful = estimationsList.length > 0;
-
-    let fees = {
-      fee: 0,
-      gasLimit: 0,
-      storageLimit: 0
+    const isOneOperation = transferParams.length === 1;
+    let basicFees = {
+      gasFeeSum: 0,
+      storageLimitSum: 0
     };
     let revealGasFee = 0;
 
     if (!estimationWasSuccessful) {
-      return { ...fees, revealGasFee };
+      return { ...basicFees, revealGasFee, isOneOperation, transferParamsWithFees: [] };
     }
 
-    const { suggestedFeeMutez, gasLimit, storageLimit } = estimationsList[0];
     const withReveal = estimationsList.length === transferParams.length + 1;
 
-    fees = {
-      fee: suggestedFeeMutez,
-      gasLimit,
-      storageLimit
-    };
+    const transferParamsWithFees = transferParams.map((transferParam, i) => {
+      const estimation = estimationsList[withReveal ? i + 1 : i];
+      const {
+        fee = estimation.suggestedFeeMutez,
+        gasLimit = estimation.gasLimit,
+        storageLimit = estimation.storageLimit
+      } = transferParam.kind !== OpKind.ACTIVATION ? transferParam : {};
+
+      return { ...transferParam, fee, gasLimit, storageLimit };
+    });
+
+    basicFees = transferParamsWithFees.reduce(
+      (total, transferParam) => {
+        const { fee = 0, storageLimit = 0 } = transferParam.kind !== OpKind.ACTIVATION ? transferParam : {};
+
+        return {
+          gasFeeSum: total.gasFeeSum + fee,
+          storageLimitSum: total.storageLimitSum + storageLimit
+        };
+      },
+      {
+        gasFeeSum: 0,
+        storageLimitSum: 0
+      }
+    );
 
     if (withReveal) {
-      revealGasFee = estimationsList[1].suggestedFeeMutez;
+      revealGasFee = estimationsList[0].suggestedFeeMutez;
 
-      fees.fee = fees.fee + revealGasFee;
-      fees.storageLimit = fees.storageLimit + estimationsList[1].storageLimit;
-      fees.gasLimit = estimationsList[1].gasLimit;
+      basicFees.gasFeeSum = basicFees.gasFeeSum + revealGasFee;
+      basicFees.storageLimitSum = basicFees.storageLimitSum + estimationsList[0].storageLimit;
     }
 
-    return { ...fees, revealGasFee };
+    return { ...basicFees, revealGasFee, transferParamsWithFees, isOneOperation };
   }, [estimationsList]);

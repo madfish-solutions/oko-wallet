@@ -10,6 +10,7 @@ import { getAccountTokensSlug } from '../../utils/address.util';
 import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-network-type-key-exist';
 import { getString } from '../../utils/get-string.utils';
 import { getNetworkType } from '../../utils/network.util';
+import { parseTezosTransferParams } from '../../utils/parse-tezos-transfer-params.utils';
 import { getTokenSlug } from '../../utils/token.utils';
 import { createEntity } from '../utils/entity.utils';
 
@@ -107,12 +108,10 @@ export const getTransferParams = (
   selectedNetwork: NetworkInterface
 ) => {
   if (getNetworkType(selectedNetwork) === NetworkTypeEnum.Tezos) {
-    return [
-      {
-        to: receiverPublicKeyHash,
-        amount: Number(amount)
-      }
-    ];
+    return parseTezosTransferParams({
+      to: receiverPublicKeyHash,
+      amount: Number(amount)
+    });
   }
 
   return {
