@@ -1,3 +1,4 @@
+import { OnEventFn } from '@rnw-community/shared';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Subject } from 'rxjs';
@@ -52,7 +53,7 @@ export const useShelter = () => {
     [createHdAccount$, accounts.length, networkType]
   );
   const createHdAccountForNewNetworkType = useCallback(
-    (account: AccountInterface, networkType: NetworkTypeEnum, successCallback?: () => void) =>
+    (account: AccountInterface, networkType: NetworkTypeEnum, successCallback?: OnEventFn<void>) =>
       createHdAccountForNewNetworkType$.next({ account, networkType, successCallback }),
     [createHdAccount$]
   );
