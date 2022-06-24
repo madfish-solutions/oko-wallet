@@ -15,6 +15,7 @@ import EditIcon from './assets/edit.svg';
 import EyeClosedIcon from './assets/eye-closed.svg';
 import EyeOpenIcon from './assets/eye-open.svg';
 import GasIcon from './assets/gas.svg';
+import LoadersIcon from './assets/loaders.svg';
 import NftIcon from './assets/nft.svg';
 import OutIcon from './assets/out.svg';
 import PartnersIcon from './assets/partners.svg';
@@ -44,6 +45,7 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.EyeClosed]: EyeClosedIcon,
   [IconNameEnum.EyeOpen]: EyeOpenIcon,
   [IconNameEnum.Gas]: GasIcon,
+  [IconNameEnum.Loaders]: LoadersIcon,
   [IconNameEnum.Nft]: NftIcon,
   [IconNameEnum.Out]: OutIcon,
   [IconNameEnum.Partners]: PartnersIcon,
