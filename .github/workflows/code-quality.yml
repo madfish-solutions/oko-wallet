@@ -54,3 +54,15 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+      - name: Write secrets to appcenter-config.json
+        run: |
+          cat << EOF > ./apps/mobile/android/app/src/main/assets/appcenter-config.json
+          ${{ secrets.APPCENTER_CONFIG_ANDROID }}
+          EOF
+
+      - name: Write secrets to AppCenter-Config.plist
+        run: |
+          cat << EOF > ./apps/mobile/ios/AppCenter-Config.plist
+          ${{ secrets.APPCENTER_CONFIG_IOS }}
+          EOF
+      
