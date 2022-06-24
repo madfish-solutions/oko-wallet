@@ -4,8 +4,10 @@ import { catchError, map, switchMap, concatMap } from 'rxjs/operators';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
+import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { getGasTokenBalance$, getTokenBalance$ } from '../../utils/token.utils';
+import { getEvmTransferParams$ } from '../../utils/transfer-params/get-evm-transfer-params.util';
 import { getTezosTransferParams$ } from '../../utils/transfer-params/get-tezos-transfer-params.util';
 import { withSelectedAccount, withSelectedNetwork } from '../../utils/wallet.util';
 import { navigateAction } from '../root-state.actions';
@@ -54,17 +56,29 @@ const sendAssetEpic: Epic = (action$: Observable<Action>, state$: Observable<Roo
     toPayload(),
     withSelectedNetwork(state$),
     withSelectedAccount(state$),
-    switchMap(([[sendAssetPayload, selectedNetwork], sender]) =>
-      getTezosTransferParams$(sendAssetPayload, selectedNetwork, sender).pipe(
+    switchMap(([[sendAssetPayload, selectedNetwork], sender]) => {
+      if (selectedNetwork.networkType === NetworkTypeEnum.Tezos) {
+        return getTezosTransferParams$(sendAssetPayload, selectedNetwork, sender).pipe(
+          map(transferParams => {
+            console.log('DEBUG: getTezosTransferParams', transferParams);
+
+            return navigateAction(ScreensEnum.SendConfirmation, {
+              transferParams
+            });
+          })
+        );
+      }
+
+      return getEvmTransferParams$(sendAssetPayload, selectedNetwork, sender).pipe(
         map(transferParams => {
-          console.log(transferParams);
+          console.log('DEBUG: getEvmTransferParams', transferParams);
 
           return navigateAction(ScreensEnum.SendConfirmation, {
             transferParams
           });
         })
-      )
-    )
+      );
+    })
   );
 
 export const walletEpics = combineEpics(getGasTokenBalanceEpic, getTokenBalanceEpic, sendAssetEpic);

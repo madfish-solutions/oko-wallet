@@ -24,7 +24,7 @@ export const Send: FC = () => {
 
   const onSend = () => {
     dispatch(
-      sendAssetAction.submit({ asset: metadata, amount, receiverPublicKeyHash })
+      sendAssetAction.submit({ asset: { ...metadata, tokenAddress: '0x55d398326f99059fF775485246999027B3197955', tokenId: '' }, amount, receiverPublicKeyHash })
     );
   };
 

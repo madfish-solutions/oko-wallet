@@ -36,7 +36,7 @@ export const TezosConfirmation: FC<Props> = ({ transferParams }) => {
   const storageFee = storageLimit && formatUnits(storageLimit * minimalFeePerStorageByteMutez, decimals);
   const formattedSuggestedFeeMutez = suggestedFeeMutez && formatUnits(suggestedFeeMutez, decimals);
 
-  console.log('LOGGER', {
+  console.log('LOGGER: estimated', {
     rpcUrl,
     publicKeyHash,
     transactionParams: { ...transferParams, ...estimations }
