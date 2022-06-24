@@ -17,7 +17,7 @@ export const Wallet: FC = () => {
       <ScrollView scrollEnabled={!isLocked}>
         <Account />
         <Networks />
-        <AssetsWidget assetsNumber={2} />
+        <AssetsWidget />
       </ScrollView>
       <NavigationBar />
     </View>

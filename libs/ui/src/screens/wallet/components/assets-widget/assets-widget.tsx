@@ -14,18 +14,12 @@ import { getTokenSlug } from '../../../../utils/token.utils';
 import { styles } from './assets-widget.styles';
 import { AccountToken } from './components/account-token/account-token';
 import { GasToken } from './components/gas-token/gas-token';
+import { VISIBLE_TOKENS_NUMBER } from './constants/assets-number';
 
-interface Props {
-  assetsNumber?: number;
-}
-
-export const AssetsWidget: FC<Props> = ({ assetsNumber }) => {
+export const AssetsWidget: FC = () => {
   const { navigate } = useNavigation();
   const accountTokens = useVisibleAccountTokensSelector();
-  const visibleAccountTokens = useMemo(
-    () => (assetsNumber !== undefined ? accountTokens.slice(0, assetsNumber) : accountTokens),
-    [assetsNumber, accountTokens]
-  );
+  const visibleAccountTokens = useMemo(() => accountTokens.slice(0, VISIBLE_TOKENS_NUMBER), [accountTokens]);
 
   const navigateToAccountTokens = () => navigate(ScreensEnum.AccountTokens);
 
