@@ -5,15 +5,15 @@ import { NETWORKS_DEFAULT_LIST } from './networks';
 
 type NetworkChainId = string;
 
-const KLAYTN_CHAIN_ID = '8217';
+export const KLAYTN_CHAIN_ID = '8217';
 export const TEZOS_CHAIN_ID = 'NetXdQprcVkpaWU';
 
 export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = {
   [KLAYTN_CHAIN_ID]: [
     {
-      tokenAddress: '0x02cbe46fb8a1f579254a9b485788f2d86cad51aa',
-      name: 'BORA',
-      symbol: 'BORA',
+      tokenAddress: '0x55d398326f99059fF775485246999027B3197955',
+      name: 'Tezor USD',
+      symbol: 'USDT',
       decimals: 18,
       thumbnailUri: ''
     },
@@ -117,6 +117,16 @@ export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = 
     }
   ],
   [TEZOS_CHAIN_ID]: [
+    // Gas token
+    {
+      tokenAddress: '',
+      tokenId: '',
+      name: 'Tezos',
+      symbol: 'XTZ',
+      decimals: 6,
+      thumbnailUri: ''
+    },
+    // FA2
     {
       tokenAddress: 'KT193D4vozYnhGJQVtw7CoxxqphqUEEwK6Vb',
       tokenId: '0',
@@ -125,12 +135,13 @@ export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = 
       decimals: 6,
       thumbnailUri: ''
     },
+    // FA1.2
     {
       tokenAddress: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
       tokenId: '',
       name: 'Kolibri',
       symbol: 'KUSD',
-      decimals: 6,
+      decimals: 18,
       thumbnailUri: ''
     }
   ]

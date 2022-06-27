@@ -9,7 +9,7 @@ import { Shelter } from '../../shelter/shelter';
 import { getDefaultEvmProvider } from '../get-default-evm-provider.utils';
 import { getString } from '../get-string.utils';
 
-import { ERC20ABI } from './abi';
+import { ERC20ABI } from './evm-erc20abi';
 
 export const getEvmTransferParams$ = (
   { receiverPublicKeyHash, amount, asset }: SendAssetPayload,

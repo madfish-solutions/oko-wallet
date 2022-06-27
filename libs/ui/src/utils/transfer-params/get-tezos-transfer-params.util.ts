@@ -1,5 +1,6 @@
 import { TransferParams } from '@taquito/taquito/dist/types/operations/types';
 import { BigNumber } from 'bignumber.js';
+import { ethers } from 'ethers';
 import { from, of, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -8,16 +9,17 @@ import { NetworkInterface } from '../../interfaces/network.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
 import { getString } from '../get-string.utils';
 import { createReadOnlyTezosToolkit } from '../tezos-toolkit.utils';
+import { tezosFormatUnits } from '../units.utils';
 
 export const getTezosTransferParams$ = (
   { receiverPublicKeyHash, amount, asset }: SendAssetPayload,
   selectedNetwork: NetworkInterface,
   sender: AccountInterface
 ): Observable<TransferParams> => {
-  const { tokenId, tokenAddress } = asset;
+  const { tokenId, tokenAddress, decimals } = asset;
   const { rpcUrl, networkType } = selectedNetwork;
   const senderPublicKeyHash = getString(sender.networksKeys[networkType]?.publicKeyHash);
-  const amountBN = new BigNumber(amount);
+  const amountBN = tezosFormatUnits(amount, decimals);
   const isFA2Token = tokenId !== '';
   const isTezosToken = tokenAddress === '';
 

@@ -35,13 +35,25 @@ export const EvmConfirmation: FC<Props> = ({ transferParams }) => {
   const gasPrice = estimations?.gasPrice && formatUnits(estimations.gasPrice, decimals);
   const transactionFee = estimations?.gasPrice && formatUnits(Number(estimations.gasPrice) * GAS_LIMIT, decimals);
 
+  console.log('LOGGER: estimated', {
+    rpcUrl,
+    publicKeyHash,
+    transactionParams: {
+      gasPrice: estimations?.gasPrice,
+      gasLimit: GAS_LIMIT,
+      to: transferParams.to,
+      value: ethers.utils.parseUnits(transferParams.value?.toString() as string),
+      ...estimations
+    }
+  });
+
   const onSend = useCallback(() => {
     if (estimations?.gasPrice) {
       const transactionParams = {
         gasPrice: estimations.gasPrice,
         gasLimit: GAS_LIMIT,
         to: transferParams.to,
-        value: ethers.utils.parseUnits(transferParams.value as string)
+        value: ethers.utils.parseUnits(transferParams.value?.toString() as string)
       };
 
       getEvmSigner({
@@ -62,7 +74,7 @@ export const EvmConfirmation: FC<Props> = ({ transferParams }) => {
       transferParams={transferParams}
     >
       <>
-        <Text>Amount: {transferParams.value}</Text>
+        <Text>Amount: {transferParams.value?.toString()}</Text>
         <Text>Gas Price: {gasPrice}</Text>
         <Text>TX Fee: {transactionFee}</Text>
       </>
