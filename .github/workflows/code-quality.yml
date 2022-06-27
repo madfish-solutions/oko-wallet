@@ -34,10 +34,13 @@ jobs:
       - name: Install dependencies
         run: yarn install:all
 
+      - name: Build Android
+        run: yarn build:android
+
       - name: Install Pods
         run: yarn install:pods
 
-      - name: Build and export iOS
+      - name: Build iOS
         uses: yukiarrr/ios-build-action@v1.5.0
         with:
           project-path: apps/mobile/ios/KlaytnWallet.xcodeproj
@@ -57,7 +60,8 @@ jobs:
         with:
           api_token: ${{ secrets.TESTAPPIO_API_TOKEN }}
           app_id: ${{ secrets.TESTAPPIO_APP_ID }}
-          file: apps/mobile/ios/build/KlaytnWallet.ipa
+          ipa_file: apps/mobile/ios/build/KlaytnWallet.ipa
+          apk_file: apps/mobile/android/app/build/outputs/apk/release/app-release.apk
           release_notes: ""
           git_release_notes: true
           include_git_commit_id: false

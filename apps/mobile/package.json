@@ -6,6 +6,8 @@
   "scripts": {
     "postinstall": "rn-nodeify --install 'stream,buffer,process,events,crypto' --hack",
     "android": "react-native run-android",
+    "android:build:aab": "cd android && ./gradlew bundleRelease",
+    "android:build:apk": "cd android && ./gradlew assembleRelease",
     "ios": "react-native run-ios",
     "ios:pods": "cd ios && pod install",
     "clear:metro": "rm -rf $TMPDIR/haste-map-* || true && rm -rf $TMPDIR/metro-* || true"
