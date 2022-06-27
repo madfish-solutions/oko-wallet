@@ -4,6 +4,7 @@ import React, { FC, createRef } from 'react';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useUnlock } from '../../hooks/use-unlock.hook';
+import { AccountTokens } from '../../screens/account-tokens/account-tokens';
 import { AddNetwork } from '../../screens/add-network/add-network';
 import { AddNewToken } from '../../screens/add-new-token/add-new-token';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
@@ -39,6 +40,7 @@ export const Navigator: FC = () => {
             <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
             <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
             <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
+            <Stack.Screen name={ScreensEnum.AccountTokens} component={AccountTokens} />
           </>
         ) : (
           <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />
