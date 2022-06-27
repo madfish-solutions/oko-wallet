@@ -1,4 +1,5 @@
-import React, { FC } from 'react';
+import { isDefined, isNotEmptyString } from '@rnw-community/shared';
+import React, { FC, useEffect, useMemo, useRef } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
@@ -20,9 +21,27 @@ export const Account: FC = () => {
   const dispatch = useDispatch();
   const accounts = useAllAccountsSelector();
   const selectedAccount = useSelectedAccountSelector();
-  const pkh = useSelectedAccountPkhSelector();
+  const publicKeyHash = useSelectedAccountPkhSelector();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
   const { createHdAccount, createHdAccountForNewNetworkType } = useShelter();
+
+  const accountNameRef = useRef(selectedAccount.name);
+  const publicKeyHashRef = useRef(publicKeyHash);
+
+  useEffect(() => {
+    if (isNotEmptyString(selectedAccount.name)) {
+      accountNameRef.current = selectedAccount.name;
+      publicKeyHashRef.current = publicKeyHash;
+    }
+  }, [selectedAccount.name, publicKeyHash]);
+
+  const memoizeAccountData = useMemo(
+    () =>
+      isDefined(selectedAccount.name) && isNotEmptyString(selectedAccount.name)
+        ? { accountName: selectedAccount.name, publicKeyHash }
+        : { accountName: accountNameRef.current, publicKeyHash: publicKeyHashRef.current },
+    [selectedAccount.name, publicKeyHash]
+  );
 
   const handleChangeAccount = (account: AccountInterface) => {
     if (checkIsNetworkTypeKeyExist(account, selectedNetworkType)) {
@@ -36,8 +55,8 @@ export const Account: FC = () => {
     <View style={AccountStyles.root}>
       <View style={AccountStyles.container}>
         <View style={AccountStyles.selectedAccountInfo}>
-          <Text style={AccountStyles.selectedAccountName}>{selectedAccount.name}</Text>
-          <Text>{pkh.substring(0, 12)}</Text>
+          <Text style={AccountStyles.selectedAccountName}>{memoizeAccountData.accountName}</Text>
+          <Text>{memoizeAccountData.publicKeyHash.substring(0, 12)}</Text>
         </View>
         <Text style={AccountStyles.allAccountsText}>All accounts:</Text>
         <ScrollView style={AccountStyles.accountsList}>
