@@ -4,8 +4,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "./node_modules/.bin/webpack --mode development --watch --config ./webpack.config.js",
-    "build": "./node_modules/.bin/webpack --mode production --config ./webpack.config.js"
+    "start": "./node_modules/.bin/webpack --mode development --watch --config ./webpack.config.js"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.3",

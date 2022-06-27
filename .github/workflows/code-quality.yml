@@ -8,7 +8,7 @@ on:
 
 jobs:
   code-quality:
-    name: Checks if ts, lint, unit tests works & create build
+    name: Checks if ts, lint & unit tests works
     runs-on: macos-latest
     steps:
       - name: Clone repository
@@ -43,26 +43,3 @@ jobs:
       - name: Run Unit tests
         run: yarn test
 
-      - name: Create Extension build
-        run: yarn build:extension
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: chrome
-          path: apps/extension/dist
-          if-no-files-found: error
-          retention-days: 30
-
-      - name: Write secrets to appcenter-config.json
-        run: |
-          cat << EOF > ./apps/mobile/android/app/src/main/assets/appcenter-config.json
-          ${{ secrets.APPCENTER_CONFIG_ANDROID }}
-          EOF
-
-      - name: Write secrets to AppCenter-Config.plist
-        run: |
-          cat << EOF > ./apps/mobile/ios/AppCenter-Config.plist
-          ${{ secrets.APPCENTER_CONFIG_IOS }}
-          EOF
-      
