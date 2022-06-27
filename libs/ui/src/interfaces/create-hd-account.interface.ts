@@ -1,4 +1,5 @@
 import { Dispatch } from '@reduxjs/toolkit';
+import { OnEventFn } from '@rnw-community/shared';
 import { Subject } from 'rxjs';
 
 import { NetworkTypeEnum } from '../enums/network-type.enum';
@@ -18,6 +19,7 @@ export type CreateHdAccountType = {
 export interface CreateHdAccountForNewNetworkParams {
   account: AccountInterface;
   networkType: NetworkTypeEnum;
+  successCallback?: OnEventFn<void>;
 }
 
 export type CreateHdAccountForNewNetworkType = {

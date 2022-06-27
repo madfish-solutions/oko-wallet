@@ -7,15 +7,21 @@ import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
+import { useShelter } from '../../hooks/use-shelter.hook';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { createEntity } from '../../store/utils/entity.utils';
 import { addNewNetworkAction } from '../../store/wallet/wallet.actions';
+import { useAllNetworksSelector, useSelectedAccountSelector } from '../../store/wallet/wallet.selectors';
+import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-network-type-key-exist';
 
 import { AddNetworkStyles } from './add-network.styles';
 
 export const AddNetwork: FC = () => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
+  const selectedAccount = useSelectedAccountSelector();
+  const networks = useAllNetworksSelector();
+  const { createHdAccountForNewNetworkType } = useShelter();
 
   const [name, setName] = useState('');
   const [rpcUrl, setRpcUrl] = useState('');
@@ -34,6 +40,8 @@ export const AddNetwork: FC = () => {
       return field !== undefined;
     });
 
+  const isNetworkRpcUrlAlreadyExist = (newRpcUrl: string) => networks.some(network => network.rpcUrl === newRpcUrl);
+
   const handleSelectNetworkType = (newNetworkType: NetworkTypeEnum) => {
     setNetworkType(newNetworkType);
   };
@@ -47,20 +55,30 @@ export const AddNetwork: FC = () => {
         // TODO: Get token metadata from api
         name: 'Bitcoin',
         symbol: gasTokenSymbol,
-        decimals: 8
+        decimals: 6
       },
       gasTokenBalance: createEntity('0'),
       explorerUrl,
       networkType
     };
 
-    if (validateSubmitValue(values)) {
+    if (!validateSubmitValue(values)) {
+      return setError('Please, fill all fields!');
+    }
+    if (isNetworkRpcUrlAlreadyExist(rpcUrl)) {
+      return setError('Please, add other rpc-url!');
+    }
+
+    if (!checkIsNetworkTypeKeyExist(selectedAccount, networkType)) {
+      createHdAccountForNewNetworkType(selectedAccount, networkType, () => {
+        dispatch(addNewNetworkAction(values));
+        navigate(ScreensEnum.Wallet);
+      });
+    } else {
       dispatch(addNewNetworkAction(values));
       navigate(ScreensEnum.Wallet);
-    } else {
-      setError('Please, fill all fields!');
     }
-  }, [name, rpcUrl, chainId, gasTokenSymbol, explorerUrl]);
+  }, [name, rpcUrl, chainId, gasTokenSymbol, explorerUrl, networkType]);
 
   return (
     <View>
