@@ -44,6 +44,17 @@ jobs:
       - name: Build Android
         run: yarn build:android
 
+      - name: Upload Android artifact to TestApp.io
+        uses: testappio/github-action@v5
+        with:
+          api_token: ${{ secrets.TESTAPPIO_API_TOKEN }}
+          app_id: ${{ secrets.TESTAPPIO_APP_ID }}
+          file: apps/mobile/android/app/build/outputs/apk/release/app-release.apk
+          release_notes: ""
+          git_release_notes: true
+          include_git_commit_id: false
+          notify: true
+
       - name: Install Pods
         run: yarn install:pods
 
@@ -62,13 +73,12 @@ jobs:
           code-signing-identity: ${{ secrets.CODE_SIGNING_IDENTITY }}
           team-id: ${{ secrets.TEAM_ID }}
 
-      - name: Upload artifact to TestApp.io
+      - name: Upload iOS artifact to TestApp.io
         uses: testappio/github-action@v5
         with:
           api_token: ${{ secrets.TESTAPPIO_API_TOKEN }}
           app_id: ${{ secrets.TESTAPPIO_APP_ID }}
-          ipa_file: apps/mobile/ios/build/KlaytnWallet.ipa
-          apk_file: apps/mobile/android/app/build/outputs/apk/release/app-release.apk
+          file: apps/mobile/ios/build/KlaytnWallet.ipa
           release_notes: ""
           git_release_notes: true
           include_git_commit_id: false
