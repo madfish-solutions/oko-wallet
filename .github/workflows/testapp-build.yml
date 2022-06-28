@@ -1,0 +1,100 @@
+name: Testapp build
+
+on:
+  workflow_dispatch:
+    inputs:
+      extension:
+        type: boolean
+        description: extension
+        default: true
+        required: true
+      ios:
+        type: boolean
+        description: iOS
+        default: true
+        required: true
+      android:
+        type: boolean
+        description: Android
+        default: true
+        required: true
+
+jobs:
+  testapp-build:
+    name: Creates extension, iOS & Android builds
+    runs-on: macos-latest
+    steps:
+      - name: Environment setup
+        uses: ./.github/workflows/environment-setup
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install-dependencies
+
+      - name: Create extension build
+        if: ${{ github.event.inputs.extension == 'true' }}
+        run: yarn build:extension
+
+      - name: Upload extension artifact
+        if: ${{ github.event.inputs.extension == 'true' }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: chrome
+          path: apps/extension/dist
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Install Pods
+        if: ${{ github.event.inputs.ios == 'true' }}
+        run: yarn install:pods
+
+      - name: Build iOS
+        if: ${{ github.event.inputs.ios == 'true' }}
+        uses: yukiarrr/ios-build-action@v1.5.0
+        with:
+          project-path: apps/mobile/ios/KlaytnWallet.xcodeproj
+          workspace-path: apps/mobile/ios/KlaytnWallet.xcworkspace
+          scheme: KlaytnWallet
+          export-method: ad-hoc
+          configuration: Release
+          output-path: apps/mobile/ios/build/KlaytnWallet.ipa
+          p12-base64: ${{ secrets.P12_BASE64 }}
+          certificate-password: ${{ secrets.P12_PASSWORD }}
+          mobileprovision-base64: ${{ secrets.ADHOC_MOBILEPROVISION_BASE64 }}
+          code-signing-identity: ${{ secrets.CODE_SIGNING_IDENTITY }}
+          team-id: ${{ secrets.TEAM_ID }}
+
+      - name: Upload iOS artifact to TestApp.io
+        if: ${{ github.event.inputs.ios == 'true' }}
+        uses: testappio/github-action@v5
+        with:
+          api_token: ${{ secrets.TESTAPPIO_API_TOKEN }}
+          app_id: ${{ secrets.TESTAPPIO_APP_ID }}
+          file: apps/mobile/ios/build/KlaytnWallet.ipa
+          release_notes: ${{env.GIT_BRANCH_NAME}} iOS
+          git_release_notes: false
+          include_git_commit_id: false
+          notify: true
+
+      - name: Set up JDK 11
+        if: ${{ github.event.inputs.android == 'true' }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          cache: 'gradle'
+
+      - name: Build Android
+        if: ${{ github.event.inputs.android == 'true' }}
+        run: yarn build:android
+
+      - name: Upload Android artifact to TestApp.io
+        if: ${{ github.event.inputs.android == 'true' }}
+        uses: testappio/github-action@v5
+        with:
+          api_token: ${{ secrets.TESTAPPIO_API_TOKEN }}
+          app_id: ${{ secrets.TESTAPPIO_APP_ID }}
+          file: apps/mobile/android/app/build/outputs/apk/release/app-release.apk
+          release_notes: ${{env.GIT_BRANCH_NAME}} Android
+          git_release_notes: false
+          include_git_commit_id: false
+          notify: true

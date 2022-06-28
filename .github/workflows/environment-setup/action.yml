@@ -1,0 +1,16 @@
+name: Environment setup
+description: Clones repository, gets branch name & Setup Node 16.x
+runs:
+  using: 'composite'
+  steps:
+    - name: Clone repository
+      uses: actions/checkout@v2
+
+    - name: Get branch name
+      uses: EthanSK/git-branch-name-action@v1
+
+    - name: Setup Node 16.x
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16.x'
+
