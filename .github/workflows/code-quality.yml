@@ -14,6 +14,9 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v2
 
+      - name: Get branch name
+        uses: nelonoel/branch-name@v1.0.1
+
       - name: Setup Node 16.x
         uses: actions/setup-node@v2
         with:
@@ -50,7 +53,7 @@ jobs:
           api_token: ${{ secrets.TESTAPPIO_API_TOKEN }}
           app_id: ${{ secrets.TESTAPPIO_APP_ID }}
           file: apps/mobile/android/app/build/outputs/apk/release/app-release.apk
-          release_notes: ""
+          release_notes: ${{BRANCH_NAME}}-android
           git_release_notes: true
           include_git_commit_id: false
           notify: true
@@ -79,7 +82,7 @@ jobs:
           api_token: ${{ secrets.TESTAPPIO_API_TOKEN }}
           app_id: ${{ secrets.TESTAPPIO_APP_ID }}
           file: apps/mobile/ios/build/KlaytnWallet.ipa
-          release_notes: ""
+          release_notes: ${{BRANCH_NAME}}-ios
           git_release_notes: true
           include_git_commit_id: false
           notify: true
