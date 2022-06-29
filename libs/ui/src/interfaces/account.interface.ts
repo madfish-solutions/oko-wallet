@@ -13,3 +13,10 @@ export interface AccountInterface {
   networksKeys: Partial<{ [key in NetworkTypeEnum]: AccountByNetworkType }>;
   isVisible?: boolean;
 }
+
+export interface Transactions {
+  isMinted: boolean;
+  from: string;
+  to: string;
+  transactionHash: string;
+}

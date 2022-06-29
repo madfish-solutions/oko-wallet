@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
-import { AccountInterface } from '../../interfaces/account.interface';
+import { AccountInterface, Transactions } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { Token } from '../../interfaces/token.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';
@@ -107,4 +107,38 @@ export const useIsAuthorisedSelector = () => {
   const accounts = useSelector<WalletRootState, AccountInterface[]>(({ wallet }) => wallet.accounts);
 
   return useMemo(() => accounts.length > 0, [accounts.length]);
+};
+
+export const useIsPendingTransactionsSelector = () => {
+  const transactions = useSelector<WalletRootState, Record<string, Transactions[]>>(
+    ({ wallet }) => wallet.transactions
+  );
+
+  const selectedAccountPublicKeyHash = useSelectedAccountPkhSelector();
+  const selectedNetworkRpcUrl = useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedNetworkRpcUrl);
+
+  const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+
+  return useMemo(
+    () =>
+      transactions[accountTokensSlug] !== undefined ? transactions[accountTokensSlug].filter(tx => !tx.isMinted) : [],
+    [transactions]
+  );
+};
+
+export const useIsMintedTransactionsSelector = () => {
+  const transactions = useSelector<WalletRootState, Record<string, Transactions[]>>(
+    ({ wallet }) => wallet.transactions
+  );
+
+  const selectedAccountPublicKeyHash = useSelectedAccountPkhSelector();
+  const selectedNetworkRpcUrl = useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedNetworkRpcUrl);
+
+  const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+
+  return useMemo(
+    () =>
+      transactions[accountTokensSlug] !== undefined ? transactions[accountTokensSlug].filter(tx => tx.isMinted) : [],
+    [transactions]
+  );
 };

@@ -14,7 +14,9 @@ import {
   changeAccountAction,
   addTokenMetadataAction,
   changeTokenVisibilityAction,
-  loadAccountTokenBalanceAction
+  loadAccountTokenBalanceAction,
+  changeTransactionStatusAction,
+  addTransactionAction
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -162,5 +164,31 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       selectedAccountPublicKeyHash: getPublicKeyHash(selectedAccount, newNetworkType),
       accountsTokens: updateAccountsTokensState({ ...state, selectedNetworkRpcUrl }, selectedAccount)
     };
+  });
+  builder.addCase(addTransactionAction, (state, { payload: transactionHash }) => {
+    const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
+    console.log(transactionHash, 'txHASH');
+    console.log(accountTokensSlug, 'acc');
+    const unpdatedTransactions =
+      state.transactions[accountTokensSlug] !== undefined
+        ? [...state.transactions[accountTokensSlug], { from: '', isMinted: false, to: '', transactionHash }]
+        : [{ from: '', isMinted: false, to: '', transactionHash }];
+    console.log(unpdatedTransactions);
+
+    return {
+      ...state,
+      transactions: {
+        ...state.transactions,
+        [accountTokensSlug]: unpdatedTransactions
+      }
+    };
+  });
+  builder.addCase(changeTransactionStatusAction, (state, { payload: transaction }) => {
+    const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
+    const updatedAccountTransactions = state.transactions[accountTokensSlug].map(tx =>
+      tx.transactionHash === transaction.transactionHash ? { ...tx, isMinted: !tx.isMinted } : tx
+    );
+
+    return { ...state, transactions: { ...state.transactions, [accountTokensSlug]: updatedAccountTransactions } };
   });
 });

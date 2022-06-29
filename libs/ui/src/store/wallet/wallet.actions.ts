@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import { AccountInterface } from '../../interfaces/account.interface';
+import { AccountInterface, Transactions } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
 import { AccountTokenInput } from '../../interfaces/token-input.interface';
@@ -28,3 +28,6 @@ export const addTokenMetadataAction = createAction<AccountTokenInput>('wallet/AD
 export const changeTokenVisibilityAction = createAction<Token>('wallet/CHANGE_TOKEN_VISIBILITY');
 
 export const sendAssetAction = createActions<SendAssetPayload>('wallet/SEND_ASSET');
+
+export const addTransactionAction = createAction<string>('wallet/ADD_TRANSACTIN');
+export const changeTransactionStatusAction = createAction<Transactions>('wallet/CHANGE_TRANSACTION_STATUS');
