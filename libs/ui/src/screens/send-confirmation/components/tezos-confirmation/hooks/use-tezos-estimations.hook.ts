@@ -1,5 +1,5 @@
 import { Estimate } from '@taquito/taquito';
-import { ParamsWithKind, TransferParams as TezosTransferParams } from '@taquito/taquito/dist/types/operations/types';
+import { TransferParams as TezosTransferParams } from '@taquito/taquito/dist/types/operations/types';
 import { useEffect, useState, useMemo } from 'react';
 import { from, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -28,19 +28,17 @@ export const useTezosEstimations = ({
   useEffect(() => {
     const tezosToolkit = createReadOnlyTezosToolkit(rpcUrl, sender);
 
-    const a: ParamsWithKind[] = parseTezosTransferParams(transferParams).map(param => ({
-      ...param,
-      source: getPublicKeyHash(sender, networkType)
-    }));
-
-    console.log('opPArams', a);
-
-    const subscription = from(tezosToolkit.estimate.batch(a))
+    const subscription = from(
+      tezosToolkit.estimate.batch(
+        parseTezosTransferParams(transferParams).map(param => ({
+          ...param,
+          source: getPublicKeyHash(sender, networkType)
+        }))
+      )
+    )
       .pipe(
-        map(estimates => {
-          console.log('estimates', estimates);
-
-          return estimates.map<EstimationInterface>(
+        map(estimates =>
+          estimates.map<EstimationInterface>(
             // @ts-ignore
             ({ suggestedFeeMutez, gasLimit, storageLimit, minimalFeePerStorageByteMutez }) => ({
               suggestedFeeMutez,
@@ -48,8 +46,8 @@ export const useTezosEstimations = ({
               storageLimit,
               minimalFeePerStorageByteMutez
             })
-          );
-        }),
+          )
+        ),
         catchError(e => {
           console.log('Error:', e);
 

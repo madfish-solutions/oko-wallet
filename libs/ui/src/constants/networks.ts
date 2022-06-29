@@ -14,7 +14,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://scope.klaytn.com/txs/',
+    explorerUrl: 'https://scope.klaytn.com/tx/',
     networkType: NetworkTypeEnum.EVM
   },
   {
@@ -46,6 +46,20 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     networkType: NetworkTypeEnum.EVM
   },
   {
+    chainId: '5',
+    rpcUrl: 'https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
+    name: 'Goerli Ethereum Testnet',
+    gasTokenMetadata: {
+      name: 'Ether Token',
+      symbol: 'ETH',
+      decimals: 18,
+      thumbnailUri: ''
+    },
+    gasTokenBalance: createEntity('0'),
+    explorerUrl: 'https://goerli.etherscan.io/',
+    networkType: NetworkTypeEnum.EVM
+  },
+  {
     chainId: '4',
     rpcUrl: 'https://rinkeby.infura.io/v3/6b0e2185e8a84c0c8106307118b22e29',
     name: 'Ethereum Rinkeby Testnet',
@@ -71,7 +85,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://bscscan.com',
+    explorerUrl: 'https://bscscan.com/tx/',
     networkType: NetworkTypeEnum.EVM
   },
   {

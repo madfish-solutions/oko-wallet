@@ -10,7 +10,6 @@ export const ERC20ABI = [
       }
     ],
     payable: false,
-    stateMutability: 'view',
     type: 'function'
   },
   {
@@ -28,12 +27,11 @@ export const ERC20ABI = [
     name: 'approve',
     outputs: [
       {
-        name: '',
+        name: 'success',
         type: 'bool'
       }
     ],
     payable: false,
-    stateMutability: 'nonpayable',
     type: 'function'
   },
   {
@@ -47,7 +45,6 @@ export const ERC20ABI = [
       }
     ],
     payable: false,
-    stateMutability: 'view',
     type: 'function'
   },
   {
@@ -69,12 +66,11 @@ export const ERC20ABI = [
     name: 'transferFrom',
     outputs: [
       {
-        name: '',
+        name: 'success',
         type: 'bool'
       }
     ],
     payable: false,
-    stateMutability: 'nonpayable',
     type: 'function'
   },
   {
@@ -88,7 +84,19 @@ export const ERC20ABI = [
       }
     ],
     payable: false,
-    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: 'version',
+    outputs: [
+      {
+        name: '',
+        type: 'string'
+      }
+    ],
+    payable: false,
     type: 'function'
   },
   {
@@ -107,7 +115,6 @@ export const ERC20ABI = [
       }
     ],
     payable: false,
-    stateMutability: 'view',
     type: 'function'
   },
   {
@@ -121,7 +128,6 @@ export const ERC20ABI = [
       }
     ],
     payable: false,
-    stateMutability: 'view',
     type: 'function'
   },
   {
@@ -139,12 +145,37 @@ export const ERC20ABI = [
     name: 'transfer',
     outputs: [
       {
-        name: '',
+        name: 'success',
         type: 'bool'
       }
     ],
     payable: false,
-    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: '_spender',
+        type: 'address'
+      },
+      {
+        name: '_value',
+        type: 'uint256'
+      },
+      {
+        name: '_extraData',
+        type: 'bytes'
+      }
+    ],
+    name: 'approveAndCall',
+    outputs: [
+      {
+        name: 'success',
+        type: 'bool'
+      }
+    ],
+    payable: false,
     type: 'function'
   },
   {
@@ -162,17 +193,36 @@ export const ERC20ABI = [
     name: 'allowance',
     outputs: [
       {
-        name: '',
+        name: 'remaining',
         type: 'uint256'
       }
     ],
     payable: false,
-    stateMutability: 'view',
     type: 'function'
   },
   {
-    payable: true,
-    stateMutability: 'payable',
+    inputs: [
+      {
+        name: '_initialAmount',
+        type: 'uint256'
+      },
+      {
+        name: '_tokenName',
+        type: 'string'
+      },
+      {
+        name: '_decimalUnits',
+        type: 'uint8'
+      },
+      {
+        name: '_tokenSymbol',
+        type: 'string'
+      }
+    ],
+    type: 'constructor'
+  },
+  {
+    payable: false,
     type: 'fallback'
   },
   {
@@ -180,21 +230,21 @@ export const ERC20ABI = [
     inputs: [
       {
         indexed: true,
-        name: 'owner',
+        name: '_from',
         type: 'address'
       },
       {
         indexed: true,
-        name: 'spender',
+        name: '_to',
         type: 'address'
       },
       {
         indexed: false,
-        name: 'value',
+        name: '_value',
         type: 'uint256'
       }
     ],
-    name: 'Approval',
+    name: 'Transfer',
     type: 'event'
   },
   {
@@ -202,21 +252,21 @@ export const ERC20ABI = [
     inputs: [
       {
         indexed: true,
-        name: 'from',
+        name: '_owner',
         type: 'address'
       },
       {
         indexed: true,
-        name: 'to',
+        name: '_spender',
         type: 'address'
       },
       {
         indexed: false,
-        name: 'value',
+        name: '_value',
         type: 'uint256'
       }
     ],
-    name: 'Transfer',
+    name: 'Approval',
     type: 'event'
   }
 ];

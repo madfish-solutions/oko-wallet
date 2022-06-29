@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { TransactionRequest as EvmTransferParams } from '@ethersproject/abstract-provider';
 import { ethers } from 'ethers';
 import React, { FC, useCallback, useState } from 'react';
@@ -40,7 +41,7 @@ export const EvmConfirmation: FC<Props> = ({ transferParams }) => {
     publicKeyHash,
     transactionParams: {
       gasPrice: estimations?.gasPrice,
-      gasLimit: GAS_LIMIT,
+      gasLimit: transferParams?.gasLimit ? Number(transferParams.gasLimit) : GAS_LIMIT,
       to: transferParams.to,
       value: ethers.utils.parseUnits(transferParams.value?.toString() as string),
       ...estimations
@@ -51,7 +52,7 @@ export const EvmConfirmation: FC<Props> = ({ transferParams }) => {
     if (estimations?.gasPrice) {
       const transactionParams = {
         gasPrice: estimations.gasPrice,
-        gasLimit: GAS_LIMIT,
+        gasLimit: transferParams?.gasLimit ? Number(transferParams.gasLimit) : GAS_LIMIT,
         to: transferParams.to,
         value: ethers.utils.parseUnits(transferParams.value?.toString() as string)
       };
