@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
-import { AccountInterface, Transactions } from '../../interfaces/account.interface';
+import { AccountInterface, Transaction } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { Token } from '../../interfaces/token.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';
@@ -110,9 +110,7 @@ export const useIsAuthorisedSelector = () => {
 };
 
 export const useIsPendingTransactionsSelector = () => {
-  const transactions = useSelector<WalletRootState, Record<string, Transactions[]>>(
-    ({ wallet }) => wallet.transactions
-  );
+  const transactions = useSelector<WalletRootState, Record<string, Transaction[]>>(({ wallet }) => wallet.transactions);
 
   const selectedAccountPublicKeyHash = useSelectedAccountPkhSelector();
   const selectedNetworkRpcUrl = useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedNetworkRpcUrl);
@@ -127,9 +125,7 @@ export const useIsPendingTransactionsSelector = () => {
 };
 
 export const useIsMintedTransactionsSelector = () => {
-  const transactions = useSelector<WalletRootState, Record<string, Transactions[]>>(
-    ({ wallet }) => wallet.transactions
-  );
+  const transactions = useSelector<WalletRootState, Record<string, Transaction[]>>(({ wallet }) => wallet.transactions);
 
   const selectedAccountPublicKeyHash = useSelectedAccountPkhSelector();
   const selectedNetworkRpcUrl = useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedNetworkRpcUrl);

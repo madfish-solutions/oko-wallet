@@ -15,7 +15,7 @@ import {
   addTokenMetadataAction,
   changeTokenVisibilityAction,
   loadAccountTokenBalanceAction,
-  changeTransactionStatusAction,
+  updateTransactionAction,
   addTransactionAction
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
@@ -165,14 +165,12 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       accountsTokens: updateAccountsTokensState({ ...state, selectedNetworkRpcUrl }, selectedAccount)
     };
   });
-  builder.addCase(addTransactionAction, (state, { payload: transactionHash }) => {
+  builder.addCase(addTransactionAction, (state, { payload: transaction }) => {
     const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
-    console.log(transactionHash, 'txHASH');
-    console.log(accountTokensSlug, 'acc');
     const unpdatedTransactions =
       state.transactions[accountTokensSlug] !== undefined
-        ? [...state.transactions[accountTokensSlug], { from: '', isMinted: false, to: '', transactionHash }]
-        : [{ from: '', isMinted: false, to: '', transactionHash }];
+        ? [...state.transactions[accountTokensSlug], { isMinted: false, ...transaction }]
+        : [{ isMinted: false, ...transaction }];
     console.log(unpdatedTransactions);
 
     return {
@@ -183,10 +181,10 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       }
     };
   });
-  builder.addCase(changeTransactionStatusAction, (state, { payload: transaction }) => {
+  builder.addCase(updateTransactionAction, (state, { payload: transaction }) => {
     const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
     const updatedAccountTransactions = state.transactions[accountTokensSlug].map(tx =>
-      tx.transactionHash === transaction.transactionHash ? { ...tx, isMinted: !tx.isMinted } : tx
+      tx.transactionHash === transaction.transactionHash ? transaction : tx
     );
 
     return { ...state, transactions: { ...state.transactions, [accountTokensSlug]: updatedAccountTransactions } };

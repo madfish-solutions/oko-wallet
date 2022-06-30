@@ -14,9 +14,11 @@ export interface AccountInterface {
   isVisible?: boolean;
 }
 
-export interface Transactions {
+export interface Transaction {
   isMinted: boolean;
   from: string;
   to: string;
   transactionHash: string;
 }
+
+export type PendingTransaction = Omit<Transaction, 'isMinted'>;

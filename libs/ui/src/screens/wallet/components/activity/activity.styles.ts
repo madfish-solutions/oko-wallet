@@ -3,28 +3,26 @@ import { StyleSheet } from 'react-native';
 import { getCustomSize } from '../../../../styles/format-size';
 
 export const styles = StyleSheet.create({
-  root: {
-    borderRadius: getCustomSize(1.75),
-    overflow: 'hidden'
+  tx: {
+    borderColor: 'grey',
+    borderWidth: getCustomSize(0.25)
   },
   pending: {
     color: 'red',
-    height: 50,
-    backgroundColor: 'grey'
+    height: getCustomSize(6)
   },
   minted: {
     color: 'green',
-    height: 50,
-    backgroundColor: 'grey'
+    height: getCustomSize(6)
   },
   wrapper: {
-    height: 100,
-    borderWidth: 2,
+    height: getCustomSize(16),
+    borderWidth: getCustomSize(0.25),
     borderColor: 'black'
   },
   input: {
-    height: 30,
-    borderWidth: 3,
+    height: getCustomSize(4),
+    borderWidth: getCustomSize(0.5),
     borderColor: 'grey'
   }
 });
