@@ -1,4 +1,4 @@
-import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
+import { InitialState, NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { FC, createRef, useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
@@ -24,18 +24,18 @@ const Stack = createNativeStackNavigator<ScreensParamList>();
 
 export const navigationRef = createRef<NavigationContainerRef<ScreensParamList>>();
 
-const PERSISTENCE_KEY = 'NAVIGATION_STATE_V1';
+const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
 export const Navigator: FC = () => {
   const isAuthorised = useIsAuthorisedSelector();
   const { isLocked } = useUnlock();
   const [isReady, setIsReady] = useState(false);
-  const [initialState, setInitialState] = useState<any>();
+  const [initialState, setInitialState] = useState<InitialState>();
 
   useEffect(() => {
     const restoreState = async () => {
       try {
-        const savedStateString: string = await getStoredValue(PERSISTENCE_KEY);
+        const savedStateString: InitialState = await getStoredValue(PERSISTENCE_KEY);
         const state = savedStateString !== null ? savedStateString : undefined;
         if (state !== undefined) {
           setInitialState(state);
