@@ -1,6 +1,7 @@
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { FC, createRef } from 'react';
+import React, { FC, createRef, useState, useEffect } from 'react';
+import { View, Text } from 'react-native';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useUnlock } from '../../hooks/use-unlock.hook';
@@ -17,17 +18,52 @@ import { Settings } from '../../screens/settings/settings';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
+import { getStoredValue, setStoredValue } from '../../utils/store.util';
 
 const Stack = createNativeStackNavigator<ScreensParamList>();
 
 export const navigationRef = createRef<NavigationContainerRef<ScreensParamList>>();
 
+const PERSISTENCE_KEY = 'NAVIGATION_STATE_V1';
+
 export const Navigator: FC = () => {
   const isAuthorised = useIsAuthorisedSelector();
   const { isLocked } = useUnlock();
+  const [isReady, setIsReady] = useState(false);
+  const [initialState, setInitialState] = useState<any>();
+
+  useEffect(() => {
+    const restoreState = async () => {
+      try {
+        const savedStateString: string = await getStoredValue(PERSISTENCE_KEY);
+        const state = savedStateString !== null ? savedStateString : undefined;
+        if (state !== undefined) {
+          setInitialState(state);
+        }
+      } finally {
+        setIsReady(true);
+      }
+    };
+
+    if (!isReady) {
+      restoreState();
+    }
+  }, [isReady]);
+
+  if (!isReady) {
+    return (
+      <View>
+        <Text>Loading....</Text>
+      </View>
+    );
+  }
 
   return (
-    <NavigationContainer ref={navigationRef}>
+    <NavigationContainer
+      ref={navigationRef}
+      initialState={initialState}
+      onStateChange={state => setStoredValue(PERSISTENCE_KEY, JSON.stringify(state))}
+    >
       <Stack.Navigator>
         {isAuthorised ? (
           <>
