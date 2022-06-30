@@ -167,17 +167,16 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
   });
   builder.addCase(addTransactionAction, (state, { payload: transaction }) => {
     const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
-    const unpdatedTransactions =
+    const updatedTransactions =
       state.transactions[accountTokensSlug] !== undefined
         ? [...state.transactions[accountTokensSlug], { isMinted: false, ...transaction }]
         : [{ isMinted: false, ...transaction }];
-    console.log(unpdatedTransactions);
 
     return {
       ...state,
       transactions: {
         ...state.transactions,
-        [accountTokensSlug]: unpdatedTransactions
+        [accountTokensSlug]: updatedTransactions
       }
     };
   });
