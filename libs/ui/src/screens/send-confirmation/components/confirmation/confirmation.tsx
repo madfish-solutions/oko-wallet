@@ -29,6 +29,12 @@ export const Confirmation: FC<Props> = ({ children, isLoading, transactionHash, 
         )}
       </>
     )}
-    {!!transactionHash && <TransactionInfo transactionHash={transactionHash} network={network} />}
+    {!!transactionHash && (
+      <TransactionInfo
+        transactionHash={transactionHash}
+        network={network}
+        receiver={transferParams.to !== undefined ? transferParams.to : ''}
+      />
+    )}
   </View>
 );
