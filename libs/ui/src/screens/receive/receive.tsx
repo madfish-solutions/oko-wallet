@@ -25,7 +25,7 @@ export const Receive: FC = () => {
   useDelayedEffect(() => setIsCopied(false), [isCopied]);
 
   return (
-    <ScreenContainer screenTitle="Receive" navigationType={NavigationTypeEnum.TokenInfo}>
+    <ScreenContainer screenTitle="Receive" navigationType={NavigationTypeEnum.Swap}>
       <QRCode value={publicKeyHash} />
       <Text>{publicKeyHash}</Text>
       <TouchableOpacity onPress={handleCopyToClipboard}>

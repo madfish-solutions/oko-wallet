@@ -10,13 +10,15 @@ import { TouchableIcon } from '../../touchable-icon/touchable-icon';
 import { styles } from './header-navigation.styles';
 import { NavigationBalance } from './navigation-balance/navigation-balance';
 import { NavigationIcons } from './navigation-icons/navigation-icons';
+import { NavigationSwap } from './navigation-swap/navigation-swap';
 import { NavigationTokenDetails } from './navigation-token-details/navigation-token-details';
 
 export enum NavigationTypeEnum {
   Empty = 'Empty',
   Icons = 'Icons',
   AccountBalance = 'AccountBalance',
-  TokenInfo = 'TokenInfo'
+  TokenInfo = 'TokenInfo',
+  Swap = 'Swap'
 }
 
 interface Props {
@@ -35,6 +37,8 @@ export const HeaderNavigation: FC<Props> = ({ title, type = NavigationTypeEnum.E
         return <NavigationBalance />;
       case NavigationTypeEnum.TokenInfo:
         return <NavigationTokenDetails />;
+      case NavigationTypeEnum.Swap:
+        return <NavigationSwap />;
       default:
         return null;
     }

@@ -32,5 +32,6 @@ export enum IconNameEnum {
   Ethereum = 'Ethereum',
   BinanceSmartChain = 'BinanceSmartChain',
   NetworkFallback = 'NetworkFallback',
-  Qrcode = 'Qrcode'
+  Qrcode = 'Qrcode',
+  Slider = 'Slider'
 }
