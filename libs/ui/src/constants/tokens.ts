@@ -7,6 +7,7 @@ type NetworkChainId = string;
 
 export const KLAYTN_CHAIN_ID = '8217';
 export const TEZOS_CHAIN_ID = 'NetXdQprcVkpaWU';
+export const ROPSTEN_CHAIN_ID = '3';
 
 export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = {
   [KLAYTN_CHAIN_ID]: [
@@ -142,6 +143,24 @@ export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = 
       name: 'Kolibri',
       symbol: 'KUSD',
       decimals: 18,
+      thumbnailUri: ''
+    }
+  ],
+  [ROPSTEN_CHAIN_ID]: [
+    {
+      tokenAddress: '0x101848D5C5bBca18E6b4431eEdF6B95E9ADF82FA',
+      tokenId: '',
+      name: 'WEENUS',
+      symbol: 'WEENUS',
+      decimals: 18,
+      thumbnailUri: ''
+    },
+    {
+      tokenAddress: '0xF6fF95D53E08c9660dC7820fD5A775484f77183A',
+      tokenId: '',
+      name: 'YEENUS',
+      symbol: 'YEENUS',
+      decimals: 8,
       thumbnailUri: ''
     }
   ]

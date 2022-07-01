@@ -36,18 +36,14 @@ export const getEvmTransferParams$ = (
   return Shelter.getEvmSigner$(senderPublicKeyHash, provider).pipe(
     map(signer => tokenContract.connect(signer)),
     switchMap(tokenSigner => tokenSigner.transfer(receiverPublicKeyHash, amountBN) as Observable<EvmTransferParams>),
-    map(params => {
-      console.log('INSIDER', JSON.stringify(params, null, 2));
-
-      return {
-        ...params,
-        gasLimit: params.gasLimit?.toString(),
-        gasPrice: params.gasPrice?.toString(),
-        value: params.value?.toString()
-      };
-    }),
+    map(params => ({
+      ...params,
+      gasLimit: params.gasLimit?.toString(),
+      gasPrice: params.gasPrice?.toString(),
+      value: params.value?.toString()
+    })),
     catchError(err => {
-      console.log('getEvmTransferParams', err);
+      console.log('Error with getEvmTransferParams$:', err);
 
       return of();
     })

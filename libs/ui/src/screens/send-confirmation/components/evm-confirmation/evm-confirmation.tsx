@@ -36,23 +36,27 @@ export const EvmConfirmation: FC<Props> = ({ transferParams }) => {
   const gasPrice = estimations?.gasPrice && formatUnits(estimations.gasPrice, decimals);
   const transactionFee = estimations?.gasPrice && formatUnits(Number(estimations.gasPrice) * GAS_LIMIT, decimals);
 
+  const getNumber = (value: number | ethers.BigNumberish | undefined) => (value ? Number(value) : 0);
+
+  const gasPriceParam = estimations?.gasPrice ? getNumber(estimations.gasPrice) : getNumber(transferParams.gasPrice);
+
   console.log('LOGGER: estimated', {
     rpcUrl,
     publicKeyHash,
     transactionParams: {
-      gasPrice: estimations?.gasPrice,
-      gasLimit: transferParams?.gasLimit ? Number(transferParams.gasLimit) : GAS_LIMIT,
+      ...estimations,
+      gasPrice: gasPriceParam,
+      gasLimit: transferParams?.gasLimit ? getNumber(transferParams.gasLimit) * 1.5 : GAS_LIMIT,
       to: transferParams.to,
-      value: ethers.utils.parseUnits(transferParams.value?.toString() as string),
-      ...estimations
+      value: ethers.utils.parseUnits(transferParams.value?.toString() as string)
     }
   });
 
   const onSend = useCallback(() => {
     if (estimations?.gasPrice) {
       const transactionParams = {
-        gasPrice: estimations.gasPrice,
-        gasLimit: transferParams?.gasLimit ? Number(transferParams.gasLimit) : GAS_LIMIT,
+        gasPrice: gasPriceParam,
+        gasLimit: transferParams?.gasLimit ? getNumber(transferParams.gasLimit) * 1.5 : GAS_LIMIT,
         to: transferParams.to,
         value: ethers.utils.parseUnits(transferParams.value?.toString() as string)
       };
