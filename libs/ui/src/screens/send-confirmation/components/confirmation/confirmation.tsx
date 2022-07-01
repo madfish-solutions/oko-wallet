@@ -1,5 +1,5 @@
 import { TransactionRequest as EvmTransferParams } from '@ethersproject/abstract-provider';
-import { isDefined, OnEventFn } from '@rnw-community/shared';
+import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
