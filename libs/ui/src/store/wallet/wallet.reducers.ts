@@ -1,7 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { NetworkTypeEnum } from '../../enums/network-type.enum';
-import { initialAccount } from '../../mocks/account.interface.mock';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { createEntity } from '../utils/entity.utils';
@@ -21,6 +19,7 @@ import {
 import { walletInitialState, WalletState } from './wallet.state';
 import {
   getPublicKeyHash,
+  getSelectedAccount,
   getSelectedNetworkType,
   updateAccountsTokensState,
   updateAccountTokenState,
@@ -136,22 +135,26 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     selectedAccountPublicKeyHash: getPublicKeyHash(account, getSelectedNetworkType(state))
   }));
 
-  builder.addCase(addNewNetworkAction, (state, { payload: network }) => ({
-    ...state,
-    networks: [...state.networks, network],
-    selectedNetworkRpcUrl: network.rpcUrl
-  }));
+  builder.addCase(addNewNetworkAction, (state, { payload: newNetwork }) => {
+    const prevNetworkType = getSelectedNetworkType(state);
+    const selectedAccount = getSelectedAccount(state, prevNetworkType);
+    const networks = [...state.networks, newNetwork];
+
+    return {
+      ...state,
+      networks,
+      selectedNetworkRpcUrl: newNetwork.rpcUrl,
+      selectedAccountPublicKeyHash: getPublicKeyHash(selectedAccount, newNetwork.networkType),
+      accountsTokens: updateAccountsTokensState(
+        { ...state, networks, selectedNetworkRpcUrl: newNetwork.rpcUrl },
+        selectedAccount
+      )
+    };
+  });
   builder.addCase(changeNetworkAction, (state, { payload: selectedNetworkRpcUrl }) => {
     const prevNetworkType = getSelectedNetworkType(state);
-    const newNetworkType =
-      state.networks.find(network => network.rpcUrl === selectedNetworkRpcUrl)?.networkType ?? NetworkTypeEnum.EVM;
-
-    const selectedAccount =
-      state.accounts.find(account =>
-        account.networksKeys.hasOwnProperty(prevNetworkType)
-          ? account.networksKeys[prevNetworkType]?.publicKeyHash === state.selectedAccountPublicKeyHash
-          : null
-      ) ?? initialAccount;
+    const newNetworkType = getSelectedNetworkType({ ...state, selectedNetworkRpcUrl });
+    const selectedAccount = getSelectedAccount(state, prevNetworkType);
 
     return {
       ...state,

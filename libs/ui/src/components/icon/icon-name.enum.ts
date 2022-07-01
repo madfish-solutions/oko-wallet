@@ -14,6 +14,7 @@ export enum IconNameEnum {
   EyeClosed = 'EyeClosed',
   EyeOpen = 'EyeOpen',
   Gas = 'Gas',
+  Loaders = 'Loaders',
   Nft = 'Nft',
   Out = 'Out',
   Partners = 'Partners',

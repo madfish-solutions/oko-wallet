@@ -1,19 +1,10 @@
 import React, { FC, useMemo } from 'react';
-import { View, ViewStyle } from 'react-native';
+import { View } from 'react-native';
 
 import { getCustomSize } from '../../styles/format-size';
 
 import { iconNameMap } from './icon-name-map';
-import { IconNameEnum } from './icon-name.enum';
-
-export interface IconProps {
-  name: IconNameEnum;
-  size?: number;
-  width?: number;
-  height?: number;
-  color?: string;
-  iconStyle?: ViewStyle;
-}
+import { IconProps } from './icon.interface';
 
 export const Icon: FC<IconProps> = ({
   name,

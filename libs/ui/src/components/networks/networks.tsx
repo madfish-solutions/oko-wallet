@@ -1,18 +1,23 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { useShelter } from '../../hooks/use-shelter.hook';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { changeNetworkAction } from '../../store/wallet/wallet.actions';
-import { useAllNetworksSelector, useSelectedAccountSelector } from '../../store/wallet/wallet.selectors';
+import {
+  useAllNetworksSelector,
+  useSelectedAccountSelector,
+  useSelectedNetworkSelector
+} from '../../store/wallet/wallet.selectors';
 import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-network-type-key-exist';
 
 import { NetworksStyles } from './networks.styles';
 
-export const Networks: React.FC = () => {
+export const Networks: FC = () => {
   const dispatch = useDispatch();
   const selectedAccount = useSelectedAccountSelector();
+  const selectedNetwork = useSelectedNetworkSelector();
   const networks = useAllNetworksSelector();
   const { createHdAccountForNewNetworkType } = useShelter();
 
@@ -26,6 +31,9 @@ export const Networks: React.FC = () => {
 
   return (
     <View>
+      <Text>
+        Current network: <Text>{selectedNetwork.name}</Text>
+      </Text>
       <Text style={NetworksStyles.allNetworksText}>All networks:</Text>
       <View>
         {networks.map(network => (

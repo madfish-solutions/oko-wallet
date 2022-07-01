@@ -1,3 +1,4 @@
+import { OnEventFn } from '@rnw-community/shared';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Subject } from 'rxjs';
@@ -52,15 +53,15 @@ export const useShelter = () => {
     [createHdAccount$, accounts.length, networkType]
   );
   const createHdAccountForNewNetworkType = useCallback(
-    (account: AccountInterface, networkType: NetworkTypeEnum) =>
-      createHdAccountForNewNetworkType$.next({ account, networkType }),
+    (account: AccountInterface, networkType: NetworkTypeEnum, successCallback?: OnEventFn<void>) =>
+      createHdAccountForNewNetworkType$.next({ account, networkType, successCallback }),
     [createHdAccount$]
   );
-  const getEvmSigner = useCallback(
+  const sendEvmTransaction = useCallback(
     (params: GetEvmSignerParams) => sendEvmTransaction$.next(params),
     [sendEvmTransaction$]
   );
-  const getTezosSigner = useCallback(
+  const sendTezosTransaction = useCallback(
     (params: GetTezosSignerParams) => sendTezosTransaction$.next(params),
     [sendTezosTransaction$]
   );
@@ -69,7 +70,7 @@ export const useShelter = () => {
     importWallet,
     createHdAccount,
     createHdAccountForNewNetworkType,
-    getEvmSigner,
-    getTezosSigner
+    sendEvmTransaction,
+    sendTezosTransaction
   };
 };

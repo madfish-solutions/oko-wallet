@@ -4,7 +4,8 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "./node_modules/.bin/webpack --mode development --watch --config ./webpack.config.js"
+    "start": "./node_modules/.bin/webpack --mode development --watch --config ./webpack.config.js",
+    "build": "./node_modules/.bin/webpack --mode production --config ./webpack.config.js"
   },
   "dependencies": {
     "@dicebear/avatars": "^4.10.2",
@@ -38,7 +39,8 @@
     "rxjs": "^7.5.5",
     "ts-action": "^11.0.0",
     "ts-action-operators": "^9.1.2",
-    "wasm-themis": "^0.14.5"
+    "wasm-themis": "^0.14.5",
+    "webextension-polyfill-ts": "^0.26.0"
   },
   "devDependencies": {
     "@dr.pogodin/babel-preset-svgr": "^1.4.1",
