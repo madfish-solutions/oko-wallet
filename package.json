@@ -16,6 +16,7 @@
     "android": "cd apps/mobile && yarn android",
     "ios": "cd apps/mobile && yarn ios",
     "build:extension": "cd apps/extension && yarn build",
+    "build:android": "cd apps/mobile && yarn android:build:apk",
     "ts": "cd libs/ui && yarn ts",
     "lint": "eslint .",
     "test": "cd libs/ui && yarn test",

@@ -1,9 +1,10 @@
 import { OnEventFn } from '@rnw-community/shared';
-import { BatchOperation, TransferParams as TezosTransferParams } from '@taquito/taquito';
+import { BatchOperation } from '@taquito/taquito';
+import { ParamsWithKind } from '@taquito/taquito/dist/types/operations/types';
 
 export interface GetTezosSignerParams {
   publicKeyHash: string;
   rpcUrl: string;
   successCallback: OnEventFn<BatchOperation>;
-  transactionParams: TezosTransferParams;
+  transactionParams: ParamsWithKind[];
 }

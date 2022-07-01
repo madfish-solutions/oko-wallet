@@ -21,7 +21,6 @@ export const Confirmation: FC<Props> = ({ children, isLoading, transactionHash, 
     {isLoading && <Text>Loading...</Text>}
     {!isLoading && (
       <>
-        <Text>To: {transferParams.to}</Text>
         {children}
         {!transactionHash && (
           <Pressable onPress={onSend}>

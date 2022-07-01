@@ -1,4 +1,4 @@
-import { TransferParams as TezosTransferParams } from '@taquito/taquito';
+import { ParamsWithKind, OpKind } from '@taquito/taquito';
 import React, { FC, useCallback, useState } from 'react';
 import { Text } from 'react-native';
 
@@ -8,53 +8,70 @@ import { formatUnits } from '../../../../utils/units.utils';
 import { ConfirmationProps } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
 
-import { EstimationInterface, useTezosEstimations } from './hooks/use-tezos-estimations.hook';
+import { useTezosEstimations } from './hooks/use-tezos-estimations.hook';
+import { useTezosFees } from './hooks/use-tezos-fees.hook';
 
 interface Props extends ConfirmationProps {
-  transferParams: TezosTransferParams;
+  transferParams: ParamsWithKind[];
 }
 
 export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }) => {
-  const { getTezosSigner } = useShelter();
+  const { sendTezosTransaction } = useShelter();
   const { estimations, isLoading } = useTezosEstimations({ sender, transferParams, network });
+  const { storageLimitSum, gasFeeSum, revealGasFee, transferParamsWithFees, isOneOperation } = useTezosFees(
+    transferParams,
+    estimations
+  );
   const [transactionHash, setTransactionHash] = useState('');
 
+  const minimalFeePerStorageByteMutez = estimations[0]?.minimalFeePerStorageByteMutez ?? 0;
   const {
     rpcUrl,
     gasTokenMetadata: { decimals },
     networkType
   } = network;
-  const [{ storageLimit, gasLimit, suggestedFeeMutez, minimalFeePerStorageByteMutez } = {} as EstimationInterface] =
-    estimations;
 
-  const storageFee = storageLimit && formatUnits(storageLimit * minimalFeePerStorageByteMutez, decimals);
-  const formattedSuggestedFeeMutez = suggestedFeeMutez && formatUnits(suggestedFeeMutez, decimals);
+  const storageFee = storageLimitSum && formatUnits(storageLimitSum * minimalFeePerStorageByteMutez, decimals);
+  const formattedFee = gasFeeSum && formatUnits(gasFeeSum, decimals);
 
-  const onSend = useCallback(
-    () =>
-      getTezosSigner({
-        rpcUrl,
-        publicKeyHash: getPublicKeyHash(sender, networkType),
-        transactionParams: { ...transferParams, ...estimations },
-        successCallback: transactionResponse => setTransactionHash(transactionResponse.hash)
-      }),
-    [estimations]
-  );
+  const onSend = useCallback(() => {
+    // Tezos Taquito will add revealGasGee by himself
+    const feeToSend = gasFeeSum - revealGasFee;
+
+    const transactionParams = transferParamsWithFees.map((transferParam, index) => {
+      const isLastOpParam = index === transferParams.length - 1;
+
+      if (transferParam.kind !== OpKind.ACTIVATION) {
+        const correctTransferParam = { ...transferParam };
+
+        if (feeToSend) {
+          correctTransferParam.fee = isLastOpParam ? feeToSend : 0;
+        }
+
+        if (storageLimitSum && isOneOperation) {
+          correctTransferParam.storageLimit = storageLimitSum;
+        }
+
+        return correctTransferParam;
+      }
+
+      return transferParam;
+    });
+
+    sendTezosTransaction({
+      transactionParams,
+      rpcUrl,
+      publicKeyHash: getPublicKeyHash(sender, networkType),
+      successCallback: transactionResponse => setTransactionHash(transactionResponse.hash)
+    });
+  }, [estimations]);
 
   return (
-    <Confirmation
-      isLoading={isLoading}
-      transactionHash={transactionHash}
-      network={network}
-      onSend={onSend}
-      transferParams={transferParams}
-    >
+    <Confirmation isLoading={isLoading} transactionHash={transactionHash} network={network} onSend={onSend}>
       <>
-        <Text>Amount: {transferParams.amount}</Text>
-        <Text>Storage limit: {storageLimit}</Text>
-        {storageLimit > 0 && <Text>Storage Fee: {storageFee}</Text>}
-        <Text>Gas limit: {gasLimit}</Text>
-        <Text>TX Fee: {formattedSuggestedFeeMutez}</Text>
+        <Text>Storage limit: {storageLimitSum}</Text>
+        {storageLimitSum > 0 && <Text>Storage Fee: {storageFee}</Text>}
+        <Text>TX Fee: {formattedFee}</Text>
       </>
     </Confirmation>
   );

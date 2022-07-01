@@ -57,11 +57,11 @@ export const useShelter = () => {
       createHdAccountForNewNetworkType$.next({ account, networkType, successCallback }),
     [createHdAccount$]
   );
-  const getEvmSigner = useCallback(
+  const sendEvmTransaction = useCallback(
     (params: GetEvmSignerParams) => sendEvmTransaction$.next(params),
     [sendEvmTransaction$]
   );
-  const getTezosSigner = useCallback(
+  const sendTezosTransaction = useCallback(
     (params: GetTezosSignerParams) => sendTezosTransaction$.next(params),
     [sendTezosTransaction$]
   );
@@ -70,7 +70,7 @@ export const useShelter = () => {
     importWallet,
     createHdAccount,
     createHdAccountForNewNetworkType,
-    getEvmSigner,
-    getTezosSigner
+    sendEvmTransaction,
+    sendTezosTransaction
   };
 };
