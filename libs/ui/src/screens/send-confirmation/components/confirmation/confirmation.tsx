@@ -1,9 +1,9 @@
-import { OnEventFn } from '@rnw-community/shared';
+import { TransactionRequest as EvmTransferParams } from '@ethersproject/abstract-provider';
+import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { NetworkInterface } from '../../../../interfaces/network.interface';
-import { TransferParams } from '../../../../interfaces/transfer-params.interface';
 import { getString } from '../../../../utils/get-string.utils';
 
 import { TransactionInfo } from './transaction-info/transaction-info';
@@ -13,7 +13,7 @@ interface Props {
   transactionHash: string;
   network: NetworkInterface;
   onSend: OnEventFn;
-  transferParams: TransferParams;
+  transferParams?: EvmTransferParams;
 }
 
 export const Confirmation: FC<Props> = ({ children, isLoading, transactionHash, network, onSend, transferParams }) => (
@@ -30,7 +30,7 @@ export const Confirmation: FC<Props> = ({ children, isLoading, transactionHash, 
       </>
     )}
     {!!transactionHash && (
-      <TransactionInfo transactionHash={transactionHash} network={network} receiver={getString(transferParams.to)} />
+      <TransactionInfo transactionHash={transactionHash} network={network} receiver={getString(transferParams?.to)} />
     )}
   </View>
 );
