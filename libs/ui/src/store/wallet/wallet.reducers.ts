@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 
+import { TransactionStatusEnum } from '../../enums/transactions.enum';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { createEntity } from '../utils/entity.utils';
@@ -14,7 +15,9 @@ import {
   changeAccountAction,
   addTokenMetadataAction,
   changeTokenVisibilityAction,
-  loadAccountTokenBalanceAction
+  loadAccountTokenBalanceAction,
+  updateTransactionAction,
+  addTransactionAction
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -162,5 +165,28 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       selectedAccountPublicKeyHash: getPublicKeyHash(selectedAccount, newNetworkType),
       accountsTokens: updateAccountsTokensState({ ...state, selectedNetworkRpcUrl }, selectedAccount)
     };
+  });
+  builder.addCase(addTransactionAction, (state, { payload: transaction }) => {
+    const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
+    const updatedTransactions =
+      state.transactions[accountTokensSlug] !== undefined
+        ? [...state.transactions[accountTokensSlug], { ...transaction, status: TransactionStatusEnum.pending }]
+        : [{ ...transaction, status: TransactionStatusEnum.pending }];
+
+    return {
+      ...state,
+      transactions: {
+        ...state.transactions,
+        [accountTokensSlug]: updatedTransactions
+      }
+    };
+  });
+  builder.addCase(updateTransactionAction, (state, { payload: transaction }) => {
+    const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
+    const updatedAccountTransactions = state.transactions[accountTokensSlug].map(tx =>
+      tx.transactionHash === transaction.transactionHash ? transaction : tx
+    );
+
+    return { ...state, transactions: { ...state.transactions, [accountTokensSlug]: updatedAccountTransactions } };
   });
 });
