@@ -2,10 +2,11 @@ import React, { FC, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Linking } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import { TransactionStatusEnum } from '../../../../enums/transactions.enum';
 import { updateTransactionAction } from '../../../../store/wallet/wallet.actions';
 import {
-  useIsMintedTransactionsSelector,
-  useIsPendingTransactionsSelector,
+  useMintedTransactionsSelector,
+  usePendingTransactionsSelector,
   useSelectedNetworkSelector
 } from '../../../../store/wallet/wallet.selectors';
 import { getDefaultEvmProvider } from '../../../../utils/get-default-evm-provider.utils';
@@ -18,8 +19,8 @@ export const Activity: FC = () => {
   const dispatch = useDispatch();
   const network = useSelectedNetworkSelector();
   const provider = getDefaultEvmProvider(network.rpcUrl);
-  const pendingTransactions = useIsPendingTransactionsSelector();
-  const mintedTransactions = useIsMintedTransactionsSelector();
+  const pendingTransactions = usePendingTransactionsSelector();
+  const mintedTransactions = useMintedTransactionsSelector();
   const EXPLORER_URL = 'https://www.klaytnfinder.io/tx/';
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export const Activity: FC = () => {
                 updateTransactionAction({
                   to: transaction.to,
                   from: transaction.from,
-                  isMinted: true,
+                  status: TransactionStatusEnum.applied,
                   transactionHash: transaction.transactionHash
                 })
               );

@@ -4,6 +4,7 @@ import { Pressable, Text, View } from 'react-native';
 
 import { NetworkInterface } from '../../../../interfaces/network.interface';
 import { TransferParams } from '../../../../interfaces/transfer-params.interface';
+import { getString } from '../../../../utils/get-string.utils';
 
 import { TransactionInfo } from './transaction-info/transaction-info';
 
@@ -30,11 +31,7 @@ export const Confirmation: FC<Props> = ({ children, isLoading, transactionHash, 
       </>
     )}
     {!!transactionHash && (
-      <TransactionInfo
-        transactionHash={transactionHash}
-        network={network}
-        receiver={transferParams.to !== undefined ? transferParams.to : ''}
-      />
+      <TransactionInfo transactionHash={transactionHash} network={network} receiver={getString(transferParams.to)} />
     )}
   </View>
 );

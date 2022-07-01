@@ -1,8 +1,10 @@
+import { isDefined } from '@rnw-community/shared';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
+import { TransactionStatusEnum } from '../../enums/transactions.enum';
 import { AccountInterface, Transaction } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { Token } from '../../interfaces/token.interface';
@@ -109,7 +111,7 @@ export const useIsAuthorisedSelector = () => {
   return useMemo(() => accounts.length > 0, [accounts.length]);
 };
 
-export const useIsPendingTransactionsSelector = () => {
+export const usePendingTransactionsSelector = () => {
   const transactions = useSelector<WalletRootState, Record<string, Transaction[]>>(({ wallet }) => wallet.transactions);
 
   const selectedAccountPublicKeyHash = useSelectedAccountPkhSelector();
@@ -119,12 +121,14 @@ export const useIsPendingTransactionsSelector = () => {
 
   return useMemo(
     () =>
-      transactions[accountTokensSlug] !== undefined ? transactions[accountTokensSlug].filter(tx => !tx.isMinted) : [],
+      isDefined(transactions[accountTokensSlug])
+        ? transactions[accountTokensSlug].filter(tx => tx.status === TransactionStatusEnum.pending)
+        : [],
     [transactions]
   );
 };
 
-export const useIsMintedTransactionsSelector = () => {
+export const useMintedTransactionsSelector = () => {
   const transactions = useSelector<WalletRootState, Record<string, Transaction[]>>(({ wallet }) => wallet.transactions);
 
   const selectedAccountPublicKeyHash = useSelectedAccountPkhSelector();
@@ -134,7 +138,9 @@ export const useIsMintedTransactionsSelector = () => {
 
   return useMemo(
     () =>
-      transactions[accountTokensSlug] !== undefined ? transactions[accountTokensSlug].filter(tx => tx.isMinted) : [],
+      isDefined(transactions[accountTokensSlug])
+        ? transactions[accountTokensSlug].filter(tx => tx.status === TransactionStatusEnum.applied)
+        : [],
     [transactions]
   );
 };

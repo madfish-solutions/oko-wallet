@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 
+import { TransactionStatusEnum } from '../../enums/transactions.enum';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { createEntity } from '../utils/entity.utils';
@@ -169,8 +170,8 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
     const updatedTransactions =
       state.transactions[accountTokensSlug] !== undefined
-        ? [...state.transactions[accountTokensSlug], { isMinted: false, ...transaction }]
-        : [{ isMinted: false, ...transaction }];
+        ? [...state.transactions[accountTokensSlug], { status: TransactionStatusEnum.pending, ...transaction }]
+        : [{ status: TransactionStatusEnum.pending, ...transaction }];
 
     return {
       ...state,

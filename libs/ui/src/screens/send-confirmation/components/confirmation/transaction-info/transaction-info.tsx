@@ -24,7 +24,7 @@ export const TransactionInfo: FC<Props> = ({ transactionHash, receiver, network:
 
   useEffect(() => {
     dispatch(addTransactionAction({ from: publicKey, to: receiver, transactionHash }));
-  }, [transactionHash]);
+  }, [transactionHash, publicKey, receiver]);
 
   return (
     <View>
