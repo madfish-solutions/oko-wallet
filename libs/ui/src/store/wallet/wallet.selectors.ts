@@ -1,9 +1,11 @@
+import { isDefined } from '@rnw-community/shared';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
-import { AccountInterface } from '../../interfaces/account.interface';
+import { TransactionStatusEnum } from '../../enums/transactions.enum';
+import { AccountInterface, Transaction } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { Token } from '../../interfaces/token.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';
@@ -107,4 +109,38 @@ export const useIsAuthorisedSelector = () => {
   const accounts = useSelector<WalletRootState, AccountInterface[]>(({ wallet }) => wallet.accounts);
 
   return useMemo(() => accounts.length > 0, [accounts.length]);
+};
+
+export const usePendingTransactionsSelector = () => {
+  const transactions = useSelector<WalletRootState, Record<string, Transaction[]>>(({ wallet }) => wallet.transactions);
+
+  const selectedAccountPublicKeyHash = useSelectedAccountPkhSelector();
+  const selectedNetworkRpcUrl = useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedNetworkRpcUrl);
+
+  const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+
+  return useMemo(
+    () =>
+      isDefined(transactions[accountTokensSlug])
+        ? transactions[accountTokensSlug].filter(tx => tx.status === TransactionStatusEnum.pending)
+        : [],
+    [transactions]
+  );
+};
+
+export const useMintedTransactionsSelector = () => {
+  const transactions = useSelector<WalletRootState, Record<string, Transaction[]>>(({ wallet }) => wallet.transactions);
+
+  const selectedAccountPublicKeyHash = useSelectedAccountPkhSelector();
+  const selectedNetworkRpcUrl = useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedNetworkRpcUrl);
+
+  const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+
+  return useMemo(
+    () =>
+      isDefined(transactions[accountTokensSlug])
+        ? transactions[accountTokensSlug].filter(tx => tx.status === TransactionStatusEnum.applied)
+        : [],
+    [transactions]
+  );
 };

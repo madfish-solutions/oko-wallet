@@ -6,6 +6,7 @@ import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { Networks } from '../../components/networks/networks';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 
+import { Activity } from './components/activity/activity';
 import { AssetsWidget } from './components/assets-widget/assets-widget';
 import { CollectiblesWidget } from './components/collectibles/collectibles';
 import { WalletStyles } from './wallet.styles';
@@ -20,6 +21,7 @@ export const Wallet: FC = () => {
         <Networks />
         <AssetsWidget />
         <CollectiblesWidget />
+        <Activity />
       </ScrollView>
       <NavigationBar />
     </View>

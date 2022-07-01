@@ -1,7 +1,7 @@
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { defaultTokensMetadata } from '../../constants/tokens';
 import { AccountToken } from '../../interfaces/account-token.interface';
-import { AccountInterface } from '../../interfaces/account.interface';
+import { AccountInterface, Transaction } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { TokenMetadata } from '../../interfaces/token-metadata.interface';
 
@@ -19,6 +19,7 @@ export interface WalletState {
   selectedNetworkRpcUrl: string;
   tokensMetadata: Record<NetworkRpcUrlWithTokenAddress, TokenMetadata>;
   accountsTokens: Record<NetworkRpcUrWithPublicKeyHash, AccountToken[]>;
+  transactions: Record<NetworkRpcUrWithPublicKeyHash, Transaction[]>;
 }
 
 export const walletInitialState: WalletState = {
@@ -27,5 +28,6 @@ export const walletInitialState: WalletState = {
   networks: NETWORKS_DEFAULT_LIST,
   selectedNetworkRpcUrl: NETWORKS_DEFAULT_LIST[0].rpcUrl,
   tokensMetadata: defaultTokensMetadata,
-  accountsTokens: {}
+  accountsTokens: {},
+  transactions: {}
 };
