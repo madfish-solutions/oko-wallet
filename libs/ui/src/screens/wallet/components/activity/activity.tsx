@@ -24,8 +24,8 @@ export const Activity: FC = () => {
   const EXPLORER_URL = 'https://www.klaytnfinder.io/tx/';
 
   useEffect(() => {
-    timer = setInterval(async () => {
-      (async () => {
+    timer = setInterval(() => {
+      (() => {
         pendingTransactions.map(async pendingTransaction => {
           try {
             const transaction = await provider.getTransactionReceipt(pendingTransaction.transactionHash);
