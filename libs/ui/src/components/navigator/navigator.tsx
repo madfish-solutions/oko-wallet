@@ -1,5 +1,6 @@
 import { InitialState, NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { isDefined } from '@rnw-community/shared';
 import React, { FC, createRef, useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 
@@ -36,7 +37,7 @@ export const Navigator: FC = () => {
     const restoreState = async () => {
       try {
         const savedStateString: InitialState = await getStoredValue(PERSISTENCE_KEY);
-        const state = savedStateString !== null ? savedStateString : undefined;
+        const state = isDefined(savedStateString) ? savedStateString : undefined;
         if (state !== undefined) {
           setInitialState(state);
         }
