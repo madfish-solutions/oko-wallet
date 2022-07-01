@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import { Text } from 'react-native';
 
 import { StylePropsType } from '../../../interfaces/style.interface';
+import { getCustomSize } from '../../../styles/format-size';
 import { IconNameEnum } from '../../icon/icon-name.enum';
 import { Row } from '../../row/row';
 import { TouchableIcon } from '../../touchable-icon/touchable-icon';
@@ -24,6 +25,7 @@ export const HeaderAccountBalance: FC<Props> = ({ textStyle, style }) => {
     <Row style={style}>
       <TouchableIcon
         name={!isShowBalance ? IconNameEnum.EyeOpen : IconNameEnum.EyeClosed}
+        size={getCustomSize(2)}
         onPress={changeBalanceVisibility}
         iconStyle={styles.icon}
       />

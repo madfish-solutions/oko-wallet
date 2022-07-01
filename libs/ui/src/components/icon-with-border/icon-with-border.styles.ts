@@ -5,9 +5,11 @@ import { getCustomSize } from '../../styles/format-size';
 
 export const styles = StyleSheet.create({
   root: {
-    padding: getCustomSize(0.2),
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: getCustomSize(0.25),
-    borderColor: colors.bgGrey2,
+    borderColor: colors.bgGrey3,
     backgroundColor: colors.navGrey1
   },
   primary: {
@@ -16,6 +18,11 @@ export const styles = StyleSheet.create({
     borderRadius: getCustomSize(1.375)
   },
   secondary: {
+    width: getCustomSize(5),
+    height: getCustomSize(5),
+    borderRadius: getCustomSize(6)
+  },
+  tertiary: {
     width: getCustomSize(3),
     height: getCustomSize(3),
     borderRadius: getCustomSize(6)

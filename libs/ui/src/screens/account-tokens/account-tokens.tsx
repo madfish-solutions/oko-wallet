@@ -1,7 +1,8 @@
 import React, { FC, useMemo, useState } from 'react';
-import { Text, TextInput, ScrollView, View } from 'react-native';
+import { Text, TextInput, ScrollView } from 'react-native';
 
-import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { NavigationTypeEnum } from '../../components/header/header-navigation/header-navigation';
+import { ScreenContainer } from '../../components/screen-container/screen-container';
 import { useVisibleAccountTokensSelector } from '../../store/wallet/wallet.selectors';
 
 import { styles } from './account-tokens.styles';
@@ -26,8 +27,7 @@ export const AccountTokens: FC = () => {
   }, [inputNameSearch, visibleAccountTokens]);
 
   return (
-    <View style={styles.root}>
-      <NavigationBar />
+    <ScreenContainer screenTitle="Assets" navigationType={NavigationTypeEnum.AccountBalance}>
       <TextInput
         style={styles.input}
         onChangeText={setInputNameSearch}
@@ -42,6 +42,6 @@ export const AccountTokens: FC = () => {
           <AccountToken key={token.name} token={token} />
         ))}
       </ScrollView>
-    </View>
+    </ScreenContainer>
   );
 };

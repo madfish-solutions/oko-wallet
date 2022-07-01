@@ -5,14 +5,14 @@ import { styles } from './icon-with-border.styles';
 
 const themeClasses = {
   primary: styles.primary,
-  secondary: styles.secondary
+  secondary: styles.secondary,
+  tertiary: styles.tertiary
 };
 
 export type IconContainerType = keyof typeof themeClasses;
 
 interface Props {
   type?: IconContainerType;
-  address?: string;
   style?: ViewStyle;
 }
 

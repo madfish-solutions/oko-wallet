@@ -1,15 +1,17 @@
 import React, { FC } from 'react';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, TouchableOpacity, View, ViewStyle, Text } from 'react-native';
 
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector
 } from '../../../store/wallet/wallet.selectors';
+import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
+import { IconWithBorder } from '../../icon-with-border/icon-with-border';
 import { Icon } from '../../icon/icon';
 import { IconNameEnum } from '../../icon/icon-name.enum';
 import { RobotIcon } from '../../robot-icon/robot-icon';
 import { Row } from '../../row/row';
-import { HeaderTouchableElement } from '../header-touchable-element/header-touchable-element';
+import { TouchableIcon } from '../../touchable-icon/touchable-icon';
 
 import { styles } from './header-container.styles';
 
@@ -18,25 +20,35 @@ interface Props {
   style?: StyleProp<ViewStyle>;
 }
 
-export const HeaderContainer: FC<Props> = ({ isShowNetworkName = false, style, children }) => {
-  const { name: networkName, iconName } = useSelectedNetworkSelector();
+export const HeaderContainer: FC<Props> = ({ style, children }) => {
+  const { iconName } = useSelectedNetworkSelector();
   const address = useSelectedAccountPublicKeyHashSelector();
 
   const selectNetwork = () => null;
   const selectAccount = () => null;
-
-  const networkNameVisibiliry = isShowNetworkName ? networkName : '';
+  const copyAddress = () => handleCopyToClipboard(address);
 
   return (
     <View style={[styles.root, style]}>
       <Row style={styles.wrapper}>
-        <HeaderTouchableElement onPress={selectNetwork} text={networkNameVisibiliry} isShowDropdownArrow>
-          <Icon name={iconName ?? IconNameEnum.NetworkFallback} />
-        </HeaderTouchableElement>
+        <TouchableOpacity onPress={selectNetwork} style={styles.button}>
+          <IconWithBorder>
+            <RobotIcon seed={address} />
+          </IconWithBorder>
+        </TouchableOpacity>
 
-        <HeaderTouchableElement onPress={selectAccount}>
-          <RobotIcon seed={address} />
-        </HeaderTouchableElement>
+        <Row style={styles.addressWrapper}>
+          <TouchableIcon name={IconNameEnum.Copy} onPress={copyAddress} iconStyle={styles.icon} />
+          <Text ellipsizeMode="middle" numberOfLines={1} style={styles.address}>
+            {address}
+          </Text>
+        </Row>
+
+        <TouchableOpacity onPress={selectAccount} style={styles.button}>
+          <IconWithBorder>
+            <Icon name={iconName ?? IconNameEnum.NetworkFallback} />
+          </IconWithBorder>
+        </TouchableOpacity>
       </Row>
 
       {children}

@@ -20,6 +20,7 @@ import LoadersIcon from './assets/loaders.svg';
 import NftIcon from './assets/nft.svg';
 import OutIcon from './assets/out.svg';
 import PartnersIcon from './assets/partners.svg';
+import QrIcon from './assets/qr.svg';
 import QrscanIcon from './assets/qrscan.svg';
 import ReceiveIcon from './assets/receive.svg';
 import SearchIcon from './assets/search.svg';
@@ -67,5 +68,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Klaytn]: Klaytn,
   [IconNameEnum.Ethereum]: Ethereum,
   [IconNameEnum.BinanceSmartChain]: BinanceSmartChain,
-  [IconNameEnum.NetworkFallback]: NetworkFallback
+  [IconNameEnum.NetworkFallback]: NetworkFallback,
+  [IconNameEnum.Qrcode]: QrIcon
 };

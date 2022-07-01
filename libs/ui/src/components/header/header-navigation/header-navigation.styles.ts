@@ -5,9 +5,16 @@ import { getCustomSize } from '../../../styles/format-size';
 import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
-  text: {
+  root: {
+    justifyContent: 'space-between',
+    alignItems: 'flex-end'
+  },
+  icon: {
+    marginBottom: getCustomSize()
+  },
+  title: {
     color: colors.textGrey1,
-    ...typography.numbersIBMPlexSansMedium22,
+    ...typography.headlineInterRegular22,
     letterSpacing: getCustomSize(0.04375)
   }
 });

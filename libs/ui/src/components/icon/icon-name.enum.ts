@@ -31,5 +31,6 @@ export enum IconNameEnum {
   Klaytn = 'Klaytn',
   Ethereum = 'Ethereum',
   BinanceSmartChain = 'BinanceSmartChain',
-  NetworkFallback = 'NetworkFallback'
+  NetworkFallback = 'NetworkFallback',
+  Qrcode = 'Qrcode'
 }

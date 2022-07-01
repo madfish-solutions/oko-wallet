@@ -92,6 +92,10 @@ export const typography: Typography = {
     fontFamily: FontsEnum.ibmPlexSansMedium,
     fontSize: 22
   },
+  numbersIBMPlexSansMedium20: {
+    fontFamily: FontsEnum.ibmPlexSansMedium,
+    fontSize: 20
+  },
   numbersIBMPlexSansMedium17: {
     fontFamily: FontsEnum.ibmPlexSansMedium,
     fontSize: 17
@@ -110,6 +114,10 @@ export const typography: Typography = {
     textTransform: 'uppercase'
   },
   numbersIBMPlexSansMedium11: {
+    fontFamily: FontsEnum.ibmPlexSansMedium,
+    fontSize: 11
+  },
+  numbersIBMPlexSansRegular11: {
     fontFamily: FontsEnum.ibmPlexSansMedium,
     fontSize: 11
   },

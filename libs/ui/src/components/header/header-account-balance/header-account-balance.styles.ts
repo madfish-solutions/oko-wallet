@@ -11,12 +11,12 @@ export const styles = StyleSheet.create({
   balance: {
     marginRight: getCustomSize(0.5),
     color: colors.textGrey1,
-    ...typography.numbersIBMPlexSansMedium22,
+    ...typography.numbersIBMPlexSansMedium20,
     letterSpacing: getCustomSize(0.04375)
   },
   currency: {
     color: colors.textGrey2,
-    ...typography.numbersIBMPlexSansMedium22,
+    ...typography.numbersIBMPlexSansMedium20,
     letterSpacing: getCustomSize(0.04375)
   }
 });

@@ -1,23 +1,15 @@
 import { StyleSheet } from 'react-native';
 
-import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 
 export const styles = StyleSheet.create({
-  root: {
-    padding: getCustomSize(2),
-    backgroundColor: colors.bgGrey2,
-    borderBottomLeftRadius: getCustomSize(3),
-    borderBottomRightRadius: getCustomSize(3)
+  icon: {
+    marginRight: getCustomSize(2)
   },
-  marginBottom: {
-    marginBottom: getCustomSize(2)
+  accountBalance: {
+    marginLeft: 'auto'
   },
   qrCode: {
-    marginTop: getCustomSize(2)
-  },
-  balance: {
-    marginLeft: 'auto',
-    marginBottom: getCustomSize(2)
+    marginTop: getCustomSize(2.5)
   }
 });
