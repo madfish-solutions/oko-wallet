@@ -5,13 +5,13 @@ import { IconNameEnum } from '../../../icon/icon-name.enum';
 import { Row } from '../../../row/row';
 import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
 
-import { styles } from './navigation-icons.styles';
+import { styles } from './header-side-icons.styles';
 
 interface Props {
   style?: StylePropsType;
 }
 
-export const NavigationIcons: FC<Props> = ({ style }) => (
+export const HeaderSideIcons: FC<Props> = ({ style }) => (
   <Row style={style}>
     <TouchableIcon name={IconNameEnum.Search} style={styles.icon} />
     <TouchableIcon name={IconNameEnum.Qrcode} style={styles.icon} />

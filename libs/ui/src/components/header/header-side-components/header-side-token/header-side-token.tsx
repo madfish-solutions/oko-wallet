@@ -10,13 +10,13 @@ import { Icon } from '../../../icon/icon';
 import { IconNameEnum } from '../../../icon/icon-name.enum';
 import { Row } from '../../../row/row';
 
-import { styles } from './navigation-token-details.styles';
+import { styles } from './header-side-token.styles';
 
 interface Props {
   style?: StylePropsType;
 }
 
-export const NavigationTokenDetails: FC<Props> = ({ style }) => {
+export const HeaderSideToken: FC<Props> = ({ style }) => {
   const imageSource = 'https://s2.coinmarketcap.com/static/img/coins/64x64/4256.png';
 
   return (

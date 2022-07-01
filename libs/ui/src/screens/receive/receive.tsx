@@ -3,7 +3,7 @@ import React, { FC, useMemo, useState } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
-import { NavigationTypeEnum } from '../../components/header/header-navigation/header-navigation';
+import { HeaderSideTypeEnum } from '../../components/header/header-side-type.enum';
 import { ScreenContainer } from '../../components/screen-container/screen-container';
 import { useDelayedEffect } from '../../hooks/use-delayed-effect.hook';
 import { useSelectedAccountSelector, useSelectedNetworkTypeSelector } from '../../store/wallet/wallet.selectors';
@@ -25,7 +25,7 @@ export const Receive: FC = () => {
   useDelayedEffect(() => setIsCopied(false), [isCopied]);
 
   return (
-    <ScreenContainer screenTitle="Receive" navigationType={NavigationTypeEnum.Swap}>
+    <ScreenContainer screenTitle="Receive" navigationType={HeaderSideTypeEnum.Swap}>
       <QRCode value={publicKeyHash} />
       <Text>{publicKeyHash}</Text>
       <TouchableOpacity onPress={handleCopyToClipboard}>

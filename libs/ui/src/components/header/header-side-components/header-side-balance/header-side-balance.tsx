@@ -5,13 +5,13 @@ import { StylePropsType } from '../../../../interfaces/style.interface';
 import { Column } from '../../../column/column';
 import { Row } from '../../../row/row';
 
-import { styles } from './navigation-balance.styles';
+import { styles } from './header-side-balance.styles';
 
 interface Props {
   style?: StylePropsType;
 }
 
-export const NavigationBalance: FC<Props> = ({ style }) => (
+export const HeaderSideBalance: FC<Props> = ({ style }) => (
   <Column style={[styles.root, style]}>
     <Text style={styles.title}>Total balance</Text>
     <Row style={styles.wrapper}>
