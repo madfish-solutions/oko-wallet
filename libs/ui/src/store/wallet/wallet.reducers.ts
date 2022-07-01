@@ -170,8 +170,8 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
     const updatedTransactions =
       state.transactions[accountTokensSlug] !== undefined
-        ? [...state.transactions[accountTokensSlug], { status: TransactionStatusEnum.pending, ...transaction }]
-        : [{ status: TransactionStatusEnum.pending, ...transaction }];
+        ? [...state.transactions[accountTokensSlug], { ...transaction, status: TransactionStatusEnum.pending }]
+        : [{ ...transaction, status: TransactionStatusEnum.pending }];
 
     return {
       ...state,
