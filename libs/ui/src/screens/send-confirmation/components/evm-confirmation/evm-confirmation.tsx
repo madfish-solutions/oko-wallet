@@ -17,7 +17,7 @@ interface Props extends ConfirmationProps {
 }
 
 export const EvmConfirmation: FC<Props> = ({ network, sender: { networksKeys }, transferParams }) => {
-  const { getEvmSigner } = useShelter();
+  const { sendEvmTransaction } = useShelter();
   const { estimations, isLoading } = useEvmEstimations(network);
   const [transactionHash, setTransactionHash] = useState('');
 
@@ -39,7 +39,7 @@ export const EvmConfirmation: FC<Props> = ({ network, sender: { networksKeys }, 
         value: ethers.utils.parseUnits(transferParams.value as string)
       };
 
-      getEvmSigner({
+      sendEvmTransaction({
         rpcUrl,
         transactionParams,
         publicKeyHash: getString(networksKeys[networkType]?.publicKeyHash),

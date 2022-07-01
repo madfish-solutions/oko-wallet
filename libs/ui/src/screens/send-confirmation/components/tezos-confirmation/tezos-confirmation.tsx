@@ -16,7 +16,7 @@ interface Props extends ConfirmationProps {
 }
 
 export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }) => {
-  const { getTezosSigner } = useShelter();
+  const { sendTezosTransaction } = useShelter();
   const { estimations, isLoading } = useTezosEstimations({ sender, transferParams, network });
   const { storageLimitSum, gasFeeSum, revealGasFee, transferParamsWithFees, isOneOperation } = useTezosFees(
     transferParams,
@@ -58,7 +58,7 @@ export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }
       return transferParam;
     });
 
-    getTezosSigner({
+    sendTezosTransaction({
       transactionParams,
       rpcUrl,
       publicKeyHash: getPublicKeyHash(sender, networkType),
