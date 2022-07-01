@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { Button } from 'react-native';
 
-import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { ResetWallet } from '../../components/reset-wallet/reset-wallet';
 import { ScreenContainer } from '../../components/screen-container/screen-container';
 import { ScreensEnum } from '../../enums/sreens.enum';
@@ -30,7 +29,6 @@ export const Settings: FC = () => {
       <ResetWallet />
       <Button onPress={lock} title="lock app" color="#841584" />
       {isWeb && <Button title="Maximize screen" onPress={handleMaximiseViewClick} color="#ffa500" />}
-      <NavigationBar />
     </ScreenContainer>
   );
 };
