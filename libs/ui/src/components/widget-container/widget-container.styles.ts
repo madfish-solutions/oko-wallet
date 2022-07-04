@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
   header: {
     justifyContent: 'flex-start',
     padding: getCustomSize(1),
-    color: colors.border
+    color: colors.border1
   },
   text: {
     ...typography.bodyInterSemiBold15,
