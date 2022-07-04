@@ -10,10 +10,10 @@ export const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'space-between',
     height: isWeb ? '100vh' : '100%',
-    backgroundColor: colors.navGrey1
+    backgroundColor: colors.bgGrey1
   },
   content: {
-    paddingVertical: getCustomSize(3),
+    paddingVertical: getCustomSize(3.5),
     paddingHorizontal: getCustomSize(2)
   }
 });

@@ -7,7 +7,6 @@ import { typography } from '../../../styles/typography';
 export const styles = StyleSheet.create({
   root: {
     paddingHorizontal: getCustomSize(2),
-    paddingTop: getCustomSize(2),
     paddingBottom: getCustomSize(2.5),
     backgroundColor: colors.bgGrey2,
     borderBottomLeftRadius: getCustomSize(3),

@@ -1,6 +1,6 @@
 import { isDefined } from '@rnw-community/shared';
 import React, { FC } from 'react';
-import { ScrollView, StyleProp, ViewStyle } from 'react-native';
+import { ScrollView, StyleProp, View, ViewStyle } from 'react-native';
 
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { Column } from '../column/column';
@@ -29,8 +29,8 @@ export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType,
         <HeaderSecondaryScreen title={screenTitle} icons={icons} navigationType={navigationType} />
       )}
 
-      <ScrollView scrollEnabled={!isLocked} style={styles.content}>
-        {children}
+      <ScrollView scrollEnabled={!isLocked}>
+        <View style={styles.content}>{children}</View>
       </ScrollView>
 
       <NavigationBar />
