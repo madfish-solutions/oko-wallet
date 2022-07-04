@@ -10,8 +10,10 @@ import { HeaderContainer } from './header-container/header-container';
 import { styles } from './header-main-screen.styles';
 import { HeaderQRCode } from './header-qr-code/header-qr-code';
 
+const initialQrCodeState = isWeb ? false : true;
+
 export const HeaderMainScreen: FC = () => {
-  const [qrCodeIsShow, setQrCodeIsShow] = useState(false);
+  const [qrCodeIsShow, setQrCodeIsShow] = useState(initialQrCodeState);
 
   const openCameraToScanQrCode = () => null;
   const showQrCode = () => setQrCodeIsShow(!qrCodeIsShow);
