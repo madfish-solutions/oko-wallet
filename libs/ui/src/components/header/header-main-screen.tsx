@@ -17,7 +17,7 @@ export const HeaderMainScreen: FC = () => {
   const showQrCode = () => setQrCodeIsShow(!qrCodeIsShow);
 
   return (
-    <HeaderContainer isShowNetworkName>
+    <HeaderContainer>
       <Row>
         {!isWeb && <TouchableIcon name={IconNameEnum.Qrscan} onPress={openCameraToScanQrCode} style={styles.icon} />}
         <TouchableIcon name={IconNameEnum.Qrcode} onPress={showQrCode} />

@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.navGrey1
   },
   content: {
+    paddingVertical: getCustomSize(3),
     paddingHorizontal: getCustomSize(2)
   }
 });

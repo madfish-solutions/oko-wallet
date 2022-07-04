@@ -17,7 +17,6 @@ import { TouchableIcon } from '../../touchable-icon/touchable-icon';
 import { styles } from './header-container.styles';
 
 interface Props {
-  isShowNetworkName?: boolean;
   style?: StyleProp<ViewStyle>;
 }
 
