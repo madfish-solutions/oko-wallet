@@ -29,8 +29,8 @@ export const HeaderSideToken: FC<Props> = ({ style }) => {
       <Row>
         <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />
         <Text style={styles.tokenName}>Klaytn</Text>
-        <IconWithBorder type="secondary">
-          <Image source={{ uri: imageSource }} style={styles.tokenImage} />
+        <IconWithBorder type="secondary" style={styles.imageContainer}>
+          <Image source={{ uri: imageSource }} style={styles.image} />
         </IconWithBorder>
       </Row>
     </Column>

@@ -10,13 +10,12 @@ export const styles = StyleSheet.create({
   },
   balance: {
     marginRight: getCustomSize(0.5),
-    color: colors.textGrey1,
-    ...typography.numbersIBMPlexSansMedium20,
-    letterSpacing: getCustomSize(0.04375)
+    color: colors.textGrey1
   },
   currency: {
-    color: colors.textGrey2,
-    ...typography.numbersIBMPlexSansMedium20,
-    letterSpacing: getCustomSize(0.04375)
+    color: colors.textGrey2
+  },
+  text: {
+    ...typography.numbersIBMPlexSansMedium20
   }
 });

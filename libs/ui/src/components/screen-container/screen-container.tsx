@@ -6,22 +6,30 @@ import { Column } from '../column/column';
 import { HeaderMainScreen } from '../header/header-main-screen';
 import { HeaderSecondaryScreen } from '../header/header-secondary-screen';
 import { HeaderSideTypeEnum } from '../header/header-side-type.enum';
+import { Icons } from '../header/header.interface';
 import { NavigationBar } from '../navigation-bar/navigation-bar';
 
 import { styles } from './screen-container.styles';
 
-interface Props extends ScrollViewProps {
+interface Props extends ScrollViewProps, Icons {
   screenTitle?: string;
   navigationType?: HeaderSideTypeEnum;
   style?: StyleProp<ViewStyle>;
 }
 
-export const ScreenContainer: FC<Props> = ({ screenTitle, navigationType, style, children, ...scrollViewProps }) => (
+export const ScreenContainer: FC<Props> = ({
+  screenTitle,
+  icons,
+  navigationType,
+  style,
+  children,
+  ...scrollViewProps
+}) => (
   <Column style={[styles.root, style]}>
     {!isDefined(screenTitle) ? (
       <HeaderMainScreen />
     ) : (
-      <HeaderSecondaryScreen title={screenTitle} navigationType={navigationType} />
+      <HeaderSecondaryScreen title={screenTitle} icons={icons} navigationType={navigationType} />
     )}
 
     <ScrollView {...scrollViewProps} style={styles.content}>

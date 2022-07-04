@@ -10,11 +10,10 @@ import { TouchableIcon } from '../../touchable-icon/touchable-icon';
 import { styles } from './header-account-balance.styles';
 
 interface Props {
-  textStyle?: StylePropsType;
   style?: StylePropsType;
 }
 
-export const HeaderAccountBalance: FC<Props> = ({ textStyle, style }) => {
+export const HeaderAccountBalance: FC<Props> = ({ style }) => {
   const [isShowBalance, setIsShowBalance] = useState(false);
 
   const changeBalanceVisibility = () => {
@@ -29,8 +28,8 @@ export const HeaderAccountBalance: FC<Props> = ({ textStyle, style }) => {
         onPress={changeBalanceVisibility}
         iconStyle={styles.icon}
       />
-      <Text style={[styles.balance, textStyle]}>4,123.00 M</Text>
-      <Text style={[styles.currency, textStyle]}>$</Text>
+      <Text style={[styles.balance, styles.text]}>4,123.00 M</Text>
+      <Text style={[styles.currency, styles.text]}>$</Text>
     </Row>
   );
 };

@@ -16,7 +16,9 @@ export const HeaderSwapSide: FC = () => {
       <Row style={styles.wrapper}>
         <Text style={styles.text}>Rates update in</Text>
         <View style={styles.timer}>
-          <Text style={styles.number}>00:30</Text>
+          <Text style={styles.number} numberOfLines={1}>
+            00:30
+          </Text>
         </View>
       </Row>
       <TouchableIcon name={IconNameEnum.Slider} onPress={openSomething} />

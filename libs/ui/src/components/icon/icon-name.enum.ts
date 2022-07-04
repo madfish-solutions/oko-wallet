@@ -2,6 +2,7 @@ export enum IconNameEnum {
   AccountLogo = 'AccountLogo',
   Activity = 'Activity',
   Add = 'Add',
+  AddChain = 'AddChain',
   ArrowLeft = 'ArrowLeft',
   ArrowRight = 'ArrowRight',
   Assets = 'Assets',

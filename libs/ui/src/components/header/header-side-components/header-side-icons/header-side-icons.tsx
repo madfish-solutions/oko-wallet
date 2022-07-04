@@ -8,13 +8,14 @@ import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
 import { styles } from './header-side-icons.styles';
 
 interface Props {
+  icons: [IconNameEnum, IconNameEnum?, IconNameEnum?];
   style?: StylePropsType;
 }
 
-export const HeaderSideIcons: FC<Props> = ({ style }) => (
+export const HeaderSideIcons: FC<Props> = ({ icons, style }) => (
   <Row style={style}>
-    <TouchableIcon name={IconNameEnum.Search} style={styles.icon} />
-    <TouchableIcon name={IconNameEnum.Qrcode} style={styles.icon} />
-    <TouchableIcon name={IconNameEnum.Qrscan} />
+    {icons.map(
+      (name, idx) => name && <TouchableIcon key={name} name={name} style={idx !== icons.length - 1 && styles.icon} />
+    )}
   </Row>
 );

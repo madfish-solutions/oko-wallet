@@ -14,7 +14,6 @@ export const styles = StyleSheet.create({
   },
   title: {
     color: colors.textGrey1,
-    ...typography.headlineInterRegular22,
-    letterSpacing: getCustomSize(0.04375)
+    ...typography.headlineInterRegular22
   }
 });

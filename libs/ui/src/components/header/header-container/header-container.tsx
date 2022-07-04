@@ -6,6 +6,7 @@ import {
   useSelectedNetworkSelector
 } from '../../../store/wallet/wallet.selectors';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
+import { shortize } from '../../../utils/shortize.util';
 import { IconWithBorder } from '../../icon-with-border/icon-with-border';
 import { Icon } from '../../icon/icon';
 import { IconNameEnum } from '../../icon/icon-name.enum';
@@ -39,8 +40,8 @@ export const HeaderContainer: FC<Props> = ({ style, children }) => {
 
         <Row style={styles.addressWrapper}>
           <TouchableIcon name={IconNameEnum.Copy} onPress={copyAddress} iconStyle={styles.icon} />
-          <Text ellipsizeMode="middle" numberOfLines={1} style={styles.address}>
-            {address}
+          <Text numberOfLines={1} style={styles.address}>
+            {shortize(address)}
           </Text>
         </Row>
 

@@ -25,10 +25,8 @@ export const styles = StyleSheet.create({
     marginRight: getCustomSize(0.5)
   },
   address: {
-    width: getCustomSize(10),
     color: colors.textGrey1,
-    ...typography.captionInterSemiBold13,
-    letterSpacing: getCustomSize(0.0422)
+    ...typography.captionInterSemiBold13
   },
   button: {
     padding: getCustomSize(0.5),

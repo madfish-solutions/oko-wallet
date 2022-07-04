@@ -18,11 +18,9 @@ export const styles = StyleSheet.create({
   timer: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: getCustomSize(5),
-    height: getCustomSize(3),
     marginLeft: getCustomSize(0.5),
     paddingHorizontal: getCustomSize(0.5),
-    paddingVertical: getCustomSize(0.75),
+    paddingVertical: getCustomSize(0.68),
     borderWidth: getCustomSize(0.25),
     borderColor: colors.bgGrey3,
     borderRadius: getCustomSize()

@@ -1,7 +1,7 @@
 export enum HeaderSideTypeEnum {
   Empty = 'Empty',
   Icons = 'Icons',
-  AssetBalance = 'AssetBalance',
+  AccountBalance = 'AccountBalance',
   TokenInfo = 'TokenInfo',
   Swap = 'Swap'
 }

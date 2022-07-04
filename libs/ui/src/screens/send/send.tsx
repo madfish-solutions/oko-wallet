@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import { TextInput, Pressable, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import { HeaderSideTypeEnum } from '../../components/header/header-side-type.enum';
 import { ScreenContainer } from '../../components/screen-container/screen-container';
 import { sendAssetAction } from '../../store/wallet/wallet.actions';
 import { useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
@@ -17,7 +18,7 @@ export const Send: FC = () => {
   const onSend = () => dispatch(sendAssetAction.submit({ amount, receiverPublicKeyHash }));
 
   return (
-    <ScreenContainer screenTitle="Send">
+    <ScreenContainer screenTitle="Send" navigationType={HeaderSideTypeEnum.TokenInfo}>
       <Text>You can send Gas Token: {name}</Text>
       <TextInput placeholder="Amount" value={amount} onChangeText={setAmount} />
       <TextInput placeholder="Recipient" value={receiverPublicKeyHash} onChangeText={setReceiverPublicKeyHash} />

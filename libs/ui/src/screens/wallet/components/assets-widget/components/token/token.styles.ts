@@ -25,9 +25,7 @@ export const styles = StyleSheet.create({
   },
   text: {
     color: colors.textGrey1,
-    lineHeight: getCustomSize(2.25),
-    textTransform: 'uppercase',
-    ...typography.numbersIBMPlexSansMedium13
+    ...typography.numbersIBMPlexSansMediumUppercase13
   },
   token: {
     width: 'auto'

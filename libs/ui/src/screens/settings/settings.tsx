@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { Button } from 'react-native';
 
 import { HeaderSideTypeEnum } from '../../components/header/header-side-type.enum';
+import { IconNameEnum } from '../../components/icon/icon-name.enum';
 import { ResetWallet } from '../../components/reset-wallet/reset-wallet';
 import { ScreenContainer } from '../../components/screen-container/screen-container';
 import { ScreensEnum } from '../../enums/sreens.enum';
@@ -23,7 +24,11 @@ export const Settings: FC = () => {
   };
 
   return (
-    <ScreenContainer screenTitle="Settings" navigationType={HeaderSideTypeEnum.Icons}>
+    <ScreenContainer
+      screenTitle="Settings"
+      icons={[IconNameEnum.Search, IconNameEnum.AddChain, IconNameEnum.Edit]}
+      navigationType={HeaderSideTypeEnum.Icons}
+    >
       <Button title="Add network" onPress={navigateToAddNetwork} />
       <Button title="Add new token" onPress={navigateToAddNewToken} />
       <Button title="Manage Tokens" onPress={navigateToManageTokens} />

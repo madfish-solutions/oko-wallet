@@ -13,14 +13,13 @@ import { HeaderQRCode } from './header-qr-code/header-qr-code';
 export const HeaderMainScreen: FC = () => {
   const [qrCodeIsShow, setQrCodeIsShow] = useState(false);
 
-  const openCameraQrScan = () => null;
-
+  const openCameraToScanQrCode = () => null;
   const showQrCode = () => setQrCodeIsShow(!qrCodeIsShow);
 
   return (
     <HeaderContainer isShowNetworkName>
       <Row>
-        {!isWeb && <TouchableIcon name={IconNameEnum.Qrscan} onPress={openCameraQrScan} style={styles.icon} />}
+        {!isWeb && <TouchableIcon name={IconNameEnum.Qrscan} onPress={openCameraToScanQrCode} style={styles.icon} />}
         <TouchableIcon name={IconNameEnum.Qrcode} onPress={showQrCode} />
         <HeaderAccountBalance style={styles.accountBalance} />
       </Row>

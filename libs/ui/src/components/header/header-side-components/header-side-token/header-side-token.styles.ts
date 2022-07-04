@@ -32,7 +32,10 @@ export const styles = StyleSheet.create({
     color: colors.textGrey1,
     ...typography.captionInterRegular11
   },
-  tokenImage: {
+  imageContainer: {
+    backgroundColor: colors.navGrey1
+  },
+  image: {
     height: getCustomSize(4),
     width: getCustomSize(4)
   }

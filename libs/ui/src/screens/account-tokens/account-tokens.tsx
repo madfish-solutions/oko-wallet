@@ -27,7 +27,7 @@ export const AccountTokens: FC = () => {
   }, [inputNameSearch, visibleAccountTokens]);
 
   return (
-    <ScreenContainer screenTitle="Assets" navigationType={HeaderSideTypeEnum.AssetBalance}>
+    <ScreenContainer screenTitle="Assets" navigationType={HeaderSideTypeEnum.AccountBalance}>
       <TextInput
         style={styles.input}
         onChangeText={setInputNameSearch}

@@ -3,6 +3,7 @@ import { SvgProps } from 'react-native-svg';
 
 import AccountLogo from './assets/account-logo.svg';
 import ActivityIcon from './assets/activity.svg';
+import AddChain from './assets/add-chain.svg';
 import AddIcon from './assets/add.svg';
 import ArrowLeftIcon from './assets/arrow-left.svg';
 import ArrowRightIcon from './assets/arrow-right.svg';
@@ -71,5 +72,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.BinanceSmartChain]: BinanceSmartChain,
   [IconNameEnum.NetworkFallback]: NetworkFallback,
   [IconNameEnum.Qrcode]: QrIcon,
-  [IconNameEnum.Slider]: Slider
+  [IconNameEnum.Slider]: Slider,
+  [IconNameEnum.AddChain]: AddChain
 };

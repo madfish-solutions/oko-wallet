@@ -31,9 +31,7 @@ export const styles = StyleSheet.create({
   address: {
     marginBottom: getCustomSize(1.75),
     color: colors.textGrey1,
-    lineHeight: getCustomSize(2.25),
-    ...typography.numbersIBMPlexSansMediumUppercase13,
-    letterSpacing: getCustomSize(-0.01)
+    ...typography.numbersIBMPlexSansMediumUppercase13
   },
   icon: {
     color: colors.orange
