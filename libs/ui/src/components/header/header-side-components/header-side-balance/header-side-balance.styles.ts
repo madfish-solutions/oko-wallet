@@ -16,10 +16,6 @@ export const styles = StyleSheet.create({
   wrapper: {
     marginBottom: getCustomSize(0.25)
   },
-  dynamic: {
-    color: colors.green,
-    ...typography.numbersIBMPlexSansMedium13
-  },
   amount: {
     marginRight: getCustomSize()
   },

@@ -2,9 +2,9 @@ import React, { FC } from 'react';
 import { Image, Text } from 'react-native';
 
 import { StylePropsType } from '../../../../interfaces/style.interface';
-import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
 import { Column } from '../../../column/column';
+import { Dynamics } from '../../../dynamics/dynamics';
 import { IconWithBorder } from '../../../icon-with-border/icon-with-border';
 import { Icon } from '../../../icon/icon';
 import { IconNameEnum } from '../../../icon/icon-name.enum';
@@ -23,8 +23,7 @@ export const HeaderSideToken: FC<Props> = ({ style }) => {
     <Column style={[styles.root, style]}>
       <Row style={styles.wrapper}>
         <Text style={styles.amount}>0.56 $</Text>
-        <Text style={styles.dynamic}>10.2%</Text>
-        <Icon name={IconNameEnum.Dropdown} size={getCustomSize(2)} color={colors.green} iconStyle={styles.icon} />
+        <Dynamics value="-10.2" />
       </Row>
       <Row>
         <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />

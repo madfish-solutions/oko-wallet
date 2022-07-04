@@ -16,17 +16,6 @@ export const styles = StyleSheet.create({
     color: colors.textGrey1,
     ...typography.numbersIBMPlexSansRegular11
   },
-  dynamic: {
-    color: colors.green,
-    ...typography.numbersIBMPlexSansRegular11
-  },
-  icon: {
-    transform: [
-      {
-        rotate: '180deg'
-      }
-    ]
-  },
   tokenName: {
     marginRight: getCustomSize(0.5),
     color: colors.textGrey1,
