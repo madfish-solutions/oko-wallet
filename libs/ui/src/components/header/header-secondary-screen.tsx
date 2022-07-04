@@ -1,7 +1,8 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { FC, useMemo } from 'react';
 import { StyleProp, Text, ViewStyle } from 'react-native';
 
+import { ScreensEnum } from '../../enums/sreens.enum';
+import { useNavigation } from '../../hooks/use-navigation.hook';
 import { Column } from '../column/column';
 import { IconNameEnum } from '../icon/icon-name.enum';
 import { Row } from '../row/row';
@@ -22,8 +23,14 @@ interface Props extends Icons {
   style?: StyleProp<ViewStyle>;
 }
 
+const rootRoutes: string[] = [ScreensEnum.Receive, ScreensEnum.Send, ScreensEnum.Settings];
+
 export const HeaderSecondaryScreen: FC<Props> = ({ title, icons, navigationType, style }) => {
-  const { goBack } = useNavigation();
+  const { navigate, goBack } = useNavigation();
+
+  const isRootRoute = useMemo(() => rootRoutes.includes(title), [title]);
+
+  const routeNavigation = () => (isRootRoute ? navigate(ScreensEnum.Wallet) : goBack());
 
   const component = useMemo(() => {
     switch (navigationType) {
@@ -44,7 +51,7 @@ export const HeaderSecondaryScreen: FC<Props> = ({ title, icons, navigationType,
     <HeaderContainer style={style}>
       <Row style={styles.root}>
         <Column>
-          <TouchableIcon name={IconNameEnum.ArrowLeft} onPress={goBack} style={styles.icon} />
+          <TouchableIcon name={IconNameEnum.ArrowLeft} onPress={routeNavigation} style={styles.icon} />
           <Text style={styles.title}>{title}</Text>
         </Column>
 
