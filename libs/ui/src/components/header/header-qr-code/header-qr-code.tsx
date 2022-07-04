@@ -30,7 +30,7 @@ export const HeaderQRCode: FC<Props> = ({ style }) => {
         message: address
       });
     } catch (error) {
-      console.log('Share error:', error.message);
+      console.log('Share error:', error);
     }
   };
 
