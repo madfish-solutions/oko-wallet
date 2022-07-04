@@ -34,5 +34,6 @@ export enum IconNameEnum {
   BinanceSmartChain = 'BinanceSmartChain',
   NetworkFallback = 'NetworkFallback',
   Qrcode = 'Qrcode',
-  Slider = 'Slider'
+  Slider = 'Slider',
+  Share = 'Share'
 }

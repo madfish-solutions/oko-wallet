@@ -27,6 +27,7 @@ import ReceiveIcon from './assets/receive.svg';
 import SearchIcon from './assets/search.svg';
 import SendIcon from './assets/send.svg';
 import SettingsIcon from './assets/settings.svg';
+import Share from './assets/share.svg';
 import Slider from './assets/slider.svg';
 import StakeIcon from './assets/stake.svg';
 import SwapIcon from './assets/swap.svg';
@@ -73,5 +74,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.NetworkFallback]: NetworkFallback,
   [IconNameEnum.Qrcode]: QrIcon,
   [IconNameEnum.Slider]: Slider,
-  [IconNameEnum.AddChain]: AddChain
+  [IconNameEnum.AddChain]: AddChain,
+  [IconNameEnum.Share]: Share
 };

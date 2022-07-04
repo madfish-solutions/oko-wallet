@@ -6,45 +6,34 @@ import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
-    flexDirection: 'row',
     justifyContent: 'space-between',
+    height: getCustomSize(18),
     padding: getCustomSize(2),
     backgroundColor: colors.navGrey1,
     borderRadius: getCustomSize(1.75)
   },
   wrapper: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     flex: 2,
+    height: '100%',
     marginRight: getCustomSize(2),
     paddingRight: getCustomSize(4),
     borderRightWidth: getCustomSize(0.125),
     borderRightColor: colors.bgGrey2
   },
-  text: {
-    marginBottom: getCustomSize(1.5),
-    color: colors.textGrey3,
-    ...typography.captionInterRegular11
-  },
-  symbol: {
-    color: colors.textGrey1,
-    ...typography.captionInterRegular11
-  },
   address: {
-    marginBottom: getCustomSize(1.75),
     color: colors.textGrey1,
     ...typography.numbersIBMPlexSansMediumUppercase13
   },
-  icon: {
-    color: colors.orange
+  iconsWrapper: {
+    marginTop: 'auto'
   },
-  container: {
+  icon: {
+    marginLeft: getCustomSize(2)
+  },
+  qrcodeWrapper: {
     borderRadius: getCustomSize(0.25),
     overflow: 'hidden'
-  },
-  qrcode: {
-    flex: 1,
-    width: getCustomSize(14),
-    height: getCustomSize(14),
-    backgroundColor: colors.textGrey1,
-    borderRadius: getCustomSize(0.5)
   }
 });

@@ -1,15 +1,13 @@
 import React, { FC } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Share } from 'react-native';
 import QRCodeLibrary from 'react-native-qrcode-svg';
 
 import { StylePropsType } from '../../../interfaces/style.interface';
-import {
-  useSelectedAccountPublicKeyHashSelector,
-  useSelectedNetworkSelector
-} from '../../../store/wallet/wallet.selectors';
+import { useSelectedAccountPublicKeyHashSelector } from '../../../store/wallet/wallet.selectors';
 import { colors } from '../../../styles/colors';
 import { getCustomSize } from '../../../styles/format-size';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
+import { isWeb } from '../../../utils/platform.utils';
 import { Column } from '../../column/column';
 import { IconNameEnum } from '../../icon/icon-name.enum';
 import { Row } from '../../row/row';
@@ -23,24 +21,31 @@ interface Props {
 
 export const HeaderQRCode: FC<Props> = ({ style }) => {
   const address = useSelectedAccountPublicKeyHashSelector();
-  const { name } = useSelectedNetworkSelector();
 
   const copyAddress = () => handleCopyToClipboard(address);
+
+  const shareAddress = async () => {
+    try {
+      await Share.share({
+        message: address
+      });
+    } catch (error) {
+      console.log('Share error:', error.message);
+    }
+  };
 
   return (
     <Row style={[styles.root, style]}>
       <Column style={styles.wrapper}>
-        <Text style={styles.text}>
-          Share this address
-          {'\n'}
-          for receive <Text style={styles.symbol}>{name}</Text> network tokens
-        </Text>
-        <Text style={styles.address} numberOfLines={2}>
+        <Text style={styles.address} numberOfLines={3}>
           {address}
         </Text>
-        <TouchableIcon name={IconNameEnum.Copy} onPress={copyAddress} />
+        <Row style={styles.iconsWrapper}>
+          <TouchableIcon name={IconNameEnum.Copy} onPress={copyAddress} />
+          {!isWeb && <TouchableIcon name={IconNameEnum.Share} onPress={shareAddress} style={styles.icon} />}
+        </Row>
       </Column>
-      <View style={styles.container}>
+      <View style={styles.qrcodeWrapper}>
         <QRCodeLibrary
           backgroundColor="transparent"
           color={colors.textGrey1}
