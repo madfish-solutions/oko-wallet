@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
   },
   amount: {
     marginRight: getCustomSize(0.5),
-    color: colors.textGrey4,
+    color: colors.textGrey1,
     ...typography.numbersIBMPlexSansRegular11
   },
   tokenName: {

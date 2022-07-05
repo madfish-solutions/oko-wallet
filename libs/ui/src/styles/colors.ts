@@ -11,8 +11,7 @@ const navigationColors = {
 const textColors = {
   textGrey1: '#F8F8F8',
   textGrey2: '#868993',
-  textGrey3: '#B4B6BC',
-  textGrey4: '#E1E3E9'
+  textGrey3: '#B4B6BC'
 };
 
 const accentColors = {
