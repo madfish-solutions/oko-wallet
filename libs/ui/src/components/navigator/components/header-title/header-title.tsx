@@ -1,4 +1,3 @@
-import { useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 import { Text, View, Pressable } from 'react-native';
 
@@ -8,8 +7,11 @@ import { HeaderCloseButton } from '../header-close-button/header-close-button';
 
 import { styles } from './header-title.styles';
 
-export const HeaderTitle: FC = () => {
-  const { name } = useRoute();
+interface Props {
+  name: string;
+}
+
+export const HeaderTitle: FC<Props> = ({ name }) => {
   const { goBack } = useNavigation();
 
   return (

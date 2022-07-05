@@ -16,7 +16,7 @@ export const AccountsSelector: FC = () => {
   const selectedAccount = useSelectedAccountSelector();
 
   return (
-    <Modal>
+    <Modal screenTitle="Accounts">
       <>
         <View style={[styles.accountContainer, styles.borderBottom]}>
           <Row style={styles.logoContainer}>

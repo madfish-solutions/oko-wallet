@@ -12,7 +12,7 @@ export enum ScreensEnum {
   Wallet = 'Wallet',
   ConnectToDapps = 'ConnectToDapps',
   Unlock = 'unlock',
-  AccountsSelector = 'Accounts',
+  AccountsSelector = 'AccountsSelector',
   AccountTokens = 'AccountTokens'
 }
 
