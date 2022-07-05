@@ -35,5 +35,11 @@ export enum IconNameEnum {
   NetworkFallback = 'NetworkFallback',
   Qrcode = 'Qrcode',
   Slider = 'Slider',
-  Share = 'Share'
+  Share = 'Share',
+  WidgetSettings = 'WidgetSettings',
+  SelectedCheckbox = 'SelectedCheckbox',
+  EmptyCheckbox = 'EmptyCheckbox',
+  // to dell
+  BigRobot = 'BigRobot',
+  SmallRobot = 'SmallRobot'
 }

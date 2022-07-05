@@ -11,7 +11,8 @@ const navigationColors = {
 const textColors = {
   textGrey1: '#F8F8F8',
   textGrey2: '#868993',
-  textGrey3: '#B4B6BC'
+  textGrey3: '#B4B6BC',
+  textGreen: '#14BA30'
 };
 
 const accentColors = {
@@ -22,7 +23,8 @@ const accentColors = {
 
 const basicColors = {
   lines: '#495165',
-  border: '#727B93'
+  border1: '#727B93',
+  border2: '#2F3238'
 };
 
 export const colors = {

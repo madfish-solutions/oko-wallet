@@ -18,7 +18,7 @@ interface Props {
 export const WidgetContainer: FC<Props> = ({ children, style, iconName, title }) => (
   <View style={[styles.root, style]}>
     <Row style={styles.header}>
-      <Icon name={iconName} color={colors.border} />
+      <Icon name={iconName} color={colors.border1} />
       <Text style={styles.text}>{title}</Text>
     </Row>
     <View style={styles.children}>{children}</View>

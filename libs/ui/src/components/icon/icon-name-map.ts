@@ -8,12 +8,14 @@ import AddIcon from './assets/add.svg';
 import ArrowLeftIcon from './assets/arrow-left.svg';
 import ArrowRightIcon from './assets/arrow-right.svg';
 import AssetsIcon from './assets/assets.svg';
+import BigRobot from './assets/big-robot.svg';
 import CheckDoneIcon from './assets/check-done.svg';
 import CheckEmptyIcon from './assets/check-empty.svg';
 import CopyIcon from './assets/copy.svg';
 import DropdownIcon from './assets/dropdown.svg';
 import DropupIcon from './assets/dropup.svg';
 import EditIcon from './assets/edit.svg';
+import EmptyCheckbox from './assets/empty-checkbox.svg';
 import EyeClosedIcon from './assets/eye-closed.svg';
 import EyeOpenIcon from './assets/eye-open.svg';
 import GasIcon from './assets/gas.svg';
@@ -25,13 +27,16 @@ import QrIcon from './assets/qr.svg';
 import QrscanIcon from './assets/qrscan.svg';
 import ReceiveIcon from './assets/receive.svg';
 import SearchIcon from './assets/search.svg';
+import SelectedCheckbox from './assets/selected-checkbox.svg';
 import SendIcon from './assets/send.svg';
 import SettingsIcon from './assets/settings.svg';
 import Share from './assets/share.svg';
 import Slider from './assets/slider.svg';
+import SmallRobot from './assets/small-robot.svg';
 import StakeIcon from './assets/stake.svg';
 import SwapIcon from './assets/swap.svg';
 import TopupIcon from './assets/topup.svg';
+import WidgetSettings from './assets/widget-settings.svg';
 import XIcon from './assets/x.svg';
 import { IconNameEnum } from './icon-name.enum';
 import BinanceSmartChain from './networks/bsc.svg';
@@ -75,5 +80,11 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Qrcode]: QrIcon,
   [IconNameEnum.Slider]: Slider,
   [IconNameEnum.AddChain]: AddChain,
-  [IconNameEnum.Share]: Share
+  [IconNameEnum.Share]: Share,
+  [IconNameEnum.WidgetSettings]: WidgetSettings,
+  [IconNameEnum.SelectedCheckbox]: SelectedCheckbox,
+  [IconNameEnum.EmptyCheckbox]: EmptyCheckbox,
+  // to dell
+  [IconNameEnum.BigRobot]: BigRobot,
+  [IconNameEnum.SmallRobot]: SmallRobot
 };

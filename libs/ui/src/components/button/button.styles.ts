@@ -13,6 +13,7 @@ export const styles = (theme: Theme) => {
     root: {
       backgroundColor,
       flex: 1,
+      flexBasis: 'auto',
       alignItems: 'center',
       justifyContent: 'center',
       borderRadius: getCustomSize(0.5),
