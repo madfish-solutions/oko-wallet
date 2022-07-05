@@ -49,7 +49,7 @@ export const HeaderQRCode: FC<Props> = ({ style }) => {
         <QRCodeLibrary
           backgroundColor="transparent"
           color={colors.textGrey1}
-          value={address}
+          value={address !== '' ? address : 'Not generated'}
           size={getCustomSize(14)}
         />
       </View>
