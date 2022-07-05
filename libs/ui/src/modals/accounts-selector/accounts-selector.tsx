@@ -9,10 +9,10 @@ import { useSelectedAccountSelector } from '../../store/wallet/wallet.selectors'
 import { getCustomSize } from '../../styles/format-size';
 import { Modal } from '../modal/modal';
 
-import { styles } from './accounts.styles';
+import { styles } from './accounts-selector.styles';
 import { AccountsList } from './components/accounts-list/accounts-list';
 
-export const Accounts: FC = () => {
+export const AccountsSelector: FC = () => {
   const selectedAccount = useSelectedAccountSelector();
 
   return (

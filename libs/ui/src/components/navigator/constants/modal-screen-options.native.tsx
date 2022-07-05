@@ -7,7 +7,7 @@ import { isAndroid } from '../../../utils/platform.utils';
 import { HeaderCloseButton } from '../components/header-close-button/header-close-button';
 import { HeaderTitle } from '../components/header-title.native/header-title';
 
-export const screenOptions: StackNavigationOptions = {
+export const modalScreenOptions: StackNavigationOptions = {
   presentation: 'modal',
   headerStyle: {
     height: getCustomSize(7),

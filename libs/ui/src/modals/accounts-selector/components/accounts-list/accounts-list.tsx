@@ -79,7 +79,7 @@ export const AccountsList = () => {
     const scrollToSelectedIndex = async () => {
       await new Promise(resolve => setTimeout(resolve, 100));
 
-      flatListRef.current?.scrollToIndex({ index: selectedIndex });
+      flatListRef.current?.scrollToIndex({ index: selectedIndex, animated: true });
     };
 
     scrollToSelectedIndex();

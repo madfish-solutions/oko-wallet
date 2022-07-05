@@ -5,7 +5,7 @@ import { View, Text } from 'react-native';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useUnlock } from '../../hooks/use-unlock.hook';
-import { Accounts } from '../../modals/accounts/accounts';
+import { AccountsSelector } from '../../modals/accounts-selector/accounts-selector';
 import { AccountTokens } from '../../screens/account-tokens/account-tokens';
 import { AddNetwork } from '../../screens/add-network/add-network';
 import { AddNewToken } from '../../screens/add-new-token/add-new-token';
@@ -21,8 +21,8 @@ import { Wallet } from '../../screens/wallet/wallet';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
 import { getStoredValue, setStoredValue } from '../../utils/store.util';
 
+import { modalScreenOptions } from './constants/modal-screen-options';
 import { PERSISTENCE_KEY } from './constants/perstistence-key';
-import { screenOptions } from './constants/screen-options';
 import { Stack } from './utils/get-stack-navigator';
 
 export const navigationRef = createRef<NavigationContainerRef<ScreensParamList>>();
@@ -80,8 +80,8 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
               <Stack.Screen name={ScreensEnum.AccountTokens} component={AccountTokens} />
             </Stack.Group>
-            <Stack.Group screenOptions={screenOptions}>
-              <Stack.Screen name={ScreensEnum.Accounts} component={Accounts} />
+            <Stack.Group screenOptions={modalScreenOptions}>
+              <Stack.Screen name={ScreensEnum.Accounts} component={AccountsSelector} />
             </Stack.Group>
           </>
         ) : (
