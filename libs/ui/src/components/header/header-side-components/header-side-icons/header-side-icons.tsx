@@ -1,14 +1,13 @@
 import React, { FC } from 'react';
 
 import { StylePropsType } from '../../../../interfaces/style.interface';
-import { IconNameEnum } from '../../../icon/icon-name.enum';
 import { Row } from '../../../row/row';
 import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
+import { HeaderIconsProps } from '../../header.interface';
 
 import { styles } from './header-side-icons.styles';
 
-interface Props {
-  icons: [IconNameEnum, IconNameEnum?, IconNameEnum?];
+interface Props extends Required<HeaderIconsProps> {
   style?: StylePropsType;
 }
 

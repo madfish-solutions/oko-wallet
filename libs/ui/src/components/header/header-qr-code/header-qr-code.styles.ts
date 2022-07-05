@@ -13,7 +13,6 @@ export const styles = StyleSheet.create({
     borderRadius: getCustomSize(1.75)
   },
   wrapper: {
-    flexDirection: 'column',
     justifyContent: 'space-between',
     flex: 2,
     height: '100%',

@@ -5,9 +5,7 @@ import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector
 } from '../../../store/wallet/wallet.selectors';
-import { getCustomSize } from '../../../styles/format-size';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
-import { isWeb } from '../../../utils/platform.utils';
 import { shortize } from '../../../utils/shortize.util';
 import { IconWithBorder } from '../../icon-with-border/icon-with-border';
 import { Icon } from '../../icon/icon';
@@ -31,7 +29,7 @@ export const HeaderContainer: FC<Props> = ({ style, children }) => {
   const copyAddress = () => handleCopyToClipboard(address);
 
   return (
-    <View style={[styles.root, style, { paddingTop: isWeb ? getCustomSize(2) : getCustomSize(5.5) }]}>
+    <View style={[styles.root, style]}>
       <Row style={styles.wrapper}>
         <TouchableOpacity onPress={selectNetwork} style={styles.button}>
           <IconWithBorder>

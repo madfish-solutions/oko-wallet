@@ -10,8 +10,8 @@ interface Props extends IconProps {
   style?: StylePropsType;
 }
 
-export const TouchableIcon: FC<Props> = ({ onPress, style, ...iconProps }) => (
+export const TouchableIcon: FC<Props> = ({ onPress, style, name, width, height, size, color, iconStyle }) => (
   <TouchableOpacity onPress={onPress} style={style}>
-    <Icon {...iconProps} />
+    <Icon name={name} width={width} height={height} size={size} color={color} iconStyle={iconStyle} />
   </TouchableOpacity>
 );

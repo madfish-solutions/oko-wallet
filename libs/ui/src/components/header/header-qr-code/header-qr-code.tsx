@@ -7,7 +7,7 @@ import { useSelectedAccountPublicKeyHashSelector } from '../../../store/wallet/w
 import { colors } from '../../../styles/colors';
 import { getCustomSize } from '../../../styles/format-size';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
-import { isWeb } from '../../../utils/platform.utils';
+import { isMobile } from '../../../utils/platform.utils';
 import { Column } from '../../column/column';
 import { IconNameEnum } from '../../icon/icon-name.enum';
 import { Row } from '../../row/row';
@@ -42,7 +42,7 @@ export const HeaderQRCode: FC<Props> = ({ style }) => {
         </Text>
         <Row style={styles.iconsWrapper}>
           <TouchableIcon name={IconNameEnum.Copy} onPress={copyAddress} />
-          {!isWeb && <TouchableIcon name={IconNameEnum.Share} onPress={shareAddress} style={styles.icon} />}
+          {isMobile && <TouchableIcon name={IconNameEnum.Share} onPress={shareAddress} style={styles.icon} />}
         </Row>
       </Column>
       <View style={styles.qrcodeWrapper}>

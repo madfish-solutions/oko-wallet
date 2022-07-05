@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const HeaderAccountBalance: FC<Props> = ({ style }) => {
-  const [isShowBalance, setIsShowBalance] = useState(false);
+  const [isShowBalance, setIsShowBalance] = useState(true);
 
   const changeBalanceVisibility = () => {
     setIsShowBalance(!isShowBalance);
@@ -23,7 +23,7 @@ export const HeaderAccountBalance: FC<Props> = ({ style }) => {
   return (
     <Row style={style}>
       <TouchableIcon
-        name={!isShowBalance ? IconNameEnum.EyeOpen : IconNameEnum.EyeClosed}
+        name={isShowBalance ? IconNameEnum.EyeOpen : IconNameEnum.EyeClosed}
         size={getCustomSize(2)}
         onPress={changeBalanceVisibility}
         iconStyle={styles.icon}

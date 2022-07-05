@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const Dynamics: FC<Props> = ({ value, percent = true, style }) => {
-  const isDescending = value.split('')[0] === '-';
+  const isDescending = value[0] === '-';
 
   const color = useMemo(() => (isDescending ? colors.red : colors.green), [isDescending]);
 
@@ -25,7 +25,7 @@ export const Dynamics: FC<Props> = ({ value, percent = true, style }) => {
 
   return (
     <Row style={style}>
-      <Text style={[styles.percent, { color }]}>{`${customValue}`}</Text>
+      <Text style={[styles.percent, { color }]}>{customValue}</Text>
       {percent && (
         <Icon
           name={IconNameEnum.Dropdown}

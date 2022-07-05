@@ -7,12 +7,12 @@ import { Column } from '../column/column';
 import { HeaderMainScreen } from '../header/header-main-screen';
 import { HeaderSecondaryScreen } from '../header/header-secondary-screen';
 import { HeaderSideTypeEnum } from '../header/header-side-type.enum';
-import { Icons } from '../header/header.interface';
+import { HeaderIconsProps } from '../header/header.interface';
 import { NavigationBar } from '../navigation-bar/navigation-bar';
 
 import { styles } from './screen-container.styles';
 
-interface Props extends Icons {
+interface Props extends HeaderIconsProps {
   screenTitle?: string;
   navigationType?: HeaderSideTypeEnum;
   style?: StyleProp<ViewStyle>;
@@ -23,10 +23,10 @@ export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType,
 
   return (
     <Column style={[styles.root, style]}>
-      {!isDefined(screenTitle) ? (
-        <HeaderMainScreen />
-      ) : (
+      {isDefined(screenTitle) ? (
         <HeaderSecondaryScreen title={screenTitle} icons={icons} navigationType={navigationType} />
+      ) : (
+        <HeaderMainScreen />
       )}
 
       <ScrollView scrollEnabled={!isLocked}>

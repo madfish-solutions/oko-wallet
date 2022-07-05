@@ -15,9 +15,9 @@ import { HeaderSideIcons } from './header-side-components/header-side-icons/head
 import { HeaderSwapSide } from './header-side-components/header-side-swap/header-side-swap';
 import { HeaderSideToken } from './header-side-components/header-side-token/header-side-token';
 import { HeaderSideTypeEnum } from './header-side-type.enum';
-import { Icons } from './header.interface';
+import { HeaderIconsProps } from './header.interface';
 
-interface Props extends Icons {
+interface Props extends HeaderIconsProps {
   title: string;
   navigationType?: HeaderSideTypeEnum;
   style?: StyleProp<ViewStyle>;
