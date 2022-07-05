@@ -10,6 +10,7 @@ import {
   useSelectedAccountSelector,
   useSelectedNetworkSelector
 } from '../../store/wallet/wallet.selectors';
+import { colors } from '../../styles/colors';
 import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-network-type-key-exist';
 
 import { NetworksStyles } from './networks.styles';
@@ -31,7 +32,7 @@ export const Networks: FC = () => {
 
   return (
     <View>
-      <Text>
+      <Text style={{ color: colors.textGrey1 }}>
         Current network: <Text>{selectedNetwork.name}</Text>
       </Text>
       <Text style={NetworksStyles.allNetworksText}>All networks:</Text>
