@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Text, View, Share } from 'react-native';
 import QRCodeLibrary from 'react-native-qrcode-svg';
 
-import { StylePropsType } from '../../../interfaces/style.interface';
+import { ViewStyleProps } from '../../../interfaces/style.interface';
 import { useSelectedAccountPublicKeyHashSelector } from '../../../store/wallet/wallet.selectors';
 import { colors } from '../../../styles/colors';
 import { getCustomSize } from '../../../styles/format-size';
@@ -16,7 +16,7 @@ import { TouchableIcon } from '../../touchable-icon/touchable-icon';
 import { styles } from './header-qr-code.styles';
 
 interface Props {
-  style?: StylePropsType;
+  style?: ViewStyleProps;
 }
 
 export const HeaderQRCode: FC<Props> = ({ style }) => {

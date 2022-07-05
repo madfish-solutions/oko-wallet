@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
-import { StyleProp, TouchableOpacity, View, ViewStyle, Text } from 'react-native';
+import { TouchableOpacity, View, Text } from 'react-native';
 
+import { ViewStyleProps } from '../../../interfaces/style.interface';
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector
@@ -17,7 +18,7 @@ import { TouchableIcon } from '../../touchable-icon/touchable-icon';
 import { styles } from './header-container.styles';
 
 interface Props {
-  style?: StyleProp<ViewStyle>;
+  style?: ViewStyleProps;
 }
 
 export const HeaderContainer: FC<Props> = ({ style, children }) => {

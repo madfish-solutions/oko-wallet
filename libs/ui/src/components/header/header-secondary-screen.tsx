@@ -1,8 +1,9 @@
 import React, { FC, useMemo } from 'react';
-import { StyleProp, Text, ViewStyle } from 'react-native';
+import { Text } from 'react-native';
 
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
+import { ViewStyleProps } from '../../interfaces/style.interface';
 import { Column } from '../column/column';
 import { IconNameEnum } from '../icon/icon-name.enum';
 import { Row } from '../row/row';
@@ -20,7 +21,7 @@ import { HeaderIconsProps } from './header.interface';
 interface Props extends HeaderIconsProps {
   title: string;
   navigationType?: HeaderSideTypeEnum;
-  style?: StyleProp<ViewStyle>;
+  style?: ViewStyleProps;
 }
 
 const rootRoutes: string[] = [ScreensEnum.Receive, ScreensEnum.Send, ScreensEnum.Settings];

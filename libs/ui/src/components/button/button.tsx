@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
-import { Pressable, PressableProps, StyleProp, Text, View, ViewStyle } from 'react-native';
+import { Pressable, PressableProps, Text, View } from 'react-native';
 
+import { ViewStyleProps } from '../../interfaces/style.interface';
 import { Icon } from '../icon/icon';
 import { IconNameEnum } from '../icon/icon-name.enum';
 
@@ -13,7 +14,7 @@ interface Props extends PressableProps {
   rightIcon?: IconNameEnum;
   leftIcon?: IconNameEnum;
   iconSize?: number;
-  style?: StyleProp<ViewStyle>;
+  style?: ViewStyleProps;
 }
 
 export const Button: FC<Props> = ({ title, theme = 'primary', rightIcon, leftIcon, iconSize, style, ...restProps }) => {

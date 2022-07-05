@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Text } from 'react-native';
 
-import { StylePropsType } from '../../../interfaces/style.interface';
+import { ViewStyleProps } from '../../../interfaces/style.interface';
 import { getCustomSize } from '../../../styles/format-size';
 import { IconNameEnum } from '../../icon/icon-name.enum';
 import { Row } from '../../row/row';
@@ -10,7 +10,7 @@ import { TouchableIcon } from '../../touchable-icon/touchable-icon';
 import { styles } from './header-account-balance.styles';
 
 interface Props {
-  style?: StylePropsType;
+  style?: ViewStyleProps;
 }
 
 export const HeaderAccountBalance: FC<Props> = ({ style }) => {

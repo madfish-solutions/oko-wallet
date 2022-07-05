@@ -1,8 +1,9 @@
 import { isDefined } from '@rnw-community/shared';
 import React, { FC } from 'react';
-import { ScrollView, StyleProp, View, ViewStyle } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { useUnlock } from '../../hooks/use-unlock.hook';
+import { ViewStyleProps } from '../../interfaces/style.interface';
 import { Column } from '../column/column';
 import { HeaderMainScreen } from '../header/header-main-screen';
 import { HeaderSecondaryScreen } from '../header/header-secondary-screen';
@@ -15,7 +16,7 @@ import { styles } from './screen-container.styles';
 interface Props extends HeaderIconsProps {
   screenTitle?: string;
   navigationType?: HeaderSideTypeEnum;
-  style?: StyleProp<ViewStyle>;
+  style?: ViewStyleProps;
 }
 
 export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType, style, children }) => {

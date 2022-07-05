@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Text } from 'react-native';
 
-import { StylePropsType } from '../../../../interfaces/style.interface';
+import { ViewStyleProps } from '../../../../interfaces/style.interface';
 import { Column } from '../../../column/column';
 import { Dynamics } from '../../../dynamics/dynamics';
 import { Row } from '../../../row/row';
@@ -9,7 +9,7 @@ import { Row } from '../../../row/row';
 import { styles } from './header-side-balance.styles';
 
 interface Props {
-  style?: StylePropsType;
+  style?: ViewStyleProps;
 }
 
 export const HeaderSideBalance: FC<Props> = ({ style }) => (

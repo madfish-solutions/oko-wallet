@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Image, Text } from 'react-native';
 
-import { StylePropsType } from '../../../../interfaces/style.interface';
+import { ViewStyleProps } from '../../../../interfaces/style.interface';
 import { getCustomSize } from '../../../../styles/format-size';
 import { Column } from '../../../column/column';
 import { Dynamics } from '../../../dynamics/dynamics';
@@ -13,7 +13,7 @@ import { Row } from '../../../row/row';
 import { styles } from './header-side-token.styles';
 
 interface Props {
-  style?: StylePropsType;
+  style?: ViewStyleProps;
 }
 
 export const HeaderSideToken: FC<Props> = ({ style }) => {

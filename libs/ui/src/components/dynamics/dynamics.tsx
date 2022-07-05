@@ -1,7 +1,7 @@
 import React, { FC, useMemo } from 'react';
 import { Text } from 'react-native';
 
-import { StylePropsType } from '../../interfaces/style.interface';
+import { ViewStyleProps } from '../../interfaces/style.interface';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { Icon } from '../icon/icon';
@@ -13,7 +13,7 @@ import { styles } from './dynamics.styles';
 interface Props {
   value: string;
   percent?: boolean;
-  style?: StylePropsType;
+  style?: ViewStyleProps;
 }
 
 export const Dynamics: FC<Props> = ({ value, percent = true, style }) => {
