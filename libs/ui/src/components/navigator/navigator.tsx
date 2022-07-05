@@ -1,11 +1,11 @@
 import { InitialState, NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { isDefined } from '@rnw-community/shared';
 import React, { FC, createRef, useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useUnlock } from '../../hooks/use-unlock.hook';
+import { AccountsSelector } from '../../modals/accounts-selector/accounts-selector';
 import { AccountTokens } from '../../screens/account-tokens/account-tokens';
 import { AddNetwork } from '../../screens/add-network/add-network';
 import { AddNewToken } from '../../screens/add-new-token/add-new-token';
@@ -21,11 +21,11 @@ import { Wallet } from '../../screens/wallet/wallet';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
 import { getStoredValue, setStoredValue } from '../../utils/store.util';
 
-const Stack = createNativeStackNavigator<ScreensParamList>();
+import { modalScreenOptions } from './constants/modal-screen-options';
+import { PERSISTENCE_KEY } from './constants/perstistence-key';
+import { Stack } from './utils/get-stack-navigator';
 
 export const navigationRef = createRef<NavigationContainerRef<ScreensParamList>>();
-
-const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
 export const Navigator: FC = () => {
   const isAuthorised = useIsAuthorisedSelector();
@@ -68,16 +68,25 @@ export const Navigator: FC = () => {
       <Stack.Navigator>
         {isAuthorised ? (
           <>
-            <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
-            <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
-            <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
-            <Stack.Screen name={ScreensEnum.AddNetwork} component={AddNetwork} />
-            <Stack.Screen name={ScreensEnum.Send} component={Send} />
-            <Stack.Screen name={ScreensEnum.AddNewToken} component={AddNewToken} />
-            <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
-            <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
-            <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
-            <Stack.Screen name={ScreensEnum.AccountTokens} component={AccountTokens} />
+            <Stack.Group>
+              <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
+              <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
+              <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
+              <Stack.Screen name={ScreensEnum.AddNetwork} component={AddNetwork} />
+              <Stack.Screen name={ScreensEnum.Send} component={Send} />
+              <Stack.Screen name={ScreensEnum.AddNewToken} component={AddNewToken} />
+              <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
+              <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
+              <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
+              <Stack.Screen name={ScreensEnum.AccountTokens} component={AccountTokens} />
+            </Stack.Group>
+            <Stack.Group screenOptions={modalScreenOptions}>
+              <Stack.Screen
+                name={ScreensEnum.AccountsSelector}
+                options={{ title: 'Accounts' }}
+                component={AccountsSelector}
+              />
+            </Stack.Group>
           </>
         ) : (
           <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />

@@ -25,5 +25,11 @@ export enum IconNameEnum {
   Stake = 'Stake',
   Swap = 'Swap',
   Topup = 'Topup',
-  X = 'X'
+  X = 'X',
+  WidgetSettings = 'WidgetSettings',
+  SelectedCheckbox = 'SelectedCheckbox',
+  EmptyCheckbox = 'EmptyCheckbox',
+  // to dell
+  BigRobot = 'BigRobot',
+  SmallRobot = 'SmallRobot'
 }
