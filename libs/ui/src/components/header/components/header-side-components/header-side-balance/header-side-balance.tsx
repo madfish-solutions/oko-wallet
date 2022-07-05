@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { Text } from 'react-native';
 
-import { ViewStyleProps } from '../../../../interfaces/style.interface';
-import { Column } from '../../../column/column';
-import { Dynamics } from '../../../dynamics/dynamics';
-import { Row } from '../../../row/row';
+import { ViewStyleProps } from '../../../../../interfaces/style.interface';
+import { Column } from '../../../../column/column';
+import { Dynamics } from '../../../../dynamics/dynamics';
+import { Row } from '../../../../row/row';
 
 import { styles } from './header-side-balance.styles';
 

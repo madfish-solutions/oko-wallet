@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { Text, View } from 'react-native';
 
-import { Column } from '../../../column/column';
-import { IconNameEnum } from '../../../icon/icon-name.enum';
-import { Row } from '../../../row/row';
-import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
+import { Column } from '../../../../column/column';
+import { IconNameEnum } from '../../../../icon/icon-name.enum';
+import { Row } from '../../../../row/row';
+import { TouchableIcon } from '../../../../touchable-icon/touchable-icon';
 
 import { styles } from './header-side-swap.styles';
 

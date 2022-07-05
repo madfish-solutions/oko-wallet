@@ -1,19 +1,19 @@
 import React, { FC } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 
-import { ViewStyleProps } from '../../../interfaces/style.interface';
+import { ViewStyleProps } from '../../../../interfaces/style.interface';
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector
-} from '../../../store/wallet/wallet.selectors';
-import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
-import { shortize } from '../../../utils/shortize.util';
-import { IconWithBorder } from '../../icon-with-border/icon-with-border';
-import { Icon } from '../../icon/icon';
-import { IconNameEnum } from '../../icon/icon-name.enum';
-import { RobotIcon } from '../../robot-icon/robot-icon';
-import { Row } from '../../row/row';
-import { TouchableIcon } from '../../touchable-icon/touchable-icon';
+} from '../../../../store/wallet/wallet.selectors';
+import { handleCopyToClipboard } from '../../../../utils/copy-to-clipboard.util';
+import { shortize } from '../../../../utils/shortize.util';
+import { IconWithBorder } from '../../../icon-with-border/icon-with-border';
+import { Icon } from '../../../icon/icon';
+import { IconNameEnum } from '../../../icon/icon-name.enum';
+import { RobotIcon } from '../../../robot-icon/robot-icon';
+import { Row } from '../../../row/row';
+import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
 
 import { styles } from './header-container.styles';
 

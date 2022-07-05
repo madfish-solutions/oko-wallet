@@ -5,10 +5,10 @@ import { ScrollView, View } from 'react-native';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { Column } from '../column/column';
-import { HeaderMainScreen } from '../header/header-main-screen';
-import { HeaderSecondaryScreen } from '../header/header-secondary-screen';
-import { HeaderSideTypeEnum } from '../header/header-side-type.enum';
-import { HeaderIconsProps } from '../header/header.interface';
+import { HeaderSideTypeEnum } from '../header/enums/header-side-type.enum';
+import { HeaderMainScreen } from '../header/header-main-screen/header-main-screen';
+import { HeaderSecondaryScreen } from '../header/header-secondary-screen/header-secondary-screen';
+import { HeaderIconsProps } from '../header/interfaces/header.interface';
 import { NavigationBar } from '../navigation-bar/navigation-bar';
 
 import { styles } from './screen-container.styles';

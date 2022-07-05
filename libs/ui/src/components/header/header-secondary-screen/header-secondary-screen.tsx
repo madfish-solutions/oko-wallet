@@ -1,22 +1,22 @@
 import React, { FC, useMemo } from 'react';
 import { Text } from 'react-native';
 
-import { ScreensEnum } from '../../enums/sreens.enum';
-import { useNavigation } from '../../hooks/use-navigation.hook';
-import { ViewStyleProps } from '../../interfaces/style.interface';
-import { Column } from '../column/column';
-import { IconNameEnum } from '../icon/icon-name.enum';
-import { Row } from '../row/row';
-import { TouchableIcon } from '../touchable-icon/touchable-icon';
+import { ScreensEnum } from '../../../enums/sreens.enum';
+import { useNavigation } from '../../../hooks/use-navigation.hook';
+import { ViewStyleProps } from '../../../interfaces/style.interface';
+import { Column } from '../../column/column';
+import { IconNameEnum } from '../../icon/icon-name.enum';
+import { Row } from '../../row/row';
+import { TouchableIcon } from '../../touchable-icon/touchable-icon';
+import { HeaderContainer } from '../components/header-container/header-container';
+import { HeaderSideBalance } from '../components/header-side-components/header-side-balance/header-side-balance';
+import { HeaderSideIcons } from '../components/header-side-components/header-side-icons/header-side-icons';
+import { HeaderSwapSide } from '../components/header-side-components/header-side-swap/header-side-swap';
+import { HeaderSideToken } from '../components/header-side-components/header-side-token/header-side-token';
+import { HeaderSideTypeEnum } from '../enums/header-side-type.enum';
+import { HeaderIconsProps } from '../interfaces/header.interface';
 
-import { HeaderContainer } from './header-container/header-container';
 import { styles } from './header-secondary-screen.styles';
-import { HeaderSideBalance } from './header-side-components/header-side-balance/header-side-balance';
-import { HeaderSideIcons } from './header-side-components/header-side-icons/header-side-icons';
-import { HeaderSwapSide } from './header-side-components/header-side-swap/header-side-swap';
-import { HeaderSideToken } from './header-side-components/header-side-token/header-side-token';
-import { HeaderSideTypeEnum } from './header-side-type.enum';
-import { HeaderIconsProps } from './header.interface';
 
 interface Props extends HeaderIconsProps {
   title: string;

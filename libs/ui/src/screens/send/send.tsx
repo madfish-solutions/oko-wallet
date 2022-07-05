@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { TextInput, Pressable, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { HeaderSideTypeEnum } from '../../components/header/header-side-type.enum';
+import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
 import { ScreenContainer } from '../../components/screen-container/screen-container';
 import { sendAssetAction } from '../../store/wallet/wallet.actions';
 import { useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';

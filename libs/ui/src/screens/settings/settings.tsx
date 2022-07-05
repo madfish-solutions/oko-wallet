@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Button } from 'react-native';
 
-import { HeaderSideTypeEnum } from '../../components/header/header-side-type.enum';
+import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
 import { ResetWallet } from '../../components/reset-wallet/reset-wallet';
 import { ScreenContainer } from '../../components/screen-container/screen-container';

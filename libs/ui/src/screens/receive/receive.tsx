@@ -3,7 +3,7 @@ import React, { FC, useMemo, useState } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
-import { HeaderSideTypeEnum } from '../../components/header/header-side-type.enum';
+import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
 import { ScreenContainer } from '../../components/screen-container/screen-container';
 import { useDelayedEffect } from '../../hooks/use-delayed-effect.hook';
 import { useSelectedAccountSelector, useSelectedNetworkTypeSelector } from '../../store/wallet/wallet.selectors';

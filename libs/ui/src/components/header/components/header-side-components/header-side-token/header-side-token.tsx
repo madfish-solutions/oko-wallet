@@ -1,14 +1,14 @@
 import React, { FC } from 'react';
 import { Image, Text } from 'react-native';
 
-import { ViewStyleProps } from '../../../../interfaces/style.interface';
-import { getCustomSize } from '../../../../styles/format-size';
-import { Column } from '../../../column/column';
-import { Dynamics } from '../../../dynamics/dynamics';
-import { IconWithBorder } from '../../../icon-with-border/icon-with-border';
-import { Icon } from '../../../icon/icon';
-import { IconNameEnum } from '../../../icon/icon-name.enum';
-import { Row } from '../../../row/row';
+import { ViewStyleProps } from '../../../../../interfaces/style.interface';
+import { getCustomSize } from '../../../../../styles/format-size';
+import { Column } from '../../../../column/column';
+import { Dynamics } from '../../../../dynamics/dynamics';
+import { IconWithBorder } from '../../../../icon-with-border/icon-with-border';
+import { Icon } from '../../../../icon/icon';
+import { IconNameEnum } from '../../../../icon/icon-name.enum';
+import { Row } from '../../../../row/row';
 
 import { styles } from './header-side-token.styles';
 

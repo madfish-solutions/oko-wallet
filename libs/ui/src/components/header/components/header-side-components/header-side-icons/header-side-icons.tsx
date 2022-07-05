@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 
-import { ViewStyleProps } from '../../../../interfaces/style.interface';
-import { Row } from '../../../row/row';
-import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
-import { HeaderIconsProps } from '../../header.interface';
+import { ViewStyleProps } from '../../../../../interfaces/style.interface';
+import { Row } from '../../../../row/row';
+import { TouchableIcon } from '../../../../touchable-icon/touchable-icon';
+import { HeaderIconsProps } from '../../../interfaces/header.interface';
 
 import { styles } from './header-side-icons.styles';
 
