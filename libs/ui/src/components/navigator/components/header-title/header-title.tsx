@@ -17,7 +17,9 @@ export const HeaderTitle: FC = () => {
       <Pressable onPress={goBack} style={styles.backgroundSpace} />
       <Row style={styles.container}>
         <Text style={styles.title}>{name}</Text>
-        <HeaderCloseButton />
+        <View style={styles.closeButton}>
+          <HeaderCloseButton />
+        </View>
       </Row>
     </View>
   );

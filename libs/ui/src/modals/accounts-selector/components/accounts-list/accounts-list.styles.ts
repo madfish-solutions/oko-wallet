@@ -10,14 +10,12 @@ import { userDetailsHeight, userDetailsMarginBottom } from './constants/dimensio
 export const styles = StyleSheet.create({
   root: {
     flex: 1,
+    paddingHorizontal: getCustomSize(2),
     ...(isWeb && { paddingBottom: getCustomSize(10) })
   },
   iconsContainer: {
-    padding: getCustomSize(2),
+    paddingVertical: getCustomSize(2),
     justifyContent: 'space-between'
-  },
-  userDetailsContainer: {
-    marginHorizontal: getCustomSize(2)
   },
   userDetails: {
     height: userDetailsHeight,
@@ -44,15 +42,19 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   balance: {
+    // TODO change to numbersIBMPlexSansRegular11
     ...typography.numbersIBMPlexSansMedium11,
     color: colors.textGrey2,
     marginBottom: getCustomSize(0.25)
   },
-  numbers: {
-    ...typography.numbersIBMPlexSansMedium15,
+  amount: {
+    ...typography.numbersIBMPlexSansMedium13,
     color: colors.textGrey1
   },
-  dollar: {
+  currencyContainer: {
+    marginLeft: getCustomSize(0.25)
+  },
+  currency: {
     color: colors.textGrey2
   },
   selectedAccount: {

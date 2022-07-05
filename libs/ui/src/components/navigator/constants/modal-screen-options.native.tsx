@@ -15,7 +15,7 @@ export const modalScreenOptions: StackNavigationOptions = {
     borderBottomWidth: getCustomSize(0.0625),
     borderBottomColor: colors.border2
   },
-  headerTitleAlign: 'left',
+  headerTitleAlign: 'center',
   headerLeft: () => null,
   headerTitle: HeaderTitle,
   headerRight: () => <HeaderCloseButton />,

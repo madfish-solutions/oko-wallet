@@ -23,22 +23,28 @@ export const AccountsSelector: FC = () => {
             <Icon name={IconNameEnum.BigRobot} size={getCustomSize(8)} iconStyle={styles.bigLogo} />
             <View>
               <Text style={styles.currentUsername}>{selectedAccount.name}</Text>
-              <Text style={styles.balance}>Total balance</Text>
-              <Text style={styles.numbers}>
-                987.01 <Text style={styles.dollar}>$</Text>
-              </Text>
+              <Text style={styles.balanceTitle}>Total balance</Text>
+              <Row>
+                <Text style={styles.amount}>987.01</Text>
+                <Row style={styles.currencyContainer}>
+                  <Text style={styles.currency}>$</Text>
+                </Row>
+              </Row>
             </View>
           </Row>
-          <Row style={styles.settingsContainer}>
+          <Row style={styles.buttonsContainer}>
             <Button title="Widget settings" rightIcon={IconNameEnum.WidgetSettings} style={styles.settingsButton} />
             <Button title="Account settings" rightIcon={IconNameEnum.Settings} style={styles.settingsButton} />
           </Row>
         </View>
         <View style={[styles.allAccountsBalanceContainer, styles.borderBottom]}>
-          <Text style={styles.balance}>All accounts balance</Text>
+          <Text style={styles.balanceTitle}>All accounts balance</Text>
           <Row>
-            <Text style={styles.allAccountsBalance}>401 987.01 </Text>
-            <Text style={styles.allAccountsDollar}>$</Text>
+            <Text style={styles.allAccountsBalance}>401 987.01</Text>
+            <Row style={styles.currencyContainer}>
+              <Text style={styles.allAccountsCurrency}>$</Text>
+            </Row>
+            {/*TODO add Dynamics component*/}
             <Text style={styles.percentage}>10.2%</Text>
             <Icon name={IconNameEnum.Dropup} size={getCustomSize(2)} />
           </Row>

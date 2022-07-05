@@ -18,7 +18,7 @@ export const Wallet: FC = () => {
   const { isLocked } = useUnlock();
   const { navigate } = useNavigation();
 
-  const navigateToAccount = () => navigate(ScreensEnum.Accounts);
+  const navigateToAccount = () => navigate(ScreensEnum.AccountsSelector);
 
   return (
     <View style={WalletStyles.root}>

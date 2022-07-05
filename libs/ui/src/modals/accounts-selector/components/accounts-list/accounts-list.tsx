@@ -59,9 +59,12 @@ export const AccountsList = () => {
         <Row style={styles.editContainer}>
           <View>
             <Text style={styles.balance}>Total balance</Text>
-            <Text style={styles.numbers}>
-              987.01 <Text style={styles.dollar}>$</Text>
-            </Text>
+            <Row>
+              <Text style={styles.amount}>987.01</Text>
+              <Row style={styles.currencyContainer}>
+                <Text style={styles.currency}>$</Text>
+              </Row>
+            </Row>
           </View>
           <Icon name={IconNameEnum.Edit} />
         </Row>
@@ -98,7 +101,6 @@ export const AccountsList = () => {
       <FlatList
         ref={flatListRef}
         getItemLayout={getItemLayout}
-        style={styles.userDetailsContainer}
         data={accounts}
         showsVerticalScrollIndicator={false}
         renderItem={renderAccount}

@@ -81,7 +81,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.AccountTokens} component={AccountTokens} />
             </Stack.Group>
             <Stack.Group screenOptions={modalScreenOptions}>
-              <Stack.Screen name={ScreensEnum.Accounts} component={AccountsSelector} />
+              <Stack.Screen name={ScreensEnum.AccountsSelector} component={AccountsSelector} />
             </Stack.Group>
           </>
         ) : (

@@ -10,6 +10,10 @@ export const styles = StyleSheet.create({
     paddingTop: getCustomSize(2),
     paddingBottom: getCustomSize(0.5)
   },
+  borderBottom: {
+    borderBottomColor: colors.bgGrey1,
+    borderBottomWidth: getCustomSize(0.5)
+  },
   logoContainer: {
     marginBottom: getCustomSize(1)
   },
@@ -20,23 +24,28 @@ export const styles = StyleSheet.create({
     ...typography.bodyInterSemiBold15,
     color: colors.textGrey1
   },
-  numbers: {
+  balanceTitle: {
+    // TODO change to numbersIBMPlexSansRegular11
+    ...typography.numbersIBMPlexSansMedium11,
+    color: colors.textGrey2,
+    marginBottom: getCustomSize(0.25)
+  },
+  amount: {
     ...typography.numbersIBMPlexSansMedium15,
     color: colors.textGrey1
   },
-  dollar: {
+  currencyContainer: {
+    marginLeft: getCustomSize(0.25)
+  },
+  currency: {
     color: colors.textGrey2
   },
-  settingsContainer: {
+  buttonsContainer: {
     justifyContent: 'space-between'
   },
   settingsButton: {
     flex: 0,
     paddingVertical: 0
-  },
-  borderBottom: {
-    borderBottomColor: colors.bgGrey1,
-    borderBottomWidth: getCustomSize(0.5)
   },
   allAccountsBalanceContainer: {
     paddingHorizontal: getCustomSize(2),
@@ -47,12 +56,7 @@ export const styles = StyleSheet.create({
     ...typography.numbersIBMPlexSansMedium28,
     color: colors.textGrey1
   },
-  balance: {
-    ...typography.numbersIBMPlexSansMedium11,
-    color: colors.textGrey2,
-    marginBottom: getCustomSize(0.25)
-  },
-  allAccountsDollar: {
+  allAccountsCurrency: {
     ...typography.numbersIBMPlexSansMedium28,
     color: colors.textGrey2,
     marginRight: getCustomSize(1)

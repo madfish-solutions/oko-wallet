@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     height: getCustomSize(3)
   },
   container: {
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     backgroundColor: colors.navGrey1,
     borderTopLeftRadius: getCustomSize(1.75),
     borderTopRightRadius: getCustomSize(1.75),
@@ -22,6 +22,10 @@ export const styles = StyleSheet.create({
   },
   title: {
     color: colors.textGrey1,
+    marginLeft: 'auto',
     ...typography.bodyInterRegular15
+  },
+  closeButton: {
+    marginLeft: 'auto'
   }
 });

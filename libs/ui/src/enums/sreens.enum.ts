@@ -12,7 +12,7 @@ export enum ScreensEnum {
   Wallet = 'Wallet',
   ConnectToDapps = 'ConnectToDapps',
   Unlock = 'unlock',
-  Accounts = 'Accounts',
+  AccountsSelector = 'Accounts',
   AccountTokens = 'AccountTokens'
 }
 
@@ -30,6 +30,6 @@ export type ScreensParamList = {
   [ScreensEnum.Wallet]: undefined;
   [ScreensEnum.ConnectToDapps]: undefined;
   [ScreensEnum.Unlock]: undefined;
-  [ScreensEnum.Accounts]: undefined;
+  [ScreensEnum.AccountsSelector]: undefined;
   [ScreensEnum.AccountTokens]: undefined;
 };
