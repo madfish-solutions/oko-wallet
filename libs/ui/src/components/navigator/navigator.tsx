@@ -6,6 +6,7 @@ import { View, Text } from 'react-native';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { AccountsSelector } from '../../modals/containers/accounts-selector/accounts-selector';
+import { NetworksSelector } from '../../modals/containers/networks-selector/networks-selector';
 import { AccountTokens } from '../../screens/account-tokens/account-tokens';
 import { AddNetwork } from '../../screens/add-network/add-network';
 import { AddNewToken } from '../../screens/add-new-token/add-new-token';
@@ -85,6 +86,11 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.AccountsSelector}
                 options={{ title: 'Accounts' }}
                 component={AccountsSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.NetworksSelector}
+                options={{ title: 'Networks' }}
+                component={NetworksSelector}
               />
             </Stack.Group>
           </>

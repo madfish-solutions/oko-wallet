@@ -28,9 +28,10 @@ export const HeaderContainer: FC<Props> = ({ style, children }) => {
   const address = useSelectedAccountPublicKeyHashSelector();
   const { navigate } = useNavigation();
 
-  const selectAccount = () => navigate(ScreensEnum.AccountsSelector);
-  const selectNetwork = () => null;
   const copyAddress = () => handleCopyToClipboard(address);
+
+  const selectAccount = () => navigate(ScreensEnum.AccountsSelector);
+  const selectNetwork = () => navigate(ScreensEnum.NetworksSelector);
 
   return (
     <View style={[styles.root, style]}>

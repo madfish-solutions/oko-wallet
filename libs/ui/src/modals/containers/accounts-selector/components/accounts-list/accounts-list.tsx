@@ -14,7 +14,7 @@ import {
 } from '../../../../../store/wallet/wallet.selectors';
 import { getPublicKeyHash } from '../../../../../store/wallet/wallet.utils';
 import { checkIsNetworkTypeKeyExist } from '../../../../../utils/check-is-network-type-key-exist';
-import { ModalFlatList } from '../../../../components/moda-flat-list/moda-flat-list';
+import { ModalFlatList } from '../../../../components/modal-flat-list/modal-flat-list';
 import { ModalRenderItem } from '../../../../components/modal-render-item/modal-render-item';
 
 import { styles } from './accounts-list.styles';

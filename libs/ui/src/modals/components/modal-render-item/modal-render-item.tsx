@@ -1,6 +1,7 @@
 import React, { FC, ReactChild } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text } from 'react-native';
 
+import { Column } from '../../../components/column/column';
 import { IconWithBorder } from '../../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
@@ -31,10 +32,10 @@ export const ModalRenderItem: FC<Props> = ({ name, isActive, icon, balanceTitle,
     </Row>
 
     <Row style={styles.wrapper}>
-      <View>
+      <Column>
         <Text style={styles.balanceTitle}>{balanceTitle}</Text>
         <Row>{balance}</Row>
-      </View>
+      </Column>
       <TouchableIcon name={IconNameEnum.Edit} />
     </Row>
   </Pressable>

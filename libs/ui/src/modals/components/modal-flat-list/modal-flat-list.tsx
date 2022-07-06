@@ -4,7 +4,7 @@ import { View, FlatList, ListRenderItemInfo } from 'react-native';
 import { getItemLayout } from '../../utils/get-item-layout.util';
 import { ModalSearch } from '../modal-search/modal-search';
 
-import { styles } from './moda-flat-list.styles';
+import { styles } from './modal-flat-list.styles';
 
 interface Props {
   onPressAddIcon: () => void;
