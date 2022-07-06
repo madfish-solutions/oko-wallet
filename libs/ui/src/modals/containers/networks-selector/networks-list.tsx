@@ -30,7 +30,7 @@ export const NetworksList = () => {
 
   const selectedIndex = networks.findIndex(account => account.rpcUrl === selectedNetwork.rpcUrl);
 
-  const { flatListRef } = useFlatListRef({ array: networks, selectedIndex });
+  const { flatListRef } = useFlatListRef({ data: networks, selectedIndex });
 
   const handleChangeNetwork = ({ rpcUrl, networkType }: NetworkInterface) => {
     dispatch(changeNetworkAction(rpcUrl));

@@ -27,7 +27,7 @@ export const AccountsList = () => {
 
   const selectedIndex = accounts.findIndex(account => account.accountIndex === selectedAccount.accountIndex);
 
-  const { flatListRef } = useFlatListRef({ array: accounts, selectedIndex });
+  const { flatListRef } = useFlatListRef({ data: accounts, selectedIndex });
 
   const handleChangeAccount = (account: AccountInterface) => {
     if (checkIsNetworkTypeKeyExist(account, selectedNetworkType)) {

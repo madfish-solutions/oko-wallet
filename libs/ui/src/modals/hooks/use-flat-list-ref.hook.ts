@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 
-export const useFlatListRef = <T>({ array, selectedIndex }: { array: T[]; selectedIndex: number }) => {
+export const useFlatListRef = <T>({ data, selectedIndex }: { data: T[]; selectedIndex: number }) => {
   const flatListRef = useRef<FlatList>(null);
 
   useEffect(() => {
@@ -12,7 +12,7 @@ export const useFlatListRef = <T>({ array, selectedIndex }: { array: T[]; select
     };
 
     scrollToSelectedIndex();
-  }, [array]);
+  }, [data, selectedIndex]);
 
   return { flatListRef };
 };
