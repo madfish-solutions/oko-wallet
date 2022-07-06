@@ -24,6 +24,9 @@ export const AccountsSelector: FC = () => {
   const selectedAccount = useSelectedAccountSelector();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
+  const onWidgetSettings = () => null;
+  const onAccountSettings = () => null;
+
   return (
     <ModalContainer screenTitle="Accounts">
       <Column style={styles.headerWrapper}>
@@ -35,8 +38,18 @@ export const AccountsSelector: FC = () => {
           style={styles.header}
         />
         <Row style={styles.buttonsContainer}>
-          <Button title="Widget settings" rightIcon={IconNameEnum.WidgetSettings} style={styles.button} />
-          <Button title="Account settings" rightIcon={IconNameEnum.Settings} style={styles.button} />
+          <Button
+            title="Widget settings"
+            onPress={onWidgetSettings}
+            rightIcon={IconNameEnum.WidgetSettings}
+            style={styles.button}
+          />
+          <Button
+            title="Account settings"
+            onPress={onAccountSettings}
+            rightIcon={IconNameEnum.Settings}
+            style={styles.button}
+          />
         </Row>
       </Column>
       <Divider size={getCustomSize(0.5)} style={styles.divider} />
