@@ -5,7 +5,7 @@ import { View, Text } from 'react-native';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useUnlock } from '../../hooks/use-unlock.hook';
-import { AccountsSelector } from '../../modals/accounts-selector/accounts-selector';
+import { AccountsSelector } from '../../modals/containers/accounts-selector/accounts-selector';
 import { AccountTokens } from '../../screens/account-tokens/account-tokens';
 import { AddNetwork } from '../../screens/add-network/add-network';
 import { AddNewToken } from '../../screens/add-new-token/add-new-token';
@@ -65,10 +65,10 @@ export const Navigator: FC = () => {
       initialState={initialState}
       onStateChange={state => setStoredValue(PERSISTENCE_KEY, JSON.stringify(state))}
     >
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator>
         {isAuthorised ? (
           <>
-            <Stack.Group>
+            <Stack.Group screenOptions={{ headerShown: false }}>
               <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
               <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
               <Stack.Screen name={ScreensEnum.Settings} component={Settings} />

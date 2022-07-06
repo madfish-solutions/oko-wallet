@@ -6,7 +6,8 @@ import { styles } from './icon-with-border.styles';
 const themeClasses = {
   primary: styles.primary,
   secondary: styles.secondary,
-  tertiary: styles.tertiary
+  tertiary: styles.tertiary,
+  quaternary: styles.quaternary
 };
 
 export type IconContainerType = keyof typeof themeClasses;

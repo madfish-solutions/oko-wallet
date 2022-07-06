@@ -174,7 +174,7 @@ export const typography: Typography = {
     letterSpacing: getCustomSize(0.00875)
   },
   numbersIBMPlexSansRegular11: {
-    fontFamily: FontsEnum.ibmPlexSansMedium,
+    fontFamily: FontsEnum.ibmPlexSansRegular,
     fontSize: getCustomSize(1.375),
     lineHeight: getCustomSize(1.625),
     letterSpacing: getCustomSize(0.00875)
