@@ -21,7 +21,9 @@ export const NetworksSelector: FC = () => {
         name={selectedNetwork.name}
         balanceTitle="Gas balance"
         icon={<Icon name={selectedNetwork.iconName ?? IconNameEnum.NetworkFallback} size={getCustomSize(6)} />}
-        balance={<ModalGasToken />}
+        balance={
+          <ModalGasToken balance={selectedNetwork.gasTokenBalance.data} metadata={selectedNetwork.gasTokenMetadata} />
+        }
         style={styles.header}
       />
       <Divider size={getCustomSize(0.5)} style={styles.divider} />
