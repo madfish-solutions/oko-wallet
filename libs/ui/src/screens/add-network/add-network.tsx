@@ -3,7 +3,7 @@ import { View, Text, Button, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { Input } from '../../components/input/input';
-import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { ScreenContainer } from '../../components/screen-container/screen-container';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
@@ -81,10 +81,7 @@ export const AddNetwork: FC = () => {
   }, [name, rpcUrl, chainId, gasTokenSymbol, explorerUrl, networkType]);
 
   return (
-    <View>
-      <NavigationBar />
-      <Text>Add network</Text>
-
+    <ScreenContainer screenTitle="Add network">
       <View style={AddNetworkStyles.form}>
         <View>
           <TouchableOpacity onPress={() => handleSelectNetworkType(NetworkTypeEnum.EVM)}>
@@ -107,6 +104,6 @@ export const AddNetwork: FC = () => {
         {!!error && <Text style={AddNetworkStyles.error}>{error}</Text>}
         <Button title="Add" onPress={handleSubmitNewNetwork} />
       </View>
-    </View>
+    </ScreenContainer>
   );
 };

@@ -13,6 +13,7 @@ import {
   useSelectedNetworkTypeSelector
 } from '../../store/wallet/wallet.selectors';
 import { getPublicKeyHash } from '../../store/wallet/wallet.utils';
+import { colors } from '../../styles/colors';
 import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-network-type-key-exist';
 
 import { AccountStyles } from './account.styles';
@@ -56,7 +57,7 @@ export const Account: FC = () => {
       <View style={AccountStyles.container}>
         <View style={AccountStyles.selectedAccountInfo}>
           <Text style={AccountStyles.selectedAccountName}>{memoizeAccountData.accountName}</Text>
-          <Text>{memoizeAccountData.publicKeyHash.substring(0, 12)}</Text>
+          <Text style={{ color: colors.textGrey1 }}>{memoizeAccountData.publicKeyHash.substring(0, 12)}</Text>
         </View>
         <Text style={AccountStyles.allAccountsText}>All accounts:</Text>
         <ScrollView style={AccountStyles.accountsList}>
@@ -71,7 +72,7 @@ export const Account: FC = () => {
                 onPress={() => handleChangeAccount(account)}
                 style={AccountStyles.account}
               >
-                <Text style={AccountStyles.textBlock}>{account.name}</Text>
+                <Text style={AccountStyles.accountName}>{account.name}</Text>
                 <Text style={AccountStyles.publicKeyHash}>{pkh}</Text>
               </TouchableOpacity>
             );
@@ -79,7 +80,7 @@ export const Account: FC = () => {
         </ScrollView>
       </View>
       <TouchableOpacity onPress={createHdAccount} style={AccountStyles.createAccountButton}>
-        <Text>Create account</Text>
+        <Text style={{ color: colors.textGrey1 }}>Create account</Text>
       </TouchableOpacity>
     </View>
   );

@@ -65,7 +65,7 @@ export const Navigator: FC = () => {
       initialState={initialState}
       onStateChange={state => setStoredValue(PERSISTENCE_KEY, JSON.stringify(state))}
     >
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         {isAuthorised ? (
           <>
             <Stack.Group>

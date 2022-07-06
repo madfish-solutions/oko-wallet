@@ -1,13 +1,11 @@
 import React, { FC } from 'react';
-import { View } from 'react-native';
 
-import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { ScreenContainer } from '../../components/screen-container/screen-container';
 
 import { ConnectToDapps as ConnectToDappsComponent } from './components/connect-to-dapps/connect-to-dapps';
 
 export const ConnectToDapps: FC = () => (
-  <View>
-    <NavigationBar />
+  <ScreenContainer screenTitle="Connect to Dapp">
     <ConnectToDappsComponent />
-  </View>
+  </ScreenContainer>
 );

@@ -1,4 +1,4 @@
-import { StyleProp, ViewStyle } from 'react-native';
+import { ViewStyleProps } from '../../interfaces/style.interface';
 
 import { IconNameEnum } from './icon-name.enum';
 
@@ -8,5 +8,5 @@ export interface IconProps {
   width?: number;
   height?: number;
   color?: string;
-  iconStyle?: StyleProp<ViewStyle>;
+  iconStyle?: ViewStyleProps;
 }

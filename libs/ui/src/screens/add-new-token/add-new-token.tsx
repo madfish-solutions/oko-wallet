@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
-import { View, Text, TextInput, Pressable } from 'react-native';
+import { Text, TextInput, Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { ScreenContainer } from '../../components/screen-container/screen-container';
 import { addTokenMetadataAction } from '../../store/wallet/wallet.actions';
 
 export const AddNewToken: FC = () => {
@@ -43,8 +43,7 @@ export const AddNewToken: FC = () => {
   };
 
   return (
-    <View>
-      <NavigationBar />
+    <ScreenContainer screenTitle="Add new token">
       <TextInput placeholder="Token Address" value={tokenAddress} onChangeText={setTokenAddress} />
       <TextInput placeholder="Token Name" value={name} onChangeText={setName} />
       <TextInput placeholder="Token Symbol" value={symbol} onChangeText={setSymbol} />
@@ -56,6 +55,6 @@ export const AddNewToken: FC = () => {
       <Pressable onPress={onAddToken}>
         <Text>Add token</Text>
       </Pressable>
-    </View>
+    </ScreenContainer>
   );
 };

@@ -18,7 +18,6 @@ export const styles = StyleSheet.create({
   },
   text: {
     ...typography.bodyInterSemiBold15,
-    lineHeight: 20,
     color: colors.textGrey1,
     marginLeft: getCustomSize(0.5),
     alignItems: 'center'

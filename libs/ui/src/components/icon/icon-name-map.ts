@@ -1,7 +1,9 @@
 import { FC } from 'react';
 import { SvgProps } from 'react-native-svg';
 
+import AccountLogo from './assets/account-logo.svg';
 import ActivityIcon from './assets/activity.svg';
+import AddChain from './assets/add-chain.svg';
 import AddIcon from './assets/add.svg';
 import ArrowLeftIcon from './assets/arrow-left.svg';
 import ArrowRightIcon from './assets/arrow-right.svg';
@@ -21,12 +23,15 @@ import LoadersIcon from './assets/loaders.svg';
 import NftIcon from './assets/nft.svg';
 import OutIcon from './assets/out.svg';
 import PartnersIcon from './assets/partners.svg';
+import QrIcon from './assets/qr.svg';
 import QrscanIcon from './assets/qrscan.svg';
 import ReceiveIcon from './assets/receive.svg';
 import SearchIcon from './assets/search.svg';
 import SelectedCheckbox from './assets/selected-checkbox.svg';
 import SendIcon from './assets/send.svg';
 import SettingsIcon from './assets/settings.svg';
+import Share from './assets/share.svg';
+import Slider from './assets/slider.svg';
 import SmallRobot from './assets/small-robot.svg';
 import StakeIcon from './assets/stake.svg';
 import SwapIcon from './assets/swap.svg';
@@ -34,8 +39,13 @@ import TopupIcon from './assets/topup.svg';
 import WidgetSettings from './assets/widget-settings.svg';
 import XIcon from './assets/x.svg';
 import { IconNameEnum } from './icon-name.enum';
+import BinanceSmartChain from './networks/bsc.svg';
+import Ethereum from './networks/ethereum.svg';
+import NetworkFallback from './networks/fallback.svg';
+import Klaytn from './networks/klaytn.svg';
 
 export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
+  [IconNameEnum.AccountLogo]: AccountLogo,
   [IconNameEnum.Activity]: ActivityIcon,
   [IconNameEnum.Add]: AddIcon,
   [IconNameEnum.ArrowLeft]: ArrowLeftIcon,
@@ -63,6 +73,14 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Swap]: SwapIcon,
   [IconNameEnum.Topup]: TopupIcon,
   [IconNameEnum.X]: XIcon,
+  [IconNameEnum.Klaytn]: Klaytn,
+  [IconNameEnum.Ethereum]: Ethereum,
+  [IconNameEnum.BinanceSmartChain]: BinanceSmartChain,
+  [IconNameEnum.NetworkFallback]: NetworkFallback,
+  [IconNameEnum.Qrcode]: QrIcon,
+  [IconNameEnum.Slider]: Slider,
+  [IconNameEnum.AddChain]: AddChain,
+  [IconNameEnum.Share]: Share,
   [IconNameEnum.WidgetSettings]: WidgetSettings,
   [IconNameEnum.SelectedCheckbox]: SelectedCheckbox,
   [IconNameEnum.EmptyCheckbox]: EmptyCheckbox,

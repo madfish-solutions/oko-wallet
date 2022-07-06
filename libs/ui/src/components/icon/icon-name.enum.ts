@@ -1,6 +1,8 @@
 export enum IconNameEnum {
+  AccountLogo = 'AccountLogo',
   Activity = 'Activity',
   Add = 'Add',
+  AddChain = 'AddChain',
   ArrowLeft = 'ArrowLeft',
   ArrowRight = 'ArrowRight',
   Assets = 'Assets',
@@ -26,6 +28,14 @@ export enum IconNameEnum {
   Swap = 'Swap',
   Topup = 'Topup',
   X = 'X',
+  // networks
+  Klaytn = 'Klaytn',
+  Ethereum = 'Ethereum',
+  BinanceSmartChain = 'BinanceSmartChain',
+  NetworkFallback = 'NetworkFallback',
+  Qrcode = 'Qrcode',
+  Slider = 'Slider',
+  Share = 'Share',
   WidgetSettings = 'WidgetSettings',
   SelectedCheckbox = 'SelectedCheckbox',
   EmptyCheckbox = 'EmptyCheckbox',

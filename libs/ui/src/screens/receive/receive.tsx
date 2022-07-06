@@ -1,9 +1,10 @@
 import Clipboard from '@react-native-clipboard/clipboard';
 import React, { FC, useMemo, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
-import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
+import { ScreenContainer } from '../../components/screen-container/screen-container';
 import { useDelayedEffect } from '../../hooks/use-delayed-effect.hook';
 import { useSelectedAccountSelector, useSelectedNetworkTypeSelector } from '../../store/wallet/wallet.selectors';
 
@@ -24,14 +25,13 @@ export const Receive: FC = () => {
   useDelayedEffect(() => setIsCopied(false), [isCopied]);
 
   return (
-    <View>
-      <NavigationBar />
+    <ScreenContainer screenTitle="Receive" navigationType={HeaderSideTypeEnum.Swap}>
       <QRCode value={publicKeyHash} />
       <Text>{publicKeyHash}</Text>
       <TouchableOpacity onPress={handleCopyToClipboard}>
         <Text>Copy</Text>
       </TouchableOpacity>
       {isCopied && <Text>Copied!</Text>}
-    </View>
+    </ScreenContainer>
   );
 };

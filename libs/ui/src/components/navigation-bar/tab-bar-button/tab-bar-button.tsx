@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
-import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
+import { ViewStyleProps } from '../../../interfaces/style.interface';
 import { Icon } from '../../icon/icon';
 import { IconProps } from '../../icon/icon.interface';
 
@@ -12,7 +13,7 @@ interface Props extends IconProps {
   routeName: ScreensEnum;
   focused: boolean;
   disabled?: boolean;
-  style?: StyleProp<ViewStyle>;
+  style?: ViewStyleProps;
 }
 
 export const TabBarButton: FC<Props> = ({ routeName, disabled = false, name, color, style, size }) => {

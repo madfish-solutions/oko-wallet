@@ -1,8 +1,8 @@
 import React, { FC, Fragment } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { Text, Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { ScreenContainer } from '../../components/screen-container/screen-container';
 import { Token } from '../../interfaces/token.interface';
 import { changeTokenVisibilityAction } from '../../store/wallet/wallet.actions';
 import { useAccountTokensSelector } from '../../store/wallet/wallet.selectors';
@@ -15,8 +15,7 @@ export const ManageTokens: FC = () => {
   const handleTokenVisibility = (token: Token) => dispatch(changeTokenVisibilityAction(token));
 
   return (
-    <View>
-      <NavigationBar />
+    <ScreenContainer screenTitle="Manage tokens">
       {accountTokens.map(token => (
         <Fragment key={getTokenSlug(token)}>
           <Text>Token Address: {token.tokenAddress}</Text>
@@ -30,6 +29,6 @@ export const ManageTokens: FC = () => {
           </Pressable>
         </Fragment>
       ))}
-    </View>
+    </ScreenContainer>
   );
 };

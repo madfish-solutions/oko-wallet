@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 
+import { colors } from '../../styles/colors';
 import { typography } from '../../styles/typography';
 
 export const AccountStyles = StyleSheet.create({
@@ -18,10 +19,12 @@ export const AccountStyles = StyleSheet.create({
     marginBottom: 24
   },
   selectedAccountName: {
+    color: colors.textGrey1,
     ...typography.headlineInterBold22
   },
   allAccountsText: {
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    color: colors.textGrey1
   },
   accountsList: {
     marginTop: 4
@@ -29,10 +32,12 @@ export const AccountStyles = StyleSheet.create({
   account: {
     marginTop: 4
   },
-  textBlock: {
+  accountName: {
+    color: colors.textGrey1,
     marginBottom: 4
   },
   publicKeyHash: {
+    color: colors.textGrey1,
     fontSize: 12
   },
   createAccountButton: {
