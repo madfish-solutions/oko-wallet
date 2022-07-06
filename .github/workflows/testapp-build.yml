@@ -3,10 +3,13 @@ name: Testapp build
 on:
   workflow_dispatch:
     inputs:
+      version:
+        description: Version
+        required: true
       extension:
         type: boolean
         description: extension
-        default: true
+        default: false
         required: true
       ios:
         type: boolean
@@ -45,6 +48,14 @@ jobs:
       - name: Install dependencies
         run: yarn install:all
 
+      - name: Update extension version
+        if: ${{ github.event.inputs.extension == 'true' }}
+        uses: jossef/action-set-json-field@v2
+        with:
+          file: apps/extension/public/manifest.json
+          field: version
+          value: ${{ github.event.inputs.version }}
+
       - name: Create extension build
         if: ${{ github.event.inputs.extension == 'true' }}
         run: yarn build:extension
@@ -57,6 +68,14 @@ jobs:
           path: apps/extension/dist
           if-no-files-found: error
           retention-days: 30
+
+      - name: Update iOS version
+        if: ${{ github.event.inputs.ios == 'true' }}
+        uses: damienaicheh/update-ios-version-info-plist-action@v1.0.0
+        with:
+          info-plist-path: apps/mobile/ios/KlaytnWallet/Info.plist
+          bundle-short-version-string: ${{ github.event.inputs.version }}
+          bundle-version: 1
 
       - name: Install Pods
         if: ${{ github.event.inputs.ios == 'true' }}
@@ -89,6 +108,14 @@ jobs:
           git_release_notes: false
           include_git_commit_id: false
           notify: true
+
+      - name: Update Android version
+        if: ${{ github.event.inputs.android == 'true' }}
+        uses: damienaicheh/update-android-version-gradle-action@v1.0.0
+        with:
+          build-gradle-path: apps/mobile/android/app/build.gradle
+          version-name: ${{ github.event.inputs.version }}
+          version-code: 1
 
       - name: Set up JDK 11
         if: ${{ github.event.inputs.android == 'true' }}
