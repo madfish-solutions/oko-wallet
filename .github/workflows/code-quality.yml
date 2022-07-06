@@ -40,3 +40,14 @@ jobs:
 
       - name: Run Unit tests
         run: yarn test
+
+      - name: Create extension build
+        run: yarn build:extension
+
+      - name: Upload extension artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: chrome
+          path: apps/extension/dist
+          if-no-files-found: error
+          retention-days: 30
