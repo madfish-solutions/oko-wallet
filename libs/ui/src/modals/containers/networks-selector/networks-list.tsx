@@ -42,6 +42,8 @@ export const NetworksList = () => {
 
   const navigateToAddNetwork = () => navigate(ScreensEnum.AddNetwork);
 
+  const edit = () => null;
+
   const renderAccount = ({ item, index }: ListRenderItemInfo<NetworkInterface>) => {
     const isNetworkSelected = selectedIndex === index;
 
@@ -52,7 +54,8 @@ export const NetworksList = () => {
         isActive={isNetworkSelected}
         balanceTitle="Gas balance"
         balance={<ModalGasToken balance={item.gasTokenBalance.data} metadata={item.gasTokenMetadata} />}
-        onPress={() => handleChangeNetwork(item)}
+        onSelectItem={() => handleChangeNetwork(item)}
+        onEdit={edit}
       />
     );
   };

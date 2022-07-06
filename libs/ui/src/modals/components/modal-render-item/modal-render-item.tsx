@@ -17,12 +17,22 @@ interface Props {
   icon: ReactChild;
   balanceTitle: string;
   balance: ReactChild;
-  onPress: () => void;
+  onSelectItem: () => void;
+  onEdit: () => void;
   style?: ViewStyleProps;
 }
 
-export const ModalRenderItem: FC<Props> = ({ name, isActive, icon, balanceTitle, balance, onPress, style }) => (
-  <Pressable style={[styles.root, isActive && styles.active, style]} onPress={onPress}>
+export const ModalRenderItem: FC<Props> = ({
+  name,
+  isActive,
+  icon,
+  balanceTitle,
+  balance,
+  onSelectItem,
+  onEdit,
+  style
+}) => (
+  <Pressable style={[styles.root, isActive && styles.active, style]} onPress={onSelectItem}>
     <Row style={[styles.wrapper, styles.marginBottom]}>
       <Row>
         <IconWithBorder>{icon}</IconWithBorder>
@@ -36,7 +46,7 @@ export const ModalRenderItem: FC<Props> = ({ name, isActive, icon, balanceTitle,
         <Text style={styles.balanceTitle}>{balanceTitle}</Text>
         <Row>{balance}</Row>
       </Column>
-      <TouchableIcon name={IconNameEnum.Edit} />
+      <TouchableIcon name={IconNameEnum.Edit} onPress={onEdit} />
     </Row>
   </Pressable>
 );

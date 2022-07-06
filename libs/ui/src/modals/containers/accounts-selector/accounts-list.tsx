@@ -37,6 +37,8 @@ export const AccountsList = () => {
     }
   };
 
+  const edit = () => null;
+
   const renderAccount = ({ item, index }: ListRenderItemInfo<AccountInterface>) => {
     const isAccountSelected = selectedIndex === index;
 
@@ -47,7 +49,8 @@ export const AccountsList = () => {
         isActive={isAccountSelected}
         balanceTitle="Total balance"
         balance={<ModalAccountBalance />}
-        onPress={() => handleChangeAccount(item)}
+        onSelectItem={() => handleChangeAccount(item)}
+        onEdit={edit}
       />
     );
   };
