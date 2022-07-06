@@ -1,17 +1,14 @@
-import React, { FC, ReactChild } from 'react';
+import React, { FC } from 'react';
 import { Text, View } from 'react-native';
 
 import { IconWithBorder } from '../../../components/icon-with-border/icon-with-border';
 import { Row } from '../../../components/row/row';
 import { ViewStyleProps } from '../../../interfaces/style.interface';
+import { ModalHeaderInterface } from '../../interfaces/modal-header.interface';
 
 import { styles } from './modal-header.styles';
 
-interface Props {
-  name: string;
-  icon: ReactChild;
-  balanceTitle: string;
-  balance: ReactChild;
+interface Props extends ModalHeaderInterface {
   style?: ViewStyleProps;
 }
 

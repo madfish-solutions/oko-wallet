@@ -1,4 +1,4 @@
-import React, { FC, ReactChild } from 'react';
+import React, { FC } from 'react';
 import { Pressable, Text } from 'react-native';
 
 import { Column } from '../../../components/column/column';
@@ -8,15 +8,12 @@ import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { Row } from '../../../components/row/row';
 import { TouchableIcon } from '../../../components/touchable-icon/touchable-icon';
 import { ViewStyleProps } from '../../../interfaces/style.interface';
+import { ModalHeaderInterface } from '../../interfaces/modal-header.interface';
 
 import { styles } from './modal-render-item.styles';
 
-interface Props {
-  name: string;
+interface Props extends ModalHeaderInterface {
   isActive: boolean;
-  icon: ReactChild;
-  balanceTitle: string;
-  balance: ReactChild;
   onSelectItem: () => void;
   onEdit: () => void;
   style?: ViewStyleProps;

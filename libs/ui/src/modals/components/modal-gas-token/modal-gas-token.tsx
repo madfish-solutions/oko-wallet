@@ -16,8 +16,8 @@ interface Props {
 
 export const ModalGasToken: FC<Props> = ({ balance, metadata }) => (
   <>
-    <Text style={[styles.balanceText, styles.amount]}>{formatUnits(balance, metadata.decimals)}</Text>
-    <Text style={styles.balanceText}>{metadata.symbol}</Text>
+    <Text style={[styles.text, styles.marginRight]}>{formatUnits(balance, metadata.decimals)}</Text>
+    <Text style={styles.text}>{metadata.symbol}</Text>
     <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />
   </>
 );

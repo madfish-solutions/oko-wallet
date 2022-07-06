@@ -5,11 +5,11 @@ import { getCustomSize } from '../../../styles/format-size';
 import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
-  balanceText: {
+  text: {
     ...typography.numbersIBMPlexSansMedium13,
     color: colors.textGrey1
   },
-  amount: {
+  marginRight: {
     marginRight: getCustomSize(0.25)
   }
 });
