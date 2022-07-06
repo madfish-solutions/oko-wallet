@@ -1,8 +1,10 @@
 import React, { FC } from 'react';
 import { View, FlatList, ListRenderItemInfo } from 'react-native';
 
+import { IconNameEnum } from '../../../components/icon/icon-name.enum';
+import { Row } from '../../../components/row/row';
+import { TouchableIcon } from '../../../components/touchable-icon/touchable-icon';
 import { getItemLayout } from '../../utils/get-item-layout.util';
-import { ModalSearch } from '../modal-search/modal-search';
 
 import { styles } from './modal-flat-list.styles';
 
@@ -15,7 +17,11 @@ interface Props {
 
 export const ModalFlatList: FC<Props> = ({ onPressAddIcon, flatListRef, data, renderItem }) => (
   <View style={styles.root}>
-    <ModalSearch onPress={onPressAddIcon} style={styles.search} />
+    <Row style={styles.search}>
+      <TouchableIcon name={IconNameEnum.Search} />
+      <TouchableIcon name={IconNameEnum.Add} onPress={onPressAddIcon} />
+    </Row>
+
     <FlatList
       ref={flatListRef}
       getItemLayout={getItemLayout}

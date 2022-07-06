@@ -7,10 +7,11 @@ export const styles = StyleSheet.create({
   root: {
     flex: 1,
     paddingHorizontal: getCustomSize(2),
-    paddingTop: getCustomSize(2),
     ...(isWeb && { paddingBottom: getCustomSize(10) })
   },
   search: {
-    marginBottom: getCustomSize(2)
+    justifyContent: 'space-between',
+    height: getCustomSize(5),
+    marginVertical: getCustomSize()
   }
 });
