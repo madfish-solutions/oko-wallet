@@ -44,11 +44,19 @@ export const EditAccount: FC = () => {
   }, [accountName]);
 
   const checkIfAccountNameUnique = (currentValue: string) => {
-    if (account.name === currentValue || !allAccountsName.includes(currentValue)) {
+    const correctedCurrentValue = currentValue.trim();
+
+    if (account.name === correctedCurrentValue || !allAccountsName.includes(correctedCurrentValue)) {
       return true;
     }
 
     return 'Should be unique';
+  };
+
+  const checkIfOnlySpaces = (currentValue: string) => {
+    if (currentValue.length && !currentValue.trim()) {
+      return 'Can not save only spaces';
+    }
   };
 
   const onSubmit = ({ name }: { name: string }) => {
@@ -74,7 +82,7 @@ export const EditAccount: FC = () => {
                   message: 'Maximum 21 symbol'
                 },
                 required: 'This is required',
-                validate: checkIfAccountNameUnique
+                validate: { checkIfAccountNameUnique, checkIfOnlySpaces }
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
