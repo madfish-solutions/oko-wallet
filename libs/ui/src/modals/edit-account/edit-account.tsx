@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -27,6 +27,8 @@ export const EditAccount: FC = () => {
   const {
     control,
     handleSubmit,
+    clearErrors,
+    watch,
     formState: { errors }
   } = useForm({
     mode: 'onBlur',
@@ -34,6 +36,12 @@ export const EditAccount: FC = () => {
       name: account.name
     }
   });
+
+  const accountName = watch('name');
+
+  useEffect(() => {
+    clearErrors();
+  }, [accountName]);
 
   const checkIfAccountNameUnique = (currentValue: string) => {
     if (account.name === currentValue || !allAccountsName.includes(currentValue)) {
@@ -44,8 +52,10 @@ export const EditAccount: FC = () => {
   };
 
   const onSubmit = ({ name }: { name: string }) => {
-    if (account.name !== name) {
-      dispatch(editAccountNameAction({ accountIndex: account.accountIndex, name }));
+    const correctedName = name.trim();
+
+    if (account.name !== correctedName) {
+      dispatch(editAccountNameAction({ accountIndex: account.accountIndex, name: correctedName }));
     }
 
     goBack();
