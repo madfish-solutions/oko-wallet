@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux';
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';
+import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { AccountInterface } from '../../../../interfaces/account.interface';
 import { changeAccountAction } from '../../../../store/wallet/wallet.actions';
@@ -20,6 +22,7 @@ import { styles } from './accounts-list.styles';
 import { userDetailsTotalHeight } from './constants/dimensions';
 
 export const AccountsList = () => {
+  const { navigate } = useNavigation();
   const flatListRef = useRef<FlatList>(null);
   const dispatch = useDispatch();
   const { createHdAccount, createHdAccountForNewNetworkType } = useShelter();
@@ -36,6 +39,8 @@ export const AccountsList = () => {
   };
 
   const selectedIndex = accounts.findIndex(account => account.accountIndex === selectedAccount.accountIndex);
+
+  const onEditAccountClick = (account: AccountInterface) => navigate(ScreensEnum.EditAccount, { account });
 
   const renderAccount = ({ item: account, index }: ListRenderItemInfo<AccountInterface>) => {
     const isAccountSelected = selectedIndex === index;
@@ -66,7 +71,9 @@ export const AccountsList = () => {
               </Row>
             </Row>
           </View>
-          <Icon name={IconNameEnum.Edit} />
+          <Pressable onPress={() => onEditAccountClick(account)}>
+            <Icon name={IconNameEnum.Edit} />
+          </Pressable>
         </Row>
       </Pressable>
     );

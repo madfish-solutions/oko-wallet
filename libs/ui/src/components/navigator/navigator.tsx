@@ -6,6 +6,7 @@ import { View, Text } from 'react-native';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { AccountsSelector } from '../../modals/accounts-selector/accounts-selector';
+import { EditAccount } from '../../modals/edit-account/edit-account';
 import { AccountTokens } from '../../screens/account-tokens/account-tokens';
 import { AddNetwork } from '../../screens/add-network/add-network';
 import { AddNewToken } from '../../screens/add-new-token/add-new-token';
@@ -21,7 +22,7 @@ import { Wallet } from '../../screens/wallet/wallet';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
 import { getStoredValue, setStoredValue } from '../../utils/store.util';
 
-import { modalScreenOptions } from './constants/modal-screen-options';
+import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
 import { PERSISTENCE_KEY } from './constants/perstistence-key';
 import { Stack } from './utils/get-stack-navigator';
 
@@ -65,10 +66,10 @@ export const Navigator: FC = () => {
       initialState={initialState}
       onStateChange={state => setStoredValue(PERSISTENCE_KEY, JSON.stringify(state))}
     >
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator>
         {isAuthorised ? (
           <>
-            <Stack.Group>
+            <Stack.Group screenOptions={{ headerShown: false }}>
               <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
               <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
               <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
@@ -85,6 +86,13 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.AccountsSelector}
                 options={{ title: 'Accounts' }}
                 component={AccountsSelector}
+              />
+            </Stack.Group>
+            <Stack.Group screenOptions={modalScreenOptionsWithBackButton}>
+              <Stack.Screen
+                name={ScreensEnum.EditAccount}
+                options={{ title: 'Edit account' }}
+                component={EditAccount}
               />
             </Stack.Group>
           </>

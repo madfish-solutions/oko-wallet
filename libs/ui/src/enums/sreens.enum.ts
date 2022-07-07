@@ -1,3 +1,4 @@
+import { AccountInterface } from '../interfaces/account.interface';
 import { TransferParams } from '../interfaces/transfer-params.interface';
 
 export enum ScreensEnum {
@@ -13,7 +14,8 @@ export enum ScreensEnum {
   ConnectToDapps = 'ConnectToDapps',
   Unlock = 'unlock',
   AccountsSelector = 'AccountsSelector',
-  AccountTokens = 'AccountTokens'
+  AccountTokens = 'AccountTokens',
+  EditAccount = 'EditAccount'
 }
 
 export type ScreensParamList = {
@@ -32,4 +34,5 @@ export type ScreensParamList = {
   [ScreensEnum.Unlock]: undefined;
   [ScreensEnum.AccountsSelector]: undefined;
   [ScreensEnum.AccountTokens]: undefined;
+  [ScreensEnum.EditAccount]: { account: AccountInterface };
 };

@@ -9,11 +9,12 @@ import { styles } from './modal.styles';
 interface Props {
   style?: StyleProp<ViewStyle>;
   screenTitle: string;
+  isBackButton?: boolean;
 }
 
-export const Modal: FC<Props> = ({ children, style, screenTitle }) => (
+export const Modal: FC<Props> = ({ children, style, screenTitle, isBackButton }) => (
   <View style={[styles.root, style]}>
-    {isWeb && <HeaderTitle name={screenTitle} />}
+    {isWeb && <HeaderTitle isBackButton={isBackButton} name={screenTitle} />}
     <View style={styles.children}>{children}</View>
   </View>
 );

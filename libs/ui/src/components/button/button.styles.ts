@@ -1,13 +1,13 @@
 import { StyleSheet } from 'react-native';
 
 import { getCustomSize } from '../../styles/format-size';
-import { typography } from '../../styles/typography';
 
 import { themes } from './constants/themes';
 import { Theme } from './types';
 
-export const styles = (theme: Theme) => {
-  const { backgroundColor, color } = themes[theme];
+export const styles = (theme: Theme, disabled: boolean) => {
+  const currentTheme = disabled ? 'disabled' : theme;
+  const { backgroundColor, color, typography, paddingVertical, borderRadius, ...restStyles } = themes[currentTheme];
 
   return StyleSheet.create({
     root: {
@@ -16,8 +16,9 @@ export const styles = (theme: Theme) => {
       flexBasis: 'auto',
       alignItems: 'center',
       justifyContent: 'center',
-      borderRadius: getCustomSize(0.5),
-      paddingVertical: getCustomSize(1.5)
+      borderRadius,
+      paddingVertical,
+      ...restStyles
     },
     wrapper: {
       flexDirection: 'row',
@@ -26,7 +27,7 @@ export const styles = (theme: Theme) => {
     },
     text: {
       color,
-      ...typography.taglineInterSemiBoldUppercase13
+      ...typography
     },
     rightIcon: {
       marginLeft: getCustomSize(0.5)

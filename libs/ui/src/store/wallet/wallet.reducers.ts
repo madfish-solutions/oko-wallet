@@ -11,6 +11,7 @@ import {
   changeNetworkAction,
   createHdAccountAction,
   setSelectedAccountAction,
+  editAccountNameAction,
   loadGasTokenBalanceAction,
   changeAccountAction,
   addTokenMetadataAction,
@@ -50,7 +51,16 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     .addCase(setSelectedAccountAction, (state, { payload: selectedAccountPublicKeyHash }) => ({
       ...state,
       selectedAccountPublicKeyHash
-    }));
+    }))
+    .addCase(editAccountNameAction, (state, { payload: account }) => {
+      const accounts = [...state.accounts];
+      accounts[account.accountIndex] = { ...accounts[account.accountIndex], name: account.name };
+
+      return {
+        ...state,
+        accounts
+      };
+    });
   builder
     .addCase(loadGasTokenBalanceAction.submit, state =>
       updateSelectedNetworkState(state, selectedNetwork => ({

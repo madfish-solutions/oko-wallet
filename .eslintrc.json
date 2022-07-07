@@ -81,7 +81,8 @@
     "react/jsx-key": "error",
     "arrow-body-style": "error",
     "object-shorthand": "error",
-    "no-else-return": "error"
+    "no-else-return": "error",
+    "react/jsx-boolean-value": "error"
   },
   "globals": {
     "localStorage": true

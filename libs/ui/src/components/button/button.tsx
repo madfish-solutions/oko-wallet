@@ -15,13 +15,23 @@ interface Props extends PressableProps {
   leftIcon?: IconNameEnum;
   iconSize?: number;
   style?: ViewStyleProps;
+  disabled?: boolean;
 }
 
-export const Button: FC<Props> = ({ title, theme = 'primary', rightIcon, leftIcon, iconSize, style, ...restProps }) => {
-  const styles = buttonStyles(theme);
+export const Button: FC<Props> = ({
+  title,
+  theme = 'primary',
+  rightIcon,
+  leftIcon,
+  iconSize,
+  style,
+  disabled = false,
+  ...restProps
+}) => {
+  const styles = buttonStyles(theme, disabled);
 
   return (
-    <Pressable {...restProps} style={[styles.root, style]}>
+    <Pressable {...restProps} disabled={disabled} style={[styles.root, style]}>
       <View style={styles.wrapper}>
         {leftIcon && <Icon name={leftIcon} size={iconSize} iconStyle={styles.leftIcon} />}
         <Text style={styles.text}>{title}</Text>

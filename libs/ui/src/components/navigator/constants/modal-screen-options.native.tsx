@@ -4,6 +4,7 @@ import React from 'react';
 import { colors } from '../../../styles/colors';
 import { getCustomSize } from '../../../styles/format-size';
 import { isAndroid } from '../../../utils/platform.utils';
+import { HeaderBackButton } from '../components/header-back-button/header-back-button';
 import { HeaderCloseButton } from '../components/header-close-button/header-close-button';
 import { HeaderTitle } from '../components/header-title.native/header-title';
 
@@ -20,4 +21,9 @@ export const modalScreenOptions: StackNavigationOptions = {
   headerTitle: HeaderTitle,
   headerRight: () => <HeaderCloseButton />,
   ...(isAndroid && TransitionPresets.ModalPresentationIOS)
+};
+
+export const modalScreenOptionsWithBackButton: StackNavigationOptions = {
+  ...modalScreenOptions,
+  headerLeft: () => <HeaderBackButton />
 };
