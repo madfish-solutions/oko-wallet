@@ -5,6 +5,10 @@ on:
     inputs:
       version:
         description: Version
+        default: 1.0.0
+        required: true
+      build-number:
+        description: Build number
         required: true
       extension:
         type: boolean
@@ -75,7 +79,7 @@ jobs:
         with:
           info-plist-path: apps/mobile/ios/KlaytnWallet/Info.plist
           bundle-short-version-string: ${{ github.event.inputs.version }}
-          bundle-version: 1
+          bundle-version: ${{ github.event.inputs.build-number }}
 
       - name: Install Pods
         if: ${{ github.event.inputs.ios == 'true' }}
@@ -115,7 +119,7 @@ jobs:
         with:
           build-gradle-path: apps/mobile/android/app/build.gradle
           version-name: ${{ github.event.inputs.version }}
-          version-code: 1
+          version-code: ${{ github.event.inputs.build-number }}
 
       - name: Set up JDK 11
         if: ${{ github.event.inputs.android == 'true' }}
