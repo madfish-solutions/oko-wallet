@@ -9,7 +9,7 @@ import { ModalContainer } from '../../components/modal-container/modal-container
 import { ModalGasToken } from '../../components/modal-gas-token/modal-gas-token';
 import { ModalHeader } from '../../components/modal-header/modal-header';
 
-import { NetworksList } from './networks-list';
+import { NetworksList } from './components/networks-list';
 import { styles } from './networks-selector.styles';
 
 export const NetworksSelector: FC = () => {

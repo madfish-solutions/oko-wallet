@@ -2,23 +2,23 @@ import React from 'react';
 import { ListRenderItemInfo } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { Icon } from '../../../components/icon/icon';
-import { IconNameEnum } from '../../../components/icon/icon-name.enum';
-import { ScreensEnum } from '../../../enums/sreens.enum';
-import { useNavigation } from '../../../hooks/use-navigation.hook';
-import { useShelter } from '../../../hooks/use-shelter.hook';
-import { NetworkInterface } from '../../../interfaces/network.interface';
-import { changeNetworkAction } from '../../../store/wallet/wallet.actions';
+import { Icon } from '../../../../components/icon/icon';
+import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
+import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
+import { useShelter } from '../../../../hooks/use-shelter.hook';
+import { NetworkInterface } from '../../../../interfaces/network.interface';
+import { changeNetworkAction } from '../../../../store/wallet/wallet.actions';
 import {
   useAllNetworksSelector,
   useSelectedAccountSelector,
   useSelectedNetworkSelector
-} from '../../../store/wallet/wallet.selectors';
-import { checkIsNetworkTypeKeyExist } from '../../../utils/check-is-network-type-key-exist';
-import { ModalFlatList } from '../../components/modal-flat-list/modal-flat-list';
-import { ModalGasToken } from '../../components/modal-gas-token/modal-gas-token';
-import { ModalRenderItem } from '../../components/modal-render-item/modal-render-item';
-import { useFlatListRef } from '../../hooks/use-flat-list-ref.hook';
+} from '../../../../store/wallet/wallet.selectors';
+import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
+import { ModalFlatList } from '../../../components/modal-flat-list/modal-flat-list';
+import { ModalGasToken } from '../../../components/modal-gas-token/modal-gas-token';
+import { ModalRenderItem } from '../../../components/modal-render-item/modal-render-item';
+import { useFlatListRef } from '../../../hooks/use-flat-list-ref.hook';
 
 export const NetworksList = () => {
   const selectedNetwork = useSelectedNetworkSelector();

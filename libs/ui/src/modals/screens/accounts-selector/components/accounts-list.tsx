@@ -2,21 +2,21 @@ import React from 'react';
 import { ListRenderItemInfo } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { RobotIcon } from '../../../components/robot-icon/robot-icon';
-import { useShelter } from '../../../hooks/use-shelter.hook';
-import { AccountInterface } from '../../../interfaces/account.interface';
-import { changeAccountAction } from '../../../store/wallet/wallet.actions';
+import { RobotIcon } from '../../../../components/robot-icon/robot-icon';
+import { useShelter } from '../../../../hooks/use-shelter.hook';
+import { AccountInterface } from '../../../../interfaces/account.interface';
+import { changeAccountAction } from '../../../../store/wallet/wallet.actions';
 import {
   useAllAccountsSelector,
   useSelectedAccountSelector,
   useSelectedNetworkTypeSelector
-} from '../../../store/wallet/wallet.selectors';
-import { getPublicKeyHash } from '../../../store/wallet/wallet.utils';
-import { checkIsNetworkTypeKeyExist } from '../../../utils/check-is-network-type-key-exist';
-import { ModalAccountBalance } from '../../components/modal-account-balance/modal-account-balance';
-import { ModalFlatList } from '../../components/modal-flat-list/modal-flat-list';
-import { ModalRenderItem } from '../../components/modal-render-item/modal-render-item';
-import { useFlatListRef } from '../../hooks/use-flat-list-ref.hook';
+} from '../../../../store/wallet/wallet.selectors';
+import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
+import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
+import { ModalAccountBalance } from '../../../components/modal-account-balance/modal-account-balance';
+import { ModalFlatList } from '../../../components/modal-flat-list/modal-flat-list';
+import { ModalRenderItem } from '../../../components/modal-render-item/modal-render-item';
+import { useFlatListRef } from '../../../hooks/use-flat-list-ref.hook';
 
 export const AccountsList = () => {
   const dispatch = useDispatch();

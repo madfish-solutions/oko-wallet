@@ -17,8 +17,8 @@ import { ModalAccountBalance } from '../../components/modal-account-balance/moda
 import { ModalContainer } from '../../components/modal-container/modal-container';
 import { ModalHeader } from '../../components/modal-header/modal-header';
 
-import { AccountsList } from './accounts-list';
 import { styles } from './accounts-selector.styles';
+import { AccountsList } from './components/accounts-list';
 
 export const AccountsSelector: FC = () => {
   const selectedAccount = useSelectedAccountSelector();
