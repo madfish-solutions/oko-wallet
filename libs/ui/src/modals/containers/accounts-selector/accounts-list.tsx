@@ -39,7 +39,7 @@ export const AccountsList = () => {
 
   const edit = () => null;
 
-  const renderAccount = ({ item, index }: ListRenderItemInfo<AccountInterface>) => {
+  const renderItem = ({ item, index }: ListRenderItemInfo<AccountInterface>) => {
     const isAccountSelected = selectedIndex === index;
 
     return (
@@ -56,11 +56,6 @@ export const AccountsList = () => {
   };
 
   return (
-    <ModalFlatList
-      onPressAddIcon={createHdAccount}
-      flatListRef={flatListRef}
-      data={accounts}
-      renderItem={renderAccount}
-    />
+    <ModalFlatList onPressAddIcon={createHdAccount} flatListRef={flatListRef} data={accounts} renderItem={renderItem} />
   );
 };

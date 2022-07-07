@@ -44,7 +44,7 @@ export const NetworksList = () => {
 
   const edit = () => null;
 
-  const renderAccount = ({ item, index }: ListRenderItemInfo<NetworkInterface>) => {
+  const renderItem = ({ item, index }: ListRenderItemInfo<NetworkInterface>) => {
     const isNetworkSelected = selectedIndex === index;
 
     return (
@@ -65,7 +65,7 @@ export const NetworksList = () => {
       onPressAddIcon={navigateToAddNetwork}
       flatListRef={flatListRef}
       data={networks}
-      renderItem={renderAccount}
+      renderItem={renderItem}
     />
   );
 };
