@@ -9,7 +9,9 @@ import { getItemLayout } from '../../utils/get-item-layout.util';
 
 import { styles } from './modal-flat-list.styles';
 
-interface Props<T> extends Pick<FlatListProps<T>, 'renderItem' | 'data'> {
+const RESET_INPUT_VALUE = '';
+
+interface Props<T> extends Pick<FlatListProps<T>, 'renderItem' | 'data' | 'keyExtractor'> {
   onPressAddIcon: () => void;
   flatListRef: React.RefObject<FlatList<T>>;
   searchValue: string;
@@ -22,9 +24,15 @@ export const ModalFlatList = <T extends unknown>({
   data,
   renderItem,
   searchValue,
-  onChangeSearchValue
+  onChangeSearchValue,
+  keyExtractor
 }: Props<T>) => {
   const [isShowSearchField, setIsShowSearchField] = useState(false);
+
+  const closeSearchField = () => {
+    setIsShowSearchField(false);
+    onChangeSearchValue(RESET_INPUT_VALUE);
+  };
 
   return (
     <View style={styles.root}>
@@ -32,7 +40,7 @@ export const ModalFlatList = <T extends unknown>({
         {isShowSearchField ? (
           <>
             <Input value={searchValue} onChangeText={onChangeSearchValue} style={styles.input} />
-            <TouchableIcon name={IconNameEnum.X} onPress={() => setIsShowSearchField(false)} style={styles.close} />
+            <TouchableIcon name={IconNameEnum.X} onPress={closeSearchField} style={styles.close} />
           </>
         ) : (
           <>
@@ -48,6 +56,7 @@ export const ModalFlatList = <T extends unknown>({
         data={data}
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}
+        keyExtractor={keyExtractor}
       />
     </View>
   );

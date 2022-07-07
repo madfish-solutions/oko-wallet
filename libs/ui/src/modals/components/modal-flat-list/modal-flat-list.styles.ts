@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 
+import { colors } from '../../../styles/colors';
 import { getCustomSize } from '../../../styles/format-size';
 import { isWeb } from '../../../utils/platform.utils';
 
@@ -15,7 +16,8 @@ export const styles = StyleSheet.create({
     marginVertical: getCustomSize()
   },
   input: {
-    height: getCustomSize(5)
+    height: getCustomSize(5),
+    color: colors.textGrey1
   },
   close: {
     marginLeft: getCustomSize(2)

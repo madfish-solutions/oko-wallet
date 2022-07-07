@@ -6,9 +6,14 @@ export const useFlatListRef = <T>({ data, selectedIndex }: { data: T[]; selected
 
   useEffect(() => {
     const scrollToSelectedIndex = async () => {
-      await new Promise(resolve => setTimeout(resolve, 100));
+      // TODO: Make an error
+      // await new Promise(resolve => setTimeout(resolve, 0));
 
-      flatListRef.current?.scrollToIndex({ index: selectedIndex, animated: true });
+      const index = selectedIndex > -1 ? selectedIndex : 0;
+
+      if (data.length) {
+        flatListRef.current?.scrollToIndex({ index, animated: true });
+      }
     };
 
     scrollToSelectedIndex();
