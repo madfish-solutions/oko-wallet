@@ -13,7 +13,8 @@ export enum ScreensEnum {
   ConnectToDapps = 'ConnectToDapps',
   Unlock = 'unlock',
   AccountsSelector = 'AccountsSelector',
-  AccountTokens = 'AccountTokens'
+  AccountTokens = 'AccountTokens',
+  NetworksSelector = 'NetworksSelector'
 }
 
 export type ScreensParamList = {
@@ -32,4 +33,5 @@ export type ScreensParamList = {
   [ScreensEnum.Unlock]: undefined;
   [ScreensEnum.AccountsSelector]: undefined;
   [ScreensEnum.AccountTokens]: undefined;
+  [ScreensEnum.NetworksSelector]: undefined;
 };
