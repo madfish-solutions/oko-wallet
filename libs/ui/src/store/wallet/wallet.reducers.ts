@@ -52,15 +52,16 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       ...state,
       selectedAccountPublicKeyHash
     }))
-    .addCase(editAccountNameAction, (state, { payload: account }) => {
-      const accounts = [...state.accounts];
-      accounts[account.accountIndex] = { ...accounts[account.accountIndex], name: account.name };
+    .addCase(editAccountNameAction, (state, { payload: account }) => ({
+      ...state,
+      accounts: state.accounts.map(currentAccount => {
+        if (currentAccount.accountIndex === account.accountIndex) {
+          return { ...currentAccount, name: account.name };
+        }
 
-      return {
-        ...state,
-        accounts
-      };
-    });
+        return currentAccount;
+      })
+    }));
   builder
     .addCase(loadGasTokenBalanceAction.submit, state =>
       updateSelectedNetworkState(state, selectedNetwork => ({
