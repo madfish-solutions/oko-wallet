@@ -26,5 +26,10 @@ export const styles = StyleSheet.create({
     width: getCustomSize(3),
     height: getCustomSize(3),
     borderRadius: getCustomSize(6)
+  },
+  quaternary: {
+    width: getCustomSize(8),
+    height: getCustomSize(8),
+    borderRadius: getCustomSize(2)
   }
 });

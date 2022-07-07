@@ -4,15 +4,15 @@ import { useForm, Controller } from 'react-hook-form';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { Button } from '../../components/button/button';
-import { Row } from '../../components/row/row';
-import { TextInput } from '../../components/text-input/text-input';
-import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
-import { useNavigation } from '../../hooks/use-navigation.hook';
-import { editAccountNameAction } from '../../store/wallet/wallet.actions';
-import { useAllAccountsNameSelector } from '../../store/wallet/wallet.selectors';
-import { colors } from '../../styles/colors';
-import { Modal } from '../modal/modal';
+import { Button } from '../../../components/button/button';
+import { Row } from '../../../components/row/row';
+import { TextInput } from '../../../components/text-input/text-input';
+import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { useNavigation } from '../../../hooks/use-navigation.hook';
+import { editAccountNameAction } from '../../../store/wallet/wallet.actions';
+import { useAllAccountsNameSelector } from '../../../store/wallet/wallet.selectors';
+import { colors } from '../../../styles/colors';
+import { ModalContainer } from '../../components/modal-container/modal-container';
 
 import { styles } from './edit-account.styles';
 
@@ -62,7 +62,7 @@ export const EditAccount: FC = () => {
   };
 
   return (
-    <Modal screenTitle="Edit Account" isBackButton>
+    <ModalContainer screenTitle="Edit Account" isBackButton>
       <>
         <View style={styles.root}>
           <View style={styles.content}>
@@ -102,6 +102,6 @@ export const EditAccount: FC = () => {
           </Row>
         </View>
       </>
-    </Modal>
+    </ModalContainer>
   );
 };

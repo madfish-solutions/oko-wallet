@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 
+import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
 import {
   useSelectedAccountPublicKeyHashSelector,
@@ -24,15 +26,17 @@ interface Props {
 export const HeaderContainer: FC<Props> = ({ style, children }) => {
   const { iconName } = useSelectedNetworkSelector();
   const address = useSelectedAccountPublicKeyHashSelector();
+  const { navigate } = useNavigation();
 
-  const selectNetwork = () => null;
-  const selectAccount = () => null;
   const copyAddress = () => handleCopyToClipboard(address);
+
+  const selectAccount = () => navigate(ScreensEnum.AccountsSelector);
+  const selectNetwork = () => navigate(ScreensEnum.NetworksSelector);
 
   return (
     <View style={[styles.root, style]}>
       <Row style={styles.wrapper}>
-        <TouchableOpacity onPress={selectNetwork} style={styles.button}>
+        <TouchableOpacity onPress={selectAccount} style={styles.button}>
           <IconWithBorder>
             <RobotIcon seed={address} />
           </IconWithBorder>
@@ -45,7 +49,7 @@ export const HeaderContainer: FC<Props> = ({ style, children }) => {
           </Text>
         </Row>
 
-        <TouchableOpacity onPress={selectAccount} style={styles.button}>
+        <TouchableOpacity onPress={selectNetwork} style={styles.button}>
           <IconWithBorder>
             <Icon name={iconName ?? IconNameEnum.NetworkFallback} />
           </IconWithBorder>

@@ -13,8 +13,7 @@ const navigationColors = {
 const textColors = {
   textGrey1: '#F8F8F8',
   textGrey2: '#868993',
-  textGrey3: '#B4B6BC',
-  textGreen: '#14BA30'
+  textGrey3: '#B4B6BC'
 };
 
 const accentColors = {
