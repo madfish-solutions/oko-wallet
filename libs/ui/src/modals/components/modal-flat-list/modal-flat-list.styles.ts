@@ -13,5 +13,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     height: getCustomSize(5),
     marginVertical: getCustomSize()
+  },
+  input: {
+    height: getCustomSize(5)
+  },
+  close: {
+    marginLeft: getCustomSize(2)
   }
 });
