@@ -16,9 +16,7 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.navGrey1,
     borderTopLeftRadius: getCustomSize(1.75),
     borderTopRightRadius: getCustomSize(1.75),
-    padding: getCustomSize(2),
-    borderBottomWidth: getCustomSize(0.0625),
-    borderBottomColor: colors.border2
+    padding: getCustomSize(2)
   },
   title: {
     color: colors.textGrey1,

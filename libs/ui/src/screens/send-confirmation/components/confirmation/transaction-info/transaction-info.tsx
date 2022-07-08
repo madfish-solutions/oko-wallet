@@ -29,7 +29,7 @@ export const TransactionInfo: FC<Props> = ({ transactionHash, receiver, network:
   return (
     <View>
       <Text>The transaction was done, hash:</Text>
-      <Text selectable={true}>{transactionHash}</Text>
+      <Text selectable>{transactionHash}</Text>
       {isString(explorerUrl) && <Text onPress={onBlockchainExplorerPress}>Block explorer {explorerUrl}</Text>}
     </View>
   );

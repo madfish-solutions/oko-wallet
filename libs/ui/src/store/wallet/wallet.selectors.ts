@@ -56,6 +56,12 @@ export const useSelectedAccountPkhSelector = () =>
 export const useAllAccountsSelector = () =>
   useSelector<WalletRootState, WalletState['accounts']>(({ wallet }) => wallet.accounts);
 
+export const useAllAccountsNameSelector = () => {
+  const accounts = useAllAccountsSelector();
+
+  return useMemo(() => accounts.map(({ name }) => name.toLowerCase()), [accounts]);
+};
+
 export const useAccountAssetsSelector = () =>
   useSelector<WalletRootState, Token[]>(
     ({ wallet: { accountsTokens, selectedAccountPublicKeyHash, tokensMetadata, selectedNetworkRpcUrl } }) => {
