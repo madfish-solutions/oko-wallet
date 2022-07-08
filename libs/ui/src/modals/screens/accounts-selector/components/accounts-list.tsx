@@ -3,6 +3,7 @@ import { ListRenderItemInfo } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { RobotIcon } from '../../../../components/robot-icon/robot-icon';
+import { EMPTY_STRING } from '../../../../constants/defaults';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
@@ -29,7 +30,7 @@ export const AccountsList = () => {
   const accounts = useAllAccountsSelector();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
 
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(EMPTY_STRING);
 
   const filteredList = useListSearch(searchValue, accounts);
 

@@ -6,6 +6,7 @@ import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { Row } from '../../../components/row/row';
 import { TextInput } from '../../../components/text-input/text-input';
 import { TouchableIcon } from '../../../components/touchable-icon/touchable-icon';
+import { EMPTY_STRING } from '../../../constants/defaults';
 import { getItemLayout } from '../../utils/get-item-layout.util';
 
 import { styles } from './modal-flat-list.styles';
@@ -34,7 +35,7 @@ export const ModalFlatList = <T extends unknown>({
   const { control, resetField, watch, setFocus } = useForm({
     mode: 'onChange',
     defaultValues: {
-      search: ''
+      search: EMPTY_STRING
     }
   });
 

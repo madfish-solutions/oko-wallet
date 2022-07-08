@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
+import { EMPTY_STRING } from '../../../../constants/defaults';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
@@ -30,7 +31,7 @@ export const NetworksList = () => {
   const selectedNetwork = useSelectedNetworkSelector();
   const selectedAccount = useSelectedAccountSelector();
 
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(EMPTY_STRING);
 
   const filteredList = useListSearch(searchValue, networks);
 
