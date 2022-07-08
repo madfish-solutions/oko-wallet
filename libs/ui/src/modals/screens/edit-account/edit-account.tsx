@@ -10,25 +10,26 @@ import { TextInput } from '../../../components/text-input/text-input';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { editAccountNameAction } from '../../../store/wallet/wallet.actions';
-import { useAllAccountsNameSelector } from '../../../store/wallet/wallet.selectors';
 import { colors } from '../../../styles/colors';
 import { ModalContainer } from '../../components/modal-container/modal-container';
+import { useAccountFieldRules } from '../../hooks/use-validate-account-field.hook';
 
 import { styles } from './edit-account.styles';
 
 export const EditAccount: FC = () => {
-  const allAccountsName = useAllAccountsNameSelector();
   const {
     params: { account }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.EditAccount>>();
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
+  const rules = useAccountFieldRules(account);
 
   const {
     control,
     handleSubmit,
     clearErrors,
     watch,
+    setFocus,
     formState: { errors }
   } = useForm({
     mode: 'onBlur',
@@ -43,27 +44,15 @@ export const EditAccount: FC = () => {
     clearErrors();
   }, [accountName]);
 
-  const checkIfAccountNameUnique = (currentValue: string) => {
-    const correctedCurrentValue = currentValue.trim();
-
-    if (account.name === correctedCurrentValue || !allAccountsName.includes(correctedCurrentValue)) {
-      return true;
-    }
-
-    return 'Should be unique';
-  };
-
-  const checkIfOnlySpaces = (currentValue: string) => {
-    if (currentValue.length && !currentValue.trim()) {
-      return 'Can not save only spaces';
-    }
-  };
+  useEffect(() => {
+    setFocus('name');
+  }, [errors.name]);
 
   const onSubmit = ({ name }: { name: string }) => {
-    const correctedName = name.trim();
+    const editedName = name.trim();
 
-    if (account.name !== correctedName) {
-      dispatch(editAccountNameAction({ accountIndex: account.accountIndex, name: correctedName }));
+    if (account.name !== editedName) {
+      dispatch(editAccountNameAction({ accountIndex: account.accountIndex, name: editedName }));
     }
 
     goBack();
@@ -76,16 +65,11 @@ export const EditAccount: FC = () => {
           <View style={styles.content}>
             <Controller
               control={control}
-              rules={{
-                maxLength: {
-                  value: 21,
-                  message: 'Maximum 21 symbol'
-                },
-                required: 'This is required',
-                validate: { checkIfAccountNameUnique, checkIfOnlySpaces }
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
+              name="name"
+              rules={rules}
+              render={({ field: { onChange, onBlur, value, ref } }) => (
                 <TextInput
+                  ref={ref}
                   label="Account name"
                   placeholderTextColor={colors.border1}
                   placeholder={account.name}
@@ -95,7 +79,6 @@ export const EditAccount: FC = () => {
                   error={errors?.name?.message}
                 />
               )}
-              name="name"
             />
           </View>
 
