@@ -60,39 +60,38 @@ export const EditAccount: FC = () => {
 
   return (
     <ModalContainer screenTitle="Edit Account" isBackButton>
-      <>
-        <View style={styles.root}>
-          <View style={styles.content}>
-            <Controller
-              control={control}
-              name="name"
-              rules={rules}
-              render={({ field: { onChange, onBlur, value, ref } }) => (
-                <TextInput
-                  ref={ref}
-                  label="Account name"
-                  placeholderTextColor={colors.border1}
-                  placeholder={account.name}
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  error={errors?.name?.message}
-                />
-              )}
-            />
-          </View>
-
-          <Row>
-            <Button style={styles.cancelButton} theme="dark" title="Cancel" onPress={goBack} />
-            <Button
-              disabled={Boolean(Object.keys(errors).length)}
-              theme="orange"
-              title="Save"
-              onPress={handleSubmit(onSubmit)}
-            />
-          </Row>
+      <View style={styles.root}>
+        <View style={styles.content}>
+          <Controller
+            control={control}
+            name="name"
+            rules={rules}
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <TextInput
+                ref={ref}
+                label="Account name"
+                placeholderTextColor={colors.border1}
+                placeholder={account.name}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                error={errors?.name?.message}
+              />
+            )}
+          />
         </View>
-      </>
+
+        <Row>
+          <Button style={styles.cancelButton} theme="secondary" size="large" title="Cancel" onPress={goBack} />
+          <Button
+            disabled={Boolean(Object.keys(errors).length)}
+            theme="tertiary"
+            size="large"
+            title="Save"
+            onPress={handleSubmit(onSubmit)}
+          />
+        </Row>
+      </View>
     </ModalContainer>
   );
 };
