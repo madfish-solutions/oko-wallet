@@ -1,4 +1,5 @@
-import React from 'react';
+import { isNotEmptyString } from '@rnw-community/shared';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ListRenderItemInfo } from 'react-native';
 import { useDispatch } from 'react-redux';
 
@@ -21,24 +22,49 @@ import { ModalRenderItem } from '../../../components/modal-render-item/modal-ren
 import { useFlatListRef } from '../../../hooks/use-flat-list-ref.hook';
 
 export const NetworksList = () => {
+  const dispatch = useDispatch();
+  const { navigate } = useNavigation();
+  const { createHdAccountForNewNetworkType } = useShelter();
+
   const selectedNetwork = useSelectedNetworkSelector();
   const networks = useAllNetworksSelector();
   const selectedAccount = useSelectedAccountSelector();
-  const { createHdAccountForNewNetworkType } = useShelter();
-  const dispatch = useDispatch();
-  const { navigate } = useNavigation();
 
-  const selectedIndex = networks.findIndex(account => account.rpcUrl === selectedNetwork.rpcUrl);
+  const [searchValue, setSearchValue] = useState('');
+  const [filteredNetworks, setFilteredNetworks] = useState(networks);
 
-  const { flatListRef } = useFlatListRef({ data: networks, selectedIndex });
+  const selectedIndex = useMemo(
+    () => filteredNetworks.findIndex(account => account.rpcUrl === selectedNetwork.rpcUrl),
+    [filteredNetworks, selectedNetwork]
+  );
+  const { flatListRef } = useFlatListRef({ data: filteredNetworks, selectedIndex });
 
-  const handleChangeNetwork = ({ rpcUrl, networkType }: NetworkInterface) => {
-    dispatch(changeNetworkAction(rpcUrl));
+  const handleChangeNetwork = useCallback(
+    ({ rpcUrl, networkType }: NetworkInterface) => {
+      dispatch(changeNetworkAction(rpcUrl));
 
-    if (!checkIsNetworkTypeKeyExist(selectedAccount, networkType)) {
-      createHdAccountForNewNetworkType(selectedAccount, networkType);
+      if (!checkIsNetworkTypeKeyExist(selectedAccount, networkType)) {
+        createHdAccountForNewNetworkType(selectedAccount, networkType);
+      }
+    },
+    [selectedAccount]
+  );
+
+  const networksFiltering = useCallback(() => {
+    if (isNotEmptyString(searchValue)) {
+      const filtered = networks.filter(network => network.name.toLowerCase().includes(searchValue.toLowerCase()));
+
+      if (isNotEmptyString(searchValue)) {
+        return setFilteredNetworks(filtered);
+      }
     }
-  };
+
+    return setFilteredNetworks(networks);
+  }, [networks, searchValue]);
+
+  useEffect(() => {
+    networksFiltering();
+  }, [searchValue, networksFiltering]);
 
   const navigateToAddNetwork = () => navigate(ScreensEnum.AddNetwork);
 
@@ -64,8 +90,10 @@ export const NetworksList = () => {
     <ModalFlatList
       onPressAddIcon={navigateToAddNetwork}
       flatListRef={flatListRef}
-      data={networks}
+      data={filteredNetworks}
       renderItem={renderItem}
+      setSearchValue={setSearchValue}
+      keyExtractor={item => item.rpcUrl}
     />
   );
 };

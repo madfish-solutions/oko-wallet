@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 
-import { colors } from '../../../styles/colors';
 import { getCustomSize } from '../../../styles/format-size';
 
 export const styles = StyleSheet.create({
@@ -12,10 +11,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     height: getCustomSize(5),
     marginVertical: getCustomSize()
-  },
-  input: {
-    height: getCustomSize(5),
-    color: colors.textGrey1
   },
   close: {
     marginLeft: getCustomSize(2)

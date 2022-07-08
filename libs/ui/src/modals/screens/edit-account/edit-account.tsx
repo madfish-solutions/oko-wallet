@@ -75,6 +75,7 @@ export const EditAccount: FC = () => {
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
+                inputStyle={styles.input}
                 error={errors?.name?.message}
               />
             )}
