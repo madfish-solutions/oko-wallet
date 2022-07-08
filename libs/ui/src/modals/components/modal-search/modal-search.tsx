@@ -6,7 +6,8 @@ import { Row } from '../../../components/row/row';
 import { TextInput } from '../../../components/text-input/text-input';
 import { TouchableIcon } from '../../../components/touchable-icon/touchable-icon';
 import { EMPTY_STRING } from '../../../constants/defaults';
-import { styles } from '../modal-flat-list/modal-flat-list.styles';
+
+import { styles } from './modal-search.styles';
 
 const SEARCH_FIELD = 'search';
 
@@ -48,7 +49,7 @@ export const ModalSearch: React.FC<Props> = ({ setSearchValue, onPressAddIcon, s
   }, [selectedItem, closeSearchField]);
 
   return (
-    <Row style={styles.search}>
+    <Row style={styles.root}>
       {isShowSearchField ? (
         <>
           <Controller
