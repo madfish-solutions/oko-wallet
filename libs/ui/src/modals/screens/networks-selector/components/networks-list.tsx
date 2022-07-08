@@ -1,5 +1,4 @@
-import { isNotEmptyString } from '@rnw-community/shared';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { ListRenderItemInfo } from 'react-native';
 import { useDispatch } from 'react-redux';
 
@@ -20,24 +19,26 @@ import { ModalFlatList } from '../../../components/modal-flat-list/modal-flat-li
 import { ModalGasToken } from '../../../components/modal-gas-token/modal-gas-token';
 import { ModalRenderItem } from '../../../components/modal-render-item/modal-render-item';
 import { useFlatListRef } from '../../../hooks/use-flat-list-ref.hook';
+import { useListSearch } from '../../../hooks/use-list-search.hook';
 
 export const NetworksList = () => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
   const { createHdAccountForNewNetworkType } = useShelter();
 
-  const selectedNetwork = useSelectedNetworkSelector();
   const networks = useAllNetworksSelector();
+  const selectedNetwork = useSelectedNetworkSelector();
   const selectedAccount = useSelectedAccountSelector();
 
   const [searchValue, setSearchValue] = useState('');
-  const [filteredNetworks, setFilteredNetworks] = useState(networks);
+
+  const filteredList = useListSearch(searchValue, networks);
 
   const selectedIndex = useMemo(
-    () => filteredNetworks.findIndex(account => account.rpcUrl === selectedNetwork.rpcUrl),
-    [filteredNetworks, selectedNetwork]
+    () => filteredList.findIndex(account => account.rpcUrl === selectedNetwork.rpcUrl),
+    [filteredList, selectedNetwork.rpcUrl]
   );
-  const { flatListRef } = useFlatListRef({ data: filteredNetworks, selectedIndex });
+  const { flatListRef } = useFlatListRef({ data: filteredList, selectedIndex });
 
   const handleChangeNetwork = useCallback(
     ({ rpcUrl, networkType }: NetworkInterface) => {
@@ -49,22 +50,6 @@ export const NetworksList = () => {
     },
     [selectedAccount]
   );
-
-  const networksFiltering = useCallback(() => {
-    if (isNotEmptyString(searchValue)) {
-      const filtered = networks.filter(network => network.name.toLowerCase().includes(searchValue.toLowerCase()));
-
-      if (isNotEmptyString(searchValue)) {
-        return setFilteredNetworks(filtered);
-      }
-    }
-
-    return setFilteredNetworks(networks);
-  }, [networks, searchValue]);
-
-  useEffect(() => {
-    networksFiltering();
-  }, [searchValue, networksFiltering]);
 
   const navigateToAddNetwork = () => navigate(ScreensEnum.AddNetwork);
 
@@ -90,10 +75,11 @@ export const NetworksList = () => {
     <ModalFlatList
       onPressAddIcon={navigateToAddNetwork}
       flatListRef={flatListRef}
-      data={filteredNetworks}
+      data={filteredList}
       renderItem={renderItem}
       setSearchValue={setSearchValue}
       keyExtractor={item => item.rpcUrl}
+      selectedItem={selectedNetwork}
     />
   );
 };

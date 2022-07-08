@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { ListRenderItemInfo } from 'react-native';
 import { useDispatch } from 'react-redux';
 
@@ -19,6 +19,7 @@ import { ModalAccountBalance } from '../../../components/modal-account-balance/m
 import { ModalFlatList } from '../../../components/modal-flat-list/modal-flat-list';
 import { ModalRenderItem } from '../../../components/modal-render-item/modal-render-item';
 import { useFlatListRef } from '../../../hooks/use-flat-list-ref.hook';
+import { useListSearch } from '../../../hooks/use-list-search.hook';
 
 export const AccountsList = () => {
   const { navigate } = useNavigation();
@@ -28,9 +29,16 @@ export const AccountsList = () => {
   const accounts = useAllAccountsSelector();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
 
-  const selectedIndex = accounts.findIndex(account => account.accountIndex === selectedAccount.accountIndex);
+  const [searchValue, setSearchValue] = useState('');
 
-  const { flatListRef } = useFlatListRef({ data: accounts, selectedIndex });
+  const filteredList = useListSearch(searchValue, accounts);
+
+  const selectedIndex = useMemo(
+    () => filteredList.findIndex(account => account.accountIndex === selectedAccount.accountIndex),
+    [filteredList, selectedAccount]
+  );
+
+  const { flatListRef } = useFlatListRef({ data: filteredList, selectedIndex });
 
   const handleChangeAccount = (account: AccountInterface) => {
     if (checkIsNetworkTypeKeyExist(account, selectedNetworkType)) {
@@ -59,6 +67,13 @@ export const AccountsList = () => {
   };
 
   return (
-    <ModalFlatList onPressAddIcon={createHdAccount} flatListRef={flatListRef} data={accounts} renderItem={renderItem} />
+    <ModalFlatList
+      onPressAddIcon={createHdAccount}
+      flatListRef={flatListRef}
+      data={filteredList}
+      renderItem={renderItem}
+      setSearchValue={setSearchValue}
+      selectedItem={selectedAccount}
+    />
   );
 };

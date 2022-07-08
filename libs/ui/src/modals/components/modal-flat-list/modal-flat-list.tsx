@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { View, FlatList, FlatListProps } from 'react-native';
 
@@ -10,11 +10,14 @@ import { getItemLayout } from '../../utils/get-item-layout.util';
 
 import { styles } from './modal-flat-list.styles';
 
+const SEARCH_FIELD = 'search';
+
 interface Props<T> extends Pick<FlatListProps<T>, 'renderItem' | 'data' | 'keyExtractor'> {
   onPressAddIcon: () => void;
   flatListRef: React.RefObject<FlatList<T>>;
   searchValue?: string;
-  setSearchValue?: (text: string) => void;
+  setSearchValue: (text: string) => void;
+  selectedItem: T;
 }
 
 export const ModalFlatList = <T extends unknown>({
@@ -23,7 +26,8 @@ export const ModalFlatList = <T extends unknown>({
   data,
   renderItem,
   setSearchValue,
-  keyExtractor
+  keyExtractor,
+  selectedItem
 }: Props<T>) => {
   const [isShowSearchField, setIsShowSearchField] = useState(false);
 
@@ -34,22 +38,26 @@ export const ModalFlatList = <T extends unknown>({
     }
   });
 
-  const searchValue = watch('search');
+  const searchValue = watch(SEARCH_FIELD);
 
   useEffect(() => {
-    setSearchValue?.(searchValue);
+    setSearchValue(searchValue);
   }, [searchValue, setSearchValue]);
 
   useEffect(() => {
     if (isShowSearchField) {
-      setFocus('search');
+      setFocus(SEARCH_FIELD);
     }
   }, [isShowSearchField]);
 
-  const closeSearchField = () => {
+  const closeSearchField = useCallback(() => {
     setIsShowSearchField(false);
-    resetField('search');
-  };
+    resetField(SEARCH_FIELD);
+  }, []);
+
+  useEffect(() => {
+    closeSearchField();
+  }, [selectedItem, closeSearchField]);
 
   return (
     <View style={styles.root}>
@@ -58,7 +66,7 @@ export const ModalFlatList = <T extends unknown>({
           <>
             <Controller
               control={control}
-              name="search"
+              name={SEARCH_FIELD}
               render={({ field: { onChange, value, ref } }) => (
                 <TextInput ref={ref} value={value} onChangeText={onChange} placeholder="Search" />
               )}
