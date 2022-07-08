@@ -5,6 +5,7 @@ import { getCustomSize } from '../../../styles/format-size';
 
 export const styles = StyleSheet.create({
   header: {
+    paddingHorizontal: getCustomSize(2),
     paddingTop: getCustomSize(2),
     paddingBottom: getCustomSize()
   },

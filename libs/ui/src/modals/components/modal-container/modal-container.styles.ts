@@ -13,7 +13,6 @@ export const styles = StyleSheet.create({
   },
   children: {
     backgroundColor: colors.navGrey1,
-    paddingHorizontal: getCustomSize(2),
 
     ...(isMobile && { flex: 1 }),
     ...(isWeb && { height: childrenHeight })
