@@ -1,18 +1,16 @@
 import React, { FC } from 'react';
-import { Pressable } from 'react-native';
 
+import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { Icon } from '../../../icon/icon';
 import { IconNameEnum } from '../../../icon/icon-name.enum';
+import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
 
 import { styles } from './header-close-button.styles';
 
 export const HeaderCloseButton: FC = () => {
-  const { goBack } = useNavigation();
+  const { navigate } = useNavigation();
 
-  return (
-    <Pressable onPress={goBack} style={styles.root}>
-      <Icon name={IconNameEnum.X} />
-    </Pressable>
-  );
+  const navigateToWallet = () => navigate(ScreensEnum.Wallet);
+
+  return <TouchableIcon style={styles.root} onPress={navigateToWallet} name={IconNameEnum.X} />;
 };

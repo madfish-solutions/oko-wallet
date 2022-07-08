@@ -13,6 +13,9 @@ export const createHdAccountForNewNetworkTypeAction = createAction<AccountInterf
 );
 export const changeAccountAction = createAction<AccountInterface>('wallet/CHANGE_ACCOUNT');
 export const setSelectedAccountAction = createAction<string>('wallet/SET_SELECTED_ACCOUNT');
+export const editAccountNameAction = createAction<{ accountIndex: AccountInterface['accountIndex']; name: string }>(
+  'wallet/EDIT_ACCOUNT_NAME'
+);
 
 export const loadGasTokenBalanceAction = createActions<void, string, string>('wallet/LOAD_GAS_TOKEN_BALANCE');
 export const loadAccountTokenBalanceAction = createActions<
@@ -29,5 +32,5 @@ export const changeTokenVisibilityAction = createAction<Token>('wallet/CHANGE_TO
 
 export const sendAssetAction = createActions<SendAssetPayload>('wallet/SEND_ASSET');
 
-export const addTransactionAction = createAction<PendingTransaction>('wallet/ADD_TRANSACTIN');
+export const addTransactionAction = createAction<PendingTransaction>('wallet/ADD_TRANSACTION');
 export const updateTransactionAction = createAction<Transaction>('wallet/CHANGE_TRANSACTION_STATUS');

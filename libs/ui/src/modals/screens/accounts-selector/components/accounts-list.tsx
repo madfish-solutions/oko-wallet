@@ -3,6 +3,8 @@ import { ListRenderItemInfo } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { RobotIcon } from '../../../../components/robot-icon/robot-icon';
+import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { AccountInterface } from '../../../../interfaces/account.interface';
 import { changeAccountAction } from '../../../../store/wallet/wallet.actions';
@@ -19,6 +21,7 @@ import { ModalRenderItem } from '../../../components/modal-render-item/modal-ren
 import { useFlatListRef } from '../../../hooks/use-flat-list-ref.hook';
 
 export const AccountsList = () => {
+  const { navigate } = useNavigation();
   const dispatch = useDispatch();
   const { createHdAccount, createHdAccountForNewNetworkType } = useShelter();
   const selectedAccount = useSelectedAccountSelector();
@@ -37,7 +40,7 @@ export const AccountsList = () => {
     }
   };
 
-  const edit = () => null;
+  const onEditAccount = (account: AccountInterface) => navigate(ScreensEnum.EditAccount, { account });
 
   const renderItem = ({ item, index }: ListRenderItemInfo<AccountInterface>) => {
     const isAccountSelected = selectedIndex === index;
@@ -50,7 +53,7 @@ export const AccountsList = () => {
         balanceTitle="Total balance"
         balance={<ModalAccountBalance />}
         onSelectItem={() => handleChangeAccount(item)}
-        onEdit={edit}
+        onEdit={() => onEditAccount(item)}
       />
     );
   };
