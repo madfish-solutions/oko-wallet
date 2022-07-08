@@ -59,7 +59,7 @@ export const useAllAccountsSelector = () =>
 export const useAllAccountsNameSelector = () => {
   const accounts = useAllAccountsSelector();
 
-  return useMemo(() => accounts.map(({ name }) => name), [accounts]);
+  return useMemo(() => accounts.map(({ name }) => name.toLowerCase()), [accounts]);
 };
 
 export const useAccountAssetsSelector = () =>

@@ -5,9 +5,9 @@ export const useAccountFieldRules = (account: AccountInterface) => {
   const allAccountsName = useAllAccountsNameSelector();
 
   const checkIfAccountNameUnique = (currentValue: string) => {
-    const correctedCurrentValue = currentValue.trim();
+    const correctedCurrentValue = currentValue.trim().toLowerCase();
 
-    if (account.name === correctedCurrentValue || !allAccountsName.includes(correctedCurrentValue)) {
+    if (account.name.toLowerCase() === correctedCurrentValue || !allAccountsName.includes(correctedCurrentValue)) {
       return true;
     }
 
