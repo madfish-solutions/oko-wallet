@@ -6,6 +6,7 @@ import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
   headerWrapper: {
+    paddingHorizontal: getCustomSize(2),
     paddingTop: getCustomSize(2),
     paddingBottom: getCustomSize(0.5)
   },
@@ -34,6 +35,7 @@ export const styles = StyleSheet.create({
     width: '100%'
   },
   accountsBalanceContainer: {
+    paddingHorizontal: getCustomSize(2),
     paddingTop: getCustomSize(2),
     paddingBottom: getCustomSize(1.5)
   },
