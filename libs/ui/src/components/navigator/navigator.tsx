@@ -23,7 +23,7 @@ import { Wallet } from '../../screens/wallet/wallet';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
 import { getStoredValue, setStoredValue } from '../../utils/store.util';
 
-import { modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
+import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
 import { PERSISTENCE_KEY } from './constants/perstistence-key';
 import { Stack } from './utils/get-stack-navigator';
 
@@ -82,7 +82,8 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
               <Stack.Screen name={ScreensEnum.AccountTokens} component={AccountTokens} />
             </Stack.Group>
-            <Stack.Group screenOptions={modalScreenOptionsWithBackButton}>
+
+            <Stack.Group screenOptions={modalScreenOptions}>
               <Stack.Screen
                 name={ScreensEnum.AccountsSelector}
                 options={{ title: 'Accounts' }}
@@ -93,6 +94,9 @@ export const Navigator: FC = () => {
                 options={{ title: 'Networks' }}
                 component={NetworksSelector}
               />
+            </Stack.Group>
+
+            <Stack.Group screenOptions={modalScreenOptionsWithBackButton}>
               <Stack.Screen
                 name={ScreensEnum.EditAccount}
                 options={{ title: 'Edit account' }}

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 export const useListSearch = <T extends { name: string }>(searchValue: string, data: T[]) => {
   const [filteredList, setFilteredList] = useState(data);
 
-  const networksFiltering = useCallback(() => {
+  const listFiltering = useCallback(() => {
     if (isNotEmptyString(searchValue)) {
       const filtered = data.filter((element: T) => element.name.toLowerCase().includes(searchValue.toLowerCase()));
 
@@ -17,8 +17,8 @@ export const useListSearch = <T extends { name: string }>(searchValue: string, d
   }, [data, searchValue]);
 
   useEffect(() => {
-    networksFiltering();
-  }, [searchValue, networksFiltering]);
+    listFiltering();
+  }, [searchValue, listFiltering]);
 
   return filteredList;
 };

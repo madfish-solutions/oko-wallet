@@ -5,10 +5,10 @@ export const useFlatListRef = <T>({ data, selectedIndex }: { data: T[]; selected
   const flatListRef = useRef<FlatList>(null);
 
   useEffect(() => {
-    const scrollToSelectedIndex = async () => {
+    const scrollToSelectedIndex = () => {
       const index = selectedIndex > -1 ? selectedIndex : 0;
 
-      if (data.length) {
+      if (data.length && selectedIndex > -1) {
         flatListRef.current?.scrollToIndex({ index, animated: true });
       }
     };
