@@ -17,15 +17,13 @@ export const styles = StyleSheet.create({
   buttonPrimary: {
     borderRadius: getCustomSize(0.5),
     color: colors.textGrey1,
-    backgroundColor: colors.navGrey1,
-    paddingVertical: getCustomSize(1.5)
+    backgroundColor: colors.navGrey1
   },
   textPrimary: {
     ...typography.taglineInterSemiBoldUppercase13
   },
   buttonSecondary: {
     borderRadius: getCustomSize(1.75),
-    paddingVertical: getCustomSize(1.25),
     borderWidth: getCustomSize(0.25),
     backgroundColor: colors.navGrey1,
     borderColor: colors.bgGrey2
@@ -36,7 +34,6 @@ export const styles = StyleSheet.create({
   },
   buttonTertiary: {
     borderRadius: getCustomSize(1.75),
-    paddingVertical: getCustomSize(1.25),
     borderWidth: getCustomSize(0.25),
     borderColor: 'transparent',
     backgroundColor: colors.orange
@@ -47,7 +44,6 @@ export const styles = StyleSheet.create({
   },
   disabledButton: {
     borderRadius: getCustomSize(1.75),
-    paddingVertical: getCustomSize(1.25),
     borderWidth: getCustomSize(0.25),
     borderColor: 'transparent',
     backgroundColor: colors.bgGrey5
