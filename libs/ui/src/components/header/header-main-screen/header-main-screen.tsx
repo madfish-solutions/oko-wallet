@@ -1,4 +1,5 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
+import { Animated } from 'react-native';
 
 import { isMobile } from '../../../utils/platform.utils';
 import { IconNameEnum } from '../../icon/icon-name.enum';
@@ -10,21 +11,22 @@ import { HeaderQRCode } from '../components/header-qr-code/header-qr-code';
 
 import { styles } from './header-main-screen.styles';
 
-export const HeaderMainScreen: FC = () => {
-  const [isShowQrCode, setIsShowQrCode] = useState(isMobile);
+interface Props {
+  scrolling: Animated.Value;
+}
 
+export const HeaderMainScreen: FC<Props> = ({ scrolling }) => {
   const openCameraToScanQrCode = () => null;
-  const showQrCode = () => setIsShowQrCode(!isShowQrCode);
 
   return (
-    <HeaderContainer>
-      <Row>
+    <HeaderContainer scrolling={scrolling} style={styles.root}>
+      <Row style={styles.row}>
         {isMobile && <TouchableIcon name={IconNameEnum.Qrscan} onPress={openCameraToScanQrCode} style={styles.icon} />}
-        <TouchableIcon name={IconNameEnum.Qrcode} onPress={showQrCode} />
+        <TouchableIcon name={IconNameEnum.Qrcode} />
         <HeaderAccountBalance style={styles.accountBalance} />
       </Row>
 
-      {isShowQrCode && <HeaderQRCode style={styles.qrCode} />}
+      <HeaderQRCode scrolling={scrolling} style={styles.qrCode} />
     </HeaderContainer>
   );
 };

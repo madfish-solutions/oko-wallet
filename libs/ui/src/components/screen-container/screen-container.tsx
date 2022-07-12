@@ -1,6 +1,6 @@
 import { isDefined } from '@rnw-community/shared';
-import React, { FC } from 'react';
-import { ScrollView, View } from 'react-native';
+import React, { FC, useRef } from 'react';
+import { Animated, View } from 'react-native';
 
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { ViewStyleProps } from '../../interfaces/style.interface';
@@ -22,17 +22,33 @@ interface Props extends HeaderIconsProps {
 export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType, style, children }) => {
   const { isLocked } = useUnlock();
 
+  const scrolling = useRef(new Animated.Value(0)).current;
+
   return (
     <Column style={[styles.root, style]}>
       {isDefined(screenTitle) ? (
         <HeaderSecondaryScreen title={screenTitle} icons={icons} navigationType={navigationType} />
       ) : (
-        <HeaderMainScreen />
+        <HeaderMainScreen scrolling={scrolling} />
       )}
 
-      <ScrollView scrollEnabled={!isLocked}>
+      <Animated.ScrollView
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: {
+                  y: scrolling
+                }
+              }
+            }
+          ],
+          { useNativeDriver: true }
+        )}
+        scrollEnabled={!isLocked}
+      >
         <View style={styles.content}>{children}</View>
-      </ScrollView>
+      </Animated.ScrollView>
 
       <NavigationBar />
     </Column>

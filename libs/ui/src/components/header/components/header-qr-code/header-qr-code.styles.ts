@@ -6,6 +6,7 @@ import { typography } from '../../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
+    flexDirection: 'row',
     justifyContent: 'space-between',
     height: getCustomSize(18),
     padding: getCustomSize(2),

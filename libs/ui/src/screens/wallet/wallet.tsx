@@ -11,5 +11,7 @@ export const Wallet: FC = () => (
     <AssetsWidget />
     <CollectiblesWidget />
     <Activity />
+    <Activity />
+    <Activity />
   </ScreenContainer>
 );

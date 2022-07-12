@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Text, View, Share } from 'react-native';
+import { Text, View, Share, Animated } from 'react-native';
 import QRCodeLibrary from 'react-native-qrcode-svg';
 
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
@@ -16,10 +16,11 @@ import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
 import { styles } from './header-qr-code.styles';
 
 interface Props {
+  scrolling: Animated.Value;
   style?: ViewStyleProps;
 }
 
-export const HeaderQRCode: FC<Props> = ({ style }) => {
+export const HeaderQRCode: FC<Props> = ({ scrolling, style }) => {
   const address = useSelectedAccountPublicKeyHashSelector();
 
   const copyAddress = () => handleCopyToClipboard(address);
@@ -34,8 +35,13 @@ export const HeaderQRCode: FC<Props> = ({ style }) => {
     }
   };
 
+  const qrCodeAnimationOpacity = scrolling.interpolate({
+    inputRange: [0, 200],
+    outputRange: [1, 0]
+  });
+
   return (
-    <Row style={[styles.root, style]}>
+    <Animated.View style={[styles.root, style, { opacity: qrCodeAnimationOpacity }]}>
       <Column style={styles.wrapper}>
         <Text style={styles.address} numberOfLines={3}>
           {address}
@@ -53,6 +59,6 @@ export const HeaderQRCode: FC<Props> = ({ style }) => {
           size={getCustomSize(14)}
         />
       </View>
-    </Row>
+    </Animated.View>
   );
 };
