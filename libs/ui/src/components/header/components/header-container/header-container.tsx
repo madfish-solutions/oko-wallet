@@ -20,7 +20,7 @@ import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
 import { styles } from './header-container.styles';
 
 interface Props {
-  scrolling: Animated.Value;
+  scrolling?: Animated.Value;
   style?: ViewStyleProps;
 }
 
@@ -34,10 +34,11 @@ export const HeaderContainer: FC<Props> = ({ scrolling, style, children }) => {
   const selectAccount = () => navigate(ScreensEnum.AccountsSelector);
   const selectNetwork = () => navigate(ScreensEnum.NetworksSelector);
 
-  const rootAnimationStyles = {
+  const rootAnimationStyles = scrolling && {
     height: scrolling.interpolate({
       inputRange: [0, 200],
-      outputRange: [280, 150]
+      outputRange: [280, 120],
+      extrapolate: 'clamp'
     })
   };
 

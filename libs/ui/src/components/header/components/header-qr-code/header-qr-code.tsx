@@ -37,7 +37,8 @@ export const HeaderQRCode: FC<Props> = ({ scrolling, style }) => {
 
   const qrCodeAnimationOpacity = scrolling.interpolate({
     inputRange: [0, 200],
-    outputRange: [1, 0]
+    outputRange: [1, 0],
+    extrapolate: 'clamp'
   });
 
   return (

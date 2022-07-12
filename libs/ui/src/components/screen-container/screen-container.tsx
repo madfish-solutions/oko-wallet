@@ -45,6 +45,7 @@ export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType,
           ],
           { useNativeDriver: true }
         )}
+        scrollEventThrottle={1}
         scrollEnabled={!isLocked}
       >
         <View style={styles.content}>{children}</View>

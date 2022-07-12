@@ -13,5 +13,11 @@ export const Wallet: FC = () => (
     <Activity />
     <Activity />
     <Activity />
+    <Activity />
+    <Activity />
+    <Activity />
+    <Activity />
+    <Activity />
+    <Activity />
   </ScreenContainer>
 );
