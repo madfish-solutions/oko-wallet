@@ -43,7 +43,7 @@ export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType,
               }
             }
           ],
-          { useNativeDriver: true }
+          { useNativeDriver: false }
         )}
         scrollEventThrottle={1}
         scrollEnabled={!isLocked}

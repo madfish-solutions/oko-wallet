@@ -3,14 +3,13 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
 import { typography } from '../../../../styles/typography';
+import { isWeb } from '../../../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {
     position: 'relative',
     height: 280,
     paddingHorizontal: getCustomSize(2),
-    // paddingBottom: getCustomSize(2.5),
-    // paddingTop: isWeb ? 0 : getCustomSize(5.5),
     backgroundColor: colors.bgGrey2,
     borderBottomLeftRadius: getCustomSize(3),
     borderBottomRightRadius: getCustomSize(3),
@@ -18,7 +17,7 @@ export const styles = StyleSheet.create({
   },
   wrapper: {
     justifyContent: 'space-between',
-    paddingTop: getCustomSize(2),
+    paddingTop: isWeb ? getCustomSize(2) : getCustomSize(5.5),
     paddingBottom: getCustomSize(2.5),
     backgroundColor: colors.bgGrey2
   },

@@ -36,7 +36,7 @@ export const HeaderContainer: FC<Props> = ({ scrolling, style, children }) => {
 
   const rootAnimationStyles = scrolling && {
     height: scrolling.interpolate({
-      inputRange: [0, 200],
+      inputRange: [0, 100],
       outputRange: [280, 120],
       extrapolate: 'clamp'
     })
