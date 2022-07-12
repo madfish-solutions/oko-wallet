@@ -49,6 +49,13 @@
 }
 
 body {
-  width: 375px;
-  height: 600px;
+  width: 360px;
+  height: 695px;
+  /*margin: auto;*/
+  /*background-color: #141920;*/
 }
+
+/* overrides default RNW position: relative */
+/*[class^='css-view-']:not([class^='r-position-']) {*/
+/*  position: static;*/
+/*}*/
