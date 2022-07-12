@@ -15,7 +15,6 @@ import { Icon } from '../../../icon/icon';
 import { IconNameEnum } from '../../../icon/icon-name.enum';
 import { RobotIcon } from '../../../robot-icon/robot-icon';
 import { Row } from '../../../row/row';
-import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
 
 import { styles } from './header-container.styles';
 
@@ -42,12 +41,12 @@ export const HeaderContainer: FC<Props> = ({ style, children }) => {
           </IconWithBorder>
         </TouchableOpacity>
 
-        <Row style={styles.addressWrapper}>
-          <TouchableIcon name={IconNameEnum.Copy} onPress={copyAddress} iconStyle={styles.icon} />
+        <TouchableOpacity style={styles.addressWrapper} onPress={copyAddress}>
+          <Icon name={IconNameEnum.Copy} iconStyle={styles.icon} />
           <Text numberOfLines={1} style={styles.address}>
             {shortize(address)}
           </Text>
-        </Row>
+        </TouchableOpacity>
 
         <TouchableOpacity onPress={selectNetwork} style={styles.button}>
           <IconWithBorder>
