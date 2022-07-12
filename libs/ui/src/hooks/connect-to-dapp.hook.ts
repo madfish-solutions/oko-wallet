@@ -29,6 +29,17 @@ export const useConnectToDapp = () => {
   const selectedAccountPkh = useSelectedAccountPublicKeyHashSelector();
 
   useEffect(() => {
+    if (connector !== null) {
+      connector.on('call_request', async (error, payload) => {
+        window.postMessage(payload, '*');
+        if (error !== null) {
+          throw `call_request: ${error}`;
+        }
+      });
+    }
+  }, [connected]);
+
+  useEffect(() => {
     if (localStorageValue?.peerMeta) {
       setPeerMeta(localStorageValue.peerMeta);
       setConnected(localStorageValue.connected);
@@ -144,6 +155,7 @@ export const useConnectToDapp = () => {
 
       setUri('');
       setConnector(walletConnector);
+      window.postMessage({ status: 'success' }, '*');
     } catch (error) {
       throw error;
     }

@@ -7,10 +7,38 @@
     "default_popup": "index.html",
     "default_title": "Open the popup"
   },
+  "background": {
+    "scripts": ["scripts/background.js"]
+  },
   "icons": {
     "16": "mics/logo192.png",
     "48": "mics/logo192.png",
     "128": "mics/logo192.png"
   },
+  "permissions": [
+    "storage",
+    "unlimitedStorage",
+    "clipboardWrite",
+    "activeTab",
+    "tabs",
+    "http://localhost:8732/",
+    "https://*.giganode.io/",
+    "https://*.tzstats.com/",
+    "https://api.tezos-nodes.com/",
+    "https://api.better-call.dev/",
+    "https://*.tzkt.io/",
+    "https://api.baking-bad.org/v2/",
+    "https://api.templewallet.com/",
+    "https://quipuswap.com/",
+    "chrome-extension://*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["scripts/contentScript.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

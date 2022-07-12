@@ -37,6 +37,12 @@ const cssLoaderConfiguration = {
   use: ['style-loader', 'css-loader']
 };
 
+const ENTRIES = {
+  background: path.resolve(appDirectory, 'background.ts'),
+  contentScript: path.resolve(appDirectory, 'contentScript.ts'),
+  main: path.resolve(appDirectory, 'index.ts')
+};
+
 module.exports = {
   target: 'web',
 
@@ -47,10 +53,12 @@ module.exports = {
     'utf-8-validate': 'commonjs utf-8-validate'
   },
 
-  entry: [path.resolve(appDirectory, 'index.ts')],
+  entry: ENTRIES,
 
   output: {
-    path: path.resolve(appDirectory, 'dist')
+    path: path.resolve(appDirectory, 'dist'),
+    filename: 'scripts/[name].js',
+    chunkFilename: 'scripts/[name].chunk.js'
   },
 
   module: {
@@ -94,11 +102,11 @@ module.exports = {
             ignore: ['**/index.html']
           }
         },
-        { from: 'node_modules/wasm-themis/src/libthemis.wasm' }
+        { from: 'node_modules/wasm-themis/src/libthemis.wasm', to: 'scripts/libthemis.wasm' }
       ]
     }),
     new HtmlWebpackPlugin({
-      template: 'public/index.html'
+      template: 'public/index.html',
     })
   ]
 };
