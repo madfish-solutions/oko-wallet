@@ -51,6 +51,8 @@ export const AccountsList = () => {
 
   const onEditAccount = (account: AccountInterface) => navigate(ScreensEnum.EditAccount, { account });
 
+  const keyExtractor = (item: AccountInterface) => item.name;
+
   const renderItem = ({ item, index }: ListRenderItemInfo<AccountInterface>) => {
     const isAccountSelected = selectedIndex === index;
 
@@ -75,6 +77,7 @@ export const AccountsList = () => {
       renderItem={renderItem}
       setSearchValue={setSearchValue}
       selectedItem={selectedAccount}
+      keyExtractor={keyExtractor}
     />
   );
 };

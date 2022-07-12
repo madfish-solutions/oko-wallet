@@ -1,5 +1,7 @@
+import { OnEventFn } from '@rnw-community/shared';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import { GestureResponderEvent } from 'react-native';
 
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { Row } from '../../../components/row/row';
@@ -12,8 +14,8 @@ import { styles } from './modal-search.styles';
 const SEARCH_FIELD = 'search';
 
 interface Props {
-  setSearchValue: (text: string) => void;
-  onPressAddIcon: () => void;
+  setSearchValue: OnEventFn<string>;
+  onPressAddIcon: OnEventFn<GestureResponderEvent>;
   selectedItem: string;
 }
 
@@ -39,14 +41,16 @@ export const ModalSearch: React.FC<Props> = ({ setSearchValue, onPressAddIcon, s
     }
   }, [isShowSearchField]);
 
-  const closeSearchField = useCallback(() => {
+  const hideSearchField = useCallback(() => {
     setIsShowSearchField(false);
     resetField(SEARCH_FIELD);
   }, []);
 
+  const showSearchField = () => setIsShowSearchField(true);
+
   useEffect(() => {
-    closeSearchField();
-  }, [selectedItem, closeSearchField]);
+    hideSearchField();
+  }, [selectedItem, hideSearchField]);
 
   return (
     <Row style={styles.root}>
@@ -59,11 +63,11 @@ export const ModalSearch: React.FC<Props> = ({ setSearchValue, onPressAddIcon, s
               <TextInput ref={ref} value={value} onChangeText={onChange} placeholder="Search" />
             )}
           />
-          <TouchableIcon name={IconNameEnum.X} onPress={closeSearchField} style={styles.close} />
+          <TouchableIcon name={IconNameEnum.X} onPress={hideSearchField} style={styles.close} />
         </>
       ) : (
         <>
-          <TouchableIcon name={IconNameEnum.Search} onPress={() => setIsShowSearchField(true)} />
+          <TouchableIcon name={IconNameEnum.Search} onPress={showSearchField} />
           <TouchableIcon name={IconNameEnum.Add} onPress={onPressAddIcon} />
         </>
       )}

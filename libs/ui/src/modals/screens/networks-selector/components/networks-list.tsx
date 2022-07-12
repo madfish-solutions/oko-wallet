@@ -56,6 +56,8 @@ export const NetworksList = () => {
 
   const edit = () => null;
 
+  const keyExtractor = (item: NetworkInterface) => item.rpcUrl;
+
   const renderItem = ({ item, index }: ListRenderItemInfo<NetworkInterface>) => {
     const isNetworkSelected = selectedIndex === index;
 
@@ -79,8 +81,8 @@ export const NetworksList = () => {
       data={filteredList}
       renderItem={renderItem}
       setSearchValue={setSearchValue}
-      keyExtractor={item => item.rpcUrl}
       selectedItem={selectedNetwork}
+      keyExtractor={keyExtractor}
     />
   );
 };
