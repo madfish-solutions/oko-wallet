@@ -11,6 +11,8 @@ import { useUnlock } from '../../hooks/use-unlock.hook';
 import { openInFullPage } from '../../utils/maximize-screen.util';
 import { isWeb } from '../../utils/platform.utils';
 
+import { Activity } from './components/activity/activity';
+
 export const Settings: FC = () => {
   const { navigate } = useNavigation();
   const { lock } = useUnlock();
@@ -37,6 +39,7 @@ export const Settings: FC = () => {
       <ResetWallet />
       <Button onPress={lock} title="lock app" color="#841584" />
       {isWeb && <Button title="Maximize screen" onPress={handleMaximiseViewClick} color="#ffa500" />}
+      <Activity />
     </ScreenContainer>
   );
 };
