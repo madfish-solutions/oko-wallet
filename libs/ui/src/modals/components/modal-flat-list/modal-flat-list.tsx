@@ -2,7 +2,7 @@ import { OnEventFn } from '@rnw-community/shared';
 import React from 'react';
 import { View, FlatList, FlatListProps, GestureResponderEvent } from 'react-native';
 
-import { getItemLayout } from '../../utils/get-item-layout.util';
+import { GetItemLayout } from '../../types/get-item-layout.interface';
 import { ModalSearch } from '../modal-search/modal-search';
 
 import { styles } from './modal-flat-list.styles';
@@ -11,6 +11,7 @@ interface Props<T extends { name: string }> extends Pick<FlatListProps<T>, 'rend
   flatListRef: React.RefObject<FlatList<T>>;
   searchValue?: string;
   selectedItem: T;
+  getItemLayout: GetItemLayout<T>;
   onPressAddIcon: OnEventFn<GestureResponderEvent>;
   setSearchValue: OnEventFn<string>;
 }
@@ -19,6 +20,7 @@ export const ModalFlatList = <T extends { name: string }>({
   flatListRef,
   data,
   renderItem,
+  getItemLayout,
   onPressAddIcon,
   setSearchValue,
   keyExtractor,

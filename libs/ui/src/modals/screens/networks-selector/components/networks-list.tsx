@@ -21,6 +21,7 @@ import { ModalGasToken } from '../../../components/modal-gas-token/modal-gas-tok
 import { ModalRenderItem } from '../../../components/modal-render-item/modal-render-item';
 import { useFlatListRef } from '../../../hooks/use-flat-list-ref.hook';
 import { useListSearch } from '../../../hooks/use-list-search.hook';
+import { getItemLayout } from '../../../utils/get-item-layout.util';
 
 export const NetworksList = () => {
   const dispatch = useDispatch();
@@ -82,6 +83,7 @@ export const NetworksList = () => {
       renderItem={renderItem}
       setSearchValue={setSearchValue}
       selectedItem={selectedNetwork}
+      getItemLayout={getItemLayout}
       keyExtractor={keyExtractor}
     />
   );

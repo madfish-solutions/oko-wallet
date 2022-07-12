@@ -21,6 +21,7 @@ import { ModalFlatList } from '../../../components/modal-flat-list/modal-flat-li
 import { ModalRenderItem } from '../../../components/modal-render-item/modal-render-item';
 import { useFlatListRef } from '../../../hooks/use-flat-list-ref.hook';
 import { useListSearch } from '../../../hooks/use-list-search.hook';
+import { getItemLayout } from '../../../utils/get-item-layout.util';
 
 export const AccountsList = () => {
   const { navigate } = useNavigation();
@@ -77,6 +78,7 @@ export const AccountsList = () => {
       renderItem={renderItem}
       setSearchValue={setSearchValue}
       selectedItem={selectedAccount}
+      getItemLayout={getItemLayout}
       keyExtractor={keyExtractor}
     />
   );
