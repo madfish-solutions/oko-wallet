@@ -2,16 +2,15 @@ import { OnEventFn } from '@rnw-community/shared';
 import React from 'react';
 import { View, FlatList, FlatListProps, GestureResponderEvent } from 'react-native';
 
-import { GetItemLayout } from '../../types/get-item-layout.interface';
 import { ModalSearch } from '../modal-search/modal-search';
 
 import { styles } from './modal-flat-list.styles';
 
-interface Props<T extends { name: string }> extends Pick<FlatListProps<T>, 'renderItem' | 'data' | 'keyExtractor'> {
+interface Props<T extends { name: string }>
+  extends Pick<FlatListProps<T>, 'renderItem' | 'data' | 'keyExtractor' | 'getItemLayout'> {
   flatListRef: React.RefObject<FlatList<T>>;
   searchValue?: string;
   selectedItem: T;
-  getItemLayout: GetItemLayout<T>;
   onPressAddIcon: OnEventFn<GestureResponderEvent>;
   setSearchValue: OnEventFn<string>;
 }

@@ -1,19 +1,12 @@
-import { isNotEmptyString } from '@rnw-community/shared';
 import { useCallback, useEffect, useState } from 'react';
 
 export const useListSearch = <T extends { name: string }>(searchValue: string, data: T[]) => {
   const [filteredList, setFilteredList] = useState(data);
 
   const listFiltering = useCallback(() => {
-    if (isNotEmptyString(searchValue)) {
-      const filtered = data.filter((element: T) => element.name.toLowerCase().includes(searchValue.toLowerCase()));
+    const list = data.filter((element: T) => element.name.toLowerCase().includes(searchValue.toLowerCase())) ?? data;
 
-      if (isNotEmptyString(searchValue)) {
-        return setFilteredList(filtered);
-      }
-    }
-
-    return setFilteredList(data);
+    setFilteredList(list);
   }, [data, searchValue]);
 
   useEffect(() => {
