@@ -50,12 +50,15 @@
 
 body {
   width: 360px;
-  height: 695px;
-  /*margin: auto;*/
-  /*background-color: #141920;*/
+  height: 600px;
+  margin: auto;
 }
 
-/* overrides default RNW position: relative */
-/*[class^='css-view-']:not([class^='r-position-']) {*/
-/*  position: static;*/
-/*}*/
+div[class^='css-text-'] {
+  color:#F8F8F8
+}
+
+.root-container {
+  height: 100vh;
+  margin-top: calc((100vh - 600px)/2)
+}

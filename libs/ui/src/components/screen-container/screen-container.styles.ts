@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'stretch',
     justifyContent: 'space-between',
-    height: isWeb ? '100vh' : '100%',
+    height: isWeb ? '600px' : '100%',
     backgroundColor: colors.bgGrey1
   },
   content: {
