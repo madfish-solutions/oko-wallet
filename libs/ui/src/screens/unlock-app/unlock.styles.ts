@@ -15,6 +15,7 @@ export const UnlockStyles = StyleSheet.create({
   },
   root: {
     ...StyleSheet.absoluteFillObject,
+    backgroundColor: '#FFF',
     height: isWeb ? '600px' : '100%'
   }
 });
