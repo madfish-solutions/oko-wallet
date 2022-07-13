@@ -7,98 +7,106 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const appDirectory = path.resolve(__dirname);
 
 const babelLoaderConfiguration = {
-  test: /\.(js|jsx|ts|tsx|svg)$/,
-  use: {
-    loader: 'babel-loader',
-    options: {
-      cwd: appDirectory,
-      envName: 'development',
-      babelrc: true,
-      cacheDirectory: true,
-      rootMode: 'upward',
-      cacheCompression: false
+    test: /\.(js|jsx|ts|tsx|svg)$/,
+    use: {
+        loader: 'babel-loader',
+        options: {
+            cwd: appDirectory,
+            envName: 'development',
+            babelrc: true,
+            cacheDirectory: true,
+            rootMode: 'upward',
+            cacheCompression: false
+        }
     }
-  }
 };
 
 const imageLoaderConfiguration = {
-  test: /\.(gif|jpe?g|png)$/,
-  use: {
-    loader: 'url-loader',
-    options: {
-      name: '[name].[ext]',
-      esModule: false
+    test: /\.(gif|jpe?g|png)$/,
+    use: {
+        loader: 'url-loader',
+        options: {
+            name: '[name].[ext]',
+            esModule: false
+        }
     }
-  }
 };
 
 const cssLoaderConfiguration = {
-  test: /\.css$/i,
-  use: ['style-loader', 'css-loader']
+    test: /\.css$/i,
+    use: ['style-loader', 'css-loader']
 };
 
 module.exports = {
-  target: 'web',
+    target: 'web',
 
-  devtool: 'source-map',
+    devtool: 'source-map',
 
-  externals: {
-    bufferutil: 'commonjs bufferutil',
-    'utf-8-validate': 'commonjs utf-8-validate'
-  },
-
-  entry: [path.resolve(appDirectory, 'index.ts')],
-
-  output: {
-    path: path.resolve(appDirectory, 'dist')
-  },
-
-  module: {
-    rules: [babelLoaderConfiguration, imageLoaderConfiguration, cssLoaderConfiguration]
-  },
-
-  resolve: {
-    mainFields: ['browser', 'main', 'module'],
-    alias: {
-      'react-native$': 'react-native-web'
+    externals: {
+        bufferutil: 'commonjs bufferutil',
+        'utf-8-validate': 'commonjs utf-8-validate'
     },
-    plugins: [new TsconfigPathsPlugin()],
-    modules: [path.resolve(__dirname, 'node_modules')],
-    extensions: ['.web.ts', '.web.tsx', '.web.mjs', '.web.js', '.web.jsx', '.ts', '.tsx', '.mjs', '.js', '.jsx'],
-    fallback: {
-      crypto: false,
-      fs: false,
-      http: false,
-      https: false,
-      net: false,
-      path: false,
-      stream: require.resolve('readable-stream'),
-      tls: false,
-      util: false,
-      url: false,
-      zlib: false,
-      ws: false,
-      os: false
-    }
-  },
 
-  plugins: [
-    new webpack.DefinePlugin({
-      __DEV__: JSON.stringify(process.env.NODE_ENV === 'development')
-    }),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: 'public',
-          globOptions: {
-            ignore: ['**/index.html']
-          }
+    entry: [path.resolve(appDirectory, 'index.ts')],
+
+    output: {
+        path: path.resolve(appDirectory, 'dist')
+    },
+
+    module: {
+        rules: [babelLoaderConfiguration, imageLoaderConfiguration, cssLoaderConfiguration]
+    },
+
+    resolve: {
+        mainFields: ['browser', 'main', 'module'],
+        alias: {
+            'react-native$': 'react-native-web'
         },
-        { from: 'node_modules/wasm-themis/src/libthemis.wasm' }
-      ]
-    }),
-    new HtmlWebpackPlugin({
-      template: 'public/index.html'
-    })
-  ]
+        plugins: [new TsconfigPathsPlugin()],
+        modules: [path.resolve(__dirname, 'node_modules')],
+        extensions: ['.web.ts', '.web.tsx', '.web.mjs', '.web.js', '.web.jsx', '.ts', '.tsx', '.mjs', '.js', '.jsx'],
+        fallback: {
+            crypto: false,
+            fs: false,
+            http: false,
+            https: false,
+            net: false,
+            path: false,
+            stream: require.resolve('readable-stream'),
+            tls: false,
+            util: false,
+            url: false,
+            zlib: false,
+            ws: false,
+            os: false
+        }
+    },
+
+    plugins: [
+        new webpack.DefinePlugin({
+            __DEV__: JSON.stringify(process.env.NODE_ENV === 'development')
+        }),
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: 'public',
+                    globOptions: {
+                        ignore: [
+                            '**/popup.html',
+                            '**/fullpage.html'
+                        ]
+                    }
+                },
+                {from: 'node_modules/wasm-themis/src/libthemis.wasm'}
+            ]
+        }),
+        new HtmlWebpackPlugin({
+            template: 'public/popup.html',
+            filename: 'popup.html'
+        }),
+        new HtmlWebpackPlugin({
+            template: 'public/fullpage.html',
+            filename: 'fullpage.html'
+        })
+    ]
 };
