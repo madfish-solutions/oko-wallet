@@ -4,7 +4,7 @@ export const useListSearch = <T extends { name: string }>(searchValue: string, d
   const [filteredList, setFilteredList] = useState(data);
 
   const listFiltering = useCallback(() => {
-    const list = data.filter((element: T) => element.name.toLowerCase().includes(searchValue.toLowerCase())) ?? data;
+    const list = data.filter((element: T) => element.name.toLowerCase().includes(searchValue.toLowerCase()));
 
     setFilteredList(list);
   }, [data, searchValue]);
