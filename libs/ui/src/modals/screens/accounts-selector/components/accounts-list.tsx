@@ -23,7 +23,7 @@ import { useFlatListRef } from '../../../hooks/use-flat-list-ref.hook';
 export const AccountsList = () => {
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
-  const { createHdAccount, createHdAccountForNewNetworkType } = useShelter();
+  const { createHdAccountForNewNetworkType } = useShelter();
   const selectedAccount = useSelectedAccountSelector();
   const accounts = useAllAccountsSelector();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
@@ -40,6 +40,7 @@ export const AccountsList = () => {
     }
   };
 
+  const onAddAccount = () => navigate(ScreensEnum.AddAccount);
   const onEditAccount = (account: AccountInterface) => navigate(ScreensEnum.EditAccount, { account });
 
   const renderItem = ({ item, index }: ListRenderItemInfo<AccountInterface>) => {
@@ -59,6 +60,6 @@ export const AccountsList = () => {
   };
 
   return (
-    <ModalFlatList onPressAddIcon={createHdAccount} flatListRef={flatListRef} data={accounts} renderItem={renderItem} />
+    <ModalFlatList onPressAddIcon={onAddAccount} flatListRef={flatListRef} data={accounts} renderItem={renderItem} />
   );
 };

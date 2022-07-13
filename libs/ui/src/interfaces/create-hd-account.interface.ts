@@ -9,6 +9,8 @@ import { AccountInterface } from './account.interface';
 export interface CreateHdAccountParams {
   accountIndex: number;
   networkType: NetworkTypeEnum;
+  accountName: string;
+  successCallback?: OnEventFn<void>;
 }
 
 export type CreateHdAccountType = {
