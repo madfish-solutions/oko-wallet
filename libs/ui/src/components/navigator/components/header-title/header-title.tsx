@@ -17,7 +17,7 @@ export const HeaderTitle: FC<Props> = ({ name, isBackButton = false }) => {
   const { goBack } = useNavigation();
 
   return (
-    <View style={styles.root}>
+    <>
       <Pressable onPress={goBack} style={styles.backgroundSpace} />
       <Row style={styles.container}>
         {isBackButton && <HeaderBackButton />}
@@ -26,6 +26,6 @@ export const HeaderTitle: FC<Props> = ({ name, isBackButton = false }) => {
           <HeaderCloseButton />
         </View>
       </Row>
-    </View>
+    </>
   );
 };

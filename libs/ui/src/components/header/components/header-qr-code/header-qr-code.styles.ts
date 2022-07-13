@@ -19,8 +19,7 @@ export const styles = StyleSheet.create({
     height: '100%',
     marginRight: getCustomSize(2),
     paddingRight: getCustomSize(4),
-    borderRightWidth: getCustomSize(0.125),
-    borderRightColor: colors.bgGrey2
+    borderRightWidth: getCustomSize(0.125)
   },
   address: {
     color: colors.textGrey1,

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { TouchableOpacity, Text, Animated } from 'react-native';
+import { TouchableOpacity, Text, View } from 'react-native';
 
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
@@ -20,11 +20,10 @@ import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
 import { styles } from './header-container.styles';
 
 interface Props {
-  scrolling?: Animated.Value;
   style?: ViewStyleProps;
 }
 
-export const HeaderContainer: FC<Props> = ({ scrolling, style, children }) => {
+export const HeaderContainer: FC<Props> = ({ style, children }) => {
   const { iconName } = useSelectedNetworkSelector();
   const address = useSelectedAccountPublicKeyHashSelector();
   const { navigate } = useNavigation();
@@ -34,16 +33,8 @@ export const HeaderContainer: FC<Props> = ({ scrolling, style, children }) => {
   const selectAccount = () => navigate(ScreensEnum.AccountsSelector);
   const selectNetwork = () => navigate(ScreensEnum.NetworksSelector);
 
-  const rootAnimationStyles = scrolling && {
-    height: scrolling.interpolate({
-      inputRange: [0, 100],
-      outputRange: [280, 120],
-      extrapolate: 'clamp'
-    })
-  };
-
   return (
-    <Animated.View style={[styles.root, rootAnimationStyles, style]}>
+    <View style={[styles.root, style]}>
       <Row style={styles.wrapper}>
         <TouchableOpacity onPress={selectAccount} style={styles.button}>
           <IconWithBorder>
@@ -66,6 +57,6 @@ export const HeaderContainer: FC<Props> = ({ scrolling, style, children }) => {
       </Row>
 
       {children}
-    </Animated.View>
+    </View>
   );
 };

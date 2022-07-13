@@ -16,11 +16,11 @@ import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
 import { styles } from './header-qr-code.styles';
 
 interface Props {
-  scrolling: Animated.Value;
+  contentOffsetY: number;
   style?: ViewStyleProps;
 }
 
-export const HeaderQRCode: FC<Props> = ({ scrolling, style }) => {
+export const HeaderQRCode: FC<Props> = ({ contentOffsetY, style }) => {
   const address = useSelectedAccountPublicKeyHashSelector();
 
   const copyAddress = () => handleCopyToClipboard(address);
@@ -35,14 +35,14 @@ export const HeaderQRCode: FC<Props> = ({ scrolling, style }) => {
     }
   };
 
-  const qrCodeAnimationOpacity = scrolling.interpolate({
-    inputRange: [0, 200],
+  const animationOpacity = new Animated.Value(contentOffsetY).interpolate({
+    inputRange: [0, 160],
     outputRange: [1, 0],
     extrapolate: 'clamp'
   });
 
   return (
-    <Animated.View style={[styles.root, style, { opacity: qrCodeAnimationOpacity }]}>
+    <Animated.View style={[styles.root, style, { opacity: animationOpacity }]}>
       <Column style={styles.wrapper}>
         <Text style={styles.address} numberOfLines={3}>
           {address}
