@@ -26,7 +26,7 @@ import { getItemLayout } from '../../../utils/get-item-layout.util';
 export const AccountsList = () => {
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
-  const { createHdAccount, createHdAccountForNewNetworkType } = useShelter();
+  const { createHdAccountForNewNetworkType } = useShelter();
   const selectedAccount = useSelectedAccountSelector();
   const accounts = useAllAccountsSelector();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
@@ -50,6 +50,7 @@ export const AccountsList = () => {
     }
   };
 
+  const onAddAccount = () => navigate(ScreensEnum.AddAccount);
   const onEditAccount = (account: AccountInterface) => navigate(ScreensEnum.EditAccount, { account });
 
   const keyExtractor = (item: AccountInterface) => item.name;
@@ -72,7 +73,7 @@ export const AccountsList = () => {
 
   return (
     <ModalFlatList
-      onPressAddIcon={createHdAccount}
+      onPressAddIcon={onAddAccount}
       flatListRef={flatListRef}
       data={filteredList}
       renderItem={renderItem}

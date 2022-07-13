@@ -19,6 +19,8 @@ export const styles = StyleSheet.create({
     marginBottom: getCustomSize(2.5)
   },
   addressWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginLeft: 'auto',
     marginRight: getCustomSize()
   },

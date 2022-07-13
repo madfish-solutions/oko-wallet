@@ -49,7 +49,8 @@ export const useShelter = () => {
 
   const importWallet = useCallback((params: ImportWalletParams) => importWallet$.next(params), [importWallet$]);
   const createHdAccount = useCallback(
-    () => createHdAccount$.next({ accountIndex: accounts.length, networkType }),
+    (accountName: string, successCallback?: OnEventFn<void>) =>
+      createHdAccount$.next({ accountIndex: accounts.length, networkType, accountName, successCallback }),
     [createHdAccount$, accounts.length, networkType]
   );
   const createHdAccountForNewNetworkType = useCallback(

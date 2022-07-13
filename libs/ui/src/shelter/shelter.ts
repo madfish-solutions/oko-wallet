@@ -117,7 +117,8 @@ export class Shelter {
 
   static createHdAccount$ = (
     networkType: NetworkTypeEnum,
-    accountIndex: number
+    accountIndex: number,
+    name: string
   ): Observable<AccountInterface | undefined> => {
     const derivationPath = derivationPathByNetworkType[networkType](accountIndex);
 
@@ -127,7 +128,7 @@ export class Shelter {
           switchMap(({ publicKey, address: publicKeyHash, privateKey }) =>
             Shelter.savePrivateKey$(publicKeyHash, privateKey).pipe(
               map(() => ({
-                name: `Account ${accountIndex + 1}`,
+                name,
                 accountIndex,
                 networksKeys: {
                   [networkType]: {

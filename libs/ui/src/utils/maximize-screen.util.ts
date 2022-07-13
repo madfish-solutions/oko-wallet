@@ -2,7 +2,7 @@ import { browser } from 'webextension-polyfill-ts';
 
 export const openInFullPage = () => {
   const { search, hash } = window.location;
-  const url = createUrl('index.html', search, hash);
+  const url = createUrl('fullpage.html', search, hash);
   browser.tabs.create({
     url: browser.runtime.getURL(url)
   });

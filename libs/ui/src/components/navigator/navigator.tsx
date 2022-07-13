@@ -6,6 +6,7 @@ import { View, Text } from 'react-native';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
+import { AddAccount } from '../../modals/screens/add-account/add-account';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
 import { NetworksSelector } from '../../modals/screens/networks-selector/networks-selector';
 import { AccountTokens } from '../../screens/account-tokens/account-tokens';
@@ -101,6 +102,11 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.EditAccount}
                 options={{ title: 'Edit account' }}
                 component={EditAccount}
+              />
+              <Stack.Screen
+                name={ScreensEnum.AddAccount}
+                options={{ title: 'Add new account' }}
+                component={AddAccount}
               />
             </Stack.Group>
           </>
