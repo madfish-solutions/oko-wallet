@@ -11,17 +11,17 @@ import { HeaderContainer } from '../components/header-container/header-container
 import { styles } from './header-main-screen.styles';
 
 interface Props {
-  openQrCode: OnEventFn<void>;
+  qrCodeVisibility: OnEventFn<void>;
 }
 
-export const HeaderMainScreen: FC<Props> = ({ openQrCode }) => {
+export const HeaderMainScreen: FC<Props> = ({ qrCodeVisibility }) => {
   const openCameraToScanQrCode = () => null;
 
   return (
     <HeaderContainer>
       <Row>
         {isMobile && <TouchableIcon name={IconNameEnum.Qrscan} onPress={openCameraToScanQrCode} style={styles.icon} />}
-        <TouchableIcon name={IconNameEnum.Qrcode} onPress={openQrCode} />
+        <TouchableIcon name={IconNameEnum.Qrcode} onPress={qrCodeVisibility} />
         <HeaderAccountBalance style={styles.accountBalance} />
       </Row>
     </HeaderContainer>

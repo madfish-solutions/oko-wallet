@@ -35,15 +35,28 @@ export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType,
   };
 
   useEffect(() => {
+    qrCodeInitialValue();
+  }, []);
+
+  const qrCodeInitialValue = () => {
     if (isWeb) {
       hideQrCode(false);
     } else {
       showQrCode(false);
     }
-  }, []);
+  };
 
   const onTouchEnd = () => {
-    // bring the element to the extreme points
+    bringTheElementToTheExtremePoint();
+  };
+
+  const qrCodeAnimation = () => {
+    bringTheElementToTheExtremePoint();
+    switchQrCodeVisibility();
+    scrollToTop();
+  };
+
+  const bringTheElementToTheExtremePoint = () => {
     if (contentOffsetY > MIDDLE_VALUE && contentOffsetY < HIDE_QR_CODE) {
       hideQrCode();
     } else if (contentOffsetY <= MIDDLE_VALUE && contentOffsetY > SHOW_QR_CODE) {
@@ -52,21 +65,14 @@ export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType,
   };
 
   const switchQrCodeVisibility = () => {
-    // bring the element to the extreme points
-    if (contentOffsetY > MIDDLE_VALUE && contentOffsetY < HIDE_QR_CODE) {
-      hideQrCode();
-    } else if (contentOffsetY <= MIDDLE_VALUE && contentOffsetY > SHOW_QR_CODE) {
-      showQrCode();
-    }
-
-    // switch the element if press a button
     if (contentOffsetY === SHOW_QR_CODE) {
       hideQrCode();
     } else if (contentOffsetY === HIDE_QR_CODE) {
       showQrCode();
     }
+  };
 
-    // scroll to top
+  const scrollToTop = () => {
     if (contentOffsetY > HIDE_QR_CODE) {
       showQrCode();
     }
@@ -86,7 +92,7 @@ export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType,
       {isDefined(screenTitle) ? (
         <HeaderSecondaryScreen title={screenTitle} icons={icons} navigationType={navigationType} />
       ) : (
-        <HeaderMainScreen openQrCode={switchQrCodeVisibility} />
+        <HeaderMainScreen qrCodeVisibility={qrCodeAnimation} />
       )}
 
       <Animated.View style={styles.layout} />
