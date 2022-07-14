@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -15,12 +15,8 @@ export const useHeaderAnimation = () => {
     setContentOffsetY(offsetY);
   };
 
-  useEffect(() => {
-    qrCodeInitialValue();
-  }, []);
-
-  const qrCodeInitialValue = () => {
-    if (isWeb) {
+  const qrCodeInitialValue = (isMainScreen: boolean) => {
+    if (isWeb && isMainScreen) {
       hideQrCode(false);
     } else {
       showQrCode(false);
@@ -73,6 +69,7 @@ export const useHeaderAnimation = () => {
     onTouchEnd,
     qrCodeVisibility,
     contentOffsetY,
-    scrollViewRef
+    scrollViewRef,
+    qrCodeInitialValue
   };
 };
