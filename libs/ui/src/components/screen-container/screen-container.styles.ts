@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'space-between',
     height: isWeb ? '100vh' : '100%',
-    backgroundColor: colors.bgGrey2,
+    backgroundColor: colors.bgGrey1,
     borderBottomLeftRadius: getCustomSize(3),
     borderBottomRightRadius: getCustomSize(3)
   },
@@ -26,10 +26,10 @@ export const styles = StyleSheet.create({
   },
   layout: {
     position: 'absolute',
-    top: 0,
     right: 0,
     left: 0,
-    bottom: 0,
+    bottom: '100%',
+    height: 600,
     backgroundColor: colors.bgGrey2
   },
   container: {

@@ -87,6 +87,8 @@ export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType,
     }
   };
 
+  const isMainScreen = !isDefined(screenTitle);
+
   return (
     <Column style={[styles.root, style]}>
       {isDefined(screenTitle) ? (
@@ -94,8 +96,6 @@ export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType,
       ) : (
         <HeaderMainScreen qrCodeVisibility={qrCodeAnimation} />
       )}
-
-      <Animated.View style={styles.layout} />
 
       <Animated.ScrollView
         ref={scrollViewRef}
@@ -105,8 +105,9 @@ export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType,
         scrollEnabled={!isLocked}
         style={styles.container}
       >
-        {!isDefined(screenTitle) && (
+        {isMainScreen && (
           <View style={styles.qrCodeWrapper}>
+            <View style={styles.layout} />
             <HeaderQRCode contentOffsetY={contentOffsetY} />
           </View>
         )}
