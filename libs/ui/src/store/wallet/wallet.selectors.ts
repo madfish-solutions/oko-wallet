@@ -117,7 +117,6 @@ export const useIsAuthorisedSelector = () => {
 
 export const usePendingTransactionsSelector = () => {
   const transactions = useSelector<WalletRootState, Record<string, Transaction[]>>(({ wallet }) => wallet.transactions);
-
   const selectedAccountPublicKeyHash = useSelectedAccountPkhSelector();
   const selectedNetworkRpcUrl = useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedNetworkRpcUrl);
 
@@ -128,7 +127,7 @@ export const usePendingTransactionsSelector = () => {
       isDefined(transactions[accountTokensSlug])
         ? transactions[accountTokensSlug].filter(tx => tx.status === TransactionStatusEnum.pending)
         : [],
-    [transactions]
+    [transactions, selectedNetworkRpcUrl]
   );
 };
 

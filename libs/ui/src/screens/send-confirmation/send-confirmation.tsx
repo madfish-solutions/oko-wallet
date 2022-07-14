@@ -27,10 +27,5 @@ export const SendConfirmation: FC = () => {
       <EvmConfirmation network={network} sender={account} transferParams={transferParams as EvmTransferParams} />
     );
 
-  return (
-    <View>
-      <NavigationBar />
-      {confirmationComponent}
-    </View>
-  );
+  return <View>{confirmationComponent}</View>;
 };

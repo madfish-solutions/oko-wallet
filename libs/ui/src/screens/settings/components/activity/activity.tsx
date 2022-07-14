@@ -2,7 +2,6 @@ import React, { FC, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Linking } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { TransactionStatusEnum } from '../../../../enums/transactions.enum';
 import { updateTransactionAction } from '../../../../store/wallet/wallet.actions';
 import {
@@ -17,18 +16,6 @@ import { styles } from './activity.styles';
 let timer: NodeJS.Timer;
 
 export const Activity: FC = () => {
-  const network = useSelectedNetworkSelector();
-
-  return <>{network.networkType === NetworkTypeEnum.EVM ? <EVMnetworkActivity /> : <TezosActivity />}</>;
-};
-
-const TezosActivity: FC = () => (
-  <View>
-    <Text>activity for this network is not supported</Text>
-  </View>
-);
-
-const EVMnetworkActivity: FC = () => {
   const dispatch = useDispatch();
   const { rpcUrl, explorerUrl } = useSelectedNetworkSelector();
   const provider = getDefaultEvmProvider(rpcUrl);
