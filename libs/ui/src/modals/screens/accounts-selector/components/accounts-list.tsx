@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { ListRenderItemInfo } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { RobotIcon } from '../../../../components/robot-icon/robot-icon';
+import { EMPTY_STRING } from '../../../../constants/defaults';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
@@ -19,6 +20,8 @@ import { ModalAccountBalance } from '../../../components/modal-account-balance/m
 import { ModalFlatList } from '../../../components/modal-flat-list/modal-flat-list';
 import { ModalRenderItem } from '../../../components/modal-render-item/modal-render-item';
 import { useFlatListRef } from '../../../hooks/use-flat-list-ref.hook';
+import { useListSearch } from '../../../hooks/use-list-search.hook';
+import { getItemLayout } from '../../../utils/get-item-layout.util';
 
 export const AccountsList = () => {
   const { navigate } = useNavigation();
@@ -28,9 +31,16 @@ export const AccountsList = () => {
   const accounts = useAllAccountsSelector();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
 
-  const selectedIndex = accounts.findIndex(account => account.accountIndex === selectedAccount.accountIndex);
+  const [searchValue, setSearchValue] = useState(EMPTY_STRING);
 
-  const { flatListRef } = useFlatListRef({ data: accounts, selectedIndex });
+  const filteredList = useListSearch(searchValue, accounts);
+
+  const selectedIndex = useMemo(
+    () => filteredList.findIndex(account => account.accountIndex === selectedAccount.accountIndex),
+    [filteredList, selectedAccount]
+  );
+
+  const { flatListRef } = useFlatListRef({ data: filteredList, selectedIndex });
 
   const handleChangeAccount = (account: AccountInterface) => {
     if (checkIsNetworkTypeKeyExist(account, selectedNetworkType)) {
@@ -42,6 +52,8 @@ export const AccountsList = () => {
 
   const onAddAccount = () => navigate(ScreensEnum.AddAccount);
   const onEditAccount = (account: AccountInterface) => navigate(ScreensEnum.EditAccount, { account });
+
+  const keyExtractor = (item: AccountInterface) => item.name;
 
   const renderItem = ({ item, index }: ListRenderItemInfo<AccountInterface>) => {
     const isAccountSelected = selectedIndex === index;
@@ -60,6 +72,15 @@ export const AccountsList = () => {
   };
 
   return (
-    <ModalFlatList onPressAddIcon={onAddAccount} flatListRef={flatListRef} data={accounts} renderItem={renderItem} />
+    <ModalFlatList
+      onPressAddIcon={onAddAccount}
+      flatListRef={flatListRef}
+      data={filteredList}
+      renderItem={renderItem}
+      setSearchValue={setSearchValue}
+      selectedItem={selectedAccount}
+      getItemLayout={getItemLayout}
+      keyExtractor={keyExtractor}
+    />
   );
 };

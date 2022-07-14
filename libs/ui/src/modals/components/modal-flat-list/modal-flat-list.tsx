@@ -1,24 +1,32 @@
+import { OnEventFn } from '@rnw-community/shared';
 import React from 'react';
-import { View, FlatList, FlatListProps } from 'react-native';
+import { View, FlatList, FlatListProps, GestureResponderEvent } from 'react-native';
 
-import { IconNameEnum } from '../../../components/icon/icon-name.enum';
-import { Row } from '../../../components/row/row';
-import { TouchableIcon } from '../../../components/touchable-icon/touchable-icon';
-import { getItemLayout } from '../../utils/get-item-layout.util';
+import { ModalSearch } from '../modal-search/modal-search';
 
 import { styles } from './modal-flat-list.styles';
 
-interface Props<T> extends Pick<FlatListProps<T>, 'renderItem' | 'data'> {
-  onPressAddIcon: () => void;
+interface Props<T extends { name: string }>
+  extends Pick<FlatListProps<T>, 'renderItem' | 'data' | 'keyExtractor' | 'getItemLayout'> {
   flatListRef: React.RefObject<FlatList<T>>;
+  searchValue?: string;
+  selectedItem: T;
+  onPressAddIcon: OnEventFn<GestureResponderEvent>;
+  setSearchValue: OnEventFn<string>;
 }
 
-export const ModalFlatList = <T extends unknown>({ onPressAddIcon, flatListRef, data, renderItem }: Props<T>) => (
+export const ModalFlatList = <T extends { name: string }>({
+  flatListRef,
+  data,
+  renderItem,
+  getItemLayout,
+  onPressAddIcon,
+  setSearchValue,
+  keyExtractor,
+  selectedItem
+}: Props<T>) => (
   <View style={styles.root}>
-    <Row style={styles.search}>
-      <TouchableIcon name={IconNameEnum.Search} />
-      <TouchableIcon name={IconNameEnum.Add} onPress={onPressAddIcon} />
-    </Row>
+    <ModalSearch onPressAddIcon={onPressAddIcon} setSearchValue={setSearchValue} selectedItem={selectedItem.name} />
 
     <FlatList
       ref={flatListRef}
@@ -26,6 +34,7 @@ export const ModalFlatList = <T extends unknown>({ onPressAddIcon, flatListRef, 
       data={data}
       showsVerticalScrollIndicator={false}
       renderItem={renderItem}
+      keyExtractor={keyExtractor}
     />
   </View>
 );

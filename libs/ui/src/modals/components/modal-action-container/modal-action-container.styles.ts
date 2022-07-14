@@ -12,5 +12,11 @@ export const styles = StyleSheet.create({
   },
   content: {
     flex: 1
+  },
+  cancelButton: {
+    marginRight: getCustomSize(3)
+  },
+  input: {
+    height: getCustomSize(6)
   }
 });

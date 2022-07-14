@@ -83,6 +83,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
               <Stack.Screen name={ScreensEnum.AccountTokens} component={AccountTokens} />
             </Stack.Group>
+
             <Stack.Group screenOptions={modalScreenOptions}>
               <Stack.Screen
                 name={ScreensEnum.AccountsSelector}
@@ -95,6 +96,7 @@ export const Navigator: FC = () => {
                 component={NetworksSelector}
               />
             </Stack.Group>
+
             <Stack.Group screenOptions={modalScreenOptionsWithBackButton}>
               <Stack.Screen
                 name={ScreensEnum.EditAccount}
