@@ -41,5 +41,6 @@ export enum IconNameEnum {
   EmptyCheckbox = 'EmptyCheckbox',
   // to dell
   BigRobot = 'BigRobot',
-  SmallRobot = 'SmallRobot'
+  SmallRobot = 'SmallRobot',
+  EmptySearch = 'EmptySearch'
 }

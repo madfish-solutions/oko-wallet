@@ -2,6 +2,9 @@ import { OnEventFn } from '@rnw-community/shared';
 import React from 'react';
 import { View, FlatList, FlatListProps, GestureResponderEvent } from 'react-native';
 
+import { Icon } from '../../../components/icon/icon';
+import { IconNameEnum } from '../../../components/icon/icon-name.enum';
+import { getCustomSize } from '../../../styles/format-size';
 import { ModalSearch } from '../modal-search/modal-search';
 
 import { styles } from './modal-flat-list.styles';
@@ -27,6 +30,10 @@ export const ModalFlatList = <T extends { name: string }>({
 }: Props<T>) => (
   <View style={styles.root}>
     <ModalSearch onPressAddIcon={onPressAddIcon} setSearchValue={setSearchValue} selectedItem={selectedItem.name} />
+
+    {!(data && data.length) && (
+      <Icon name={IconNameEnum.EmptySearch} size={getCustomSize(20)} iconStyle={styles.icon} />
+    )}
 
     <FlatList
       ref={flatListRef}
