@@ -15,5 +15,8 @@ export const styles = StyleSheet.create({
   },
   cancelButton: {
     marginRight: getCustomSize(3)
+  },
+  input: {
+    height: getCustomSize(6)
   }
 });

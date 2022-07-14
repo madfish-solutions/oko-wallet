@@ -1,5 +1,6 @@
+import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
-import { Pressable, Text } from 'react-native';
+import { GestureResponderEvent, Pressable, Text } from 'react-native';
 
 import { Column } from '../../../components/column/column';
 import { IconWithBorder } from '../../../components/icon-with-border/icon-with-border';
@@ -14,8 +15,8 @@ import { styles } from './modal-render-item.styles';
 
 interface Props extends ModalHeaderInterface {
   isActive: boolean;
-  onSelectItem: () => void;
-  onEdit: () => void;
+  onSelectItem: OnEventFn<GestureResponderEvent>;
+  onEdit: OnEventFn<GestureResponderEvent>;
   style?: ViewStyleProps;
 }
 

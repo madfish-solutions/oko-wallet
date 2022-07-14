@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 
+import { EXTENSION_FULL_SIZE } from '../../styles/format-size';
 import { isWeb } from '../../utils/platform.utils';
 
 export const UnlockStyles = StyleSheet.create({
@@ -16,6 +17,6 @@ export const UnlockStyles = StyleSheet.create({
   root: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: '#FFF',
-    height: isWeb ? '100vh' : '100%'
+    height: isWeb ? EXTENSION_FULL_SIZE : '100%'
   }
 });

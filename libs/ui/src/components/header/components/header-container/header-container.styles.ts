@@ -21,6 +21,8 @@ export const styles = StyleSheet.create({
     paddingTop: isWeb ? getCustomSize(2) : getCustomSize(5.5)
   },
   addressWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginLeft: 'auto',
     marginRight: getCustomSize()
   },

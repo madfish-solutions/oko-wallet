@@ -1,23 +1,20 @@
-import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { View } from 'react-native';
-import { useDispatch } from 'react-redux';
 
 import { TextInput } from '../../../components/text-input/text-input';
-import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
-import { editAccountNameAction } from '../../../store/wallet/wallet.actions';
+import { useShelter } from '../../../hooks/use-shelter.hook';
+import { useAllAccountsSelector } from '../../../store/wallet/wallet.selectors';
 import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';
 import { useAccountFieldRules } from '../../hooks/use-validate-account-field.hook';
 
-export const EditAccount: FC = () => {
-  const {
-    params: { account }
-  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.EditAccount>>();
-  const dispatch = useDispatch();
+export const AddAccount: FC = () => {
+  const totalAccounts = useAllAccountsSelector().length;
+  const defaultValue = `Account ${totalAccounts + 1}`;
+  const { createHdAccount } = useShelter();
   const { goBack } = useNavigation();
-  const rules = useAccountFieldRules(account.name);
+  const rules = useAccountFieldRules();
 
   const {
     control,
@@ -25,11 +22,11 @@ export const EditAccount: FC = () => {
     clearErrors,
     watch,
     setFocus,
-    formState: { errors }
+    formState: { errors, isSubmitSuccessful }
   } = useForm({
     mode: 'onBlur',
     defaultValues: {
-      name: account.name
+      name: defaultValue
     }
   });
 
@@ -43,23 +40,15 @@ export const EditAccount: FC = () => {
     setFocus('name');
   }, [errors.name]);
 
-  const onSubmit = ({ name }: { name: string }) => {
-    const editedName = name.trim();
-
-    if (account.name !== editedName) {
-      dispatch(editAccountNameAction({ accountIndex: account.accountIndex, name: editedName }));
-    }
-
-    goBack();
-  };
+  const onSubmit = ({ name }: { name: string }) => createHdAccount(name.trim(), goBack);
 
   return (
     <ModalActionContainer
-      screenTitle="Edit Account"
-      submitTitle="Save"
-      isSubmitDisabled={Boolean(Object.keys(errors).length)}
-      onSubmitPress={handleSubmit(onSubmit)}
+      screenTitle="Add new account"
+      submitTitle="Create"
       onCancelPress={goBack}
+      onSubmitPress={handleSubmit(onSubmit)}
+      isSubmitDisabled={Boolean(Object.keys(errors).length) || isSubmitSuccessful}
     >
       <View>
         <Controller
@@ -70,7 +59,7 @@ export const EditAccount: FC = () => {
             <TextInput
               ref={ref}
               label="Account name"
-              placeholder={account.name}
+              placeholder={defaultValue}
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
