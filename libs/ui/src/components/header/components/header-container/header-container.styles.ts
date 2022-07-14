@@ -18,8 +18,7 @@ export const styles = StyleSheet.create({
   wrapper: {
     justifyContent: 'space-between',
     paddingBottom: getCustomSize(2),
-    paddingTop: isWeb ? getCustomSize(2) : getCustomSize(5.5),
-    backgroundColor: colors.bgGrey2
+    paddingTop: isWeb ? getCustomSize(2) : getCustomSize(5.5)
   },
   addressWrapper: {
     marginLeft: 'auto',

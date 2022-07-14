@@ -4,6 +4,8 @@ import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { isWeb } from '../../utils/platform.utils';
 
+const contentHeight = `calc(${100}vh - ${200}px + ${160}px)`;
+
 export const styles = StyleSheet.create({
   root: {
     position: 'relative',
@@ -32,6 +34,10 @@ export const styles = StyleSheet.create({
     height: 600,
     backgroundColor: colors.bgGrey2
   },
+  contentContainer: {
+    height: contentHeight,
+    flexShrink: 0
+  },
   container: {
     marginTop: getCustomSize(-6),
     paddingTop: getCustomSize(6)
@@ -40,7 +46,6 @@ export const styles = StyleSheet.create({
     marginTop: getCustomSize(-6),
     paddingTop: getCustomSize(6),
     padding: getCustomSize(2),
-    backgroundColor: colors.bgGrey1,
     zIndex: -1
   }
 });
