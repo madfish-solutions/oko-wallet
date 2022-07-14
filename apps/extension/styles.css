@@ -55,7 +55,7 @@ body {
   overflow: hidden;
 }
 
-[class^='css-text-']:not([class*='r-color']) {
+[class^='css-text-']:not([class*='r-color']), [class^='css-textinput-'] {
   color:#F8F8F8
 }
 
