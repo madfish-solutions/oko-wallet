@@ -56,7 +56,7 @@ const EVMnetworkActivity: FC = () => {
           }
         });
       })();
-    }, 3000);
+    }, 30000);
 
     return () => clearInterval(timer);
   }, [pendingTransactions]);
