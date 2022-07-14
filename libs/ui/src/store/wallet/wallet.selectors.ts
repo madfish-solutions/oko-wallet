@@ -127,7 +127,7 @@ export const usePendingTransactionsSelector = () => {
       isDefined(transactions[accountTokensSlug])
         ? transactions[accountTokensSlug].filter(tx => tx.status === TransactionStatusEnum.pending)
         : [],
-    [transactions, selectedNetworkRpcUrl]
+    [transactions, selectedNetworkRpcUrl, selectedAccountPublicKeyHash]
   );
 };
 
@@ -144,6 +144,6 @@ export const useMintedTransactionsSelector = () => {
       isDefined(transactions[accountTokensSlug])
         ? transactions[accountTokensSlug].filter(tx => tx.status === TransactionStatusEnum.applied)
         : [],
-    [transactions]
+    [transactions, selectedNetworkRpcUrl, selectedAccountPublicKeyHash]
   );
 };
