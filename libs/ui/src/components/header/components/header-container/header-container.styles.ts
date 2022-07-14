@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   root: {
     position: 'relative',
     paddingHorizontal: getCustomSize(2),
-    paddingBottom: getCustomSize(2.5),
+    paddingBottom: getCustomSize(2.625),
     backgroundColor: colors.bgGrey2,
     borderBottomLeftRadius: getCustomSize(3),
     borderBottomRightRadius: getCustomSize(3),
@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
   },
   wrapper: {
     justifyContent: 'space-between',
-    paddingBottom: getCustomSize(2),
+    paddingBottom: getCustomSize(2.5),
     paddingTop: isWeb ? getCustomSize(2) : getCustomSize(5.5)
   },
   addressWrapper: {

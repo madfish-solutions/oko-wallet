@@ -1,10 +1,15 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { isWeb } from '../../utils/platform.utils';
 
-const contentHeight = `calc(${100}vh - ${200}px + ${160}px)`;
+const headerHeight = isWeb ? getCustomSize(15.25) : getCustomSize(11.75);
+const navBarHeight = getCustomSize(11.5);
+const extraElements = headerHeight + navBarHeight;
+const qrCodeHeight = getCustomSize(20);
+
+const contentHeight = Dimensions.get('window').height - extraElements + qrCodeHeight;
 
 export const styles = StyleSheet.create({
   root: {
@@ -39,12 +44,12 @@ export const styles = StyleSheet.create({
     flexShrink: 0
   },
   container: {
-    marginTop: getCustomSize(-6),
-    paddingTop: getCustomSize(6)
+    marginTop: getCustomSize(-7),
+    paddingTop: getCustomSize(7)
   },
   content: {
-    marginTop: getCustomSize(-6),
-    paddingTop: getCustomSize(6),
+    marginTop: getCustomSize(-7),
+    paddingTop: getCustomSize(7),
     padding: getCustomSize(2),
     zIndex: -1
   }
