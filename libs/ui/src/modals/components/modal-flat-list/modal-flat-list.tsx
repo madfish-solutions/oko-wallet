@@ -31,10 +31,6 @@ export const ModalFlatList = <T extends { name: string }>({
   <View style={styles.root}>
     <ModalSearch onPressAddIcon={onPressAddIcon} setSearchValue={setSearchValue} selectedItem={selectedItem.name} />
 
-    {!(data && data.length) && (
-      <Icon name={IconNameEnum.EmptySearch} size={getCustomSize(20)} iconStyle={styles.icon} />
-    )}
-
     <FlatList
       ref={flatListRef}
       getItemLayout={getItemLayout}
@@ -42,6 +38,7 @@ export const ModalFlatList = <T extends { name: string }>({
       showsVerticalScrollIndicator={false}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
+      ListEmptyComponent={<Icon name={IconNameEnum.EmptySearch} size={getCustomSize(20)} iconStyle={styles.icon} />}
     />
   </View>
 );
