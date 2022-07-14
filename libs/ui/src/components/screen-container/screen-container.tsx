@@ -13,6 +13,7 @@ import { HeaderSecondaryScreen } from '../header/header-secondary-screen/header-
 import { HeaderIconsProps } from '../header/interfaces/header.interface';
 import { NavigationBar } from '../navigation-bar/navigation-bar';
 
+import { HIDE_QR_CODE, MIDDLE_VALUE, SHOW_QR_CODE } from './constants';
 import { styles } from './screen-container.styles';
 
 interface Props extends HeaderIconsProps {
@@ -24,7 +25,7 @@ interface Props extends HeaderIconsProps {
 export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType, style, children }) => {
   const { isLocked } = useUnlock();
 
-  const [contentOffsetY, setContentOffsetY] = useState(isWeb ? 160 : 0);
+  const [contentOffsetY, setContentOffsetY] = useState(isWeb ? HIDE_QR_CODE : SHOW_QR_CODE);
 
   const scrollViewRef = useRef<ScrollView>(null);
 
@@ -33,51 +34,50 @@ export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType,
     setContentOffsetY(offsetY);
   };
 
-  // TODO: Update initial value logic
   useEffect(() => {
     if (isWeb) {
-      hideQrCode();
+      hideQrCode(false);
     } else {
-      showQrCode();
+      showQrCode(false);
     }
   }, []);
 
   const onTouchEnd = () => {
     // bring the element to the extreme points
-    if (contentOffsetY > 70 && contentOffsetY < 160) {
+    if (contentOffsetY > MIDDLE_VALUE && contentOffsetY < HIDE_QR_CODE) {
       hideQrCode();
-    } else if (contentOffsetY <= 85 && contentOffsetY > 0) {
+    } else if (contentOffsetY <= MIDDLE_VALUE && contentOffsetY > SHOW_QR_CODE) {
       showQrCode();
     }
   };
 
   const switchQrCodeVisibility = () => {
     // bring the element to the extreme points
-    if (contentOffsetY > 70 && contentOffsetY < 160) {
+    if (contentOffsetY > MIDDLE_VALUE && contentOffsetY < HIDE_QR_CODE) {
       hideQrCode();
-    } else if (contentOffsetY <= 85 && contentOffsetY > 0) {
+    } else if (contentOffsetY <= MIDDLE_VALUE && contentOffsetY > SHOW_QR_CODE) {
       showQrCode();
     }
 
     // switch the element if press a button
-    if (contentOffsetY === 0) {
+    if (contentOffsetY === SHOW_QR_CODE) {
       hideQrCode();
-    } else if (contentOffsetY === 160) {
+    } else if (contentOffsetY === HIDE_QR_CODE) {
       showQrCode();
     }
 
     // scroll to top
-    if (contentOffsetY > 160) {
+    if (contentOffsetY > HIDE_QR_CODE) {
       showQrCode();
     }
   };
 
-  const showQrCode = () => animateScroll(0);
-  const hideQrCode = () => animateScroll(160);
+  const showQrCode = (animated?: boolean) => animateScroll(SHOW_QR_CODE, animated);
+  const hideQrCode = (animated?: boolean) => animateScroll(HIDE_QR_CODE, animated);
 
-  const animateScroll = (y: number) => {
+  const animateScroll = (y: number, animated = true) => {
     if (scrollViewRef !== null && scrollViewRef.current !== null) {
-      scrollViewRef.current.scrollTo({ y, animated: true });
+      scrollViewRef.current.scrollTo({ y, animated });
     }
   };
 
