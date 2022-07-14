@@ -52,7 +52,7 @@ export const HeaderQRCode: FC<Props> = ({ contentOffsetY, style }) => {
           {isMobile && <TouchableIcon name={IconNameEnum.Share} onPress={shareAddress} style={styles.icon} />}
         </Row>
       </Column>
-      <View style={styles.qrcodeWrapper}>
+      <View style={styles.qrCodeWrapper}>
         <QRCodeLibrary
           backgroundColor="transparent"
           color={colors.textGrey1}

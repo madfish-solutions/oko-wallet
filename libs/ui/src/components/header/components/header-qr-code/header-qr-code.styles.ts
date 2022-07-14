@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
   icon: {
     marginLeft: getCustomSize(2)
   },
-  qrcodeWrapper: {
+  qrCodeWrapper: {
     borderRadius: getCustomSize(0.25),
     overflow: 'hidden'
   }

@@ -31,7 +31,7 @@ export const useHeaderAnimation = () => {
     bringTheElementToTheExtremePoint();
   };
 
-  const qrCodeAnimation = () => {
+  const qrCodeVisibility = () => {
     bringTheElementToTheExtremePoint();
     switchQrCodeVisibility();
     scrollToTop();
@@ -71,7 +71,7 @@ export const useHeaderAnimation = () => {
   return {
     onScroll,
     onTouchEnd,
-    qrCodeAnimation,
+    qrCodeVisibility,
     contentOffsetY,
     scrollViewRef
   };

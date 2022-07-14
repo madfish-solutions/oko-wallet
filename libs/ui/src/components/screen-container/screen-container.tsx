@@ -24,7 +24,7 @@ interface Props extends HeaderIconsProps {
 export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType, style, children }) => {
   const { isLocked } = useUnlock();
 
-  const { onScroll, onTouchEnd, qrCodeAnimation, contentOffsetY, scrollViewRef } = useHeaderAnimation();
+  const { onScroll, onTouchEnd, qrCodeVisibility, contentOffsetY, scrollViewRef } = useHeaderAnimation();
 
   const isMainScreen = !isDefined(screenTitle);
 
@@ -33,7 +33,7 @@ export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType,
       {isDefined(screenTitle) ? (
         <HeaderSecondaryScreen title={screenTitle} icons={icons} navigationType={navigationType} />
       ) : (
-        <HeaderMainScreen qrCodeVisibility={qrCodeAnimation} />
+        <HeaderMainScreen qrCodeVisibility={qrCodeVisibility} />
       )}
 
       <ScrollView
