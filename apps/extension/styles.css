@@ -55,7 +55,7 @@ body {
   overflow: hidden;
 }
 
-div[class^='css-text-'] {
+[class^='css-text-']:not([class*='r-color']) {
   color:#F8F8F8
 }
 
