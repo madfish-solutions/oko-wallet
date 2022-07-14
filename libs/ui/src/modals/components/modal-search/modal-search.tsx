@@ -20,7 +20,14 @@ interface Props {
 }
 
 const renderTextInput = ({ onChange, ref, value }: ControllerRenderProps<{ search: string }, 'search'>) => (
-  <TextInput ref={ref} value={value} onChangeText={onChange} placeholder="Search" />
+  <TextInput
+    ref={ref}
+    value={value}
+    onChangeText={onChange}
+    placeholder="Search"
+    containerStyle={styles.inputContainer}
+    inputStyle={styles.input}
+  />
 );
 
 export const ModalSearch: React.FC<Props> = ({ setSearchValue, onPressAddIcon, selectedItem }) => {

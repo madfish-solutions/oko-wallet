@@ -10,5 +10,11 @@ export const styles = StyleSheet.create({
   },
   close: {
     marginLeft: getCustomSize(2)
+  },
+  inputContainer: {
+    flex: 1
+  },
+  input: {
+    height: getCustomSize(5)
   }
 });
