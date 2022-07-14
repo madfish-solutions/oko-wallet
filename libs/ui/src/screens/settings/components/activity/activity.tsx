@@ -2,6 +2,7 @@ import React, { FC, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Linking } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { TransactionStatusEnum } from '../../../../enums/transactions.enum';
 import { updateTransactionAction } from '../../../../store/wallet/wallet.actions';
 import {
@@ -16,12 +17,23 @@ import { styles } from './activity.styles';
 let timer: NodeJS.Timer;
 
 export const Activity: FC = () => {
-  const dispatch = useDispatch();
   const network = useSelectedNetworkSelector();
-  const provider = getDefaultEvmProvider(network.rpcUrl);
+
+  return <>{network.networkType === NetworkTypeEnum.EVM ? <EVMnetworkActivity /> : <TezosActivity />}</>;
+};
+
+const TezosActivity: FC = () => (
+  <View>
+    <Text>activity for this network is not supported</Text>
+  </View>
+);
+
+const EVMnetworkActivity: FC = () => {
+  const dispatch = useDispatch();
+  const { rpcUrl, explorerUrl } = useSelectedNetworkSelector();
+  const provider = getDefaultEvmProvider(rpcUrl);
   const pendingTransactions = usePendingTransactionsSelector();
   const mintedTransactions = useMintedTransactionsSelector();
-  const EXPLORER_URL = 'https://www.klaytnfinder.io/tx/';
 
   useEffect(() => {
     timer = setInterval(() => {
@@ -44,7 +56,7 @@ export const Activity: FC = () => {
           }
         });
       })();
-    }, 30000);
+    }, 3000);
 
     return () => clearInterval(timer);
   }, [pendingTransactions]);
@@ -56,7 +68,7 @@ export const Activity: FC = () => {
           <Text style={styles.pending}>
             Pending:{tx.from} TO {tx.to}
           </Text>
-          <TouchableOpacity onPress={() => Linking.openURL(`${EXPLORER_URL}${tx.transactionHash}`)}>
+          <TouchableOpacity onPress={() => Linking.openURL(`${explorerUrl}tx/${tx.transactionHash}`)}>
             <Text>view details</Text>
           </TouchableOpacity>
         </View>
@@ -66,7 +78,7 @@ export const Activity: FC = () => {
           <Text style={styles.minted}>
             Send:{tx.from} TO {tx.to}
           </Text>
-          <TouchableOpacity onPress={() => Linking.openURL(`${EXPLORER_URL}${tx.transactionHash}`)}>
+          <TouchableOpacity onPress={() => Linking.openURL(`${explorerUrl}tx/${tx.transactionHash}`)}>
             <Text>view details</Text>
           </TouchableOpacity>
         </View>
