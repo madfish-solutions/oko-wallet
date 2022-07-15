@@ -5,6 +5,9 @@ import { getCustomSize } from '../../../../styles/format-size';
 import { typography } from '../../../../styles/typography';
 
 export const styles = StyleSheet.create({
+  root: {
+    backgroundColor: colors.bgGrey2
+  },
   backgroundSpace: {
     height: getCustomSize(3)
   },

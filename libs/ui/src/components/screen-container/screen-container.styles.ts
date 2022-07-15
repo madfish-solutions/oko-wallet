@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import { colors } from '../../styles/colors';
 import { EXTENSION_FULL_SIZE, getCustomSize } from '../../styles/format-size';
-import { isWeb } from '../../utils/platform.utils';
+import { isWeb, isMobile } from '../../utils/platform.utils';
 
 import { contentHeight } from './constants';
 
@@ -31,16 +31,17 @@ export const styles = StyleSheet.create({
     right: 0,
     left: 0,
     bottom: '100%',
-    height: 600,
+    height: getCustomSize(75),
     backgroundColor: colors.bgGrey2
   },
   contentContainer: {
     minHeight: contentHeight,
-    flexShrink: 0
+    flexShrink: 0,
+    ...(isMobile && { paddingTop: getCustomSize(7) })
   },
   container: {
     marginTop: getCustomSize(-7),
-    paddingTop: getCustomSize(7)
+    ...(isWeb && { paddingTop: getCustomSize(7) })
   },
   content: {
     padding: getCustomSize(2)
