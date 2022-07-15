@@ -24,7 +24,7 @@ export const AssetsWidget: FC = () => {
   const navigateToAccountTokens = () => navigate(ScreensEnum.AccountTokens);
 
   return (
-    <WidgetContainer iconName={IconNameEnum.Assets} title="Assets">
+    <WidgetContainer style={styles.widgetStyles} iconName={IconNameEnum.Assets} title="Assets">
       <View style={styles.root}>
         <Row style={styles.upperButtons}>
           <Button title="Swap" leftIcon={IconNameEnum.Swap} />

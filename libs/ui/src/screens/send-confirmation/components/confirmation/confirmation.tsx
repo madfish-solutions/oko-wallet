@@ -1,8 +1,9 @@
 import { TransactionRequest as EvmTransferParams } from '@ethersproject/abstract-provider';
 import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text } from 'react-native';
 
+import { ScreenContainer } from '../../../../components/screen-container/screen-container';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
 import { getString } from '../../../../utils/get-string.utils';
 
@@ -17,7 +18,7 @@ interface Props {
 }
 
 export const Confirmation: FC<Props> = ({ children, isLoading, transactionHash, network, onSend, transferParams }) => (
-  <View>
+  <ScreenContainer>
     {isLoading && <Text>Loading...</Text>}
     {!isLoading && (
       <>
@@ -32,5 +33,5 @@ export const Confirmation: FC<Props> = ({ children, isLoading, transactionHash, 
     {!!transactionHash && (
       <TransactionInfo transactionHash={transactionHash} network={network} receiver={getString(transferParams?.to)} />
     )}
-  </View>
+  </ScreenContainer>
 );

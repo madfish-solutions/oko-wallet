@@ -8,21 +8,13 @@ export const styles = StyleSheet.create({
     borderWidth: getCustomSize(0.25)
   },
   pending: {
-    color: 'red',
-    height: getCustomSize(6)
+    color: 'red'
   },
   minted: {
-    color: 'green',
-    height: getCustomSize(6)
+    color: 'green'
   },
   wrapper: {
-    height: getCustomSize(16),
     borderWidth: getCustomSize(0.25),
     borderColor: 'black'
-  },
-  input: {
-    height: getCustomSize(4),
-    borderWidth: getCustomSize(0.5),
-    borderColor: 'grey'
   }
 });

@@ -15,14 +15,14 @@ export const styles = StyleSheet.create({
     ...typography.captionInterRegular13
   },
   input: {
-    ...typography.bodyInterRegular15,
+    height: getCustomSize(6),
+    paddingHorizontal: getCustomSize(1.5),
     borderRadius: getCustomSize(),
     borderWidth: 1,
     backgroundColor: colors.bgGrey4,
     borderColor: colors.bgGrey4,
     color: colors.textGrey1,
-    paddingVertical: getCustomSize(1.75),
-    paddingHorizontal: getCustomSize(1.5),
+    ...typography.bodyInterRegular15,
     ...(isWeb && { outlineStyle: 'none' })
   },
   errorInput: {

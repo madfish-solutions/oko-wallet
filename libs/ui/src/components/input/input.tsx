@@ -1,3 +1,4 @@
+import { isNotEmptyString } from '@rnw-community/shared';
 import React from 'react';
 import { TextInput, TextInputProps, View, Text } from 'react-native';
 
@@ -12,7 +13,7 @@ type InputProps = {
 
 export const Input: React.FC<InputProps> = ({ title, style, ...props }) => (
   <View style={InputStyles.root}>
-    <Text style={InputStyles.title}>{title}</Text>
+    {isNotEmptyString(title) && <Text style={InputStyles.title}>{title}</Text>}
     <TextInput style={[InputStyles.input, style]} placeholder={props.placeholder ?? '...'} {...props} />
   </View>
 );

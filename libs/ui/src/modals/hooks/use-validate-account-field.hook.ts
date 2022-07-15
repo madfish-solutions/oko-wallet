@@ -1,13 +1,12 @@
-import { AccountInterface } from '../../interfaces/account.interface';
 import { useAllAccountsNameSelector } from '../../store/wallet/wallet.selectors';
 
-export const useAccountFieldRules = (account: AccountInterface) => {
+export const useAccountFieldRules = (accountName = '') => {
   const allAccountsName = useAllAccountsNameSelector();
 
   const checkIfAccountNameUnique = (currentValue: string) => {
     const correctedCurrentValue = currentValue.trim().toLowerCase();
 
-    if (account.name.toLowerCase() === correctedCurrentValue || !allAccountsName.includes(correctedCurrentValue)) {
+    if (accountName.toLowerCase() === correctedCurrentValue || !allAccountsName.includes(correctedCurrentValue)) {
       return true;
     }
 

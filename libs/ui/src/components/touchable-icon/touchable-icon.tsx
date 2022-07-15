@@ -1,12 +1,13 @@
+import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { GestureResponderEvent, TouchableOpacity } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { Icon } from '../icon/icon';
 import { IconProps } from '../icon/icon.interface';
 
 interface Props extends IconProps {
-  onPress?: () => void;
+  onPress?: OnEventFn<GestureResponderEvent>;
   style?: ViewStyleProps;
 }
 

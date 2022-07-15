@@ -4,7 +4,6 @@ import { ParamsWithKind } from '@taquito/taquito/dist/types/operations/types';
 import React, { FC } from 'react';
 import { View } from 'react-native';
 
-import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useSelectedAccountSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
@@ -27,10 +26,5 @@ export const SendConfirmation: FC = () => {
       <EvmConfirmation network={network} sender={account} transferParams={transferParams as EvmTransferParams} />
     );
 
-  return (
-    <View>
-      <NavigationBar />
-      {confirmationComponent}
-    </View>
-  );
+  return <View>{confirmationComponent}</View>;
 };

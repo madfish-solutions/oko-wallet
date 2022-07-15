@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export const InputStyles = StyleSheet.create({
   root: {
     display: 'flex',
-    width: '100%'
+    flex: 1
   },
   title: {
     marginBottom: 4

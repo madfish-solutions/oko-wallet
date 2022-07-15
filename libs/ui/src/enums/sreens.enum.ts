@@ -16,7 +16,8 @@ export enum ScreensEnum {
   AccountsSelector = 'AccountsSelector',
   AccountTokens = 'AccountTokens',
   NetworksSelector = 'NetworksSelector',
-  EditAccount = 'EditAccount'
+  EditAccount = 'EditAccount',
+  AddAccount = 'AddAccount'
 }
 
 export type ScreensParamList = {
@@ -37,4 +38,5 @@ export type ScreensParamList = {
   [ScreensEnum.AccountTokens]: undefined;
   [ScreensEnum.NetworksSelector]: undefined;
   [ScreensEnum.EditAccount]: { account: AccountInterface };
+  [ScreensEnum.AddAccount]: undefined;
 };

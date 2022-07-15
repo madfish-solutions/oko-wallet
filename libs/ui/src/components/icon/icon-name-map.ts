@@ -16,6 +16,7 @@ import DropdownIcon from './assets/dropdown.svg';
 import DropupIcon from './assets/dropup.svg';
 import EditIcon from './assets/edit.svg';
 import EmptyCheckbox from './assets/empty-checkbox.svg';
+import EmptySearch from './assets/empty-search.svg';
 import EyeClosedIcon from './assets/eye-closed.svg';
 import EyeOpenIcon from './assets/eye-open.svg';
 import GasIcon from './assets/gas.svg';
@@ -86,5 +87,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.EmptyCheckbox]: EmptyCheckbox,
   // to dell
   [IconNameEnum.BigRobot]: BigRobot,
-  [IconNameEnum.SmallRobot]: SmallRobot
+  [IconNameEnum.SmallRobot]: SmallRobot,
+  [IconNameEnum.EmptySearch]: EmptySearch
 };

@@ -5,10 +5,12 @@ import { getCustomSize } from '../../../styles/format-size';
 export const styles = StyleSheet.create({
   root: {
     flex: 1,
-    paddingHorizontal: getCustomSize(2)
+    paddingTop: getCustomSize(2),
+    paddingHorizontal: getCustomSize(2),
+    paddingBottom: getCustomSize(4),
+    justifyContent: 'space-between'
   },
-  icon: {
-    flexDirection: 'row',
-    justifyContent: 'center'
+  content: {
+    flex: 1
   }
 });
