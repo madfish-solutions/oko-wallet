@@ -17,11 +17,10 @@ let timer: NodeJS.Timer;
 
 export const Activity: FC = () => {
   const dispatch = useDispatch();
-  const network = useSelectedNetworkSelector();
-  const provider = getDefaultEvmProvider(network.rpcUrl);
+  const { rpcUrl, explorerUrl } = useSelectedNetworkSelector();
+  const provider = getDefaultEvmProvider(rpcUrl);
   const pendingTransactions = usePendingTransactionsSelector();
   const mintedTransactions = useMintedTransactionsSelector();
-  const EXPLORER_URL = 'https://www.klaytnfinder.io/tx/';
 
   useEffect(() => {
     timer = setInterval(() => {
@@ -56,7 +55,7 @@ export const Activity: FC = () => {
           <Text style={styles.pending}>
             Pending:{tx.from} TO {tx.to}
           </Text>
-          <TouchableOpacity onPress={() => Linking.openURL(`${EXPLORER_URL}${tx.transactionHash}`)}>
+          <TouchableOpacity onPress={() => Linking.openURL(`${explorerUrl}tx/${tx.transactionHash}`)}>
             <Text>view details</Text>
           </TouchableOpacity>
         </View>
@@ -66,7 +65,7 @@ export const Activity: FC = () => {
           <Text style={styles.minted}>
             Send:{tx.from} TO {tx.to}
           </Text>
-          <TouchableOpacity onPress={() => Linking.openURL(`${EXPLORER_URL}${tx.transactionHash}`)}>
+          <TouchableOpacity onPress={() => Linking.openURL(`${explorerUrl}tx/${tx.transactionHash}`)}>
             <Text>view details</Text>
           </TouchableOpacity>
         </View>
