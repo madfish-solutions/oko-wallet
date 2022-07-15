@@ -20,5 +20,5 @@ export const sizeClasses = {
   large: styles.large,
   medium: styles.medium,
   small: styles.small,
-  fluid: styles.fuild
+  fluid: styles.fluid
 };
