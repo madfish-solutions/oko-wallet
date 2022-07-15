@@ -9,8 +9,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexBasis: 'auto',
     alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%'
+    justifyContent: 'center'
   },
   text: {
     color: colors.textGrey1
@@ -52,6 +51,9 @@ export const styles = StyleSheet.create({
   disabledText: {
     color: colors.textGrey2,
     ...typography.taglineInterSemiBoldUppercase15
+  },
+  fuild: {
+    width: '100%'
   },
   extraLarge: {
     height: getCustomSize(6)

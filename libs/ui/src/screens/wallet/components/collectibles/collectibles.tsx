@@ -33,9 +33,9 @@ export const CollectiblesWidget: FC = () => {
             ))}
           </Row>
           <Column style={styles.buttons}>
-            <Button title={RECEIVE} rightIcon={IconNameEnum.Receive} />
+            <Button title={RECEIVE} size="fluid" rightIcon={IconNameEnum.Receive} />
             <Divider />
-            <Button title={VIEW_ALL} rightIcon={IconNameEnum.ArrowRight} />
+            <Button title={VIEW_ALL} size="fluid" rightIcon={IconNameEnum.ArrowRight} />
           </Column>
         </Row>
       )}
