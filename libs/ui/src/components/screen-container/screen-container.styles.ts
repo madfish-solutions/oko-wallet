@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.bgGrey2
   },
   contentContainer: {
-    height: contentHeight,
+    minHeight: contentHeight,
     flexShrink: 0
   },
   container: {
