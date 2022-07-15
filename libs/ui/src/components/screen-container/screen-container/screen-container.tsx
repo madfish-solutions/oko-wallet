@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import { ScrollView, View } from 'react-native';
 
-import { useUnlock } from '../../hooks/use-unlock.hook';
-import { ViewStyleProps } from '../../interfaces/style.interface';
-import { Column } from '../column/column';
-import { HeaderSideTypeEnum } from '../header/enums/header-side-type.enum';
-import { HeaderSecondaryScreen } from '../header/header-secondary-screen/header-secondary-screen';
-import { HeaderIconsProps } from '../header/interfaces/header.interface';
-import { NavigationBar } from '../navigation-bar/navigation-bar';
+import { useUnlock } from '../../../hooks/use-unlock.hook';
+import { ViewStyleProps } from '../../../interfaces/style.interface';
+import { Column } from '../../column/column';
+import { HeaderSideTypeEnum } from '../../header/enums/header-side-type.enum';
+import { HeaderSecondaryScreen } from '../../header/header-secondary-screen/header-secondary-screen';
+import { HeaderIconsProps } from '../../header/interfaces/header.interface';
+import { NavigationBar } from '../../navigation-bar/navigation-bar';
 
 import { styles } from './screen-container.styles';
 

@@ -2,7 +2,7 @@ import React, { FC, useMemo, useState } from 'react';
 import { Text, TextInput, ScrollView } from 'react-native';
 
 import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
-import { ScreenContainer } from '../../components/screen-container/screen-container';
+import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
 import { useVisibleAccountTokensSelector } from '../../store/wallet/wallet.selectors';
 
 import { styles } from './account-tokens.styles';

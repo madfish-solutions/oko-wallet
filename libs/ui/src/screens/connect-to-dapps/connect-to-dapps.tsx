@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { ScreenContainer } from '../../components/screen-container/screen-container';
+import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
 
 import { ConnectToDapps as ConnectToDappsComponent } from './components/connect-to-dapps/connect-to-dapps';
 

@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { Text, TextInput, Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { ScreenContainer } from '../../components/screen-container/screen-container';
+import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
 import { addTokenMetadataAction } from '../../store/wallet/wallet.actions';
 
 export const AddNewToken: FC = () => {
