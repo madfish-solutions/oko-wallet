@@ -22,8 +22,8 @@ const deriveSeed = (seed: Buffer, derivationPath: string) => {
 const seedToPrivateKey = (seed: Buffer, derivationPath: string) =>
   b58cencode(deriveSeed(seed, derivationPath), prefix.edsk2);
 
-export const generateTezosHdAccount = async (seedPhrase: string, derivationPath: string) => {
-  const seed = mnemonicToSeedSync(seedPhrase);
+export const generateTezosHdAccount = async (mnemonic: string, derivationPath: string) => {
+  const seed = mnemonicToSeedSync(mnemonic);
   const [publicKey, address, privateKey] = await getKeys(seedToPrivateKey(seed, derivationPath));
 
   return {

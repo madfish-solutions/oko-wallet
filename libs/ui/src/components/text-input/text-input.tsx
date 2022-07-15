@@ -34,7 +34,7 @@ export const TextInput = forwardRef<TextInputRef, Props>(
     const isError = isDefined(error);
 
     return (
-      <View style={[styles.root, containerStyle]}>
+      <View style={containerStyle}>
         {isLabel && (
           <View style={styles.labelContainer}>
             <Text style={styles.label}>Account name</Text>

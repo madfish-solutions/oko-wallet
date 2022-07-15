@@ -6,9 +6,6 @@ import { typography } from '../../styles/typography';
 import { isWeb } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
-  root: {
-    flex: 1
-  },
   labelContainer: {
     paddingLeft: getCustomSize(),
     marginBottom: getCustomSize(0.75)
@@ -18,7 +15,7 @@ export const styles = StyleSheet.create({
     ...typography.captionInterRegular13
   },
   input: {
-    height: getCustomSize(5),
+    height: getCustomSize(6),
     paddingHorizontal: getCustomSize(1.5),
     borderRadius: getCustomSize(),
     borderWidth: 1,
