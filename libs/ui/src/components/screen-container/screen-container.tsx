@@ -26,7 +26,7 @@ export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType,
 
   const isMainScreen = !isDefined(screenTitle);
 
-  const { onScroll, onTouchEnd, qrCodeVisibility, contentOffsetY, scrollViewRef, qrCodeInitialValue } =
+  const { onScroll, onTouchEnd, changeQrCodeVisibility, contentOffsetY, scrollViewRef, qrCodeInitialValue } =
     useHeaderAnimation();
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType,
       {isDefined(screenTitle) ? (
         <HeaderSecondaryScreen title={screenTitle} icons={icons} navigationType={navigationType} />
       ) : (
-        <HeaderMainScreen qrCodeVisibility={qrCodeVisibility} />
+        <HeaderMainScreen changeQrCodeVisibility={changeQrCodeVisibility} />
       )}
 
       <ScrollView

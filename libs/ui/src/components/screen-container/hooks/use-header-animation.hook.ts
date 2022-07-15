@@ -59,7 +59,7 @@ export const useHeaderAnimation = () => {
   const hideQrCode = (animated?: boolean) => animateScroll(HIDE_QR_CODE, animated);
 
   const animateScroll = (y: number, animated = true) => {
-    if (scrollViewRef !== null && scrollViewRef.current !== null) {
+    if (scrollViewRef?.current !== null) {
       scrollViewRef.current.scrollTo({ y, animated });
     }
   };
@@ -67,7 +67,7 @@ export const useHeaderAnimation = () => {
   return {
     onScroll,
     onTouchEnd,
-    qrCodeVisibility,
+    changeQrCodeVisibility: qrCodeVisibility,
     contentOffsetY,
     scrollViewRef,
     qrCodeInitialValue
