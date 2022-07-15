@@ -6,6 +6,7 @@ import { typography } from '../../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
+    flexDirection: 'row',
     justifyContent: 'space-between',
     height: getCustomSize(18),
     padding: getCustomSize(2),
@@ -18,8 +19,7 @@ export const styles = StyleSheet.create({
     height: '100%',
     marginRight: getCustomSize(2),
     paddingRight: getCustomSize(4),
-    borderRightWidth: getCustomSize(0.125),
-    borderRightColor: colors.bgGrey2
+    borderRightWidth: getCustomSize(0.125)
   },
   address: {
     color: colors.textGrey1,
@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
   icon: {
     marginLeft: getCustomSize(2)
   },
-  qrcodeWrapper: {
+  qrCodeWrapper: {
     borderRadius: getCustomSize(0.25),
     overflow: 'hidden'
   }

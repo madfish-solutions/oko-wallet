@@ -4,7 +4,7 @@ import { Button } from 'react-native';
 import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
 import { ResetWallet } from '../../components/reset-wallet/reset-wallet';
-import { ScreenContainer } from '../../components/screen-container/screen-container';
+import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useUnlock } from '../../hooks/use-unlock.hook';

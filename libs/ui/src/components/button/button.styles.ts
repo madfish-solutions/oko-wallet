@@ -52,6 +52,9 @@ export const styles = StyleSheet.create({
     color: colors.textGrey2,
     ...typography.taglineInterSemiBoldUppercase15
   },
+  fluid: {
+    width: '100%'
+  },
   extraLarge: {
     height: getCustomSize(6)
   },

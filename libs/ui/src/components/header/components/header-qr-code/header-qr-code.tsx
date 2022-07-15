@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Text, View, Share } from 'react-native';
+import { Text, View, Share, Animated } from 'react-native';
 import QRCodeLibrary from 'react-native-qrcode-svg';
 
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
@@ -16,10 +16,11 @@ import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
 import { styles } from './header-qr-code.styles';
 
 interface Props {
+  contentOffsetY: number;
   style?: ViewStyleProps;
 }
 
-export const HeaderQRCode: FC<Props> = ({ style }) => {
+export const HeaderQRCode: FC<Props> = ({ contentOffsetY, style }) => {
   const address = useSelectedAccountPublicKeyHashSelector();
 
   const copyAddress = () => handleCopyToClipboard(address);
@@ -34,8 +35,14 @@ export const HeaderQRCode: FC<Props> = ({ style }) => {
     }
   };
 
+  const animationOpacity = new Animated.Value(contentOffsetY).interpolate({
+    inputRange: [0, 160],
+    outputRange: [1, 0],
+    extrapolate: 'clamp'
+  });
+
   return (
-    <Row style={[styles.root, style]}>
+    <Animated.View style={[styles.root, style, { opacity: animationOpacity }]}>
       <Column style={styles.wrapper}>
         <Text style={styles.address} numberOfLines={3}>
           {address}
@@ -45,7 +52,7 @@ export const HeaderQRCode: FC<Props> = ({ style }) => {
           {isMobile && <TouchableIcon name={IconNameEnum.Share} onPress={shareAddress} style={styles.icon} />}
         </Row>
       </Column>
-      <View style={styles.qrcodeWrapper}>
+      <View style={styles.qrCodeWrapper}>
         <QRCodeLibrary
           backgroundColor="transparent"
           color={colors.textGrey1}
@@ -53,6 +60,6 @@ export const HeaderQRCode: FC<Props> = ({ style }) => {
           size={getCustomSize(14)}
         />
       </View>
-    </Row>
+    </Animated.View>
   );
 };

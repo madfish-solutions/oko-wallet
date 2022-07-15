@@ -8,8 +8,5 @@ export const styles = StyleSheet.create({
   },
   accountBalance: {
     marginLeft: 'auto'
-  },
-  qrCode: {
-    marginTop: getCustomSize(2.5)
   }
 });

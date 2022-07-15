@@ -7,16 +7,18 @@ import { isWeb } from '../../../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {
+    position: 'relative',
     paddingHorizontal: getCustomSize(2),
-    paddingBottom: getCustomSize(2.5),
-    paddingTop: isWeb ? getCustomSize(2) : getCustomSize(5.5),
+    paddingBottom: getCustomSize(2.625),
     backgroundColor: colors.bgGrey2,
     borderBottomLeftRadius: getCustomSize(3),
-    borderBottomRightRadius: getCustomSize(3)
+    borderBottomRightRadius: getCustomSize(3),
+    zIndex: 2
   },
   wrapper: {
     justifyContent: 'space-between',
-    marginBottom: getCustomSize(2.5)
+    paddingBottom: getCustomSize(2.5),
+    paddingTop: isWeb ? getCustomSize(2) : getCustomSize(5.5)
   },
   addressWrapper: {
     flexDirection: 'row',

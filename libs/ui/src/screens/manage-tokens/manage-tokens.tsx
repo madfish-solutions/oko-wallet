@@ -2,7 +2,7 @@ import React, { FC, Fragment } from 'react';
 import { Text, Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { ScreenContainer } from '../../components/screen-container/screen-container';
+import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
 import { Token } from '../../interfaces/token.interface';
 import { changeTokenVisibilityAction } from '../../store/wallet/wallet.actions';
 import { useAccountTokensSelector } from '../../store/wallet/wallet.selectors';

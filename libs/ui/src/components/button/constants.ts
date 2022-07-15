@@ -19,5 +19,6 @@ export const sizeClasses = {
   extraLarge: styles.extraLarge,
   large: styles.large,
   medium: styles.medium,
-  small: styles.small
+  small: styles.small,
+  fluid: styles.fluid
 };
