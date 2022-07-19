@@ -2,19 +2,28 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isDefined } from '@rnw-community/shared';
 import { useEffect, useState } from 'react';
 
+import { isWeb } from '../utils/platform.utils';
+
 export const useLocalStorage = <T>(key: string, initialValue: T) => {
-  // TODO: Add logic with AsyncStorage
-  const [localStorageValue, setLocalStorageValue] = useState<T>(() => {
-    try {
-      const item = localStorage.getItem(key);
+  const getInitialValue = () => {
+    if (isWeb) {
+      return () => {
+        try {
+          const item = localStorage.getItem(key);
 
-      return item !== null ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      console.log(error);
+          return item !== null ? JSON.parse(item) : initialValue;
+        } catch (error) {
+          console.log(error);
 
-      return initialValue;
+          return initialValue;
+        }
+      };
     }
-  });
+
+    return initialValue;
+  };
+
+  const [localStorageValue, setLocalStorageValue] = useState<T>(getInitialValue());
 
   const getStoredValue = async (newKey: string) => {
     const value = await AsyncStorage.getItem(newKey);

@@ -1,7 +1,7 @@
-import React, { FC, useCallback, useRef } from 'react';
+import { OnEventFn } from '@rnw-community/shared';
+import React, { FC, useRef } from 'react';
 import { Animated, Easing, Pressable } from 'react-native';
 
-import { useLocalStorage } from '../../hooks/use-local-storage.hook';
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { getCustomSize } from '../../styles/format-size';
 import { hapticFeedback } from '../../utils/taptic-engine/taptic-engine.utils';
@@ -15,7 +15,8 @@ const themesStyles = {
 };
 
 interface Props {
-  name: string;
+  isActive: boolean;
+  onPress?: OnEventFn<void>;
   theme?: keyof typeof themesStyles;
   style?: ViewStyleProps;
 }
@@ -23,22 +24,20 @@ interface Props {
 const TURN_ON = getCustomSize(2.5);
 const TURN_OFF = 0;
 
-export const Switch: FC<Props> = ({ name = '', theme = 'primary', style }) => {
-  const { localStorageValue: isTheSwitcherTurtnedOn, setLocalStorageValue } = useLocalStorage(name, false);
-
-  const initialPosition = isTheSwitcherTurtnedOn ? TURN_ON : TURN_OFF;
+export const Switch: FC<Props> = ({ isActive, onPress, theme = 'primary', style }) => {
+  const initialPosition = isActive ? TURN_ON : TURN_OFF;
 
   const knobPosition = useRef(new Animated.Value(initialPosition)).current;
 
-  const switchKnob = useCallback(() => {
-    if (isTheSwitcherTurtnedOn) {
+  const switchKnob = () => {
+    if (isActive) {
       animation();
-      setLocalStorageValue(false);
+      onPress?.();
     } else {
       animation(TURN_ON);
-      setLocalStorageValue(true);
+      onPress?.();
     }
-  }, [isTheSwitcherTurtnedOn]);
+  };
 
   const animation = (toValue = TURN_OFF, duration = 200) =>
     Animated.timing(knobPosition, {
