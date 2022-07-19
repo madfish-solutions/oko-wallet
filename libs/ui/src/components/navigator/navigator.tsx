@@ -19,6 +19,7 @@ import { Receive } from '../../screens/receive/receive';
 import { SendConfirmation } from '../../screens/send-confirmation/send-confirmation';
 import { Send } from '../../screens/send/send';
 import { Settings } from '../../screens/settings/settings';
+import { Ui } from '../../screens/ui/ui';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
@@ -82,6 +83,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
               <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
               <Stack.Screen name={ScreensEnum.AccountTokens} component={AccountTokens} />
+              <Stack.Screen name={ScreensEnum.Ui} component={Ui} />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptions}>

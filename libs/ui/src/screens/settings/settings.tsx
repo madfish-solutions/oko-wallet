@@ -8,6 +8,7 @@ import { ScreenContainer } from '../../components/screen-container/screen-contai
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useUnlock } from '../../hooks/use-unlock.hook';
+import { colors } from '../../styles/colors';
 import { openInFullPage } from '../../utils/maximize-screen.util';
 import { isWeb } from '../../utils/platform.utils';
 
@@ -21,6 +22,7 @@ export const Settings: FC = () => {
   const navigateToManageTokens = () => navigate(ScreensEnum.ManageTokens);
   const navigateToAddNetwork = () => navigate(ScreensEnum.AddNetwork);
   const navigateToConnectToDapps = () => navigate(ScreensEnum.ConnectToDapps);
+  const navigateToUi = () => navigate(ScreensEnum.Ui);
 
   const handleMaximiseViewClick = () => {
     openInFullPage();
@@ -39,6 +41,7 @@ export const Settings: FC = () => {
       <ResetWallet />
       <Button onPress={lock} title="lock app" color="#841584" />
       {isWeb && <Button title="Maximize screen" onPress={handleMaximiseViewClick} color="#ffa500" />}
+      <Button title="Ui" onPress={navigateToUi} color={colors.orange} />
       <Activity />
     </ScreenContainer>
   );

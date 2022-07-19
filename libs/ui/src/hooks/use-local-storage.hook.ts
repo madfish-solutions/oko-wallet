@@ -3,7 +3,18 @@ import { isDefined } from '@rnw-community/shared';
 import { useEffect, useState } from 'react';
 
 export const useLocalStorage = <T>(key: string, initialValue: T) => {
-  const [localStorageValue, setLocalStorageValue] = useState<T>(initialValue);
+  // TODO: Add logic with AsyncStorage
+  const [localStorageValue, setLocalStorageValue] = useState<T>(() => {
+    try {
+      const item = localStorage.getItem(key);
+
+      return item !== null ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      console.log(error);
+
+      return initialValue;
+    }
+  });
 
   const getStoredValue = async (newKey: string) => {
     const value = await AsyncStorage.getItem(newKey);
