@@ -6,7 +6,7 @@ import { ViewStyleProps } from '../../interfaces/style.interface';
 import { getCustomSize } from '../../styles/format-size';
 import { hapticFeedback } from '../../utils/taptic-engine/taptic-engine.utils';
 
-import { styles } from './switcher.styles';
+import { styles } from './switch.styles';
 
 const themesStyles = {
   primary: styles.primary,
@@ -23,7 +23,7 @@ interface Props {
 const TURN_ON = getCustomSize(2.5);
 const TURN_OFF = 0;
 
-export const Switcher: FC<Props> = ({ name = '', theme = 'primary', style }) => {
+export const Switch: FC<Props> = ({ name = '', theme = 'primary', style }) => {
   const { localStorageValue: isTheSwitcherTurtnedOn, setLocalStorageValue } = useLocalStorage(name, false);
 
   const initialPosition = isTheSwitcherTurtnedOn ? TURN_ON : TURN_OFF;
@@ -44,7 +44,7 @@ export const Switcher: FC<Props> = ({ name = '', theme = 'primary', style }) => 
     Animated.timing(knobPosition, {
       toValue,
       duration,
-      useNativeDriver: false,
+      useNativeDriver: true,
       easing: Easing.linear
     }).start();
 
