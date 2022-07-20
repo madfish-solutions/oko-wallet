@@ -3,16 +3,16 @@ import React, { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ScrollView, Text } from 'react-native';
 
-import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
-import { Row } from '../../../../components/row/row';
-import { TextInput } from '../../../../components/text-input/text-input';
-import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
-import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { useAllNetworksSelector } from '../../../../store/wallet/wallet.selectors';
-import { ModalActionContainer } from '../../../components/modal-action-container/modal-action-container';
-import { FooterButtons } from '../../../components/modal-footer-buttons/modal-footer-buttons.interface';
-import { useNetworkFieldsRules } from '../../../hooks/use-validate-network-fields.hook';
-import { FormTypes } from '../types/form-types.interface';
+import { IconNameEnum } from '../../../../../components/icon/icon-name.enum';
+import { Row } from '../../../../../components/row/row';
+import { TextInput } from '../../../../../components/text-input/text-input';
+import { TouchableIcon } from '../../../../../components/touchable-icon/touchable-icon';
+import { useNavigation } from '../../../../../hooks/use-navigation.hook';
+import { useAllNetworksSelector } from '../../../../../store/wallet/wallet.selectors';
+import { ModalActionContainer } from '../../../../components/modal-action-container/modal-action-container';
+import { FooterButtons } from '../../../../components/modal-footer-buttons/modal-footer-buttons.interface';
+import { useNetworkFieldsRules } from '../../../../hooks/use-validate-network-fields.hook';
+import { FormTypes } from '../../types/form-types.interface';
 
 import { styles } from './network-container.styles';
 
@@ -43,7 +43,9 @@ export const NetworkContainer: FC<Props> = ({ defaultValues, screenTitle, onSubm
     defaultValues: defaultValues ?? initialFormValues
   });
 
-  const { commonRules, rpcUrlRules, chainIdRules } = useNetworkFieldsRules(networks);
+  const { commonRules, rpcUrlRules, chainIdRules } = useNetworkFieldsRules(networks, defaultValues);
+
+  // Add check rpcUrl for gas token metadata
 
   const handlePressPrompt = () => null;
   const handlePromptNavigate = () => null;

@@ -26,6 +26,11 @@ export const loadAccountTokenBalanceAction = createActions<
 
 export const addNewNetworkAction = createAction<NetworkInterface>('wallet/ADD_NEW_NETWORK');
 export const changeNetworkAction = createAction<string>('wallet/CHANGE_NETWORK');
+export const editNetworkAction = createAction<{
+  network: NetworkInterface;
+  isNetworkSelected: boolean;
+  prevRpcUrl?: string;
+}>('wallet/EDIT_NETWORK');
 
 export const addTokenMetadataAction = createAction<AccountTokenInput>('wallet/ADD_TOKEN_METADATA');
 export const changeTokenVisibilityAction = createAction<Token>('wallet/CHANGE_TOKEN_VISIBILITY');

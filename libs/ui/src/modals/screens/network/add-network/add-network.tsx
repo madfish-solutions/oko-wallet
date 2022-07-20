@@ -11,7 +11,7 @@ import { createEntity } from '../../../../store/utils/entity.utils';
 import { addNewNetworkAction } from '../../../../store/wallet/wallet.actions';
 import { useSelectedAccountSelector } from '../../../../store/wallet/wallet.selectors';
 import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
-import { NetworkContainer } from '../network-container/network-container';
+import { NetworkContainer } from '../components/network-container/network-container';
 import { FormTypes } from '../types/form-types.interface';
 
 export const AddNetwork: FC = () => {

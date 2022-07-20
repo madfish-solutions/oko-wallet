@@ -9,6 +9,7 @@ import { AccountsSelector } from '../../modals/screens/accounts-selector/account
 import { AddAccount } from '../../modals/screens/add-account/add-account';
 import { AddNetwork } from '../../modals/screens/add-network/add-network';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
+import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
 import { NetworksSelector } from '../../modals/screens/networks-selector/networks-selector';
 import { AccountTokens } from '../../screens/account-tokens/account-tokens';
 import { AddNewToken } from '../../screens/add-new-token/add-new-token';
@@ -108,6 +109,11 @@ export const Navigator: FC = () => {
                 component={AddAccount}
               />
               <Stack.Screen name={ScreensEnum.AddNetwork} options={{ title: 'Add network' }} component={AddNetwork} />
+              <Stack.Screen
+                name={ScreensEnum.EditNetwork}
+                options={{ title: 'Edit network' }}
+                component={EditNetwork}
+              />
             </Stack.Group>
           </>
         ) : (

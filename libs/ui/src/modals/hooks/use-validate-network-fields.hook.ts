@@ -1,15 +1,25 @@
-import { isNotEmptyString } from '@rnw-community/shared';
+import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 
 import { NetworkInterface } from '../../interfaces/network.interface';
+import { FormTypes } from '../screens/network/types/form-types.interface';
 
-export const useNetworkFieldsRules = (networks: NetworkInterface[]) => {
+export const useNetworkFieldsRules = (networks: NetworkInterface[], defaultValues?: FormTypes) => {
   const isNetworkRpcUrlAlreadyExist = (currentRpcUrl: string) => {
-    if (networks.some(network => network.rpcUrl === currentRpcUrl)) {
+    if (
+      networks.some(network => network.rpcUrl === currentRpcUrl) &&
+      isDefined(defaultValues) &&
+      currentRpcUrl !== defaultValues.rpcUrl
+    ) {
       return 'Network with this RPC URL already exist';
     }
   };
+
   const isNetworkChainIdAlreadyExist = (currentChainId: string) => {
-    if (networks.some(network => network.chainId === currentChainId)) {
+    if (
+      networks.some(network => network.chainId === currentChainId) &&
+      isDefined(defaultValues) &&
+      currentChainId !== defaultValues.chainId
+    ) {
       return 'Network with this chain ID already exist';
     }
   };
@@ -21,10 +31,6 @@ export const useNetworkFieldsRules = (networks: NetworkInterface[]) => {
   };
 
   const commonRules = {
-    maxLength: {
-      value: 21,
-      message: 'Maximum 21 symbol'
-    },
     required: 'This field is required',
     validate: { checkIfOnlySpaces }
   };
