@@ -138,5 +138,6 @@ export const NETWORK_CHAIN_IDS_BY_NETWORK_TYPE: NetworkChainIdsByNetworkType = {
     'NetXbhmtAbMukLc',
     'NetXnHfVqm9iesp',
     'NetXLH1uAxK7CCh'
-  ]
+  ],
+  [NetworkTypeEnum.EVM]: []
 };

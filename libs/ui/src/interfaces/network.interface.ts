@@ -15,6 +15,6 @@ export interface NetworkInterface {
   iconName?: IconNameEnum;
 }
 
-export type NetworkChainIdsByNetworkType = Partial<{
+export type NetworkChainIdsByNetworkType = {
   [networkType in NetworkTypeEnum]: string[];
-}>;
+};

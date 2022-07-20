@@ -36,6 +36,7 @@ import Slider from './assets/slider.svg';
 import SmallRobot from './assets/small-robot.svg';
 import StakeIcon from './assets/stake.svg';
 import SwapIcon from './assets/swap.svg';
+import Tooltip from './assets/tooltip.svg';
 import TopupIcon from './assets/topup.svg';
 import WidgetSettings from './assets/widget-settings.svg';
 import XIcon from './assets/x.svg';
@@ -88,5 +89,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   // to dell
   [IconNameEnum.BigRobot]: BigRobot,
   [IconNameEnum.SmallRobot]: SmallRobot,
-  [IconNameEnum.EmptySearch]: EmptySearch
+  [IconNameEnum.EmptySearch]: EmptySearch,
+  [IconNameEnum.Tooltip]: Tooltip
 };

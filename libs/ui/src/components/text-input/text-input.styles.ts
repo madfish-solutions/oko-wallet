@@ -7,12 +7,19 @@ import { isWeb } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   labelContainer: {
-    paddingLeft: getCustomSize(),
     marginBottom: getCustomSize(0.75)
   },
   label: {
     color: colors.textGrey3,
     ...typography.captionInterRegular13
+  },
+  promptContainer: {
+    marginBottom: getCustomSize()
+  },
+  promptText: {
+    marginRight: getCustomSize(0.5),
+    color: colors.textGrey2,
+    ...typography.captionInterRegular11
   },
   input: {
     height: getCustomSize(6),
@@ -23,13 +30,18 @@ export const styles = StyleSheet.create({
     borderColor: colors.bgGrey4,
     color: colors.textGrey1,
     ...typography.bodyInterRegular15,
-    ...(isWeb && { outlineStyle: 'none' })
+    ...(isWeb && { outlineStyle: 'none' }),
+    ...(isWeb && { caretColor: colors.orange })
   },
   errorInput: {
     borderColor: colors.red
   },
+  errorContainer: {
+    position: 'relative'
+  },
   textError: {
-    marginTop: getCustomSize(),
+    position: 'absolute',
+    top: getCustomSize(0.75),
     color: colors.red,
     ...typography.captionInterRegular11
   }

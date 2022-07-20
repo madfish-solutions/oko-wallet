@@ -42,5 +42,6 @@ export enum IconNameEnum {
   // to dell
   BigRobot = 'BigRobot',
   SmallRobot = 'SmallRobot',
-  EmptySearch = 'EmptySearch'
+  EmptySearch = 'EmptySearch',
+  Tooltip = 'Tooltip'
 }

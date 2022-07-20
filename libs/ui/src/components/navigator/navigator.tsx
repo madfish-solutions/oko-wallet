@@ -7,10 +7,10 @@ import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
 import { AddAccount } from '../../modals/screens/add-account/add-account';
+import { AddNetwork } from '../../modals/screens/add-network/add-network';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
 import { NetworksSelector } from '../../modals/screens/networks-selector/networks-selector';
 import { AccountTokens } from '../../screens/account-tokens/account-tokens';
-import { AddNetwork } from '../../screens/add-network/add-network';
 import { AddNewToken } from '../../screens/add-new-token/add-new-token';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
 import { ImportAccount } from '../../screens/import-account/import-account';
@@ -75,7 +75,6 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
               <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
               <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
-              <Stack.Screen name={ScreensEnum.AddNetwork} component={AddNetwork} />
               <Stack.Screen name={ScreensEnum.Send} component={Send} />
               <Stack.Screen name={ScreensEnum.AddNewToken} component={AddNewToken} />
               <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
@@ -108,6 +107,7 @@ export const Navigator: FC = () => {
                 options={{ title: 'Add new account' }}
                 component={AddAccount}
               />
+              <Stack.Screen name={ScreensEnum.AddNetwork} options={{ title: 'Add network' }} component={AddNetwork} />
             </Stack.Group>
           </>
         ) : (
