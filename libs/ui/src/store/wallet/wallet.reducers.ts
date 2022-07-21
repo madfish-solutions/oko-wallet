@@ -21,7 +21,8 @@ import {
   loadAccountTokenBalanceAction,
   updateTransactionAction,
   addTransactionAction,
-  editNetworkAction
+  editNetworkAction,
+  removeNetworkAction
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -208,6 +209,23 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       ...state,
       networks,
       selectedNetworkRpcUrl: isNetworkSelected ? newNetwork.rpcUrl : state.selectedNetworkRpcUrl,
+      selectedAccountPublicKeyHash: getPublicKeyHash(selectedAccount, newNetwork.networkType),
+      accountsTokens: updateAccountsTokensState(
+        { ...state, networks, selectedNetworkRpcUrl: newNetwork.rpcUrl },
+        selectedAccount
+      )
+    };
+  });
+  builder.addCase(removeNetworkAction, (state, { payload: rpcUrl }) => {
+    const prevNetworkType = getSelectedNetworkType(state);
+    const selectedAccount = getSelectedAccount(state, prevNetworkType);
+    const networks = state.networks.filter(network => network.rpcUrl !== rpcUrl);
+    const newNetwork = networks[0];
+
+    return {
+      ...state,
+      networks,
+      selectedNetworkRpcUrl: newNetwork.rpcUrl,
       selectedAccountPublicKeyHash: getPublicKeyHash(selectedAccount, newNetwork.networkType),
       accountsTokens: updateAccountsTokensState(
         { ...state, networks, selectedNetworkRpcUrl: newNetwork.rpcUrl },

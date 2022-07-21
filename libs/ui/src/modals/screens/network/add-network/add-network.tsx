@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 
 import { NETWORK_CHAIN_IDS_BY_NETWORK_TYPE } from '../../../../constants/networks';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
-import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
@@ -15,7 +14,7 @@ import { NetworkContainer } from '../components/network-container/network-contai
 import { FormTypes } from '../types/form-types.interface';
 
 export const AddNetwork: FC = () => {
-  const { navigate } = useNavigation();
+  const { goBack } = useNavigation();
   const dispatch = useDispatch();
   const { createHdAccountForNewNetworkType } = useShelter();
   const selectedAccount = useSelectedAccountSelector();
@@ -50,7 +49,7 @@ export const AddNetwork: FC = () => {
       dispatch(addNewNetworkAction(values));
     }
 
-    navigate(ScreensEnum.Wallet);
+    goBack();
   };
 
   return <NetworkContainer screenTitle="Add network" submitTitle="Add" onSubmitPress={onSumbit} />;

@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { ButtonWithIcon } from '../../../../components/button-with-icon/button-with-icon';
@@ -10,7 +10,7 @@ import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
-import { editNetworkAction } from '../../../../store/wallet/wallet.actions';
+import { editNetworkAction, removeNetworkAction } from '../../../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedAccountSelector } from '../../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../../styles/format-size';
 import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
@@ -28,6 +28,10 @@ export const EditNetwork: FC = () => {
   const {
     params: { network: selectedNetwork, isNetworkSelected }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.EditNetwork>>();
+  const networksWithoutCurrent = useMemo(
+    () => networks.filter(network => network.rpcUrl !== selectedNetwork.rpcUrl),
+    [networks, selectedNetwork]
+  );
 
   const prepareSelectedNetwork = {
     name: selectedNetwork.name,
@@ -76,6 +80,22 @@ export const EditNetwork: FC = () => {
     goBack();
   };
 
+  const handleRemoveNetwork = () => {
+    // eslint-disable-next-line no-alert
+    const result = confirm('Are you sure?');
+
+    if (result) {
+      if (!checkIsNetworkTypeKeyExist(selectedAccount, networksWithoutCurrent[0].networkType)) {
+        createHdAccountForNewNetworkType(selectedAccount, networksWithoutCurrent[0].networkType, () => {
+          dispatch(removeNetworkAction(selectedNetwork.rpcUrl));
+        });
+      } else {
+        dispatch(removeNetworkAction(selectedNetwork.rpcUrl));
+      }
+      goBack();
+    }
+  };
+
   return (
     <NetworkContainer
       screenTitle="Edit network"
@@ -88,6 +108,7 @@ export const EditNetwork: FC = () => {
         size="small"
         leftIcon={IconNameEnum.Trash}
         iconSize={getCustomSize(2)}
+        onPress={handleRemoveNetwork}
         disabled={networks.length === 1}
         style={styles.button}
       />
