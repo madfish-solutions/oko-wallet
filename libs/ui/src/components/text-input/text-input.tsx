@@ -73,6 +73,7 @@ export const TextInput = forwardRef<TextInputRef, Props>(
             onBlur={onBlur}
             onChangeText={onChangeText}
             selectionColor={colors.orange}
+            numberOfLines={1}
             value={value}
           />
           {isNotEmptyString(value) && (

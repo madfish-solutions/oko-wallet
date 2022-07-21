@@ -40,6 +40,7 @@ export const AccountsSelector: FC = () => {
         <Row style={styles.buttonsContainer}>
           <ButtonWithIcon
             title="Widget settings"
+            theme="secondary"
             size="medium"
             onPress={onWidgetSettings}
             rightIcon={IconNameEnum.WidgetSettings}
@@ -47,6 +48,7 @@ export const AccountsSelector: FC = () => {
           />
           <ButtonWithIcon
             title="Account settings"
+            theme="secondary"
             size="medium"
             onPress={onAccountSettings}
             rightIcon={IconNameEnum.Settings}

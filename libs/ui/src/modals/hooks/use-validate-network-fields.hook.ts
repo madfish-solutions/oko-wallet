@@ -37,7 +37,7 @@ export const useNetworkFieldsRules = (networks: NetworkInterface[], defaultValue
 
   const rpcUrlRules = {
     required: commonRules.required,
-    validate: { isNetworkRpcUrlAlreadyExist }
+    validate: { ...commonRules.validate, isNetworkRpcUrlAlreadyExist }
   };
   const chainIdRules = {
     ...commonRules,

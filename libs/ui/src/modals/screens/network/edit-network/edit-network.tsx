@@ -16,6 +16,7 @@ import { getCustomSize } from '../../../../styles/format-size';
 import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
 import { NetworkContainer } from '../components/network-container/network-container';
 import { FormTypes } from '../types/form-types.interface';
+import { confirmRemoveAction } from '../utils/confirmation.util';
 
 import { styles } from './edit-network.styles';
 
@@ -80,20 +81,19 @@ export const EditNetwork: FC = () => {
     goBack();
   };
 
-  const handleRemoveNetwork = () => {
-    // eslint-disable-next-line no-alert
-    const result = confirm('Are you sure?');
+  const handleConfirmRemoveAction = () => {
+    confirmRemoveAction(handleRemoveNetwork);
+  };
 
-    if (result) {
-      if (!checkIsNetworkTypeKeyExist(selectedAccount, networksWithoutCurrent[0].networkType)) {
-        createHdAccountForNewNetworkType(selectedAccount, networksWithoutCurrent[0].networkType, () => {
-          dispatch(removeNetworkAction(selectedNetwork.rpcUrl));
-        });
-      } else {
+  const handleRemoveNetwork = () => {
+    if (!checkIsNetworkTypeKeyExist(selectedAccount, networksWithoutCurrent[0].networkType)) {
+      createHdAccountForNewNetworkType(selectedAccount, networksWithoutCurrent[0].networkType, () => {
         dispatch(removeNetworkAction(selectedNetwork.rpcUrl));
-      }
-      goBack();
+      });
+    } else {
+      dispatch(removeNetworkAction(selectedNetwork.rpcUrl));
     }
+    goBack();
   };
 
   return (
@@ -108,7 +108,7 @@ export const EditNetwork: FC = () => {
         size="small"
         leftIcon={IconNameEnum.Trash}
         iconSize={getCustomSize(2)}
-        onPress={handleRemoveNetwork}
+        onPress={handleConfirmRemoveAction}
         disabled={networks.length === 1}
         style={styles.button}
       />
