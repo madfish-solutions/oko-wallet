@@ -45,12 +45,12 @@ export const AddNetwork: FC = () => {
     if (!checkIsNetworkTypeKeyExist(selectedAccount, networkType)) {
       createHdAccountForNewNetworkType(selectedAccount, networkType, () => {
         dispatch(addNewNetworkAction(values));
-        navigate(ScreensEnum.Wallet);
       });
     } else {
       dispatch(addNewNetworkAction(values));
-      navigate(ScreensEnum.Wallet);
     }
+
+    navigate(ScreensEnum.Wallet);
   };
 
   return <NetworkContainer screenTitle="Add network" submitTitle="Add" onSubmitPress={onSumbit} />;

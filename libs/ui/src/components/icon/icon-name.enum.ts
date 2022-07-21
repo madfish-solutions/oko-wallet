@@ -43,5 +43,7 @@ export enum IconNameEnum {
   BigRobot = 'BigRobot',
   SmallRobot = 'SmallRobot',
   EmptySearch = 'EmptySearch',
-  Tooltip = 'Tooltip'
+  Tooltip = 'Tooltip',
+  Trash = 'Trash',
+  Clear = 'Clear'
 }

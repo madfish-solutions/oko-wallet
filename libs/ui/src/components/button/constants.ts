@@ -12,6 +12,10 @@ export const themeClasses = {
   tertiary: {
     button: styles.buttonTertiary,
     text: styles.textTertiary
+  },
+  quaternary: {
+    button: styles.buttonQuaternary,
+    text: styles.textQuaternary
   }
 };
 

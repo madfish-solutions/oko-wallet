@@ -2,6 +2,8 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { Button } from '../../../../components/button/button';
+import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { NETWORK_CHAIN_IDS_BY_NETWORK_TYPE } from '../../../../constants/networks';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
@@ -9,7 +11,8 @@ import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
 import { editNetworkAction } from '../../../../store/wallet/wallet.actions';
-import { useSelectedAccountSelector } from '../../../../store/wallet/wallet.selectors';
+import { useAllNetworksSelector, useSelectedAccountSelector } from '../../../../store/wallet/wallet.selectors';
+import { getCustomSize } from '../../../../styles/format-size';
 import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
 import { NetworkContainer } from '../components/network-container/network-container';
 import { FormTypes } from '../types/form-types.interface';
@@ -19,6 +22,7 @@ export const EditNetwork: FC = () => {
   const dispatch = useDispatch();
   const { createHdAccountForNewNetworkType } = useShelter();
   const selectedAccount = useSelectedAccountSelector();
+  const networks = useAllNetworksSelector();
   const {
     params: { network: selectedNetwork, isNetworkSelected }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.EditNetwork>>();
@@ -76,6 +80,14 @@ export const EditNetwork: FC = () => {
       submitTitle="Save"
       onSubmitPress={onSumbit}
       defaultValues={prepareSelectedNetwork}
-    />
+    >
+      <Button
+        title="Delete network"
+        theme="quaternary"
+        leftIcon={IconNameEnum.Trash}
+        iconSize={getCustomSize(2)}
+        disabled={networks.length === 1}
+      />
+    </NetworkContainer>
   );
 };

@@ -37,13 +37,17 @@ export const NetworkContainer: FC<Props> = ({ defaultValues, screenTitle, onSubm
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors }
   } = useForm<FormTypes>({
     mode: 'onChange',
     defaultValues: defaultValues ?? initialFormValues
   });
 
-  const { commonRules, rpcUrlRules, chainIdRules } = useNetworkFieldsRules(networks, defaultValues);
+  const { commonRules, rpcUrlRules, chainIdRules } = useNetworkFieldsRules(
+    networks,
+    defaultValues ?? initialFormValues
+  );
 
   // Add check rpcUrl for gas token metadata
 
@@ -68,14 +72,16 @@ export const NetworkContainer: FC<Props> = ({ defaultValues, screenTitle, onSubm
           control={control}
           name="name"
           rules={commonRules}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
+          render={({ field: { onChange, onBlur, value, ref, name } }) => (
             <TextInput
               ref={ref}
+              name={name}
               label="Network name"
               placeholder="Network"
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
+              clearField={setValue}
               error={errors?.name?.message}
               containerStyle={styles.inputContainer}
             />
@@ -85,14 +91,16 @@ export const NetworkContainer: FC<Props> = ({ defaultValues, screenTitle, onSubm
           control={control}
           name="rpcUrl"
           rules={rpcUrlRules}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
+          render={({ field: { onChange, onBlur, value, ref, name } }) => (
             <TextInput
               ref={ref}
+              name={name}
               label="RPC URL"
               placeholder="https://"
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
+              clearField={setValue}
               prompt="How to get RPC URL?"
               handlePrompt={handlePromptNavigate}
               error={errors?.rpcUrl?.message}
@@ -104,14 +112,16 @@ export const NetworkContainer: FC<Props> = ({ defaultValues, screenTitle, onSubm
           control={control}
           name="chainId"
           rules={chainIdRules}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
+          render={({ field: { onChange, onBlur, value, ref, name } }) => (
             <TextInput
               ref={ref}
+              name={name}
               label="Chain ID"
               placeholder="Chain ID"
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
+              clearField={setValue}
               error={errors?.chainId?.message}
               containerStyle={styles.inputContainer}
             />
@@ -121,14 +131,16 @@ export const NetworkContainer: FC<Props> = ({ defaultValues, screenTitle, onSubm
           control={control}
           name="blockExplorerUrl"
           rules={{ ...commonRules, required: false }}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
+          render={({ field: { onChange, onBlur, value, ref, name } }) => (
             <TextInput
               ref={ref}
+              name={name}
               label="Block Explorer URL"
               placeholder="https://"
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
+              clearField={setValue}
               prompt="I don’t have Block Explorer URL"
               handlePrompt={handlePromptNavigate}
               error={errors?.blockExplorerUrl?.message}
@@ -140,15 +152,18 @@ export const NetworkContainer: FC<Props> = ({ defaultValues, screenTitle, onSubm
           control={control}
           name="tokenSymbol"
           rules={commonRules}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
+          render={({ field: { onChange, onBlur, value, ref, name } }) => (
             <TextInput
               ref={ref}
+              name={name}
               label="Gas Token Symbol"
               placeholder="BTC"
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
+              clearField={setValue}
               error={errors?.tokenSymbol?.message}
+              containerStyle={styles.lastInputContainer}
             />
           )}
         />

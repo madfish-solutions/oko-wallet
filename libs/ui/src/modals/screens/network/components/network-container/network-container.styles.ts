@@ -6,7 +6,7 @@ import { typography } from '../../../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
-    marginBottom: getCustomSize(2.5)
+    marginBottom: getCustomSize(2)
   },
   prompt: {
     justifyContent: 'space-between',
@@ -23,5 +23,8 @@ export const styles = StyleSheet.create({
   },
   inputContainer: {
     marginBottom: getCustomSize(3.5)
+  },
+  lastInputContainer: {
+    marginBottom: getCustomSize(2)
   }
 });

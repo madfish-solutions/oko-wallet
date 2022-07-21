@@ -21,9 +21,14 @@ export const styles = StyleSheet.create({
     color: colors.textGrey2,
     ...typography.captionInterRegular11
   },
+  inputContainer: {
+    position: 'relative'
+  },
   input: {
+    width: '100%',
     height: getCustomSize(6),
-    paddingHorizontal: getCustomSize(1.5),
+    paddingLeft: getCustomSize(1.5),
+    paddingRight: getCustomSize(4.5),
     borderRadius: getCustomSize(),
     borderWidth: 1,
     backgroundColor: colors.bgGrey4,
@@ -32,6 +37,10 @@ export const styles = StyleSheet.create({
     ...typography.bodyInterRegular15,
     ...(isWeb && { outlineStyle: 'none' }),
     ...(isWeb && { caretColor: colors.orange })
+  },
+  clearIcon: {
+    position: 'absolute',
+    right: getCustomSize()
   },
   errorInput: {
     borderColor: colors.red

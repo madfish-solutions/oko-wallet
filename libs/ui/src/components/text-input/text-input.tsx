@@ -1,5 +1,6 @@
-import { isDefined, OnEventFn } from '@rnw-community/shared';
+import { isDefined, isNotEmptyString, OnEventFn } from '@rnw-community/shared';
 import React, { forwardRef } from 'react';
+import { FieldValues, UseFormSetValue } from 'react-hook-form';
 import { GestureResponderEvent, Text, TextInput as TextInputBase, TextInputProps, View } from 'react-native';
 import { TextInput as TextInputRef } from 'react-native-gesture-handler';
 
@@ -16,6 +17,8 @@ interface Props extends TextInputProps {
   label?: string;
   error?: string;
   prompt?: string;
+  name: string;
+  clearField: UseFormSetValue<FieldValues>;
   handlePrompt?: OnEventFn<GestureResponderEvent, void>;
   containerStyle?: ViewStyleProps;
   inputStyle?: TextStyleProps;
@@ -29,8 +32,10 @@ export const TextInput = forwardRef<TextInputRef, Props>(
       value,
       label,
       error,
+      name,
       prompt,
       handlePrompt,
+      clearField,
       placeholder = '',
       placeholderTextColor = colors.border1,
       containerStyle,
@@ -41,6 +46,10 @@ export const TextInput = forwardRef<TextInputRef, Props>(
     const isLabel = isDefined(label);
     const isError = isDefined(error);
     const isPrompt = isDefined(prompt);
+
+    const handleInputClear = () => {
+      clearField(name, '');
+    };
 
     return (
       <View style={containerStyle}>
@@ -55,16 +64,21 @@ export const TextInput = forwardRef<TextInputRef, Props>(
             <TouchableIcon name={IconNameEnum.Tooltip} onPress={handlePrompt} size={getCustomSize(2)} />
           </Row>
         )}
-        <TextInputBase
-          ref={ref}
-          placeholderTextColor={placeholderTextColor}
-          style={[styles.input, isError && styles.errorInput, inputStyle]}
-          placeholder={placeholder}
-          onBlur={onBlur}
-          onChangeText={onChangeText}
-          selectionColor={colors.orange}
-          value={value}
-        />
+        <Row style={styles.inputContainer}>
+          <TextInputBase
+            ref={ref}
+            placeholderTextColor={placeholderTextColor}
+            style={[styles.input, isError && styles.errorInput, inputStyle]}
+            placeholder={placeholder}
+            onBlur={onBlur}
+            onChangeText={onChangeText}
+            selectionColor={colors.orange}
+            value={value}
+          />
+          {isNotEmptyString(value) && (
+            <TouchableIcon name={IconNameEnum.Clear} onPress={handleInputClear} style={styles.clearIcon} />
+          )}
+        </Row>
         <View style={styles.errorContainer}>{isError && <Text style={styles.textError}>{error}</Text>}</View>
       </View>
     );

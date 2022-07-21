@@ -16,10 +16,10 @@ export const styles = StyleSheet.create({
   },
   buttonPrimary: {
     borderRadius: getCustomSize(0.5),
-    color: colors.textGrey1,
     backgroundColor: colors.navGrey1
   },
   textPrimary: {
+    color: colors.textGrey1,
     ...typography.taglineInterSemiBoldUppercase13
   },
   buttonSecondary: {
@@ -42,6 +42,13 @@ export const styles = StyleSheet.create({
     color: colors.textGrey1,
     ...typography.taglineInterSemiBoldUppercase15
   },
+  buttonQuaternary: {
+    backgroundColor: 'transparent'
+  },
+  textQuaternary: {
+    color: colors.orange,
+    ...typography.taglineInterSemiBoldUppercase11
+  },
   disabledButton: {
     borderRadius: getCustomSize(1.75),
     borderWidth: getCustomSize(0.25),
@@ -51,6 +58,13 @@ export const styles = StyleSheet.create({
   disabledText: {
     color: colors.textGrey2,
     ...typography.taglineInterSemiBoldUppercase15
+  },
+  buttonDisabledQuaternary: {
+    borderWidth: 0,
+    backgroundColor: 'transparent'
+  },
+  textDisabledQuaternary: {
+    color: colors.bgGrey5
   },
   fluid: {
     width: '100%'
