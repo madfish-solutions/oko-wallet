@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Button } from '../../../../components/button/button';
+import { ButtonWithIcon } from '../../../../components/button-with-icon/button-with-icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { NETWORK_CHAIN_IDS_BY_NETWORK_TYPE } from '../../../../constants/networks';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
@@ -16,6 +16,8 @@ import { getCustomSize } from '../../../../styles/format-size';
 import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
 import { NetworkContainer } from '../components/network-container/network-container';
 import { FormTypes } from '../types/form-types.interface';
+
+import { styles } from './edit-network.styles';
 
 export const EditNetwork: FC = () => {
   const { goBack } = useNavigation();
@@ -81,12 +83,13 @@ export const EditNetwork: FC = () => {
       onSubmitPress={onSumbit}
       defaultValues={prepareSelectedNetwork}
     >
-      <Button
+      <ButtonWithIcon
         title="Delete network"
-        theme="quaternary"
+        size="small"
         leftIcon={IconNameEnum.Trash}
         iconSize={getCustomSize(2)}
         disabled={networks.length === 1}
+        style={styles.button}
       />
     </NetworkContainer>
   );

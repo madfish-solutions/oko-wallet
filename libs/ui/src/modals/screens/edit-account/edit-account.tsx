@@ -24,6 +24,7 @@ export const EditAccount: FC = () => {
     handleSubmit,
     clearErrors,
     watch,
+    setValue,
     setFocus,
     formState: { errors }
   } = useForm({
@@ -66,9 +67,11 @@ export const EditAccount: FC = () => {
           control={control}
           name="name"
           rules={rules}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
+          render={({ field: { onChange, onBlur, value, ref, name } }) => (
             <TextInput
               ref={ref}
+              name={name}
+              clearField={setValue}
               label="Account name"
               placeholder={account.name}
               onBlur={onBlur}

@@ -1,7 +1,7 @@
 import React, { FC, useMemo } from 'react';
 import { View } from 'react-native';
 
-import { Button } from '../../../../components/button/button';
+import { ButtonWithIcon } from '../../../../components/button-with-icon/button-with-icon';
 import { Divider } from '../../../../components/divider/divider';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';
@@ -27,18 +27,24 @@ export const AssetsWidget: FC = () => {
     <WidgetContainer style={styles.widgetStyles} iconName={IconNameEnum.Assets} title="Assets">
       <View style={styles.root}>
         <Row style={styles.upperButtons}>
-          <Button title="Swap" leftIcon={IconNameEnum.Swap} />
+          <ButtonWithIcon title="Swap" size="medium" theme="tertiay" leftIcon={IconNameEnum.Swap} />
           <Divider />
-          <Button title="Top up" rightIcon={IconNameEnum.Topup} />
+          <ButtonWithIcon title="Top up" size="medium" theme="tertiay" rightIcon={IconNameEnum.Topup} />
         </Row>
         <GasToken />
         {visibleAccountTokens.map(token => (
           <AccountToken key={getTokenSlug(token)} token={token} />
         ))}
         <Row>
-          <Button title="Activity" leftIcon={IconNameEnum.Activity} />
+          <ButtonWithIcon title="Activity" size="medium" theme="tertiay" leftIcon={IconNameEnum.Activity} />
           <Divider />
-          <Button title="View All" rightIcon={IconNameEnum.ArrowRight} onPress={navigateToAccountTokens} />
+          <ButtonWithIcon
+            title="View All"
+            size="medium"
+            theme="tertiay"
+            rightIcon={IconNameEnum.ArrowRight}
+            onPress={navigateToAccountTokens}
+          />
         </Row>
       </View>
     </WidgetContainer>

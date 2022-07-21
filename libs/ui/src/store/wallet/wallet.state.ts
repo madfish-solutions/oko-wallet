@@ -25,7 +25,7 @@ export interface WalletState {
 export const walletInitialState: WalletState = {
   accounts: [],
   selectedAccountPublicKeyHash: '',
-  networks: NETWORKS_DEFAULT_LIST,
+  networks: NETWORKS_DEFAULT_LIST.slice(0, 1),
   selectedNetworkRpcUrl: NETWORKS_DEFAULT_LIST[0].rpcUrl,
   tokensMetadata: defaultTokensMetadata,
   accountsTokens: {},

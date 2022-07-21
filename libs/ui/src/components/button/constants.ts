@@ -8,19 +8,10 @@ export const themeClasses = {
   secondary: {
     button: styles.buttonSecondary,
     text: styles.textSecondary
-  },
-  tertiary: {
-    button: styles.buttonTertiary,
-    text: styles.textTertiary
-  },
-  quaternary: {
-    button: styles.buttonQuaternary,
-    text: styles.textQuaternary
   }
 };
 
 export const sizeClasses = {
-  extraLarge: styles.extraLarge,
   large: styles.large,
   medium: styles.medium,
   small: styles.small,

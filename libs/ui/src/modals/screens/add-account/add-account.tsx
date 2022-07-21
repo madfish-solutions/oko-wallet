@@ -21,6 +21,7 @@ export const AddAccount: FC = () => {
     handleSubmit,
     clearErrors,
     watch,
+    setValue,
     setFocus,
     formState: { errors, isSubmitSuccessful }
   } = useForm({
@@ -55,9 +56,11 @@ export const AddAccount: FC = () => {
           control={control}
           name="name"
           rules={rules}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
+          render={({ field: { onChange, onBlur, value, ref, name } }) => (
             <TextInput
               ref={ref}
+              name={name}
+              clearField={setValue}
               label="Account name"
               placeholder={defaultValue}
               onBlur={onBlur}

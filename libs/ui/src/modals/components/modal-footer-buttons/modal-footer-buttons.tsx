@@ -13,7 +13,7 @@ export const ModalFooterButtons: FC<FooterButtons> = ({
   onCancelPress
 }) => (
   <Row>
-    <Button style={styles.cancelButton} theme="secondary" size="large" title="Cancel" onPress={onCancelPress} />
-    <Button disabled={isSubmitDisabled} theme="tertiary" size="large" title={submitTitle} onPress={onSubmitPress} />
+    <Button style={styles.cancelButton} theme="primary" size="large" title="Cancel" onPress={onCancelPress} />
+    <Button disabled={isSubmitDisabled} theme="secondary" size="large" title={submitTitle} onPress={onSubmitPress} />
   </Row>
 );
