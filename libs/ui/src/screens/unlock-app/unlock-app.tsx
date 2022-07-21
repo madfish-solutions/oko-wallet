@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Text, TextInput, Button, SafeAreaView } from 'react-native';
 
+import { MaximiseScreenButton } from '../../components/maximise-screen-button/maximise-screen-button';
 import { ResetWallet } from '../../components/reset-wallet/reset-wallet';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 
@@ -18,6 +19,7 @@ export const UnlockApp: FC = () => {
       <TextInput style={UnlockStyles.input} onChangeText={setPassword} value={password} placeholder="type password" />
       <Button onPress={onUnlock} title="unlock" color="#841584" />
       <ResetWallet />
+      <MaximiseScreenButton />
     </SafeAreaView>
   );
 };
