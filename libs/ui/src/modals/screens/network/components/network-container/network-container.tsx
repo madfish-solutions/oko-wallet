@@ -140,6 +140,7 @@ export const NetworkContainer: FC<Props> = ({ defaultValues, screenTitle, onSubm
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
+              required={false}
               clearField={setValue}
               prompt="I don’t have Block Explorer URL"
               handlePrompt={handlePromptNavigate}

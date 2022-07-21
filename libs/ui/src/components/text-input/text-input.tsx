@@ -17,6 +17,7 @@ interface Props extends TextInputProps {
   label?: string;
   error?: string;
   prompt?: string;
+  required?: boolean;
   name: string;
   clearField: UseFormSetValue<FieldValues>;
   handlePrompt?: OnEventFn<GestureResponderEvent, void>;
@@ -34,6 +35,7 @@ export const TextInput = forwardRef<TextInputRef, Props>(
       error,
       name,
       prompt,
+      required = true,
       handlePrompt,
       clearField,
       placeholder = '',
@@ -54,9 +56,10 @@ export const TextInput = forwardRef<TextInputRef, Props>(
     return (
       <View style={containerStyle}>
         {isLabel && (
-          <View style={styles.labelContainer}>
+          <Row style={styles.labelContainer}>
             <Text style={styles.label}>{label}</Text>
-          </View>
+            {!required && <Text style={styles.optionalText}>Optional</Text>}
+          </Row>
         )}
         {isPrompt && (
           <Row style={styles.promptContainer}>

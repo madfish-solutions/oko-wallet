@@ -7,11 +7,17 @@ import { isWeb } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   labelContainer: {
+    justifyContent: 'space-between',
     marginBottom: getCustomSize(0.75)
   },
   label: {
     color: colors.textGrey3,
     ...typography.captionInterRegular13
+  },
+  optionalText: {
+    color: colors.textGrey2,
+    opacity: 0.5,
+    ...typography.captionInterRegular11
   },
   promptContainer: {
     marginBottom: getCustomSize()
