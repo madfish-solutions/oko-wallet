@@ -7,11 +7,26 @@
     "default_popup": "popup.html",
     "default_title": "Open the popup"
   },
+  "background": {
+    "service_worker": "scripts/background.js"
+  },
   "icons": {
     "16": "mics/logo192.png",
     "48": "mics/logo192.png",
     "128": "mics/logo192.png"
   },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "scripts/contentScript.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
   "content_security_policy": {
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
   }
