@@ -21,6 +21,7 @@ interface Props extends TextInputProps {
   name: string;
   clearField: UseFormSetValue<FieldValues>;
   handlePrompt?: OnEventFn<GestureResponderEvent, void>;
+  editable?: boolean;
   containerStyle?: ViewStyleProps;
   inputStyle?: TextStyleProps;
 }
@@ -40,6 +41,7 @@ export const TextInput = forwardRef<TextInputRef, Props>(
       clearField,
       placeholder = '',
       placeholderTextColor = colors.border1,
+      editable = true,
       containerStyle,
       inputStyle
     },
@@ -77,9 +79,10 @@ export const TextInput = forwardRef<TextInputRef, Props>(
             onChangeText={onChangeText}
             selectionColor={colors.orange}
             numberOfLines={1}
+            editable={editable}
             value={value}
           />
-          {isNotEmptyString(value) && (
+          {isNotEmptyString(value) && editable && (
             <TouchableIcon name={IconNameEnum.Clear} onPress={handleInputClear} style={styles.clearIcon} />
           )}
         </Row>

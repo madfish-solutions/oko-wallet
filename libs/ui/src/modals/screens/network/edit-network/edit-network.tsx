@@ -1,5 +1,6 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC, useMemo } from 'react';
+import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
 import { ButtonWithIcon } from '../../../../components/button-with-icon/button-with-icon';
@@ -14,8 +15,8 @@ import { editNetworkAction, removeNetworkAction } from '../../../../store/wallet
 import { useAllNetworksSelector, useSelectedAccountSelector } from '../../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../../styles/format-size';
 import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
+import { useNetworkFieldsRules } from '../../../hooks/use-validate-network-fields.hook';
 import { NetworkContainer } from '../components/network-container/network-container';
-import { NativeCurrencyType } from '../types/chains.interface';
 import { FormTypes } from '../types/form-types.interface';
 import { confirmRemoveAction } from '../utils/confirmation.util';
 
@@ -35,7 +36,7 @@ export const EditNetwork: FC = () => {
     [networks, selectedNetwork]
   );
 
-  const prepareSelectedNetwork = {
+  const defaultValues = {
     name: selectedNetwork.name,
     rpcUrl: selectedNetwork.rpcUrl,
     chainId: selectedNetwork.chainId,
@@ -43,8 +44,23 @@ export const EditNetwork: FC = () => {
     tokenSymbol: selectedNetwork.gasTokenMetadata.symbol
   };
 
-  const onSumbit = (data: FormTypes & NativeCurrencyType) => {
-    if (JSON.stringify(prepareSelectedNetwork) === JSON.stringify(data)) {
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors }
+  } = useForm<FormTypes>({
+    mode: 'onChange',
+    defaultValues
+  });
+
+  const rules = useNetworkFieldsRules({
+    networks,
+    defaultValues
+  });
+
+  const onSumbit = (data: FormTypes) => {
+    if (JSON.stringify(defaultValues) === JSON.stringify(data)) {
       return goBack();
     }
 
@@ -55,14 +71,13 @@ export const EditNetwork: FC = () => {
     }
 
     const editedNetwork: NetworkInterface = {
+      ...selectedNetwork,
       name: data.name,
       rpcUrl: data.rpcUrl,
       chainId: data.chainId,
-      // Get metadata from rpc
       gasTokenMetadata: {
-        name: data.tokenName,
-        symbol: data.tokenSymbol,
-        decimals: data.decimals
+        ...selectedNetwork.gasTokenMetadata,
+        symbol: data.tokenSymbol
       },
       gasTokenBalance: selectedNetwork.gasTokenBalance,
       explorerUrl: data.blockExplorerUrl,
@@ -75,9 +90,7 @@ export const EditNetwork: FC = () => {
         dispatch(editNetworkAction({ network: editedNetwork, isNetworkSelected }));
       });
     } else {
-      dispatch(
-        editNetworkAction({ network: editedNetwork, isNetworkSelected, prevRpcUrl: prepareSelectedNetwork.rpcUrl })
-      );
+      dispatch(editNetworkAction({ network: editedNetwork, isNetworkSelected, prevRpcUrl: defaultValues.rpcUrl }));
     }
 
     goBack();
@@ -102,8 +115,12 @@ export const EditNetwork: FC = () => {
     <NetworkContainer
       screenTitle="Edit network"
       submitTitle="Save"
-      onSubmitPress={onSumbit}
-      defaultValues={prepareSelectedNetwork}
+      onSubmitPress={handleSubmit(onSumbit)}
+      control={control}
+      rules={rules}
+      errors={errors}
+      setValue={setValue}
+      editable={false}
     >
       <ButtonWithIcon
         title="Delete network"

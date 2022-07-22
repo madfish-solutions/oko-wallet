@@ -3,7 +3,13 @@ import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { FormTypes } from '../screens/network/types/form-types.interface';
 
-export const useNetworkFieldsRules = (networks: NetworkInterface[], chainId: string, defaultValues?: FormTypes) => {
+interface NetworkFieldsRules {
+  networks: NetworkInterface[];
+  chainId?: string;
+  defaultValues?: FormTypes;
+}
+
+export const useNetworkFieldsRules = ({ networks, chainId, defaultValues }: NetworkFieldsRules) => {
   const isNetworkRpcUrlAlreadyExist = (currentRpcUrl: string) => {
     if (
       networks.some(network => network.rpcUrl === currentRpcUrl) &&
@@ -25,8 +31,8 @@ export const useNetworkFieldsRules = (networks: NetworkInterface[], chainId: str
   };
 
   const isChainIdDifferentOfRpcValue = (currentChainId: string) => {
-    if (currentChainId !== chainId) {
-      return `The RPC URL you have entered returned a different chain ID (${chainId})`;
+    if (isDefined(chainId) && currentChainId !== chainId) {
+      return `The RPC URL returned a different chain ID (${chainId})`;
     }
   };
 
