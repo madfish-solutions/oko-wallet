@@ -108,6 +108,7 @@ export const NetworkContainer: FC<Props> = ({ defaultValues, screenTitle, onSubm
 
   const { commonRules, rpcUrlRules, chainIdRules } = useNetworkFieldsRules(
     networks,
+    chainId,
     defaultValues ?? initialFormValues
   );
 
