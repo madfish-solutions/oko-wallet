@@ -1,5 +1,6 @@
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import { debounce } from 'lodash';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
@@ -34,7 +35,6 @@ export const AddNetwork: FC = () => {
 
   const selectedAccount = useSelectedAccountSelector();
   const networks = useAllNetworksSelector();
-  console.log(networks);
 
   const [chainId, setChainId] = useState<string>('');
   const [nativeTokenInfo, setNativeTokenInfo] = useState<NativeCurrencyType>({
@@ -68,26 +68,28 @@ export const AddNetwork: FC = () => {
     }
   }, [watchRpcUrl]);
 
-  const getNetworkChainId = useCallback(async () => {
-    if (isNotEmptyString(watchRpcUrl)) {
-      try {
-        const provider = getDefaultEvmProvider(watchRpcUrl);
+  const getNetworkChainId = useRef(
+    debounce(async (newRpcUrl: string) => {
+      if (isNotEmptyString(newRpcUrl)) {
+        try {
+          const provider = getDefaultEvmProvider(newRpcUrl);
 
-        const currentNetwork = await provider.getNetwork();
+          const currentNetwork = await provider.getNetwork();
 
-        if (isDefined(currentNetwork)) {
-          const { chainId } = currentNetwork;
-          getNetworkData(chainId);
-          setChainId(chainId.toString());
+          if (isDefined(currentNetwork)) {
+            const { chainId } = currentNetwork;
+            getNetworkData(chainId);
+            setChainId(chainId.toString());
 
-          setValue('chainId', chainId.toString());
+            setValue('chainId', chainId.toString());
+          }
+        } catch (e) {
+          console.log('Error with rpc:', e);
+          resetDynamicFields();
         }
-      } catch (e) {
-        console.log('Error with rpc:', e);
-        resetDynamicFields();
       }
-    }
-  }, [watchRpcUrl]);
+    }, 500)
+  ).current;
 
   const getNetworkData = useCallback(async (networkChainId: number) => {
     try {
@@ -115,7 +117,11 @@ export const AddNetwork: FC = () => {
   }, []);
 
   useEffect(() => {
-    getNetworkChainId();
+    getNetworkChainId(watchRpcUrl);
+
+    return () => {
+      getNetworkChainId.cancel();
+    };
   }, [getNetworkChainId, watchRpcUrl]);
 
   const rules = useNetworkFieldsRules({
