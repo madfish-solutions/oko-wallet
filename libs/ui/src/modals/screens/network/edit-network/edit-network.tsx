@@ -15,6 +15,7 @@ import { useAllNetworksSelector, useSelectedAccountSelector } from '../../../../
 import { getCustomSize } from '../../../../styles/format-size';
 import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
 import { NetworkContainer } from '../components/network-container/network-container';
+import { NativeCurrencyType } from '../types/chains.interface';
 import { FormTypes } from '../types/form-types.interface';
 import { confirmRemoveAction } from '../utils/confirmation.util';
 
@@ -42,7 +43,7 @@ export const EditNetwork: FC = () => {
     tokenSymbol: selectedNetwork.gasTokenMetadata.symbol
   };
 
-  const onSumbit = (data: FormTypes) => {
+  const onSumbit = (data: FormTypes & NativeCurrencyType) => {
     if (JSON.stringify(prepareSelectedNetwork) === JSON.stringify(data)) {
       return goBack();
     }
@@ -59,13 +60,14 @@ export const EditNetwork: FC = () => {
       chainId: data.chainId,
       // Get metadata from rpc
       gasTokenMetadata: {
-        name: data.tokenSymbol,
+        name: data.tokenName,
         symbol: data.tokenSymbol,
-        decimals: 18
+        decimals: data.decimals
       },
       gasTokenBalance: selectedNetwork.gasTokenBalance,
       explorerUrl: data.blockExplorerUrl,
-      networkType
+      networkType,
+      ...(selectedNetwork.iconName && { iconName: selectedNetwork.iconName })
     };
 
     if (isNetworkSelected && !checkIsNetworkTypeKeyExist(selectedAccount, networkType)) {

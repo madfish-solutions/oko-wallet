@@ -1,5 +1,5 @@
-import { OnEventFn } from '@rnw-community/shared';
-import React, { FC } from 'react';
+import { isDefined, isNotEmptyString, OnEventFn } from '@rnw-community/shared';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ScrollView, Text } from 'react-native';
 
@@ -7,18 +7,21 @@ import { IconNameEnum } from '../../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../../components/row/row';
 import { TextInput } from '../../../../../components/text-input/text-input';
 import { TouchableIcon } from '../../../../../components/touchable-icon/touchable-icon';
+import { CHAINS_JSON } from '../../../../../constants/defaults';
 import { useNavigation } from '../../../../../hooks/use-navigation.hook';
 import { useAllNetworksSelector } from '../../../../../store/wallet/wallet.selectors';
+import { getDefaultEvmProvider } from '../../../../../utils/get-default-evm-provider.utils';
 import { ModalActionContainer } from '../../../../components/modal-action-container/modal-action-container';
 import { FooterButtons } from '../../../../components/modal-footer-buttons/modal-footer-buttons.interface';
 import { useNetworkFieldsRules } from '../../../../hooks/use-validate-network-fields.hook';
+import { ChainInterface, NativeCurrencyType } from '../../types/chains.interface';
 import { FormTypes } from '../../types/form-types.interface';
 
 import { styles } from './network-container.styles';
 
 interface Props extends Pick<FooterButtons, 'submitTitle'> {
   screenTitle: string;
-  onSubmitPress: OnEventFn<FormTypes>;
+  onSubmitPress: OnEventFn<FormTypes & NativeCurrencyType>;
   defaultValues?: FormTypes;
 }
 
@@ -34,32 +37,93 @@ export const NetworkContainer: FC<Props> = ({ defaultValues, screenTitle, onSubm
   const { goBack } = useNavigation();
   const networks = useAllNetworksSelector();
 
+  const [chainId, setChainId] = useState<string>('');
+  const [nativeTokenInfo, setNativeTokenInfo] = useState<NativeCurrencyType>({
+    tokenName: defaultValues?.tokenSymbol ?? initialFormValues.tokenSymbol,
+    decimals: 18
+  });
+
   const {
     control,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors }
   } = useForm<FormTypes>({
     mode: 'onChange',
     defaultValues: defaultValues ?? initialFormValues
   });
 
+  // const chainId = watch('chainId');
+  const rpcUrl = watch('rpcUrl');
+
+  const getNetworkChainId = useCallback(async () => {
+    if (isNotEmptyString(rpcUrl)) {
+      const provider = getDefaultEvmProvider(rpcUrl);
+
+      try {
+        const currentNetwork = await provider.getNetwork();
+
+        if (isDefined(currentNetwork)) {
+          const { chainId } = currentNetwork;
+          getNetworkData(chainId);
+          setChainId(chainId.toString());
+
+          setValue('chainId', chainId.toString());
+        }
+      } catch (e) {
+        console.log('Error with rpc:', e);
+      }
+    }
+  }, [rpcUrl]);
+
+  const getNetworkData = useCallback(async (networkChainId: number) => {
+    try {
+      const response = await fetch(CHAINS_JSON);
+      const data: ChainInterface[] = await response.json();
+
+      if (data.length) {
+        const currentNetworkByChainId = data.find(network => network.chainId === Number(networkChainId));
+        if (isDefined(currentNetworkByChainId)) {
+          const { tokenName, symbol, decimals, explorerUrl } = {
+            tokenName: currentNetworkByChainId.nativeCurrency.name,
+            symbol: currentNetworkByChainId.nativeCurrency.symbol,
+            decimals: currentNetworkByChainId.nativeCurrency.decimals,
+            explorerUrl: currentNetworkByChainId.explorers?.[0].url ?? ''
+          };
+          setNativeTokenInfo({ tokenName, decimals });
+
+          setValue('tokenSymbol', symbol);
+          setValue('blockExplorerUrl', explorerUrl);
+        }
+      }
+    } catch (e) {
+      console.log('Error with chainId:', e);
+    }
+  }, []);
+
+  useEffect(() => {
+    getNetworkChainId();
+  }, [getNetworkChainId, rpcUrl]);
+
   const { commonRules, rpcUrlRules, chainIdRules } = useNetworkFieldsRules(
     networks,
     defaultValues ?? initialFormValues
   );
 
-  // Add check rpcUrl for gas token metadata
-
   const handlePressPrompt = () => null;
   const handlePromptNavigate = () => null;
+
+  const onSubmit = (event: FormTypes) => {
+    onSubmitPress({ ...event, ...nativeTokenInfo });
+  };
 
   return (
     <ModalActionContainer
       screenTitle={screenTitle}
       submitTitle={submitTitle}
       isSubmitDisabled={Boolean(Object.keys(errors).length)}
-      onSubmitPress={handleSubmit(onSubmitPress)}
+      onSubmitPress={handleSubmit(onSubmit)}
       onCancelPress={goBack}
     >
       <ScrollView style={styles.root}>

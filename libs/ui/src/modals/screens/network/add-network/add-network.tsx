@@ -11,6 +11,7 @@ import { addNewNetworkAction } from '../../../../store/wallet/wallet.actions';
 import { useSelectedAccountSelector } from '../../../../store/wallet/wallet.selectors';
 import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
 import { NetworkContainer } from '../components/network-container/network-container';
+import { NativeCurrencyType } from '../types/chains.interface';
 import { FormTypes } from '../types/form-types.interface';
 
 export const AddNetwork: FC = () => {
@@ -19,7 +20,15 @@ export const AddNetwork: FC = () => {
   const { createHdAccountForNewNetworkType } = useShelter();
   const selectedAccount = useSelectedAccountSelector();
 
-  const onSumbit = ({ name, rpcUrl, chainId, tokenSymbol, blockExplorerUrl }: FormTypes) => {
+  const onSumbit = ({
+    name,
+    rpcUrl,
+    chainId,
+    tokenSymbol,
+    blockExplorerUrl,
+    tokenName,
+    decimals
+  }: FormTypes & NativeCurrencyType) => {
     let networkType = NetworkTypeEnum.EVM;
 
     if (NETWORK_CHAIN_IDS_BY_NETWORK_TYPE[NetworkTypeEnum.Tezos].includes(chainId)) {
@@ -32,9 +41,9 @@ export const AddNetwork: FC = () => {
       chainId,
       // Get metadata from rpc
       gasTokenMetadata: {
-        name: tokenSymbol,
+        name: tokenName,
         symbol: tokenSymbol,
-        decimals: 18
+        decimals
       },
       gasTokenBalance: createEntity('0'),
       explorerUrl: blockExplorerUrl,
