@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { ButtonWithIcon } from '../../../../components/button-with-icon/button-with-icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
+import { KLAYTN_RPC_MAINNET } from '../../../../constants/defaults';
 import { NETWORK_CHAIN_IDS_BY_NETWORK_TYPE } from '../../../../constants/networks';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
@@ -126,7 +127,7 @@ export const EditNetwork: FC = () => {
         leftIcon={IconNameEnum.Trash}
         iconSize={getCustomSize(2)}
         onPress={handleConfirmRemoveAction}
-        disabled={networks.length === 1}
+        disabled={networks.length === 1 || selectedNetwork.rpcUrl === KLAYTN_RPC_MAINNET}
         style={styles.button}
       />
     </NetworkContainer>
