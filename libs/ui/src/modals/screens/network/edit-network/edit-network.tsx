@@ -72,15 +72,13 @@ export const EditNetwork: FC = () => {
 
     const editedNetwork: NetworkInterface = {
       ...selectedNetwork,
-      name: data.name,
-      rpcUrl: data.rpcUrl,
-      chainId: data.chainId,
+      name: data.name.trim(),
       gasTokenMetadata: {
         ...selectedNetwork.gasTokenMetadata,
-        symbol: data.tokenSymbol
+        symbol: data.tokenSymbol.trim()
       },
       gasTokenBalance: selectedNetwork.gasTokenBalance,
-      explorerUrl: data.blockExplorerUrl,
+      explorerUrl: data.blockExplorerUrl?.trim(),
       networkType,
       ...(selectedNetwork.iconName && { iconName: selectedNetwork.iconName })
     };

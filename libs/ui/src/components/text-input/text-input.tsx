@@ -1,6 +1,6 @@
 import { isDefined, isNotEmptyString, OnEventFn } from '@rnw-community/shared';
 import React, { forwardRef } from 'react';
-import { FieldValues, UseFormSetValue } from 'react-hook-form';
+import { UseFormSetValue } from 'react-hook-form';
 import { GestureResponderEvent, Text, TextInput as TextInputBase, TextInputProps, View } from 'react-native';
 import { TextInput as TextInputRef } from 'react-native-gesture-handler';
 
@@ -19,7 +19,7 @@ interface Props extends TextInputProps {
   prompt?: string;
   required?: boolean;
   name: string;
-  clearField: UseFormSetValue<FieldValues>;
+  clearField: UseFormSetValue<any>;
   handlePrompt?: OnEventFn<GestureResponderEvent, void>;
   editable?: boolean;
   containerStyle?: ViewStyleProps;
@@ -78,7 +78,6 @@ export const TextInput = forwardRef<TextInputRef, Props>(
             onBlur={onBlur}
             onChangeText={onChangeText}
             selectionColor={colors.orange}
-            numberOfLines={1}
             editable={editable}
             value={value}
           />

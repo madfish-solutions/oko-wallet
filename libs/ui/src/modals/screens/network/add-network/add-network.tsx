@@ -48,6 +48,7 @@ export const AddNetwork: FC = () => {
     setValue,
     watch,
     resetField,
+    clearErrors,
     formState: { errors }
   } = useForm<FormTypes>({
     mode: 'onChange',
@@ -58,21 +59,22 @@ export const AddNetwork: FC = () => {
     resetField('chainId');
     resetField('tokenSymbol');
     resetField('blockExplorerUrl');
+    setChainId('');
   };
 
   const watchRpcUrl = watch('rpcUrl');
 
   useEffect(() => {
-    if (!isNotEmptyString(watchRpcUrl)) {
+    if (!isNotEmptyString(watchRpcUrl.trim())) {
       resetDynamicFields();
     }
   }, [watchRpcUrl]);
 
   const getNetworkChainId = useRef(
     debounce(async (newRpcUrl: string) => {
-      if (isNotEmptyString(newRpcUrl)) {
+      if (isNotEmptyString(newRpcUrl.trim())) {
         try {
-          const provider = getDefaultEvmProvider(newRpcUrl);
+          const provider = getDefaultEvmProvider(newRpcUrl.trim());
 
           const currentNetwork = await provider.getNetwork();
 
@@ -109,6 +111,8 @@ export const AddNetwork: FC = () => {
 
           setValue('tokenSymbol', symbol);
           setValue('blockExplorerUrl', explorerUrl);
+          clearErrors('chainId');
+          clearErrors('tokenSymbol');
         }
       }
     } catch (e) {
@@ -137,26 +141,26 @@ export const AddNetwork: FC = () => {
       networkType = NetworkTypeEnum.Tezos;
     }
 
-    const values: NetworkInterface = {
-      name,
-      rpcUrl,
-      chainId,
+    const network: NetworkInterface = {
+      name: name.trim(),
+      rpcUrl: rpcUrl.trim(),
+      chainId: chainId.trim(),
       gasTokenMetadata: {
         name: nativeTokenInfo.tokenName,
-        symbol: tokenSymbol,
+        symbol: tokenSymbol.trim(),
         decimals: nativeTokenInfo.decimals
       },
       gasTokenBalance: createEntity('0'),
-      explorerUrl: blockExplorerUrl,
+      explorerUrl: blockExplorerUrl?.trim(),
       networkType
     };
 
     if (!checkIsNetworkTypeKeyExist(selectedAccount, networkType)) {
       createHdAccountForNewNetworkType(selectedAccount, networkType, () => {
-        dispatch(addNewNetworkAction(values));
+        dispatch(addNewNetworkAction(network));
       });
     } else {
-      dispatch(addNewNetworkAction(values));
+      dispatch(addNewNetworkAction(network));
     }
 
     goBack();

@@ -13,6 +13,7 @@ export const useNetworkFieldsRules = ({ networks, chainId, defaultValues }: Netw
   const isNetworkRpcUrlAlreadyExist = (currentRpcUrl: string) => {
     if (
       networks.some(network => network.rpcUrl === currentRpcUrl) &&
+      isNotEmptyString(currentRpcUrl) &&
       isDefined(defaultValues) &&
       currentRpcUrl !== defaultValues.rpcUrl
     ) {
@@ -31,7 +32,7 @@ export const useNetworkFieldsRules = ({ networks, chainId, defaultValues }: Netw
   };
 
   const isChainIdDifferentOfRpcValue = (currentChainId: string) => {
-    if (isDefined(chainId) && currentChainId !== chainId) {
+    if (isNotEmptyString(chainId) && currentChainId !== chainId) {
       return `The RPC URL returned a different chain ID (${chainId})`;
     }
   };
