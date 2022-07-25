@@ -1,30 +1,56 @@
 import React, { FC, useState } from 'react';
-import { TextInput, Pressable, Text } from 'react-native';
+import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
+import { Button } from '../../components/button/button';
 import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
+import { TextInput } from '../../components/text-input/text-input';
+import { AccountTokenInput } from '../../interfaces/token-input.interface';
 import { sendAssetAction } from '../../store/wallet/wallet.actions';
-import { useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
+
+import { styles } from './send.styles';
 
 export const Send: FC = () => {
   const dispatch = useDispatch();
-  const {
-    gasTokenMetadata: { name }
-  } = useSelectedNetworkSelector();
+  const [tokenAddress, setTokenAddress] = useState('');
+  const [tokenId, setTokenId] = useState('');
   const [amount, setAmount] = useState('');
   const [receiverPublicKeyHash, setReceiverPublicKeyHash] = useState('');
+  const [decimals, setDecimals] = useState('');
 
-  const onSend = () => dispatch(sendAssetAction.submit({ amount, receiverPublicKeyHash }));
+  const onSend = () => {
+    const asset = {
+      decimals: Number(decimals.trim()),
+      tokenAddress: tokenAddress.trim(),
+      tokenId: tokenId.trim()
+    } as AccountTokenInput;
+
+    dispatch(sendAssetAction.submit({ asset, amount, receiverPublicKeyHash }));
+  };
 
   return (
-    <ScreenContainer screenTitle="Send" navigationType={HeaderSideTypeEnum.TokenInfo}>
-      <Text>You can send Gas Token: {name}</Text>
-      <TextInput placeholder="Amount" value={amount} onChangeText={setAmount} />
-      <TextInput placeholder="Recipient" value={receiverPublicKeyHash} onChangeText={setReceiverPublicKeyHash} />
-      <Pressable onPress={onSend}>
-        <Text>Send</Text>
-      </Pressable>
+    <ScreenContainer screenTitle="Send">
+      <View style={styles.inputContainer}>
+        <TextInput placeholder="Recipient" value={receiverPublicKeyHash} onChangeText={setReceiverPublicKeyHash} />
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="Token Address (or leave empty if GasToken)"
+          value={tokenAddress}
+          onChangeText={setTokenAddress}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput placeholder="Token Id (or leave empty)" value={tokenId} onChangeText={setTokenId} />
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput placeholder="Amount (or leave empty for EvmNFT)" value={amount} onChangeText={setAmount} />
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput placeholder="Decimals (or leave empty for EvmNFT)" value={decimals} onChangeText={setDecimals} />
+      </View>
+
+      <Button onPress={onSend} theme="secondary" title="Send" />
     </ScreenContainer>
   );
 };

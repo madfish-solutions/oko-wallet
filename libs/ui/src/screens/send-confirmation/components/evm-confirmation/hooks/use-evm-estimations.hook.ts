@@ -1,27 +1,66 @@
-import { FeeData } from '@ethersproject/abstract-provider';
+import { FeeData, TransactionRequest } from '@ethersproject/abstract-provider';
+import { ethers } from 'ethers';
 import { useEffect, useMemo, useState } from 'react';
-import { from } from 'rxjs';
 
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
+import { AccountTokenInput } from '../../../../../interfaces/token-input.interface';
 import { getDefaultEvmProvider } from '../../../../../utils/get-default-evm-provider.utils';
+import { ERC_20_ABI } from '../../../../../utils/transfer-params/constants/evm-erc-20-abi';
+import { ERC_721_ABI } from '../../../../../utils/transfer-params/constants/evm-erc-721-abi';
+import { modifyGasLimit } from '../utils/modify-gas-limit.util';
 
-export const useEvmEstimations = ({ rpcUrl }: NetworkInterface) => {
-  const [estimations, setEstimations] = useState<FeeData | null>(null);
+interface UseEvmEstimationsArgs {
+  network: NetworkInterface;
+  asset: AccountTokenInput;
+  to: string;
+  value: string;
+  publicKeyHash: string;
+  isGasToken: boolean;
+  isNft: boolean;
+}
+
+type Estimations = Pick<FeeData, 'gasPrice'> & Pick<TransactionRequest, 'gasLimit'>;
+
+export const useEvmEstimations = ({
+  network: { rpcUrl },
+  asset: { tokenAddress, decimals, tokenId },
+  to,
+  value,
+  publicKeyHash,
+  isGasToken,
+  isNft
+}: UseEvmEstimationsArgs) => {
+  const [estimations, setEstimations] = useState<Estimations | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const provider = getDefaultEvmProvider(rpcUrl);
+    setIsLoading(true);
 
-    const subscription = from(provider.getFeeData()).subscribe(value => {
-      setIsLoading(false);
+    const getEstimations = async () => {
+      const provider = getDefaultEvmProvider(rpcUrl);
+      const amount = ethers.utils.parseUnits(value, decimals);
+      let gasLimit;
 
-      if (!Array.isArray(value)) {
-        setEstimations(value);
+      if (isGasToken) {
+        gasLimit = await provider.estimateGas({ to, value: amount }).catch(console.log);
+      } else if (isNft) {
+        const contract = new ethers.Contract(tokenAddress, ERC_721_ABI, provider);
+
+        gasLimit = await contract.estimateGas.transferFrom(publicKeyHash, to, tokenId).catch(console.log);
+      } else {
+        const contract = new ethers.Contract(tokenAddress, ERC_20_ABI, provider);
+
+        gasLimit = await contract.estimateGas.transfer(to, amount).catch(console.log);
       }
-    });
 
-    return () => subscription.unsubscribe();
-  }, [rpcUrl]);
+      const fee = await provider.getFeeData();
+
+      setEstimations({ gasLimit: modifyGasLimit(gasLimit), gasPrice: fee.gasPrice });
+      setIsLoading(false);
+    };
+
+    getEstimations();
+  }, [rpcUrl, tokenAddress]);
 
   return useMemo(() => ({ estimations, isLoading }), [estimations, isLoading]);
 };

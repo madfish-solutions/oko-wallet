@@ -1,60 +1,86 @@
-import { TransactionRequest as EvmTransferParams } from '@ethersproject/abstract-provider';
+import { isString } from '@rnw-community/shared';
 import { ethers } from 'ethers';
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback } from 'react';
 import { Text } from 'react-native';
 
 import { useShelter } from '../../../../hooks/use-shelter.hook';
-import { getString } from '../../../../utils/get-string.utils';
+import { TransactionParams } from '../../../../shelter/interfaces/get-evm-signer-params.interface';
+import {
+  useSelectedAccountPublicKeyHashSelector,
+  useSelectedNetworkSelector
+} from '../../../../store/wallet/wallet.selectors';
 import { formatUnits } from '../../../../utils/units.utils';
-import { ConfirmationProps } from '../../types';
+import { useTransactionHook } from '../../hooks/use-transaction.hook';
+import { styles } from '../../send-confirmation.styles';
+import { EvmTransferParams } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
 
-import { GAS_LIMIT } from './constants/ethereum-gas-limit';
 import { useEvmEstimations } from './hooks/use-evm-estimations.hook';
 
-interface Props extends ConfirmationProps {
+interface Props {
   transferParams: EvmTransferParams;
 }
 
-export const EvmConfirmation: FC<Props> = ({ network, sender: { networksKeys }, transferParams }) => {
+export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, to, value } }) => {
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
+  const network = useSelectedNetworkSelector();
   const { sendEvmTransaction } = useShelter();
-  const { estimations, isLoading } = useEvmEstimations(network);
-  const [transactionHash, setTransactionHash] = useState('');
+  const { transactionHash, isTransactionLoading, setIsTransactionLoading, successCallback } = useTransactionHook();
+
+  const { tokenAddress, tokenId, decimals } = asset;
+  const isGasToken = !tokenAddress;
+  const isNft = isString(tokenId) && tokenId.length > 0;
+
+  const { estimations, isLoading } = useEvmEstimations({ network, asset, to, value, publicKeyHash, isGasToken, isNft });
 
   const {
-    networkType,
     rpcUrl,
-    gasTokenMetadata: { decimals }
+    gasTokenMetadata: { decimals: gasTokenDecimals }
   } = network;
-
-  const gasPrice = estimations?.gasPrice && formatUnits(estimations.gasPrice, decimals);
-  const transactionFee = estimations?.gasPrice && formatUnits(Number(estimations.gasPrice) * GAS_LIMIT, decimals);
+  const gasPrice = estimations?.gasPrice && formatUnits(estimations.gasPrice, gasTokenDecimals);
+  const transactionFee =
+    estimations?.gasPrice &&
+    formatUnits((Number(estimations.gasPrice) * Number(estimations.gasLimit)).toFixed(0), gasTokenDecimals);
 
   const onSend = useCallback(() => {
     if (estimations?.gasPrice) {
-      const transactionParams = {
+      setIsTransactionLoading(true);
+
+      const transactionParams: TransactionParams = {
         gasPrice: estimations.gasPrice,
-        gasLimit: GAS_LIMIT,
-        to: transferParams.to,
-        value: ethers.utils.parseUnits(transferParams.value as string)
+        gasLimit: estimations.gasLimit,
+        to,
+        tokenAddress,
+        tokenId,
+        ...(!isNft && {
+          value: ethers.utils.parseUnits(value, decimals)
+        })
       };
 
       sendEvmTransaction({
         rpcUrl,
         transactionParams,
-        publicKeyHash: getString(networksKeys[networkType]?.publicKeyHash),
-        successCallback: transactionResponse => setTransactionHash(transactionResponse.hash)
+        publicKeyHash,
+        isGasToken,
+        isNft,
+        successCallback
       });
     }
   }, [estimations]);
 
   return (
-    <Confirmation isLoading={isLoading} transactionHash={transactionHash} network={network} onSend={onSend}>
+    <Confirmation
+      isLoading={isLoading}
+      transactionHash={transactionHash}
+      network={network}
+      onSend={onSend}
+      isTransactionLoading={isTransactionLoading}
+    >
       <>
-        <Text>To: {transferParams.to}</Text>
-        <Text>Amount: {transferParams.value}</Text>
-        <Text>Gas Price: {gasPrice}</Text>
-        <Text>TX Fee: {transactionFee}</Text>
+        <Text style={styles.text}>To: {to}</Text>
+        <Text style={styles.text}>Amount: {value}</Text>
+        <Text style={styles.text}>Gas Price: {gasPrice}</Text>
+        <Text style={styles.text}>TX Fee: {transactionFee}</Text>
       </>
     </Confirmation>
   );

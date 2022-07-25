@@ -3,14 +3,11 @@ import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { AccountToken } from '../../interfaces/account-token.interface';
 import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
-import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
 import { Token } from '../../interfaces/token.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { checkIsNetworkTypeKeyExist } from '../../utils/check-is-network-type-key-exist';
 import { getString } from '../../utils/get-string.utils';
-import { getNetworkType } from '../../utils/network.util';
-import { parseTezosTransferParams } from '../../utils/parse-tezos-transfer-params.utils';
 import { getTokenSlug } from '../../utils/token.utils';
 import { createEntity } from '../utils/entity.utils';
 
@@ -99,23 +96,6 @@ export const getSelectedNetworkType = (state: WalletState): NetworkTypeEnum =>
 
 export const getPublicKeyHash = (account: AccountInterface, networkType: NetworkTypeEnum): string =>
   checkIsNetworkTypeKeyExist(account, networkType) ? getString(account.networksKeys[networkType]?.publicKeyHash) : '';
-
-export const getTransferParams = (
-  { receiverPublicKeyHash, amount }: SendAssetPayload,
-  selectedNetwork: NetworkInterface
-) => {
-  if (getNetworkType(selectedNetwork) === NetworkTypeEnum.Tezos) {
-    return parseTezosTransferParams({
-      to: receiverPublicKeyHash,
-      amount: Number(amount)
-    });
-  }
-
-  return {
-    to: receiverPublicKeyHash,
-    value: amount
-  };
-};
 
 export const getSelectedAccount = (state: WalletState, networkType: NetworkTypeEnum) =>
   state.accounts.find(account =>

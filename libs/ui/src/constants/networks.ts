@@ -15,7 +15,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4256.png'
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://scope.klaytn.com/',
+    explorerUrl: 'https://scope.klaytn.com/tx/',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Klaytn
   },
@@ -30,7 +30,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4256.png'
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://baobab.scope.klaytn.com/',
+    explorerUrl: 'https://baobab.scope.klaytn.com/tx/',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Klaytn
   },
@@ -45,7 +45,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://etherscan.io/',
+    explorerUrl: 'https://etherscan.io/tx/',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Ethereum
   },
@@ -60,7 +60,22 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://rinkeby.etherscan.io/',
+    explorerUrl: 'https://rinkeby.etherscan.io/tx/',
+    networkType: NetworkTypeEnum.EVM,
+    iconName: IconNameEnum.Ethereum
+  },
+  {
+    chainId: '3',
+    rpcUrl: 'https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
+    name: 'Ethereum Ropsten Testnet',
+    gasTokenMetadata: {
+      name: 'Ether Token',
+      symbol: 'ETH',
+      decimals: 18,
+      thumbnailUri: ''
+    },
+    gasTokenBalance: createEntity('0'),
+    explorerUrl: 'https://ropsten.etherscan.io/tx/',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Ethereum
   },
@@ -76,9 +91,24 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://bscscan.com',
+    explorerUrl: 'https://bscscan.com/tx/',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.BinanceSmartChain
+  },
+  {
+    chainId: '97',
+    rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+    name: 'BSC Testnet',
+    gasTokenMetadata: {
+      name: 'Binance Coin',
+      symbol: 'BNB',
+      // TODO: Correct decimals are 8, but from RPC we get 18
+      decimals: 18,
+      thumbnailUri: ''
+    },
+    gasTokenBalance: createEntity('0'),
+    explorerUrl: 'https://testnet.bscscan.com/tx/',
+    networkType: NetworkTypeEnum.EVM
   },
   {
     chainId: '1284',
@@ -91,7 +121,21 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://moonbeam.moonscan.io/',
+    explorerUrl: 'https://moonbeam.moonscan.io/tx/',
+    networkType: NetworkTypeEnum.EVM
+  },
+  {
+    chainId: '1287',
+    rpcUrl: 'https://rpc.api.moonbase.moonbeam.network',
+    name: 'Moonbase Alpha Testnet',
+    gasTokenMetadata: {
+      name: 'Moonbeam Token Dev',
+      symbol: 'DEV',
+      decimals: 18,
+      thumbnailUri: ''
+    },
+    gasTokenBalance: createEntity('0'),
+    explorerUrl: 'https://moonbase.moonscan.io/tx/',
     networkType: NetworkTypeEnum.EVM
   },
   {
