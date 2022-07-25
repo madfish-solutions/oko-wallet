@@ -42,7 +42,8 @@ export const styles = StyleSheet.create({
     color: colors.textGrey1,
     ...typography.bodyInterRegular15,
     ...(isWeb && { outlineStyle: 'none' }),
-    ...(isWeb && { caretColor: colors.orange })
+    ...(isWeb && { caretColor: colors.orange }),
+    lineHeight: undefined
   },
   clearIcon: {
     position: 'absolute',
