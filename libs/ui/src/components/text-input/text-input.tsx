@@ -79,8 +79,6 @@ export const TextInput = forwardRef<TextInputRef, Props>(
             onChangeText={onChangeText}
             selectionColor={colors.orange}
             editable={editable}
-            numberOfLines={1}
-            multiline={false}
             accessibilityElementsHidden
             autoCapitalize="none"
             value={value}
