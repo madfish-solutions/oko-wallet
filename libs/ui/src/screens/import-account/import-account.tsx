@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { Text, TextInput, Button } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useShelter } from '../../hooks/use-shelter.hook';
 
@@ -13,7 +14,7 @@ export const ImportAccount: FC = () => {
   const handleImportAccount = () => importWallet({ seedPhrase: seed, password, hdAccountsLength: 1 });
 
   return (
-    <View style={ImportAccountStyles.view}>
+    <SafeAreaView style={ImportAccountStyles.root}>
       <Text> IMPORT ACCOUNT </Text>
       <TextInput
         style={ImportAccountStyles.input}
@@ -30,6 +31,6 @@ export const ImportAccount: FC = () => {
       />
 
       <Button onPress={handleImportAccount} title="import account" color="#841584" />
-    </View>
+    </SafeAreaView>
   );
 };
