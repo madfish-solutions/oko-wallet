@@ -61,7 +61,7 @@ export const EditNetwork: FC = () => {
     defaultValues
   });
 
-  const onSumbit = (data: FormTypes) => {
+  const onSubmit = (data: FormTypes) => {
     if (JSON.stringify(defaultValues) === JSON.stringify(data)) {
       return goBack();
     }
@@ -115,7 +115,7 @@ export const EditNetwork: FC = () => {
     <NetworkContainer
       screenTitle="Edit network"
       submitTitle="Save"
-      onSubmitPress={handleSubmit(onSumbit)}
+      onSubmitPress={handleSubmit(onSubmit)}
       control={control}
       rules={rules}
       errors={errors}

@@ -73,21 +73,21 @@ export const AddNetwork: FC = () => {
   const getNetworkChainId = useRef(
     debounce(async (newRpcUrl: string) => {
       if (isNotEmptyString(newRpcUrl.trim())) {
-        try {
-          const provider = getDefaultEvmProvider(newRpcUrl.trim());
+        const provider = getDefaultEvmProvider(newRpcUrl.trim());
 
-          const currentNetwork = await provider.getNetwork();
-
-          if (isDefined(currentNetwork)) {
-            const { chainId } = currentNetwork;
-            getNetworkData(chainId);
-            setChainId(chainId.toString());
-
-            setValue('chainId', chainId.toString());
-          }
-        } catch (e) {
-          console.log('Error with rpc:', e);
+        const currentNetwork = await provider.getNetwork().catch(err => {
+          console.log('Error with rpc:', err);
           resetDynamicFields();
+
+          return null;
+        });
+
+        if (isDefined(currentNetwork)) {
+          const { chainId } = currentNetwork;
+          getNetworkData(chainId);
+          setChainId(chainId.toString());
+
+          setValue('chainId', chainId.toString());
         }
       }
     }, DEBOUNCE_TIME)
@@ -134,7 +134,7 @@ export const AddNetwork: FC = () => {
     chainId
   });
 
-  const onSumbit = ({ name, rpcUrl, chainId, tokenSymbol, blockExplorerUrl }: FormTypes) => {
+  const onSubmit = ({ name, rpcUrl, chainId, tokenSymbol, blockExplorerUrl }: FormTypes) => {
     let networkType = NetworkTypeEnum.EVM;
 
     if (NETWORK_CHAIN_IDS_BY_NETWORK_TYPE[NetworkTypeEnum.Tezos].includes(chainId)) {
@@ -168,9 +168,9 @@ export const AddNetwork: FC = () => {
 
   return (
     <NetworkContainer
-      screenTitle="Add network"
+      screenTitle="Add new network"
       submitTitle="Add"
-      onSubmitPress={handleSubmit(onSumbit)}
+      onSubmitPress={handleSubmit(onSubmit)}
       control={control}
       rules={rules}
       errors={errors}

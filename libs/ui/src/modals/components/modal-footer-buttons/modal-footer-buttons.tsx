@@ -23,7 +23,7 @@ export const ModalFooterButtons: FC<FooterButtons> = ({
     />
     <Button
       disabled={isSubmitDisabled}
-      theme={ButtonThemesEnum.Primary}
+      theme={ButtonThemesEnum.Secondary}
       size={ButtonSizeEnum.Large}
       title={submitTitle}
       onPress={onSubmitPress}
