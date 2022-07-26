@@ -94,29 +94,30 @@ export const AddNetwork: FC = () => {
   ).current;
 
   const getNetworkData = useCallback(async (networkChainId: number) => {
-    try {
-      const response = await fetch(CHAINS_JSON);
-      const data: ChainInterface[] = await response.json();
+    const data: ChainInterface[] = await fetch(CHAINS_JSON)
+      .then(res => res.json())
+      .catch(err => {
+        console.log('Error with chainId:', err);
 
-      if (data.length) {
-        const currentNetworkByChainId = data.find(network => network.chainId === Number(networkChainId));
-        if (isDefined(currentNetworkByChainId)) {
-          const { tokenName, symbol, decimals, explorerUrl } = {
-            tokenName: currentNetworkByChainId.nativeCurrency.name,
-            symbol: currentNetworkByChainId.nativeCurrency.symbol,
-            decimals: currentNetworkByChainId.nativeCurrency.decimals,
-            explorerUrl: currentNetworkByChainId.explorers?.[0].url ?? ''
-          };
-          setNativeTokenInfo({ tokenName, decimals });
+        return [];
+      });
 
-          setValue('tokenSymbol', symbol);
-          setValue('blockExplorerUrl', explorerUrl);
-          clearErrors('chainId');
-          clearErrors('tokenSymbol');
-        }
+    if (data.length) {
+      const currentNetworkByChainId = data.find(network => network.chainId === Number(networkChainId));
+      if (isDefined(currentNetworkByChainId)) {
+        const { tokenName, symbol, decimals, explorerUrl } = {
+          tokenName: currentNetworkByChainId.nativeCurrency.name,
+          symbol: currentNetworkByChainId.nativeCurrency.symbol,
+          decimals: currentNetworkByChainId.nativeCurrency.decimals,
+          explorerUrl: currentNetworkByChainId.explorers?.[0].url ?? ''
+        };
+        setNativeTokenInfo({ tokenName, decimals });
+
+        setValue('tokenSymbol', symbol);
+        setValue('blockExplorerUrl', explorerUrl);
+        clearErrors('chainId');
+        clearErrors('tokenSymbol');
       }
-    } catch (e) {
-      console.log('Error with chainId:', e);
     }
   }, []);
 
