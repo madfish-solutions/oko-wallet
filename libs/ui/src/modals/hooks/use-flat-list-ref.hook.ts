@@ -14,7 +14,7 @@ export const useFlatListRef = <T>({ data, selectedIndex }: { data: T[]; selected
     }
   };
 
-  useDelayedEffect(scrollToSelectedIndex, [], 0);
+  useDelayedEffect(scrollToSelectedIndex, [data.length], 0);
 
   return { flatListRef };
 };
