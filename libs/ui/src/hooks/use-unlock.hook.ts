@@ -3,10 +3,10 @@ import { Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { Shelter } from '../shelter/shelter';
-import { getUnlockedAppState, setLocktimeAppValue } from '../utils/unlock-app-state';
+import { setLocktimeAppValue } from '../utils/unlock-app-state';
 
 export const useUnlock = () => {
-  const [isLocked, setIsLocked] = useState(() => getUnlockedAppState(Shelter.getIsLocked()));
+  const [isLocked, setIsLocked] = useState(() => Shelter.getIsLocked());
 
   const unlock$ = useMemo(() => new Subject<string>(), []);
 
