@@ -16,6 +16,12 @@ export const getUnlockedAppState = (defaultValue: boolean) => {
   if (isDefined(locktime) && locktime > 0) {
     const timeIsLeft = Date.now() > ONE_MINUTE * MEMOIZE_UNLOCKED_STATE + locktime;
 
+    if (timeIsLeft) {
+      setLocktimeAppValue(0);
+
+      return timeIsLeft;
+    }
+
     return timeIsLeft;
   }
 
