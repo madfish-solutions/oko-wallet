@@ -18,8 +18,6 @@ export const getUnlockedAppState = (defaultValue: boolean) => {
 
     if (timeIsLeft) {
       setLocktimeAppValue(0);
-
-      return timeIsLeft;
     }
 
     return timeIsLeft;
