@@ -4,7 +4,7 @@ import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
-import { CHAINS_JSON } from '../../../../constants/defaults';
+import { CHAINS_JSON, DEBOUNCE_TIME } from '../../../../constants/defaults';
 import { NETWORK_CHAIN_IDS_BY_NETWORK_TYPE } from '../../../../constants/networks';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
@@ -90,7 +90,7 @@ export const AddNetwork: FC = () => {
           resetDynamicFields();
         }
       }
-    }, 500)
+    }, DEBOUNCE_TIME)
   ).current;
 
   const getNetworkData = useCallback(async (networkChainId: number) => {

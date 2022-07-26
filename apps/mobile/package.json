@@ -27,7 +27,6 @@
     "@taquito/signer": "^12.1.1",
     "@taquito/taquito": "^12.1.1",
     "@taquito/utils": "^12.1.0",
-    "@types/lodash": "^4.14.182",
     "@walletconnect/client": "^1.7.8",
     "bignumber.js": "^9.0.2",
     "bip39": "^3.0.4",
@@ -66,6 +65,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
+    "@types/lodash": "^4.14.182",
     "@types/react-native": "^0.67.3",
     "@types/react-test-renderer": "^17.0.1",
     "@types/redux-persist": "^4.3.1",

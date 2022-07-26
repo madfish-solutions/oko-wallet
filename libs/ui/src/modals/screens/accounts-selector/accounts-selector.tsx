@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { Text } from 'react-native';
 
 import { ButtonWithIcon } from '../../../components/button-with-icon/button-with-icon';
+import { ButtonWithIconSizeEnum, ButtonWithIconThemesEnum } from '../../../components/button-with-icon/enums';
 import { Column } from '../../../components/column/column';
 import { Divider } from '../../../components/divider/divider';
 import { Dynamics } from '../../../components/dynamics/dynamics';
@@ -40,16 +41,16 @@ export const AccountsSelector: FC = () => {
         <Row style={styles.buttonsContainer}>
           <ButtonWithIcon
             title="Widget settings"
-            theme="secondary"
-            size="medium"
+            theme={ButtonWithIconThemesEnum.Secondary}
+            size={ButtonWithIconSizeEnum.Medium}
             onPress={onWidgetSettings}
             rightIcon={IconNameEnum.WidgetSettings}
             style={styles.button}
           />
           <ButtonWithIcon
             title="Account settings"
-            theme="secondary"
-            size="medium"
+            theme={ButtonWithIconThemesEnum.Secondary}
+            size={ButtonWithIconSizeEnum.Medium}
             onPress={onAccountSettings}
             rightIcon={IconNameEnum.Settings}
             style={styles.button}

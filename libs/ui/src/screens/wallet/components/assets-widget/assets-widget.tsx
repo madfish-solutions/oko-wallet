@@ -2,6 +2,7 @@ import React, { FC, useMemo } from 'react';
 import { View } from 'react-native';
 
 import { ButtonWithIcon } from '../../../../components/button-with-icon/button-with-icon';
+import { ButtonWithIconSizeEnum, ButtonWithIconThemesEnum } from '../../../../components/button-with-icon/enums';
 import { Divider } from '../../../../components/divider/divider';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';
@@ -27,21 +28,36 @@ export const AssetsWidget: FC = () => {
     <WidgetContainer style={styles.widgetStyles} iconName={IconNameEnum.Assets} title="Assets">
       <View style={styles.root}>
         <Row style={styles.upperButtons}>
-          <ButtonWithIcon title="Swap" size="medium" theme="tertiay" leftIcon={IconNameEnum.Swap} />
+          <ButtonWithIcon
+            title="Swap"
+            size={ButtonWithIconSizeEnum.Medium}
+            theme={ButtonWithIconThemesEnum.Tertiary}
+            leftIcon={IconNameEnum.Swap}
+          />
           <Divider />
-          <ButtonWithIcon title="Top up" size="medium" theme="tertiay" rightIcon={IconNameEnum.Topup} />
+          <ButtonWithIcon
+            title="Top up"
+            size={ButtonWithIconSizeEnum.Medium}
+            theme={ButtonWithIconThemesEnum.Tertiary}
+            rightIcon={IconNameEnum.Topup}
+          />
         </Row>
         <GasToken />
         {visibleAccountTokens.map(token => (
           <AccountToken key={getTokenSlug(token)} token={token} />
         ))}
         <Row>
-          <ButtonWithIcon title="Activity" size="medium" theme="tertiay" leftIcon={IconNameEnum.Activity} />
+          <ButtonWithIcon
+            title="Activity"
+            size={ButtonWithIconSizeEnum.Medium}
+            theme={ButtonWithIconThemesEnum.Tertiary}
+            leftIcon={IconNameEnum.Activity}
+          />
           <Divider />
           <ButtonWithIcon
             title="View All"
-            size="medium"
-            theme="tertiay"
+            size={ButtonWithIconSizeEnum.Medium}
+            theme={ButtonWithIconThemesEnum.Tertiary}
             rightIcon={IconNameEnum.ArrowRight}
             onPress={navigateToAccountTokens}
           />

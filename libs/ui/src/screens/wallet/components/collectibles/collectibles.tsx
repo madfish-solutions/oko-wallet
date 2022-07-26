@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
 import { ButtonWithIcon } from '../../../../components/button-with-icon/button-with-icon';
+import { ButtonWithIconSizeEnum, ButtonWithIconThemesEnum } from '../../../../components/button-with-icon/enums';
 import { Column } from '../../../../components/column/column';
 import { Divider } from '../../../../components/divider/divider';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
@@ -24,7 +25,12 @@ export const CollectiblesWidget: FC = () => {
   return (
     <WidgetContainer title={COLLECTIBLES} iconName={IconNameEnum.Nft}>
       {isEmptyArray(collectibles) ? (
-        <ButtonWithIcon title={EMPTY_NFT} theme="tertiay" size="medium" leftIcon={IconNameEnum.Receive} />
+        <ButtonWithIcon
+          title={EMPTY_NFT}
+          size={ButtonWithIconSizeEnum.Medium}
+          theme={ButtonWithIconThemesEnum.Tertiary}
+          leftIcon={IconNameEnum.Receive}
+        />
       ) : (
         <Row>
           <Row>
@@ -33,9 +39,19 @@ export const CollectiblesWidget: FC = () => {
             ))}
           </Row>
           <Column style={styles.buttons}>
-            <ButtonWithIcon title={RECEIVE} size="medium" theme="tertiay" rightIcon={IconNameEnum.Receive} />
+            <ButtonWithIcon
+              title={RECEIVE}
+              size={ButtonWithIconSizeEnum.Medium}
+              theme={ButtonWithIconThemesEnum.Tertiary}
+              rightIcon={IconNameEnum.Receive}
+            />
             <Divider />
-            <ButtonWithIcon title={VIEW_ALL} size="medium" theme="tertiay" rightIcon={IconNameEnum.ArrowRight} />
+            <ButtonWithIcon
+              title={VIEW_ALL}
+              size={ButtonWithIconSizeEnum.Medium}
+              theme={ButtonWithIconThemesEnum.Tertiary}
+              rightIcon={IconNameEnum.ArrowRight}
+            />
           </Column>
         </Row>
       )}

@@ -1,19 +1,20 @@
 import { styles } from './button.styles';
+import { ButtonSizeEnum, ButtonThemesEnum } from './enums';
 
 export const themeClasses = {
-  primary: {
+  [ButtonThemesEnum.Primary]: {
     button: styles.buttonPrimary,
     text: styles.textPrimary
   },
-  secondary: {
+  [ButtonThemesEnum.Secondary]: {
     button: styles.buttonSecondary,
     text: styles.textSecondary
   }
 };
 
 export const sizeClasses = {
-  large: styles.large,
-  medium: styles.medium,
-  small: styles.small,
-  fluid: styles.fluid
+  [ButtonSizeEnum.Large]: styles.large,
+  [ButtonSizeEnum.Medium]: styles.medium,
+  [ButtonSizeEnum.Small]: styles.small,
+  [ButtonSizeEnum.Fluid]: styles.fluid
 };

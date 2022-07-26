@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
 import { ButtonWithIcon } from '../../../../components/button-with-icon/button-with-icon';
+import { ButtonWithIconSizeEnum } from '../../../../components/button-with-icon/enums';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { KLAYTN_RPC_MAINNET } from '../../../../constants/defaults';
 import { NETWORK_CHAIN_IDS_BY_NETWORK_TYPE } from '../../../../constants/networks';
@@ -123,7 +124,7 @@ export const EditNetwork: FC = () => {
     >
       <ButtonWithIcon
         title="Delete network"
-        size="small"
+        size={ButtonWithIconSizeEnum.Small}
         leftIcon={IconNameEnum.Trash}
         iconSize={getCustomSize(2)}
         onPress={handleConfirmRemoveAction}

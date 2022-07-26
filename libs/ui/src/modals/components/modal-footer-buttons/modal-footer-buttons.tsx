@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
 import { Button } from '../../../components/button/button';
+import { ButtonSizeEnum, ButtonThemesEnum } from '../../../components/button/enums';
 import { Row } from '../../../components/row/row';
 
 import { FooterButtons } from './modal-footer-buttons.interface';
@@ -13,7 +14,19 @@ export const ModalFooterButtons: FC<FooterButtons> = ({
   onCancelPress
 }) => (
   <Row>
-    <Button style={styles.cancelButton} theme="primary" size="large" title="Cancel" onPress={onCancelPress} />
-    <Button disabled={isSubmitDisabled} theme="secondary" size="large" title={submitTitle} onPress={onSubmitPress} />
+    <Button
+      style={styles.cancelButton}
+      theme={ButtonThemesEnum.Primary}
+      size={ButtonSizeEnum.Large}
+      title="Cancel"
+      onPress={onCancelPress}
+    />
+    <Button
+      disabled={isSubmitDisabled}
+      theme={ButtonThemesEnum.Primary}
+      size={ButtonSizeEnum.Large}
+      title={submitTitle}
+      onPress={onSubmitPress}
+    />
   </Row>
 );

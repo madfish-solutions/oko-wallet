@@ -5,19 +5,20 @@ import { ViewStyleProps } from '../../interfaces/style.interface';
 
 import { styles } from './button.styles';
 import { sizeClasses, themeClasses } from './constants';
+import { ButtonSizeEnum, ButtonThemesEnum } from './enums';
 
 interface Props extends PressableProps {
   title: string;
-  theme?: keyof typeof themeClasses;
-  size?: keyof typeof sizeClasses;
+  theme?: ButtonThemesEnum;
+  size?: ButtonSizeEnum;
   style?: ViewStyleProps;
   disabled?: boolean;
 }
 
 export const Button: FC<Props> = ({
   title,
-  theme = 'primary',
-  size = 'large',
+  theme = ButtonThemesEnum.Primary,
+  size = ButtonSizeEnum.Large,
   style,
   disabled = false,
   ...restProps

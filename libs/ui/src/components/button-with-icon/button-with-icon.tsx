@@ -8,11 +8,12 @@ import { IconNameEnum } from '../icon/icon-name.enum';
 
 import { styles } from './button-with-icon.styles';
 import { sizeClasses, themeClasses } from './constants';
+import { ButtonWithIconSizeEnum, ButtonWithIconThemesEnum } from './enums';
 
 interface Props extends PressableProps {
   title: string;
-  theme?: keyof typeof themeClasses;
-  size?: keyof typeof sizeClasses;
+  theme?: ButtonWithIconThemesEnum;
+  size?: ButtonWithIconSizeEnum;
   rightIcon?: IconNameEnum;
   leftIcon?: IconNameEnum;
   iconSize?: number;
@@ -22,8 +23,8 @@ interface Props extends PressableProps {
 
 export const ButtonWithIcon: FC<Props> = ({
   title,
-  theme = 'primary',
-  size = 'large',
+  theme = ButtonWithIconThemesEnum.Primary,
+  size = ButtonWithIconSizeEnum.Large,
   rightIcon,
   leftIcon,
   iconSize,
@@ -34,7 +35,7 @@ export const ButtonWithIcon: FC<Props> = ({
   <Pressable
     {...restProps}
     disabled={disabled}
-    style={[styles.root, theme === 'tertiay' && styles.containerTertiary, style]}
+    style={[styles.root, theme === 'tertiary' && styles.containerTertiary, style]}
   >
     <View style={styles.wrapper}>
       {leftIcon && (
