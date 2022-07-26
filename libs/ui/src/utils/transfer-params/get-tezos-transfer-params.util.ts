@@ -19,10 +19,14 @@ export const getTezosTransferParams$ = (
   const senderPublicKeyHash = getString(sender.networksKeys[networkType]?.publicKeyHash);
   const amountBN = tezosFormatUnits(amount, decimals);
   const isFA2Token = tokenId !== '';
-  const isTezosToken = tokenAddress === '';
+  const isGasToken = tokenAddress === '';
 
-  return !isTezosToken
-    ? from(createReadOnlyTezosToolkit(rpcUrl, sender).contract.at(tokenAddress)).pipe(
+  return isGasToken
+    ? of({
+        to: receiverPublicKeyHash,
+        amount: Number(amount)
+      })
+    : from(createReadOnlyTezosToolkit(rpcUrl, sender).contract.at(tokenAddress)).pipe(
         map(contract =>
           isFA2Token
             ? contract.methods.transfer([
@@ -40,9 +44,5 @@ export const getTezosTransferParams$ = (
             : contract.methods.transfer(senderPublicKeyHash, receiverPublicKeyHash, amountBN)
         ),
         map(contractMethod => contractMethod.toTransferParams())
-      )
-    : of({
-        to: receiverPublicKeyHash,
-        amount: Number(amount)
-      });
+      );
 };

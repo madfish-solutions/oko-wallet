@@ -15,7 +15,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4256.png'
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://scope.klaytn.com/tx/',
+    explorerUrl: 'https://scope.klaytn.com/',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Klaytn
   },
@@ -30,7 +30,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4256.png'
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://baobab.scope.klaytn.com/tx/',
+    explorerUrl: 'https://baobab.scope.klaytn.com/',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Klaytn
   },
@@ -45,7 +45,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://etherscan.io/tx/',
+    explorerUrl: 'https://etherscan.io/',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Ethereum
   },
@@ -60,7 +60,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://rinkeby.etherscan.io/tx/',
+    explorerUrl: 'https://rinkeby.etherscan.io/',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Ethereum
   },
@@ -75,7 +75,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://ropsten.etherscan.io/tx/',
+    explorerUrl: 'https://ropsten.etherscan.io/',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Ethereum
   },
@@ -91,7 +91,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://bscscan.com/tx/',
+    explorerUrl: 'https://bscscan.com/',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.BinanceSmartChain
   },
@@ -107,7 +107,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://testnet.bscscan.com/tx/',
+    explorerUrl: 'https://testnet.bscscan.com/',
     networkType: NetworkTypeEnum.EVM
   },
   {
@@ -121,7 +121,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://moonbeam.moonscan.io/tx/',
+    explorerUrl: 'https://moonbeam.moonscan.io/',
     networkType: NetworkTypeEnum.EVM
   },
   {
@@ -135,7 +135,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       thumbnailUri: ''
     },
     gasTokenBalance: createEntity('0'),
-    explorerUrl: 'https://moonbase.moonscan.io/tx/',
+    explorerUrl: 'https://moonbase.moonscan.io/',
     networkType: NetworkTypeEnum.EVM
   },
   {

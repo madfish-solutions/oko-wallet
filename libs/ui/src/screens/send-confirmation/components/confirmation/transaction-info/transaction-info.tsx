@@ -3,9 +3,13 @@ import React, { FC, useEffect } from 'react';
 import { Linking, Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import { NetworkTypeEnum } from '../../../../../enums/network-type.enum';
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
 import { addTransactionAction } from '../../../../../store/wallet/wallet.actions';
-import { useSelectedAccountPublicKeyHashSelector } from '../../../../../store/wallet/wallet.selectors';
+import {
+  useSelectedAccountPublicKeyHashSelector,
+  useSelectedNetworkTypeSelector
+} from '../../../../../store/wallet/wallet.selectors';
 import { styles } from '../../../send-confirmation.styles';
 
 interface Props {
@@ -17,9 +21,12 @@ interface Props {
 export const TransactionInfo: FC<Props> = ({ transactionHash, receiver, network: { explorerUrl } }) => {
   const dispatch = useDispatch();
   const publicKey = useSelectedAccountPublicKeyHashSelector();
+  const networkType = useSelectedNetworkTypeSelector();
+  const tx = networkType === NetworkTypeEnum.Tezos ? '' : 'tx/';
+
   const onBlockchainExplorerPress = () => {
     if (isString(explorerUrl)) {
-      return Linking.openURL(`${explorerUrl}${transactionHash}`);
+      return Linking.openURL(`${explorerUrl}${tx}${transactionHash}`);
     }
   };
 

@@ -5,7 +5,7 @@ import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.int
 export const getEvmTransferParams$ = ({ receiverPublicKeyHash, amount, asset }: SendAssetPayload) => {
   const evmTransferParam = {
     value: amount,
-    to: receiverPublicKeyHash
+    receiverPublicKeyHash
   };
 
   return of({ ...evmTransferParam, asset });

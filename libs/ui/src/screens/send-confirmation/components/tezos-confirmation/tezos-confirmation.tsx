@@ -26,8 +26,6 @@ export const TezosConfirmation: FC<Props> = ({ transferParams }) => {
   const network = useSelectedNetworkSelector();
   const { sendTezosTransaction } = useShelter();
   const { estimations, isLoading } = useTezosEstimations({ sender, transferParams, network });
-  console.log('transferParams', transferParams);
-  console.log('estimations', estimations);
   const { storageLimitSum, gasFeeSum, revealGasFee, transferParamsWithFees, isOneOperation } = useTezosFees(
     transferParams,
     estimations

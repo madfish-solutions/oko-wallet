@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Button } from '../../components/button/button';
 import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
 import { TextInput } from '../../components/text-input/text-input';
-import { AccountTokenInput } from '../../interfaces/token-input.interface';
+import { Asset } from '../../interfaces/asset.interface';
 import { sendAssetAction } from '../../store/wallet/wallet.actions';
 
 import { styles } from './send.styles';
@@ -19,11 +19,11 @@ export const Send: FC = () => {
   const [decimals, setDecimals] = useState('');
 
   const onSend = () => {
-    const asset = {
+    const asset: Asset = {
       decimals: Number(decimals.trim()),
       tokenAddress: tokenAddress.trim(),
       tokenId: tokenId.trim()
-    } as AccountTokenInput;
+    };
 
     dispatch(sendAssetAction.submit({ asset, amount, receiverPublicKeyHash }));
   };

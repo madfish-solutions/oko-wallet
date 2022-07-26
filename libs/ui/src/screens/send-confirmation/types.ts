@@ -1,7 +1,7 @@
-import { AccountTokenInput } from '../../interfaces/token-input.interface';
+import { Asset } from '../../interfaces/asset.interface';
 
 export interface EvmTransferParams {
-  to: string;
-  asset: AccountTokenInput;
+  receiverPublicKeyHash: string;
+  asset: Asset;
   value: string;
 }

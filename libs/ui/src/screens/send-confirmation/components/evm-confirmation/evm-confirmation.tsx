@@ -1,14 +1,15 @@
-import { isString } from '@rnw-community/shared';
 import { ethers } from 'ethers';
 import React, { FC, useCallback } from 'react';
 import { Text } from 'react-native';
 
+import { AssetTypeEnum } from '../../../../enums/asset-type.enum';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { TransactionParams } from '../../../../shelter/interfaces/get-evm-signer-params.interface';
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector
 } from '../../../../store/wallet/wallet.selectors';
+import { getAssetType } from '../../../../utils/get-asset-type.util';
 import { formatUnits } from '../../../../utils/units.utils';
 import { useTransactionHook } from '../../hooks/use-transaction.hook';
 import { styles } from '../../send-confirmation.styles';
@@ -21,17 +22,23 @@ interface Props {
   transferParams: EvmTransferParams;
 }
 
-export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, to, value } }) => {
+export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPublicKeyHash, value } }) => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const network = useSelectedNetworkSelector();
   const { sendEvmTransaction } = useShelter();
   const { transactionHash, isTransactionLoading, setIsTransactionLoading, successCallback } = useTransactionHook();
 
   const { tokenAddress, tokenId, decimals } = asset;
-  const isGasToken = !tokenAddress;
-  const isNft = isString(tokenId) && tokenId.length > 0;
+  const assetType = getAssetType(asset);
 
-  const { estimations, isLoading } = useEvmEstimations({ network, asset, to, value, publicKeyHash, isGasToken, isNft });
+  const { estimations, isLoading } = useEvmEstimations({
+    network,
+    asset,
+    receiverPublicKeyHash,
+    value,
+    publicKeyHash,
+    assetType
+  });
 
   const {
     rpcUrl,
@@ -49,10 +56,10 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, to, value 
       const transactionParams: TransactionParams = {
         gasPrice: estimations.gasPrice,
         gasLimit: estimations.gasLimit,
-        to,
+        receiverPublicKeyHash,
         tokenAddress,
         tokenId,
-        ...(!isNft && {
+        ...(assetType !== AssetTypeEnum.Collectible && {
           value: ethers.utils.parseUnits(value, decimals)
         })
       };
@@ -61,8 +68,7 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, to, value 
         rpcUrl,
         transactionParams,
         publicKeyHash,
-        isGasToken,
-        isNft,
+        assetType,
         successCallback
       });
     }
@@ -77,7 +83,7 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, to, value 
       isTransactionLoading={isTransactionLoading}
     >
       <>
-        <Text style={styles.text}>To: {to}</Text>
+        <Text style={styles.text}>To: {receiverPublicKeyHash}</Text>
         <Text style={styles.text}>Amount: {value}</Text>
         <Text style={styles.text}>Gas Price: {gasPrice}</Text>
         <Text style={styles.text}>TX Fee: {transactionFee}</Text>
