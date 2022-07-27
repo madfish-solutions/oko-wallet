@@ -75,8 +75,7 @@ export const AddNetwork: FC = () => {
       if (isNotEmptyString(newRpcUrl.trim())) {
         const provider = getDefaultEvmProvider(newRpcUrl.trim());
 
-        const currentNetwork = await provider.getNetwork().catch(err => {
-          console.log('Error with rpc:', err);
+        const currentNetwork = await provider.getNetwork().catch(() => {
           resetDynamicFields();
 
           return null;
@@ -96,11 +95,7 @@ export const AddNetwork: FC = () => {
   const getNetworkData = useCallback(async (networkChainId: number) => {
     const data: ChainInterface[] = await fetch(CHAINS_JSON)
       .then(res => res.json())
-      .catch(err => {
-        console.log('Error with chainId:', err);
-
-        return [];
-      });
+      .catch(() => []);
 
     if (data.length) {
       const currentNetworkByChainId = data.find(network => network.chainId === Number(networkChainId));

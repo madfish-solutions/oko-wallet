@@ -1,6 +1,7 @@
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 
 import { NetworkInterface } from '../../interfaces/network.interface';
+import { removeTrailingSlash } from '../../utils/remove-trailing-slash.util';
 import { FormTypes } from '../screens/network/types/form-types.interface';
 
 interface NetworkFieldsRules {
@@ -11,21 +12,25 @@ interface NetworkFieldsRules {
 
 export const useNetworkFieldsRules = ({ networks, chainId, defaultValues }: NetworkFieldsRules) => {
   const isNetworkRpcUrlAlreadyExist = (currentRpcUrl: string) => {
+    const rpcUrl = removeTrailingSlash(currentRpcUrl.trim());
+
     if (
-      networks.some(network => network.rpcUrl === currentRpcUrl) &&
-      isNotEmptyString(currentRpcUrl) &&
+      networks.some(network => removeTrailingSlash(network.rpcUrl) === rpcUrl) &&
+      isNotEmptyString(rpcUrl) &&
       isDefined(defaultValues) &&
-      currentRpcUrl !== defaultValues.rpcUrl
+      rpcUrl !== defaultValues.rpcUrl
     ) {
       return 'Network with this RPC URL already exist';
     }
   };
 
   const isNetworkChainIdAlreadyExist = (currentChainId: string) => {
+    const chainId = currentChainId.trim();
+
     if (
-      networks.some(network => network.chainId === currentChainId) &&
+      networks.some(network => network.chainId === chainId) &&
       isDefined(defaultValues) &&
-      currentChainId !== defaultValues.chainId
+      chainId !== defaultValues.chainId
     ) {
       return 'Network with this chain ID already exist';
     }
