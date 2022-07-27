@@ -31,5 +31,10 @@ export const styles = StyleSheet.create({
     width: getCustomSize(8),
     height: getCustomSize(8),
     borderRadius: getCustomSize(2)
+  },
+  quinary: {
+    width: getCustomSize(4),
+    height: getCustomSize(4),
+    borderRadius: getCustomSize(6)
   }
 });
