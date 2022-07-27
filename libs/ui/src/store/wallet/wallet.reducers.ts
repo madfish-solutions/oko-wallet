@@ -1,6 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
+import { isDefined } from '@rnw-community/shared';
 
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
+import { NetworkInterface } from '../../interfaces/network.interface';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { createEntity } from '../utils/entity.utils';
@@ -18,7 +20,9 @@ import {
   changeTokenVisibilityAction,
   loadAccountTokenBalanceAction,
   updateTransactionAction,
-  addTransactionAction
+  addTransactionAction,
+  editNetworkAction,
+  removeNetworkAction
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -153,6 +157,70 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     const prevNetworkType = getSelectedNetworkType(state);
     const selectedAccount = getSelectedAccount(state, prevNetworkType);
     const networks = [...state.networks, newNetwork];
+
+    return {
+      ...state,
+      networks,
+      selectedNetworkRpcUrl: newNetwork.rpcUrl,
+      selectedAccountPublicKeyHash: getPublicKeyHash(selectedAccount, newNetwork.networkType),
+      accountsTokens: updateAccountsTokensState(
+        { ...state, networks, selectedNetworkRpcUrl: newNetwork.rpcUrl },
+        selectedAccount
+      )
+    };
+  });
+  builder.addCase(editNetworkAction, (state, { payload: { network: newNetwork, isNetworkSelected, prevRpcUrl } }) => {
+    const prevNetworkType = getSelectedNetworkType(state);
+    const selectedAccount = getSelectedAccount(state, prevNetworkType);
+
+    let networks: NetworkInterface[] = [];
+
+    if (isNetworkSelected) {
+      const currentNetwork = state.networks.find(network => network.rpcUrl === newNetwork.rpcUrl);
+
+      if (currentNetwork) {
+        networks = state.networks.map(network => {
+          if (network.rpcUrl === currentNetwork.rpcUrl) {
+            return currentNetwork;
+          }
+
+          return network;
+        });
+      }
+
+      networks = state.networks.map(network => {
+        if (network.rpcUrl === state.selectedNetworkRpcUrl) {
+          return newNetwork;
+        }
+
+        return network;
+      });
+    } else if (isDefined(prevRpcUrl)) {
+      networks = state.networks.map(network => {
+        if (network.rpcUrl === prevRpcUrl) {
+          return newNetwork;
+        }
+
+        return network;
+      });
+    }
+
+    return {
+      ...state,
+      networks,
+      selectedNetworkRpcUrl: isNetworkSelected ? newNetwork.rpcUrl : state.selectedNetworkRpcUrl,
+      selectedAccountPublicKeyHash: getPublicKeyHash(selectedAccount, newNetwork.networkType),
+      accountsTokens: updateAccountsTokensState(
+        { ...state, networks, selectedNetworkRpcUrl: newNetwork.rpcUrl },
+        selectedAccount
+      )
+    };
+  });
+  builder.addCase(removeNetworkAction, (state, { payload: rpcUrl }) => {
+    const prevNetworkType = getSelectedNetworkType(state);
+    const selectedAccount = getSelectedAccount(state, prevNetworkType);
+    const networks = state.networks.filter(network => network.rpcUrl !== rpcUrl);
+    const newNetwork = networks[0];
 
     return {
       ...state,

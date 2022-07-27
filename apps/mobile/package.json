@@ -34,6 +34,7 @@
     "ed25519-hd-key": "^1.2.0",
     "ethers": "^5.6.4",
     "events": "^1.1.1",
+    "lodash": "^4.17.21",
     "process": "^0.11.10",
     "react": "17.0.2",
     "react-hook-form": "^7.33.1",
@@ -64,6 +65,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
+    "@types/lodash": "^4.14.182",
     "@types/react-native": "^0.67.3",
     "@types/react-test-renderer": "^17.0.1",
     "@types/redux-persist": "^4.3.1",

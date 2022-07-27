@@ -11,6 +11,7 @@ import AssetsIcon from './assets/assets.svg';
 import BigRobot from './assets/big-robot.svg';
 import CheckDoneIcon from './assets/check-done.svg';
 import CheckEmptyIcon from './assets/check-empty.svg';
+import Clear from './assets/clear.svg';
 import CopyIcon from './assets/copy.svg';
 import DropdownIcon from './assets/dropdown.svg';
 import DropupIcon from './assets/dropup.svg';
@@ -36,7 +37,9 @@ import Slider from './assets/slider.svg';
 import SmallRobot from './assets/small-robot.svg';
 import StakeIcon from './assets/stake.svg';
 import SwapIcon from './assets/swap.svg';
+import Tooltip from './assets/tooltip.svg';
 import TopupIcon from './assets/topup.svg';
+import Trash from './assets/trash.svg';
 import WidgetSettings from './assets/widget-settings.svg';
 import XIcon from './assets/x.svg';
 import { IconNameEnum } from './icon-name.enum';
@@ -88,5 +91,8 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   // to dell
   [IconNameEnum.BigRobot]: BigRobot,
   [IconNameEnum.SmallRobot]: SmallRobot,
-  [IconNameEnum.EmptySearch]: EmptySearch
+  [IconNameEnum.EmptySearch]: EmptySearch,
+  [IconNameEnum.Tooltip]: Tooltip,
+  [IconNameEnum.Trash]: Trash,
+  [IconNameEnum.Clear]: Clear
 };

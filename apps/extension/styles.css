@@ -61,5 +61,4 @@ body {
 
 .root-container {
   height: 100vh;
-  margin-top: calc((100vh - 600px)/2)
 }

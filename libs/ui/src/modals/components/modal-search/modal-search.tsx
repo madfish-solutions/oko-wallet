@@ -1,6 +1,6 @@
 import { OnEventFn } from '@rnw-community/shared';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useForm, Controller, ControllerRenderProps } from 'react-hook-form';
+import { useForm, Controller, ControllerRenderProps, FieldValues, FieldPath } from 'react-hook-form';
 import { GestureResponderEvent } from 'react-native';
 
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
@@ -19,16 +19,12 @@ interface Props {
   selectedItem: string;
 }
 
-const renderTextInput = ({ onChange, ref, value }: ControllerRenderProps<{ search: string }, 'search'>) => (
-  <TextInput
-    ref={ref}
-    value={value}
-    onChangeText={onChange}
-    placeholder="Search"
-    containerStyle={styles.inputContainer}
-    inputStyle={styles.input}
-  />
-);
+const renderTextInput = <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+>(
+  field: ControllerRenderProps<TFieldValues, TName>
+) => <TextInput field={field} placeholder="Search" containerStyle={styles.inputContainer} inputStyle={styles.input} />;
 
 export const ModalSearch: React.FC<Props> = ({ setSearchValue, onPressAddIcon, selectedItem }) => {
   const [isShowSearchField, setIsShowSearchField] = useState(false);
