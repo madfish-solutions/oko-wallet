@@ -108,7 +108,11 @@ export const Navigator: FC = () => {
                 options={{ title: 'Add new account' }}
                 component={AddAccount}
               />
-              <Stack.Screen name={ScreensEnum.AddNetwork} options={{ title: 'Add network' }} component={AddNetwork} />
+              <Stack.Screen
+                name={ScreensEnum.AddNetwork}
+                options={{ title: 'Add new network' }}
+                component={AddNetwork}
+              />
               <Stack.Screen
                 name={ScreensEnum.EditNetwork}
                 options={{ title: 'Edit network' }}
