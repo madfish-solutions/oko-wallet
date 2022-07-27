@@ -2,8 +2,7 @@ import { FeeData, TransactionRequest } from '@ethersproject/abstract-provider';
 import { ethers } from 'ethers';
 import { useEffect, useMemo, useState } from 'react';
 
-import ERC_20_ABI from '../../../../../constants/abi/erc-20-Abi.json';
-import ERC_721_ABI from '../../../../../constants/abi/erc-721-abi.json';
+import { Erc20Abi__factory, Erc721abi__factory } from '../../../../../contract-types';
 import { AssetTypeEnum } from '../../../../../enums/asset-type.enum';
 import { Asset } from '../../../../../interfaces/asset.interface';
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
@@ -43,13 +42,13 @@ export const useEvmEstimations = ({
       if (assetType === AssetTypeEnum.GasToken) {
         gasLimit = await provider.estimateGas({ to: receiverPublicKeyHash, value: amount }).catch(console.log);
       } else if (assetType === AssetTypeEnum.Collectible) {
-        const contract = new ethers.Contract(tokenAddress, ERC_721_ABI, provider);
+        const contract = Erc721abi__factory.connect(tokenAddress, provider);
 
         gasLimit = await contract.estimateGas
           .transferFrom(publicKeyHash, receiverPublicKeyHash, tokenId)
           .catch(console.log);
       } else {
-        const contract = new ethers.Contract(tokenAddress, ERC_20_ABI, provider);
+        const contract = Erc20Abi__factory.connect(tokenAddress, provider);
 
         gasLimit = await contract.estimateGas.transfer(receiverPublicKeyHash, amount).catch(console.log);
       }
