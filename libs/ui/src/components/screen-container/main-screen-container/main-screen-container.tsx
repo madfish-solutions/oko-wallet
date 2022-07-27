@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { useUnlock } from '../../../hooks/use-unlock.hook';
@@ -19,12 +19,7 @@ interface Props extends HeaderIconsProps {
 export const MainScreenContainer: FC<Props> = ({ style, children }) => {
   const { isLocked } = useUnlock();
 
-  const { onScroll, onTouchEnd, changeQrCodeVisibility, contentOffsetY, scrollViewRef, qrCodeInitialValue } =
-    useHeaderAnimation();
-
-  useEffect(() => {
-    qrCodeInitialValue(true);
-  }, []);
+  const { onScroll, onTouchEnd, changeQrCodeVisibility, contentOffsetY, scrollViewRef } = useHeaderAnimation();
 
   return (
     <Column style={[styles.root, style]}>
