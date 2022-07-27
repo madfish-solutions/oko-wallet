@@ -36,7 +36,6 @@ export const NetworkContainer: FC<Props> = ({
   children,
   rules: { commonRules, chainIdRules, rpcUrlRules },
   errors,
-  setValue,
   editable = true
 }) => {
   const { goBack } = useNavigation();
@@ -62,16 +61,11 @@ export const NetworkContainer: FC<Props> = ({
           control={control}
           name="name"
           rules={commonRules}
-          render={({ field: { onChange, onBlur, value, ref, name } }) => (
+          render={({ field }) => (
             <TextInput
-              ref={ref}
-              name={name}
+              field={field}
               label="Network name"
               placeholder="Network"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              clearField={setValue}
               error={errors?.name?.message}
               containerStyle={styles.inputContainer}
             />
@@ -81,16 +75,11 @@ export const NetworkContainer: FC<Props> = ({
           control={control}
           name="rpcUrl"
           rules={rpcUrlRules}
-          render={({ field: { onChange, onBlur, value, ref, name } }) => (
+          render={({ field }) => (
             <TextInput
-              ref={ref}
-              name={name}
+              field={field}
               label="RPC URL"
               placeholder="https://"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              clearField={setValue}
               prompt="How to get RPC URL?"
               handlePrompt={handlePromptNavigate}
               error={errors?.rpcUrl?.message}
@@ -103,16 +92,11 @@ export const NetworkContainer: FC<Props> = ({
           control={control}
           name="chainId"
           rules={chainIdRules}
-          render={({ field: { onChange, onBlur, value, ref, name } }) => (
+          render={({ field }) => (
             <TextInput
-              ref={ref}
-              name={name}
+              field={field}
               label="Chain ID"
               placeholder="Chain ID"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              clearField={setValue}
               error={errors?.chainId?.message}
               editable={editable}
               containerStyle={styles.inputContainer}
@@ -123,17 +107,12 @@ export const NetworkContainer: FC<Props> = ({
           control={control}
           name="blockExplorerUrl"
           rules={{ ...commonRules, required: false }}
-          render={({ field: { onChange, onBlur, value, ref, name } }) => (
+          render={({ field }) => (
             <TextInput
-              ref={ref}
-              name={name}
+              field={field}
               label="Block Explorer URL"
               placeholder="https://"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
               required={false}
-              clearField={setValue}
               prompt="I don’t have Block Explorer URL"
               handlePrompt={handlePromptNavigate}
               error={errors?.blockExplorerUrl?.message}
@@ -145,16 +124,11 @@ export const NetworkContainer: FC<Props> = ({
           control={control}
           name="tokenSymbol"
           rules={commonRules}
-          render={({ field: { onChange, onBlur, value, ref, name } }) => (
+          render={({ field }) => (
             <TextInput
-              ref={ref}
-              name={name}
+              field={field}
               label="Gas Token Symbol"
               placeholder="BTC"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              clearField={setValue}
               error={errors?.tokenSymbol?.message}
               containerStyle={styles.lastInputContainer}
             />

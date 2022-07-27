@@ -1,5 +1,5 @@
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';

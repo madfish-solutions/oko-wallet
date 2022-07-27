@@ -1,13 +1,13 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import React, { FC, useMemo } from 'react';
+import React, { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
 import { ButtonWithIcon } from '../../../../components/button-with-icon/button-with-icon';
 import { ButtonWithIconSizeEnum } from '../../../../components/button-with-icon/enums';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
-import { KLAYTN_RPC_MAINNET } from '../../../../constants/defaults';
 import { NETWORK_CHAIN_IDS_BY_NETWORK_TYPE } from '../../../../constants/networks';
+import { MainnetRpcEnum } from '../../../../constants/rpc';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
@@ -33,10 +33,6 @@ export const EditNetwork: FC = () => {
   const {
     params: { network: selectedNetwork, isNetworkSelected }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.EditNetwork>>();
-  const networksWithoutCurrent = useMemo(
-    () => networks.filter(network => network.rpcUrl !== selectedNetwork.rpcUrl),
-    [networks, selectedNetwork]
-  );
 
   const defaultValues = {
     name: selectedNetwork.name,
@@ -101,6 +97,8 @@ export const EditNetwork: FC = () => {
   };
 
   const handleRemoveNetwork = () => {
+    const networksWithoutCurrent = networks.filter(network => network.rpcUrl !== selectedNetwork.rpcUrl);
+
     if (!checkIsNetworkTypeKeyExist(selectedAccount, networksWithoutCurrent[0].networkType)) {
       createHdAccountForNewNetworkType(selectedAccount, networksWithoutCurrent[0].networkType, () => {
         dispatch(removeNetworkAction(selectedNetwork.rpcUrl));
@@ -128,7 +126,7 @@ export const EditNetwork: FC = () => {
         leftIcon={IconNameEnum.Trash}
         iconSize={getCustomSize(2)}
         onPress={handleConfirmRemoveAction}
-        disabled={networks.length === 1 || selectedNetwork.rpcUrl === KLAYTN_RPC_MAINNET}
+        disabled={networks.length === 1 || selectedNetwork.rpcUrl === MainnetRpcEnum.Klaytn}
         style={styles.button}
       />
     </NetworkContainer>

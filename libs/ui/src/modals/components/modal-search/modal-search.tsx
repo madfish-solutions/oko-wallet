@@ -1,6 +1,6 @@
 import { OnEventFn } from '@rnw-community/shared';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useForm, Controller, ControllerRenderProps, UseFormSetValue } from 'react-hook-form';
+import { useForm, Controller, ControllerRenderProps, FieldValues, FieldPath } from 'react-hook-form';
 import { GestureResponderEvent } from 'react-native';
 
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
@@ -19,28 +19,17 @@ interface Props {
   selectedItem: string;
 }
 
-const renderTextInput = (
-  { onChange, ref, value, name }: ControllerRenderProps<{ search: string }, 'search'>,
-  setValue: UseFormSetValue<{
-    search: string;
-  }>
-) => (
-  <TextInput
-    ref={ref}
-    name={name}
-    value={value}
-    onChangeText={onChange}
-    clearField={setValue}
-    placeholder="Search"
-    containerStyle={styles.inputContainer}
-    inputStyle={styles.input}
-  />
-);
+const renderTextInput = <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+>(
+  field: ControllerRenderProps<TFieldValues, TName>
+) => <TextInput field={field} placeholder="Search" containerStyle={styles.inputContainer} inputStyle={styles.input} />;
 
 export const ModalSearch: React.FC<Props> = ({ setSearchValue, onPressAddIcon, selectedItem }) => {
   const [isShowSearchField, setIsShowSearchField] = useState(false);
 
-  const { control, resetField, watch, setFocus, setValue } = useForm({
+  const { control, resetField, watch, setFocus } = useForm({
     mode: 'onChange',
     defaultValues: {
       search: EMPTY_STRING
@@ -74,7 +63,7 @@ export const ModalSearch: React.FC<Props> = ({ setSearchValue, onPressAddIcon, s
     <Row style={styles.root}>
       {isShowSearchField ? (
         <>
-          <Controller control={control} name={SEARCH_FIELD} render={({ field }) => renderTextInput(field, setValue)} />
+          <Controller control={control} name={SEARCH_FIELD} render={({ field }) => renderTextInput(field)} />
           <TouchableIcon name={IconNameEnum.X} onPress={hideSearchField} style={styles.close} />
         </>
       ) : (

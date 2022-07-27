@@ -35,7 +35,7 @@ export const ButtonWithIcon: FC<Props> = ({
   <Pressable
     {...restProps}
     disabled={disabled}
-    style={[styles.root, theme === 'tertiary' && styles.containerTertiary, style]}
+    style={[styles.root, theme === ButtonWithIconThemesEnum.Tertiary && styles.containerTertiary, style]}
   >
     <View style={styles.wrapper}>
       {leftIcon && (
