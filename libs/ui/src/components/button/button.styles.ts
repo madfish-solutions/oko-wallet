@@ -7,44 +7,39 @@ import { typography } from '../../styles/typography';
 export const styles = StyleSheet.create({
   root: {
     flex: 1,
-    flexBasis: 'auto',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: getCustomSize(1.75),
+    borderWidth: getCustomSize(0.25)
+  },
+  wrapper: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'
   },
   text: {
     color: colors.textGrey1
   },
+  // primary
   buttonPrimary: {
-    borderRadius: getCustomSize(0.5),
-    color: colors.textGrey1,
-    backgroundColor: colors.navGrey1
-  },
-  textPrimary: {
-    ...typography.taglineInterSemiBoldUppercase13
-  },
-  buttonSecondary: {
-    borderRadius: getCustomSize(1.75),
-    borderWidth: getCustomSize(0.25),
-    backgroundColor: colors.navGrey1,
+    backgroundColor: 'transparent',
     borderColor: colors.bgGrey2
   },
-  textSecondary: {
+  textPrimary: {
     color: colors.orange,
     ...typography.taglineInterSemiBoldUppercase15
   },
-  buttonTertiary: {
-    borderRadius: getCustomSize(1.75),
-    borderWidth: getCustomSize(0.25),
+  // secondary
+  buttonSecondary: {
     borderColor: 'transparent',
     backgroundColor: colors.orange
   },
-  textTertiary: {
+  textSecondary: {
     color: colors.textGrey1,
     ...typography.taglineInterSemiBoldUppercase15
   },
+  // disabled
   disabledButton: {
-    borderRadius: getCustomSize(1.75),
-    borderWidth: getCustomSize(0.25),
     borderColor: 'transparent',
     backgroundColor: colors.bgGrey5
   },
@@ -52,11 +47,9 @@ export const styles = StyleSheet.create({
     color: colors.textGrey2,
     ...typography.taglineInterSemiBoldUppercase15
   },
+  // size
   fluid: {
     width: '100%'
-  },
-  extraLarge: {
-    height: getCustomSize(6)
   },
   large: {
     height: getCustomSize(5)
@@ -66,16 +59,5 @@ export const styles = StyleSheet.create({
   },
   small: {
     height: getCustomSize(3.25)
-  },
-  wrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  rightIcon: {
-    marginLeft: getCustomSize(0.5)
-  },
-  leftIcon: {
-    marginRight: getCustomSize(0.5)
   }
 });
