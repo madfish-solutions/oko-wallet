@@ -6,7 +6,8 @@
   "main": "src/index.ts",
   "scripts": {
     "ts": "tsc --pretty",
-    "test": "./node_modules/.bin/jest"
+    "test": "./node_modules/.bin/jest",
+    "generate-contract-types": "typechain --target=ethers-v5 'src/constants/abi/*.json' --out-dir 'src/contract-types'"
   },
   "devDependencies": {
     "@dicebear/avatars": "^4.10.2",
@@ -21,6 +22,7 @@
     "@taquito/signer": "^12.1.1",
     "@taquito/taquito": "^12.1.1",
     "@taquito/utils": "^12.1.0",
+    "@typechain/ethers-v5": "^10.1.0",
     "@types/jest": "^27.4.1",
     "@types/react": "^17.0.44",
     "@types/react-native": "^0.67.6",
@@ -55,6 +57,7 @@
     "rxjs": "^7.5.5",
     "ts-action": "^11.0.0",
     "ts-action-operators": "^9.1.2",
+    "typechain": "^8.1.0",
     "wasm-themis": "^0.14.5",
     "webextension-polyfill-ts": "^0.26.0"
   },

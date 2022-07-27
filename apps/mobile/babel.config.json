@@ -10,6 +10,7 @@
           "ui": "../../libs/ui/src"
         }
       }
-    ]
+    ],
+    "@babel/plugin-proposal-export-namespace-from"
   ]
 }

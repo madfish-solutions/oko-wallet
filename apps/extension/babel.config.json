@@ -4,6 +4,7 @@
     ["@dr.pogodin/babel-preset-svgr", { "svgr": "require('./svgr.config')" }]
   ],
   "plugins": [
-    "react-native-web"
+    "react-native-web",
+    "@babel/plugin-proposal-export-namespace-from"
   ]
 }

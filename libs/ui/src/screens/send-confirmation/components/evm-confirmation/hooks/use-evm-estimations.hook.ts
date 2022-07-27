@@ -2,12 +2,12 @@ import { FeeData, TransactionRequest } from '@ethersproject/abstract-provider';
 import { ethers } from 'ethers';
 import { useEffect, useMemo, useState } from 'react';
 
+import ERC_20_ABI from '../../../../../constants/abi/erc-20-Abi.json';
+import ERC_721_ABI from '../../../../../constants/abi/erc-721-abi.json';
 import { AssetTypeEnum } from '../../../../../enums/asset-type.enum';
 import { Asset } from '../../../../../interfaces/asset.interface';
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
 import { getDefaultEvmProvider } from '../../../../../utils/get-default-evm-provider.utils';
-import { ERC_20_ABI } from '../../../../../utils/transfer-params/constants/evm-erc-20-abi';
-import { ERC_721_ABI } from '../../../../../utils/transfer-params/constants/evm-erc-721-abi';
 import { modifyGasLimit } from '../utils/modify-gas-limit.util';
 
 interface UseEvmEstimationsArgs {
