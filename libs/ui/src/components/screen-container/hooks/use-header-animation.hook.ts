@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react';
+import { useNavigationState } from '@react-navigation/native';
+import { useEffect, useRef, useState } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -7,6 +8,7 @@ import { HIDE_QR_CODE, MIDDLE_VALUE, SHOW_QR_CODE } from '../constants';
 
 export const useHeaderAnimation = () => {
   const [contentOffsetY, setContentOffsetY] = useState(isWeb ? HIDE_QR_CODE : SHOW_QR_CODE);
+  const routeIndex = useNavigationState(state => state.index);
 
   const scrollViewRef = useRef<ScrollView>(null);
 
@@ -15,13 +17,13 @@ export const useHeaderAnimation = () => {
     setContentOffsetY(offsetY);
   };
 
-  const qrCodeInitialValue = (isMainScreen: boolean) => {
-    if (isWeb && isMainScreen) {
+  useEffect(() => {
+    if (isWeb) {
       hideQrCode(false);
     } else {
       showQrCode(false);
     }
-  };
+  }, [routeIndex]);
 
   const onTouchEnd = () => {
     bringTheElementToTheExtremePoint();
@@ -69,7 +71,6 @@ export const useHeaderAnimation = () => {
     onTouchEnd,
     changeQrCodeVisibility: qrCodeVisibility,
     contentOffsetY,
-    scrollViewRef,
-    qrCodeInitialValue
+    scrollViewRef
   };
 };
