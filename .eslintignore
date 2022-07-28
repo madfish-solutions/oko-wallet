@@ -3,3 +3,4 @@ node_modules/
 Pods/
 webpack.config.js
 metro.config.js
+libs/ui/src/contract-types

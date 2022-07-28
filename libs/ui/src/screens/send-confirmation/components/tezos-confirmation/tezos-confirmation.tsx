@@ -1,40 +1,49 @@
 import { ParamsWithKind, OpKind } from '@taquito/taquito';
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback } from 'react';
 import { Text } from 'react-native';
 
 import { useShelter } from '../../../../hooks/use-shelter.hook';
-import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
+import {
+  useSelectedAccountSelector,
+  useSelectedNetworkSelector,
+  useSelectedAccountPublicKeyHashSelector
+} from '../../../../store/wallet/wallet.selectors';
 import { formatUnits } from '../../../../utils/units.utils';
-import { ConfirmationProps } from '../../types';
+import { useTransactionHook } from '../../hooks/use-transaction.hook';
+import { styles } from '../../send-confirmation.styles';
 import { Confirmation } from '../confirmation/confirmation';
 
 import { useTezosEstimations } from './hooks/use-tezos-estimations.hook';
 import { useTezosFees } from './hooks/use-tezos-fees.hook';
 
-interface Props extends ConfirmationProps {
+interface Props {
   transferParams: ParamsWithKind[];
 }
 
-export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }) => {
+export const TezosConfirmation: FC<Props> = ({ transferParams }) => {
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
+  const sender = useSelectedAccountSelector();
+  const network = useSelectedNetworkSelector();
   const { sendTezosTransaction } = useShelter();
   const { estimations, isLoading } = useTezosEstimations({ sender, transferParams, network });
   const { storageLimitSum, gasFeeSum, revealGasFee, transferParamsWithFees, isOneOperation } = useTezosFees(
     transferParams,
     estimations
   );
-  const [transactionHash, setTransactionHash] = useState('');
+  const { transactionHash, isTransactionLoading, setIsTransactionLoading, successCallback } = useTransactionHook();
 
   const minimalFeePerStorageByteMutez = estimations[0]?.minimalFeePerStorageByteMutez ?? 0;
   const {
     rpcUrl,
-    gasTokenMetadata: { decimals },
-    networkType
+    gasTokenMetadata: { decimals }
   } = network;
 
   const storageFee = storageLimitSum && formatUnits(storageLimitSum * minimalFeePerStorageByteMutez, decimals);
   const formattedFee = gasFeeSum && formatUnits(gasFeeSum, decimals);
 
   const onSend = useCallback(() => {
+    setIsTransactionLoading(true);
+
     // Tezos Taquito will add revealGasGee by himself
     const feeToSend = gasFeeSum - revealGasFee;
 
@@ -61,17 +70,23 @@ export const TezosConfirmation: FC<Props> = ({ network, sender, transferParams }
     sendTezosTransaction({
       transactionParams,
       rpcUrl,
-      publicKeyHash: getPublicKeyHash(sender, networkType),
-      successCallback: transactionResponse => setTransactionHash(transactionResponse.hash)
+      publicKeyHash,
+      successCallback
     });
   }, [estimations]);
 
   return (
-    <Confirmation isLoading={isLoading} transactionHash={transactionHash} network={network} onSend={onSend}>
+    <Confirmation
+      isLoading={isLoading}
+      transactionHash={transactionHash}
+      network={network}
+      onSend={onSend}
+      isTransactionLoading={isTransactionLoading}
+    >
       <>
-        <Text>Storage limit: {storageLimitSum}</Text>
-        {storageLimitSum > 0 && <Text>Storage Fee: {storageFee}</Text>}
-        <Text>TX Fee: {formattedFee}</Text>
+        <Text style={styles.text}>Storage limit: {storageLimitSum}</Text>
+        {storageLimitSum > 0 && <Text style={styles.text}>Storage Fee: {storageFee}</Text>}
+        <Text style={styles.text}>TX Fee: {formattedFee}</Text>
       </>
     </Confirmation>
   );

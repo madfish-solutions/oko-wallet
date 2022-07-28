@@ -3,9 +3,14 @@ import React, { FC, useEffect } from 'react';
 import { Linking, Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import { NetworkTypeEnum } from '../../../../../enums/network-type.enum';
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
 import { addTransactionAction } from '../../../../../store/wallet/wallet.actions';
-import { useSelectedAccountPublicKeyHashSelector } from '../../../../../store/wallet/wallet.selectors';
+import {
+  useSelectedAccountPublicKeyHashSelector,
+  useSelectedNetworkTypeSelector
+} from '../../../../../store/wallet/wallet.selectors';
+import { styles } from '../../../send-confirmation.styles';
 
 interface Props {
   transactionHash: string;
@@ -16,9 +21,12 @@ interface Props {
 export const TransactionInfo: FC<Props> = ({ transactionHash, receiver, network: { explorerUrl } }) => {
   const dispatch = useDispatch();
   const publicKey = useSelectedAccountPublicKeyHashSelector();
+  const networkType = useSelectedNetworkTypeSelector();
+  const tx = networkType === NetworkTypeEnum.Tezos ? '' : 'tx/';
+
   const onBlockchainExplorerPress = () => {
     if (isString(explorerUrl)) {
-      return Linking.openURL(explorerUrl);
+      return Linking.openURL(`${explorerUrl}${tx}${transactionHash}`);
     }
   };
 
@@ -28,9 +36,15 @@ export const TransactionInfo: FC<Props> = ({ transactionHash, receiver, network:
 
   return (
     <View>
-      <Text>The transaction was done, hash:</Text>
-      <Text selectable>{transactionHash}</Text>
-      {isString(explorerUrl) && <Text onPress={onBlockchainExplorerPress}>Block explorer {explorerUrl}</Text>}
+      <Text style={styles.text}>The transaction was done, hash:</Text>
+      <Text selectable style={styles.text}>
+        {transactionHash}
+      </Text>
+      {isString(explorerUrl) && (
+        <Text onPress={onBlockchainExplorerPress} style={styles.text}>
+          Click to watch transaction status
+        </Text>
+      )}
     </View>
   );
 };

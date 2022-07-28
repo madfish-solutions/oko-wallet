@@ -4,15 +4,18 @@ import { catchError, map, switchMap, concatMap } from 'rxjs/operators';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
+import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
+import { parseTezosTransferParams } from '../../utils/parse-tezos-transfer-params.utils';
 import { getGasTokenBalance$, getTokenBalance$ } from '../../utils/token.utils';
+import { getEvmTransferParams$ } from '../../utils/transfer-params/get-evm-transfer-params.util';
+import { getTezosTransferParams$ } from '../../utils/transfer-params/get-tezos-transfer-params.util';
 import { withSelectedAccount, withSelectedNetwork } from '../../utils/wallet.util';
 import { navigateAction } from '../root-state.actions';
 import { RootState } from '../store';
 import { createEntity } from '../utils/entity.utils';
 
 import { loadGasTokenBalanceAction, loadAccountTokenBalanceAction, sendAssetAction } from './wallet.actions';
-import { getTransferParams } from './wallet.utils';
 
 const getGasTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Observable<RootState>) =>
   action$.pipe(
@@ -53,9 +56,19 @@ const sendAssetEpic: Epic = (action$: Observable<Action>, state$: Observable<Roo
     ofType(sendAssetAction.submit),
     toPayload(),
     withSelectedNetwork(state$),
-    map(([sendAssetPayload, selectedNetwork]) =>
+    withSelectedAccount(state$),
+    switchMap(([[sendAssetPayload, selectedNetwork], sender]) => {
+      if (selectedNetwork.networkType === NetworkTypeEnum.Tezos) {
+        return getTezosTransferParams$(sendAssetPayload, selectedNetwork, sender).pipe(
+          map(transferParams => parseTezosTransferParams(transferParams))
+        );
+      }
+
+      return getEvmTransferParams$(sendAssetPayload);
+    }),
+    map(transferParams =>
       navigateAction(ScreensEnum.SendConfirmation, {
-        transferParams: getTransferParams(sendAssetPayload, selectedNetwork)
+        transferParams
       })
     )
   );
