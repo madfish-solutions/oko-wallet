@@ -15,9 +15,10 @@ interface Props extends HeaderIconsProps {
   screenTitle: string;
   navigationType?: HeaderSideTypeEnum;
   style?: ViewStyleProps;
+  contentStyles?: ViewStyleProps;
 }
 
-export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType, style, children }) => {
+export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType, style, contentStyles, children }) => {
   const { isLocked } = useUnlock();
 
   return (
@@ -25,7 +26,7 @@ export const ScreenContainer: FC<Props> = ({ screenTitle, icons, navigationType,
       <HeaderSecondaryScreen title={screenTitle} icons={icons} navigationType={navigationType} />
 
       <ScrollView scrollEventThrottle={10} scrollEnabled={!isLocked}>
-        <View style={styles.content}>{children}</View>
+        <View style={[styles.content, contentStyles]}>{children}</View>
       </ScrollView>
 
       <NavigationBar />
