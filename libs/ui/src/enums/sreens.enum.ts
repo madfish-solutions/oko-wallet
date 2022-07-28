@@ -1,5 +1,6 @@
 import { AccountInterface } from '../interfaces/account.interface';
 import { NetworkInterface } from '../interfaces/network.interface';
+import { Token } from '../interfaces/token.interface';
 import { TransferParams } from '../interfaces/transfer-params.interface';
 
 export enum ScreensEnum {
@@ -42,6 +43,6 @@ export type ScreensParamList = {
   [ScreensEnum.AddAccount]: undefined;
   [ScreensEnum.AddNetwork]: undefined;
   [ScreensEnum.AddNewToken]: undefined;
-  [ScreensEnum.EditToken]: undefined;
+  [ScreensEnum.EditToken]: { token: Token };
   [ScreensEnum.EditNetwork]: { network: NetworkInterface; isNetworkSelected: boolean };
 };

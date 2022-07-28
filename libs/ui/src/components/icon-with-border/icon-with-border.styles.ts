@@ -10,7 +10,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: getCustomSize(0.25),
     borderColor: colors.bgGrey3,
-    backgroundColor: colors.navGrey1
+    backgroundColor: colors.navGrey1,
+    overflow: 'hidden'
   },
   primary: {
     width: getCustomSize(4),

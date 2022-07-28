@@ -1,11 +1,11 @@
 import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
-import { Control, Controller, FieldErrors, UseControllerProps, UseFormSetValue } from 'react-hook-form';
-import { GestureResponderEvent, Image, ScrollView, Text, View } from 'react-native';
+import { Control, Controller, FieldErrors, UseControllerProps } from 'react-hook-form';
+import { GestureResponderEvent, ScrollView, View } from 'react-native';
 
-import { IconWithBorder } from '../../../../../components/icon-with-border/icon-with-border';
 import { Row } from '../../../../../components/row/row';
 import { TextInput } from '../../../../../components/text-input/text-input';
+import { Token } from '../../../../../components/token/token';
 import { useNavigation } from '../../../../../hooks/use-navigation.hook';
 import { ModalActionContainer } from '../../../../components/modal-action-container/modal-action-container';
 import { FooterButtons } from '../../../../components/modal-footer-buttons/modal-footer-buttons.interface';
@@ -22,7 +22,7 @@ interface Props extends Pick<FooterButtons, 'submitTitle'> {
     addressUrlRules: UseControllerProps['rules'];
   };
   errors: FieldErrors<FormTypes>;
-  setValue: UseFormSetValue<FormTypes>;
+  symbol: string;
   editable?: boolean;
 }
 
@@ -30,6 +30,7 @@ export const AddTokenContainer: FC<Props> = ({
   screenTitle,
   onSubmitPress,
   submitTitle,
+  symbol,
   control,
   children,
   rules: { commonRules, addressUrlRules },
@@ -132,10 +133,7 @@ export const AddTokenContainer: FC<Props> = ({
                 clearIconStyles={styles.clearIcon}
               />
               <Row style={styles.tokenImage}>
-                <IconWithBorder type="quinary">
-                  <Image source={{ uri: 'https://cdn.sheepfarm.io/nft/decor/img/31001.png' }} style={styles.image} />
-                </IconWithBorder>
-                <Text style={styles.tokenSymbol}>KLAY</Text>
+                <Token symbol={symbol} uri={field.value} />
               </Row>
             </View>
           )}

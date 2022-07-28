@@ -1,22 +1,19 @@
+import { RouteProp, useRoute } from '@react-navigation/native';
 import { isNotEmptyString } from '@rnw-community/shared';
 import React, { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useAllNetworksSelector } from '../../../../store/wallet/wallet.selectors';
+import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useAddTokenFieldsRules } from '../../../hooks/use-validate-add-token-fields.hook copy';
 import { AddTokenContainer } from '../components/add-token-container/add-token-container';
 import { FormTypes } from '../types/form-types.interface';
 
-const defaultValues = {
-  address: '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',
-  tokenId: '',
-  symbol: 'ETH',
-  decimals: '18',
-  iconUrl: 'https://cdn.sheepfarm.io/nft/decor/img/31001.png'
-};
-
 export const EditToken: FC = () => {
-  const networks = useAllNetworksSelector();
+  const {
+    params: {
+      token: { symbol, tokenAddress, decimals, tokenId, thumbnailUri }
+    }
+  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.EditToken>>();
 
   const {
     control,
@@ -27,7 +24,13 @@ export const EditToken: FC = () => {
     formState: { errors }
   } = useForm<FormTypes>({
     mode: 'onChange',
-    defaultValues
+    defaultValues: {
+      symbol,
+      tokenId,
+      address: tokenAddress,
+      decimals: String(decimals),
+      iconUrl: thumbnailUri
+    }
   });
 
   const resetDynamicFields = () => {
@@ -37,6 +40,14 @@ export const EditToken: FC = () => {
   };
 
   const watchAddressUrl = watch('address');
+  const warchIconUrl = watch('iconUrl');
+  const watchSymbol = watch('symbol');
+
+  useEffect(() => {
+    if (warchIconUrl !== thumbnailUri) {
+      setValue('symbol', '');
+    }
+  }, [warchIconUrl, thumbnailUri]);
 
   useEffect(() => {
     if (!isNotEmptyString(watchAddressUrl.trim())) {
@@ -44,10 +55,7 @@ export const EditToken: FC = () => {
     }
   }, [watchAddressUrl]);
 
-  const rules = useAddTokenFieldsRules({
-    tokens: networks,
-    defaultValues
-  });
+  const rules = useAddTokenFieldsRules();
 
   const onSubmit = (fields: FormTypes) => {
     console.log('Submit', fields);
@@ -59,9 +67,9 @@ export const EditToken: FC = () => {
       submitTitle="Save"
       onSubmitPress={handleSubmit(onSubmit)}
       control={control}
+      symbol={watchSymbol}
       rules={rules}
       errors={errors}
-      setValue={setValue}
     />
   );
 };

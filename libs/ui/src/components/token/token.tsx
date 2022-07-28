@@ -1,5 +1,6 @@
+import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import React, { FC } from 'react';
-import { Image, Text } from 'react-native';
+import { Image, Text, View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { getCustomSize } from '../../styles/format-size';
@@ -12,20 +13,29 @@ import { Row } from '../row/row';
 import { styles } from './token.styles';
 
 interface Props {
+  uri?: string;
+  symbol: string;
+  name?: string;
+  gasToken?: boolean;
+  forceNameVisibility?: boolean;
   style?: ViewStyleProps;
 }
 
-export const Token: FC<Props> = ({ style }) => (
+export const Token: FC<Props> = ({ uri, symbol, name, forceNameVisibility = false, gasToken = false, style }) => (
   <Row style={style}>
     <IconWithBorder type="quinary" style={styles.icon}>
-      <Image source={{ uri: 'https://cdn.sheepfarm.io/nft/decor/img/31001.png' }} style={styles.image} />
+      {isDefined(uri) && isNotEmptyString(uri) ? (
+        <Image source={{ uri }} style={styles.image} />
+      ) : (
+        <View style={styles.fallback} />
+      )}
     </IconWithBorder>
     <Column>
       <Row>
-        <Text style={styles.symbol}>KLAY</Text>
-        <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />
+        <Text style={styles.symbol}>{symbol}</Text>
+        {gasToken && <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />}
       </Row>
-      <Text style={styles.name}>Token name</Text>
+      {forceNameVisibility && <Text style={styles.name}>{name ?? symbol}</Text>}
     </Column>
   </Row>
 );
