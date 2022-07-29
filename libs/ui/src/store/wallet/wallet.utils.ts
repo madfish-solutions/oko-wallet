@@ -71,7 +71,7 @@ export const updateAccountTokenState = (
 ): WalletState => {
   const { selectedNetworkRpcUrl, selectedAccountPublicKeyHash, accountsTokens } = state;
   const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
-  const tokenSlug = getTokenSlug(token);
+  const tokenSlug = getTokenSlug(token.tokenAddress, token.tokenId);
   const targetAccountTokens = accountsTokens[accountTokensSlug];
 
   if (typeof targetAccountTokens === 'undefined') {
@@ -83,7 +83,7 @@ export const updateAccountTokenState = (
     accountsTokens: {
       ...accountsTokens,
       [accountTokensSlug]: targetAccountTokens.map(accountToken =>
-        getTokenSlug(accountToken) === tokenSlug
+        getTokenSlug(accountToken.tokenAddress, accountToken.tokenId) === tokenSlug
           ? {
               ...accountToken,
               ...updateFunc(accountToken)

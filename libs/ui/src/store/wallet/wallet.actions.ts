@@ -5,6 +5,7 @@ import { NetworkInterface } from '../../interfaces/network.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
 import { AccountTokenInput } from '../../interfaces/token-input.interface';
 import { Token } from '../../interfaces/token.interface';
+import { TokenFormTypes } from '../../modals/screens/token/types/form-types.interface';
 import { createActions } from '../utils/action.utils';
 
 export const createHdAccountAction = createAction<AccountInterface>('wallet/CREATE_HD_ACCOUNT');
@@ -33,7 +34,8 @@ export const editNetworkAction = createAction<{
 }>('wallet/EDIT_NETWORK');
 export const removeNetworkAction = createAction<string>('wallet/REMOVE_NETWORK');
 
-export const addTokenMetadataAction = createAction<AccountTokenInput>('wallet/ADD_TOKEN_METADATA');
+export const addNewTokenAction = createAction<AccountTokenInput>('wallet/ADD_NEW_TOKEN');
+export const editTokenAction = createAction<TokenFormTypes>('wallet/EDIT_TOKEN');
 export const changeTokenVisibilityAction = createAction<Token>('wallet/CHANGE_TOKEN_VISIBILITY');
 
 export const sendAssetAction = createActions<SendAssetPayload>('wallet/SEND_ASSET');

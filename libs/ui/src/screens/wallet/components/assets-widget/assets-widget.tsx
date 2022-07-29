@@ -44,7 +44,7 @@ export const AssetsWidget: FC = () => {
         </Row>
         <GasToken />
         {visibleAccountTokens.map(token => (
-          <AccountToken key={getTokenSlug(token)} token={token} />
+          <AccountToken key={getTokenSlug(token.tokenAddress, token.tokenId)} token={token} />
         ))}
         <Row>
           <ButtonWithIcon

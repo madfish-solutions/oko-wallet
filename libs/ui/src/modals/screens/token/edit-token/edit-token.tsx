@@ -1,14 +1,20 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { isNotEmptyString } from '@rnw-community/shared';
+import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import React, { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
-import { useAddTokenFieldsRules } from '../../../hooks/use-validate-add-token-fields.hook copy';
-import { AddTokenContainer } from '../components/add-token-container/add-token-container';
-import { FormTypes } from '../types/form-types.interface';
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
+import { editTokenAction } from '../../../../store/wallet/wallet.actions';
+import { useTokenFieldsRules } from '../../../hooks/use-validate-add-token-fields.hook copy';
+import { TokenContainer } from '../components/token-container/token-container';
+import { TokenFormTypes } from '../types/form-types.interface';
 
 export const EditToken: FC = () => {
+  const dispatch = useDispatch();
+  const { goBack } = useNavigation();
+
   const {
     params: {
       token: { symbol, tokenAddress, decimals, tokenId, thumbnailUri }
@@ -22,32 +28,32 @@ export const EditToken: FC = () => {
     watch,
     resetField,
     formState: { errors }
-  } = useForm<FormTypes>({
+  } = useForm<TokenFormTypes>({
     mode: 'onChange',
     defaultValues: {
       symbol,
-      tokenId,
-      address: tokenAddress,
+      tokenId: tokenId ?? '',
+      tokenAddress,
       decimals: String(decimals),
-      iconUrl: thumbnailUri
+      thumbnailUri
     }
   });
 
   const resetDynamicFields = () => {
     resetField('symbol');
     resetField('decimals');
-    resetField('iconUrl');
+    resetField('thumbnailUri');
   };
 
-  const watchAddressUrl = watch('address');
-  const warchIconUrl = watch('iconUrl');
+  const watchAddressUrl = watch('tokenAddress');
+  const warchIconUrl = watch('thumbnailUri');
   const watchSymbol = watch('symbol');
 
   useEffect(() => {
     if (warchIconUrl !== thumbnailUri) {
-      setValue('symbol', '');
+      setValue('symbol', watchSymbol);
     }
-  }, [warchIconUrl, thumbnailUri]);
+  }, [warchIconUrl, thumbnailUri, watchSymbol]);
 
   useEffect(() => {
     if (!isNotEmptyString(watchAddressUrl.trim())) {
@@ -55,14 +61,27 @@ export const EditToken: FC = () => {
     }
   }, [watchAddressUrl]);
 
-  const rules = useAddTokenFieldsRules();
+  const rules = useTokenFieldsRules();
 
-  const onSubmit = (fields: FormTypes) => {
-    console.log('Submit', fields);
+  const onSubmit = (fields: TokenFormTypes) => {
+    const prevTokenValue = {
+      symbol,
+      tokenId: isNotEmptyString(tokenId) && isDefined(tokenId) ? tokenId : '',
+      tokenAddress,
+      decimals: String(decimals),
+      thumbnailUri
+    };
+
+    if (JSON.stringify(prevTokenValue) === JSON.stringify(fields)) {
+      return goBack();
+    }
+
+    dispatch(editTokenAction(fields));
+    goBack();
   };
 
   return (
-    <AddTokenContainer
+    <TokenContainer
       screenTitle="Edit token"
       submitTitle="Save"
       onSubmitPress={handleSubmit(onSubmit)}
@@ -70,6 +89,7 @@ export const EditToken: FC = () => {
       symbol={watchSymbol}
       rules={rules}
       errors={errors}
+      editable={false}
     />
   );
 };

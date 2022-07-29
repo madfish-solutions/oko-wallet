@@ -1,7 +1,7 @@
-export interface FormTypes {
-  address: string;
+export interface TokenFormTypes {
+  tokenAddress: string;
   tokenId?: string;
   symbol: string;
   decimals: string;
-  iconUrl?: string;
+  thumbnailUri?: string;
 }

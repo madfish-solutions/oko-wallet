@@ -39,7 +39,10 @@ export const ManageTokens: FC = () => {
         </Row>
       </Row>
       {accountTokens.map((token, i) => (
-        <Row key={getTokenSlug(token)} style={[styles.token, i !== accountTokens.length - 1 && styles.borderBottom]}>
+        <Row
+          key={getTokenSlug(token.tokenAddress, token.tokenId)}
+          style={[styles.token, i !== accountTokens.length - 1 && styles.borderBottom]}
+        >
           <Token uri={token.thumbnailUri} symbol={token.symbol} name={token.name} forceNameVisibility />
           <Row>
             <TouchableIcon

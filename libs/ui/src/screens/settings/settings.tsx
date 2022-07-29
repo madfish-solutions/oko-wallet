@@ -17,7 +17,6 @@ export const Settings: FC = () => {
   const { lock } = useUnlock();
 
   const navigateToAddNewToken = () => navigate(ScreensEnum.AddNewToken);
-  const navigateToEditToken = () => navigate(ScreensEnum.EditToken);
   const navigateToManageTokens = () => navigate(ScreensEnum.ManageTokens);
   const navigateToAddNetwork = () => navigate(ScreensEnum.AddNetwork);
   const navigateToConnectToDapps = () => navigate(ScreensEnum.ConnectToDapps);
@@ -30,7 +29,6 @@ export const Settings: FC = () => {
     >
       <Button title="Add network" onPress={navigateToAddNetwork} />
       <Button title="Add new token" onPress={navigateToAddNewToken} />
-      <Button title="Edit token" onPress={navigateToEditToken} />
       <Button title="Manage Tokens" onPress={navigateToManageTokens} />
       <Button title="Connect to Dapps" onPress={navigateToConnectToDapps} />
       <ResetWallet />

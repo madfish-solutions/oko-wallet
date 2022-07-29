@@ -1,4 +1,4 @@
-import { OnEventFn } from '@rnw-community/shared';
+import { isDefined, isNotEmptyString, OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { Control, Controller, FieldErrors, UseControllerProps } from 'react-hook-form';
 import { GestureResponderEvent, ScrollView, View } from 'react-native';
@@ -9,31 +9,33 @@ import { Token } from '../../../../../components/token/token';
 import { useNavigation } from '../../../../../hooks/use-navigation.hook';
 import { ModalActionContainer } from '../../../../components/modal-action-container/modal-action-container';
 import { FooterButtons } from '../../../../components/modal-footer-buttons/modal-footer-buttons.interface';
-import { FormTypes } from '../../types/form-types.interface';
+import { TokenFormTypes } from '../../types/form-types.interface';
 
-import { styles } from './add-token-container.styles';
+import { styles } from './token-container.styles';
 
 interface Props extends Pick<FooterButtons, 'submitTitle'> {
   screenTitle: string;
   onSubmitPress: OnEventFn<GestureResponderEvent>;
-  control: Control<FormTypes, object>;
+  control: Control<TokenFormTypes, object>;
   rules: {
     commonRules: UseControllerProps['rules'];
     addressUrlRules: UseControllerProps['rules'];
+    thumbnailUrlRules: UseControllerProps['rules'];
+    decimalsRules: UseControllerProps['rules'];
   };
-  errors: FieldErrors<FormTypes>;
+  errors: FieldErrors<TokenFormTypes>;
   symbol: string;
   editable?: boolean;
 }
 
-export const AddTokenContainer: FC<Props> = ({
+export const TokenContainer: FC<Props> = ({
   screenTitle,
   onSubmitPress,
   submitTitle,
   symbol,
   control,
   children,
-  rules: { commonRules, addressUrlRules },
+  rules: { commonRules, addressUrlRules, thumbnailUrlRules, decimalsRules },
   errors,
   editable = true
 }) => {
@@ -52,7 +54,7 @@ export const AddTokenContainer: FC<Props> = ({
       <ScrollView style={styles.root}>
         <Controller
           control={control}
-          name="address"
+          name="tokenAddress"
           rules={addressUrlRules}
           render={({ field }) => (
             <TextInput
@@ -61,8 +63,9 @@ export const AddTokenContainer: FC<Props> = ({
               placeholder="Address"
               prompt="How to get Token Address?"
               handlePrompt={handlePromptNavigate}
-              error={errors?.address?.message}
+              error={errors?.tokenAddress?.message}
               containerStyle={styles.inputContainer}
+              editable={editable}
             />
           )}
         />
@@ -79,8 +82,8 @@ export const AddTokenContainer: FC<Props> = ({
               handlePrompt={handlePromptNavigate}
               required={false}
               error={errors?.tokenId?.message}
-              editable={editable}
               containerStyle={styles.inputContainer}
+              editable={editable}
             />
           )}
         />
@@ -95,7 +98,6 @@ export const AddTokenContainer: FC<Props> = ({
               prompt="Token symbol, like ‘BTC’ for Bitcoin"
               placeholder="BTC"
               error={errors?.symbol?.message}
-              editable={editable}
               containerStyle={styles.inputContainer}
             />
           )}
@@ -103,7 +105,7 @@ export const AddTokenContainer: FC<Props> = ({
         <Controller
           control={control}
           name="decimals"
-          rules={commonRules}
+          rules={decimalsRules}
           render={({ field }) => (
             <TextInput
               field={field}
@@ -117,8 +119,8 @@ export const AddTokenContainer: FC<Props> = ({
         />
         <Controller
           control={control}
-          name="iconUrl"
-          rules={{ ...commonRules, required: false }}
+          name="thumbnailUri"
+          rules={{ ...thumbnailUrlRules, required: false }}
           render={({ field }) => (
             <View style={styles.textareaContainer}>
               <TextInput
@@ -127,13 +129,16 @@ export const AddTokenContainer: FC<Props> = ({
                 placeholder="http://cryptoicons.co/#tmpl"
                 required={false}
                 prompt="Image URL for token logo"
-                error={errors?.iconUrl?.message}
+                error={errors?.thumbnailUri?.message}
                 multiline
                 inputStyle={styles.iconUrlInput}
                 clearIconStyles={styles.clearIcon}
               />
               <Row style={styles.tokenImage}>
-                <Token symbol={symbol} uri={field.value} />
+                <Token
+                  symbol={isNotEmptyString(field.value) && isDefined(field.value) && symbol ? symbol : 'TOKEN'}
+                  uri={field.value}
+                />
               </Row>
             </View>
           )}

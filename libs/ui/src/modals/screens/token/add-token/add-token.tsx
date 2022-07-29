@@ -1,34 +1,38 @@
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
-import debounce from 'lodash/debounce';
-import React, { FC, useCallback, useEffect, useRef } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 
-import { DEBOUNCE_TIME } from '../../../../constants/defaults';
-import { useAllNetworksSelector } from '../../../../store/wallet/wallet.selectors';
-import { getDefaultEvmProvider } from '../../../../utils/get-default-evm-provider.utils';
-import { useAddTokenFieldsRules } from '../../../hooks/use-validate-add-token-fields.hook copy';
-import { AddTokenContainer } from '../components/add-token-container/add-token-container';
-import { FormTypes } from '../types/form-types.interface';
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
+import { addNewTokenAction } from '../../../../store/wallet/wallet.actions';
+import { useAccountAssetsSelector } from '../../../../store/wallet/wallet.selectors';
+import { getTokenSlug } from '../../../../utils/token.utils';
+import { useTokenFieldsRules } from '../../../hooks/use-validate-add-token-fields.hook copy';
+import { TokenContainer } from '../components/token-container/token-container';
+import { TokenFormTypes } from '../types/form-types.interface';
 
-const defaultValues = {
-  address: '',
+const defaultValues: TokenFormTypes = {
+  tokenAddress: '',
   tokenId: '',
   symbol: '',
   decimals: '',
-  iconUrl: ''
+  thumbnailUri: ''
 };
 
 export const AddNewToken: FC = () => {
-  const networks = useAllNetworksSelector();
+  const dispatch = useDispatch();
+  const { goBack } = useNavigation();
+
+  const accountTokens = useAccountAssetsSelector();
 
   const {
     control,
     handleSubmit,
-    setValue,
     watch,
     resetField,
+    setError,
     formState: { errors }
-  } = useForm<FormTypes>({
+  } = useForm<TokenFormTypes>({
     mode: 'onChange',
     defaultValues
   });
@@ -36,10 +40,11 @@ export const AddNewToken: FC = () => {
   const resetDynamicFields = () => {
     resetField('symbol');
     resetField('decimals');
-    resetField('iconUrl');
+    resetField('thumbnailUri');
   };
 
-  const watchAddressUrl = watch('address');
+  const watchAddressUrl = watch('tokenAddress');
+  const watchSymbol = watch('symbol');
 
   useEffect(() => {
     if (!isNotEmptyString(watchAddressUrl.trim())) {
@@ -47,55 +52,47 @@ export const AddNewToken: FC = () => {
     }
   }, [watchAddressUrl]);
 
-  const getNetworkChainId = useRef(
-    debounce(async (newRpcUrl: string) => {
-      if (isNotEmptyString(newRpcUrl.trim())) {
-        const provider = getDefaultEvmProvider(newRpcUrl.trim());
+  const rules = useTokenFieldsRules();
 
-        const currentNetwork = await provider.getNetwork().catch(() => {
-          resetDynamicFields();
+  const onSubmit = (fields: TokenFormTypes) => {
+    const currentToken = accountTokens.find(
+      token => getTokenSlug(token.tokenAddress, token.tokenId) === getTokenSlug(fields.tokenAddress, fields.tokenId)
+    );
 
-          return null;
-        });
-
-        if (isDefined(currentNetwork)) {
-          const { chainId } = currentNetwork;
-          getNetworkData(chainId);
-        }
+    if (isDefined(currentToken)) {
+      if (isNotEmptyString(fields.tokenId)) {
+        return setError('tokenId', { message: 'Token with this Token ID already exist' });
       }
-    }, DEBOUNCE_TIME)
-  ).current;
 
-  const getNetworkData = useCallback(async (networkChainId: number) => {
-    console.log(networkChainId);
-  }, []);
+      return setError('tokenAddress', { message: 'Token with this Address already exist' });
+    }
 
-  useEffect(() => {
-    getNetworkChainId(watchAddressUrl);
+    dispatch(
+      addNewTokenAction({
+        tokenAddress: fields.tokenAddress,
+        name: fields.symbol,
+        symbol: fields.symbol,
+        thumbnailUri: fields.thumbnailUri,
+        decimals: Number(fields.decimals),
+        tokenId: fields.tokenId,
+        artifactUri: undefined,
+        // TODO: Add check to token address
+        tezosTokenType: undefined
+      })
+    );
 
-    return () => {
-      getNetworkChainId.cancel();
-    };
-  }, [getNetworkChainId, watchAddressUrl]);
-
-  const rules = useAddTokenFieldsRules({
-    tokens: networks,
-    defaultValues
-  });
-
-  const onSubmit = (fields: FormTypes) => {
-    console.log('Submit', fields);
+    goBack();
   };
 
   return (
-    <AddTokenContainer
+    <TokenContainer
       screenTitle="Add new token"
       submitTitle="Add"
       onSubmitPress={handleSubmit(onSubmit)}
       control={control}
+      symbol={watchSymbol}
       rules={rules}
       errors={errors}
-      setValue={setValue}
     />
   );
 };
