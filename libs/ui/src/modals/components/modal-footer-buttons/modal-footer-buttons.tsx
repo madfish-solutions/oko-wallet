@@ -13,7 +13,7 @@ export const ModalFooterButtons: FC<FooterButtons> = ({
   onSubmitPress,
   onCancelPress
 }) => (
-  <Row>
+  <Row style={styles.root}>
     <Button
       style={styles.cancelButton}
       theme={ButtonThemesEnum.Primary}
