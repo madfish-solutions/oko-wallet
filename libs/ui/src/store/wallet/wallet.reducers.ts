@@ -216,19 +216,25 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       )
     };
   });
-  builder.addCase(removeNetworkAction, (state, { payload: rpcUrl }) => {
+  builder.addCase(removeNetworkAction, (state, { payload: { network: editedNetwork, isNetworkSelected } }) => {
     const prevNetworkType = getSelectedNetworkType(state);
     const selectedAccount = getSelectedAccount(state, prevNetworkType);
-    const networks = state.networks.filter(network => network.rpcUrl !== rpcUrl);
-    const newNetwork = networks[0];
+    const networks = state.networks.filter(network => network.rpcUrl !== editedNetwork.rpcUrl);
 
     return {
       ...state,
       networks,
-      selectedNetworkRpcUrl: newNetwork.rpcUrl,
-      selectedAccountPublicKeyHash: getPublicKeyHash(selectedAccount, newNetwork.networkType),
+      selectedNetworkRpcUrl: isNetworkSelected ? networks[0].rpcUrl : state.selectedNetworkRpcUrl,
+      selectedAccountPublicKeyHash: getPublicKeyHash(
+        selectedAccount,
+        isNetworkSelected ? networks[0].networkType : prevNetworkType
+      ),
       accountsTokens: updateAccountsTokensState(
-        { ...state, networks, selectedNetworkRpcUrl: newNetwork.rpcUrl },
+        {
+          ...state,
+          networks,
+          selectedNetworkRpcUrl: isNetworkSelected ? networks[0].rpcUrl : state.selectedNetworkRpcUrl
+        },
         selectedAccount
       )
     };
