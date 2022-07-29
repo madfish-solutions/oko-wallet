@@ -2,7 +2,6 @@ import { isNotEmptyString } from '@rnw-community/shared';
 
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { useSelectedNetworkTypeSelector } from '../../store/wallet/wallet.selectors';
-import { isValidUrl } from '../../utils/is-valid-url.util';
 import { isEvmAddressValid } from '../../utils/isEvmAddressValid.util';
 import { isValidAddress } from '../../utils/isTezosAddressValid.util';
 
@@ -31,11 +30,11 @@ export const useTokenFieldsRules = () => {
     }
   };
 
-  const checkImageUrl = (currentValue?: string) => {
-    if (isNotEmptyString(currentValue) && isValidUrl(currentValue)) {
-      return 'Must be a valid URL';
-    }
-  };
+  // const checkImageUrl = (currentValue?: string) => {
+  //   if (isNotEmptyString(currentValue) && isValidUrl(currentValue)) {
+  //     return 'Must be a valid URL';
+  //   }
+  // };
 
   const checOnlyNymbers = (currentValue: string) => {
     if (!currentValue.match(/^\d*[.]?\d*$/)) {
@@ -54,7 +53,7 @@ export const useTokenFieldsRules = () => {
   };
 
   const thumbnailUrlRules = {
-    validate: { ...commonRules.validate, checkImageUrl }
+    validate: { ...commonRules.validate }
   };
 
   const decimalsRules = {

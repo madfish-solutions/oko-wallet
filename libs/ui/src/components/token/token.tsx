@@ -1,6 +1,6 @@
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
-import React, { FC } from 'react';
-import { Image, Text, View } from 'react-native';
+import React, { FC, useCallback, useEffect, useState } from 'react';
+import { Image, ImageErrorEventData, NativeSyntheticEvent, Text, View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { getCustomSize } from '../../styles/format-size';
@@ -21,21 +21,37 @@ interface Props {
   style?: ViewStyleProps;
 }
 
-export const Token: FC<Props> = ({ uri, symbol, name, forceNameVisibility = false, gasToken = false, style }) => (
-  <Row style={style}>
-    <IconWithBorder type="quinary" style={styles.icon}>
-      {isDefined(uri) && isNotEmptyString(uri) ? (
-        <Image source={{ uri }} style={styles.image} />
-      ) : (
-        <View style={styles.fallback} />
-      )}
-    </IconWithBorder>
-    <Column>
-      <Row>
-        <Text style={styles.symbol}>{symbol}</Text>
-        {gasToken && <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />}
-      </Row>
-      {forceNameVisibility && <Text style={styles.name}>{name ?? symbol}</Text>}
-    </Column>
-  </Row>
-);
+export const Token: FC<Props> = ({ uri, symbol, name, forceNameVisibility = false, gasToken = false, style }) => {
+  const [loadingIsError, setLoadingIsError] = useState(false);
+
+  const onError = useCallback((err?: NativeSyntheticEvent<ImageErrorEventData>) => {
+    if (isDefined(err?.nativeEvent.error) && isNotEmptyString(err?.nativeEvent.error)) {
+      setLoadingIsError(true);
+    } else {
+      setLoadingIsError(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    onError();
+  }, [onError, uri]);
+
+  return (
+    <Row style={style}>
+      <IconWithBorder type="quinary" style={styles.icon}>
+        {isDefined(uri) && isNotEmptyString(uri) && !loadingIsError ? (
+          <Image source={{ uri }} style={styles.image} onError={onError} />
+        ) : (
+          <View style={styles.fallback} />
+        )}
+      </IconWithBorder>
+      <Column>
+        <Row>
+          <Text style={styles.symbol}>{symbol}</Text>
+          {gasToken && <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />}
+        </Row>
+        {forceNameVisibility && <Text style={styles.name}>{name ?? symbol}</Text>}
+      </Column>
+    </Row>
+  );
+};

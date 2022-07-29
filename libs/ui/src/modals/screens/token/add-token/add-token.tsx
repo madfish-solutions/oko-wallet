@@ -75,9 +75,7 @@ export const AddNewToken: FC = () => {
         thumbnailUri: fields.thumbnailUri,
         decimals: Number(fields.decimals),
         tokenId: fields.tokenId,
-        artifactUri: undefined,
-        // TODO: Add check to token address
-        tezosTokenType: undefined
+        artifactUri: undefined
       })
     );
 

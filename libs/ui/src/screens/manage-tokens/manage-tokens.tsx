@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
@@ -50,11 +51,14 @@ export const ManageTokens: FC = () => {
               name={IconNameEnum.Edit}
               style={styles.editIcon}
             />
-            <Switch
-              onPress={() => handleTokenVisibility(token)}
-              theme={SwitchThemesEnum.Primary}
-              isActive={token.isVisible}
-            />
+            <Row style={styles.switcherContainer}>
+              <Text style={styles.status}>{token.isVisible ? 'Hide' : 'Show'}</Text>
+              <Switch
+                onPress={() => handleTokenVisibility(token)}
+                theme={SwitchThemesEnum.Primary}
+                isActive={token.isVisible}
+              />
+            </Row>
           </Row>
         </Row>
       ))}

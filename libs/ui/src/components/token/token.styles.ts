@@ -19,9 +19,11 @@ export const styles = StyleSheet.create({
     borderRadius: getCustomSize(0.33)
   },
   symbol: {
+    color: colors.textGrey1,
     ...typography.bodyInterSemiBold15
   },
   name: {
+    color: colors.textGrey1,
     ...typography.captionInterRegular11
   }
 });
