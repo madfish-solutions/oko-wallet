@@ -18,7 +18,8 @@ import {
   changeTokenVisibilityAction,
   loadAccountTokenBalanceAction,
   updateTransactionAction,
-  addTransactionAction
+  addTransactionAction,
+  setTransactionFromDapp
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -200,4 +201,8 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
 
     return { ...state, transactions: { ...state.transactions, [accountTokensSlug]: updatedAccountTransactions } };
   });
+  builder.addCase(setTransactionFromDapp, (state, { payload }) => ({
+    ...state,
+    metamask: { transactionInfo: payload }
+  }));
 });

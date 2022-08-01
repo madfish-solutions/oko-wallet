@@ -2,6 +2,8 @@ import { InitialState, NavigationContainer, NavigationContainerRef } from '@reac
 import { isDefined } from '@rnw-community/shared';
 import React, { FC, createRef, useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { browser } from 'webextension-polyfill-ts';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useUnlock } from '../../hooks/use-unlock.hook';
@@ -21,8 +23,14 @@ import { Send } from '../../screens/send/send';
 import { Settings } from '../../screens/settings/settings';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
-import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
+import { setTransactionFromDapp } from '../../store/wallet/wallet.actions';
+import {
+  useDappInfoSelector,
+  useIsAuthorisedSelector,
+  useSelectedAccountPublicKeyHashSelector
+} from '../../store/wallet/wallet.selectors';
 import { getStoredValue, setStoredValue } from '../../utils/store.util';
+import { Button } from '../button/button';
 
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
 import { PERSISTENCE_KEY } from './constants/perstistence-key';
@@ -31,10 +39,28 @@ import { Stack } from './utils/get-stack-navigator';
 export const navigationRef = createRef<NavigationContainerRef<ScreensParamList>>();
 
 export const Navigator: FC = () => {
+  const dispatch = useDispatch();
+  const dappInfo = useDappInfoSelector();
   const isAuthorised = useIsAuthorisedSelector();
+  const selectedAcc = useSelectedAccountPublicKeyHashSelector();
   const { isLocked } = useUnlock();
   const [isReady, setIsReady] = useState(false);
   const [initialState, setInitialState] = useState<InitialState>();
+  const [dappInfoState, setDappInfo] = useState({});
+  console.log(dappInfoState, 'dapp state');
+  //   data:
+  // data:
+  // id: 905315567
+  // jsonrpc: "2.0"
+  // result: "0x13141df"
+  // [[Prototype]]: Object
+  // name: "metamask-provider"
+  // [[Prototype]]: Object
+  // target: "metamask-inpage"
+
+  useEffect(() => {
+    setDappInfo(JSON.parse(dappInfo.transactionInfo));
+  }, [dappInfo]);
 
   useEffect(() => {
     const restoreState = async () => {
@@ -53,6 +79,31 @@ export const Navigator: FC = () => {
       restoreState();
     }
   }, [isReady]);
+
+  console.log(dappInfo, 'DAPP INFO!!!');
+
+  const channel = new BroadcastChannel('YOUR_CHANNEL_NAME');
+  const channel2 = new BroadcastChannel('YOUR_CHANNEL_NAME22');
+
+  window.addEventListener('DOMContentLoaded', event => {
+    console.log('APP is loaded!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    channel.postMessage({ msg: 'background' });
+  });
+
+  const sendMesg = obj => {
+    browser.tabs.query({ active: true }).then(tabs => {
+      console.log(tabs[0].id, 'TABS');
+      console.log(obj, 'SENDING OBJ');
+      browser.tabs.sendMessage(tabs[0]?.id, obj);
+    });
+  };
+
+  channel.onmessage = msg => {
+    console.log('message received from service worker', msg);
+    dispatch(setTransactionFromDapp(JSON.stringify(msg.data?.msg)));
+    channel2.postMessage({ result: 'INFO FROM APP COMPONENT' });
+    // channel.postMessage({ msg: 'Hello service worker from popup' });
+  };
 
   if (!isReady) {
     return (
@@ -115,7 +166,20 @@ export const Navigator: FC = () => {
         )}
       </Stack.Navigator>
 
-      {isLocked && isAuthorised && <UnlockApp />}
+      {isLocked && isAuthorised && (
+        <View style={{ zIndex: 1000, backgroundColor: 'grey', height: '100vh', width: '100vw' }}>
+          <Text>{JSON.stringify(dappInfoState)}</Text>
+          <Button
+            title="send"
+            onPress={() =>
+              sendMesg({
+                data: { data: { ...dappInfoState, result: [selectedAcc] }, name: 'metamask-provider' },
+                target: 'metamask-inpage'
+              })
+            }
+          />
+        </View>
+      )}
     </NavigationContainer>
   );
 };

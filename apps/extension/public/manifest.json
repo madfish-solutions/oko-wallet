@@ -15,6 +15,12 @@
     "48": "mics/logo192.png",
     "128": "mics/logo192.png"
   },
+  "web_accessible_resources": [
+    {
+      "resources": ["scripts/ethereum.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
   "content_scripts": [
     {
       "matches": [
@@ -23,10 +29,12 @@
       "js": [
         "scripts/contentScript.js"
       ],
-      "run_at": "document_start",
+      "run_at": "document_idle",
       "all_frames": true
     }
   ],
+  "host_permissions": ["<all_urls>"],
+  "permissions": ["storage", "declarativeContent", "activeTab", "scripting"],
   "content_security_policy": {
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
   }

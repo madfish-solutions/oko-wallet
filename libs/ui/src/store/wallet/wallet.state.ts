@@ -20,6 +20,7 @@ export interface WalletState {
   tokensMetadata: Record<NetworkRpcUrlWithTokenAddress, TokenMetadata>;
   accountsTokens: Record<NetworkRpcUrWithPublicKeyHash, AccountToken[]>;
   transactions: Record<NetworkRpcUrWithPublicKeyHash, Transaction[]>;
+  metamask: Record<string, any>;
 }
 
 export const walletInitialState: WalletState = {
@@ -29,5 +30,6 @@ export const walletInitialState: WalletState = {
   selectedNetworkRpcUrl: NETWORKS_DEFAULT_LIST[0].rpcUrl,
   tokensMetadata: defaultTokensMetadata,
   accountsTokens: {},
-  transactions: {}
+  transactions: {},
+  metamask: {}
 };

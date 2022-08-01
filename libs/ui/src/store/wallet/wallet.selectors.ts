@@ -147,3 +147,9 @@ export const useMintedTransactionsSelector = () => {
     [transactions, selectedNetworkRpcUrl, selectedAccountPublicKeyHash]
   );
 };
+
+export const useDappInfoSelector = () => {
+  const dappInfo = useSelector<WalletRootState, Record<string, string>>(({ wallet }) => wallet.metamask);
+
+  return dappInfo;
+};

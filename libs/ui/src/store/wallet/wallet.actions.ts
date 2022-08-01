@@ -34,3 +34,5 @@ export const sendAssetAction = createActions<SendAssetPayload>('wallet/SEND_ASSE
 
 export const addTransactionAction = createAction<PendingTransaction>('wallet/ADD_TRANSACTION');
 export const updateTransactionAction = createAction<Transaction>('wallet/CHANGE_TRANSACTION_STATUS');
+
+export const setTransactionFromDapp = createAction<string>('wallet/SET_DAPP_INFO');
