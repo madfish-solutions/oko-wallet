@@ -1,10 +1,11 @@
 import React, { FC } from 'react';
-import { Pressable, PressableProps, Text, View } from 'react-native';
+import { Pressable, PressableProps, View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { colors } from '../../styles/colors';
 import { Icon } from '../icon/icon';
 import { IconNameEnum } from '../icon/icon-name.enum';
+import { MainText } from '../text/text';
 
 import { styles } from './button-with-icon.styles';
 import { sizeClasses, themeClasses } from './constants';
@@ -46,7 +47,7 @@ export const ButtonWithIcon: FC<Props> = ({
           iconStyle={styles.leftIcon}
         />
       )}
-      <Text style={[themeClasses[theme], sizeClasses[size], disabled && styles.textDisabled]}>{title}</Text>
+      <MainText style={[themeClasses[theme], sizeClasses[size], disabled && styles.textDisabled]}>{title}</MainText>
       {rightIcon && (
         <Icon
           name={rightIcon}

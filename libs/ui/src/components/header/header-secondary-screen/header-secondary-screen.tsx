@@ -1,5 +1,4 @@
 import React, { FC, useMemo } from 'react';
-import { Text } from 'react-native';
 
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
@@ -7,6 +6,7 @@ import { ViewStyleProps } from '../../../interfaces/style.interface';
 import { Column } from '../../column/column';
 import { IconNameEnum } from '../../icon/icon-name.enum';
 import { Row } from '../../row/row';
+import { MainText } from '../../text/text';
 import { TouchableIcon } from '../../touchable-icon/touchable-icon';
 import { HeaderContainer } from '../components/header-container/header-container';
 import { HeaderSideBalance } from '../components/header-side-components/header-side-balance/header-side-balance';
@@ -53,7 +53,7 @@ export const HeaderSecondaryScreen: FC<Props> = ({ title, icons, navigationType,
       <Row style={styles.root}>
         <Column>
           <TouchableIcon name={IconNameEnum.ArrowLeft} onPress={routeNavigation} style={styles.icon} />
-          <Text style={styles.title}>{title}</Text>
+          <MainText style={styles.title}>{title}</MainText>
         </Column>
 
         {component}

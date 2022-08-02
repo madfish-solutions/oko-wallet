@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
-import { Text } from 'react-native';
 
+import { MainText } from '../../../../components/text/text';
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
 import { getCustomSize } from '../../../../styles/format-size';
 import { IconNameEnum } from '../../../icon/icon-name.enum';
@@ -28,8 +28,8 @@ export const HeaderAccountBalance: FC<Props> = ({ style }) => {
         onPress={changeBalanceVisibility}
         iconStyle={styles.icon}
       />
-      <Text style={[styles.balance, styles.text]}>4,123.00 M</Text>
-      <Text style={[styles.currency, styles.text]}>$</Text>
+      <MainText style={[styles.balance, styles.text]}>4,123.00 M</MainText>
+      <MainText style={[styles.currency, styles.text]}>$</MainText>
     </Row>
   );
 };

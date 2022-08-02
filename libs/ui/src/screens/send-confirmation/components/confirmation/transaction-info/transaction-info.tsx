@@ -1,8 +1,9 @@
 import { isString } from '@rnw-community/shared';
 import React, { FC, useEffect } from 'react';
-import { Linking, Text, View } from 'react-native';
+import { Linking, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import { MainText } from '../../../../../components/text/text';
 import { NetworkTypeEnum } from '../../../../../enums/network-type.enum';
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
 import { addTransactionAction } from '../../../../../store/wallet/wallet.actions';
@@ -10,7 +11,6 @@ import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkTypeSelector
 } from '../../../../../store/wallet/wallet.selectors';
-import { styles } from '../../../send-confirmation.styles';
 
 interface Props {
   transactionHash: string;
@@ -36,14 +36,10 @@ export const TransactionInfo: FC<Props> = ({ transactionHash, receiver, network:
 
   return (
     <View>
-      <Text style={styles.text}>The transaction was done, hash:</Text>
-      <Text selectable style={styles.text}>
-        {transactionHash}
-      </Text>
+      <MainText>The transaction was done, hash:</MainText>
+      <MainText>{transactionHash}</MainText>
       {isString(explorerUrl) && (
-        <Text onPress={onBlockchainExplorerPress} style={styles.text}>
-          Click to watch transaction status
-        </Text>
+        <MainText onPress={onBlockchainExplorerPress}>Click to watch transaction status</MainText>
       )}
     </View>
   );

@@ -1,7 +1,7 @@
 import { ParamsWithKind, OpKind } from '@taquito/taquito';
 import React, { FC, useCallback } from 'react';
-import { Text } from 'react-native';
 
+import { MainText } from '../../../../components/text/text';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import {
   useSelectedAccountSelector,
@@ -10,7 +10,6 @@ import {
 } from '../../../../store/wallet/wallet.selectors';
 import { formatUnits } from '../../../../utils/units.utils';
 import { useTransactionHook } from '../../hooks/use-transaction.hook';
-import { styles } from '../../send-confirmation.styles';
 import { Confirmation } from '../confirmation/confirmation';
 
 import { useTezosEstimations } from './hooks/use-tezos-estimations.hook';
@@ -84,9 +83,9 @@ export const TezosConfirmation: FC<Props> = ({ transferParams }) => {
       isTransactionLoading={isTransactionLoading}
     >
       <>
-        <Text style={styles.text}>Storage limit: {storageLimitSum}</Text>
-        {storageLimitSum > 0 && <Text style={styles.text}>Storage Fee: {storageFee}</Text>}
-        <Text style={styles.text}>TX Fee: {formattedFee}</Text>
+        <MainText>Storage limit: {storageLimitSum}</MainText>
+        {storageLimitSum > 0 && <MainText>Storage Fee: {storageFee}</MainText>}
+        <MainText>TX Fee: {formattedFee}</MainText>
       </>
     </Confirmation>
   );

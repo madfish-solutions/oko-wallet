@@ -1,7 +1,8 @@
 import React, { FC, useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import { MainText } from '../../../../components/text/text';
 import { Token } from '../../../../interfaces/token.interface';
 import { loadAccountTokenBalanceAction } from '../../../../store/wallet/wallet.actions';
 import { formatUnits } from '../../../../utils/units.utils';
@@ -24,11 +25,11 @@ export const AccountToken: FC<Props> = ({ token }) => {
 
   return (
     <View style={styles.root}>
-      <Text>Address: {tokenAddress}</Text>
-      <Text>Name: {name}</Text>
-      <Text>Decimals: {decimals}</Text>
-      <Text>Thumbnail: {thumbnailUri}</Text>
-      <Text>Balance: {balanceWithLoading}</Text>
+      <MainText>Address: {tokenAddress}</MainText>
+      <MainText>Name: {name}</MainText>
+      <MainText>Decimals: {decimals}</MainText>
+      <MainText>Thumbnail: {thumbnailUri}</MainText>
+      <MainText>Balance: {balanceWithLoading}</MainText>
     </View>
   );
 };

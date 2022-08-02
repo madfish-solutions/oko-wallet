@@ -1,8 +1,9 @@
 import React, { FC, useMemo, useState } from 'react';
-import { Text, TextInput, ScrollView } from 'react-native';
+import { TextInput, ScrollView } from 'react-native';
 
 import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
 import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
+import { MainText } from '../../components/text/text';
 import { useVisibleAccountTokensSelector } from '../../store/wallet/wallet.selectors';
 
 import { styles } from './account-tokens.styles';
@@ -36,7 +37,7 @@ export const AccountTokens: FC = () => {
       />
 
       <ScrollView>
-        <Text>All visible tokens:</Text>
+        <MainText>All visible tokens:</MainText>
         <GasToken />
         {accountTokens.map(token => (
           <AccountToken key={token.name} token={token} />

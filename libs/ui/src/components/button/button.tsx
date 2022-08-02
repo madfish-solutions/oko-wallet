@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
-import { Pressable, PressableProps, Text, View } from 'react-native';
+import { Pressable, PressableProps, View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
+import { MainText } from '../text/text';
 
 import { styles } from './button.styles';
 import { sizeClasses, themeClasses } from './constants';
@@ -29,7 +30,7 @@ export const Button: FC<Props> = ({
     style={[styles.root, themeClasses[theme].button, sizeClasses[size], disabled && styles.disabledButton, style]}
   >
     <View style={styles.wrapper}>
-      <Text style={[styles.text, themeClasses[theme].text, disabled && styles.disabledText]}>{title}</Text>
+      <MainText style={[styles.text, themeClasses[theme].text, disabled && styles.disabledText]}>{title}</MainText>
     </View>
   </Pressable>
 );
