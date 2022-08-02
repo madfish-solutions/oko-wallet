@@ -1,4 +1,3 @@
-import { ethers } from 'ethers';
 import React, { FC, useCallback } from 'react';
 import { Text } from 'react-native';
 
@@ -17,6 +16,7 @@ import { EvmTransferParams } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
 
 import { useEvmEstimations } from './hooks/use-evm-estimations.hook';
+import { getAmount } from './utils/get-amount.util';
 
 interface Props {
   transferParams: EvmTransferParams;
@@ -60,7 +60,7 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPu
         tokenAddress,
         tokenId,
         ...(assetType !== AssetTypeEnum.Collectible && {
-          value: ethers.utils.parseUnits(value, decimals)
+          value: getAmount(value, decimals)
         })
       };
 

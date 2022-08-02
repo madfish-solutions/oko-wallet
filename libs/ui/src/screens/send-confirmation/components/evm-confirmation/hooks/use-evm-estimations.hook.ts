@@ -1,5 +1,4 @@
 import { FeeData, TransactionRequest } from '@ethersproject/abstract-provider';
-import { ethers } from 'ethers';
 import { useEffect, useMemo, useState } from 'react';
 
 import { Erc20Abi__factory, Erc721abi__factory } from '../../../../../contract-types';
@@ -7,6 +6,7 @@ import { AssetTypeEnum } from '../../../../../enums/asset-type.enum';
 import { Asset } from '../../../../../interfaces/asset.interface';
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
 import { getDefaultEvmProvider } from '../../../../../utils/get-default-evm-provider.utils';
+import { getAmount } from '../utils/get-amount.util';
 import { modifyGasLimit } from '../utils/modify-gas-limit.util';
 
 interface UseEvmEstimationsArgs {
@@ -36,11 +36,13 @@ export const useEvmEstimations = ({
 
     const getEstimations = async () => {
       const provider = getDefaultEvmProvider(rpcUrl);
-      const amount = ethers.utils.parseUnits(value, decimals);
+
       let gasLimit;
 
       if (assetType === AssetTypeEnum.GasToken) {
-        gasLimit = await provider.estimateGas({ to: receiverPublicKeyHash, value: amount }).catch(console.log);
+        gasLimit = await provider
+          .estimateGas({ to: receiverPublicKeyHash, value: getAmount(value, decimals) })
+          .catch(console.log);
       } else if (assetType === AssetTypeEnum.Collectible) {
         const contract = Erc721abi__factory.connect(tokenAddress, provider);
 
@@ -50,7 +52,9 @@ export const useEvmEstimations = ({
       } else {
         const contract = Erc20Abi__factory.connect(tokenAddress, provider);
 
-        gasLimit = await contract.estimateGas.transfer(receiverPublicKeyHash, amount).catch(console.log);
+        gasLimit = await contract.estimateGas
+          .transfer(receiverPublicKeyHash, getAmount(value, decimals))
+          .catch(console.log);
       }
 
       const fee = await provider.getFeeData();

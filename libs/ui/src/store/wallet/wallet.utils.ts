@@ -50,13 +50,15 @@ export const getDefaultAccountTokens = (state: WalletState, account: AccountInte
   if (currentNetwork && currentNetwork.chainId && TOKENS_DEFAULT_LIST.hasOwnProperty(currentNetwork.chainId)) {
     return {
       accountTokensSlug,
-      defaultAccountTokens: TOKENS_DEFAULT_LIST[currentNetwork.chainId].map(({ tokenAddress, name, symbol }) => ({
-        tokenAddress,
-        name,
-        symbol,
-        isVisible: true,
-        balance: createEntity('0')
-      }))
+      defaultAccountTokens: TOKENS_DEFAULT_LIST[currentNetwork.chainId].map(
+        ({ tokenAddress, name, symbol }, index) => ({
+          tokenAddress,
+          name,
+          symbol,
+          isVisible: index < 4,
+          balance: createEntity('0')
+        })
+      )
     };
   }
 };

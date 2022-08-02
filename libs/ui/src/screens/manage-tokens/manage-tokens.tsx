@@ -12,7 +12,7 @@ export const ManageTokens: FC = () => {
   const dispatch = useDispatch();
   const accountTokens = useAccountTokensSelector();
 
-  const handleTokenVisibility = (token: Token) => dispatch(changeTokenVisibilityAction(token));
+  const handleTokenVisibility = (token: Token) => dispatch(changeTokenVisibilityAction(token.tokenAddress));
 
   return (
     <ScreenContainer screenTitle="Manage tokens">

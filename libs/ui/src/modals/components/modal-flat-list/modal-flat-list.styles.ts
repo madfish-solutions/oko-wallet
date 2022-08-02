@@ -6,9 +6,5 @@ export const styles = StyleSheet.create({
   root: {
     flex: 1,
     paddingHorizontal: getCustomSize(2)
-  },
-  icon: {
-    flexDirection: 'row',
-    justifyContent: 'center'
   }
 });

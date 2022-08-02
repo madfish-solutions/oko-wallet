@@ -34,7 +34,8 @@ export const editNetworkAction = createAction<{
 export const removeNetworkAction = createAction<string>('wallet/REMOVE_NETWORK');
 
 export const addTokenMetadataAction = createAction<AccountTokenInput>('wallet/ADD_TOKEN_METADATA');
-export const changeTokenVisibilityAction = createAction<Token>('wallet/CHANGE_TOKEN_VISIBILITY');
+export const changeTokenVisibilityAction = createAction<Token['tokenAddress']>('wallet/CHANGE_TOKEN_VISIBILITY');
+export const sortAccountTokensByVisibility = createAction('wallet/SORT_ACCOUNT_TOKENS_BY-VISIBILITY');
 
 export const sendAssetAction = createActions<SendAssetPayload>('wallet/SEND_ASSET');
 

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { getCustomSize } from '../../../styles/format-size';
+import { getCustomSize } from '../../styles/format-size';
 
 export const styles = StyleSheet.create({
   root: {
@@ -16,5 +16,8 @@ export const styles = StyleSheet.create({
   },
   input: {
     height: getCustomSize(5)
+  },
+  extraIcon: {
+    marginLeft: getCustomSize(2.25)
   }
 });
