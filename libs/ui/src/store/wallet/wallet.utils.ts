@@ -11,6 +11,7 @@ import { getString } from '../../utils/get-string.utils';
 import { getTokenSlug } from '../../utils/token.utils';
 import { createEntity } from '../utils/entity.utils';
 
+import { initialVisibleTokens } from './constants/initial-visible-tokens';
 import { WalletState } from './wallet.state';
 
 export const updateSelectedNetworkState = (
@@ -55,7 +56,7 @@ export const getDefaultAccountTokens = (state: WalletState, account: AccountInte
           tokenAddress,
           name,
           symbol,
-          isVisible: index < 4,
+          isVisible: index < initialVisibleTokens,
           balance: createEntity('0')
         })
       )

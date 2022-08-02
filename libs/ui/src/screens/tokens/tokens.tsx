@@ -98,7 +98,7 @@ export const Tokens: FC = () => {
   );
 
   return (
-    <ScreenContainer screenTitle="Tokens" navigationType={HeaderSideTypeEnum.AccountBalance} wrapper={false}>
+    <ScreenContainer screenTitle="Tokens" navigationType={HeaderSideTypeEnum.AccountBalance} scrollViewWrapper={false}>
       <View style={styles.root}>
         <SearchPanel
           onPressAddIcon={onPressAddIcon}
