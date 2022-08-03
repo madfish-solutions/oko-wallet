@@ -38,9 +38,7 @@ export const TransactionInfo: FC<Props> = ({ transactionHash, receiver, network:
     <View>
       <Text>The transaction was done, hash:</Text>
       <Text>{transactionHash}</Text>
-      {isString(explorerUrl) && (
-        <Text onPress={onBlockchainExplorerPress}>Click to watch transaction status</Text>
-      )}
+      {isString(explorerUrl) && <Text onPress={onBlockchainExplorerPress}>Click to watch transaction status</Text>}
     </View>
   );
 };
