@@ -2,7 +2,7 @@ import React, { FC, useEffect, useMemo } from 'react';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { MainText } from '../../../../components/text/text';
+import { Text } from '../../../../components/text/text';
 import { loadGasTokenBalanceAction } from '../../../../store/wallet/wallet.actions';
 import { useSelectedAccountPkhSelector, useSelectedNetworkSelector } from '../../../../store/wallet/wallet.selectors';
 import { formatUnits } from '../../../../utils/units.utils';
@@ -29,9 +29,9 @@ export const GasToken: FC = () => {
 
   return (
     <View style={styles.root}>
-      <MainText>
-        Gas Token Balance: <MainText>{gasTokenBalanceWithLoading}</MainText>
-      </MainText>
+      <Text>
+        Gas Token Balance: <Text>{gasTokenBalanceWithLoading}</Text>
+      </Text>
     </View>
   );
 };

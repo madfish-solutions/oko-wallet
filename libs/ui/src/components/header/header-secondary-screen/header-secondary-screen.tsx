@@ -6,7 +6,7 @@ import { ViewStyleProps } from '../../../interfaces/style.interface';
 import { Column } from '../../column/column';
 import { IconNameEnum } from '../../icon/icon-name.enum';
 import { Row } from '../../row/row';
-import { MainText } from '../../text/text';
+import { Text } from '../../text/text';
 import { TouchableIcon } from '../../touchable-icon/touchable-icon';
 import { HeaderContainer } from '../components/header-container/header-container';
 import { HeaderSideBalance } from '../components/header-side-components/header-side-balance/header-side-balance';
@@ -53,7 +53,7 @@ export const HeaderSecondaryScreen: FC<Props> = ({ title, icons, navigationType,
       <Row style={styles.root}>
         <Column>
           <TouchableIcon name={IconNameEnum.ArrowLeft} onPress={routeNavigation} style={styles.icon} />
-          <MainText style={styles.title}>{title}</MainText>
+          <Text style={styles.title}>{title}</Text>
         </Column>
 
         {component}

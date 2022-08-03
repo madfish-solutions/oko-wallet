@@ -5,7 +5,7 @@ import { ViewStyleProps } from '../../interfaces/style.interface';
 import { colors } from '../../styles/colors';
 import { Icon } from '../icon/icon';
 import { IconNameEnum } from '../icon/icon-name.enum';
-import { MainText } from '../text/text';
+import { Text } from '../text/text';
 
 import { styles } from './button-with-icon.styles';
 import { sizeClasses, themeClasses } from './constants';
@@ -47,7 +47,7 @@ export const ButtonWithIcon: FC<Props> = ({
           iconStyle={styles.leftIcon}
         />
       )}
-      <MainText style={[themeClasses[theme], sizeClasses[size], disabled && styles.textDisabled]}>{title}</MainText>
+      <Text style={[themeClasses[theme], sizeClasses[size], disabled && styles.textDisabled]}>{title}</Text>
       {rightIcon && (
         <Icon
           name={rightIcon}

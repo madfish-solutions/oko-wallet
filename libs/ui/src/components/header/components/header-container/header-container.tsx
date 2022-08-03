@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 
-import { MainText } from '../../../../components/text/text';
+import { Text } from '../../../../components/text/text';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
@@ -44,9 +44,9 @@ export const HeaderContainer: FC<Props> = ({ style, children }) => {
 
         <TouchableOpacity style={styles.addressWrapper} onPress={copyAddress}>
           <Icon name={IconNameEnum.Copy} iconStyle={styles.icon} />
-          <MainText numberOfLines={1} style={styles.address}>
+          <Text numberOfLines={1} style={styles.address}>
             {shortize(address)}
-          </MainText>
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={selectNetwork} style={styles.button}>

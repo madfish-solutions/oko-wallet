@@ -5,7 +5,7 @@ import QRCode from 'react-native-qrcode-svg';
 
 import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
 import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
-import { MainText } from '../../components/text/text';
+import { Text } from '../../components/text/text';
 import { useDelayedEffect } from '../../hooks/use-delayed-effect.hook';
 import { useSelectedAccountSelector, useSelectedNetworkTypeSelector } from '../../store/wallet/wallet.selectors';
 
@@ -28,11 +28,11 @@ export const Receive: FC = () => {
   return (
     <ScreenContainer screenTitle="Receive" navigationType={HeaderSideTypeEnum.Swap}>
       <QRCode value={publicKeyHash} />
-      <MainText>{publicKeyHash}</MainText>
+      <Text>{publicKeyHash}</Text>
       <TouchableOpacity onPress={handleCopyToClipboard}>
-        <MainText>Copy</MainText>
+        <Text>Copy</Text>
       </TouchableOpacity>
-      {isCopied && <MainText>Copied!</MainText>}
+      {isCopied && <Text>Copied!</Text>}
     </ScreenContainer>
   );
 };

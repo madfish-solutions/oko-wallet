@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { View, Share, Animated } from 'react-native';
 import QRCodeLibrary from 'react-native-qrcode-svg';
 
-import { MainText } from '../../../../components/text/text';
+import { Text } from '../../../../components/text/text';
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
 import { useSelectedAccountPublicKeyHashSelector } from '../../../../store/wallet/wallet.selectors';
 import { colors } from '../../../../styles/colors';
@@ -45,9 +45,9 @@ export const HeaderQRCode: FC<Props> = ({ contentOffsetY, style }) => {
   return (
     <Animated.View style={[styles.root, style, { opacity: animationOpacity }]}>
       <Column style={styles.wrapper}>
-        <MainText style={styles.address} numberOfLines={3}>
+        <Text style={styles.address} numberOfLines={3}>
           {address}
-        </MainText>
+        </Text>
         <Row style={styles.iconsWrapper}>
           <TouchableIcon name={IconNameEnum.Copy} onPress={copyAddress} />
           {isMobile && <TouchableIcon name={IconNameEnum.Share} onPress={shareAddress} style={styles.icon} />}

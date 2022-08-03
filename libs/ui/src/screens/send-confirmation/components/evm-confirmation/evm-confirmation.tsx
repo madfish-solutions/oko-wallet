@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import React, { FC, useCallback } from 'react';
 
-import { MainText } from '../../../../components/text/text';
+import { Text } from '../../../../components/text/text';
 import { AssetTypeEnum } from '../../../../enums/asset-type.enum';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { TransactionParams } from '../../../../shelter/interfaces/get-evm-signer-params.interface';
@@ -82,10 +82,10 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPu
       isTransactionLoading={isTransactionLoading}
     >
       <>
-        <MainText>To: {receiverPublicKeyHash}</MainText>
-        <MainText>Amount: {value}</MainText>
-        <MainText>Gas Price: {gasPrice}</MainText>
-        <MainText>TX Fee: {transactionFee}</MainText>
+        <Text>To: {receiverPublicKeyHash}</Text>
+        <Text>Amount: {value}</Text>
+        <Text>Gas Price: {gasPrice}</Text>
+        <Text>TX Fee: {transactionFee}</Text>
       </>
     </Confirmation>
   );

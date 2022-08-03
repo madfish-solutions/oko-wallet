@@ -3,7 +3,7 @@ import { TextInput, ScrollView } from 'react-native';
 
 import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
 import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
-import { MainText } from '../../components/text/text';
+import { Text } from '../../components/text/text';
 import { useVisibleAccountTokensSelector } from '../../store/wallet/wallet.selectors';
 
 import { styles } from './account-tokens.styles';
@@ -37,7 +37,7 @@ export const AccountTokens: FC = () => {
       />
 
       <ScrollView>
-        <MainText>All visible tokens:</MainText>
+        <Text>All visible tokens:</Text>
         <GasToken />
         {accountTokens.map(token => (
           <AccountToken key={token.name} token={token} />

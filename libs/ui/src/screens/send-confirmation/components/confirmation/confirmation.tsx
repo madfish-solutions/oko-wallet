@@ -4,7 +4,7 @@ import React, { FC } from 'react';
 import { Pressable } from 'react-native';
 
 import { ScreenContainer } from '../../../../components/screen-container/screen-container/screen-container';
-import { MainText } from '../../../../components/text/text';
+import { Text } from '../../../../components/text/text';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
 import { getString } from '../../../../utils/get-string.utils';
 
@@ -29,13 +29,13 @@ export const Confirmation: FC<Props> = ({
   isTransactionLoading
 }) => (
   <ScreenContainer screenTitle="Confirmation">
-    {(isLoading || isTransactionLoading) && <MainText>Loading...</MainText>}
+    {(isLoading || isTransactionLoading) && <Text>Loading...</Text>}
     {!isLoading && (
       <>
         {children}
         {!transactionHash && (
           <Pressable onPress={onSend}>
-            <MainText>Send</MainText>
+            <Text>Send</Text>
           </Pressable>
         )}
       </>

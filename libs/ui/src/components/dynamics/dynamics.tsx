@@ -6,7 +6,7 @@ import { getCustomSize } from '../../styles/format-size';
 import { Icon } from '../icon/icon';
 import { IconNameEnum } from '../icon/icon-name.enum';
 import { Row } from '../row/row';
-import { MainText } from '../text/text';
+import { Text } from '../text/text';
 
 import { styles } from './dynamics.styles';
 
@@ -25,7 +25,7 @@ export const Dynamics: FC<Props> = ({ value, percent = true, style }) => {
 
   return (
     <Row style={style}>
-      <MainText style={[styles.percent, { color }]}>{customValue}</MainText>
+      <Text style={[styles.percent, { color }]}>{customValue}</Text>
       {percent && (
         <Icon
           name={IconNameEnum.Dropdown}

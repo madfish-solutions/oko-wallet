@@ -1,7 +1,7 @@
 import { ParamsWithKind, OpKind } from '@taquito/taquito';
 import React, { FC, useCallback } from 'react';
 
-import { MainText } from '../../../../components/text/text';
+import { Text } from '../../../../components/text/text';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import {
   useSelectedAccountSelector,
@@ -83,9 +83,9 @@ export const TezosConfirmation: FC<Props> = ({ transferParams }) => {
       isTransactionLoading={isTransactionLoading}
     >
       <>
-        <MainText>Storage limit: {storageLimitSum}</MainText>
-        {storageLimitSum > 0 && <MainText>Storage Fee: {storageFee}</MainText>}
-        <MainText>TX Fee: {formattedFee}</MainText>
+        <Text>Storage limit: {storageLimitSum}</Text>
+        {storageLimitSum > 0 && <Text>Storage Fee: {storageFee}</Text>}
+        <Text>TX Fee: {formattedFee}</Text>
       </>
     </Confirmation>
   );

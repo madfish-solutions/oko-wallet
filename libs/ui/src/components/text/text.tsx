@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Text, TextProps } from 'react-native';
+import { Text as TextBase, TextProps } from 'react-native';
 
 import { TextStyleProps } from '../../interfaces/style.interface';
 
@@ -9,8 +9,8 @@ interface Props extends TextProps {
   style?: TextStyleProps;
 }
 
-export const MainText: FC<Props> = ({ children, style, ...restProps }) => (
-  <Text style={[styles.color, style]} {...restProps}>
+export const Text: FC<Props> = ({ children, style, ...restProps }) => (
+  <TextBase style={[styles.color, style]} {...restProps}>
     {children}
-  </Text>
+  </TextBase>
 );
