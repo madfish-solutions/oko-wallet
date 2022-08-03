@@ -1,11 +1,12 @@
 import { isDefined } from '@rnw-community/shared';
 import React, { FC } from 'react';
-import { Image, ImageSourcePropType, Text, View } from 'react-native';
+import { Image, ImageSourcePropType, View } from 'react-native';
 
 import { getCustomSize } from '../../../styles/format-size';
 import { Icon } from '../../icon/icon';
 import { IconNameEnum } from '../../icon/icon-name.enum';
 import { Row } from '../../row/row';
+import { Text } from '../../text/text';
 
 import { themeClasses } from './constants';
 import { TokenItemThemesEnum } from './enums';
