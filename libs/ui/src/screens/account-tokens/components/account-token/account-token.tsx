@@ -1,7 +1,8 @@
 import React, { FC, useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import { Text } from '../../../../components/text/text';
 import { Token } from '../../../../interfaces/token.interface';
 import { loadAccountTokenBalanceAction } from '../../../../store/wallet/wallet.actions';
 import { formatUnits } from '../../../../utils/units.utils';

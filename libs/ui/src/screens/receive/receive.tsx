@@ -1,10 +1,11 @@
 import Clipboard from '@react-native-clipboard/clipboard';
 import React, { FC, useMemo, useState } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
 import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
 import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
+import { Text } from '../../components/text/text';
 import { useDelayedEffect } from '../../hooks/use-delayed-effect.hook';
 import { useSelectedAccountSelector, useSelectedNetworkTypeSelector } from '../../store/wallet/wallet.selectors';
 

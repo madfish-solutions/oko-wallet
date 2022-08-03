@@ -1,12 +1,12 @@
 import { TransactionRequest as EvmTransferParams } from '@ethersproject/abstract-provider';
 import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
-import { Pressable, Text } from 'react-native';
+import { Pressable } from 'react-native';
 
 import { ScreenContainer } from '../../../../components/screen-container/screen-container/screen-container';
+import { Text } from '../../../../components/text/text';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
 import { getString } from '../../../../utils/get-string.utils';
-import { styles } from '../../send-confirmation.styles';
 
 import { TransactionInfo } from './transaction-info/transaction-info';
 
@@ -29,13 +29,13 @@ export const Confirmation: FC<Props> = ({
   isTransactionLoading
 }) => (
   <ScreenContainer screenTitle="Confirmation">
-    {(isLoading || isTransactionLoading) && <Text style={styles.text}>Loading...</Text>}
+    {(isLoading || isTransactionLoading) && <Text>Loading...</Text>}
     {!isLoading && (
       <>
         {children}
         {!transactionHash && (
           <Pressable onPress={onSend}>
-            <Text style={styles.text}>Send</Text>
+            <Text>Send</Text>
           </Pressable>
         )}
       </>

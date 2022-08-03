@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
-import { Pressable, PressableProps, Text, View } from 'react-native';
+import { Pressable, PressableProps, View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
+import { Text } from '../text/text';
 
 import { styles } from './button.styles';
 import { sizeClasses, themeClasses } from './constants';

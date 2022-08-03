@@ -1,7 +1,8 @@
 import React, { FC, useEffect, useMemo } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import { Text } from '../../../../components/text/text';
 import { loadGasTokenBalanceAction } from '../../../../store/wallet/wallet.actions';
 import { useSelectedAccountPkhSelector, useSelectedNetworkSelector } from '../../../../store/wallet/wallet.selectors';
 import { formatUnits } from '../../../../utils/units.utils';

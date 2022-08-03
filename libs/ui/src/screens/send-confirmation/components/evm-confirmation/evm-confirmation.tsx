@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import React, { FC, useCallback } from 'react';
-import { Text } from 'react-native';
 
+import { Text } from '../../../../components/text/text';
 import { AssetTypeEnum } from '../../../../enums/asset-type.enum';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { TransactionParams } from '../../../../shelter/interfaces/get-evm-signer-params.interface';
@@ -12,7 +12,6 @@ import {
 import { getAssetType } from '../../../../utils/get-asset-type.util';
 import { formatUnits } from '../../../../utils/units.utils';
 import { useTransactionHook } from '../../hooks/use-transaction.hook';
-import { styles } from '../../send-confirmation.styles';
 import { EvmTransferParams } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
 
@@ -83,10 +82,10 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPu
       isTransactionLoading={isTransactionLoading}
     >
       <>
-        <Text style={styles.text}>To: {receiverPublicKeyHash}</Text>
-        <Text style={styles.text}>Amount: {value}</Text>
-        <Text style={styles.text}>Gas Price: {gasPrice}</Text>
-        <Text style={styles.text}>TX Fee: {transactionFee}</Text>
+        <Text>To: {receiverPublicKeyHash}</Text>
+        <Text>Amount: {value}</Text>
+        <Text>Gas Price: {gasPrice}</Text>
+        <Text>TX Fee: {transactionFee}</Text>
       </>
     </Confirmation>
   );

@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
-import { Text } from 'react-native';
 
+import { Text } from '../../../../components/text/text';
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
 import { getCustomSize } from '../../../../styles/format-size';
 import { IconNameEnum } from '../../../icon/icon-name.enum';
