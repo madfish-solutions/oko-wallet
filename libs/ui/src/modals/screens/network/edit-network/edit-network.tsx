@@ -99,12 +99,12 @@ export const EditNetwork: FC = () => {
   const handleRemoveNetwork = () => {
     const networksWithoutCurrent = networks.filter(network => network.rpcUrl !== selectedNetwork.rpcUrl);
 
-    if (!checkIsNetworkTypeKeyExist(selectedAccount, networksWithoutCurrent[0].networkType)) {
+    if (isNetworkSelected && !checkIsNetworkTypeKeyExist(selectedAccount, networksWithoutCurrent[0].networkType)) {
       createHdAccountForNewNetworkType(selectedAccount, networksWithoutCurrent[0].networkType, () => {
-        dispatch(removeNetworkAction(selectedNetwork.rpcUrl));
+        dispatch(removeNetworkAction({ network: selectedNetwork, isNetworkSelected }));
       });
     } else {
-      dispatch(removeNetworkAction(selectedNetwork.rpcUrl));
+      dispatch(removeNetworkAction({ network: selectedNetwork, isNetworkSelected }));
     }
     goBack();
   };

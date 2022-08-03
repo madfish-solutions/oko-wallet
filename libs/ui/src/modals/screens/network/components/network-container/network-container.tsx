@@ -1,7 +1,7 @@
 import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { Control, Controller, FieldErrors, UseControllerProps, UseFormSetValue } from 'react-hook-form';
-import { GestureResponderEvent, ScrollView, Text } from 'react-native';
+import { GestureResponderEvent, Text } from 'react-native';
 
 import { IconNameEnum } from '../../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../../components/row/row';
@@ -51,92 +51,90 @@ export const NetworkContainer: FC<Props> = ({
       onSubmitPress={onSubmitPress}
       onCancelPress={goBack}
     >
-      <ScrollView style={styles.root}>
-        <Row style={styles.prompt}>
-          <Text style={styles.text}>How to add new Network?</Text>
-          <TouchableIcon name={IconNameEnum.Tooltip} onPress={handlePressPrompt} />
-        </Row>
+      <Row style={styles.prompt}>
+        <Text style={styles.text}>How to add new Network?</Text>
+        <TouchableIcon name={IconNameEnum.Tooltip} onPress={handlePressPrompt} />
+      </Row>
 
-        <Controller
-          control={control}
-          name="name"
-          rules={commonRules}
-          render={({ field }) => (
-            <TextInput
-              field={field}
-              label="Network name"
-              placeholder="Network"
-              error={errors?.name?.message}
-              containerStyle={styles.inputContainer}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="rpcUrl"
-          rules={rpcUrlRules}
-          render={({ field }) => (
-            <TextInput
-              field={field}
-              label="RPC URL"
-              placeholder="https://"
-              prompt="How to get RPC URL?"
-              handlePrompt={handlePromptNavigate}
-              error={errors?.rpcUrl?.message}
-              editable={editable}
-              containerStyle={styles.inputContainer}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="chainId"
-          rules={chainIdRules}
-          render={({ field }) => (
-            <TextInput
-              field={field}
-              label="Chain ID"
-              placeholder="Chain ID"
-              error={errors?.chainId?.message}
-              editable={editable}
-              containerStyle={styles.inputContainer}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="blockExplorerUrl"
-          rules={{ ...commonRules, required: false }}
-          render={({ field }) => (
-            <TextInput
-              field={field}
-              label="Block Explorer URL"
-              placeholder="https://"
-              required={false}
-              prompt="I don’t have Block Explorer URL"
-              handlePrompt={handlePromptNavigate}
-              error={errors?.blockExplorerUrl?.message}
-              containerStyle={styles.inputContainer}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="tokenSymbol"
-          rules={commonRules}
-          render={({ field }) => (
-            <TextInput
-              field={field}
-              label="Gas Token Symbol"
-              placeholder="BTC"
-              error={errors?.tokenSymbol?.message}
-              containerStyle={styles.lastInputContainer}
-            />
-          )}
-        />
+      <Controller
+        control={control}
+        name="name"
+        rules={commonRules}
+        render={({ field }) => (
+          <TextInput
+            field={field}
+            label="Network name"
+            placeholder="Network"
+            error={errors?.name?.message}
+            containerStyle={styles.inputContainer}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="rpcUrl"
+        rules={rpcUrlRules}
+        render={({ field }) => (
+          <TextInput
+            field={field}
+            label="RPC URL"
+            placeholder="https://"
+            prompt="How to get RPC URL?"
+            handlePrompt={handlePromptNavigate}
+            error={errors?.rpcUrl?.message}
+            editable={editable}
+            containerStyle={styles.inputContainer}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="chainId"
+        rules={chainIdRules}
+        render={({ field }) => (
+          <TextInput
+            field={field}
+            label="Chain ID"
+            placeholder="Chain ID"
+            error={errors?.chainId?.message}
+            editable={editable}
+            containerStyle={styles.inputContainer}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="blockExplorerUrl"
+        rules={{ ...commonRules, required: false }}
+        render={({ field }) => (
+          <TextInput
+            field={field}
+            label="Block Explorer URL"
+            placeholder="https://"
+            required={false}
+            prompt="I don’t have Block Explorer URL"
+            handlePrompt={handlePromptNavigate}
+            error={errors?.blockExplorerUrl?.message}
+            containerStyle={styles.inputContainer}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="tokenSymbol"
+        rules={commonRules}
+        render={({ field }) => (
+          <TextInput
+            field={field}
+            label="Gas Token Symbol"
+            placeholder="BTC"
+            error={errors?.tokenSymbol?.message}
+            containerStyle={styles.lastInputContainer}
+          />
+        )}
+      />
 
-        {children}
-      </ScrollView>
+      {children}
     </ModalActionContainer>
   );
 };
