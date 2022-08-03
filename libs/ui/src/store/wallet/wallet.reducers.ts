@@ -147,7 +147,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         return { ...state, accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: updatedAccountTokens } };
       }
 
-      return { ...state };
+      return state;
     })
     .addCase(changeTokenVisibilityAction, (state, { payload: tokenAddress }) => {
       const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
