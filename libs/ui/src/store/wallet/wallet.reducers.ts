@@ -21,7 +21,8 @@ import {
   updateTransactionAction,
   addTransactionAction,
   editNetworkAction,
-  removeNetworkAction
+  removeNetworkAction,
+  sortAccountTokensByVisibility
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -136,10 +137,22 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         }
       };
     })
-    .addCase(changeTokenVisibilityAction, (state, { payload: token }) => {
+    .addCase(sortAccountTokensByVisibility, state => {
+      const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
+      const accountTokens = state.accountsTokens[accountTokensSlug];
+
+      if (Array.isArray(accountTokens)) {
+        const updatedAccountTokens = accountTokens.slice().sort((a, b) => Number(b.isVisible) - Number(a.isVisible));
+
+        return { ...state, accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: updatedAccountTokens } };
+      }
+
+      return state;
+    })
+    .addCase(changeTokenVisibilityAction, (state, { payload: tokenAddress }) => {
       const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
       const updatedAccountTokens = state.accountsTokens[accountTokensSlug].map(accountToken =>
-        accountToken.tokenAddress === token.tokenAddress
+        accountToken.tokenAddress === tokenAddress
           ? { ...accountToken, isVisible: !accountToken.isVisible }
           : accountToken
       );

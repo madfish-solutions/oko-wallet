@@ -11,6 +11,7 @@ import { getString } from '../../utils/get-string.utils';
 import { getTokenSlug } from '../../utils/token.utils';
 import { createEntity } from '../utils/entity.utils';
 
+import { initialVisibleTokens } from './constants/initial-visible-tokens';
 import { WalletState } from './wallet.state';
 
 export const updateSelectedNetworkState = (
@@ -50,13 +51,15 @@ export const getDefaultAccountTokens = (state: WalletState, account: AccountInte
   if (currentNetwork && currentNetwork.chainId && TOKENS_DEFAULT_LIST.hasOwnProperty(currentNetwork.chainId)) {
     return {
       accountTokensSlug,
-      defaultAccountTokens: TOKENS_DEFAULT_LIST[currentNetwork.chainId].map(({ tokenAddress, name, symbol }) => ({
-        tokenAddress,
-        name,
-        symbol,
-        isVisible: true,
-        balance: createEntity('0')
-      }))
+      defaultAccountTokens: TOKENS_DEFAULT_LIST[currentNetwork.chainId].map(
+        ({ tokenAddress, name, symbol }, index) => ({
+          tokenAddress,
+          name,
+          symbol,
+          isVisible: index < initialVisibleTokens,
+          balance: createEntity('0')
+        })
+      )
     };
   }
 };

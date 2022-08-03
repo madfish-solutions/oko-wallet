@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Pressable, PressableProps, View } from 'react-native';
 
-import { ViewStyleProps } from '../../interfaces/style.interface';
+import { ViewStyleProps, TextStyleProps } from '../../interfaces/style.interface';
 import { Text } from '../text/text';
 
 import { styles } from './button.styles';
@@ -13,6 +13,7 @@ interface Props extends PressableProps {
   theme?: ButtonThemesEnum;
   size?: ButtonSizeEnum;
   style?: ViewStyleProps;
+  styleText?: TextStyleProps;
   disabled?: boolean;
 }
 
@@ -22,6 +23,7 @@ export const Button: FC<Props> = ({
   size = ButtonSizeEnum.Large,
   style,
   disabled = false,
+  styleText,
   ...restProps
 }) => (
   <Pressable
@@ -30,7 +32,7 @@ export const Button: FC<Props> = ({
     style={[styles.root, themeClasses[theme].button, sizeClasses[size], disabled && styles.disabledButton, style]}
   >
     <View style={styles.wrapper}>
-      <Text style={[styles.text, themeClasses[theme].text, disabled && styles.disabledText]}>{title}</Text>
+      <Text style={[styles.text, themeClasses[theme].text, disabled && styles.disabledText, styleText]}>{title}</Text>
     </View>
   </Pressable>
 );

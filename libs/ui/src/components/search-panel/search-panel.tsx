@@ -3,20 +3,23 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useForm, Controller, ControllerRenderProps, FieldValues, FieldPath } from 'react-hook-form';
 import { GestureResponderEvent } from 'react-native';
 
-import { IconNameEnum } from '../../../components/icon/icon-name.enum';
-import { Row } from '../../../components/row/row';
-import { TextInput } from '../../../components/text-input/text-input';
-import { TouchableIcon } from '../../../components/touchable-icon/touchable-icon';
-import { EMPTY_STRING } from '../../../constants/defaults';
+import { EMPTY_STRING } from '../../constants/defaults';
+import { IconNameEnum } from '../icon/icon-name.enum';
+import { Row } from '../row/row';
+import { TextInput } from '../text-input/text-input';
+import { TouchableIcon } from '../touchable-icon/touchable-icon';
 
-import { styles } from './modal-search.styles';
+import { styles } from './search-panel.styles';
 
 const SEARCH_FIELD = 'search';
 
 interface Props {
   setSearchValue: OnEventFn<string>;
   onPressAddIcon: OnEventFn<GestureResponderEvent>;
-  selectedItem: string;
+  onPressEditIcon?: OnEventFn<GestureResponderEvent>;
+  onPressActivityIcon?: OnEventFn<GestureResponderEvent>;
+  selectedItem?: string;
+  onSearchClose?: () => void;
 }
 
 const renderTextInput = <
@@ -26,7 +29,14 @@ const renderTextInput = <
   field: ControllerRenderProps<TFieldValues, TName>
 ) => <TextInput field={field} placeholder="Search" containerStyle={styles.inputContainer} inputStyle={styles.input} />;
 
-export const ModalSearch: React.FC<Props> = ({ setSearchValue, onPressAddIcon, selectedItem }) => {
+export const SearchPanel: React.FC<Props> = ({
+  setSearchValue,
+  onPressAddIcon,
+  selectedItem,
+  onPressEditIcon,
+  onPressActivityIcon,
+  onSearchClose
+}) => {
   const [isShowSearchField, setIsShowSearchField] = useState(false);
 
   const { control, resetField, watch, setFocus } = useForm({
@@ -51,13 +61,16 @@ export const ModalSearch: React.FC<Props> = ({ setSearchValue, onPressAddIcon, s
   const hideSearchField = useCallback(() => {
     setIsShowSearchField(false);
     resetField(SEARCH_FIELD);
-  }, []);
+    onSearchClose?.();
+  }, [onSearchClose]);
 
   const showSearchField = () => setIsShowSearchField(true);
 
   useEffect(() => {
-    hideSearchField();
-  }, [selectedItem, hideSearchField]);
+    if (selectedItem !== undefined) {
+      hideSearchField();
+    }
+  }, [selectedItem]);
 
   return (
     <Row style={styles.root}>
@@ -69,7 +82,15 @@ export const ModalSearch: React.FC<Props> = ({ setSearchValue, onPressAddIcon, s
       ) : (
         <>
           <TouchableIcon name={IconNameEnum.Search} onPress={showSearchField} />
-          <TouchableIcon name={IconNameEnum.Add} onPress={onPressAddIcon} />
+          <Row>
+            <TouchableIcon name={IconNameEnum.Add} onPress={onPressAddIcon} />
+            {onPressEditIcon && (
+              <TouchableIcon style={styles.extraIcon} name={IconNameEnum.Edit} onPress={onPressEditIcon} />
+            )}
+            {onPressActivityIcon && (
+              <TouchableIcon style={styles.extraIcon} name={IconNameEnum.Activity} onPress={onPressActivityIcon} />
+            )}
+          </Row>
         </>
       )}
     </Row>
