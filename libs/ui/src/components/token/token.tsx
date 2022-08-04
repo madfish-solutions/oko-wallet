@@ -40,7 +40,7 @@ export const Token: FC<Props> = ({ uri, symbol, name, forceNameVisibility = fals
     <Row style={style}>
       <IconWithBorder type="quinary" style={styles.icon}>
         {isDefined(uri) && isNotEmptyString(uri) && !loadingIsError ? (
-          <Image source={{ uri }} style={styles.image} onError={onError} />
+          <Image source={{ uri }} onError={onError} style={styles.image} />
         ) : (
           <View style={styles.fallback} />
         )}

@@ -85,24 +85,11 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       }))
     );
   builder
-    .addCase(loadAccountTokenBalanceAction.submit, (state, { payload: { token } }) => {
-      const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
-      const currentToken = state.accountsTokens[accountTokensSlug].find(tk => tk.tokenAddress === token.tokenAddress);
-
-      return updateAccountTokenState(
-        state,
-        { ...token, isVisible: currentToken?.isVisible ?? false },
-        accountToken => ({
-          balance: createEntity(accountToken.balance.data, true)
-        })
-      );
-    })
     .addCase(loadAccountTokenBalanceAction.success, (state, { payload: { token } }) => {
       const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
       const currentToken = state.accountsTokens[accountTokensSlug].find(tk => tk.tokenAddress === token.tokenAddress);
-      console.log(token.name, currentToken?.isVisible);
 
-      return updateAccountTokenState(state, { ...token, isVisible: currentToken?.isVisible ?? false }, () => token);
+      return updateAccountTokenState(state, token, () => ({ ...token, isVisible: currentToken?.isVisible ?? true }));
     })
     .addCase(loadAccountTokenBalanceAction.fail, (state, { payload: { token, error } }) =>
       updateAccountTokenState(state, token, accountToken => ({

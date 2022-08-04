@@ -86,7 +86,6 @@ export const updateAccountTokenState = (
         getTokenSlug(accountToken.tokenAddress, accountToken.tokenId) === tokenSlug
           ? {
               ...accountToken,
-              isVisible: token.isVisible,
               ...updateFunc(accountToken)
             }
           : accountToken
