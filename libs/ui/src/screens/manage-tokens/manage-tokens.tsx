@@ -28,7 +28,7 @@ export const ManageTokens: FC = () => {
 
   const navigateToEditTokenScreen = (token: TokenInterface) => navigate(ScreensEnum.EditToken, { token });
 
-  const handleTokenVisibility = (token: TokenInterface) => dispatch(changeTokenVisibilityAction(token.tokenAddress));
+  const handleTokenVisibility = (token: TokenInterface) => dispatch(changeTokenVisibilityAction(token));
 
   return (
     <ScreenContainer screenTitle="Manage tokens" contentStyles={styles.root}>
@@ -52,7 +52,7 @@ export const ManageTokens: FC = () => {
               style={styles.editIcon}
             />
             <Row style={styles.switcherContainer}>
-              <Text style={styles.status}>{token.isVisible ? 'Hide' : 'Show'}</Text>
+              <Text style={styles.status}>{token.isVisible ? 'Show' : 'Hide'}</Text>
               <Switch
                 onPress={() => handleTokenVisibility(token)}
                 theme={SwitchThemesEnum.Primary}

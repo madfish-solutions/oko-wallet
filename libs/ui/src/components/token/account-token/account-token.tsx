@@ -22,7 +22,7 @@ interface Props {
   theme?: TokenItemThemesEnum;
 }
 
-export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = true, theme }) => {
+export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = false, theme }) => {
   const dispatch = useDispatch();
   const { decimals, thumbnailUri, balance, symbol, name } = token;
 
@@ -35,7 +35,7 @@ export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = true,
     }
   }, []);
 
-  const handleTokenVisibility = () => dispatch(changeTokenVisibilityAction(token.tokenAddress));
+  const handleTokenVisibility = () => dispatch(changeTokenVisibilityAction(token));
 
   return (
     <TokenItem imageSource={imageSource} balance={formattedBalance} symbol={symbol} theme={theme} name={name}>
