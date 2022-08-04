@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { Button } from 'react-native';
-import { useToast } from 'react-native-toast-notifications';
 
 import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
@@ -8,14 +7,14 @@ import { MaximiseScreenButton } from '../../components/maximise-screen-button/ma
 import { ResetWallet } from '../../components/reset-wallet/reset-wallet';
 import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
 import { ScreensEnum } from '../../enums/sreens.enum';
-import { ToastsEnum } from '../../enums/toasts.enums';
 import { useNavigation } from '../../hooks/use-navigation.hook';
+import { useToast } from '../../hooks/use-toast.hook';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 
 import { Activity } from './components/activity/activity';
 
 export const Settings: FC = () => {
-  const toast = useToast();
+  const { showSuccessToast, showErrorToast, showWarningToast } = useToast();
   const { navigate } = useNavigation();
   const { lock } = useUnlock();
 
@@ -24,18 +23,9 @@ export const Settings: FC = () => {
   const navigateToAddNetwork = () => navigate(ScreensEnum.AddNetwork);
   const navigateToConnectToDapps = () => navigate(ScreensEnum.ConnectToDapps);
 
-  const onShowSuccessToastClick = () =>
-    toast.show('This is Success!', {
-      type: ToastsEnum.success
-    });
-  const onShowWarningToastClick = () =>
-    toast.show('This is a Warning!', {
-      type: ToastsEnum.warning
-    });
-  const onShowErrorToastClick = () =>
-    toast.show('This is an Error!', {
-      type: ToastsEnum.error
-    });
+  const onShowSuccessToastClick = () => showSuccessToast('This is Success!');
+  const onShowWarningToastClick = () => showWarningToast('This is a Warning!');
+  const onShowErrorToastClick = () => showErrorToast('This is an Error!');
 
   return (
     <ScreenContainer
