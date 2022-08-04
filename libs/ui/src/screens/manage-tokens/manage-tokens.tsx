@@ -36,7 +36,10 @@ export const ManageTokens: FC = () => {
         <Token uri={thumbnailUri} symbol={symbol} name={name} gasToken />
         <Row>
           <TouchableIcon name={IconNameEnum.Edit} disabled style={[styles.editIcon]} />
-          <Switch theme={SwitchThemesEnum.Primary} isActive disabled />
+          <Row style={styles.switcherContainer}>
+            <Text style={styles.status}>Show</Text>
+            <Switch theme={SwitchThemesEnum.Primary} isActive disabled />
+          </Row>
         </Row>
       </Row>
       {accountTokens.map((token, i) => (

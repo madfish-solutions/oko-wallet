@@ -6,7 +6,7 @@ import { typography } from '../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
-    paddingTop: 0
+    paddingVertical: 0
   },
   token: {
     justifyContent: 'space-between',

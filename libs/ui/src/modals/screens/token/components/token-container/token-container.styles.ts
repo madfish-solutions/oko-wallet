@@ -6,14 +6,13 @@ import { typography } from '../../../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
-    marginBottom: getCustomSize(2)
+    marginBottom: getCustomSize(1)
   },
   inputContainer: {
     marginBottom: getCustomSize(3.5)
   },
   textareaContainer: {
-    position: 'relative',
-    marginBottom: getCustomSize(2)
+    position: 'relative'
   },
   iconUrlInput: {
     height: getCustomSize(11),

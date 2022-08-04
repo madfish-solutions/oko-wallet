@@ -74,8 +74,7 @@ export const AddNewToken: FC = () => {
         symbol: fields.symbol,
         thumbnailUri: fields.thumbnailUri,
         decimals: Number(fields.decimals),
-        tokenId: fields.tokenId,
-        artifactUri: undefined
+        ...(isDefined(fields.tokenId) && isNotEmptyString(fields.tokenId) && { tokenId: fields.tokenId })
       })
     );
 
