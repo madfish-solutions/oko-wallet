@@ -1,7 +1,8 @@
 import React, { FC, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Linking } from 'react-native';
+import { View, TouchableOpacity, Linking } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import { Text } from '../../../../components/text/text';
 import { TransactionStatusEnum } from '../../../../enums/transactions.enum';
 import { updateTransactionAction } from '../../../../store/wallet/wallet.actions';
 import {
