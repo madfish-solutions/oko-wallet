@@ -48,18 +48,11 @@ export const Navigator: FC = () => {
   const [initialState, setInitialState] = useState<InitialState>();
   const [dappInfoState, setDappInfo] = useState({});
   console.log(dappInfoState, 'dapp state');
-  //   data:
-  // data:
-  // id: 905315567
-  // jsonrpc: "2.0"
-  // result: "0x13141df"
-  // [[Prototype]]: Object
-  // name: "metamask-provider"
-  // [[Prototype]]: Object
-  // target: "metamask-inpage"
 
   useEffect(() => {
-    setDappInfo(JSON.parse(dappInfo.transactionInfo));
+    if (dappInfo.transactionInfo) {
+      setDappInfo(JSON.parse(dappInfo.transactionInfo));
+    }
   }, [dappInfo]);
 
   useEffect(() => {
@@ -83,7 +76,6 @@ export const Navigator: FC = () => {
   console.log(dappInfo, 'DAPP INFO!!!');
 
   const channel = new BroadcastChannel('YOUR_CHANNEL_NAME');
-  const channel2 = new BroadcastChannel('YOUR_CHANNEL_NAME22');
 
   window.addEventListener('DOMContentLoaded', event => {
     console.log('APP is loaded!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
@@ -94,15 +86,16 @@ export const Navigator: FC = () => {
     browser.tabs.query({ active: true }).then(tabs => {
       console.log(tabs[0].id, 'TABS');
       console.log(obj, 'SENDING OBJ');
-      browser.tabs.sendMessage(tabs[0]?.id, obj);
+      if (tabs[0].id !== undefined) {
+        browser.tabs.sendMessage(tabs[0].id, obj);
+        //window.postMessage(obj, '*');
+      }
     });
   };
 
   channel.onmessage = msg => {
     console.log('message received from service worker', msg);
     dispatch(setTransactionFromDapp(JSON.stringify(msg.data?.msg)));
-    channel2.postMessage({ result: 'INFO FROM APP COMPONENT' });
-    // channel.postMessage({ msg: 'Hello service worker from popup' });
   };
 
   if (!isReady) {
