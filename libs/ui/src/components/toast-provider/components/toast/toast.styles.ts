@@ -14,13 +14,13 @@ export const styles = StyleSheet.create({
     minWidth: getCustomSize(22.25),
     justifyContent: 'center'
   },
-  rootSuccess: {
+  success: {
     backgroundColor: colors.green
   },
-  rootWarning: {
+  warning: {
     backgroundColor: colors.yellow
   },
-  rootError: {
+  error: {
     backgroundColor: colors.red
   },
   icon: {

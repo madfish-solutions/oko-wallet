@@ -2,17 +2,17 @@ import { ToastsEnum } from '../../../../../enums/toasts.enums';
 import { IconNameEnum } from '../../../../icon/icon-name.enum';
 import { styles } from '../toast.styles';
 
-export const themeClasses = {
+export const themes = {
   [ToastsEnum.success]: {
-    root: styles.rootSuccess,
+    root: styles.success,
     iconName: IconNameEnum.Success
   },
   [ToastsEnum.warning]: {
-    root: styles.rootWarning,
+    root: styles.warning,
     iconName: IconNameEnum.Warning
   },
   [ToastsEnum.error]: {
-    root: styles.rootError,
+    root: styles.error,
     iconName: IconNameEnum.Error
   }
 };
