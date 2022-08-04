@@ -55,10 +55,6 @@ body {
   overflow: hidden;
 }
 
-[class^='css-text-']:not([class*='r-color']), [class^='css-textinput-']:not([class*='r-color']) {
-  color:#F8F8F8
-}
-
 .root-container {
   height: 100vh;
 }

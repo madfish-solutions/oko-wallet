@@ -5,11 +5,19 @@ import { NETWORKS_DEFAULT_LIST } from './networks';
 
 type NetworkChainId = string;
 
-const KLAYTN_CHAIN_ID = '8217';
-const TEZOS_CHAIN_ID = 'NetXdQprcVkpaWU';
+export const KLAYTN_CHAIN_ID = '8217';
+export const TEZOS_CHAIN_ID = 'NetXdQprcVkpaWU';
+export const ROPSTEN_CHAIN_ID = '3';
 
 export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = {
   [KLAYTN_CHAIN_ID]: [
+    {
+      tokenAddress: '0x55d398326f99059fF775485246999027B3197955',
+      name: 'Tezor USD',
+      symbol: 'USDT',
+      decimals: 18,
+      thumbnailUri: ''
+    },
     {
       tokenAddress: '0x02cbe46fb8a1f579254a9b485788f2d86cad51aa',
       name: 'BORA',
@@ -117,11 +125,49 @@ export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = 
     }
   ],
   [TEZOS_CHAIN_ID]: [
+    // Gas token
+    {
+      tokenAddress: '',
+      tokenId: '',
+      name: 'Tezos',
+      symbol: 'XTZ',
+      decimals: 6,
+      thumbnailUri: ''
+    },
+    // FA2
     {
       tokenAddress: 'KT193D4vozYnhGJQVtw7CoxxqphqUEEwK6Vb',
+      tokenId: '0',
       name: 'Quipuswap Governance Token',
       symbol: 'QUIPU',
       decimals: 6,
+      thumbnailUri: ''
+    },
+    // FA1.2
+    {
+      tokenAddress: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
+      tokenId: '',
+      name: 'Kolibri',
+      symbol: 'KUSD',
+      decimals: 18,
+      thumbnailUri: ''
+    }
+  ],
+  [ROPSTEN_CHAIN_ID]: [
+    {
+      tokenAddress: '0x101848D5C5bBca18E6b4431eEdF6B95E9ADF82FA',
+      tokenId: '',
+      name: 'WEENUS',
+      symbol: 'WEENUS',
+      decimals: 18,
+      thumbnailUri: ''
+    },
+    {
+      tokenAddress: '0xF6fF95D53E08c9660dC7820fD5A775484f77183A',
+      tokenId: '',
+      name: 'YEENUS',
+      symbol: 'YEENUS',
+      decimals: 8,
       thumbnailUri: ''
     }
   ]

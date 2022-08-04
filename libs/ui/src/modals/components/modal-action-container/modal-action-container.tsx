@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 
 import { ModalContainer } from '../modal-container/modal-container';
 import { ModalFooterButtons } from '../modal-footer-buttons/modal-footer-buttons';
@@ -21,7 +21,7 @@ export const ModalActionContainer: FC<Props> = ({
 }) => (
   <ModalContainer screenTitle={screenTitle} isBackButton>
     <View style={styles.root}>
-      <View style={styles.content}>{children}</View>
+      <ScrollView style={styles.content}>{children}</ScrollView>
 
       <ModalFooterButtons
         submitTitle={submitTitle}

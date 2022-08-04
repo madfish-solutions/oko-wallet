@@ -1,5 +1,4 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { isDefined } from '@rnw-community/shared';
 
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
 import { NetworkInterface } from '../../interfaces/network.interface';
@@ -24,7 +23,8 @@ import {
   addTransactionAction,
   editNetworkAction,
   removeNetworkAction,
-  editTokenAction
+  editTokenAction,
+  sortAccountTokensByVisibility
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -160,8 +160,19 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       );
 
       return { ...state, accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: updatedAccountTokens } };
-    });
+    })
+    .addCase(sortAccountTokensByVisibility, state => {
+      const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
+      const accountTokens = state.accountsTokens[accountTokensSlug];
 
+      if (Array.isArray(accountTokens)) {
+        const updatedAccountTokens = accountTokens.slice().sort((a, b) => Number(b.isVisible) - Number(a.isVisible));
+
+        return { ...state, accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: updatedAccountTokens } };
+      }
+
+      return state;
+    });
   builder.addCase(changeAccountAction, (state, { payload: account }) => ({
     ...state,
     selectedAccountPublicKeyHash: getPublicKeyHash(account, getSelectedNetworkType(state))
@@ -183,66 +194,55 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       )
     };
   });
-  builder.addCase(editNetworkAction, (state, { payload: { network: newNetwork, isNetworkSelected, prevRpcUrl } }) => {
+  builder.addCase(editNetworkAction, (state, { payload: { network: editedNetwork, isNetworkSelected } }) => {
     const prevNetworkType = getSelectedNetworkType(state);
     const selectedAccount = getSelectedAccount(state, prevNetworkType);
 
-    let networks: NetworkInterface[] = [];
-
-    if (isNetworkSelected) {
-      const currentNetwork = state.networks.find(network => network.rpcUrl === newNetwork.rpcUrl);
-
-      if (currentNetwork) {
-        networks = state.networks.map(network => {
-          if (network.rpcUrl === currentNetwork.rpcUrl) {
-            return currentNetwork;
-          }
-
-          return network;
-        });
+    const networks: NetworkInterface[] = state.networks.map(network => {
+      if (network.rpcUrl === editedNetwork.rpcUrl) {
+        return editedNetwork;
       }
 
-      networks = state.networks.map(network => {
-        if (network.rpcUrl === state.selectedNetworkRpcUrl) {
-          return newNetwork;
-        }
-
-        return network;
-      });
-    } else if (isDefined(prevRpcUrl)) {
-      networks = state.networks.map(network => {
-        if (network.rpcUrl === prevRpcUrl) {
-          return newNetwork;
-        }
-
-        return network;
-      });
-    }
+      return network;
+    });
 
     return {
       ...state,
       networks,
-      selectedNetworkRpcUrl: isNetworkSelected ? newNetwork.rpcUrl : state.selectedNetworkRpcUrl,
-      selectedAccountPublicKeyHash: getPublicKeyHash(selectedAccount, newNetwork.networkType),
+      selectedNetworkRpcUrl: isNetworkSelected ? editedNetwork.rpcUrl : state.selectedNetworkRpcUrl,
+      selectedAccountPublicKeyHash: getPublicKeyHash(
+        selectedAccount,
+        isNetworkSelected ? editedNetwork.networkType : prevNetworkType
+      ),
       accountsTokens: updateAccountsTokensState(
-        { ...state, networks, selectedNetworkRpcUrl: newNetwork.rpcUrl },
+        {
+          ...state,
+          networks,
+          selectedNetworkRpcUrl: isNetworkSelected ? editedNetwork.rpcUrl : state.selectedNetworkRpcUrl
+        },
         selectedAccount
       )
     };
   });
-  builder.addCase(removeNetworkAction, (state, { payload: rpcUrl }) => {
+  builder.addCase(removeNetworkAction, (state, { payload: { network: editedNetwork, isNetworkSelected } }) => {
     const prevNetworkType = getSelectedNetworkType(state);
     const selectedAccount = getSelectedAccount(state, prevNetworkType);
-    const networks = state.networks.filter(network => network.rpcUrl !== rpcUrl);
-    const newNetwork = networks[0];
+    const networks = state.networks.filter(network => network.rpcUrl !== editedNetwork.rpcUrl);
 
     return {
       ...state,
       networks,
-      selectedNetworkRpcUrl: newNetwork.rpcUrl,
-      selectedAccountPublicKeyHash: getPublicKeyHash(selectedAccount, newNetwork.networkType),
+      selectedNetworkRpcUrl: isNetworkSelected ? networks[0].rpcUrl : state.selectedNetworkRpcUrl,
+      selectedAccountPublicKeyHash: getPublicKeyHash(
+        selectedAccount,
+        isNetworkSelected ? networks[0].networkType : prevNetworkType
+      ),
       accountsTokens: updateAccountsTokensState(
-        { ...state, networks, selectedNetworkRpcUrl: newNetwork.rpcUrl },
+        {
+          ...state,
+          networks,
+          selectedNetworkRpcUrl: isNetworkSelected ? networks[0].rpcUrl : state.selectedNetworkRpcUrl
+        },
         selectedAccount
       )
     };

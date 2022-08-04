@@ -15,10 +15,10 @@ export const useNetworkFieldsRules = ({ networks, chainId, defaultValues }: Netw
     const rpcUrl = removeTrailingSlash(currentRpcUrl.trim());
 
     if (
-      networks.some(network => removeTrailingSlash(network.rpcUrl) === rpcUrl) &&
+      networks.some(network => removeTrailingSlash(network.rpcUrl.trim()) === rpcUrl) &&
       isNotEmptyString(rpcUrl) &&
       isDefined(defaultValues) &&
-      rpcUrl !== defaultValues.rpcUrl
+      rpcUrl !== removeTrailingSlash(defaultValues.rpcUrl.trim())
     ) {
       return 'Network with this RPC URL already exist';
     }

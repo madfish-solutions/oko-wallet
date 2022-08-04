@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
@@ -7,6 +6,7 @@ import { Row } from '../../components/row/row';
 import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
 import { SwitchThemesEnum } from '../../components/switch/enum';
 import { Switch } from '../../components/switch/switch';
+import { Text } from '../../components/text/text';
 import { Token } from '../../components/token/token';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
 import { ScreensEnum } from '../../enums/sreens.enum';
@@ -28,7 +28,7 @@ export const ManageTokens: FC = () => {
 
   const navigateToEditTokenScreen = (token: TokenInterface) => navigate(ScreensEnum.EditToken, { token });
 
-  const handleTokenVisibility = (token: TokenInterface) => dispatch(changeTokenVisibilityAction(token));
+  const handleTokenVisibility = (token: TokenInterface) => dispatch(changeTokenVisibilityAction(token.tokenAddress));
 
   return (
     <ScreenContainer screenTitle="Manage tokens" contentStyles={styles.root}>

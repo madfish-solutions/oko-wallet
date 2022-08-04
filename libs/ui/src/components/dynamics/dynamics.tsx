@@ -1,5 +1,4 @@
 import React, { FC, useMemo } from 'react';
-import { Text } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { colors } from '../../styles/colors';
@@ -7,6 +6,7 @@ import { getCustomSize } from '../../styles/format-size';
 import { Icon } from '../icon/icon';
 import { IconNameEnum } from '../icon/icon-name.enum';
 import { Row } from '../row/row';
+import { Text } from '../text/text';
 
 import { styles } from './dynamics.styles';
 

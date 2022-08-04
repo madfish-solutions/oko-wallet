@@ -20,7 +20,8 @@
     "ts": "cd libs/ui && yarn ts",
     "lint": "eslint .",
     "test": "cd libs/ui && yarn test",
-    "clear:watchman": "if [ -x \"$(command -v watchman)\" ]; then watchman watch-del-all; fi"
+    "clear:watchman": "if [ -x \"$(command -v watchman)\" ]; then watchman watch-del-all; fi",
+    "generate-contract-types": "cd libs/ui && yarn generate-contract-types"
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "^3.0.1",

@@ -2,7 +2,7 @@ import { Contract, getDefaultProvider, BigNumber } from 'ethers';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import genericErc20Abi from '../../constants/erc20Abi.json';
+import ERC_20_ABI from '../../constants/abi/erc-20-Abi.json';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { Token } from '../../interfaces/token.interface';
 
@@ -18,7 +18,7 @@ export const loadEvmTokenBalance$ = (
   { tokenAddress }: Token
 ): Observable<string> => {
   const provider = getDefaultProvider(rpcUrl);
-  const contract = new Contract(tokenAddress, genericErc20Abi, provider);
+  const contract = new Contract(tokenAddress, ERC_20_ABI, provider);
 
   return (from(contract.balanceOf(publicKeyHash)) as Observable<BigNumber>).pipe(map(balance => balance.toString()));
 };
