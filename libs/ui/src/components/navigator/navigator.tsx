@@ -3,7 +3,6 @@ import { isDefined } from '@rnw-community/shared';
 import React, { FC, createRef, useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { browser } from 'webextension-polyfill-ts';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useUnlock } from '../../hooks/use-unlock.hook';
@@ -15,6 +14,7 @@ import { AccountTokens } from '../../screens/account-tokens/account-tokens';
 import { AddNetwork } from '../../screens/add-network/add-network';
 import { AddNewToken } from '../../screens/add-new-token/add-new-token';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
+import { ConfirmationDapp } from '../../screens/dapp-confirmation/dapp-confirmation';
 import { ImportAccount } from '../../screens/import-account/import-account';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
@@ -23,14 +23,9 @@ import { Send } from '../../screens/send/send';
 import { Settings } from '../../screens/settings/settings';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
-import { setTransactionFromDapp } from '../../store/wallet/wallet.actions';
-import {
-  useDappInfoSelector,
-  useIsAuthorisedSelector,
-  useSelectedAccountPublicKeyHashSelector
-} from '../../store/wallet/wallet.selectors';
+import { setConnectionFromDapp } from '../../store/wallet/wallet.actions';
+import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
 import { getStoredValue, setStoredValue } from '../../utils/store.util';
-import { Button } from '../button/button';
 
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
 import { PERSISTENCE_KEY } from './constants/perstistence-key';
@@ -40,20 +35,12 @@ export const navigationRef = createRef<NavigationContainerRef<ScreensParamList>>
 
 export const Navigator: FC = () => {
   const dispatch = useDispatch();
-  const dappInfo = useDappInfoSelector();
   const isAuthorised = useIsAuthorisedSelector();
-  const selectedAcc = useSelectedAccountPublicKeyHashSelector();
   const { isLocked } = useUnlock();
   const [isReady, setIsReady] = useState(false);
   const [initialState, setInitialState] = useState<InitialState>();
-  const [dappInfoState, setDappInfo] = useState({});
-  console.log(dappInfoState, 'dapp state');
-
-  useEffect(() => {
-    if (dappInfo.transactionInfo) {
-      setDappInfo(JSON.parse(dappInfo.transactionInfo));
-    }
-  }, [dappInfo]);
+  const [isConfirmationScreen, setIsConfimationScreen] = useState(false);
+  const [dappName, setDappName] = useState('');
 
   useEffect(() => {
     const restoreState = async () => {
@@ -73,29 +60,17 @@ export const Navigator: FC = () => {
     }
   }, [isReady]);
 
-  console.log(dappInfo, 'DAPP INFO!!!');
-
   const channel = new BroadcastChannel('YOUR_CHANNEL_NAME');
 
-  window.addEventListener('DOMContentLoaded', event => {
-    console.log('APP is loaded!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+  // invoke background script when popup is loaded
+  window.addEventListener('DOMContentLoaded', () => {
     channel.postMessage({ msg: 'background' });
   });
 
-  const sendMesg = obj => {
-    browser.tabs.query({ active: true }).then(tabs => {
-      console.log(tabs[0].id, 'TABS');
-      console.log(obj, 'SENDING OBJ');
-      if (tabs[0].id !== undefined) {
-        browser.tabs.sendMessage(tabs[0].id, obj);
-        //window.postMessage(obj, '*');
-      }
-    });
-  };
-
   channel.onmessage = msg => {
-    console.log('message received from service worker', msg);
-    dispatch(setTransactionFromDapp(JSON.stringify(msg.data?.msg)));
+    dispatch(setConnectionFromDapp({ chainId: '', dappName: msg.data?.origin, data: msg.data?.data }));
+    setIsConfimationScreen(true);
+    setDappName(msg.data?.origin);
   };
 
   if (!isReady) {
@@ -159,20 +134,9 @@ export const Navigator: FC = () => {
         )}
       </Stack.Navigator>
 
-      {isLocked && isAuthorised && (
-        <View style={{ zIndex: 1000, backgroundColor: 'grey', height: '100vh', width: '100vw' }}>
-          <Text>{JSON.stringify(dappInfoState)}</Text>
-          <Button
-            title="send"
-            onPress={() =>
-              sendMesg({
-                data: { data: { ...dappInfoState, result: [selectedAcc] }, name: 'metamask-provider' },
-                target: 'metamask-inpage'
-              })
-            }
-          />
-        </View>
-      )}
+      {isConfirmationScreen && isAuthorised && <ConfirmationDapp dappName={dappName} />}
+
+      {isLocked && isAuthorised && <UnlockApp />}
     </NavigationContainer>
   );
 };

@@ -1,30 +1,18 @@
-import browser from 'webextension-polyfill';
+import { browser } from 'webextension-polyfill-ts';
 
-console.log('Background script is working...');
+const channel = new BroadcastChannel('KlaytnWallet');
 
-const channel = new BroadcastChannel('YOUR_CHANNEL_NAME');
+let messageData: unknown;
+let origin: string;
 
-browser.runtime.onInstalled.addListener(async () => {
-  for (const cs of browser.runtime.getManifest().content_scripts) {
-    for (const tab of await browser.tabs.query({ url: cs.matches })) {
-      browser.scripting.executeScript({
-        target: { tabId: tab.id },
-        files: cs.js
-      });
-    }
-  }
-});
-
-browser.runtime.onConnect.addListener(async (myPort, sender) => {
-  console.log(myPort, 'MY PORT');
-  let messageData: any;
-
+// listen content script messages
+browser.runtime.onConnect.addListener(async myPort => {
   myPort.onMessage.addListener(async msg => {
-    console.log(msg, 'message on bg');
-    console.log('CONNECTED TO BG SCRIPT!');
-    if (msg.target === 'metamask-contentscript' && msg.data?.data?.method === 'eth_requestAccounts') {
-      console.log('it is connection request!!!');
+    if (msg.data?.target === 'metamask-contentscript' && msg.data?.data?.data?.method === 'eth_requestAccounts') {
+      messageData = msg.data?.data?.data;
+      origin = msg.origin;
 
+      // create confirmation popup
       await browser.windows.create({
         type: 'popup',
         url: browser.runtime.getURL('popup.html'),
@@ -33,14 +21,13 @@ browser.runtime.onConnect.addListener(async (myPort, sender) => {
         top: 20,
         left: 20
       });
-      messageData = msg.data?.data;
     }
   });
 
+  // send message to UI when popup is loaded and data from Dapp is received
   channel.onmessage = bcmessage => {
-    if (bcmessage.data?.msg === 'background') {
-      console.log('BACKGROUND READY TO SEND PROPS');
-      channel.postMessage({ msg: messageData });
+    if (bcmessage.data?.msg === 'background' && messageData !== undefined) {
+      channel.postMessage({ data: messageData, origin });
     }
   };
 });

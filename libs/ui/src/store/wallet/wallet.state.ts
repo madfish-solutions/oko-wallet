@@ -2,6 +2,7 @@ import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { defaultTokensMetadata } from '../../constants/tokens';
 import { AccountToken } from '../../interfaces/account-token.interface';
 import { AccountInterface, Transaction } from '../../interfaces/account.interface';
+import { DappConnection } from '../../interfaces/dapp-connection.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { TokenMetadata } from '../../interfaces/token-metadata.interface';
 
@@ -20,7 +21,8 @@ export interface WalletState {
   tokensMetadata: Record<NetworkRpcUrlWithTokenAddress, TokenMetadata>;
   accountsTokens: Record<NetworkRpcUrWithPublicKeyHash, AccountToken[]>;
   transactions: Record<NetworkRpcUrWithPublicKeyHash, Transaction[]>;
-  metamask: Record<string, any>;
+  pendingEVMDappConnection: Record<string, DappConnection>;
+  confirmedEVMDappConnection: Record<string, DappConnection>;
 }
 
 export const walletInitialState: WalletState = {
@@ -31,5 +33,6 @@ export const walletInitialState: WalletState = {
   tokensMetadata: defaultTokensMetadata,
   accountsTokens: {},
   transactions: {},
-  metamask: {}
+  pendingEVMDappConnection: {},
+  confirmedEVMDappConnection: {}
 };

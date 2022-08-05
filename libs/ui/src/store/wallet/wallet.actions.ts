@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 
 import { AccountInterface, PendingTransaction, Transaction } from '../../interfaces/account.interface';
+import { DappConnection } from '../../interfaces/dapp-connection.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
 import { AccountTokenInput } from '../../interfaces/token-input.interface';
@@ -35,4 +36,4 @@ export const sendAssetAction = createActions<SendAssetPayload>('wallet/SEND_ASSE
 export const addTransactionAction = createAction<PendingTransaction>('wallet/ADD_TRANSACTION');
 export const updateTransactionAction = createAction<Transaction>('wallet/CHANGE_TRANSACTION_STATUS');
 
-export const setTransactionFromDapp = createAction<string>('wallet/SET_DAPP_INFO');
+export const setConnectionFromDapp = createAction<DappConnection>('wallet/SET_DAPP_INFO');

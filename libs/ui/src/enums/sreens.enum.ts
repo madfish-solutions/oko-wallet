@@ -17,8 +17,7 @@ export enum ScreensEnum {
   AccountTokens = 'AccountTokens',
   NetworksSelector = 'NetworksSelector',
   EditAccount = 'EditAccount',
-  AddAccount = 'AddAccount',
-  ConfimationDapp = 'ConfirmationDapp'
+  AddAccount = 'AddAccount'
 }
 
 export type ScreensParamList = {
@@ -40,5 +39,4 @@ export type ScreensParamList = {
   [ScreensEnum.NetworksSelector]: undefined;
   [ScreensEnum.EditAccount]: { account: AccountInterface };
   [ScreensEnum.AddAccount]: undefined;
-  [ScreensEnum.ConfimationDapp]: undefined;
 };

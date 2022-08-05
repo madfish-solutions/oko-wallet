@@ -19,7 +19,7 @@ import {
   loadAccountTokenBalanceAction,
   updateTransactionAction,
   addTransactionAction,
-  setTransactionFromDapp
+  setConnectionFromDapp
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -201,8 +201,11 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
 
     return { ...state, transactions: { ...state.transactions, [accountTokensSlug]: updatedAccountTransactions } };
   });
-  builder.addCase(setTransactionFromDapp, (state, { payload }) => ({
+  builder.addCase(setConnectionFromDapp, (state, { payload: { dappName, chainId, data } }) => ({
     ...state,
-    metamask: { transactionInfo: payload }
+    pendingEVMDappConnection: {
+      ...state.pendingEVMDappConnection,
+      [dappName]: { chainId, dappName, data }
+    }
   }));
 });

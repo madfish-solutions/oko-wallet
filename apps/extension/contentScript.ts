@@ -1,17 +1,15 @@
-import browser from 'webextension-polyfill';
+import { runtime } from 'webextension-polyfill';
 
-const myPort = browser.runtime.connect({ name: 'port-from-cs' });
+const myPort = runtime.connect({ name: 'port-from-cs' });
 
+// listen Dapp messages and send info to background script
 window.addEventListener('message', async evt => {
-  console.log(evt, 'CONTENT!!');
   if (evt.data.target === 'metamask-contentscript' && evt.data?.data?.data?.method === 'eth_requestAccounts') {
-    myPort.postMessage('hello from content script');
-    myPort.postMessage(evt.data);
+    myPort.postMessage({ data: evt.data, origin: evt.origin });
   }
 });
 
-browser.runtime.onMessage.addListener(request => {
-  console.log('Message from the background script:');
-  console.log(request, 'CONTENT SCRIPT WORKS');
+// send post message to Dapp
+runtime.onMessage.addListener(request => {
   window.postMessage(request, '*');
 });
