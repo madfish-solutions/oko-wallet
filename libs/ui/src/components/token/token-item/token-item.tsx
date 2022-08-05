@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { Image, ImageSourcePropType, View } from 'react-native';
 
 import { getCustomSize } from '../../../styles/format-size';
+import { shortize } from '../../../utils/shortize.util';
 import { Icon } from '../../icon/icon';
 import { IconNameEnum } from '../../icon/icon-name.enum';
 import { Row } from '../../row/row';
@@ -38,7 +39,7 @@ export const TokenItem: FC<Props> = ({
           <Text style={styles.text}>{symbol}</Text>
           {isGasToken && <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />}
         </Row>
-        {theme === TokenItemThemesEnum.Secondary && <Text style={styles.tokenName}>{name}</Text>}
+        {theme === TokenItemThemesEnum.Secondary && <Text style={styles.tokenName}>{shortize(name, 14)}</Text>}
       </View>
     </Row>
 
