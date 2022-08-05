@@ -11,3 +11,5 @@ export const themeClasses = {
     image: styles.imageSecondary
   }
 };
+
+export const MAXIMUM_NAME_LENGTH = 14;

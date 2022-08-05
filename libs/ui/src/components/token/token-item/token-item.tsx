@@ -9,7 +9,7 @@ import { IconNameEnum } from '../../icon/icon-name.enum';
 import { Row } from '../../row/row';
 import { Text } from '../../text/text';
 
-import { themeClasses } from './constants';
+import { themeClasses, MAXIMUM_NAME_LENGTH } from './constants';
 import { TokenItemThemesEnum } from './enums';
 import { styles } from './token-item.styles';
 
@@ -39,7 +39,9 @@ export const TokenItem: FC<Props> = ({
           <Text style={styles.text}>{symbol}</Text>
           {isGasToken && <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />}
         </Row>
-        {theme === TokenItemThemesEnum.Secondary && <Text style={styles.tokenName}>{shortize(name, 14)}</Text>}
+        {theme === TokenItemThemesEnum.Secondary && (
+          <Text style={styles.tokenName}>{shortize(name, MAXIMUM_NAME_LENGTH)}</Text>
+        )}
       </View>
     </Row>
 
