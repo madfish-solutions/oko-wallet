@@ -68,7 +68,6 @@ export const AddNewToken: FC = () => {
 
   const rules = useTokenFieldsRules();
 
-  // get token metadata
   const getTokenMetadata = useRef(
     debounce(async (address: string) => {
       if (isNotEmptyString(address)) {

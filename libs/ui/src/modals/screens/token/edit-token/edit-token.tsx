@@ -66,10 +66,10 @@ export const EditToken: FC = () => {
   const onSubmit = (fields: TokenFormTypes) => {
     const prevTokenValue = {
       symbol,
-      tokenId: isNotEmptyString(tokenId) && isDefined(tokenId) ? tokenId : '',
       tokenAddress,
       decimals: String(decimals),
-      thumbnailUri
+      thumbnailUri,
+      ...(isDefined(tokenId) && isNotEmptyString(tokenId) && { tokenId })
     };
 
     if (JSON.stringify(prevTokenValue) === JSON.stringify(fields)) {
