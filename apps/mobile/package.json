@@ -52,6 +52,7 @@
     "react-native-svg": "^12.3.0",
     "react-native-svg-transformer": "^1.0.0",
     "react-native-themis": "^0.14.4",
+    "react-native-toast-notifications": "^3.3.1",
     "react-redux": "^8.0.1",
     "readable-stream": "^3.6.0",
     "redux-flipper": "^2.0.1",

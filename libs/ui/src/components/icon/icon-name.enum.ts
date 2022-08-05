@@ -44,5 +44,8 @@ export enum IconNameEnum {
   Tooltip = 'Tooltip',
   Trash = 'Trash',
   Clear = 'Clear',
-  TokenFallback = 'TokenFallback'
+  TokenFallback = 'TokenFallback',
+  Success = 'Success',
+  Warning = 'Warning',
+  Error = 'Error'
 }

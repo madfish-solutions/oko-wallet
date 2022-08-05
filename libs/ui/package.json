@@ -53,6 +53,7 @@
     "react-native-sha256": "^1.4.7",
     "react-native-svg": "^12.3.0",
     "react-native-themis": "^0.14.4",
+    "react-native-toast-notifications": "^3.3.1",
     "react-redux": "^8.0.1",
     "react-test-renderer": "^17.0.2",
     "redux-flipper": "^2.0.1",

@@ -18,6 +18,7 @@ import EditIcon from './assets/edit.svg';
 import EmptyCheckbox from './assets/empty-checkbox.svg';
 import EmptySearch from './assets/empty-search.svg';
 import EmptySquareCheckbox from './assets/empty-square-checkbox.svg';
+import Error from './assets/error.svg';
 import EyeClosedIcon from './assets/eye-closed.svg';
 import EyeOpenIcon from './assets/eye-open.svg';
 import GasIcon from './assets/gas.svg';
@@ -36,11 +37,13 @@ import SettingsIcon from './assets/settings.svg';
 import Share from './assets/share.svg';
 import Slider from './assets/slider.svg';
 import StakeIcon from './assets/stake.svg';
+import Success from './assets/success.svg';
 import SwapIcon from './assets/swap.svg';
 import TokenFallback from './assets/token-fallback.svg';
 import Tooltip from './assets/tooltip.svg';
 import TopupIcon from './assets/topup.svg';
 import Trash from './assets/trash.svg';
+import Warning from './assets/warning.svg';
 import WidgetSettings from './assets/widget-settings.svg';
 import XIcon from './assets/x.svg';
 import { IconNameEnum } from './icon-name.enum';
@@ -95,5 +98,8 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Tooltip]: Tooltip,
   [IconNameEnum.Trash]: Trash,
   [IconNameEnum.Clear]: Clear,
-  [IconNameEnum.TokenFallback]: TokenFallback
+  [IconNameEnum.TokenFallback]: TokenFallback,
+  [IconNameEnum.Success]: Success,
+  [IconNameEnum.Warning]: Warning,
+  [IconNameEnum.Error]: Error
 };
