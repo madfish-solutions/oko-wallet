@@ -30,12 +30,6 @@ export const useTokenFieldsRules = () => {
     }
   };
 
-  // const checkImageUrl = (currentValue?: string) => {
-  //   if (isNotEmptyString(currentValue) && isValidUrl(currentValue)) {
-  //     return 'Must be a valid URL';
-  //   }
-  // };
-
   const checOnlyNymbers = (currentValue: string) => {
     if (!currentValue.match(/^\d*[.]?\d*$/)) {
       return 'Only numbers';

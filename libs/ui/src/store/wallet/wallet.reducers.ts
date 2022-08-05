@@ -137,12 +137,12 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         }
       };
     })
-    .addCase(editTokenAction, (state, { payload: token }) => {
+    .addCase(editTokenAction, (state, { payload: editedToken }) => {
       const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
       const updatedAccountTokens = state.accountsTokens[accountTokensSlug].map(accountToken =>
         getTokenSlug(accountToken.tokenAddress, accountToken.tokenId) ===
-        getTokenSlug(token.tokenAddress, token.tokenId)
-          ? { ...accountToken, ...token }
+        getTokenSlug(editedToken.tokenAddress, editedToken.tokenId)
+          ? { ...accountToken, ...editedToken }
           : accountToken
       );
 
