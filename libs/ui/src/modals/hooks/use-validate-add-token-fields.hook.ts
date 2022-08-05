@@ -2,8 +2,8 @@ import { isNotEmptyString } from '@rnw-community/shared';
 
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { useSelectedNetworkTypeSelector } from '../../store/wallet/wallet.selectors';
-import { isEvmAddressValid } from '../../utils/isEvmAddressValid.util';
-import { isValidAddress } from '../../utils/isTezosAddressValid.util';
+import { isEvmAddressValid } from '../../utils/is-evm-address-valid.util';
+import { isValidAddress } from '../../utils/is-tezos-address-valid.util';
 
 export const useTokenFieldsRules = () => {
   const network = useSelectedNetworkTypeSelector();

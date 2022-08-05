@@ -11,6 +11,7 @@ import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { addNewTokenAction } from '../../../../store/wallet/wallet.actions';
 import { useAccountAssetsSelector, useSelectedNetworkSelector } from '../../../../store/wallet/wallet.selectors';
 import { getDefaultEvmProvider } from '../../../../utils/get-default-evm-provider.utils';
+import { isEvmAddressValid } from '../../../../utils/is-evm-address-valid.util';
 import { getTokenSlug } from '../../../../utils/token.utils';
 import { useTokenFieldsRules } from '../../../hooks/use-validate-add-token-fields.hook';
 import { TokenContainer } from '../components/token-container/token-container';
@@ -68,7 +69,7 @@ export const AddNewToken: FC = () => {
 
   const rules = useTokenFieldsRules();
 
-  const getTokenMetadata = useRef(
+  const getEvmTokenMetadata = useRef(
     debounce(async (address: string) => {
       if (isNotEmptyString(address)) {
         const provider = getDefaultEvmProvider(rpcUrl);
@@ -94,12 +95,14 @@ export const AddNewToken: FC = () => {
   ).current;
 
   useEffect(() => {
-    getTokenMetadata(watchAddressUrl);
+    if (isEvmAddressValid(watchAddressUrl)) {
+      getEvmTokenMetadata(watchAddressUrl);
+    }
 
     return () => {
-      getTokenMetadata.cancel();
+      getEvmTokenMetadata.cancel();
     };
-  }, [getTokenMetadata, watchAddressUrl]);
+  }, [getEvmTokenMetadata, watchAddressUrl]);
 
   const onSubmit = (fields: TokenFormTypes) => {
     const currentToken = accountTokens.find(

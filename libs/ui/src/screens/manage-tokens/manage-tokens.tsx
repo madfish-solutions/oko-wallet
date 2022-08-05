@@ -31,7 +31,7 @@ export const ManageTokens: FC = () => {
   const handleTokenVisibility = (token: TokenInterface) => dispatch(changeTokenVisibilityAction(token));
 
   return (
-    <ScreenContainer screenTitle="Manage tokens" contentStyles={styles.root}>
+    <ScreenContainer screenTitle="Edit Token List" contentStyles={styles.root}>
       <Row style={[styles.token, styles.borderBottom]}>
         <Token uri={thumbnailUri} symbol={symbol} name={name} gasToken />
         <Row>
