@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
-import { Text, View, Share, Animated } from 'react-native';
+import { View, Share, Animated } from 'react-native';
 import QRCodeLibrary from 'react-native-qrcode-svg';
 
+import { Text } from '../../../../components/text/text';
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
 import { useSelectedAccountPublicKeyHashSelector } from '../../../../store/wallet/wallet.selectors';
 import { colors } from '../../../../styles/colors';

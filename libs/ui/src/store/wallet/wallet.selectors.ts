@@ -13,6 +13,7 @@ import { initialAccount } from '../../mocks/account.interface.mock';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { isCollectible } from '../../utils/token.utils';
+import { checkEquality } from '../utils/check-equality.util';
 
 import { WalletRootState, WalletState } from './wallet.state';
 import { getPublicKeyHash, getSelectedNetworkType } from './wallet.utils';
@@ -24,7 +25,7 @@ export const useSelectedNetworkSelector = () =>
   useSelector<WalletRootState, NetworkInterface>(
     ({ wallet }) =>
       wallet.networks.find(network => network.rpcUrl === wallet.selectedNetworkRpcUrl) ?? NETWORKS_DEFAULT_LIST[0],
-    (left, right) => JSON.stringify(left) === JSON.stringify(right)
+    checkEquality
   );
 
 export const useAllNetworksSelector = () =>
@@ -34,22 +35,19 @@ export const useSelectedNetworkTypeSelector = () =>
   useSelector<WalletRootState, NetworkTypeEnum>(({ wallet }) => getSelectedNetworkType(wallet));
 
 export const useSelectedAccountSelector = () =>
-  useSelector<WalletRootState, AccountInterface>(
-    ({ wallet }) => {
-      const { accounts, selectedAccountPublicKeyHash } = wallet;
+  useSelector<WalletRootState, AccountInterface>(({ wallet }) => {
+    const { accounts, selectedAccountPublicKeyHash } = wallet;
 
-      const selectedNetworkType = getSelectedNetworkType(wallet);
-      const selectedAccount =
-        accounts.find(account => {
-          const isExist = account.networksKeys.hasOwnProperty(selectedNetworkType);
+    const selectedNetworkType = getSelectedNetworkType(wallet);
+    const selectedAccount =
+      accounts.find(account => {
+        const isExist = account.networksKeys.hasOwnProperty(selectedNetworkType);
 
-          return isExist ? getPublicKeyHash(account, selectedNetworkType) === selectedAccountPublicKeyHash : null;
-        }) ?? initialAccount;
+        return isExist ? getPublicKeyHash(account, selectedNetworkType) === selectedAccountPublicKeyHash : null;
+      }) ?? initialAccount;
 
-      return selectedAccount;
-    },
-    (left, right) => JSON.stringify(left) === JSON.stringify(right)
-  );
+    return selectedAccount;
+  }, checkEquality);
 
 export const useSelectedAccountPkhSelector = () =>
   useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedAccountPublicKeyHash);
@@ -82,7 +80,8 @@ export const useAccountAssetsSelector = () =>
           };
         }) ?? []
       );
-    }
+    },
+    checkEquality
   );
 
 export const useAccountTokensSelector = () => {

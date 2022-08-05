@@ -3,16 +3,19 @@ import { useEffect, useState, useMemo } from 'react';
 import { from, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
+import { AccountInterface } from '../../../../../interfaces/account.interface';
+import { NetworkInterface } from '../../../../../interfaces/network.interface';
 import { getPublicKeyHash } from '../../../../../store/wallet/wallet.utils';
 import { createReadOnlyTezosToolkit } from '../../../../../utils/tezos-toolkit.utils';
-import { ConfirmationProps } from '../../../types';
 
 export interface EstimationInterface extends Pick<Estimate, 'suggestedFeeMutez' | 'gasLimit' | 'storageLimit'> {
   minimalFeePerStorageByteMutez: number;
 }
 
-interface UseEstimationsArgs extends ConfirmationProps {
+interface UseEstimationsArgs {
   transferParams: ParamsWithKind[];
+  sender: AccountInterface;
+  network: NetworkInterface;
 }
 
 export const useTezosEstimations = ({
@@ -46,7 +49,11 @@ export const useTezosEstimations = ({
             })
           )
         ),
-        catchError(() => of([]))
+        catchError(error => {
+          console.log('Error:', error);
+
+          return of([]);
+        })
       )
       .subscribe(value => {
         setIsLoading(false);

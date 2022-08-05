@@ -1,4 +1,5 @@
 import { AccountInterface } from '../interfaces/account.interface';
+import { NetworkInterface } from '../interfaces/network.interface';
 import { TransferParams } from '../interfaces/transfer-params.interface';
 
 export enum ScreensEnum {
@@ -14,14 +15,14 @@ export enum ScreensEnum {
   ConnectToDapps = 'ConnectToDapps',
   Unlock = 'unlock',
   AccountsSelector = 'AccountsSelector',
-  AccountTokens = 'AccountTokens',
   NetworksSelector = 'NetworksSelector',
   EditAccount = 'EditAccount',
-  AddAccount = 'AddAccount'
+  AddAccount = 'AddAccount',
+  EditNetwork = 'EditNetwork',
+  Tokens = 'Tokens'
 }
 
 export type ScreensParamList = {
-  [ScreensEnum.AddNetwork]: undefined;
   [ScreensEnum.AddNewToken]: undefined;
   [ScreensEnum.ImportAccount]: undefined;
   [ScreensEnum.ManageTokens]: undefined;
@@ -35,8 +36,10 @@ export type ScreensParamList = {
   [ScreensEnum.ConnectToDapps]: undefined;
   [ScreensEnum.Unlock]: undefined;
   [ScreensEnum.AccountsSelector]: undefined;
-  [ScreensEnum.AccountTokens]: undefined;
   [ScreensEnum.NetworksSelector]: undefined;
   [ScreensEnum.EditAccount]: { account: AccountInterface };
   [ScreensEnum.AddAccount]: undefined;
+  [ScreensEnum.AddNetwork]: undefined;
+  [ScreensEnum.EditNetwork]: { network: NetworkInterface; isNetworkSelected: boolean };
+  [ScreensEnum.Tokens]: undefined;
 };

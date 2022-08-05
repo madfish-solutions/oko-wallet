@@ -1,6 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
+import { NetworkInterface } from '../../interfaces/network.interface';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { createEntity } from '../utils/entity.utils';
@@ -22,7 +23,10 @@ import {
   setConnectionFromDapp,
   deletePendingConnection,
   setConfirmedDapp,
-  changeConfirmationScreenStatus
+  changeConfirmationScreenStatus,
+  editNetworkAction,
+  removeNetworkAction,
+  sortAccountTokensByVisibility
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -137,10 +141,22 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         }
       };
     })
-    .addCase(changeTokenVisibilityAction, (state, { payload: token }) => {
+    .addCase(sortAccountTokensByVisibility, state => {
+      const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
+      const accountTokens = state.accountsTokens[accountTokensSlug];
+
+      if (Array.isArray(accountTokens)) {
+        const updatedAccountTokens = accountTokens.slice().sort((a, b) => Number(b.isVisible) - Number(a.isVisible));
+
+        return { ...state, accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: updatedAccountTokens } };
+      }
+
+      return state;
+    })
+    .addCase(changeTokenVisibilityAction, (state, { payload: tokenAddress }) => {
       const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
       const updatedAccountTokens = state.accountsTokens[accountTokensSlug].map(accountToken =>
-        accountToken.tokenAddress === token.tokenAddress
+        accountToken.tokenAddress === tokenAddress
           ? { ...accountToken, isVisible: !accountToken.isVisible }
           : accountToken
       );
@@ -165,6 +181,59 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       selectedAccountPublicKeyHash: getPublicKeyHash(selectedAccount, newNetwork.networkType),
       accountsTokens: updateAccountsTokensState(
         { ...state, networks, selectedNetworkRpcUrl: newNetwork.rpcUrl },
+        selectedAccount
+      )
+    };
+  });
+  builder.addCase(editNetworkAction, (state, { payload: { network: editedNetwork, isNetworkSelected } }) => {
+    const prevNetworkType = getSelectedNetworkType(state);
+    const selectedAccount = getSelectedAccount(state, prevNetworkType);
+
+    const networks: NetworkInterface[] = state.networks.map(network => {
+      if (network.rpcUrl === editedNetwork.rpcUrl) {
+        return editedNetwork;
+      }
+
+      return network;
+    });
+
+    return {
+      ...state,
+      networks,
+      selectedNetworkRpcUrl: isNetworkSelected ? editedNetwork.rpcUrl : state.selectedNetworkRpcUrl,
+      selectedAccountPublicKeyHash: getPublicKeyHash(
+        selectedAccount,
+        isNetworkSelected ? editedNetwork.networkType : prevNetworkType
+      ),
+      accountsTokens: updateAccountsTokensState(
+        {
+          ...state,
+          networks,
+          selectedNetworkRpcUrl: isNetworkSelected ? editedNetwork.rpcUrl : state.selectedNetworkRpcUrl
+        },
+        selectedAccount
+      )
+    };
+  });
+  builder.addCase(removeNetworkAction, (state, { payload: { network: editedNetwork, isNetworkSelected } }) => {
+    const prevNetworkType = getSelectedNetworkType(state);
+    const selectedAccount = getSelectedAccount(state, prevNetworkType);
+    const networks = state.networks.filter(network => network.rpcUrl !== editedNetwork.rpcUrl);
+
+    return {
+      ...state,
+      networks,
+      selectedNetworkRpcUrl: isNetworkSelected ? networks[0].rpcUrl : state.selectedNetworkRpcUrl,
+      selectedAccountPublicKeyHash: getPublicKeyHash(
+        selectedAccount,
+        isNetworkSelected ? networks[0].networkType : prevNetworkType
+      ),
+      accountsTokens: updateAccountsTokensState(
+        {
+          ...state,
+          networks,
+          selectedNetworkRpcUrl: isNetworkSelected ? networks[0].rpcUrl : state.selectedNetworkRpcUrl
+        },
         selectedAccount
       )
     };

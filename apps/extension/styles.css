@@ -49,17 +49,10 @@
 }
 
 body {
-  width: 360px;
-  height: 600px;
   margin: auto;
   overflow: hidden;
 }
 
-[class^='css-text-']:not([class*='r-color']), [class^='css-textinput-']:not([class*='r-color']) {
-  color:#F8F8F8
-}
-
 .root-container {
   height: 100vh;
-  margin-top: calc((100vh - 600px)/2)
 }

@@ -12,9 +12,7 @@ export const modalScreenOptions: StackNavigationOptions = {
   presentation: 'modal',
   headerStyle: {
     height: getCustomSize(7),
-    backgroundColor: colors.navGrey1,
-    borderBottomWidth: getCustomSize(0.0625),
-    borderBottomColor: colors.border2
+    backgroundColor: colors.navGrey1
   },
   headerTitleAlign: 'center',
   headerLeft: () => null,
