@@ -60,7 +60,8 @@ export const Navigator: FC = () => {
     }
   }, [isReady]);
 
-  const channel = new BroadcastChannel('YOUR_CHANNEL_NAME');
+  // @TODO: save channel name in .env file
+  const channel = new BroadcastChannel('KlaytnWallet');
 
   // invoke background script when popup is loaded
   window.addEventListener('DOMContentLoaded', () => {
