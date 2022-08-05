@@ -8,17 +8,17 @@ export const styles = StyleSheet.create({
   root: {
     justifyContent: 'space-between',
     borderRadius: getCustomSize(0.5),
-    marginBottom: getCustomSize(0.25),
-    padding: getCustomSize(1)
+    marginBottom: getCustomSize(0.25)
   },
   rootPrimary: {
-    backgroundColor: colors.navGrey1
+    backgroundColor: colors.navGrey1,
+    padding: getCustomSize(1)
   },
   rootSecondary: {
     backgroundColor: 'transparent',
     borderTopWidth: getCustomSize(0.0625),
     borderColor: colors.border2,
-    paddingLeft: 0
+    paddingVertical: getCustomSize(2)
   },
   token: {
     width: 'auto'
@@ -36,6 +36,9 @@ export const styles = StyleSheet.create({
   imageSecondary: {
     width: getCustomSize(4),
     height: getCustomSize(4)
+  },
+  tokenNameContainer: {
+    maxWidth: getCustomSize(16)
   },
   text: {
     color: colors.textGrey1,

@@ -98,7 +98,12 @@ export const Tokens: FC = () => {
   );
 
   return (
-    <ScreenContainer screenTitle="Tokens" navigationType={HeaderSideTypeEnum.AccountBalance} scrollViewWrapper={false}>
+    <ScreenContainer
+      screenTitle="Tokens"
+      navigationType={HeaderSideTypeEnum.AccountBalance}
+      scrollViewWrapper={false}
+      style={styles.screenContainer}
+    >
       <View style={styles.root}>
         <SearchPanel
           onPressAddIcon={onPressAddIcon}
@@ -107,12 +112,15 @@ export const Tokens: FC = () => {
           setSearchValue={setSearchValue}
           onSearchClose={onSearchClose}
         />
-        <Row style={styles.checkboxContainer}>
-          <Icon name={IconNameEnum.EmptySquareCheckbox} />
-          <Text style={styles.checkboxText}>Hide 0 balances</Text>
-        </Row>
+        {accountTokens.length > 0 && (
+          <Row style={styles.checkboxContainer}>
+            <Icon name={IconNameEnum.EmptySquareCheckbox} />
+            <Text style={styles.checkboxText}>Hide 0 balances</Text>
+          </Row>
+        )}
         <FlatList
           data={accountTokens}
+          showsVerticalScrollIndicator={false}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
           ListEmptyComponent={<EmptySearchIcon />}

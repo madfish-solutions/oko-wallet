@@ -33,7 +33,7 @@ export const TokenItem: FC<Props> = ({
   <Row style={[styles.root, themeClasses[theme].root]}>
     <Row style={styles.token}>
       <Image style={[styles.image, themeClasses[theme].image]} source={imageSource} />
-      <View>
+      <View style={styles.tokenNameContainer}>
         <Row>
           <Text style={styles.text}>{symbol}</Text>
           {isGasToken && <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />}

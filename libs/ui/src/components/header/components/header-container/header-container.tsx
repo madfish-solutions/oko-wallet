@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 
-import { Text } from '../../../../components/text/text';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
@@ -16,6 +15,7 @@ import { Icon } from '../../../icon/icon';
 import { IconNameEnum } from '../../../icon/icon-name.enum';
 import { RobotIcon } from '../../../robot-icon/robot-icon';
 import { Row } from '../../../row/row';
+import { Text } from '../../../text/text';
 
 import { styles } from './header-container.styles';
 
