@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { editTokenAction } from '../../../../store/wallet/wallet.actions';
-import { useTokenFieldsRules } from '../../../hooks/use-validate-add-token-fields.hook copy';
+import { useTokenFieldsRules } from '../../../hooks/use-validate-add-token-fields.hook';
 import { TokenContainer } from '../components/token-container/token-container';
 import { TokenFormTypes } from '../types/form-types.interface';
 

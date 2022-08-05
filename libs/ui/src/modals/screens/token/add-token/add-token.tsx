@@ -5,13 +5,14 @@ import React, { FC, useEffect, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
+import { EVM_TOKEN_METADATA_ABI } from '../../../../constants/abi/evm-tokens-metadata-abi';
 import { DEBOUNCE_TIME } from '../../../../constants/defaults';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { addNewTokenAction } from '../../../../store/wallet/wallet.actions';
 import { useAccountAssetsSelector, useSelectedNetworkSelector } from '../../../../store/wallet/wallet.selectors';
 import { getDefaultEvmProvider } from '../../../../utils/get-default-evm-provider.utils';
 import { getTokenSlug } from '../../../../utils/token.utils';
-import { useTokenFieldsRules } from '../../../hooks/use-validate-add-token-fields.hook copy';
+import { useTokenFieldsRules } from '../../../hooks/use-validate-add-token-fields.hook';
 import { TokenContainer } from '../components/token-container/token-container';
 import { TokenFormTypes } from '../types/form-types.interface';
 
@@ -70,16 +71,10 @@ export const AddNewToken: FC = () => {
   // get token metadata
   const getTokenMetadata = useRef(
     debounce(async (address: string) => {
-      const abi = [
-        'function name() view returns (string name)',
-        'function symbol() view returns (string symbol)',
-        'function decimals() view returns (uint8 decimals)'
-      ];
-
       if (isNotEmptyString(address)) {
         const provider = getDefaultEvmProvider(rpcUrl);
 
-        const contract = new ethers.Contract(address, abi, provider);
+        const contract = new ethers.Contract(address, EVM_TOKEN_METADATA_ABI, provider);
         const [name, symbol, decimals] = await Promise.all([
           contract.name().catch(() => {
             setTokenName('');
@@ -88,7 +83,7 @@ export const AddNewToken: FC = () => {
             resetField('symbol');
           }),
           contract.decimals().catch(() => {
-            resetField('decimals');
+            setValue('decimals', '0');
           })
         ]);
 

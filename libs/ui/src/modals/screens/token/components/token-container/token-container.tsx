@@ -77,7 +77,7 @@ export const TokenContainer: FC<Props> = ({
             <TextInput
               field={field}
               label="Token ID"
-              placeholder="address_id"
+              placeholder="0"
               prompt="What is Token ID?"
               handlePrompt={handlePromptNavigate}
               required={false}
