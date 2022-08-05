@@ -28,6 +28,7 @@ browser.runtime.onConnect.addListener(async myPort => {
   channel.onmessage = bcmessage => {
     if (bcmessage.data?.msg === 'background' && messageData !== undefined) {
       channel.postMessage({ data: messageData, origin });
+      messageData = undefined;
     }
   };
 });

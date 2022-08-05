@@ -156,3 +156,9 @@ export const usePendingDappConnectionSelector = () => {
 
   return useMemo(() => dappInfo, [dappInfo]);
 };
+
+export const useIsConfirmationScreenSelector = () => {
+  const isConfirmationScren = useSelector<WalletRootState, boolean>(({ wallet }) => wallet.isConfirmationPage);
+
+  return useMemo(() => isConfirmationScren, [isConfirmationScren]);
+};

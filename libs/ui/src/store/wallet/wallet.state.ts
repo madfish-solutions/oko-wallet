@@ -23,6 +23,7 @@ export interface WalletState {
   transactions: Record<NetworkRpcUrWithPublicKeyHash, Transaction[]>;
   pendingEVMDappConnection: Record<string, DappConnection>;
   confirmedEVMDappConnection: Record<string, DappConnection>;
+  isConfirmationPage: boolean;
 }
 
 export const walletInitialState: WalletState = {
@@ -34,5 +35,6 @@ export const walletInitialState: WalletState = {
   accountsTokens: {},
   transactions: {},
   pendingEVMDappConnection: {},
-  confirmedEVMDappConnection: {}
+  confirmedEVMDappConnection: {},
+  isConfirmationPage: false
 };

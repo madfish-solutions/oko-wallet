@@ -14,7 +14,7 @@ import { AccountTokens } from '../../screens/account-tokens/account-tokens';
 import { AddNetwork } from '../../screens/add-network/add-network';
 import { AddNewToken } from '../../screens/add-new-token/add-new-token';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
-import { ConfirmationDapp } from '../../screens/dapp-confirmation/dapp-confirmation';
+import { DappConfirmation } from '../../screens/dapp-confirmation/dapp-confirmation';
 import { ImportAccount } from '../../screens/import-account/import-account';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
@@ -23,8 +23,8 @@ import { Send } from '../../screens/send/send';
 import { Settings } from '../../screens/settings/settings';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
-import { setConnectionFromDapp } from '../../store/wallet/wallet.actions';
-import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
+import { changeConfirmationScreenStatus, setConnectionFromDapp } from '../../store/wallet/wallet.actions';
+import { useIsAuthorisedSelector, useIsConfirmationScreenSelector } from '../../store/wallet/wallet.selectors';
 import { getStoredValue, setStoredValue } from '../../utils/store.util';
 
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
@@ -39,7 +39,7 @@ export const Navigator: FC = () => {
   const { isLocked } = useUnlock();
   const [isReady, setIsReady] = useState(false);
   const [initialState, setInitialState] = useState<InitialState>();
-  const [isConfirmationScreen, setIsConfimationScreen] = useState(false);
+  const isConfirmationScreen = useIsConfirmationScreenSelector();
   const [dappName, setDappName] = useState('');
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export const Navigator: FC = () => {
 
   channel.onmessage = msg => {
     dispatch(setConnectionFromDapp({ chainId: '', dappName: msg.data?.origin, data: msg.data?.data }));
-    setIsConfimationScreen(true);
+    dispatch(changeConfirmationScreenStatus(true));
     setDappName(msg.data?.origin);
   };
 
@@ -135,7 +135,7 @@ export const Navigator: FC = () => {
         )}
       </Stack.Navigator>
 
-      {isConfirmationScreen && isAuthorised && <ConfirmationDapp dappName={dappName} />}
+      {isConfirmationScreen && isAuthorised && <DappConfirmation dappName={dappName} />}
 
       {isLocked && isAuthorised && <UnlockApp />}
     </NavigationContainer>

@@ -19,7 +19,10 @@ import {
   loadAccountTokenBalanceAction,
   updateTransactionAction,
   addTransactionAction,
-  setConnectionFromDapp
+  setConnectionFromDapp,
+  deletePendingConnection,
+  setConfirmedDapp,
+  changeConfirmationScreenStatus
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -207,5 +210,21 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       ...state.pendingEVMDappConnection,
       [dappName]: { chainId, dappName, data }
     }
+  }));
+  builder.addCase(deletePendingConnection, (state, { payload }) => {
+    delete state.pendingEVMDappConnection[payload];
+
+    return state;
+  });
+  builder.addCase(setConfirmedDapp, (state, { payload: { dappName, chainId, data } }) => ({
+    ...state,
+    confirmedEVMDappConnection: {
+      ...state.confirmedEVMDappConnection,
+      [dappName]: { chainId, dappName, data }
+    }
+  }));
+  builder.addCase(changeConfirmationScreenStatus, (state, { payload }) => ({
+    ...state,
+    isConfirmationPage: payload
   }));
 });

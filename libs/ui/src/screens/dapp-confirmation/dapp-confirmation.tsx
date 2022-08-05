@@ -1,9 +1,15 @@
 import React, { FC } from 'react';
 import { View, Text } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { browser } from 'webextension-polyfill-ts';
 
 import { Button } from '../../components/button/button';
 import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
+import {
+  changeConfirmationScreenStatus,
+  deletePendingConnection,
+  setConfirmedDapp
+} from '../../store/wallet/wallet.actions';
 import {
   usePendingDappConnectionSelector,
   useSelectedAccountPublicKeyHashSelector
@@ -15,7 +21,8 @@ interface Props {
 
 const CLOSE_DELAY = 1000;
 
-export const ConfirmationDapp: FC<Props> = ({ dappName }) => {
+export const DappConfirmation: FC<Props> = ({ dappName }) => {
+  const dispatch = useDispatch();
   const selectedAcc = useSelectedAccountPublicKeyHashSelector();
   const dappInfo = usePendingDappConnectionSelector();
 
@@ -26,6 +33,9 @@ export const ConfirmationDapp: FC<Props> = ({ dappName }) => {
         setTimeout(() => {
           window.close();
         }, CLOSE_DELAY);
+        dispatch(changeConfirmationScreenStatus(false));
+        dispatch(deletePendingConnection(dappName));
+        dispatch(setConfirmedDapp(dappInfo[dappName]));
       }
     });
   };
@@ -35,7 +45,7 @@ export const ConfirmationDapp: FC<Props> = ({ dappName }) => {
       <View>
         <Text>{JSON.stringify(dappInfo)}</Text>
         <Button
-          title="send"
+          title="confirm"
           onPress={() =>
             sendMesg({
               data: { data: { ...dappInfo[dappName].data, result: [selectedAcc] }, name: 'metamask-provider' },
