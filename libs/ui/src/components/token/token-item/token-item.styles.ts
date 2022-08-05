@@ -37,6 +37,9 @@ export const styles = StyleSheet.create({
     width: getCustomSize(4),
     height: getCustomSize(4)
   },
+  tokenNameContainer: {
+    maxWidth: getCustomSize(16)
+  },
   text: {
     color: colors.textGrey1,
     ...typography.numbersIBMPlexSansMediumUppercase13
