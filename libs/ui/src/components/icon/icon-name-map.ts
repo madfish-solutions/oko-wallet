@@ -39,7 +39,6 @@ import Slider from './assets/slider.svg';
 import StakeIcon from './assets/stake.svg';
 import Success from './assets/success.svg';
 import SwapIcon from './assets/swap.svg';
-import TokenFallback from './assets/token-fallback.svg';
 import Tooltip from './assets/tooltip.svg';
 import TopupIcon from './assets/topup.svg';
 import Trash from './assets/trash.svg';
@@ -98,7 +97,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Tooltip]: Tooltip,
   [IconNameEnum.Trash]: Trash,
   [IconNameEnum.Clear]: Clear,
-  [IconNameEnum.TokenFallback]: TokenFallback,
   [IconNameEnum.Success]: Success,
   [IconNameEnum.Warning]: Warning,
   [IconNameEnum.Error]: Error

@@ -42,6 +42,8 @@ export const Switch: FC<Props> = ({ isActive, onPress, theme = SwitchThemesEnum.
       animation(TURN_ON);
       onPress?.();
     }
+
+    hapticFeedback();
   };
 
   const animation = (toValue = TURN_OFF, duration = 200) =>
@@ -52,12 +54,9 @@ export const Switch: FC<Props> = ({ isActive, onPress, theme = SwitchThemesEnum.
       easing: Easing.linear
     }).start();
 
-  const onPressOut = () => hapticFeedback();
-
   return (
     <Pressable
       onPress={switchKnob}
-      onPressOut={onPressOut}
       disabled={disabled}
       style={[styles.root, themesStyles[theme], isActive && activeStyles[theme], disabled && styles.disabled, style]}
     >
