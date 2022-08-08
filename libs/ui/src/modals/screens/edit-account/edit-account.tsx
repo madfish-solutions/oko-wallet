@@ -66,16 +66,8 @@ export const EditAccount: FC = () => {
           control={control}
           name="name"
           rules={rules}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
-            <TextInput
-              ref={ref}
-              label="Account name"
-              placeholder={account.name}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              error={errors?.name?.message}
-            />
+          render={({ field }) => (
+            <TextInput field={field} label="Account name" placeholder={account.name} error={errors?.name?.message} />
           )}
         />
       </View>

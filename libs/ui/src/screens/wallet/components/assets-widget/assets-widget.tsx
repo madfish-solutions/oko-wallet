@@ -1,10 +1,13 @@
 import React, { FC, useMemo } from 'react';
 import { View } from 'react-native';
 
-import { Button } from '../../../../components/button/button';
+import { ButtonWithIcon } from '../../../../components/button-with-icon/button-with-icon';
+import { ButtonWithIconSizeEnum, ButtonWithIconThemesEnum } from '../../../../components/button-with-icon/enums';
 import { Divider } from '../../../../components/divider/divider';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';
+import { AccountToken } from '../../../../components/token/account-token/account-token';
+import { GasToken } from '../../../../components/token/gas-token/gas-token';
 import { WidgetContainer } from '../../../../components/widget-container/widget-container';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
@@ -12,8 +15,6 @@ import { useVisibleAccountTokensSelector } from '../../../../store/wallet/wallet
 import { getTokenSlug } from '../../../../utils/token.utils';
 
 import { styles } from './assets-widget.styles';
-import { AccountToken } from './components/account-token/account-token';
-import { GasToken } from './components/gas-token/gas-token';
 import { VISIBLE_TOKENS_NUMBER } from './constants/assets-number';
 
 export const AssetsWidget: FC = () => {
@@ -21,24 +22,45 @@ export const AssetsWidget: FC = () => {
   const accountTokens = useVisibleAccountTokensSelector();
   const visibleAccountTokens = useMemo(() => accountTokens.slice(0, VISIBLE_TOKENS_NUMBER), [accountTokens]);
 
-  const navigateToAccountTokens = () => navigate(ScreensEnum.AccountTokens);
+  const navigateToTokens = () => navigate(ScreensEnum.Tokens);
 
   return (
-    <WidgetContainer style={styles.widgetStyles} iconName={IconNameEnum.Assets} title="Assets">
+    <WidgetContainer style={styles.widgetStyles} iconName={IconNameEnum.Assets} title="Tokens">
       <View style={styles.root}>
         <Row style={styles.upperButtons}>
-          <Button title="Swap" leftIcon={IconNameEnum.Swap} />
+          <ButtonWithIcon
+            title="Swap"
+            size={ButtonWithIconSizeEnum.Medium}
+            theme={ButtonWithIconThemesEnum.Tertiary}
+            leftIcon={IconNameEnum.Swap}
+          />
           <Divider />
-          <Button title="Top up" rightIcon={IconNameEnum.Topup} />
+          <ButtonWithIcon
+            title="Top up"
+            size={ButtonWithIconSizeEnum.Medium}
+            theme={ButtonWithIconThemesEnum.Tertiary}
+            rightIcon={IconNameEnum.Topup}
+          />
         </Row>
         <GasToken />
         {visibleAccountTokens.map(token => (
           <AccountToken key={getTokenSlug(token)} token={token} />
         ))}
         <Row>
-          <Button title="Activity" leftIcon={IconNameEnum.Activity} />
+          <ButtonWithIcon
+            title="Activity"
+            size={ButtonWithIconSizeEnum.Medium}
+            theme={ButtonWithIconThemesEnum.Tertiary}
+            leftIcon={IconNameEnum.Activity}
+          />
           <Divider />
-          <Button title="View All" rightIcon={IconNameEnum.ArrowRight} onPress={navigateToAccountTokens} />
+          <ButtonWithIcon
+            title="View All"
+            size={ButtonWithIconSizeEnum.Medium}
+            theme={ButtonWithIconThemesEnum.Tertiary}
+            rightIcon={IconNameEnum.ArrowRight}
+            onPress={navigateToTokens}
+          />
         </Row>
       </View>
     </WidgetContainer>

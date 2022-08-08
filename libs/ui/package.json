@@ -6,9 +6,11 @@
   "main": "src/index.ts",
   "scripts": {
     "ts": "tsc --pretty",
-    "test": "./node_modules/.bin/jest"
+    "test": "./node_modules/.bin/jest",
+    "generate-contract-types": "typechain --target=ethers-v5 'src/constants/abi/*.json' --out-dir 'src/contract-types'"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@dicebear/avatars": "^4.10.2",
     "@dicebear/avatars-bottts-sprites": "^4.10.2",
     "@react-native-async-storage/async-storage": "^1.17.3",
@@ -21,7 +23,9 @@
     "@taquito/signer": "^12.1.1",
     "@taquito/taquito": "^12.1.1",
     "@taquito/utils": "^12.1.0",
+    "@typechain/ethers-v5": "^10.1.0",
     "@types/jest": "^27.4.1",
+    "@types/lodash": "^4.14.182",
     "@types/react": "^17.0.44",
     "@types/react-native": "^0.67.6",
     "@types/react-test-renderer": "^17.0.2",
@@ -34,6 +38,7 @@
     "ed25519-hd-key": "^1.2.0",
     "ethers": "^5.6.4",
     "jest": "^27.5.1",
+    "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-hook-form": "^7.33.1",
     "react-native": "^0.68.1",
@@ -47,6 +52,7 @@
     "react-native-sha256": "^1.4.7",
     "react-native-svg": "^12.3.0",
     "react-native-themis": "^0.14.4",
+    "react-native-toast-notifications": "^3.3.1",
     "react-redux": "^8.0.1",
     "react-test-renderer": "^17.0.2",
     "redux-flipper": "^2.0.1",
@@ -55,6 +61,7 @@
     "rxjs": "^7.5.5",
     "ts-action": "^11.0.0",
     "ts-action-operators": "^9.1.2",
+    "typechain": "^8.1.0",
     "wasm-themis": "^0.14.5",
     "webextension-polyfill-ts": "^0.26.0"
   },

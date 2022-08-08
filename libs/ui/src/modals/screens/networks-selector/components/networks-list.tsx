@@ -54,8 +54,8 @@ export const NetworksList = () => {
   );
 
   const navigateToAddNetwork = () => navigate(ScreensEnum.AddNetwork);
-
-  const edit = () => null;
+  const navigateToEditNetwork = (selectedNetwork: NetworkInterface, isNetworkSelected: boolean) =>
+    navigate(ScreensEnum.EditNetwork, { network: selectedNetwork, isNetworkSelected });
 
   const keyExtractor = (item: NetworkInterface) => item.rpcUrl;
 
@@ -70,7 +70,7 @@ export const NetworksList = () => {
         balanceTitle="Gas balance"
         balance={<ModalGasToken balance={item.gasTokenBalance.data} metadata={item.gasTokenMetadata} />}
         onSelectItem={() => handleChangeNetwork(item)}
-        onEdit={edit}
+        onEdit={() => navigateToEditNetwork(item, isNetworkSelected)}
       />
     );
   };

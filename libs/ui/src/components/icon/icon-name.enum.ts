@@ -28,7 +28,6 @@ export enum IconNameEnum {
   Swap = 'Swap',
   Topup = 'Topup',
   X = 'X',
-  // networks
   Klaytn = 'Klaytn',
   Ethereum = 'Ethereum',
   BinanceSmartChain = 'BinanceSmartChain',
@@ -38,9 +37,14 @@ export enum IconNameEnum {
   Share = 'Share',
   WidgetSettings = 'WidgetSettings',
   SelectedCheckbox = 'SelectedCheckbox',
+  SelectedSquareCheckbox = 'SelectedSquareCheckbox',
   EmptyCheckbox = 'EmptyCheckbox',
-  // to dell
-  BigRobot = 'BigRobot',
-  SmallRobot = 'SmallRobot',
-  EmptySearch = 'EmptySearch'
+  EmptySquareCheckbox = 'EmptySquareCheckbox',
+  EmptySearch = 'EmptySearch',
+  Tooltip = 'Tooltip',
+  Trash = 'Trash',
+  Clear = 'Clear',
+  Success = 'Success',
+  Warning = 'Warning',
+  Error = 'Error'
 }

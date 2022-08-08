@@ -1,33 +1,29 @@
 import React, { FC } from 'react';
-import { Pressable, PressableProps, Text, View } from 'react-native';
+import { Pressable, PressableProps, View } from 'react-native';
 
-import { ViewStyleProps } from '../../interfaces/style.interface';
-import { Icon } from '../icon/icon';
-import { IconNameEnum } from '../icon/icon-name.enum';
+import { ViewStyleProps, TextStyleProps } from '../../interfaces/style.interface';
+import { Text } from '../text/text';
 
 import { styles } from './button.styles';
 import { sizeClasses, themeClasses } from './constants';
+import { ButtonSizeEnum, ButtonThemesEnum } from './enums';
 
 interface Props extends PressableProps {
   title: string;
-  theme?: keyof typeof themeClasses;
-  size?: keyof typeof sizeClasses;
-  rightIcon?: IconNameEnum;
-  leftIcon?: IconNameEnum;
-  iconSize?: number;
+  theme?: ButtonThemesEnum;
+  size?: ButtonSizeEnum;
   style?: ViewStyleProps;
+  styleText?: TextStyleProps;
   disabled?: boolean;
 }
 
 export const Button: FC<Props> = ({
   title,
-  theme = 'primary',
-  size = 'extraLarge',
-  rightIcon,
-  leftIcon,
-  iconSize,
+  theme = ButtonThemesEnum.Primary,
+  size = ButtonSizeEnum.Large,
   style,
   disabled = false,
+  styleText,
   ...restProps
 }) => (
   <Pressable
@@ -36,9 +32,7 @@ export const Button: FC<Props> = ({
     style={[styles.root, themeClasses[theme].button, sizeClasses[size], disabled && styles.disabledButton, style]}
   >
     <View style={styles.wrapper}>
-      {leftIcon && <Icon name={leftIcon} size={iconSize} iconStyle={styles.leftIcon} />}
-      <Text style={[styles.text, themeClasses[theme].text, disabled && styles.disabledText]}>{title}</Text>
-      {rightIcon && <Icon name={rightIcon} size={iconSize} iconStyle={styles.rightIcon} />}
+      <Text style={[styles.text, themeClasses[theme].text, disabled && styles.disabledText, styleText]}>{title}</Text>
     </View>
   </Pressable>
 );

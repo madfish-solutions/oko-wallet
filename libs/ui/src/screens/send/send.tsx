@@ -1,30 +1,82 @@
-import React, { FC, useState } from 'react';
-import { TextInput, Pressable, Text } from 'react-native';
+import React, { FC } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
+import { Button } from '../../components/button/button';
+import { ButtonThemesEnum } from '../../components/button/enums';
 import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
+import { TextInput } from '../../components/text-input/text-input';
+import { Asset } from '../../interfaces/asset.interface';
 import { sendAssetAction } from '../../store/wallet/wallet.actions';
-import { useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
+
+import { styles } from './send.styles';
+import { FormTypes } from './types';
+
+const defaultValues: FormTypes = {
+  tokenAddress: '',
+  tokenId: '',
+  amount: '',
+  receiverPublicKeyHash: '',
+  decimals: ''
+};
 
 export const Send: FC = () => {
   const dispatch = useDispatch();
-  const {
-    gasTokenMetadata: { name }
-  } = useSelectedNetworkSelector();
-  const [amount, setAmount] = useState('');
-  const [receiverPublicKeyHash, setReceiverPublicKeyHash] = useState('');
 
-  const onSend = () => dispatch(sendAssetAction.submit({ amount, receiverPublicKeyHash }));
+  const { control, handleSubmit } = useForm({
+    mode: 'onBlur',
+    defaultValues
+  });
+
+  const onSubmit = ({ decimals, tokenAddress, tokenId, amount, receiverPublicKeyHash }: FormTypes) => {
+    const asset: Asset = {
+      decimals: Number(decimals.trim()),
+      tokenAddress: tokenAddress.trim(),
+      tokenId: tokenId.trim()
+    };
+
+    dispatch(sendAssetAction.submit({ asset, amount, receiverPublicKeyHash }));
+  };
 
   return (
-    <ScreenContainer screenTitle="Send" navigationType={HeaderSideTypeEnum.TokenInfo}>
-      <Text>You can send Gas Token: {name}</Text>
-      <TextInput placeholder="Amount" value={amount} onChangeText={setAmount} />
-      <TextInput placeholder="Recipient" value={receiverPublicKeyHash} onChangeText={setReceiverPublicKeyHash} />
-      <Pressable onPress={onSend}>
-        <Text>Send</Text>
-      </Pressable>
+    <ScreenContainer screenTitle="Send">
+      <View style={styles.inputContainer}>
+        <Controller
+          control={control}
+          name="receiverPublicKeyHash"
+          render={({ field }) => <TextInput field={field} placeholder="Recipient" />}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <Controller
+          control={control}
+          name="tokenAddress"
+          render={({ field }) => <TextInput field={field} placeholder="Token Address (or leave empty if GasToken)" />}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <Controller
+          control={control}
+          name="tokenId"
+          render={({ field }) => <TextInput field={field} placeholder="Token Id (or leave empty)" />}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <Controller
+          control={control}
+          name="amount"
+          render={({ field }) => <TextInput field={field} placeholder="Amount (or leave empty for EvmNFT)" />}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <Controller
+          control={control}
+          name="decimals"
+          render={({ field }) => <TextInput field={field} placeholder="Decimals (or leave empty for EvmNFT)" />}
+        />
+      </View>
+      <Button onPress={handleSubmit(onSubmit)} theme={ButtonThemesEnum.Secondary} title="Send" />
     </ScreenContainer>
   );
 };

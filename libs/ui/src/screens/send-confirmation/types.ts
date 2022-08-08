@@ -1,7 +1,7 @@
-import { AccountInterface } from '../../interfaces/account.interface';
-import { NetworkInterface } from '../../interfaces/network.interface';
+import { Asset } from '../../interfaces/asset.interface';
 
-export interface ConfirmationProps {
-  network: NetworkInterface;
-  sender: AccountInterface;
+export interface EvmTransferParams {
+  receiverPublicKeyHash: string;
+  asset: Asset;
+  value: string;
 }
