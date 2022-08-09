@@ -1,4 +1,3 @@
-import { useNavigationState } from '@react-navigation/native';
 import { isString } from '@rnw-community/shared';
 import React, { FC, useEffect } from 'react';
 import { View } from 'react-native';
@@ -25,17 +24,16 @@ interface Props {
 
 export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = false, theme }) => {
   const dispatch = useDispatch();
-  const routeIndex = useNavigationState(state => state.index);
   const { decimals, thumbnailUri, balance, symbol, name } = token;
 
   const imageSource = getImageSource(thumbnailUri);
   const formattedBalance = formatUnits(balance.data, decimals);
 
   useEffect(() => {
-    if (loadBalance && routeIndex === 1) {
+    if (loadBalance) {
       dispatch(loadAccountTokenBalanceAction.submit({ token }));
     }
-  }, [routeIndex]);
+  }, []);
 
   const handleTokenVisibility = () => dispatch(changeTokenVisibilityAction(token));
 
