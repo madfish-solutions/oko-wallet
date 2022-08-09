@@ -138,6 +138,7 @@ export const TokenContainer: FC<Props> = ({
                 <Token
                   symbol={isNotEmptyString(field.value) && isDefined(field.value) && symbol ? symbol : 'TOKEN'}
                   uri={field.value}
+                  forceHideTokenName
                 />
               </Row>
             </View>

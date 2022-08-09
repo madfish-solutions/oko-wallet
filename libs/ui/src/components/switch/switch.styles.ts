@@ -21,9 +21,9 @@ export const styles = StyleSheet.create({
   },
   knob: {
     position: 'absolute',
-    top: 2,
-    left: 2,
-    bottom: 2,
+    top: getCustomSize(0.25),
+    left: getCustomSize(0.25),
+    bottom: getCustomSize(0.25),
     width: '50%',
     borderRadius: getCustomSize(0.75),
     backgroundColor: colors.navGrey1

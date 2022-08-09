@@ -47,7 +47,7 @@ export const ManageTokens: FC = () => {
           key={getTokenSlug(token.tokenAddress, token.tokenId)}
           style={[styles.token, i !== accountTokens.length - 1 && styles.borderBottom]}
         >
-          <Token uri={token.thumbnailUri} symbol={token.symbol} name={token.name} forceNameVisibility />
+          <Token uri={token.thumbnailUri} symbol={token.symbol} name={token.name} />
           <Row>
             <TouchableIcon
               onPress={() => navigateToEditTokenScreen(token)}

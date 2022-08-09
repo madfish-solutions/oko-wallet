@@ -14,7 +14,7 @@ const themesStyles = {
   [SwitchThemesEnum.Secondary]: styles.secondary
 };
 
-const activeStyles: Partial<{ [key in SwitchThemesEnum]: any }> = {
+const activeStyles = {
   [SwitchThemesEnum.Primary]: styles.activePrimary
 };
 
@@ -58,7 +58,13 @@ export const Switch: FC<Props> = ({ isActive, onPress, theme = SwitchThemesEnum.
     <Pressable
       onPress={switchKnob}
       disabled={disabled}
-      style={[styles.root, themesStyles[theme], isActive && activeStyles[theme], disabled && styles.disabled, style]}
+      style={[
+        styles.root,
+        themesStyles[theme],
+        isActive && activeStyles[theme as SwitchThemesEnum.Primary],
+        disabled && styles.disabled,
+        style
+      ]}
     >
       <Animated.View
         style={[styles.knob, { transform: [{ translateX: knobPosition }] }, disabled && styles.disabledKnob]}

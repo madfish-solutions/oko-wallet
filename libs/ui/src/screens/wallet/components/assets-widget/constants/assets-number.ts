@@ -1,1 +1,1 @@
-export const VISIBLE_TOKENS_NUMBER = 2;
+export const VISIBLE_TOKENS_NUMBER = 10;

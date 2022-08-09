@@ -1,4 +1,4 @@
-import { isDefined, isNotEmptyString } from '@rnw-community/shared';
+import { isNotEmptyString } from '@rnw-community/shared';
 import { Observable } from 'rxjs';
 
 import { NetworkTypeEnum } from '../enums/network-type.enum';
@@ -40,6 +40,6 @@ export const getTokenBalance$ = (
 };
 
 export const getTokenSlug = (tokenAddress: string, tokenId?: string | undefined) =>
-  `${tokenAddress}_${isNotEmptyString(tokenId) && isDefined(tokenId) ? tokenId : '0'}`;
+  `${tokenAddress}_${isNotEmptyString(tokenId) ? tokenId : '0'}`;
 
 export const isCollectible = (asset: Token) => asset.artifactUri !== undefined && asset.artifactUri !== null;

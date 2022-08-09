@@ -12,39 +12,39 @@ import { SearchPanel } from '../../components/search-panel/search-panel';
 import { AccountToken } from '../../components/token/account-token/account-token';
 import { GasToken } from '../../components/token/gas-token/gas-token';
 import { TokenItemThemesEnum } from '../../components/token/token-item/enums';
-import { EMPTY_STRING } from '../../constants/defaults';
-import { TokenOrGasToken } from '../../interfaces/token.interface';
+import { EMPTY_STRING, GAS_TOKEN_ADDRESS } from '../../constants/defaults';
+import { ScreensEnum } from '../../enums/sreens.enum';
+import { useNavigation } from '../../hooks/use-navigation.hook';
+import { Token } from '../../interfaces/token.interface';
 import { sortAccountTokensByVisibility } from '../../store/wallet/wallet.actions';
 import {
   useAccountTokensSelector,
   useSelectedNetworkSelector,
   useVisibleAccountTokensSelector
 } from '../../store/wallet/wallet.selectors';
+import { getTokenSlug } from '../../utils/token.utils';
 
 import { styles } from './tokens.styles';
 import { filterAccountTokensByValue } from './utils/filter-account-tokens-by-value';
 import { getListOfTokensAddresses } from './utils/get-list-of-tokens-adresses.util';
 import { showAddHideButton } from './utils/show-add-hide-button.util';
 
-const keyExtractor = ({ name, decimals, symbol }: TokenOrGasToken) => `${name}_${decimals}_${symbol}`;
+const keyExtractor = ({ tokenAddress, tokenId }: Token) => getTokenSlug(tokenAddress, tokenId);
 
 export const Tokens: FC = () => {
-  const {
-    gasTokenMetadata,
-    gasTokenBalance: { data: balance },
-    rpcUrl
-  } = useSelectedNetworkSelector();
+  const { gasTokenMetadata, gasTokenBalance, rpcUrl } = useSelectedNetworkSelector();
   const dispatch = useDispatch();
+  const { navigate } = useNavigation();
   const allAccountTokens = useAccountTokensSelector();
   const visibleAccountTokens = useVisibleAccountTokensSelector();
 
-  const gasToken = useMemo(() => ({ ...gasTokenMetadata, balance }), [rpcUrl]);
-  const allAccountTokensWithGasToken: TokenOrGasToken[] = useMemo(
-    () => [gasToken, ...allAccountTokens],
+  const gasToken = useMemo(() => ({ ...gasTokenMetadata, balance: gasTokenBalance }), [rpcUrl]);
+  const allAccountTokensWithGasToken: Token[] = useMemo(
+    () => [{ ...gasToken, tokenAddress: GAS_TOKEN_ADDRESS, isVisible: true }, ...allAccountTokens],
     [allAccountTokens, gasToken]
   );
-  const visibleAccountTokensWithGasToken: TokenOrGasToken[] = useMemo(
-    () => [gasToken, ...visibleAccountTokens],
+  const visibleAccountTokensWithGasToken: Token[] = useMemo(
+    () => [{ ...gasToken, tokenAddress: GAS_TOKEN_ADDRESS, isVisible: true }, ...visibleAccountTokens],
     [visibleAccountTokens, gasToken]
   );
 
@@ -59,8 +59,8 @@ export const Tokens: FC = () => {
     return visibleAccountTokensWithGasToken;
   }, [searchValue, allAccountTokens]);
 
-  const onPressAddIcon = () => null;
-  const onPressEditIcon = () => null;
+  const navigateToAddNewToken = () => navigate(ScreensEnum.AddNewToken);
+  const navigateToManageTokens = () => navigate(ScreensEnum.ManageTokens);
   const onPressActivityIcon = () => null;
 
   const onSearchClose = useCallback(() => {
@@ -78,21 +78,21 @@ export const Tokens: FC = () => {
   }, []);
 
   const renderItem = useCallback(
-    ({ item: token }: ListRenderItemInfo<TokenOrGasToken>) => {
-      const isToken = 'tokenAddress' in token;
+    ({ item: token }: ListRenderItemInfo<Token>) => {
+      const isGasToken = token.tokenAddress === 'gas_token_address';
 
-      if (isToken) {
-        return (
-          <AccountToken
-            token={token}
-            loadBalance={!searchValue}
-            showButton={showAddHideButton(token, tokensAddresses, searchValue)}
-            theme={TokenItemThemesEnum.Secondary}
-          />
-        );
+      if (isGasToken) {
+        return <GasToken searchValue={searchValue} theme={TokenItemThemesEnum.Secondary} loadBalance={!searchValue} />;
       }
 
-      return <GasToken searchValue={searchValue} theme={TokenItemThemesEnum.Secondary} loadBalance={!searchValue} />;
+      return (
+        <AccountToken
+          token={token}
+          loadBalance={!searchValue}
+          showButton={showAddHideButton(token, tokensAddresses, searchValue)}
+          theme={TokenItemThemesEnum.Secondary}
+        />
+      );
     },
     [tokensAddresses, searchValue]
   );
@@ -101,8 +101,8 @@ export const Tokens: FC = () => {
     <ScreenContainer screenTitle="Tokens" navigationType={HeaderSideTypeEnum.AccountBalance} scrollViewWrapper={false}>
       <View style={styles.root}>
         <SearchPanel
-          onPressAddIcon={onPressAddIcon}
-          onPressEditIcon={onPressEditIcon}
+          onPressAddIcon={navigateToAddNewToken}
+          onPressEditIcon={navigateToManageTokens}
           onPressActivityIcon={onPressActivityIcon}
           setSearchValue={setSearchValue}
           onSearchClose={onSearchClose}

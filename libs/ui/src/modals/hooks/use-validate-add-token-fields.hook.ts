@@ -3,24 +3,34 @@ import { isNotEmptyString } from '@rnw-community/shared';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { useSelectedNetworkTypeSelector } from '../../store/wallet/wallet.selectors';
 import { isEvmAddressValid } from '../../utils/is-evm-address-valid.util';
-import { isValidAddress } from '../../utils/is-tezos-address-valid.util';
+import { isTezosAddressValid } from '../../utils/is-tezos-address-valid.util';
 
 export const useTokenFieldsRules = () => {
   const network = useSelectedNetworkTypeSelector();
 
   const checkAddressValidation = (currentValue: string) => {
-    if (network === NetworkTypeEnum.EVM) {
+    const checkEvmAddress = () => {
       if (!currentValue.startsWith('0x')) {
         return 'Only 0x... contract address allowed';
-      } else if (!isEvmAddressValid(currentValue)) {
+      }
+      if (!isEvmAddressValid(currentValue)) {
         return 'Address is not valid for EVM network';
       }
-    } else if (network === NetworkTypeEnum.Tezos) {
+    };
+    const checkTezosAddress = () => {
       if (!currentValue.startsWith('KT')) {
         return 'Only KT... contract address allowed';
-      } else if (!isValidAddress(currentValue)) {
+      }
+      if (!isTezosAddressValid(currentValue)) {
         return 'Address is not valid for Tezos network';
       }
+    };
+
+    switch (network) {
+      case NetworkTypeEnum.Tezos:
+        return checkTezosAddress();
+      default:
+        return checkEvmAddress();
     }
   };
 

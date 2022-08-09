@@ -89,7 +89,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
       const currentToken = state.accountsTokens[accountTokensSlug].find(tk => tk.tokenAddress === token.tokenAddress);
 
-      return updateAccountTokenState(state, token, () => ({ ...token, isVisible: currentToken?.isVisible ?? true }));
+      return updateAccountTokenState(state, token, () => ({ ...currentToken, balance: token.balance }));
     })
     .addCase(loadAccountTokenBalanceAction.fail, (state, { payload: { token, error } }) =>
       updateAccountTokenState(state, token, accountToken => ({
