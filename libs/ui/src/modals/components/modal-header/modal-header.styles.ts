@@ -10,11 +10,11 @@ export const styles = StyleSheet.create({
   },
   name: {
     ...typography.bodyInterSemiBold15,
-    color: colors.textGrey1
+    color: colors.textGrey1,
+    marginBottom: getCustomSize(0.5)
   },
   balanceTitle: {
     ...typography.numbersIBMPlexSansRegular11,
-    color: colors.textGrey2,
-    marginBottom: getCustomSize(0.25)
+    color: colors.textGrey2
   }
 });
