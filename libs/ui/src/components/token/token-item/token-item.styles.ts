@@ -7,11 +7,11 @@ import { typography } from '../../../styles/typography';
 export const styles = StyleSheet.create({
   root: {
     justifyContent: 'space-between',
-    borderRadius: getCustomSize(0.5),
     marginBottom: getCustomSize(0.25)
   },
   rootPrimary: {
     backgroundColor: colors.navGrey1,
+    borderRadius: getCustomSize(0.5),
     padding: getCustomSize(1)
   },
   rootSecondary: {
