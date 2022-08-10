@@ -10,7 +10,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: getCustomSize(0.25),
     borderColor: colors.bgGrey3,
-    backgroundColor: colors.navGrey1
+    backgroundColor: colors.navGrey1,
+    overflow: 'hidden'
   },
   primary: {
     width: getCustomSize(4),
@@ -31,5 +32,10 @@ export const styles = StyleSheet.create({
     width: getCustomSize(8),
     height: getCustomSize(8),
     borderRadius: getCustomSize(2)
+  },
+  quinary: {
+    width: getCustomSize(4),
+    height: getCustomSize(4),
+    borderRadius: getCustomSize(6)
   }
 });

@@ -4,6 +4,7 @@ import { TransactionStatusEnum } from '../../enums/transactions.enum';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
+import { getTokenSlug } from '../../utils/token.utils';
 import { createEntity } from '../utils/entity.utils';
 
 import {
@@ -15,13 +16,14 @@ import {
   editAccountNameAction,
   loadGasTokenBalanceAction,
   changeAccountAction,
-  addTokenMetadataAction,
+  addNewTokenAction,
   changeTokenVisibilityAction,
   loadAccountTokenBalanceAction,
   updateTransactionAction,
   addTransactionAction,
   editNetworkAction,
   removeNetworkAction,
+  editTokenAction,
   sortAccountTokensByVisibility
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
@@ -83,20 +85,18 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       }))
     );
   builder
-    .addCase(loadAccountTokenBalanceAction.submit, (state, { payload: { token } }) =>
-      updateAccountTokenState(state, token, accountToken => ({
-        balance: createEntity(accountToken.balance.data, true)
-      }))
-    )
-    .addCase(loadAccountTokenBalanceAction.success, (state, { payload: { token } }) =>
-      updateAccountTokenState(state, token, () => token)
-    )
+    .addCase(loadAccountTokenBalanceAction.success, (state, { payload: { token } }) => {
+      const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
+      const currentToken = state.accountsTokens[accountTokensSlug].find(tk => tk.tokenAddress === token.tokenAddress);
+
+      return updateAccountTokenState(state, token, () => ({ ...currentToken, balance: token.balance }));
+    })
     .addCase(loadAccountTokenBalanceAction.fail, (state, { payload: { token, error } }) =>
       updateAccountTokenState(state, token, accountToken => ({
         balance: createEntity(accountToken.balance.data, false, error)
       }))
     )
-    .addCase(addTokenMetadataAction, (state, { payload: tokenInput }) => {
+    .addCase(addNewTokenAction, (state, { payload: tokenInput }) => {
       const { selectedAccountPublicKeyHash, selectedNetworkRpcUrl } = state;
       const { tokenAddress, tokenId, ...tokenMetadata } = tokenInput;
       const tokenMetadataSlug = getTokenMetadataSlug(selectedNetworkRpcUrl, tokenAddress, tokenId);
@@ -137,6 +137,28 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         }
       };
     })
+    .addCase(editTokenAction, (state, { payload: editedToken }) => {
+      const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
+      const updatedAccountTokens = state.accountsTokens[accountTokensSlug].map(accountToken =>
+        getTokenSlug(accountToken.tokenAddress, accountToken.tokenId) ===
+        getTokenSlug(editedToken.tokenAddress, editedToken.tokenId)
+          ? { ...accountToken, ...editedToken }
+          : accountToken
+      );
+
+      return { ...state, accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: updatedAccountTokens } };
+    })
+    .addCase(changeTokenVisibilityAction, (state, { payload: token }) => {
+      const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
+      const updatedAccountTokens = state.accountsTokens[accountTokensSlug].map(accountToken =>
+        getTokenSlug(accountToken.tokenAddress, accountToken.tokenId) ===
+        getTokenSlug(token.tokenAddress, token.tokenId)
+          ? { ...accountToken, isVisible: !accountToken.isVisible }
+          : accountToken
+      );
+
+      return { ...state, accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: updatedAccountTokens } };
+    })
     .addCase(sortAccountTokensByVisibility, state => {
       const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
       const accountTokens = state.accountsTokens[accountTokensSlug];
@@ -148,18 +170,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       }
 
       return state;
-    })
-    .addCase(changeTokenVisibilityAction, (state, { payload: tokenAddress }) => {
-      const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
-      const updatedAccountTokens = state.accountsTokens[accountTokensSlug].map(accountToken =>
-        accountToken.tokenAddress === tokenAddress
-          ? { ...accountToken, isVisible: !accountToken.isVisible }
-          : accountToken
-      );
-
-      return { ...state, accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: updatedAccountTokens } };
     });
-
   builder.addCase(changeAccountAction, (state, { payload: account }) => ({
     ...state,
     selectedAccountPublicKeyHash: getPublicKeyHash(account, getSelectedNetworkType(state))

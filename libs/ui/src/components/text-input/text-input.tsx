@@ -25,6 +25,7 @@ interface Props<
   editable?: boolean;
   containerStyle?: ViewStyleProps;
   inputStyle?: TextStyleProps;
+  clearIconStyles?: ViewStyleProps;
 }
 
 export const TextInput = <
@@ -41,7 +42,8 @@ export const TextInput = <
   placeholderTextColor = colors.border1,
   editable = true,
   containerStyle,
-  inputStyle
+  inputStyle,
+  clearIconStyles
 }: Props<TFieldValues, TName>) => {
   const isLabel = isDefined(label);
   const isError = isDefined(error);
@@ -62,7 +64,7 @@ export const TextInput = <
       {isPrompt && (
         <Row style={styles.promptContainer}>
           <Text style={styles.promptText}>{prompt}</Text>
-          <TouchableIcon name={IconNameEnum.Tooltip} onPress={handlePrompt} size={getCustomSize(2)} />
+          {handlePrompt && <TouchableIcon name={IconNameEnum.Tooltip} onPress={handlePrompt} size={getCustomSize(2)} />}
         </Row>
       )}
       <Row style={styles.inputContainer}>
@@ -80,7 +82,11 @@ export const TextInput = <
           value={value}
         />
         {isNotEmptyString(value) && editable && (
-          <TouchableIcon name={IconNameEnum.Clear} onPress={handleInputClear} style={styles.clearIcon} />
+          <TouchableIcon
+            name={IconNameEnum.Clear}
+            onPress={handleInputClear}
+            style={[styles.clearIcon, clearIconStyles]}
+          />
         )}
       </Row>
       <View style={styles.errorContainer}>{isError && <Text style={styles.textError}>{error}</Text>}</View>

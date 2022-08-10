@@ -7,7 +7,8 @@ const themeClasses = {
   primary: styles.primary,
   secondary: styles.secondary,
   tertiary: styles.tertiary,
-  quaternary: styles.quaternary
+  quaternary: styles.quaternary,
+  quinary: styles.quinary
 };
 
 export type IconContainerType = keyof typeof themeClasses;

@@ -3,7 +3,7 @@ import { Text, TextInput, Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
-import { addTokenMetadataAction } from '../../store/wallet/wallet.actions';
+import { addNewTokenAction } from '../../store/wallet/wallet.actions';
 
 export const AddNewToken: FC = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ export const AddNewToken: FC = () => {
 
   const onAddToken = () => {
     dispatch(
-      addTokenMetadataAction({
+      addNewTokenAction({
         tokenAddress,
         name,
         symbol,
