@@ -1,6 +1,6 @@
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
-import React, { FC, useCallback, useEffect, useState } from 'react';
-import { Image, ImageErrorEventData, NativeSyntheticEvent, View } from 'react-native';
+import React, { FC, useEffect, useState } from 'react';
+import { Image, View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { getCustomSize } from '../../styles/format-size';
@@ -25,13 +25,7 @@ interface Props {
 export const Token: FC<Props> = ({ uri, symbol, name, gasToken = false, forceHideTokenName = false, style }) => {
   const [isLoadingError, setIsLoadingError] = useState(false);
 
-  const onError = useCallback((err?: NativeSyntheticEvent<ImageErrorEventData>) => {
-    if (isDefined(err?.nativeEvent.error) && isNotEmptyString(err?.nativeEvent.error)) {
-      setIsLoadingError(true);
-    } else {
-      setIsLoadingError(false);
-    }
-  }, []);
+  const onError = () => setIsLoadingError(true);
 
   useEffect(() => {
     setIsLoadingError(false);
