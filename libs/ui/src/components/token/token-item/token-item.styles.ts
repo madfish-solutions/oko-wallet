@@ -6,13 +6,13 @@ import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
-    justifyContent: 'space-between',
-    borderRadius: getCustomSize(0.5),
-    marginBottom: getCustomSize(0.25)
+    justifyContent: 'space-between'
   },
   rootPrimary: {
     backgroundColor: colors.navGrey1,
-    padding: getCustomSize(1)
+    borderRadius: getCustomSize(0.5),
+    padding: getCustomSize(1),
+    marginBottom: getCustomSize(0.25)
   },
   rootSecondary: {
     backgroundColor: 'transparent',
@@ -41,8 +41,13 @@ export const styles = StyleSheet.create({
     maxWidth: getCustomSize(16)
   },
   text: {
-    color: colors.textGrey1,
+    color: colors.textGrey1
+  },
+  textPrimary: {
     ...typography.numbersIBMPlexSansMediumUppercase13
+  },
+  textSecondary: {
+    ...typography.numbersIBMPlexSansMedium15
   },
   tokenName: {
     color: colors.textGrey1,
