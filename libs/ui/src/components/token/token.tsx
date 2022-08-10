@@ -23,24 +23,24 @@ interface Props {
 }
 
 export const Token: FC<Props> = ({ uri, symbol, name, gasToken = false, forceHideTokenName = false, style }) => {
-  const [loadingIsError, setLoadingIsError] = useState(false);
+  const [isLoadingError, setIsLoadingError] = useState(false);
 
   const onError = useCallback((err?: NativeSyntheticEvent<ImageErrorEventData>) => {
     if (isDefined(err?.nativeEvent.error) && isNotEmptyString(err?.nativeEvent.error)) {
-      setLoadingIsError(true);
+      setIsLoadingError(true);
     } else {
-      setLoadingIsError(false);
+      setIsLoadingError(false);
     }
   }, []);
 
   useEffect(() => {
-    onError();
-  }, [onError, uri]);
+    setIsLoadingError(false);
+  }, [uri]);
 
   return (
     <Row style={style}>
       <IconWithBorder type="quinary" style={styles.icon}>
-        {isDefined(uri) && isNotEmptyString(uri) && !loadingIsError ? (
+        {isDefined(uri) && isNotEmptyString(uri) && !isLoadingError ? (
           <Image source={{ uri }} onError={onError} style={styles.image} />
         ) : (
           <View style={styles.fallback} />
