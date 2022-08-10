@@ -18,6 +18,6 @@ export const styles = StyleSheet.create({
     height: getCustomSize(5)
   },
   extraIcon: {
-    marginLeft: getCustomSize(2.25)
+    marginLeft: getCustomSize(2)
   }
 });
