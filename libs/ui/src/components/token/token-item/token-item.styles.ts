@@ -6,7 +6,7 @@ import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
   rootPrimary: {
     backgroundColor: colors.navGrey1,
@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     maxWidth: getCustomSize(16)
   },
   text: {
-    color: colors.textGrey1,
+    color: colors.textGrey1
   },
   textPrimary: {
     ...typography.numbersIBMPlexSansMediumUppercase13
