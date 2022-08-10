@@ -44,6 +44,7 @@
     "react-native": "^0.68.1",
     "react-native-flipper": "^0.144.0",
     "react-native-gesture-handler": "^2.5.0",
+    "react-native-haptic-feedback": "^1.14.0",
     "react-native-keychain": "^8.0.0",
     "react-native-qrcode-svg": "^6.1.2",
     "react-native-reanimated": "^2.8.0",

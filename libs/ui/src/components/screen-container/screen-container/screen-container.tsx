@@ -15,6 +15,7 @@ interface Props extends HeaderIconsProps {
   screenTitle: string;
   navigationType?: HeaderSideTypeEnum;
   style?: ViewStyleProps;
+  contentStyles?: ViewStyleProps;
   scrollViewWrapper?: boolean;
 }
 
@@ -23,6 +24,7 @@ export const ScreenContainer: FC<Props> = ({
   icons,
   navigationType,
   style,
+  contentStyles,
   children,
   scrollViewWrapper = true
 }) => {
@@ -34,7 +36,7 @@ export const ScreenContainer: FC<Props> = ({
 
       {scrollViewWrapper ? (
         <ScrollView scrollEventThrottle={10} scrollEnabled={!isLocked}>
-          <View style={styles.content}>{children}</View>
+          <View style={[styles.content, contentStyles]}>{children}</View>
         </ScrollView>
       ) : (
         children
