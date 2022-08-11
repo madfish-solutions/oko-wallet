@@ -12,7 +12,9 @@ const navBarHeight = getCustomSize(11.5);
 const extraElements = headerHeight + navBarHeight;
 const qrCodeHeight = getCustomSize(20);
 
-const webHeight = `calc(100vh - ${extraElements}px + ${qrCodeHeight}px)`;
-const mobileHeight = Dimensions.get('window').height - extraElements + qrCodeHeight;
+export const mobileHeight = Dimensions.get('window').height;
 
-export const contentHeight = isWeb ? webHeight : mobileHeight;
+const webAvailableHeight = `calc(100vh - ${extraElements}px + ${qrCodeHeight}px)`;
+const mobileAvailableHeight = mobileHeight - extraElements + qrCodeHeight;
+
+export const contentHeight = isWeb ? webAvailableHeight : mobileAvailableHeight;

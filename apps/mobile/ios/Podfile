@@ -4,9 +4,6 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 platform :ios, '11.0'
 install! 'cocoapods', :deterministic_uuids => false
 
-permissions_path = '../node_modules/react-native-permissions/ios'
-pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
-
 target 'KlaytnWallet' do
   config = use_native_modules!
 
