@@ -35,10 +35,16 @@ export const TokenItem: FC<Props> = ({
       <Image style={[styles.image, themeClasses[theme].image]} source={imageSource} />
       <View style={styles.tokenNameContainer}>
         <Row>
-          <Text style={[styles.text, themeClasses[theme].text]}>{symbol}</Text>
+          <Text style={[styles.text, themeClasses[theme].text]} numberOfLines={1}>
+            {symbol}
+          </Text>
           {isGasToken && <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />}
         </Row>
-        {theme === TokenItemThemesEnum.Secondary && <Text style={styles.tokenName}>{name}</Text>}
+        {theme === TokenItemThemesEnum.Secondary && (
+          <Text style={styles.tokenName} numberOfLines={1}>
+            {name}
+          </Text>
+        )}
       </View>
     </Row>
 
