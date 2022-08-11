@@ -27,6 +27,27 @@ export const Settings: FC = () => {
   const onShowWarningToastClick = () => showWarningToast('This is a Warning!');
   const onShowErrorToastClick = () => showErrorToast('This is an Error!');
 
+  const channel = new BroadcastChannel('Counter');
+
+  const addCounter = () => {
+    console.log('add action');
+    channel.postMessage({ action: 'add' });
+  };
+  const minusCounter = () => {
+    channel.postMessage({ action: 'minus' });
+  };
+  const resetCounter = () => {
+    channel.postMessage({ action: 'reset' });
+  };
+
+  channel.onmessage = message => {
+    console.log('messages', message);
+
+    if (message.data.channel === 'counter') {
+      console.log('counter value:', message.data.counter);
+    }
+  };
+
   return (
     <ScreenContainer
       screenTitle="Settings"
@@ -40,6 +61,9 @@ export const Settings: FC = () => {
       <Button title="Show success toast" onPress={onShowSuccessToastClick} />
       <Button title="Show warning toast" onPress={onShowWarningToastClick} />
       <Button title="Show error toast" onPress={onShowErrorToastClick} />
+      <Button title="Add countre" onPress={addCounter} />
+      <Button title="Minus counter" onPress={minusCounter} />
+      <Button title="Reset counter" onPress={resetCounter} />
       <ResetWallet />
       <Button onPress={lock} title="lock app" color="#841584" />
       <MaximiseScreenButton />
