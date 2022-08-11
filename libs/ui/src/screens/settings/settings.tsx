@@ -5,7 +5,7 @@ import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-ty
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
 import { MaximiseScreenButton } from '../../components/maximise-screen-button/maximise-screen-button';
 import { ResetWallet } from '../../components/reset-wallet/reset-wallet';
-import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
+import { SecondaryScreenContainer } from '../../components/screen-container/secondary-screen-container/secondary-screen-container';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useToast } from '../../hooks/use-toast.hook';
@@ -28,7 +28,7 @@ export const Settings: FC = () => {
   const onShowErrorToastClick = () => showErrorToast('This is an Error!');
 
   return (
-    <ScreenContainer
+    <SecondaryScreenContainer
       screenTitle="Settings"
       icons={[IconNameEnum.Search, IconNameEnum.AddChain, IconNameEnum.Edit]}
       navigationType={HeaderSideTypeEnum.Icons}
@@ -44,6 +44,6 @@ export const Settings: FC = () => {
       <Button onPress={lock} title="lock app" color="#841584" />
       <MaximiseScreenButton />
       <Activity />
-    </ScreenContainer>
+    </SecondaryScreenContainer>
   );
 };

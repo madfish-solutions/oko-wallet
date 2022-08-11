@@ -5,10 +5,13 @@ import { useDispatch } from 'react-redux';
 
 import { Button } from '../../components/button/button';
 import { ButtonThemesEnum } from '../../components/button/enums';
-import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
+import { SecondaryScreenContainer } from '../../components/screen-container/secondary-screen-container/secondary-screen-container';
 import { TextInput } from '../../components/text-input/text-input';
+import { ScreensEnum } from '../../enums/sreens.enum';
+import { useNavigation } from '../../hooks/use-navigation.hook';
 import { Asset } from '../../interfaces/asset.interface';
 import { sendAssetAction } from '../../store/wallet/wallet.actions';
+import { isMobile } from '../../utils/platform.utils';
 
 import { styles } from './send.styles';
 import { FormTypes } from './types';
@@ -22,6 +25,7 @@ const defaultValues: FormTypes = {
 };
 
 export const Send: FC = () => {
+  const { navigate } = useNavigation();
   const dispatch = useDispatch();
 
   const { control, handleSubmit } = useForm({
@@ -39,8 +43,11 @@ export const Send: FC = () => {
     dispatch(sendAssetAction.submit({ asset, amount, receiverPublicKeyHash }));
   };
 
+  const navigateToScanQrCode = () => navigate(ScreensEnum.ScanQrCode);
+
   return (
-    <ScreenContainer screenTitle="Send">
+    <SecondaryScreenContainer screenTitle="Send">
+      {isMobile && <Button title="Qr Code" onPress={navigateToScanQrCode} theme={ButtonThemesEnum.Secondary} />}
       <View style={styles.inputContainer}>
         <Controller
           control={control}
@@ -77,6 +84,6 @@ export const Send: FC = () => {
         />
       </View>
       <Button onPress={handleSubmit(onSubmit)} theme={ButtonThemesEnum.Secondary} title="Send" />
-    </ScreenContainer>
+    </SecondaryScreenContainer>
   );
 };

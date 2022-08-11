@@ -3,7 +3,7 @@ import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { Pressable } from 'react-native';
 
-import { ScreenContainer } from '../../../../components/screen-container/screen-container/screen-container';
+import { SecondaryScreenContainer } from '../../../../components/screen-container/secondary-screen-container/secondary-screen-container';
 import { Text } from '../../../../components/text/text';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
 import { getString } from '../../../../utils/get-string.utils';
@@ -28,7 +28,7 @@ export const Confirmation: FC<Props> = ({
   transferParams,
   isTransactionLoading
 }) => (
-  <ScreenContainer screenTitle="Confirmation">
+  <SecondaryScreenContainer screenTitle="Confirmation">
     {(isLoading || isTransactionLoading) && <Text>Loading...</Text>}
     {!isLoading && (
       <>
@@ -43,5 +43,5 @@ export const Confirmation: FC<Props> = ({
     {!!transactionHash && (
       <TransactionInfo transactionHash={transactionHash} network={network} receiver={getString(transferParams?.to)} />
     )}
-  </ScreenContainer>
+  </SecondaryScreenContainer>
 );

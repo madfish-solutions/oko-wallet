@@ -1,10 +1,10 @@
 import React, { FC, useState } from 'react';
 
-import { Text } from '../../../../components/text/text';
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
 import { getCustomSize } from '../../../../styles/format-size';
 import { IconNameEnum } from '../../../icon/icon-name.enum';
 import { Row } from '../../../row/row';
+import { Text } from '../../../text/text';
 import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
 
 import { styles } from './header-account-balance.styles';

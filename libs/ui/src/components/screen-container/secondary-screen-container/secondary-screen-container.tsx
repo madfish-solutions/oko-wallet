@@ -3,13 +3,13 @@ import { ScrollView, View } from 'react-native';
 
 import { useUnlock } from '../../../hooks/use-unlock.hook';
 import { ViewStyleProps } from '../../../interfaces/style.interface';
-import { Column } from '../../column/column';
 import { HeaderSideTypeEnum } from '../../header/enums/header-side-type.enum';
 import { HeaderSecondaryScreen } from '../../header/header-secondary-screen/header-secondary-screen';
 import { HeaderIconsProps } from '../../header/interfaces/header.interface';
 import { NavigationBar } from '../../navigation-bar/navigation-bar';
+import { BaseScreenColumn } from '../components/base-screen-column/base-screen-column';
 
-import { styles } from './screen-container.styles';
+import { styles } from './secondary-screen-container.styles';
 
 interface Props extends HeaderIconsProps {
   screenTitle: string;
@@ -18,7 +18,7 @@ interface Props extends HeaderIconsProps {
   scrollViewWrapper?: boolean;
 }
 
-export const ScreenContainer: FC<Props> = ({
+export const SecondaryScreenContainer: FC<Props> = ({
   screenTitle,
   icons,
   navigationType,
@@ -29,7 +29,7 @@ export const ScreenContainer: FC<Props> = ({
   const { isLocked } = useUnlock();
 
   return (
-    <Column style={[styles.root, style]}>
+    <BaseScreenColumn style={style}>
       <HeaderSecondaryScreen title={screenTitle} icons={icons} navigationType={navigationType} />
 
       {scrollViewWrapper ? (
@@ -41,6 +41,6 @@ export const ScreenContainer: FC<Props> = ({
       )}
 
       <NavigationBar />
-    </Column>
+    </BaseScreenColumn>
   );
 };

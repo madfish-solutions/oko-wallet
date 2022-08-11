@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { Text, TextInput, Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
+import { SecondaryScreenContainer } from '../../components/screen-container/secondary-screen-container/secondary-screen-container';
 import { addTokenMetadataAction } from '../../store/wallet/wallet.actions';
 
 export const AddNewToken: FC = () => {
@@ -43,7 +43,7 @@ export const AddNewToken: FC = () => {
   };
 
   return (
-    <ScreenContainer screenTitle="Add new token">
+    <SecondaryScreenContainer screenTitle="Add new token">
       <TextInput placeholder="Token Address" value={tokenAddress} onChangeText={setTokenAddress} />
       <TextInput placeholder="Token Name" value={name} onChangeText={setName} />
       <TextInput placeholder="Token Symbol" value={symbol} onChangeText={setSymbol} />
@@ -55,6 +55,6 @@ export const AddNewToken: FC = () => {
       <Pressable onPress={onAddToken}>
         <Text>Add token</Text>
       </Pressable>
-    </ScreenContainer>
+    </SecondaryScreenContainer>
   );
 };

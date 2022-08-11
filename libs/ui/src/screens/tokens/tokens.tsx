@@ -7,7 +7,7 @@ import { EmptySearchIcon } from '../../components/icon/components/empty-search-i
 import { Icon } from '../../components/icon/icon';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
 import { Row } from '../../components/row/row';
-import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
+import { SecondaryScreenContainer } from '../../components/screen-container/secondary-screen-container/secondary-screen-container';
 import { SearchPanel } from '../../components/search-panel/search-panel';
 import { AccountToken } from '../../components/token/account-token/account-token';
 import { GasToken } from '../../components/token/gas-token/gas-token';
@@ -98,7 +98,7 @@ export const Tokens: FC = () => {
   );
 
   return (
-    <ScreenContainer
+    <SecondaryScreenContainer
       screenTitle="Tokens"
       navigationType={HeaderSideTypeEnum.AccountBalance}
       scrollViewWrapper={false}
@@ -126,6 +126,6 @@ export const Tokens: FC = () => {
           ListEmptyComponent={<EmptySearchIcon />}
         />
       </View>
-    </ScreenContainer>
+    </SecondaryScreenContainer>
   );
 };

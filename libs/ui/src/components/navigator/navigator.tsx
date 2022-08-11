@@ -16,6 +16,7 @@ import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps'
 import { ImportAccount } from '../../screens/import-account/import-account';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
+import { ScanQrCode } from '../../screens/scan-qr-code/scan-qr-code';
 import { SendConfirmation } from '../../screens/send-confirmation/send-confirmation';
 import { Send } from '../../screens/send/send';
 import { Settings } from '../../screens/settings/settings';
@@ -82,6 +83,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
               <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
               <Stack.Screen name={ScreensEnum.Tokens} component={Tokens} />
+              <Stack.Screen name={ScreensEnum.ScanQrCode} component={ScanQrCode} />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptions}>
