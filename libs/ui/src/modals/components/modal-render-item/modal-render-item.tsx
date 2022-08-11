@@ -26,7 +26,9 @@ export const ModalRenderItem: FC<Props> = ({ name, isActive, icon, balanceTitle,
     leftTopComponent={
       <Row>
         <IconWithBorder>{icon}</IconWithBorder>
-        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.name} numberOfLines={1}>
+          {name}
+        </Text>
       </Row>
     }
     leftBottomComponent={

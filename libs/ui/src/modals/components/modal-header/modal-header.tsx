@@ -18,7 +18,9 @@ export const ModalHeader: FC<Props> = ({ name, balanceTitle, balance, icon, styl
       {icon}
     </IconWithBorder>
     <View>
-      <Text style={styles.name}>{name}</Text>
+      <Text style={styles.name} numberOfLines={1}>
+        {name}
+      </Text>
       <Text style={styles.balanceTitle}>{balanceTitle}</Text>
       <Row>{balance}</Row>
     </View>
