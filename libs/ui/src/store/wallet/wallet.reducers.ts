@@ -87,7 +87,11 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
   builder
     .addCase(loadAccountTokenBalanceAction.success, (state, { payload: { token } }) => {
       const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
-      const currentToken = state.accountsTokens[accountTokensSlug].find(tk => tk.tokenAddress === token.tokenAddress);
+      const currentToken = state.accountsTokens[accountTokensSlug].find(
+        accountToken =>
+          getTokenSlug(accountToken.tokenAddress, accountToken.tokenId) ===
+          getTokenSlug(token.tokenAddress, token.tokenId)
+      );
 
       return updateAccountTokenState(state, token, () => ({ ...currentToken, balance: token.balance }));
     })
@@ -96,44 +100,29 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         balance: createEntity(accountToken.balance.data, false, error)
       }))
     )
-    .addCase(addNewTokenAction, (state, { payload: tokenInput }) => {
+    .addCase(addNewTokenAction, (state, { payload: newToken }) => {
       const { selectedAccountPublicKeyHash, selectedNetworkRpcUrl } = state;
-      const { tokenAddress, tokenId, ...tokenMetadata } = tokenInput;
+      const { tokenAddress, tokenId, ...tokenMetadata } = newToken;
       const tokenMetadataSlug = getTokenMetadataSlug(selectedNetworkRpcUrl, tokenAddress, tokenId);
       const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
 
-      const accountsTokens = {
-        ...state.accountsTokens,
-        [accountTokensSlug]: [...(state.accountsTokens[accountTokensSlug] ?? [])]
-      };
-      const existingTokenIndex = state.accountsTokens[accountTokensSlug]?.findIndex(
-        ({ tokenId: existingTokenId, tokenAddress: existingTokenAddress }) =>
-          tokenId === existingTokenId && tokenAddress === existingTokenAddress
-      );
-
-      if (existingTokenIndex > -1) {
-        accountsTokens[accountTokensSlug][existingTokenIndex] = {
-          ...accountsTokens[accountTokensSlug][existingTokenIndex],
-          isVisible: true
-        };
-      } else {
-        accountsTokens[accountTokensSlug] = [
-          ...accountsTokens[accountTokensSlug],
-          {
-            tokenId,
-            tokenAddress,
-            isVisible: true,
-            balance: createEntity('0')
-          }
-        ];
-      }
-
       return {
         ...state,
-        accountsTokens,
         tokensMetadata: {
           ...state.tokensMetadata,
           [tokenMetadataSlug]: tokenMetadata
+        },
+        accountsTokens: {
+          ...state.accountsTokens,
+          [accountTokensSlug]: [
+            ...state.accountsTokens[accountTokensSlug],
+            {
+              tokenId,
+              tokenAddress,
+              isVisible: true,
+              balance: createEntity('0')
+            }
+          ]
         }
       };
     })
