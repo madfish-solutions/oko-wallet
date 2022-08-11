@@ -18,8 +18,6 @@ export const Settings: FC = () => {
   const { navigate } = useNavigation();
   const { lock } = useUnlock();
 
-  const navigateToAddNewToken = () => navigate(ScreensEnum.AddNewToken);
-  const navigateToManageTokens = () => navigate(ScreensEnum.ManageTokens);
   const navigateToAddNetwork = () => navigate(ScreensEnum.AddNetwork);
   const navigateToConnectToDapps = () => navigate(ScreensEnum.ConnectToDapps);
 
@@ -34,8 +32,6 @@ export const Settings: FC = () => {
       navigationType={HeaderSideTypeEnum.Icons}
     >
       <Button title="Add network" onPress={navigateToAddNetwork} />
-      <Button title="Add new token" onPress={navigateToAddNewToken} />
-      <Button title="Manage Tokens" onPress={navigateToManageTokens} />
       <Button title="Connect to Dapps" onPress={navigateToConnectToDapps} />
       <Button title="Show success toast" onPress={onShowSuccessToastClick} />
       <Button title="Show warning toast" onPress={onShowWarningToastClick} />

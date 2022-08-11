@@ -43,6 +43,7 @@
     "react-native-crypto": "^2.1.0",
     "react-native-flipper": "^0.144.0",
     "react-native-gesture-handler": "^2.5.0",
+    "react-native-haptic-feedback": "^1.14.0",
     "react-native-keychain": "^8.0.0",
     "react-native-permissions": "^3.6.0",
     "react-native-qrcode-scanner": "^1.5.5",

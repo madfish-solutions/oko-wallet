@@ -6,7 +6,8 @@ import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
   buttonContainer: {
-    width: getCustomSize(11)
+    width: getCustomSize(11),
+    height: getCustomSize(3.5)
   },
   buttonText: {
     color: colors.green,

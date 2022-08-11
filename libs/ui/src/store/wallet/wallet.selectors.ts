@@ -74,8 +74,8 @@ export const useAccountAssetsSelector = () =>
           );
 
           return {
-            ...accountToken,
-            ...tokensMetadata[tokenMetadataSlug]
+            ...tokensMetadata[tokenMetadataSlug],
+            ...accountToken
           };
         }) ?? []
       );

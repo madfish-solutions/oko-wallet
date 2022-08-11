@@ -1,5 +1,5 @@
-import { OnEventFn } from '@rnw-community/shared';
-import React, { useCallback, useEffect, useState } from 'react';
+import { isDefined, OnEventFn } from '@rnw-community/shared';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm, Controller, ControllerRenderProps, FieldValues, FieldPath } from 'react-hook-form';
 import { GestureResponderEvent } from 'react-native';
 
@@ -15,11 +15,12 @@ const SEARCH_FIELD = 'search';
 
 interface Props {
   setSearchValue: OnEventFn<string>;
-  onPressAddIcon: OnEventFn<GestureResponderEvent>;
+  onPressAddIcon?: OnEventFn<GestureResponderEvent>;
   onPressEditIcon?: OnEventFn<GestureResponderEvent>;
   onPressActivityIcon?: OnEventFn<GestureResponderEvent>;
-  selectedItem?: string;
+  selectedItemName?: string;
   onSearchClose?: () => void;
+  isSearchInitiallyOpened?: boolean;
 }
 
 const renderTextInput = <
@@ -31,13 +32,15 @@ const renderTextInput = <
 
 export const SearchPanel: React.FC<Props> = ({
   setSearchValue,
+  selectedItemName,
+  onSearchClose,
+  isSearchInitiallyOpened = false,
   onPressAddIcon,
-  selectedItem,
   onPressEditIcon,
-  onPressActivityIcon,
-  onSearchClose
+  onPressActivityIcon
 }) => {
-  const [isShowSearchField, setIsShowSearchField] = useState(false);
+  const [isShowSearchField, setIsShowSearchField] = useState(isSearchInitiallyOpened);
+  const initialSelectedItemName = useRef(selectedItemName);
 
   const { control, resetField, watch, setFocus } = useForm({
     mode: 'onChange',
@@ -53,7 +56,7 @@ export const SearchPanel: React.FC<Props> = ({
   }, [searchValue, setSearchValue]);
 
   useEffect(() => {
-    if (isShowSearchField) {
+    if (isShowSearchField && !isSearchInitiallyOpened) {
       setFocus(SEARCH_FIELD);
     }
   }, [isShowSearchField]);
@@ -61,23 +64,28 @@ export const SearchPanel: React.FC<Props> = ({
   const hideSearchField = useCallback(() => {
     setIsShowSearchField(false);
     resetField(SEARCH_FIELD);
+
     onSearchClose?.();
   }, [onSearchClose]);
 
   const showSearchField = () => setIsShowSearchField(true);
 
   useEffect(() => {
-    if (selectedItem !== undefined) {
+    if (isDefined(selectedItemName) && selectedItemName !== initialSelectedItemName.current) {
       hideSearchField();
+
+      initialSelectedItemName.current = selectedItemName;
     }
-  }, [selectedItem]);
+  }, [selectedItemName]);
 
   return (
     <Row style={styles.root}>
       {isShowSearchField ? (
         <>
           <Controller control={control} name={SEARCH_FIELD} render={({ field }) => renderTextInput(field)} />
-          <TouchableIcon name={IconNameEnum.X} onPress={hideSearchField} style={styles.close} />
+          {!isSearchInitiallyOpened && (
+            <TouchableIcon name={IconNameEnum.X} onPress={hideSearchField} style={styles.close} />
+          )}
         </>
       ) : (
         <>

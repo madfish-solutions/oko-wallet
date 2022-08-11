@@ -35,7 +35,7 @@ export const TokenItem: FC<Props> = ({
       <Image style={[styles.image, themeClasses[theme].image]} source={imageSource} />
       <View style={styles.tokenNameContainer}>
         <Row>
-          <Text style={styles.text}>{symbol}</Text>
+          <Text style={[styles.text, themeClasses[theme].text]}>{symbol}</Text>
           {isGasToken && <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />}
         </Row>
         {theme === TokenItemThemesEnum.Secondary && <Text style={styles.tokenName}>{name}</Text>}
@@ -47,7 +47,7 @@ export const TokenItem: FC<Props> = ({
         children
       ) : (
         <>
-          <Text style={styles.text}>{balance}</Text>
+          <Text style={[styles.text, themeClasses[theme].text]}>{balance}</Text>
           <Text style={styles.usdBalance}>
             1000 <Text style={styles.usdSymbol}>$</Text>
           </Text>

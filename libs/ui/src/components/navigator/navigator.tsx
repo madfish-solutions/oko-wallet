@@ -11,7 +11,8 @@ import { EditAccount } from '../../modals/screens/edit-account/edit-account';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
 import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
 import { NetworksSelector } from '../../modals/screens/networks-selector/networks-selector';
-import { AddNewToken } from '../../screens/add-new-token/add-new-token';
+import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
+import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
 import { ImportAccount } from '../../screens/import-account/import-account';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
@@ -78,7 +79,6 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
               <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
               <Stack.Screen name={ScreensEnum.Send} component={Send} />
-              <Stack.Screen name={ScreensEnum.AddNewToken} component={AddNewToken} />
               <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
               <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
               <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
@@ -120,6 +120,12 @@ export const Navigator: FC = () => {
                 options={{ title: 'Edit network' }}
                 component={EditNetwork}
               />
+              <Stack.Screen
+                name={ScreensEnum.AddNewToken}
+                options={{ title: 'Add new token' }}
+                component={AddNewToken}
+              />
+              <Stack.Screen name={ScreensEnum.EditToken} options={{ title: 'Edit token' }} component={EditToken} />
             </Stack.Group>
           </>
         ) : (

@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 
-import { useDelayedEffect } from '../../hooks/use-delayed-effect.hook';
+import { useDelayedEffect } from '../../../hooks/use-delayed-effect.hook';
 
 export const useFlatListRef = <T>({ data, selectedIndex }: { data: T[]; selectedIndex: number }) => {
   const flatListRef = useRef<FlatList>(null);

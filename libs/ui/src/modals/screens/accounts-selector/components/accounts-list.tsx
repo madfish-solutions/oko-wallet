@@ -3,6 +3,8 @@ import { ListRenderItemInfo } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { RobotIcon } from '../../../../components/robot-icon/robot-icon';
+import { Selector } from '../../../../components/selector/selector';
+import { getItemLayout } from '../../../../components/selector/utils/get-item-layout.util';
 import { EMPTY_STRING } from '../../../../constants/defaults';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
@@ -17,11 +19,8 @@ import {
 import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
 import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
 import { ModalAccountBalance } from '../../../components/modal-account-balance/modal-account-balance';
-import { ModalFlatList } from '../../../components/modal-flat-list/modal-flat-list';
 import { ModalRenderItem } from '../../../components/modal-render-item/modal-render-item';
-import { useFlatListRef } from '../../../hooks/use-flat-list-ref.hook';
 import { useListSearch } from '../../../hooks/use-list-search.hook';
-import { getItemLayout } from '../../../utils/get-item-layout.util';
 
 export const AccountsList = () => {
   const { navigate } = useNavigation();
@@ -39,8 +38,6 @@ export const AccountsList = () => {
     () => filteredList.findIndex(account => account.accountIndex === selectedAccount.accountIndex),
     [filteredList, selectedAccount]
   );
-
-  const { flatListRef } = useFlatListRef({ data: filteredList, selectedIndex });
 
   const handleChangeAccount = (account: AccountInterface) => {
     if (checkIsNetworkTypeKeyExist(account, selectedNetworkType)) {
@@ -72,15 +69,15 @@ export const AccountsList = () => {
   };
 
   return (
-    <ModalFlatList
+    <Selector
       onPressAddIcon={onAddAccount}
-      flatListRef={flatListRef}
       data={filteredList}
       renderItem={renderItem}
       setSearchValue={setSearchValue}
-      selectedItem={selectedAccount}
+      selectedItemName={selectedAccount.name}
       getItemLayout={getItemLayout}
       keyExtractor={keyExtractor}
+      selectedIndex={selectedIndex}
     />
   );
 };

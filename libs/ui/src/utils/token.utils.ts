@@ -1,7 +1,7 @@
+import { isNotEmptyString } from '@rnw-community/shared';
 import { Observable } from 'rxjs';
 
 import { NetworkTypeEnum } from '../enums/network-type.enum';
-import { AccountToken } from '../interfaces/account-token.interface';
 import { AccountInterface } from '../interfaces/account.interface';
 import { NetworkInterface } from '../interfaces/network.interface';
 import { Token } from '../interfaces/token.interface';
@@ -39,6 +39,7 @@ export const getTokenBalance$ = (
   }
 };
 
-export const getTokenSlug = ({ tokenAddress, tokenId }: AccountToken) => `${tokenAddress}_${tokenId ?? '0'}`;
+export const getTokenSlug = (tokenAddress: string, tokenId?: string | undefined) =>
+  `${tokenAddress}_${isNotEmptyString(tokenId) ? tokenId : '0'}`;
 
 export const isCollectible = (asset: Token) => asset.artifactUri !== undefined && asset.artifactUri !== null;

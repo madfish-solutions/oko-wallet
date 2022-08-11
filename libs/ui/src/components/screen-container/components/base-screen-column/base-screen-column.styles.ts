@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'space-between',
     height: isWeb ? EXTENSION_FULL_SIZE : '100%',
-    backgroundColor: colors.bgGrey1,
+    backgroundColor: colors.navGrey1,
     borderBottomLeftRadius: getCustomSize(3),
     borderBottomRightRadius: getCustomSize(3)
   }
