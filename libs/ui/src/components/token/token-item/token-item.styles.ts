@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     paddingVertical: getCustomSize(2)
   },
   token: {
-    width: 'auto'
+    flex: 1
   },
   image: {
     borderColor: colors.bgGrey3,
@@ -37,9 +37,6 @@ export const styles = StyleSheet.create({
   imageSecondary: {
     width: getCustomSize(4),
     height: getCustomSize(4)
-  },
-  tokenNameContainer: {
-    maxWidth: getCustomSize(16)
   },
   text: {
     maxWidth: getCustomSize(16),
