@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { View, TouchableOpacity, Linking } from 'react-native';
 import { useDispatch } from 'react-redux';
+import { NetworkTypeEnum } from 'src/enums/network-type.enum';
 
 import { Text } from '../../../../components/text/text';
 import { TransactionStatusEnum } from '../../../../enums/transactions.enum';
@@ -18,10 +19,12 @@ let timer: NodeJS.Timer;
 
 export const Activity: FC = () => {
   const dispatch = useDispatch();
-  const { rpcUrl, explorerUrl } = useSelectedNetworkSelector();
+  const { rpcUrl, explorerUrl, networkType } = useSelectedNetworkSelector();
   const provider = getDefaultEvmProvider(rpcUrl);
   const pendingTransactions = usePendingTransactionsSelector();
   const mintedTransactions = useMintedTransactionsSelector();
+
+  const explorerUrlPrefix = networkType === NetworkTypeEnum.EVM ? 'tx' : '';
 
   useEffect(() => {
     timer = setInterval(() => {
@@ -56,7 +59,7 @@ export const Activity: FC = () => {
           <Text style={styles.pending}>
             Pending:{tx.from} TO {tx.to}
           </Text>
-          <TouchableOpacity onPress={() => Linking.openURL(`${explorerUrl}tx/${tx.transactionHash}`)}>
+          <TouchableOpacity onPress={() => Linking.openURL(`${explorerUrl}${explorerUrlPrefix}/${tx.transactionHash}`)}>
             <Text>view details</Text>
           </TouchableOpacity>
         </View>
@@ -66,7 +69,7 @@ export const Activity: FC = () => {
           <Text style={styles.minted}>
             Send:{tx.from} TO {tx.to}
           </Text>
-          <TouchableOpacity onPress={() => Linking.openURL(`${explorerUrl}tx/${tx.transactionHash}`)}>
+          <TouchableOpacity onPress={() => Linking.openURL(`${explorerUrl}${explorerUrlPrefix}/${tx.transactionHash}`)}>
             <Text>view details</Text>
           </TouchableOpacity>
         </View>
