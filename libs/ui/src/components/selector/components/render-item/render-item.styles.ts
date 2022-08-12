@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
   },
   wrapper: {
     justifyContent: 'space-between',
-    marginBottom: getCustomSize()
+    marginBottom: getCustomSize(),
+    flex: 1
   }
 });
