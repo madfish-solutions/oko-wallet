@@ -26,9 +26,7 @@ export const ManageTokens: FC = () => {
     gasTokenMetadata: { thumbnailUri, symbol, name }
   } = useSelectedNetworkSelector();
 
-  const navigateToEditTokenScreen = (token: TokenInterface) => {
-    navigate(ScreensEnum.EditToken, { token });
-  };
+  const navigateToEditTokenScreen = (token: TokenInterface) => navigate(ScreensEnum.EditToken, { token });
 
   const handleTokenVisibility = (token: TokenInterface) => dispatch(changeTokenVisibilityAction(token));
 

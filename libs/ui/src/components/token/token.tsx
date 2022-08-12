@@ -42,13 +42,13 @@ export const Token: FC<Props> = ({ uri, symbol, name, gasToken = false, forceHid
       </IconWithBorder>
       <Column style={styles.flex}>
         <Row style={styles.row}>
-          <Text style={styles.symbol} ellipsizeMode="tail" numberOfLines={1}>
+          <Text style={styles.symbol} numberOfLines={1}>
             {symbol}
           </Text>
           {gasToken && <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />}
         </Row>
         {!forceHideTokenName && (
-          <Text style={styles.name} ellipsizeMode="tail" numberOfLines={1}>
+          <Text style={styles.name} numberOfLines={1}>
             {isNotEmptyString(name) ? name : symbol}
           </Text>
         )}
