@@ -75,7 +75,7 @@ export const AddNetwork: FC = () => {
       if (isNotEmptyString(newRpcUrl.trim())) {
         const provider = getDefaultEvmProvider(newRpcUrl.trim());
 
-        const currentNetwork = await provider.getNetwork().catch(() => {
+        const currentNetwork = await provider?.getNetwork().catch(() => {
           resetDynamicFields();
 
           return null;
