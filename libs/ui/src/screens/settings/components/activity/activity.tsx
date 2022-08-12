@@ -1,9 +1,9 @@
 import React, { FC, useEffect } from 'react';
 import { View, TouchableOpacity, Linking } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { NetworkTypeEnum } from 'src/enums/network-type.enum';
 
 import { Text } from '../../../../components/text/text';
+import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { TransactionStatusEnum } from '../../../../enums/transactions.enum';
 import { updateTransactionAction } from '../../../../store/wallet/wallet.actions';
 import {
