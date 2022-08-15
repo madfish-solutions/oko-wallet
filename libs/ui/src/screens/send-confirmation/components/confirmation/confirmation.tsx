@@ -3,7 +3,11 @@ import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { Pressable } from 'react-native';
 
-import { SecondaryScreenContainer } from '../../../../components/screen-container/secondary-screen-container/secondary-screen-container';
+import { NavigationBar } from '../../../../components/navigation-bar/navigation-bar';
+import { ScreenTitle } from '../../../../components/screen-components/header-container/components/screen-title/screen-title';
+import { HeaderContainer } from '../../../../components/screen-components/header-container/header-container';
+import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
+import { ScreenScrollView } from '../../../../components/screen-components/screen-scroll-view/screen-scroll-view';
 import { Text } from '../../../../components/text/text';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
 import { getString } from '../../../../utils/get-string.utils';
@@ -28,20 +32,28 @@ export const Confirmation: FC<Props> = ({
   transferParams,
   isTransactionLoading
 }) => (
-  <SecondaryScreenContainer screenTitle="Confirmation">
-    {(isLoading || isTransactionLoading) && <Text>Loading...</Text>}
-    {!isLoading && (
-      <>
-        {children}
-        {!transactionHash && (
-          <Pressable onPress={onSend}>
-            <Text>Send</Text>
-          </Pressable>
-        )}
-      </>
-    )}
-    {!!transactionHash && (
-      <TransactionInfo transactionHash={transactionHash} network={network} receiver={getString(transferParams?.to)} />
-    )}
-  </SecondaryScreenContainer>
+  <ScreenContainer>
+    <HeaderContainer isSelectors>
+      <ScreenTitle title="Confirmation" />
+    </HeaderContainer>
+
+    <ScreenScrollView>
+      {(isLoading || isTransactionLoading) && <Text>Loading...</Text>}
+      {!isLoading && (
+        <>
+          {children}
+          {!transactionHash && (
+            <Pressable onPress={onSend}>
+              <Text>Send</Text>
+            </Pressable>
+          )}
+        </>
+      )}
+      {!!transactionHash && (
+        <TransactionInfo transactionHash={transactionHash} network={network} receiver={getString(transferParams?.to)} />
+      )}
+    </ScreenScrollView>
+
+    <NavigationBar />
+  </ScreenContainer>
 );

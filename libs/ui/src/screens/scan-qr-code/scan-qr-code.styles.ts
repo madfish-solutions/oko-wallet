@@ -1,15 +1,13 @@
 import { StyleSheet } from 'react-native';
 
-import { mobileHeight } from '../../components/screen-container/constants';
-
 export const styles = StyleSheet.create({
-  root: {
-    flex: 1
+  headerContainer: {
+    position: 'absolute',
+    width: '100%'
   },
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   camera: {
     width: '100%',
-    height: mobileHeight * 0.7
+    height: '100%'
   },
   icon: {
     justifyContent: 'center',

@@ -7,7 +7,9 @@ import { useScanBarcodes, BarcodeFormat } from 'vision-camera-code-scanner';
 import { Button } from '../../components/button/button';
 import { Icon } from '../../components/icon/icon';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
-import { TernaryScreenContainer } from '../../components/screen-container/ternary-screen-container/ternary-screen-container';
+import { ScreenTitle } from '../../components/screen-components/header-container/components/screen-title/screen-title';
+import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
+import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { Text } from '../../components/text/text';
 import { useToast } from '../../hooks/use-toast.hook';
 import { useSelectedNetworkTypeSelector } from '../../store/wallet/wallet.selectors';
@@ -37,10 +39,12 @@ export const ScanQrCode: FC = () => {
 
       setHasPermission(status === 'authorized');
     })();
+
+    return () => setHasPermission(false);
   }, []);
 
   useEffect(() => {
-    if (qrCodes.length) {
+    if (qrCodes.length && hasPermission) {
       const [{ displayValue }] = qrCodes;
       const isValid = isAddressValid(displayValue, networkType);
 
@@ -57,7 +61,11 @@ export const ScanQrCode: FC = () => {
   const showQrCodeScanner = () => setQrCode('');
 
   return (
-    <TernaryScreenContainer screenTitle="Scan QRcode" scrollViewWrapper={false}>
+    <ScreenContainer>
+      <HeaderContainer style={styles.headerContainer}>
+        <ScreenTitle title="Scan QRcode" />
+      </HeaderContainer>
+
       {isNotEmptyString(qrCode) ? (
         <>
           <Text>{qrCode}</Text>
@@ -66,21 +74,19 @@ export const ScanQrCode: FC = () => {
       ) : (
         <>
           {isCameraAvailable && (
-            <View style={styles.root}>
-              <View style={styles.container}>
-                <Camera
-                  style={styles.camera}
-                  device={device}
-                  isActive
-                  frameProcessor={frameProcessor}
-                  frameProcessorFps={5}
-                />
-                <Icon name={IconNameEnum.QrScanner} size={getCustomSize(25)} iconStyle={styles.icon} />
-              </View>
+            <View>
+              <Camera
+                style={styles.camera}
+                device={device}
+                isActive
+                frameProcessor={frameProcessor}
+                frameProcessorFps={5}
+              />
+              <Icon name={IconNameEnum.QrScanner} size={getCustomSize(25)} iconStyle={styles.icon} />
             </View>
           )}
         </>
       )}
-    </TernaryScreenContainer>
+    </ScreenContainer>
   );
 };
