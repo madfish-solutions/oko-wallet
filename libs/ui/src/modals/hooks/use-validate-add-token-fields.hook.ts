@@ -41,7 +41,7 @@ export const useTokenFieldsRules = () => {
   };
 
   const checOnlyNymbers = (currentValue: string) => {
-    if (!currentValue.match(/^\d*[.]?\d*$/)) {
+    if (!currentValue.match(/^\d*?\d*$/)) {
       return 'Only numbers';
     }
   };
