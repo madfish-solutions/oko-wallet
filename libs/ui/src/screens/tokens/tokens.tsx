@@ -27,7 +27,6 @@ import { getTokenSlug } from '../../utils/token.utils';
 import { styles } from './tokens.styles';
 import { filterAccountTokensByValue } from './utils/filter-account-tokens-by-value';
 import { getListOfTokensAddresses } from './utils/get-list-of-tokens-adresses.util';
-import { showAddHideButton } from './utils/show-add-hide-button.util';
 
 const keyExtractor = ({ tokenAddress, tokenId }: Token) => getTokenSlug(tokenAddress, tokenId);
 
@@ -48,8 +47,14 @@ export const Tokens: FC = () => {
     [visibleAccountTokens, gasToken]
   );
 
-  const [tokensAddresses, setTokensAddresses] = useState(() => getListOfTokensAddresses(visibleAccountTokens));
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
+  const [tokensAddresses, setTokensAddresses] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (searchValue.length === 0) {
+      setTokensAddresses(getListOfTokensAddresses(visibleAccountTokens));
+    }
+  }, [visibleAccountTokens, searchValue.length]);
 
   const accountTokens = useMemo(() => {
     if (searchValue && visibleAccountTokensWithGasToken.length) {
@@ -85,11 +90,13 @@ export const Tokens: FC = () => {
         return <GasToken searchValue={searchValue} theme={TokenItemThemesEnum.Secondary} loadBalance={!searchValue} />;
       }
 
+      const showButton = !token.isVisible || !tokensAddresses.includes(token.tokenAddress);
+
       return (
         <AccountToken
           token={token}
           loadBalance={!searchValue}
-          showButton={showAddHideButton(token, tokensAddresses, searchValue)}
+          showButton={showButton}
           theme={TokenItemThemesEnum.Secondary}
         />
       );

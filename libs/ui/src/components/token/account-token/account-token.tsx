@@ -1,9 +1,8 @@
-import { isString } from '@rnw-community/shared';
+import { isDefined } from '@rnw-community/shared';
 import React, { FC, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Token } from '../../../interfaces/token.interface';
-import { AddHideButtonsEnum } from '../../../screens/tokens/enums';
 import { getImageSource } from '../../../screens/wallet/components/assets-widget/utils/get-image-source.util';
 import { changeTokenVisibilityAction, loadAccountTokenBalanceAction } from '../../../store/wallet/wallet.actions';
 import { formatUnits } from '../../../utils/units.utils';
@@ -14,7 +13,7 @@ import { TokenItem } from '../token-item/token-item';
 
 interface Props {
   token: Token;
-  showButton?: AddHideButtonsEnum | null;
+  showButton?: boolean;
   loadBalance?: boolean;
   theme?: TokenItemThemesEnum;
 }
@@ -36,7 +35,7 @@ export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = false
 
   return (
     <TokenItem imageSource={imageSource} balance={formattedBalance} symbol={symbol} theme={theme} name={name}>
-      {isString(showButton) ? (
+      {isDefined(showButton) && showButton ? (
         <Switch onPress={handleTokenVisibility} theme={SwitchThemesEnum.Primary} isActive={token.isVisible} />
       ) : undefined}
     </TokenItem>
