@@ -33,8 +33,8 @@ export const TokenItem: FC<Props> = ({
   <Row style={[styles.root, themeClasses[theme].root]}>
     <Row style={styles.token}>
       <Image style={[styles.image, themeClasses[theme].image]} source={imageSource} />
-      <View>
-        <Row>
+      <View style={styles.token}>
+        <Row style={styles.token}>
           <Text style={[styles.text, themeClasses[theme].text]} numberOfLines={1}>
             {symbol}
           </Text>

@@ -34,7 +34,7 @@ export const ModalRenderItem: FC<Props> = ({ name, isActive, icon, balanceTitle,
     leftBottomComponent={
       <Column>
         <Text style={styles.balanceTitle}>{balanceTitle}</Text>
-        <Row>{balance}</Row>
+        <Row style={styles.balanceContainer}>{balance}</Row>
       </Column>
     }
     rightBottomComponent={<TouchableIcon name={IconNameEnum.Edit} onPress={onEdit} />}
