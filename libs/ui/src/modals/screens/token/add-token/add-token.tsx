@@ -32,6 +32,7 @@ export const AddNewToken: FC = () => {
 
   const accountTokens = useAccountAssetsSelector();
 
+  const [isLoadingMetadata, setIsLoadingMetadata] = useState(false);
   const [tokenName, setTokenName] = useState('Token name');
   const {
     control,
@@ -85,7 +86,9 @@ export const AddNewToken: FC = () => {
           contract.decimals().catch(() => {
             setValue('decimals', '0');
           })
-        ]);
+        ]).finally(() => {
+          setIsLoadingMetadata(false);
+        });
 
         setValue('symbol', symbol);
         setValue('decimals', decimals.toString());
@@ -97,6 +100,7 @@ export const AddNewToken: FC = () => {
   useEffect(() => {
     if (isEvmAddressValid(watchAddressUrl)) {
       getEvmTokenMetadata(watchAddressUrl);
+      setIsLoadingMetadata(true);
     }
 
     return () => {
@@ -140,6 +144,7 @@ export const AddNewToken: FC = () => {
       symbol={watchSymbol}
       rules={rules}
       errors={errors}
+      isLoadingMetadata={isLoadingMetadata}
     />
   );
 };

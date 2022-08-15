@@ -1,4 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
+import { isDefined } from '@rnw-community/shared';
 
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
 import { NetworkInterface } from '../../interfaces/network.interface';
@@ -106,6 +107,10 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       const tokenMetadataSlug = getTokenMetadataSlug(selectedNetworkRpcUrl, tokenAddress, tokenId);
       const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
 
+      const prevAccountTokens = isDefined(state.accountsTokens[accountTokensSlug])
+        ? state.accountsTokens[accountTokensSlug]
+        : [];
+
       return {
         ...state,
         tokensMetadata: {
@@ -115,7 +120,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         accountsTokens: {
           ...state.accountsTokens,
           [accountTokensSlug]: [
-            ...state.accountsTokens[accountTokensSlug],
+            ...prevAccountTokens,
             {
               tokenId,
               tokenAddress,
