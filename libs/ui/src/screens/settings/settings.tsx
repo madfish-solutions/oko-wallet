@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Button } from 'react-native';
 
+import { Divider } from '../../components/divider/divider';
 import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
 import { MaximiseScreenButton } from '../../components/maximise-screen-button/maximise-screen-button';
@@ -10,6 +11,7 @@ import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useToast } from '../../hooks/use-toast.hook';
 import { useUnlock } from '../../hooks/use-unlock.hook';
+import { getUserPassword, saveUserPassword } from '../../shelter/shelter-message';
 
 import { Activity } from './components/activity/activity';
 
@@ -27,25 +29,8 @@ export const Settings: FC = () => {
   const onShowWarningToastClick = () => showWarningToast('This is a Warning!');
   const onShowErrorToastClick = () => showErrorToast('This is an Error!');
 
-  const channel = new BroadcastChannel('Counter');
-
-  const addCounter = () => {
-    console.log('add action');
-    channel.postMessage({ action: 'add' });
-  };
-  const minusCounter = () => {
-    channel.postMessage({ action: 'minus' });
-  };
-  const resetCounter = () => {
-    channel.postMessage({ action: 'reset' });
-  };
-
-  channel.onmessage = message => {
-    console.log('messages', message);
-
-    if (message.data.channel === 'counter') {
-      console.log('counter value:', message.data.counter);
-    }
+  const savePassword = () => {
+    saveUserPassword('password12345');
   };
 
   return (
@@ -61,9 +46,9 @@ export const Settings: FC = () => {
       <Button title="Show success toast" onPress={onShowSuccessToastClick} />
       <Button title="Show warning toast" onPress={onShowWarningToastClick} />
       <Button title="Show error toast" onPress={onShowErrorToastClick} />
-      <Button title="Add countre" onPress={addCounter} />
-      <Button title="Minus counter" onPress={minusCounter} />
-      <Button title="Reset counter" onPress={resetCounter} />
+      <Divider />
+      <Button title="Save Password" onPress={savePassword} />
+      <Button title="Get Password" onPress={getUserPassword} />
       <ResetWallet />
       <Button onPress={lock} title="lock app" color="#841584" />
       <MaximiseScreenButton />
