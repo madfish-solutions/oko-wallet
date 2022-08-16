@@ -6,7 +6,6 @@ import { isWeb } from '../../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {
-    position: 'relative',
     width: '100%',
     alignItems: 'stretch',
     justifyContent: 'space-between',
