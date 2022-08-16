@@ -26,7 +26,7 @@ interface Props extends Pick<FooterButtons, 'submitTitle'> {
   errors: FieldErrors<TokenFormTypes>;
   symbol: string;
   editable?: boolean;
-  isLoadingMetadata: boolean;
+  isLoadingMetadata?: boolean;
 }
 
 export const TokenContainer: FC<Props> = ({
@@ -39,7 +39,7 @@ export const TokenContainer: FC<Props> = ({
   rules: { commonRules, addressUrlRules, thumbnailUrlRules, decimalsRules },
   errors,
   editable = true,
-  isLoadingMetadata
+  isLoadingMetadata = false
 }) => {
   const { goBack } = useNavigation();
 
