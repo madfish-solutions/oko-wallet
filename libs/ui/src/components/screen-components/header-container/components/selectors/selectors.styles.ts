@@ -23,7 +23,6 @@ export const styles = StyleSheet.create({
     marginRight: getCustomSize(0.5)
   },
   address: {
-    color: colors.textGrey1,
     ...typography.captionInterSemiBold13
   }
 });
