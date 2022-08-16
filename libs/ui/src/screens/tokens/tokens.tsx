@@ -37,7 +37,7 @@ const keyExtractor = ({ tokenAddress, tokenId }: Token) => getTokenSlug(tokenAdd
 export const Tokens: FC = () => {
   const { gasTokenMetadata, gasTokenBalance, rpcUrl } = useSelectedNetworkSelector();
   const dispatch = useDispatch();
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
   const allAccountTokens = useAccountTokensSelector();
   const visibleAccountTokens = useVisibleAccountTokensSelector();
 
@@ -103,7 +103,7 @@ export const Tokens: FC = () => {
   return (
     <ScreenContainer style={styles.screenContainer}>
       <HeaderContainer isSelectors>
-        <ScreenTitle title="Tokens" />
+        <ScreenTitle title="Tokens" onBackButtonPress={goBack} />
         <HeaderAccountBalance />
       </HeaderContainer>
 

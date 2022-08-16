@@ -9,6 +9,7 @@ import { HeaderContainer } from '../../../../components/screen-components/header
 import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
 import { ScreenScrollView } from '../../../../components/screen-components/screen-scroll-view/screen-scroll-view';
 import { Text } from '../../../../components/text/text';
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
 import { getString } from '../../../../utils/get-string.utils';
 
@@ -31,29 +32,37 @@ export const Confirmation: FC<Props> = ({
   onSend,
   transferParams,
   isTransactionLoading
-}) => (
-  <ScreenContainer>
-    <HeaderContainer isSelectors>
-      <ScreenTitle title="Confirmation" />
-    </HeaderContainer>
+}) => {
+  const { goBack } = useNavigation();
 
-    <ScreenScrollView>
-      {(isLoading || isTransactionLoading) && <Text>Loading...</Text>}
-      {!isLoading && (
-        <>
-          {children}
-          {!transactionHash && (
-            <Pressable onPress={onSend}>
-              <Text>Send</Text>
-            </Pressable>
-          )}
-        </>
-      )}
-      {!!transactionHash && (
-        <TransactionInfo transactionHash={transactionHash} network={network} receiver={getString(transferParams?.to)} />
-      )}
-    </ScreenScrollView>
+  return (
+    <ScreenContainer>
+      <HeaderContainer isSelectors>
+        <ScreenTitle title="Confirmation" onBackButtonPress={goBack} />
+      </HeaderContainer>
 
-    <NavigationBar />
-  </ScreenContainer>
-);
+      <ScreenScrollView>
+        {(isLoading || isTransactionLoading) && <Text>Loading...</Text>}
+        {!isLoading && (
+          <>
+            {children}
+            {!transactionHash && (
+              <Pressable onPress={onSend}>
+                <Text>Send</Text>
+              </Pressable>
+            )}
+          </>
+        )}
+        {!!transactionHash && (
+          <TransactionInfo
+            transactionHash={transactionHash}
+            network={network}
+            receiver={getString(transferParams?.to)}
+          />
+        )}
+      </ScreenScrollView>
+
+      <NavigationBar />
+    </ScreenContainer>
+  );
+};

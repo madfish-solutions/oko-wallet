@@ -48,11 +48,12 @@ export const Send: FC = () => {
   };
 
   const navigateToScanQrCode = () => navigate(ScreensEnum.ScanQrCode);
+  const navigateToWallet = () => navigate(ScreensEnum.Wallet);
 
   return (
     <ScreenContainer>
       <HeaderContainer isSelectors>
-        <ScreenTitle title="Send" />
+        <ScreenTitle title="Send" onBackButtonPress={navigateToWallet} />
       </HeaderContainer>
 
       <ScreenScrollView>

@@ -5,19 +5,24 @@ import { ScreenTitle } from '../../components/screen-components/header-container
 import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { ScreenScrollView } from '../../components/screen-components/screen-scroll-view/screen-scroll-view';
+import { useNavigation } from '../../hooks/use-navigation.hook';
 
 import { ConnectToDapps as ConnectToDappsComponent } from './components/connect-to-dapps/connect-to-dapps';
 
-export const ConnectToDapps: FC = () => (
-  <ScreenContainer>
-    <HeaderContainer isSelectors>
-      <ScreenTitle title="Connect to Dapp" />
-    </HeaderContainer>
+export const ConnectToDapps: FC = () => {
+  const { goBack } = useNavigation();
 
-    <ScreenScrollView>
-      <ConnectToDappsComponent />
-    </ScreenScrollView>
+  return (
+    <ScreenContainer>
+      <HeaderContainer isSelectors>
+        <ScreenTitle title="Connect to Dapp" onBackButtonPress={goBack} />
+      </HeaderContainer>
 
-    <NavigationBar />
-  </ScreenContainer>
-);
+      <ScreenScrollView>
+        <ConnectToDappsComponent />
+      </ScreenScrollView>
+
+      <NavigationBar />
+    </ScreenContainer>
+  );
+};

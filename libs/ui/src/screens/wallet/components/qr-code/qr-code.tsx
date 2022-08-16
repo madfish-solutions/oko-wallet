@@ -24,15 +24,7 @@ export const QrCode: FC<Props> = ({ contentOffsetY }) => {
 
   const copyAddress = () => handleCopyToClipboard(address);
 
-  const shareAddress = async () => {
-    try {
-      await Share.share({
-        message: address
-      });
-    } catch (error) {
-      console.log('Share error:', error);
-    }
-  };
+  const shareAddress = () => Share.share({ message: address }).catch(error => console.log('Share error:', error));
 
   const animationOpacity = new Animated.Value(contentOffsetY).interpolate({
     inputRange: [0, 160],

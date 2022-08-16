@@ -24,7 +24,7 @@ import { styles } from './manage-tokens.styles';
 
 export const ManageTokens: FC = () => {
   const dispatch = useDispatch();
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
   const accountTokens = useAccountTokensSelector();
   const {
     gasTokenMetadata: { thumbnailUri, symbol, name }
@@ -37,7 +37,7 @@ export const ManageTokens: FC = () => {
   return (
     <ScreenContainer>
       <HeaderContainer isSelectors>
-        <ScreenTitle title="Edit Token List" />
+        <ScreenTitle title="Edit Token List" onBackButtonPress={goBack} />
       </HeaderContainer>
 
       <ScreenScrollView style={styles.root}>

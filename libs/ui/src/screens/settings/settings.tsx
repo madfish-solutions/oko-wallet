@@ -24,6 +24,7 @@ export const Settings: FC = () => {
 
   const navigateToAddNetwork = () => navigate(ScreensEnum.AddNetwork);
   const navigateToConnectToDapps = () => navigate(ScreensEnum.ConnectToDapps);
+  const navigateToWallet = () => navigate(ScreensEnum.Wallet);
 
   const onShowSuccessToastClick = () => showSuccessToast('This is Success!');
   const onShowWarningToastClick = () => showWarningToast('This is a Warning!');
@@ -32,7 +33,7 @@ export const Settings: FC = () => {
   return (
     <ScreenContainer>
       <HeaderContainer isSelectors>
-        <ScreenTitle title="Settings" />
+        <ScreenTitle title="Settings" onBackButtonPress={navigateToWallet} />
         <HeaderSideIcons icons={[IconNameEnum.Search, IconNameEnum.AddChain, IconNameEnum.Edit]} />
       </HeaderContainer>
 
