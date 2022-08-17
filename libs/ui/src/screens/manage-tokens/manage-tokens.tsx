@@ -10,7 +10,6 @@ import { ScreenContainer } from '../../components/screen-components/screen-conta
 import { ScreenScrollView } from '../../components/screen-components/screen-scroll-view/screen-scroll-view';
 import { SwitchThemesEnum } from '../../components/switch/enum';
 import { Switch } from '../../components/switch/switch';
-import { Text } from '../../components/text/text';
 import { Token } from '../../components/token/token';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
 import { ScreensEnum } from '../../enums/sreens.enum';
@@ -45,10 +44,7 @@ export const ManageTokens: FC = () => {
           <Token uri={thumbnailUri} symbol={symbol} name={name} gasToken />
           <Row>
             <TouchableIcon name={IconNameEnum.Edit} disabled style={[styles.editIcon]} />
-            <Row style={styles.switcherContainer}>
-              <Text style={styles.status}>Show</Text>
-              <Switch theme={SwitchThemesEnum.Primary} isActive disabled />
-            </Row>
+            <Switch theme={SwitchThemesEnum.Primary} isActive disabled />
           </Row>
         </Row>
         {accountTokens.map((token, i) => (
@@ -63,14 +59,11 @@ export const ManageTokens: FC = () => {
                 name={IconNameEnum.Edit}
                 style={styles.editIcon}
               />
-              <Row style={styles.switcherContainer}>
-                <Text style={styles.status}>{token.isVisible ? 'Show' : 'Hide'}</Text>
-                <Switch
-                  onPress={() => handleTokenVisibility(token)}
-                  theme={SwitchThemesEnum.Primary}
-                  isActive={token.isVisible}
-                />
-              </Row>
+              <Switch
+                onPress={() => handleTokenVisibility(token)}
+                theme={SwitchThemesEnum.Primary}
+                isActive={token.isVisible}
+              />
             </Row>
           </Row>
         ))}

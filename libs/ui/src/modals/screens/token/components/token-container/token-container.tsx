@@ -26,6 +26,7 @@ interface Props extends Pick<FooterButtons, 'submitTitle'> {
   errors: FieldErrors<TokenFormTypes>;
   symbol: string;
   editable?: boolean;
+  isLoadingMetadata?: boolean;
 }
 
 export const TokenContainer: FC<Props> = ({
@@ -37,7 +38,8 @@ export const TokenContainer: FC<Props> = ({
   children,
   rules: { commonRules, addressUrlRules, thumbnailUrlRules, decimalsRules },
   errors,
-  editable = true
+  editable = true,
+  isLoadingMetadata = false
 }) => {
   const { goBack } = useNavigation();
 
@@ -47,7 +49,7 @@ export const TokenContainer: FC<Props> = ({
     <ModalActionContainer
       screenTitle={screenTitle}
       submitTitle={submitTitle}
-      isSubmitDisabled={Boolean(Object.keys(errors).length)}
+      isSubmitDisabled={Boolean(Object.keys(errors).length) || isLoadingMetadata}
       onSubmitPress={onSubmitPress}
       onCancelPress={goBack}
     >
