@@ -32,7 +32,7 @@ export const Token: FC<Props> = ({ uri, symbol, name, gasToken = false, forceHid
   }, [uri]);
 
   return (
-    <Row style={style}>
+    <Row style={[styles.flex, style]}>
       <IconWithBorder type="quinary" style={styles.icon}>
         {isDefined(uri) && isNotEmptyString(uri) && !isLoadingError ? (
           <Image source={{ uri }} onError={onError} style={styles.image} />
@@ -40,12 +40,18 @@ export const Token: FC<Props> = ({ uri, symbol, name, gasToken = false, forceHid
           <View style={styles.fallback} />
         )}
       </IconWithBorder>
-      <Column>
-        <Row>
-          <Text style={styles.symbol}>{symbol}</Text>
+      <Column style={styles.flex}>
+        <Row style={styles.row}>
+          <Text style={styles.symbol} numberOfLines={1}>
+            {symbol}
+          </Text>
           {gasToken && <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />}
         </Row>
-        {!forceHideTokenName && <Text style={styles.name}>{isNotEmptyString(name) ? name : symbol}</Text>}
+        {!forceHideTokenName && (
+          <Text style={styles.name} numberOfLines={1}>
+            {isNotEmptyString(name) ? name : symbol}
+          </Text>
+        )}
       </Column>
     </Row>
   );

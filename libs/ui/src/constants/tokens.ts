@@ -8,6 +8,7 @@ type NetworkChainId = string;
 export const KLAYTN_CHAIN_ID = '8217';
 export const TEZOS_CHAIN_ID = 'NetXdQprcVkpaWU';
 export const ROPSTEN_CHAIN_ID = '3';
+const BNB_CHAIN_ID = '56';
 
 export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = {
   [KLAYTN_CHAIN_ID]: [
@@ -125,25 +126,14 @@ export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = 
     }
   ],
   [TEZOS_CHAIN_ID]: [
-    // Gas token
-    {
-      tokenAddress: '',
-      tokenId: '',
-      name: 'Tezos',
-      symbol: 'XTZ',
-      decimals: 6,
-      thumbnailUri: ''
-    },
-    // FA2
     {
       tokenAddress: 'KT193D4vozYnhGJQVtw7CoxxqphqUEEwK6Vb',
-      tokenId: '0',
+      tokenId: '2',
       name: 'Quipuswap Governance Token',
       symbol: 'QUIPU',
       decimals: 6,
       thumbnailUri: ''
     },
-    // FA1.2
     {
       tokenAddress: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
       tokenId: '',
@@ -170,17 +160,32 @@ export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = 
       decimals: 8,
       thumbnailUri: ''
     }
+  ],
+  [BNB_CHAIN_ID]: [
+    {
+      tokenAddress: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d',
+      tokenId: '',
+      name: 'Binance-Peg USD Coin',
+      symbol: 'USDC',
+      decimals: 18,
+      thumbnailUri: 'https://bscscan.com/token/images/centre-usdc_28.png'
+    }
   ]
 };
 
-export const defaultTokensMetadata = TOKENS_DEFAULT_LIST[NETWORKS_DEFAULT_LIST[0].chainId].reduce(
-  (acc, { tokenAddress, tokenId, ...tokenMetadata }) => {
-    const tokenMetadataSlug = getTokenMetadataSlug(NETWORKS_DEFAULT_LIST[0].rpcUrl, tokenAddress, tokenId);
+export const defaultTokensMetadata = Object.keys(TOKENS_DEFAULT_LIST).reduce((acc, chainId) => {
+  const tokensMetadata = TOKENS_DEFAULT_LIST[chainId].reduce((_acc, { tokenAddress, tokenId, ...tokenMetadata }) => {
+    const network = NETWORKS_DEFAULT_LIST.find(network => network.chainId === chainId) ?? NETWORKS_DEFAULT_LIST[0];
+    const tokenMetadataSlug = getTokenMetadataSlug(network.rpcUrl, tokenAddress, tokenId);
 
     return {
-      ...acc,
+      ..._acc,
       [tokenMetadataSlug]: tokenMetadata
     };
-  },
-  {}
-);
+  }, {});
+
+  return {
+    ...acc,
+    ...tokensMetadata
+  };
+}, {});

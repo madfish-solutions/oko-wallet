@@ -52,8 +52,9 @@ export const getDefaultAccountTokens = (state: WalletState, account: AccountInte
     return {
       accountTokensSlug,
       defaultAccountTokens: TOKENS_DEFAULT_LIST[currentNetwork.chainId].map(
-        ({ tokenAddress, name, symbol }, index) => ({
+        ({ tokenAddress, name, symbol, tokenId }, index) => ({
           tokenAddress,
+          tokenId,
           name,
           symbol,
           isVisible: index < initialVisibleTokens,
