@@ -44,15 +44,19 @@ export const ScanQrCode: FC = () => {
 
       if (!isValid) {
         setQrCode('Not Valid');
+        setHasPermission(false);
 
         showErrorToast(`${networkType} QR Code not found on the picture.`);
       } else {
         setQrCode(displayValue);
       }
     }
-  }, [qrCodes]);
+  }, [qrCodes.length]);
 
-  const showQrCodeScanner = () => setQrCode('');
+  const showQrCodeScanner = () => {
+    setQrCode('');
+    setHasPermission(true);
+  };
 
   return (
     <ScreenContainer>
