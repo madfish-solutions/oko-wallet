@@ -11,7 +11,6 @@ import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useToast } from '../../hooks/use-toast.hook';
 import { useUnlock } from '../../hooks/use-unlock.hook';
-import { getUserPassword, saveUserPassword } from '../../shelter/shelter-message';
 
 import { Activity } from './components/activity/activity';
 
@@ -29,10 +28,6 @@ export const Settings: FC = () => {
   const onShowWarningToastClick = () => showWarningToast('This is a Warning!');
   const onShowErrorToastClick = () => showErrorToast('This is an Error!');
 
-  const savePassword = () => {
-    saveUserPassword('password12345');
-  };
-
   return (
     <ScreenContainer
       screenTitle="Settings"
@@ -47,8 +42,6 @@ export const Settings: FC = () => {
       <Button title="Show warning toast" onPress={onShowWarningToastClick} />
       <Button title="Show error toast" onPress={onShowErrorToastClick} />
       <Divider />
-      <Button title="Save Password" onPress={savePassword} />
-      <Button title="Get Password" onPress={getUserPassword} />
       <ResetWallet />
       <Button onPress={lock} title="lock app" color="#841584" />
       <MaximiseScreenButton />

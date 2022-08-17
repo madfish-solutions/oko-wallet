@@ -1,6 +1,7 @@
 import { isDefined } from '@rnw-community/shared';
 
 import { MEMOIZE_UNLOCKED_STATE, ONE_MINUTE } from '../constants/defaults';
+import { Shelter } from '../shelter/shelter';
 
 import { isMobile, isWeb } from './platform.utils';
 
@@ -18,6 +19,7 @@ export const getUnlockedAppState = (defaultValue: boolean) => {
 
     if (timeIsLeft) {
       setLocktimeAppValue(0);
+      Shelter.setPasswordHash('');
     }
 
     return timeIsLeft;

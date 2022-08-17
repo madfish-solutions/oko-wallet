@@ -108,11 +108,13 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: 'public/popup.html',
-            filename: 'popup.html'
+            filename: 'popup.html',
+            chunks: ['main']
         }),
         new HtmlWebpackPlugin({
             template: 'public/fullpage.html',
-            filename: 'fullpage.html'
+            filename: 'fullpage.html',
+            chunks: ['main']
         })
     ]
 };

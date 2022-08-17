@@ -1,7 +1,7 @@
 import { browser } from 'webextension-polyfill-ts';
 
-enum BackgroundMessageTypes {
-  SaveUserPassword = 'SaveUserPassword',
+export enum BackgroundMessageTypes {
+  SetUserPassword = 'SetUserPassword',
   GetUserPassword = 'GetUserPassword'
 }
 
@@ -10,18 +10,20 @@ type MessagePayload<T> = {
   data?: T;
 };
 
-const sendMessage = async <T>(payload: MessagePayload<T>) => {
-  const extensionId = undefined;
-  const response: MessagePayload<T> = await browser.runtime.sendMessage(extensionId, payload);
+export class ShelterMessage {
+  static sendMessage = async <T>(payload: MessagePayload<T>) => {
+    const extensionId = undefined;
+    const response = await browser.runtime.sendMessage(extensionId, payload);
 
-  return response;
-};
+    return response;
+  };
 
-export const saveUserPassword = async (password: string) =>
-  sendMessage({ type: BackgroundMessageTypes.SaveUserPassword, data: password });
+  static setUserPassword = (password: string) =>
+    this.sendMessage({ type: BackgroundMessageTypes.SetUserPassword, data: { password } });
 
-export const getUserPassword = async () => {
-  const resposne = await sendMessage({ type: BackgroundMessageTypes.GetUserPassword });
+  static getUserPassword = async () => {
+    const resposne = await this.sendMessage({ type: BackgroundMessageTypes.GetUserPassword });
 
-  return resposne;
-};
+    return resposne;
+  };
+}
