@@ -18,7 +18,6 @@ export const getUnlockedAppState = (defaultValue: boolean) => {
     const timeIsLeft = Date.now() > ONE_MINUTE * MEMOIZE_UNLOCKED_STATE + locktime;
 
     if (timeIsLeft) {
-      setLocktimeAppValue(0);
       ShelterMessage.setUserPassword('');
     }
 

@@ -11,4 +11,4 @@ interface GetUserPassword {
   type: BackgroundMessageTypes.GetUserPassword;
 }
 
-export type MessagePayloadTypes = SetUserPassword | GetUserPassword;
+export type MessageType = SetUserPassword | GetUserPassword;

@@ -15,7 +15,6 @@ import { getEtherDerivationPath } from '../utils/derivation-path.utils';
 import { derivationPathByNetworkType, generateHdAccount } from '../utils/generate-hd-account.util';
 import { generateHash$ } from '../utils/hash.utils';
 import { setStoredValue } from '../utils/store.util';
-import { getUnlockedAppState, setLocktimeAppValue } from '../utils/unlock-app-state';
 
 import { ShelterMessage } from './shelter-message';
 
@@ -45,9 +44,7 @@ export class Shelter {
 
   private static decryptSensitiveData$ = (key: string, passwordHash: string) => from(decrypt(key, passwordHash));
 
-  static isLocked$ = Shelter._passwordHash$.pipe(
-    map(password => getUnlockedAppState(password === INITIAL_PASSWORD_HASH))
-  );
+  static isLocked$ = Shelter._passwordHash$.pipe(map(password => password === INITIAL_PASSWORD_HASH));
 
   static getIsLocked = () => Shelter._passwordHash$.getValue() === INITIAL_PASSWORD_HASH;
 
@@ -60,7 +57,6 @@ export class Shelter {
           map(decrypted => {
             if (isDefined(decrypted)) {
               Shelter.setPasswordHash(passwordHash);
-              setLocktimeAppValue();
 
               return true;
             }
@@ -85,14 +81,11 @@ export class Shelter {
     generateHash$(password).pipe(
       switchMap(passwordHash => {
         Shelter.setPasswordHash(passwordHash);
-        setLocktimeAppValue();
 
         return forkJoin(
           [...Array(hdAccountsLength).keys()].map(hdAccountIndex =>
             from(generateHdAccount(seedPhrase, getEtherDerivationPath(hdAccountIndex))).pipe(
               map(({ privateKey, publicKey, address }) => {
-                setLocktimeAppValue();
-
                 const name = `Account ${hdAccountIndex + 1}`;
 
                 return {
