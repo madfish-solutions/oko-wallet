@@ -46,5 +46,7 @@ export enum IconNameEnum {
   Clear = 'Clear',
   Success = 'Success',
   Warning = 'Warning',
-  Error = 'Error'
+  Error = 'Error',
+  SwapItems = 'SwapItems',
+  IconPlaceholder = 'IconPlaceholder'
 }

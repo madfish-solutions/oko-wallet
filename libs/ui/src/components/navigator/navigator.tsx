@@ -8,13 +8,13 @@ import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
 import { AddAccount } from '../../modals/screens/add-account/add-account';
+import { DappConfirmation } from '../../modals/screens/dapp-confirmation/dapp-confirmation';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
 import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
 import { NetworksSelector } from '../../modals/screens/networks-selector/networks-selector';
 import { AddNewToken } from '../../screens/add-new-token/add-new-token';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
-import { DappConfirmation } from '../../screens/dapp-confirmation/dapp-confirmation';
 import { ImportAccount } from '../../screens/import-account/import-account';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
@@ -115,6 +115,13 @@ export const Navigator: FC = () => {
                 options={{ title: 'Networks' }}
                 component={NetworksSelector}
               />
+              {/* {isConfirmationScreen && (
+                <Stack.Screen
+                  name={ScreensEnum.DappConfirmation}
+                  options={{ title: 'Dapp' }}
+                  component={DappConfirmation}
+                />
+              )} */}
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptionsWithBackButton}>
@@ -145,9 +152,9 @@ export const Navigator: FC = () => {
         )}
       </Stack.Navigator>
 
-      {isConfirmationScreen && isAuthorised && <DappConfirmation dappName={dappName} />}
+      {/* {isConfirmationScreen && isAuthorised && <DappConfirmation dappName={dappName} />} */}
 
-      {isLocked && isAuthorised && <UnlockApp />}
+      {isLocked && isAuthorised && <DappConfirmation dappName={dappName} />}
     </NavigationContainer>
   );
 };

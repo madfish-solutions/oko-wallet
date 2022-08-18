@@ -22,6 +22,7 @@ import Error from './assets/error.svg';
 import EyeClosedIcon from './assets/eye-closed.svg';
 import EyeOpenIcon from './assets/eye-open.svg';
 import GasIcon from './assets/gas.svg';
+import IconPlaceholder from './assets/icon-placeholder.svg';
 import LoadersIcon from './assets/loaders.svg';
 import NftIcon from './assets/nft.svg';
 import OutIcon from './assets/out.svg';
@@ -39,6 +40,7 @@ import Slider from './assets/slider.svg';
 import StakeIcon from './assets/stake.svg';
 import Success from './assets/success.svg';
 import SwapIcon from './assets/swap.svg';
+import SwapItems from './assets/swapItems.svg';
 import Tooltip from './assets/tooltip.svg';
 import TopupIcon from './assets/topup.svg';
 import Trash from './assets/trash.svg';
@@ -99,5 +101,7 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Clear]: Clear,
   [IconNameEnum.Success]: Success,
   [IconNameEnum.Warning]: Warning,
-  [IconNameEnum.Error]: Error
+  [IconNameEnum.Error]: Error,
+  [IconNameEnum.SwapItems]: SwapItems,
+  [IconNameEnum.IconPlaceholder]: IconPlaceholder
 };
