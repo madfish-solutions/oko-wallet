@@ -10,12 +10,14 @@ const LOCK_PERIOD = 5 * 60 * 1000;
 let passwordHash = INITIAL_PASSWORD_HASH;
 let lastUserActivityTimestamp = 0;
 
+// listen when UI is closed
 browser.runtime.onConnect.addListener(port => {
   if (port.name === 'klaytn_wallet_ui') {
     port.onDisconnect.addListener(() => (lastUserActivityTimestamp = Date.now()));
   }
 });
 
+// listen messages from UI
 browser.runtime.onMessage.addListener((message: BackgroundMessage) => {
   switch (message.type) {
     case BackgroundMessageType.SetPasswordHash: {

@@ -48,8 +48,8 @@ module.exports = {
     },
 
     entry: {
-        background: path.resolve(appDirectory, 'background.ts'),
-        contentScript: path.resolve(appDirectory, 'contentScript.ts'),
+        backgroundScript: path.resolve(appDirectory, 'background-script.ts'),
+        contentScript: path.resolve(appDirectory, 'content-script.ts'),
         main: path.resolve(appDirectory, 'index.ts')
     },
 
