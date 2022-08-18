@@ -21,6 +21,7 @@ const defaultValues: TokenFormTypes = {
   tokenAddress: '',
   tokenId: '',
   symbol: '',
+  name: '',
   decimals: '',
   thumbnailUri: ''
 };
@@ -33,7 +34,6 @@ export const AddNewToken: FC = () => {
   const accountTokens = useAccountAssetsSelector();
 
   const [isLoadingMetadata, setIsLoadingMetadata] = useState(false);
-  const [tokenName, setTokenName] = useState('Token name');
   const {
     control,
     handleSubmit,
@@ -50,6 +50,7 @@ export const AddNewToken: FC = () => {
 
   const resetDynamicFields = () => {
     resetField('symbol');
+    resetField('name');
     resetField('decimals');
     resetField('thumbnailUri');
   };
@@ -78,7 +79,7 @@ export const AddNewToken: FC = () => {
         const contract = new ethers.Contract(address, EVM_TOKEN_METADATA_ABI, provider);
         const [name, symbol, decimals] = await Promise.all([
           contract.name().catch(() => {
-            setTokenName('');
+            resetField('name');
           }),
           contract.symbol().catch(() => {
             resetField('symbol');
@@ -92,7 +93,7 @@ export const AddNewToken: FC = () => {
 
         setValue('symbol', symbol);
         setValue('decimals', decimals.toString());
-        setTokenName(name);
+        setValue('name', name);
       }
     }, DEBOUNCE_TIME)
   ).current;
@@ -124,7 +125,7 @@ export const AddNewToken: FC = () => {
     dispatch(
       addNewTokenAction({
         tokenAddress: fields.tokenAddress,
-        name: tokenName,
+        name: fields.name,
         symbol: fields.symbol,
         thumbnailUri: fields.thumbnailUri,
         decimals: Number(fields.decimals),

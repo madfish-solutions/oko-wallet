@@ -17,7 +17,7 @@ export const EditToken: FC = () => {
 
   const {
     params: {
-      token: { symbol, tokenAddress, decimals, tokenId, thumbnailUri }
+      token: { name, symbol, tokenAddress, decimals, tokenId, thumbnailUri }
     }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.EditToken>>();
 
@@ -32,6 +32,7 @@ export const EditToken: FC = () => {
     mode: 'onChange',
     defaultValues: {
       symbol,
+      name,
       tokenId: tokenId ?? '',
       tokenAddress,
       decimals: String(decimals),
@@ -41,6 +42,7 @@ export const EditToken: FC = () => {
 
   const resetDynamicFields = () => {
     resetField('symbol');
+    resetField('name');
     resetField('decimals');
     resetField('thumbnailUri');
   };
@@ -66,6 +68,7 @@ export const EditToken: FC = () => {
   const onSubmit = (fields: TokenFormTypes) => {
     const prevTokenValue = {
       symbol,
+      name,
       tokenAddress,
       decimals: String(decimals),
       thumbnailUri,
