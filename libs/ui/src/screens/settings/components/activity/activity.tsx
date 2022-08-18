@@ -28,8 +28,8 @@ export const Activity: FC = () => {
       (() => {
         pendingTransactions.map(async pendingTransaction => {
           try {
-            const transaction = await provider?.getTransactionReceipt(pendingTransaction.transactionHash);
-            if (transaction !== null && transaction !== undefined) {
+            const transaction = await provider.getTransactionReceipt(pendingTransaction.transactionHash);
+            if (transaction !== null) {
               dispatch(
                 updateTransactionAction({
                   to: transaction.to,
