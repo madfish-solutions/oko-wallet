@@ -6,7 +6,8 @@ import { browser } from 'webextension-polyfill-ts';
 
 import './styles.css';
 
-browser.runtime.connect({ name: 'popup' });
+// connection to track in background-script when ui is closed
+browser.runtime.connect({ name: 'klaytn_wallet_ui' });
 
 AppRegistry.registerComponent('main', () => App);
 AppRegistry.runApplication('main', {

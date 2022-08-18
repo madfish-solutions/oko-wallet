@@ -16,18 +16,11 @@ import { derivationPathByNetworkType, generateHdAccount } from '../utils/generat
 import { generateHash$ } from '../utils/hash.utils';
 import { setStoredValue } from '../utils/store.util';
 
-import { ShelterMessage } from './shelter-message';
-
 const PASSWORD_CHECK_KEY = 'app-password';
 const INITIAL_PASSWORD_HASH = '';
 
 export class Shelter {
-  private static _passwordHash$ = new BehaviorSubject(INITIAL_PASSWORD_HASH);
-
-  static setPasswordHash = (passwordHash: string) => {
-    Shelter._passwordHash$.next(passwordHash);
-    ShelterMessage.setUserPassword(passwordHash);
-  };
+  static _passwordHash$ = new BehaviorSubject(INITIAL_PASSWORD_HASH);
 
   private static saveSensitiveData$ = (sensitiveData: Record<string, string>) =>
     forkJoin(
@@ -48,7 +41,7 @@ export class Shelter {
 
   static getIsLocked = () => Shelter._passwordHash$.getValue() === INITIAL_PASSWORD_HASH;
 
-  static lockApp = () => Shelter.setPasswordHash(INITIAL_PASSWORD_HASH);
+  static lockApp = () => Shelter._passwordHash$.next(INITIAL_PASSWORD_HASH);
 
   static unlockApp$ = (password: string) =>
     generateHash$(password).pipe(
@@ -56,7 +49,7 @@ export class Shelter {
         Shelter.decryptSensitiveData$(PASSWORD_CHECK_KEY, passwordHash).pipe(
           map(decrypted => {
             if (isDefined(decrypted)) {
-              Shelter.setPasswordHash(passwordHash);
+              Shelter._passwordHash$.next(passwordHash);
 
               return true;
             }
@@ -80,7 +73,7 @@ export class Shelter {
   ): Observable<AccountInterface[]> =>
     generateHash$(password).pipe(
       switchMap(passwordHash => {
-        Shelter.setPasswordHash(passwordHash);
+        Shelter._passwordHash$.next(passwordHash);
 
         return forkJoin(
           [...Array(hdAccountsLength).keys()].map(hdAccountIndex =>

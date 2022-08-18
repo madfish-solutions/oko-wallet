@@ -22,8 +22,6 @@ import { Settings } from '../../screens/settings/settings';
 import { Tokens } from '../../screens/tokens/tokens';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
-import { Shelter } from '../../shelter/shelter';
-import { ShelterMessage } from '../../shelter/shelter-message';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
 import { getStoredValue, setStoredValue } from '../../utils/store.util';
 
@@ -38,14 +36,6 @@ export const Navigator: FC = () => {
   const { isLocked } = useUnlock();
   const [isReady, setIsReady] = useState(false);
   const [initialState, setInitialState] = useState<InitialState>();
-
-  useEffect(() => {
-    const getBackgroundPasswordHash = async () => {
-      const bgPasswordHash: string = await ShelterMessage.getUserPassword();
-      Shelter.setPasswordHash(bgPasswordHash);
-    };
-    getBackgroundPasswordHash();
-  }, []);
 
   useEffect(() => {
     const restoreState = async () => {
