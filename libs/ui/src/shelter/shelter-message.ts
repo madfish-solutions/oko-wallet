@@ -7,7 +7,7 @@ export enum BackgroundMessageTypes {
 
 type MessagePayload<T> = {
   type: BackgroundMessageTypes;
-  data?: T;
+  data?: Record<string, T>;
 };
 
 export class ShelterMessage {
