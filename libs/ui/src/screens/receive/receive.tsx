@@ -3,13 +3,21 @@ import React, { FC, useMemo, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
-import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
-import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
+import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { ScreenTitle } from '../../components/screen-components/header-container/components/screen-title/screen-title';
+import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
+import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
+import { ScreenScrollView } from '../../components/screen-components/screen-scroll-view/screen-scroll-view';
 import { Text } from '../../components/text/text';
+import { ScreensEnum } from '../../enums/sreens.enum';
 import { useDelayedEffect } from '../../hooks/use-delayed-effect.hook';
+import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useSelectedAccountSelector, useSelectedNetworkTypeSelector } from '../../store/wallet/wallet.selectors';
 
+import { HeaderSwapSide } from './components/header-side-swap/header-side-swap';
+
 export const Receive: FC = () => {
+  const { navigate } = useNavigation();
   const [isCopied, setIsCopied] = useState(false);
   const selectedAccount = useSelectedAccountSelector();
   const networkType = useSelectedNetworkTypeSelector();
@@ -23,16 +31,28 @@ export const Receive: FC = () => {
     }
   };
 
+  const navigateToWallet = () => navigate(ScreensEnum.Wallet);
+
   useDelayedEffect(() => setIsCopied(false), [isCopied]);
 
   return (
-    <ScreenContainer screenTitle="Receive" navigationType={HeaderSideTypeEnum.Swap}>
-      <QRCode value={publicKeyHash} />
-      <Text>{publicKeyHash}</Text>
-      <TouchableOpacity onPress={handleCopyToClipboard}>
-        <Text>Copy</Text>
-      </TouchableOpacity>
-      {isCopied && <Text>Copied!</Text>}
+    <ScreenContainer>
+      <HeaderContainer isSelectors>
+        <ScreenTitle title="Receive" onBackButtonPress={navigateToWallet} />
+
+        <HeaderSwapSide />
+      </HeaderContainer>
+
+      <ScreenScrollView>
+        <QRCode value={publicKeyHash} />
+        <Text>{publicKeyHash}</Text>
+        <TouchableOpacity onPress={handleCopyToClipboard}>
+          <Text>Copy</Text>
+        </TouchableOpacity>
+        {isCopied && <Text>Copied!</Text>}
+      </ScreenScrollView>
+
+      <NavigationBar />
     </ScreenContainer>
   );
 };

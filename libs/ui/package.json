@@ -54,6 +54,7 @@
     "react-native-svg": "^12.3.0",
     "react-native-themis": "^0.14.4",
     "react-native-toast-notifications": "^3.3.1",
+    "react-native-vision-camera": "^2.14.1",
     "react-redux": "^8.0.1",
     "react-test-renderer": "^17.0.2",
     "redux-flipper": "^2.0.1",
@@ -63,6 +64,7 @@
     "ts-action": "^11.0.0",
     "ts-action-operators": "^9.1.2",
     "typechain": "^8.1.0",
+    "vision-camera-code-scanner": "^0.2.0",
     "wasm-themis": "^0.14.5",
     "webextension-polyfill-ts": "^0.26.0"
   },

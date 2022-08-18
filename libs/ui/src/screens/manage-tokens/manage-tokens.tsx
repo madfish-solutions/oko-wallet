@@ -2,8 +2,12 @@ import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
+import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { Row } from '../../components/row/row';
-import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
+import { ScreenTitle } from '../../components/screen-components/header-container/components/screen-title/screen-title';
+import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
+import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
+import { ScreenScrollView } from '../../components/screen-components/screen-scroll-view/screen-scroll-view';
 import { SwitchThemesEnum } from '../../components/switch/enum';
 import { Switch } from '../../components/switch/switch';
 import { Token } from '../../components/token/token';
@@ -19,7 +23,7 @@ import { styles } from './manage-tokens.styles';
 
 export const ManageTokens: FC = () => {
   const dispatch = useDispatch();
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
   const accountTokens = useAccountTokensSelector();
   const {
     gasTokenMetadata: { thumbnailUri, symbol, name }
@@ -30,34 +34,42 @@ export const ManageTokens: FC = () => {
   const handleTokenVisibility = (token: TokenInterface) => dispatch(changeTokenVisibilityAction(token));
 
   return (
-    <ScreenContainer screenTitle="Edit Token List" contentStyles={styles.root}>
-      <Row style={[styles.token, styles.borderBottom]}>
-        <Token uri={thumbnailUri} symbol={symbol} name={name} gasToken />
-        <Row>
-          <TouchableIcon name={IconNameEnum.Edit} disabled style={[styles.editIcon]} />
-          <Switch theme={SwitchThemesEnum.Primary} isActive disabled />
-        </Row>
-      </Row>
-      {accountTokens.map((token, i) => (
-        <Row
-          key={getTokenSlug(token.tokenAddress, token.tokenId)}
-          style={[styles.token, i !== accountTokens.length - 1 && styles.borderBottom]}
-        >
-          <Token uri={token.thumbnailUri} symbol={token.symbol} name={token.name} />
+    <ScreenContainer>
+      <HeaderContainer isSelectors>
+        <ScreenTitle title="Edit Token List" onBackButtonPress={goBack} />
+      </HeaderContainer>
+
+      <ScreenScrollView style={styles.root}>
+        <Row style={[styles.token, styles.borderBottom]}>
+          <Token uri={thumbnailUri} symbol={symbol} name={name} gasToken />
           <Row>
-            <TouchableIcon
-              onPress={() => navigateToEditTokenScreen(token)}
-              name={IconNameEnum.Edit}
-              style={styles.editIcon}
-            />
-            <Switch
-              onPress={() => handleTokenVisibility(token)}
-              theme={SwitchThemesEnum.Primary}
-              isActive={token.isVisible}
-            />
+            <TouchableIcon name={IconNameEnum.Edit} disabled style={[styles.editIcon]} />
+            <Switch theme={SwitchThemesEnum.Primary} isActive disabled />
           </Row>
         </Row>
-      ))}
+        {accountTokens.map((token, i) => (
+          <Row
+            key={getTokenSlug(token.tokenAddress, token.tokenId)}
+            style={[styles.token, i !== accountTokens.length - 1 && styles.borderBottom]}
+          >
+            <Token uri={token.thumbnailUri} symbol={token.symbol} name={token.name} />
+            <Row>
+              <TouchableIcon
+                onPress={() => navigateToEditTokenScreen(token)}
+                name={IconNameEnum.Edit}
+                style={styles.editIcon}
+              />
+              <Switch
+                onPress={() => handleTokenVisibility(token)}
+                theme={SwitchThemesEnum.Primary}
+                isActive={token.isVisible}
+              />
+            </Row>
+          </Row>
+        ))}
+      </ScreenScrollView>
+
+      <NavigationBar />
     </ScreenContainer>
   );
 };

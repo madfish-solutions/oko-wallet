@@ -2,12 +2,15 @@ import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { FlatList, ListRenderItemInfo, Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
 import { EmptySearchIcon } from '../../components/icon/components/empty-search-icon/empty-search-icon';
 import { Icon } from '../../components/icon/icon';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
+import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { Row } from '../../components/row/row';
-import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
+import { HeaderAccountBalance } from '../../components/screen-components/header-container/components/header-account-balance/header-account-balance';
+import { ScreenTitle } from '../../components/screen-components/header-container/components/screen-title/screen-title';
+import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
+import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { SearchPanel } from '../../components/search-panel/search-panel';
 import { AccountToken } from '../../components/token/account-token/account-token';
 import { GasToken } from '../../components/token/gas-token/gas-token';
@@ -33,7 +36,7 @@ const keyExtractor = ({ tokenAddress, tokenId }: Token) => getTokenSlug(tokenAdd
 export const Tokens: FC = () => {
   const { gasTokenMetadata, gasTokenBalance, rpcUrl } = useSelectedNetworkSelector();
   const dispatch = useDispatch();
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
   const allAccountTokens = useAccountTokensSelector();
   const visibleAccountTokens = useVisibleAccountTokensSelector();
 
@@ -105,12 +108,12 @@ export const Tokens: FC = () => {
   );
 
   return (
-    <ScreenContainer
-      screenTitle="Tokens"
-      navigationType={HeaderSideTypeEnum.AccountBalance}
-      scrollViewWrapper={false}
-      style={styles.screenContainer}
-    >
+    <ScreenContainer style={styles.screenContainer}>
+      <HeaderContainer isSelectors>
+        <ScreenTitle title="Tokens" onBackButtonPress={goBack} />
+        <HeaderAccountBalance />
+      </HeaderContainer>
+
       <View style={styles.root}>
         <SearchPanel
           onPressAddIcon={navigateToAddNewToken}
@@ -133,6 +136,8 @@ export const Tokens: FC = () => {
           ListEmptyComponent={<EmptySearchIcon />}
         />
       </View>
+
+      <NavigationBar />
     </ScreenContainer>
   );
 };

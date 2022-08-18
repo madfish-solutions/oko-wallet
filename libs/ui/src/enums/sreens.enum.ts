@@ -21,7 +21,8 @@ export enum ScreensEnum {
   EditNetwork = 'EditNetwork',
   AddNewToken = 'AddNewToken',
   EditToken = 'EditToken',
-  Tokens = 'Tokens'
+  Tokens = 'Tokens',
+  ScanQrCode = 'ScanQrCode'
 }
 
 export type ScreensParamList = {
@@ -45,4 +46,5 @@ export type ScreensParamList = {
   [ScreensEnum.EditToken]: { token: Token };
   [ScreensEnum.EditNetwork]: { network: NetworkInterface; isNetworkSelected: boolean };
   [ScreensEnum.Tokens]: undefined;
+  [ScreensEnum.ScanQrCode]: undefined;
 };
