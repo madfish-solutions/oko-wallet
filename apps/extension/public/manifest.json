@@ -10,26 +10,12 @@
   "background": {
     "service_worker": "scripts/background-script.js"
   },
-  "web_accessible_resources": [
+  "content_scripts": [
     {
-      "resources": ["scripts/ethereum.js"],
+      "js": ["scripts/content-script.js"],
       "matches": ["<all_urls>"]
     }
   ],
-  "content_scripts": [
-    {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "scripts/content-script.js"
-      ],
-      "run_at": "document_idle",
-      "all_frames": true
-    }
-  ],
-  "host_permissions": ["<all_urls>"],
-  "permissions": ["storage", "declarativeContent", "activeTab", "scripting"],
   "icons": {
     "16": "mics/logo192.png",
     "48": "mics/logo192.png",
