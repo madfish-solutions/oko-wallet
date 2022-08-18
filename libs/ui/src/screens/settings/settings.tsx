@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { Button } from 'react-native';
 
-import { Divider } from '../../components/divider/divider';
 import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
 import { MaximiseScreenButton } from '../../components/maximise-screen-button/maximise-screen-button';
@@ -41,7 +40,6 @@ export const Settings: FC = () => {
       <Button title="Show success toast" onPress={onShowSuccessToastClick} />
       <Button title="Show warning toast" onPress={onShowWarningToastClick} />
       <Button title="Show error toast" onPress={onShowErrorToastClick} />
-      <Divider />
       <ResetWallet />
       <Button onPress={lock} title="lock app" color="#841584" />
       <MaximiseScreenButton />

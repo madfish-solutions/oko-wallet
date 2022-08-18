@@ -40,11 +40,11 @@ export const Navigator: FC = () => {
   const [initialState, setInitialState] = useState<InitialState>();
 
   useEffect(() => {
-    const checkBackgroundPasswordHash = async () => {
+    const getBackgroundPasswordHash = async () => {
       const bgPasswordHash: string = await ShelterMessage.getUserPassword();
       Shelter.setPasswordHash(bgPasswordHash);
     };
-    checkBackgroundPasswordHash();
+    getBackgroundPasswordHash();
   }, []);
 
   useEffect(() => {

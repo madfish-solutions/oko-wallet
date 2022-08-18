@@ -1,6 +1,7 @@
 import './shim.js';
+
 import { runtime } from 'webextension-polyfill';
 
-runtime.connect({ name: 'port-from-cs' });
+runtime.connect({ name: 'popup' });
 
 import './shelter-messages';
