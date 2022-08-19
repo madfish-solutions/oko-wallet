@@ -75,16 +75,7 @@ export const Navigator: FC = () => {
       setDappName(query?.origin as string);
     }
     console.log(query, 'PARAMS!!');
-    window.addEventListener('DOMContentLoaded', () => {
-      channel.postMessage({ msg: 'background' });
-    });
   }, []);
-
-  // channel.onmessage = msg => {
-  //   dispatch(setConnectionFromDapp({ chainId: '', dappName: msg.data?.origin, data: msg.data?.data }));
-  //   dispatch(changeConfirmationScreenStatus(true));
-  //   setDappName(msg.data?.origin);
-  // };
 
   if (!isReady) {
     return (

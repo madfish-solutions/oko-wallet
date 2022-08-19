@@ -101,7 +101,7 @@ export const DappConfirmation: FC<Props> = ({ dappName }) => {
           <Text style={styles.smallText}>Address</Text>
           <Row>
             <Text style={styles.explorerLink} onPress={() => Linking.openURL('')} numberOfLines={1}>
-              qupuswap.com/fjajkkjajfjkfekjefjkfekjfekjefkjefkjfekjfekjefkjefkjefkjfekjfekjekjefkjfekjefkjfe
+              {dappInfo[dappName].dappName}
             </Text>
             <Icon name={IconNameEnum.Copy} />
           </Row>

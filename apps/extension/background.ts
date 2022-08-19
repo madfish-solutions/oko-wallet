@@ -11,11 +11,10 @@ browser.runtime.onConnect.addListener(async myPort => {
     if (msg.data?.target === 'metamask-contentscript' && msg.data?.data?.data?.method === 'eth_requestAccounts') {
       messageData = msg.data?.data?.data;
       origin = msg.origin;
-      console.log(messageData, 'MESSAGE DATA!!!!')
       await browser.windows.create({
         type: 'popup',
         url: browser.runtime.getURL(`popup.html?confirmation=true&origin=${origin}&id=${messageData?.id}`),
-        width: 380,
+        width: 360,
         height: 600,
         top: 20,
         left: 20
@@ -23,12 +22,5 @@ browser.runtime.onConnect.addListener(async myPort => {
   
     }
   });
+})
 
-  // send message to UI when popup is loaded and data from Dapp is received
-  channel.onmessage = bcmessage => {
-    if (bcmessage.data?.msg === 'background' && messageData !== undefined) {
-      channel.postMessage({ data: messageData, origin });
-      messageData = undefined;
-    }
-  };
-});
