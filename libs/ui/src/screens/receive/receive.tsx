@@ -66,9 +66,11 @@ export const Receive: FC = () => {
           </View>
 
           <Text style={styles.text}>{`Wallet Address on the ${network.name} Network`}</Text>
-          <Text numberOfLines={2} style={styles.address}>
-            {address}
-          </Text>
+          <TouchableOpacity onPress={copyAddress} style={styles.addressWrapper}>
+            <Text numberOfLines={2} style={styles.address}>
+              {address}
+            </Text>
+          </TouchableOpacity>
         </Column>
 
         <Row style={styles.actions}>

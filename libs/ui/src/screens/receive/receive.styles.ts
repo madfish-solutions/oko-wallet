@@ -33,6 +33,9 @@ export const styles = StyleSheet.create({
     color: colors.textGrey2,
     textAlign: 'center'
   },
+  addressWrapper: {
+    width: '100%'
+  },
   address: {
     ...typography.numbersIBMPlexSansMedium13,
     textAlign: 'center'
