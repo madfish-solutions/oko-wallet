@@ -9,6 +9,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { AccountTypeEnum } from '../enums/account-type.enum';
 import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { AccountInterface } from '../interfaces/account.interface';
+import { BackgroundMessager } from '../messagers/background-messager';
 import { decrypt } from '../themis/decrypt';
 import { encrypt } from '../themis/encrypt';
 import { getEtherDerivationPath } from '../utils/derivation-path.utils';
@@ -21,6 +22,11 @@ const INITIAL_PASSWORD_HASH = '';
 
 export class Shelter {
   static _passwordHash$ = new BehaviorSubject(INITIAL_PASSWORD_HASH);
+
+  static setPasswordHash = (passwordHash: string) => {
+    BackgroundMessager.setPasswordHash(passwordHash);
+    Shelter._passwordHash$.next(passwordHash);
+  };
 
   private static saveSensitiveData$ = (sensitiveData: Record<string, string>) =>
     forkJoin(
@@ -41,7 +47,7 @@ export class Shelter {
 
   static getIsLocked = () => Shelter._passwordHash$.getValue() === INITIAL_PASSWORD_HASH;
 
-  static lockApp = () => Shelter._passwordHash$.next(INITIAL_PASSWORD_HASH);
+  static lockApp = () => Shelter.setPasswordHash(INITIAL_PASSWORD_HASH);
 
   static unlockApp$ = (password: string) =>
     generateHash$(password).pipe(
@@ -49,7 +55,7 @@ export class Shelter {
         Shelter.decryptSensitiveData$(PASSWORD_CHECK_KEY, passwordHash).pipe(
           map(decrypted => {
             if (isDefined(decrypted)) {
-              Shelter._passwordHash$.next(passwordHash);
+              Shelter.setPasswordHash(passwordHash);
 
               return true;
             }
@@ -73,7 +79,7 @@ export class Shelter {
   ): Observable<AccountInterface[]> =>
     generateHash$(password).pipe(
       switchMap(passwordHash => {
-        Shelter._passwordHash$.next(passwordHash);
+        Shelter.setPasswordHash(passwordHash);
 
         return forkJoin(
           [...Array(hdAccountsLength).keys()].map(hdAccountIndex =>
