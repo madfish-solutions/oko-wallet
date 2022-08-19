@@ -1,13 +1,19 @@
 import React, { FC, useState } from 'react';
-import { View, Image, Linking } from 'react-native';
+import { View, Image, Linking, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { browser } from 'webextension-polyfill-ts';
 
+import { Button } from '../../../components/button/button';
+import { ButtonThemesEnum } from '../../../components/button/enums';
 import { Divider } from '../../../components/divider/divider';
+import { IconWithBorder } from '../../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
+import { RobotIcon } from '../../../components/robot-icon/robot-icon';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
+import { ScreensEnum } from '../../../enums/sreens.enum';
+import { useNavigation } from '../../../hooks/use-navigation.hook';
 import {
   changeConfirmationScreenStatus,
   deletePendingConnection,
@@ -15,9 +21,11 @@ import {
 } from '../../../store/wallet/wallet.actions';
 import {
   usePendingDappConnectionSelector,
-  useSelectedAccountPublicKeyHashSelector
+  useSelectedAccountPublicKeyHashSelector,
+  useSelectedAccountSelector
 } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
+import { shortize } from '../../../utils/shortize.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
 import { styles } from './dapp-confirmation.styles';
@@ -54,8 +62,9 @@ const DappImage: FC<DappImageProps> = ({ image }) => {
 
 export const DappConfirmation: FC<Props> = ({ dappName }) => {
   const dispatch = useDispatch();
-  const selectedAcc = useSelectedAccountPublicKeyHashSelector();
+  const selectedAddress = useSelectedAccountPublicKeyHashSelector();
   const dappInfo = usePendingDappConnectionSelector();
+  const { navigate } = useNavigation();
 
   const sendMesg = (obj: unknown) => {
     browser.tabs.query({ active: true }).then(tabs => {
@@ -70,6 +79,9 @@ export const DappConfirmation: FC<Props> = ({ dappName }) => {
       }
     });
   };
+
+  const selectedAccount = useSelectedAccountSelector();
+  const selectAccount = () => navigate(ScreensEnum.AccountsSelector);
 
   return (
     <ModalContainer screenTitle="Confirmation">
@@ -89,13 +101,38 @@ export const DappConfirmation: FC<Props> = ({ dappName }) => {
           </Row>
         </Row>
         <View style={styles.divider} />
-        <Text style={[styles.smallText, styles.from]}>From:</Text>
-        <View>
-          <Text>from select</Text>
+        <Text style={[styles.smallText, styles.from]}>From</Text>
+        <View style={styles.accountSelector}>
+          <Row style={styles.selectorRow}>
+            <Row>
+              <TouchableOpacity onPress={selectAccount} style={styles.button}>
+                <IconWithBorder>
+                  <RobotIcon seed={selectedAddress} />
+                </IconWithBorder>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={selectAccount}>
+                <Row>
+                  <Text style={styles.accName}>{selectedAccount.name}</Text>
+                  <Icon name={IconNameEnum.Dropdown} size={getCustomSize(2)} />
+                </Row>
+              </TouchableOpacity>
+            </Row>
+            <Text style={styles.address}>{shortize(selectedAddress)}</Text>
+          </Row>
+          <Row>
+            <View>
+              <Text style={styles.gasBalanceTitle}>Gas Balance</Text>
+              <Row>
+                <Text style={styles.gasBalance}>404.03231 M SYMBL </Text>
+                <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />
+              </Row>
+            </View>
+          </Row>
         </View>
-        <View>
-          <Text>allows block</Text>
-        </View>
+        <Row style={styles.buttonPanel}>
+          <Button theme={ButtonThemesEnum.Primary} title="Decline" />
+          <Button theme={ButtonThemesEnum.Secondary} title="Send" />
+        </Row>
       </View>
     </ModalContainer>
   );

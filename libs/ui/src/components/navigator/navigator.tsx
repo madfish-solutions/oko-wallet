@@ -65,9 +65,11 @@ export const Navigator: FC = () => {
   const channel = new BroadcastChannel('KlaytnWallet');
 
   // invoke background script when popup is loaded
-  window.addEventListener('DOMContentLoaded', () => {
-    channel.postMessage({ msg: 'background' });
-  });
+  useEffect(() => {
+    window.addEventListener('DOMContentLoaded', () => {
+      channel.postMessage({ msg: 'background' });
+    });
+  }, []);
 
   channel.onmessage = msg => {
     dispatch(setConnectionFromDapp({ chainId: '', dappName: msg.data?.origin, data: msg.data?.data }));
@@ -152,9 +154,11 @@ export const Navigator: FC = () => {
         )}
       </Stack.Navigator>
 
-      {/* {isConfirmationScreen && isAuthorised && <DappConfirmation dappName={dappName} />} */}
+      {isConfirmationScreen && isAuthorised && (
+        <Stack.Screen name={ScreensEnum.DappConfirmation} options={{ title: 'Dapp' }} component={DappConfirmation} />
+      )}
 
-      {isLocked && isAuthorised && <DappConfirmation dappName={dappName} />}
+      {isLocked && isAuthorised && <UnlockApp />}
     </NavigationContainer>
   );
 };
