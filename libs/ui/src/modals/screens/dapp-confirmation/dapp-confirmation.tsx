@@ -40,7 +40,7 @@ interface DappImageProps {
 }
 
 interface MessageToDapp {
-  data: any;
+  data: unknown;
   target: string;
 }
 

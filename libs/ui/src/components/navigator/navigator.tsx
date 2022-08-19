@@ -1,6 +1,6 @@
 import { InitialState, NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import { isDefined } from '@rnw-community/shared';
-import queryString from 'query-string';
+import { parse } from 'query-string';
 import React, { FC, createRef, useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -44,6 +44,8 @@ export const Navigator: FC = () => {
   const isConfirmationScreen = useIsConfirmationScreenSelector();
   const [dappName, setDappName] = useState('');
 
+  console.log(isConfirmationScreen, 'CONFIRMATION SCREEN');
+
   useEffect(() => {
     const restoreState = async () => {
       try {
@@ -62,13 +64,16 @@ export const Navigator: FC = () => {
     }
   }, [isReady]);
 
-  // @TODO: save channel name in .env file
-  const channel = new BroadcastChannel('KlaytnWallet');
+  interface QueryParamsFromDapp {
+    id: number;
+    confirmation: boolean;
+    origin: string;
+  }
 
   // invoke background script when popup is loaded
   useEffect(() => {
-    const query = queryString.parse(location.search);
-    if (query?.confirmation) {
+    const query = parse(location.search);
+    if ((query as unknown as QueryParamsFromDapp).confirmation) {
       console.log(query.origin);
       dispatch(changeConfirmationScreenStatus(true));
       dispatch(setConnectionFromDapp({ chainId: '', dappName: query?.origin as string, data: { id: query?.id } }));

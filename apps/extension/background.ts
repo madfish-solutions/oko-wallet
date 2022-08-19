@@ -1,7 +1,5 @@
 import { browser } from 'webextension-polyfill-ts';
 
-const channel = new BroadcastChannel('KlaytnWallet');
-
 let messageData: any;
 let origin: string;
 
@@ -19,8 +17,6 @@ browser.runtime.onConnect.addListener(async myPort => {
         top: 20,
         left: 20
       });
-  
     }
   });
-})
-
+});
