@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Share, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
 import { Column } from '../../components/column/column';
@@ -24,6 +24,7 @@ import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { handleCopyToClipboard } from '../../utils/copy-to-clipboard.util';
 import { isMobile } from '../../utils/platform.utils';
+import { share } from '../../utils/share.util';
 
 import { styles } from './receive.styles';
 
@@ -35,7 +36,7 @@ export const Receive: FC = () => {
 
   const navigateToWallet = () => navigate(ScreensEnum.Wallet);
   const copyAddress = () => handleCopyToClipboard(address);
-  const shareAddress = () => Share.share({ message: address }).catch(() => null);
+  const shareAddress = () => share({ message: address });
   const promptNavigate = () => null;
 
   useDelayedEffect(() => setIsCopied(false), [isCopied]);
