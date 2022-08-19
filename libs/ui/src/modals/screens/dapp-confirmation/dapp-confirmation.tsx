@@ -5,7 +5,6 @@ import { browser } from 'webextension-polyfill-ts';
 
 import { Button } from '../../../components/button/button';
 import { ButtonThemesEnum } from '../../../components/button/enums';
-import { Divider } from '../../../components/divider/divider';
 import { IconWithBorder } from '../../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
@@ -36,14 +35,13 @@ interface Props {
 
 const CLOSE_DELAY = 1000;
 
-// onPress={() =>
-//     sendMesg({
-//       data: { data: { ...dappInfo[dappName].data, result: [selectedAcc] }, name: 'metamask-provider' },
-//       target: 'metamask-inpage'
-//     })
-
 interface DappImageProps {
   image: string;
+}
+
+interface MessageToDapp {
+  data: any;
+  target: string;
 }
 
 const DappImage: FC<DappImageProps> = ({ image }) => {
@@ -65,11 +63,19 @@ export const DappConfirmation: FC<Props> = ({ dappName }) => {
   const selectedAddress = useSelectedAccountPublicKeyHashSelector();
   const dappInfo = usePendingDappConnectionSelector();
   const { navigate } = useNavigation();
+  const objToDapp: MessageToDapp = {
+    data: {
+      data: { ...dappInfo[dappName].data, method: 'eth_requestAccounts', jsonrpc: '2.0', result: [selectedAddress] },
+      name: 'metamask-provider'
+    },
+    target: 'metamask-inpage'
+  };
 
-  const sendMesg = (obj: unknown) => {
+  console.log(dappInfo, 'DAPP INFO');
+  const sendMessage = () => {
     browser.tabs.query({ active: true }).then(tabs => {
       if (tabs[0].id !== undefined) {
-        browser.tabs.sendMessage(tabs[0].id, obj);
+        browser.tabs.sendMessage(tabs[0].id, objToDapp);
         setTimeout(() => {
           window.close();
         }, CLOSE_DELAY);
@@ -131,7 +137,7 @@ export const DappConfirmation: FC<Props> = ({ dappName }) => {
         </View>
         <Row style={styles.buttonPanel}>
           <Button theme={ButtonThemesEnum.Primary} title="Decline" />
-          <Button theme={ButtonThemesEnum.Secondary} title="Send" />
+          <Button onPress={sendMessage} theme={ButtonThemesEnum.Secondary} title="Send" />
         </Row>
       </View>
     </ModalContainer>

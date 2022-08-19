@@ -1,5 +1,6 @@
 import { InitialState, NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import { isDefined } from '@rnw-community/shared';
+import queryString from 'query-string';
 import React, { FC, createRef, useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -66,16 +67,24 @@ export const Navigator: FC = () => {
 
   // invoke background script when popup is loaded
   useEffect(() => {
+    const query = queryString.parse(location.search);
+    if (query?.confirmation) {
+      console.log(query.origin);
+      dispatch(changeConfirmationScreenStatus(true));
+      dispatch(setConnectionFromDapp({ chainId: '', dappName: query?.origin as string, data: { id: query?.id } }));
+      setDappName(query?.origin as string);
+    }
+    console.log(query, 'PARAMS!!');
     window.addEventListener('DOMContentLoaded', () => {
       channel.postMessage({ msg: 'background' });
     });
   }, []);
 
-  channel.onmessage = msg => {
-    dispatch(setConnectionFromDapp({ chainId: '', dappName: msg.data?.origin, data: msg.data?.data }));
-    dispatch(changeConfirmationScreenStatus(true));
-    setDappName(msg.data?.origin);
-  };
+  // channel.onmessage = msg => {
+  //   dispatch(setConnectionFromDapp({ chainId: '', dappName: msg.data?.origin, data: msg.data?.data }));
+  //   dispatch(changeConfirmationScreenStatus(true));
+  //   setDappName(msg.data?.origin);
+  // };
 
   if (!isReady) {
     return (
@@ -154,9 +163,7 @@ export const Navigator: FC = () => {
         )}
       </Stack.Navigator>
 
-      {isConfirmationScreen && isAuthorised && (
-        <Stack.Screen name={ScreensEnum.DappConfirmation} options={{ title: 'Dapp' }} component={DappConfirmation} />
-      )}
+      {isConfirmationScreen && isAuthorised && <DappConfirmation dappName={dappName} />}
 
       {isLocked && isAuthorised && <UnlockApp />}
     </NavigationContainer>
