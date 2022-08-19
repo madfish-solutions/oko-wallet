@@ -5,8 +5,7 @@ import { BackgroundMessageType } from '../../libs/ui/src/messagers/enums/backgro
 import { BackgroundMessage } from '../../libs/ui/src/messagers/types/background-message.types';
 
 const INITIAL_PASSWORD_HASH = '';
-// const LOCK_PERIOD = 5 * 60 * 1000;
-const LOCK_PERIOD = 20000;
+const LOCK_PERIOD = 5 * 60 * 1000;
 const URL_BASE = 'extension://';
 
 let passwordHash = INITIAL_PASSWORD_HASH;
