@@ -46,6 +46,7 @@
     "react-native-keychain": "^8.0.0",
     "react-native-qrcode-svg": "^6.1.2",
     "react-native-randombytes": "^3.0.0",
+    "react-native-reanimated": "^2.9.1",
     "react-native-safe-area-context": "^4.2.4",
     "react-native-screens": "^3.13.1",
     "react-native-sha256": "^1.4.7",
@@ -53,6 +54,7 @@
     "react-native-svg-transformer": "^1.0.0",
     "react-native-themis": "^0.14.4",
     "react-native-toast-notifications": "^3.3.1",
+    "react-native-vision-camera": "^2.14.1",
     "react-redux": "^8.0.1",
     "readable-stream": "^3.6.0",
     "redux-flipper": "^2.0.1",
@@ -62,7 +64,8 @@
     "rxjs": "^7.5.5",
     "stream-browserify": "^3.0.0",
     "ts-action": "^11.0.0",
-    "ts-action-operators": "^9.1.2"
+    "ts-action-operators": "^9.1.2",
+    "vision-camera-code-scanner": "^0.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

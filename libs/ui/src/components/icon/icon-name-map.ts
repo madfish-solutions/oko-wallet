@@ -26,6 +26,7 @@ import LoadersIcon from './assets/loaders.svg';
 import NftIcon from './assets/nft.svg';
 import OutIcon from './assets/out.svg';
 import PartnersIcon from './assets/partners.svg';
+import QrScanner from './assets/qr-scanner.svg';
 import QrIcon from './assets/qr.svg';
 import QrscanIcon from './assets/qrscan.svg';
 import ReceiveIcon from './assets/receive.svg';
@@ -99,5 +100,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Clear]: Clear,
   [IconNameEnum.Success]: Success,
   [IconNameEnum.Warning]: Warning,
-  [IconNameEnum.Error]: Error
+  [IconNameEnum.Error]: Error,
+  [IconNameEnum.QrScanner]: QrScanner
 };

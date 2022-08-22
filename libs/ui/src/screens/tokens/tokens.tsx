@@ -2,12 +2,15 @@ import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { FlatList, ListRenderItemInfo, Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
 import { EmptySearchIcon } from '../../components/icon/components/empty-search-icon/empty-search-icon';
 import { Icon } from '../../components/icon/icon';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
+import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { Row } from '../../components/row/row';
-import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
+import { HeaderAccountBalance } from '../../components/screen-components/header-container/components/header-account-balance/header-account-balance';
+import { ScreenTitle } from '../../components/screen-components/header-container/components/screen-title/screen-title';
+import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
+import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { SearchPanel } from '../../components/search-panel/search-panel';
 import { AccountToken } from '../../components/token/account-token/account-token';
 import { GasToken } from '../../components/token/gas-token/gas-token';
@@ -27,14 +30,13 @@ import { getTokenSlug } from '../../utils/token.utils';
 import { styles } from './tokens.styles';
 import { filterAccountTokensByValue } from './utils/filter-account-tokens-by-value';
 import { getListOfTokensAddresses } from './utils/get-list-of-tokens-adresses.util';
-import { showAddHideButton } from './utils/show-add-hide-button.util';
 
 const keyExtractor = ({ tokenAddress, tokenId }: Token) => getTokenSlug(tokenAddress, tokenId);
 
 export const Tokens: FC = () => {
   const { gasTokenMetadata, gasTokenBalance, rpcUrl } = useSelectedNetworkSelector();
   const dispatch = useDispatch();
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
   const allAccountTokens = useAccountTokensSelector();
   const visibleAccountTokens = useVisibleAccountTokensSelector();
 
@@ -48,8 +50,14 @@ export const Tokens: FC = () => {
     [visibleAccountTokens, gasToken]
   );
 
-  const [tokensAddresses, setTokensAddresses] = useState(() => getListOfTokensAddresses(visibleAccountTokens));
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
+  const [tokensAddresses, setTokensAddresses] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (searchValue.length === 0) {
+      setTokensAddresses(getListOfTokensAddresses(visibleAccountTokens));
+    }
+  }, [visibleAccountTokens, searchValue.length]);
 
   const accountTokens = useMemo(() => {
     if (searchValue && visibleAccountTokensWithGasToken.length) {
@@ -85,11 +93,13 @@ export const Tokens: FC = () => {
         return <GasToken searchValue={searchValue} theme={TokenItemThemesEnum.Secondary} loadBalance={!searchValue} />;
       }
 
+      const showButton = !token.isVisible || !tokensAddresses.includes(token.tokenAddress);
+
       return (
         <AccountToken
           token={token}
           loadBalance={!searchValue}
-          showButton={showAddHideButton(token, tokensAddresses, searchValue)}
+          showButton={showButton}
           theme={TokenItemThemesEnum.Secondary}
         />
       );
@@ -98,12 +108,12 @@ export const Tokens: FC = () => {
   );
 
   return (
-    <ScreenContainer
-      screenTitle="Tokens"
-      navigationType={HeaderSideTypeEnum.AccountBalance}
-      scrollViewWrapper={false}
-      style={styles.screenContainer}
-    >
+    <ScreenContainer style={styles.screenContainer}>
+      <HeaderContainer isSelectors>
+        <ScreenTitle title="Tokens" onBackButtonPress={goBack} />
+        <HeaderAccountBalance />
+      </HeaderContainer>
+
       <View style={styles.root}>
         <SearchPanel
           onPressAddIcon={navigateToAddNewToken}
@@ -126,6 +136,8 @@ export const Tokens: FC = () => {
           ListEmptyComponent={<EmptySearchIcon />}
         />
       </View>
+
+      <NavigationBar />
     </ScreenContainer>
   );
 };

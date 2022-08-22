@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
-import { typography } from '../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
@@ -18,15 +17,6 @@ export const styles = StyleSheet.create({
     borderBottomColor: colors.border2
   },
   editIcon: {
-    marginRight: getCustomSize(8.125)
-  },
-  switcherContainer: {
-    position: 'relative'
-  },
-  status: {
-    position: 'absolute',
-    right: '130%',
-    ...typography.captionInterSemiBold11,
-    color: colors.textGrey2
+    marginRight: getCustomSize(2)
   }
 });
