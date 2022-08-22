@@ -21,6 +21,7 @@ import { ScanQrCode } from '../../screens/scan-qr-code/scan-qr-code';
 import { SendConfirmation } from '../../screens/send-confirmation/send-confirmation';
 import { Send } from '../../screens/send/send';
 import { Settings } from '../../screens/settings/settings';
+import { Token } from '../../screens/token/token';
 import { Tokens } from '../../screens/tokens/tokens';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
@@ -126,6 +127,7 @@ export const Navigator: FC = () => {
                 component={AddNewToken}
               />
               <Stack.Screen name={ScreensEnum.EditToken} options={{ title: 'Edit token' }} component={EditToken} />
+              <Stack.Screen name={ScreensEnum.Token} options={{ title: 'Token' }} component={Token} />
             </Stack.Group>
           </>
         ) : (

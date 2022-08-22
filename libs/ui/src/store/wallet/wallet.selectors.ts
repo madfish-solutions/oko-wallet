@@ -11,7 +11,7 @@ import { Token } from '../../interfaces/token.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
-import { isCollectible } from '../../utils/token.utils';
+import { getTokenSlug, isCollectible } from '../../utils/token.utils';
 import { checkEquality } from '../utils/check-equality.util';
 
 import { WalletRootState, WalletState } from './wallet.state';
@@ -145,4 +145,20 @@ export const useMintedTransactionsSelector = () => {
         : [],
     [transactions, selectedNetworkRpcUrl, selectedAccountPublicKeyHash]
   );
+};
+
+export const useTokenBalanceFromStore = (tokenSlug: string): string => {
+  const network = useSelectedNetworkSelector();
+  const accountTokens = useAccountTokensSelector();
+
+  let tokenBalance = '0';
+
+  if (tokenSlug === 'gas_token_0') {
+    tokenBalance = network.gasTokenBalance.data;
+  } else {
+    tokenBalance =
+      accountTokens.find(token => getTokenSlug(token.tokenAddress, token.tokenId) === tokenSlug)?.balance.data ?? '0';
+  }
+
+  return useMemo(() => tokenBalance, [tokenBalance]);
 };
