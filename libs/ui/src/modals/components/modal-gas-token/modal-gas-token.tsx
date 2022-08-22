@@ -6,7 +6,7 @@ import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { Text } from '../../../components/text/text';
 import { GasTokenMetadata } from '../../../interfaces/token.interface';
 import { getCustomSize } from '../../../styles/format-size';
-import { formatUnits } from '../../../utils/units.utils';
+import { formatBalances, formatUnits } from '../../../utils/units.utils';
 
 import { styles } from './modal-gas-token.styles';
 
@@ -17,8 +17,8 @@ interface Props {
 
 export const ModalGasToken: FC<Props> = ({ balance, metadata }) => (
   <View style={styles.wrapper}>
-    <Text style={[styles.text, styles.marginRight]} numberOfLines={1}>
-      {formatUnits(balance, metadata.decimals)}
+    <Text style={[styles.marginRight]} numberOfLines={1}>
+      {formatBalances(Number(formatUnits(balance, metadata.decimals)))}
     </Text>
     <Text style={styles.text} numberOfLines={1}>
       {metadata.symbol}
