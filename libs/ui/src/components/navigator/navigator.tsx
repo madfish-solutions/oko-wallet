@@ -85,6 +85,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
               <Stack.Screen name={ScreensEnum.Tokens} component={Tokens} />
               <Stack.Screen name={ScreensEnum.ScanQrCode} component={ScanQrCode} />
+              <Stack.Screen name={ScreensEnum.Token} component={Token} />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptions}>
@@ -127,7 +128,6 @@ export const Navigator: FC = () => {
                 component={AddNewToken}
               />
               <Stack.Screen name={ScreensEnum.EditToken} options={{ title: 'Edit token' }} component={EditToken} />
-              <Stack.Screen name={ScreensEnum.Token} options={{ title: 'Token' }} component={Token} />
             </Stack.Group>
           </>
         ) : (

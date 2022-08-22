@@ -6,6 +6,7 @@ import { Divider } from '../../components/divider/divider';
 import { ScreenTitle } from '../../components/screen-components/header-container/components/screen-title/screen-title';
 import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
+import { Tabs } from '../../components/tabs/tabs';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { ViewStyleProps } from '../../interfaces/style.interface';
@@ -50,6 +51,7 @@ export const Token: FC<Props> = ({ style }) => {
       <Balance balance={formattedBalance ?? balance} />
       <NavigationBar tokenSlug={tokenSlug} />
       <Divider style={styles.divider} />
+      <Tabs values={['Activity', 'Info']} style={styles.tabs} />
     </ScreenContainer>
   );
 };
