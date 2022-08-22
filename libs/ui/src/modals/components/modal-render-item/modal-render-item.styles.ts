@@ -20,5 +20,8 @@ export const styles = StyleSheet.create({
   },
   balanceContainer: {
     maxWidth: getCustomSize(30)
+  },
+  textContainer: {
+    flex: 1
   }
 });

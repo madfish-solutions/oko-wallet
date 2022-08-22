@@ -14,5 +14,8 @@ export const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     flexDirection: 'row'
+  },
+  balance: {
+    ...typography.numbersIBMPlexSansMedium13
   }
 });

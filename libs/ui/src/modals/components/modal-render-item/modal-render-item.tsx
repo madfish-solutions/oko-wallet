@@ -32,7 +32,7 @@ export const ModalRenderItem: FC<Props> = ({ name, isActive, icon, balanceTitle,
       </Row>
     }
     leftBottomComponent={
-      <Column>
+      <Column style={styles.textContainer}>
         <Text style={styles.balanceTitle}>{balanceTitle}</Text>
         <Row style={styles.balanceContainer}>{balance}</Row>
       </Column>
