@@ -24,7 +24,7 @@ browser.runtime.onConnect.addListener(port => {
       action: 'Lock app',
       lastUserActivityTimestamp: new Date(lastUserActivityTimestamp),
       dateNow: new Date(Date.now()),
-      timeGap: `need more than 60_000 - ${Date.now() - lastUserActivityTimestamp}`,
+      timeGap: `need more than 300_000 - ${Date.now() - lastUserActivityTimestamp}`,
       isExtensionOpen,
       savedSessionTimeExpired
     });
@@ -33,7 +33,7 @@ browser.runtime.onConnect.addListener(port => {
     console.log({
       action: 'Unlock app',
       lastUserActivityTimestamp: new Date(lastUserActivityTimestamp),
-      timeGap: `need less than 60_000 - ${Date.now() - lastUserActivityTimestamp}`,
+      timeGap: `need less than 300_000 - ${Date.now() - lastUserActivityTimestamp}`,
       dateNow: new Date(Date.now()),
       isExtensionOpen,
       savedSessionTimeExpired
