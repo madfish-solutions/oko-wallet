@@ -15,6 +15,7 @@ import { encrypt } from '../themis/encrypt';
 import { getEtherDerivationPath } from '../utils/derivation-path.utils';
 import { derivationPathByNetworkType, generateHdAccount } from '../utils/generate-hd-account.util';
 import { generateHash$ } from '../utils/hash.utils';
+import { isWeb } from '../utils/platform.utils';
 import { setStoredValue } from '../utils/store.util';
 
 const PASSWORD_CHECK_KEY = 'app-password';
@@ -24,7 +25,9 @@ export class Shelter {
   static _passwordHash$ = new BehaviorSubject(INITIAL_PASSWORD_HASH);
 
   static setPasswordHash = (passwordHash: string) => {
-    BackgroundMessager.setPasswordHash(passwordHash);
+    if (isWeb) {
+      BackgroundMessager.setPasswordHash(passwordHash);
+    }
     Shelter._passwordHash$.next(passwordHash);
   };
 
