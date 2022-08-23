@@ -15,12 +15,29 @@ let isLockApp = true;
 browser.runtime.onConnect.addListener(port => {
   // check for time expired and max-view no opened then extension need to lock
   const savedSessionTimeExpired = Date.now() > lastUserActivityTimestamp + LOCK_PERIOD;
-  const maximizeViewOpened = getChromePredicate(port);
+  const isExtensionOpen = getChromePredicate(port);
 
-  if (savedSessionTimeExpired && !maximizeViewOpened) {
+  if (savedSessionTimeExpired && !isExtensionOpen) {
     isLockApp = true;
+
+    console.log({
+      action: 'Lock app',
+      lastUserActivityTimestamp: new Date(lastUserActivityTimestamp),
+      dateNow: new Date(Date.now()),
+      timeGap: `need more than 60_000 - ${Date.now() - lastUserActivityTimestamp}`,
+      isExtensionOpen,
+      savedSessionTimeExpired
+    });
   } else {
     isLockApp = false;
+    console.log({
+      action: 'Unlock app',
+      lastUserActivityTimestamp: new Date(lastUserActivityTimestamp),
+      timeGap: `need less than 60_000 - ${Date.now() - lastUserActivityTimestamp}`,
+      dateNow: new Date(Date.now()),
+      isExtensionOpen,
+      savedSessionTimeExpired
+    });
   }
 
   // listen when UI is closed
