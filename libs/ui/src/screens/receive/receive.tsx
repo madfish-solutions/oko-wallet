@@ -47,8 +47,8 @@ export const Receive: FC = () => {
         <ScreenTitle title="Receive" onBackButtonPress={navigateToWallet} />
       </HeaderContainer>
 
-      <ScreenScrollView>
-        <TouchableOpacity onPress={promptNavigate}>
+      <ScreenScrollView style={styles.root}>
+        <TouchableOpacity onPress={promptNavigate} style={styles.promptWrapper}>
           <Row style={styles.prompt}>
             <Text style={styles.propmtText}>How to receive Crypto & NFT</Text>
             <Icon name={IconNameEnum.Tooltip} />

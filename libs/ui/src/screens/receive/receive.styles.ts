@@ -6,6 +6,12 @@ import { typography } from '../../styles/typography';
 import { isWeb } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
+  root: {
+    alignItems: 'center'
+  },
+  promptWrapper: {
+    width: '100%'
+  },
   prompt: {
     justifyContent: 'space-between',
     paddingHorizontal: getCustomSize(1.5),
@@ -37,6 +43,10 @@ export const styles = StyleSheet.create({
     width: '100%'
   },
   address: {
+    padding: getCustomSize(),
+    backgroundColor: colors.brown,
+    borderRadius: getCustomSize(0.5),
+    overflow: 'hidden',
     ...typography.numbersIBMPlexSansMedium13,
     textAlign: 'center'
   },
