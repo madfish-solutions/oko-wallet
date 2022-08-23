@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   root: {
     height: userDetailsHeight,
     marginBottom: userDetailsMarginBottom,
-    paddingVertical: getCustomSize(1),
+    paddingTop: getCustomSize(1),
     paddingLeft: getCustomSize(1),
     paddingRight: getCustomSize(1.5),
     borderRadius: getCustomSize(2),
@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
   },
   wrapper: {
     justifyContent: 'space-between',
-    marginBottom: getCustomSize()
+    marginBottom: getCustomSize(),
+    flex: 1
   }
 });

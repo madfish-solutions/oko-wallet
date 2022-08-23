@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Token } from '../../../interfaces/token.interface';
 import { getImageSource } from '../../../screens/wallet/components/assets-widget/utils/get-image-source.util';
 import { changeTokenVisibilityAction, loadAccountTokenBalanceAction } from '../../../store/wallet/wallet.actions';
-import { formatUnits } from '../../../utils/units.utils';
+import { formatBalances, formatUnits } from '../../../utils/units.utils';
 import { SwitchThemesEnum } from '../../switch/enum';
 import { Switch } from '../../switch/switch';
 import { TokenItemThemesEnum } from '../token-item/enums';
@@ -23,7 +23,7 @@ export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = false
   const { decimals, thumbnailUri, balance, symbol, name } = token;
 
   const imageSource = getImageSource(thumbnailUri);
-  const formattedBalance = formatUnits(balance.data, decimals);
+  const formattedBalance = formatBalances(Number(formatUnits(balance.data, decimals)));
 
   useEffect(() => {
     if (loadBalance) {

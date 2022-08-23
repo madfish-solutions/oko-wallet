@@ -13,8 +13,14 @@ export const styles = StyleSheet.create({
     color: colors.textGrey1,
     marginBottom: getCustomSize(0.5)
   },
+  textContainer: {
+    flex: 1
+  },
   balanceTitle: {
     ...typography.numbersIBMPlexSansRegular11,
     color: colors.textGrey2
+  },
+  wrapper: {
+    width: '100%'
   }
 });

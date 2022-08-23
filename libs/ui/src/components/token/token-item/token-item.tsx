@@ -33,12 +33,18 @@ export const TokenItem: FC<Props> = ({
   <Row style={[styles.root, themeClasses[theme].root]}>
     <Row style={styles.token}>
       <Image style={[styles.image, themeClasses[theme].image]} source={imageSource} />
-      <View style={styles.tokenNameContainer}>
-        <Row>
-          <Text style={[styles.text, themeClasses[theme].text]}>{symbol}</Text>
+      <View style={styles.token}>
+        <Row style={styles.token}>
+          <Text style={[styles.text, themeClasses[theme].text]} numberOfLines={1}>
+            {symbol}
+          </Text>
           {isGasToken && <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />}
         </Row>
-        {theme === TokenItemThemesEnum.Secondary && <Text style={styles.tokenName}>{name}</Text>}
+        {theme === TokenItemThemesEnum.Secondary && (
+          <Text style={styles.tokenName} numberOfLines={1}>
+            {name}
+          </Text>
+        )}
       </View>
     </Row>
 
@@ -46,12 +52,14 @@ export const TokenItem: FC<Props> = ({
       {isDefined(children) ? (
         children
       ) : (
-        <>
-          <Text style={[styles.text, themeClasses[theme].text]}>{balance}</Text>
+        <View style={styles.text}>
+          <Text style={[themeClasses[theme].text]} numberOfLines={1}>
+            {balance}
+          </Text>
           <Text style={styles.usdBalance}>
             1000 <Text style={styles.usdSymbol}>$</Text>
           </Text>
-        </>
+        </View>
       )}
     </View>
   </Row>
