@@ -5,44 +5,60 @@ import { BackgroundMessageType } from '../../libs/ui/src/messagers/enums/backgro
 import { BackgroundMessage } from '../../libs/ui/src/messagers/types/background-message.types';
 
 const INITIAL_PASSWORD_HASH = '';
-const LOCK_PERIOD = 5 * 60 * 1000;
+const LOCK_PERIOD = 1 * 60 * 1000;
 const URL_BASE = 'extension://';
 
 let passwordHash = INITIAL_PASSWORD_HASH;
 let lastUserActivityTimestamp = 0;
 let isLockApp = true;
 
+let isFullpageOpen = false;
+
 browser.runtime.onConnect.addListener(port => {
   // check for time expired and max-view no opened then extension need to lock
   const savedSessionTimeExpired = Date.now() > lastUserActivityTimestamp + LOCK_PERIOD;
-  const isExtensionOpen = getChromePredicate(port);
 
-  if (savedSessionTimeExpired && !isExtensionOpen) {
+  if (getChromePredicateFullpage(port)) {
+    isFullpageOpen = getChromePredicateFullpage(port);
+  }
+
+  console.log('open action - isFullpageOpen', isFullpageOpen);
+
+  if (savedSessionTimeExpired && !isFullpageOpen) {
     isLockApp = true;
 
     console.log({
       action: 'Lock app',
-      lastUserActivityTimestamp: new Date(lastUserActivityTimestamp),
-      dateNow: new Date(Date.now()),
-      timeGap: `need more than 300_000 - ${Date.now() - lastUserActivityTimestamp}`,
-      isExtensionOpen,
+      closeTime: lastUserActivityTimestamp === 0 ? '0' : new Date(lastUserActivityTimestamp),
+      openTime: new Date(Date.now()),
+      timeGap: `need more than 60_000 - ${Date.now() - lastUserActivityTimestamp}`,
+      isFullpageOpen,
       savedSessionTimeExpired
     });
   } else {
     isLockApp = false;
+
     console.log({
       action: 'Unlock app',
-      lastUserActivityTimestamp: new Date(lastUserActivityTimestamp),
-      timeGap: `need less than 300_000 - ${Date.now() - lastUserActivityTimestamp}`,
-      dateNow: new Date(Date.now()),
-      isExtensionOpen,
+      closeTime: lastUserActivityTimestamp === 0 ? '0' : new Date(lastUserActivityTimestamp),
+      timeGap: `need less than 60_000 - ${Date.now() - lastUserActivityTimestamp}`,
+      openTime: new Date(Date.now()),
+      isFullpageOpen,
       savedSessionTimeExpired
     });
   }
 
   // listen when UI is closed
   if (port.name === 'klaytn_wallet_ui') {
-    port.onDisconnect.addListener(() => (lastUserActivityTimestamp = Date.now()));
+    port.onDisconnect.addListener(port => {
+      console.log('Close popup time:', new Date(Date.now()));
+
+      if (getChromePredicateFullpage(port)) {
+        isFullpageOpen = false;
+      }
+
+      return (lastUserActivityTimestamp = Date.now());
+    });
   }
 });
 
@@ -67,5 +83,8 @@ browser.runtime.onMessage.addListener((message: BackgroundMessage) => {
   }
 });
 
-const getChromePredicate = (port: Runtime.Port) =>
-  port.sender?.url?.includes(`${URL_BASE}${browser.runtime.id}`) ?? false;
+const getChromePredicateFullpage = (port: Runtime.Port) =>
+  port.sender?.url?.includes(`${URL_BASE}${browser.runtime.id}/fullpage.html`) ?? false;
+
+// const getChromePredicatePopup = (port: Runtime.Port) =>
+//   port.sender?.url?.includes(`${URL_BASE}${browser.runtime.id}/popup.html`) ?? false;
