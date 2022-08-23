@@ -10,12 +10,12 @@ import { Text } from '../text/text';
 import { styles } from './tabs.styles';
 
 interface Props {
-  values: string[];
+  values: { id: number; title: string; Component: FC }[];
   style?: ViewStyleProps;
 }
 
 export const Tabs: FC<Props> = ({ values, style }) => {
-  const [activeElement, setActiveElement] = useState(values[0]);
+  const [activeElementId, setActiveElementId] = useState(values[0].id);
 
   const firstElement = useRef<View | null>(null);
 
@@ -33,12 +33,12 @@ export const Tabs: FC<Props> = ({ values, style }) => {
   }, []);
 
   const handleActiveItem = useCallback(
-    (value: string, el: GestureResponderEvent) => {
-      setActiveElement(value);
+    (id: number, el: GestureResponderEvent) => {
+      setActiveElementId(id);
       // @ts-ignore
       el.currentTarget.measure(setBorderParams);
     },
-    [activeElement]
+    [activeElementId]
   );
 
   const setBorderParams = (...props: number[]) => {
@@ -61,21 +61,28 @@ export const Tabs: FC<Props> = ({ values, style }) => {
       easing: Easing.linear
     }).start();
 
+  const ActiveComponent = values[activeElementId - 1].Component;
+
   return (
-    <Row style={[styles.root, style]}>
-      {values.map((value, index) => (
-        <Fragment key={value}>
-          <Pressable
-            ref={el => (index === 0 ? (firstElement.current = el) : null)}
-            onPress={el => handleActiveItem(value, el)}
-            style={styles.element}
-          >
-            <Text style={[styles.text, activeElement === value && styles.active]}>{value}</Text>
-          </Pressable>
-          {values.length - 1 !== index && <Divider style={styles.divider} />}
-        </Fragment>
-      ))}
-      <Animated.View style={[styles.border, { width: widthElement, transform: [{ translateX: offsetXElement }] }]} />
-    </Row>
+    <>
+      <Row style={[styles.root, style]}>
+        {values.map(({ id, title }, index) => (
+          <Fragment key={id}>
+            <Pressable
+              ref={el => (index === 0 ? (firstElement.current = el) : null)}
+              onPress={el => handleActiveItem(id, el)}
+              style={styles.element}
+            >
+              <Text style={[styles.text, activeElementId === id && styles.active]}>{title}</Text>
+            </Pressable>
+            {values.length - 1 !== index && <Divider style={styles.divider} />}
+          </Fragment>
+        ))}
+        <Animated.View style={[styles.border, { width: widthElement, transform: [{ translateX: offsetXElement }] }]} />
+      </Row>
+      <View style={styles.component}>
+        <ActiveComponent />
+      </View>
+    </>
   );
 };

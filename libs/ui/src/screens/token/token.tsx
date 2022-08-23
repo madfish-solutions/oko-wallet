@@ -13,14 +13,29 @@ import { ViewStyleProps } from '../../interfaces/style.interface';
 import { useTokenBalanceFromStore } from '../../store/wallet/wallet.selectors';
 import { getTokenSlug } from '../../utils/token.utils';
 
+import { Activity } from './components/activity/activity';
 import { Balance } from './components/balance/balance';
 import { HeaderSideToken } from './components/header-side-token/header-side-token';
 import { NavigationBar } from './components/navigation-bar/navigation-bar';
+import { TokenInfo } from './components/token-info/token-info';
 import { styles } from './token.styles';
 
 interface Props {
   style?: ViewStyleProps;
 }
+
+const tabs = [
+  {
+    id: 1,
+    title: 'Activity',
+    Component: Activity
+  },
+  {
+    id: 2,
+    title: 'Info',
+    Component: TokenInfo
+  }
+];
 
 export const Token: FC<Props> = ({ style }) => {
   const { goBack } = useNavigation();
@@ -50,8 +65,10 @@ export const Token: FC<Props> = ({ style }) => {
 
       <Balance balance={formattedBalance ?? balance} />
       <NavigationBar tokenSlug={tokenSlug} />
+
       <Divider style={styles.divider} />
-      <Tabs values={['Activity', 'Info']} style={styles.tabs} />
+
+      <Tabs values={tabs} style={styles.tabs} />
     </ScreenContainer>
   );
 };

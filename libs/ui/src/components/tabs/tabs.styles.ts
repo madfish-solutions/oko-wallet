@@ -30,5 +30,9 @@ export const styles = StyleSheet.create({
   },
   divider: {
     width: getCustomSize(3.75)
+  },
+  component: {
+    marginTop: getCustomSize(),
+    marginHorizontal: getCustomSize(2)
   }
 });
