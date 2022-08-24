@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
     width: getCustomSize(3.75)
   },
   component: {
-    marginTop: getCustomSize(),
-    marginHorizontal: getCustomSize(2)
+    flex: 1,
+    overflow: 'hidden'
   }
 });

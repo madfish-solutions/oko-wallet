@@ -12,15 +12,8 @@ export const styles = StyleSheet.create({
     ...typography.captionInterRegular11,
     color: colors.textGrey2
   },
-  balanceInUsd: {
-    ...typography.numbersIBMPlexSansMedium13
-  },
-  currency: {
-    marginLeft: getCustomSize(0.25),
-    ...typography.numbersIBMPlexSansMedium13,
-    color: colors.textGrey2
-  },
   balance: {
+    marginTop: getCustomSize(0.25),
     ...typography.numbersIBMPlexSansMedium20
   }
 });
