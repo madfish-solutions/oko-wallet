@@ -49,6 +49,8 @@ export const styles = StyleSheet.create({
     borderColor: colors.green
   },
   pending: {
+    borderRadius: getCustomSize(0.5),
+    borderWidth: getCustomSize(0.125),
     borderColor: colors.border2
   },
   statusText: {
@@ -56,8 +58,20 @@ export const styles = StyleSheet.create({
     paddingHorizontal: getCustomSize(0.5),
     paddingVertical: getCustomSize(0.1875)
   },
-  time: {
+  smallGreyText: {
     ...typography.numbersIBMPlexSansRegular11,
     color: colors.textGrey2
+  },
+  txHash: {
+    ...typography.numbersIBMPlexSansMedium11,
+    marginHorizontal: getCustomSize()
+  },
+  hash: {
+    alignItems: 'center',
+    marginBottom: getCustomSize()
+  },
+  amount: {
+    ...typography.numbersIBMPlexSansMedium15,
+    flex: 1
   }
 });
