@@ -13,12 +13,14 @@ interface Props extends ModalHeaderInterface {
 }
 
 export const ModalHeader: FC<Props> = ({ name, balanceTitle, balance, icon, style }) => (
-  <Row style={style}>
+  <Row style={[styles.wrapper, style]}>
     <IconWithBorder type="quaternary" style={styles.icon}>
       {icon}
     </IconWithBorder>
-    <View>
-      <Text style={styles.name}>{name}</Text>
+    <View style={styles.textContainer}>
+      <Text style={styles.name} numberOfLines={1}>
+        {name}
+      </Text>
       <Text style={styles.balanceTitle}>{balanceTitle}</Text>
       <Row>{balance}</Row>
     </View>

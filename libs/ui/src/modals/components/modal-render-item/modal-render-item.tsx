@@ -24,15 +24,17 @@ export const ModalRenderItem: FC<Props> = ({ name, isActive, icon, balanceTitle,
     onSelectItem={onSelectItem}
     isActive={isActive}
     leftTopComponent={
-      <Row>
+      <Row style={styles.nameContainer}>
         <IconWithBorder>{icon}</IconWithBorder>
-        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.name} numberOfLines={1}>
+          {name}
+        </Text>
       </Row>
     }
     leftBottomComponent={
-      <Column>
+      <Column style={styles.textContainer}>
         <Text style={styles.balanceTitle}>{balanceTitle}</Text>
-        <Row>{balance}</Row>
+        <Row style={styles.balanceContainer}>{balance}</Row>
       </Column>
     }
     rightBottomComponent={<TouchableIcon name={IconNameEnum.Edit} onPress={onEdit} />}
