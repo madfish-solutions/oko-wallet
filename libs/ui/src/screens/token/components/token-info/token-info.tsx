@@ -5,7 +5,9 @@ import { ScrollView } from 'react-native';
 
 import { Address } from '../../../../components/address/address';
 import { Currency } from '../../../../components/currency/currency';
+import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
+import { useSelectedNetworkSelector } from '../../../../store/wallet/wallet.selectors';
 
 import { Item } from './components/item/item';
 import { styles } from './token-info.styles';
@@ -16,6 +18,11 @@ export const TokenInfo: FC = () => {
       token: { tokenAddress, decimals }
     }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Token>>();
+  const { explorerUrl, networkType } = useSelectedNetworkSelector();
+
+  const explorerUrlPrefix = networkType === NetworkTypeEnum.EVM ? 'token/' : '';
+
+  const viewTokenDetails = (txHash: string) => `${explorerUrl}${explorerUrlPrefix}${txHash}`;
 
   // TODO: get data from api
   const tvl = '410';
@@ -27,7 +34,7 @@ export const TokenInfo: FC = () => {
       contract: {
         name: 'Contract',
         value: <Address address={tokenAddress} />,
-        prompt: 'https://quipuswap.com/'
+        prompt: viewTokenDetails(tokenAddress)
       }
     }),
     ...(isDefined(web) && {
@@ -40,14 +47,14 @@ export const TokenInfo: FC = () => {
     ...(isDefined(tvl) && {
       tvl: {
         name: 'TVL',
-        value: <Currency amount="410 M" />,
+        value: <Currency amount={tvl} />,
         prompt: null
       }
     }),
     ...(isDefined(tradeVolume) && {
       tradeVolume: {
         name: 'Trade Volume',
-        value: <Currency amount="620 M" />,
+        value: <Currency amount={tradeVolume} />,
         prompt: null
       }
     }),
