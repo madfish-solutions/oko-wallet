@@ -5,6 +5,7 @@ import { ScrollView } from 'react-native';
 
 import { Address } from '../../../../components/address/address';
 import { Currency } from '../../../../components/currency/currency';
+import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useSelectedNetworkSelector } from '../../../../store/wallet/wallet.selectors';
@@ -30,7 +31,7 @@ export const TokenInfo: FC = () => {
   const web = 'https://quipuswap.com/';
 
   const tokenMetadata = {
-    ...(tokenAddress !== 'gas_token' && {
+    ...(tokenAddress !== GAS_TOKEN_ADDRESS && {
       contract: {
         name: 'Contract',
         value: <Address address={tokenAddress} />,

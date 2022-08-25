@@ -2,9 +2,11 @@ import React, { FC, useEffect } from 'react';
 import { Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import { GAS_TOKEN_ADDRESS } from '../../../constants/defaults';
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { getImageSource } from '../../../screens/wallet/components/assets-widget/utils/get-image-source.util';
+import { createEntity } from '../../../store/utils/entity.utils';
 import { loadGasTokenBalanceAction } from '../../../store/wallet/wallet.actions';
 import { useSelectedAccountPkhSelector, useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
 import { formatBalances, formatUnits } from '../../../utils/units.utils';
@@ -39,13 +41,13 @@ export const GasToken: FC<Props> = ({ theme, loadBalance = true }) => {
   const navigateToTokenDetails = () =>
     navigate(ScreensEnum.Token, {
       token: {
-        tokenAddress: 'gas_token',
+        tokenAddress: GAS_TOKEN_ADDRESS,
         symbol,
         thumbnailUri,
         name,
         decimals,
         isVisible: true,
-        balance: formattedBalance
+        balance: createEntity(formattedBalance)
       }
     });
 

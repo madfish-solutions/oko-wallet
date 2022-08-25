@@ -4,34 +4,35 @@ import { Pressable } from 'react-native';
 import { Divider } from '../../../../components/divider/divider';
 import { Icon } from '../../../../components/icon/icon';
 import { Row } from '../../../../components/row/row';
+import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { AccountToken } from '../../../../interfaces/account-token.interface';
+import { Token } from '../../../../interfaces/token.interface';
 import { getCustomSize } from '../../../../styles/format-size';
 
 import { tokenNavigationBar } from './constants';
 import { styles } from './navigation-bar.styles';
 
-type Props = Pick<AccountToken, 'tokenAddress' | 'tokenId'>;
+interface Props {
+  token: Token;
+}
 
-type Screens = ScreensEnum.Send | ScreensEnum.Receive;
-
-export const NavigationBar: FC<Props> = ({ tokenAddress, tokenId }) => {
+export const NavigationBar: FC<Props> = ({ token }) => {
   const { navigate } = useNavigation();
 
-  const navigateToRoute = (screen: Screens) => {
-    if (tokenAddress !== 'gas_token') {
-      return navigate(screen, { tokenAddress, tokenId });
+  const navigateToRoute = (screen: ScreensEnum) => {
+    if (token.tokenAddress !== GAS_TOKEN_ADDRESS) {
+      return navigate(screen, { token });
     }
 
-    return navigate(screen, { tokenAddress: '', tokenId: '' });
+    return navigate(screen, { token: { ...token, tokenAddress: '', tokenId: '' } });
   };
 
   return (
     <Row style={styles.root}>
       {tokenNavigationBar.map(({ id, routeName, iconName }) => (
         <Fragment key={id}>
-          <Pressable onPress={() => navigateToRoute(routeName as Screens)} style={styles.button}>
+          <Pressable onPress={() => navigateToRoute(routeName)} style={styles.button}>
             <Icon name={iconName} />
           </Pressable>
           {id < 4 && <Divider size={getCustomSize(2)} />}

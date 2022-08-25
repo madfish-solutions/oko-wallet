@@ -7,6 +7,7 @@ import { ScreenTitle } from '../../components/screen-components/header-container
 import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { Tabs } from '../../components/tabs/tabs';
+import { GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { ViewStyleProps } from '../../interfaces/style.interface';
@@ -40,14 +41,14 @@ const tabs = [
 export const Token: FC<Props> = ({ style }) => {
   const { goBack } = useNavigation();
   const {
-    params: {
-      token: { name, symbol, tokenAddress, decimals, tokenId, thumbnailUri, balance }
-    }
+    params: { token }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Token>>();
+
+  const { name, symbol, tokenAddress, decimals, tokenId, thumbnailUri, balance } = token;
 
   const balanceFromStore = useTokenBalanceFromStore(getTokenSlug(tokenAddress, tokenId));
   const formattedBalance = formatUnits(balanceFromStore, decimals);
-  const isGasToken = tokenAddress === 'gas_token';
+  const isGasToken = tokenAddress === GAS_TOKEN_ADDRESS;
 
   return (
     <ScreenContainer style={[styles.root, style]}>
@@ -62,8 +63,8 @@ export const Token: FC<Props> = ({ style }) => {
         />
       </HeaderContainer>
 
-      <Balance balance={formattedBalance ?? balance} />
-      <NavigationBar tokenAddress={tokenAddress} tokenId={tokenId} />
+      <Balance balance={formattedBalance ?? balance.data} />
+      <NavigationBar token={token} />
 
       <Divider style={styles.divider} />
 

@@ -2,6 +2,7 @@ import { isDefined } from '@rnw-community/shared';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
+import { GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
@@ -151,14 +152,10 @@ export const useTokenBalanceFromStore = (tokenSlug: string): string => {
   const network = useSelectedNetworkSelector();
   const accountTokens = useAccountTokensSelector();
 
-  let tokenBalance = '0';
-
-  if (tokenSlug === 'gas_token_0') {
-    tokenBalance = network.gasTokenBalance.data;
-  } else {
-    tokenBalance =
-      accountTokens.find(token => getTokenSlug(token.tokenAddress, token.tokenId) === tokenSlug)?.balance.data ?? '0';
-  }
+  const tokenBalance =
+    tokenSlug === getTokenSlug(GAS_TOKEN_ADDRESS)
+      ? network.gasTokenBalance.data
+      : accountTokens.find(token => getTokenSlug(token.tokenAddress, token.tokenId) === tokenSlug)?.balance.data ?? '0';
 
   return useMemo(() => tokenBalance, [tokenBalance]);
 };

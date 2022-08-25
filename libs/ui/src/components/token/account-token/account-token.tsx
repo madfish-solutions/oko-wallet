@@ -7,6 +7,7 @@ import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { Token } from '../../../interfaces/token.interface';
 import { getImageSource } from '../../../screens/wallet/components/assets-widget/utils/get-image-source.util';
+import { createEntity } from '../../../store/utils/entity.utils';
 import { changeTokenVisibilityAction, loadAccountTokenBalanceAction } from '../../../store/wallet/wallet.actions';
 import { formatBalances, formatUnits } from '../../../utils/units.utils';
 import { SwitchThemesEnum } from '../../switch/enum';
@@ -37,7 +38,8 @@ export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = false
 
   const handleTokenVisibility = () => dispatch(changeTokenVisibilityAction(token));
 
-  const navigateToTokenDetails = () => navigate(ScreensEnum.Token, { token: { ...token, balance: formattedBalance } });
+  const navigateToTokenDetails = () =>
+    navigate(ScreensEnum.Token, { token: { ...token, balance: createEntity(formattedBalance) } });
 
   return (
     <Pressable onPress={navigateToTokenDetails}>

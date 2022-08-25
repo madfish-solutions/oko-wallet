@@ -30,7 +30,7 @@ export type ScreensParamList = {
   [ScreensEnum.ImportAccount]: undefined;
   [ScreensEnum.ManageTokens]: undefined;
   [ScreensEnum.Receive]: undefined;
-  [ScreensEnum.Send]: { tokenAddress?: string; tokenId?: string };
+  [ScreensEnum.Send]: { token?: Token };
   [ScreensEnum.SendConfirmation]: {
     transferParams: TransferParams;
   };
@@ -48,5 +48,5 @@ export type ScreensParamList = {
   [ScreensEnum.EditNetwork]: { network: NetworkInterface; isNetworkSelected: boolean };
   [ScreensEnum.Tokens]: undefined;
   [ScreensEnum.ScanQrCode]: undefined;
-  [ScreensEnum.Token]: { token: Omit<Token, 'balance'> & { balance: string } };
+  [ScreensEnum.Token]: { token: Token };
 };

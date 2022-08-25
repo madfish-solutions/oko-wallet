@@ -34,15 +34,16 @@ export const Send: FC = () => {
   const dispatch = useDispatch();
 
   const {
-    params: { tokenAddress, tokenId }
+    params: { token }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Send>>();
 
   const { control, handleSubmit } = useForm({
     mode: 'onBlur',
     defaultValues: {
       ...defaultValues,
-      tokenAddress: tokenAddress ?? defaultValues.tokenAddress,
-      tokenId: tokenId ?? defaultValues.tokenId
+      tokenAddress: token?.tokenAddress ?? defaultValues.tokenAddress,
+      tokenId: token?.tokenId ?? defaultValues.tokenId,
+      decimals: String(token?.decimals) ?? defaultValues.decimals
     }
   });
 
