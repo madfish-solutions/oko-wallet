@@ -15,6 +15,9 @@ let isLockApp = true;
 let isFullpageOpen = false;
 
 browser.runtime.onConnect.addListener(port => {
+  // TODO: Need for unsleep background.script
+  console.log('Welcome to Klaytn wallet!');
+
   // check for time expired and max-view no opened then extension need to lock
   const savedSessionTimeExpired = Date.now() > lastUserActivityTimestamp + LOCK_PERIOD;
 
@@ -22,37 +25,15 @@ browser.runtime.onConnect.addListener(port => {
     isFullpageOpen = getChromePredicateFullpage(port);
   }
 
-  // console.log('open action - isFullpageOpen', isFullpageOpen);
-
   if (savedSessionTimeExpired && !isFullpageOpen) {
     isLockApp = true;
-
-    // console.log({
-    //   action: 'Lock app',
-    //   closeTime: lastUserActivityTimestamp === 0 ? '0' : new Date(lastUserActivityTimestamp),
-    //   openTime: new Date(Date.now()),
-    //   timeGap: `need more than 60_000 - ${Date.now() - lastUserActivityTimestamp}`,
-    //   isFullpageOpen,
-    //   savedSessionTimeExpired
-    // });
   } else {
     isLockApp = false;
-
-    // console.log({
-    //   action: 'Unlock app',
-    //   closeTime: lastUserActivityTimestamp === 0 ? '0' : new Date(lastUserActivityTimestamp),
-    //   timeGap: `need less than 60_000 - ${Date.now() - lastUserActivityTimestamp}`,
-    //   openTime: new Date(Date.now()),
-    //   isFullpageOpen,
-    //   savedSessionTimeExpired
-    // });
   }
 
   // listen when UI is closed
   if (port.name === 'klaytn_wallet_ui') {
     port.onDisconnect.addListener(port => {
-      // console.log('Close popup time:', new Date(Date.now()));
-
       if (getChromePredicateFullpage(port)) {
         isFullpageOpen = false;
       }
@@ -85,6 +66,3 @@ browser.runtime.onMessage.addListener((message: BackgroundMessage) => {
 
 const getChromePredicateFullpage = (port: Runtime.Port) =>
   port.sender?.url?.includes(`${URL_BASE}${browser.runtime.id}/fullpage.html`) ?? false;
-
-// const getChromePredicatePopup = (port: Runtime.Port) =>
-//   port.sender?.url?.includes(`${URL_BASE}${browser.runtime.id}/popup.html`) ?? false;
