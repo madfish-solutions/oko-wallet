@@ -1,9 +1,11 @@
-import dayjs, { unix } from 'dayjs';
+import { unix } from 'dayjs';
 
-let currentDay = dayjs().startOf('day').toISOString();
+let currentDay = '';
 
 export const checkIsDayLabelNeeded = (timestamp: number) => {
-  if (currentDay === unix(timestamp).startOf('day').toISOString()) {
+  if (currentDay !== unix(timestamp).startOf('day').toISOString()) {
+    currentDay = unix(timestamp).startOf('day').toISOString();
+
     return true;
   }
   currentDay = unix(timestamp).startOf('day').toISOString();
@@ -11,4 +13,6 @@ export const checkIsDayLabelNeeded = (timestamp: number) => {
   return false;
 };
 
-export const transformTimestamp = (timestamp: number) => unix(timestamp).format('MMM DD YYYY').toUpperCase();
+export const transformTimestampToDate = (timestamp: number) => unix(timestamp).format('MMM DD YYYY').toUpperCase();
+
+export const transformTimestampToTime = (timestamp: number) => unix(timestamp).format('HH:mm:ss');

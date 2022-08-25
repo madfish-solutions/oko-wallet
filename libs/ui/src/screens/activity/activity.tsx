@@ -25,8 +25,7 @@ export const Activity: FC = () => {
     gasTokenMetadata: { symbol }
   } = useSelectedNetworkSelector();
 
-  const { response: activity, fetchActivity } = useAllActivity(selectedPublicKey, symbol.toLowerCase());
-  console.log(activity, 'ACTIVITY IN COMPONENT');
+  const { activity, fetchActivity } = useAllActivity(selectedPublicKey, symbol.toLowerCase());
 
   useEffect(() => {
     fetchActivity();
@@ -46,7 +45,7 @@ export const Activity: FC = () => {
       <HeaderContainer isSelectors>
         <ScreenTitle title="Transactions" onBackButtonPress={navigateToWallet} />
       </HeaderContainer>
-      <NavigationBar />
+
       <FlatList
         data={activity}
         renderItem={renderItem}
@@ -54,6 +53,7 @@ export const Activity: FC = () => {
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={<EmptySearchIcon />}
       />
+      <NavigationBar />
     </ScreenContainer>
   );
 };

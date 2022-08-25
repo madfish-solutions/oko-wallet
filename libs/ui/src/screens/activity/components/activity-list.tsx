@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Linking, View } from 'react-native';
+import { Linking, TouchableOpacity, View } from 'react-native';
 
 import { Column } from '../../../components/column/column';
 import { Icon } from '../../../components/icon/icon';
@@ -13,7 +13,7 @@ import { shortize } from '../../../utils/shortize.util';
 import { formatBalances } from '../../../utils/units.utils';
 
 import { styles } from './activity-list.styles';
-import { checkIsDayLabelNeeded, transformTimestamp } from './activity-list.utils';
+import { checkIsDayLabelNeeded, transformTimestampToDate, transformTimestampToTime } from './activity-list.utils';
 
 interface Props {
   transaction: ActivityData;
@@ -33,7 +33,7 @@ export const ActivityList: FC<Props> = ({
       <Column style={styles.root}>
         {checkIsDayLabelNeeded(timestamp) && (
           <Row style={styles.dateWrapper}>
-            <Text style={styles.dateText}>{transformTimestamp(timestamp)}</Text>
+            <Text style={styles.dateText}>{transformTimestampToDate(timestamp)}</Text>
           </Row>
         )}
         <Row style={styles.wrapper}>
@@ -50,16 +50,16 @@ export const ActivityList: FC<Props> = ({
               <View style={[styles.statusWrapper, styles[transactionStatus]]}>
                 <Text style={styles.statusText}>{transactionStatus}</Text>
               </View>
-              <Text style={styles.smallGreyText}>{timestamp}</Text>
+              <Text style={styles.smallGreyText}>{transformTimestampToTime(timestamp)}</Text>
             </Row>
           </Column>
           <Column>
             <Row style={styles.hash}>
               <Text style={styles.smallGreyText}>hash</Text>
-              <Text style={styles.txHash} onPress={onBlockchainExplorerPress}>
-                {shortize(hash)}
-              </Text>
-              <Icon name={IconNameEnum.Tooltip} />
+              <TouchableOpacity onPress={onBlockchainExplorerPress} style={styles.touchable}>
+                <Text style={styles.txHash}>{shortize(hash)}</Text>
+                <Icon name={IconNameEnum.Tooltip} />
+              </TouchableOpacity>
             </Row>
             <Row style={styles.amountContainer}>
               <Text style={styles.amount}>

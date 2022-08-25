@@ -10,8 +10,8 @@ export const styles = StyleSheet.create({
     marginRight: getCustomSize(2)
   },
   dateWrapper: {
-    borderTopWidth: getCustomSize(0.03125),
-    borderTopColor: colors.border2,
+    borderBottomWidth: getCustomSize(0.03125),
+    borderBottomColor: colors.border2,
     justifyContent: 'space-between',
     width: '100%'
   },
@@ -21,8 +21,8 @@ export const styles = StyleSheet.create({
     color: colors.textGrey3
   },
   wrapper: {
-    borderTopWidth: getCustomSize(0.03125),
-    borderTopColor: colors.border2,
+    borderBottomWidth: getCustomSize(0.03125),
+    borderBottomColor: colors.border2,
     justifyContent: 'space-between',
     flex: 1,
     width: '100%'
@@ -79,5 +79,9 @@ export const styles = StyleSheet.create({
   },
   amountContainer: {
     alignSelf: 'flex-end'
+  },
+  touchable: {
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 });
