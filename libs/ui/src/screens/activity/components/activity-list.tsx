@@ -1,15 +1,19 @@
 import React, { FC } from 'react';
-import { View } from 'react-native';
+import { Linking, View } from 'react-native';
 
 import { Column } from '../../../components/column/column';
 import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
-import { ActivityData } from '../../../hooks/use-activity.hook';
+import { ActivityData, TransactionLabelEnum } from '../../../interfaces/activity.interface';
+import { useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
+import { colors } from '../../../styles/colors';
 import { shortize } from '../../../utils/shortize.util';
+import { formatBalances } from '../../../utils/units.utils';
 
 import { styles } from './activity-list.styles';
+import { checkIsDayLabelNeeded, transformTimestamp } from './activity-list.utils';
 
 interface Props {
   transaction: ActivityData;
@@ -18,38 +22,53 @@ interface Props {
 
 export const ActivityList: FC<Props> = ({
   transaction: { hash, timestamp, transactionLabel, transactionStatus, symbol, amount }
-}) => (
-  <View>
-    <Column style={styles.root}>
-      <Row>
-        <Text style={styles.dateText}>May 25 2022</Text>
-      </Row>
-      <Row style={styles.wrapper}>
-        <Column style={styles.leftContent}>
-          <Row style={styles.sendWrapper}>
-            <Icon name={IconNameEnum.Send} />
-            <Text style={styles.send}>{transactionLabel}</Text>
+}) => {
+  const { explorerUrl } = useSelectedNetworkSelector();
+  const onBlockchainExplorerPress = () => Linking.openURL(`${explorerUrl}tx/${hash}`);
+
+  console.log(symbol, 'SYMBOL!!');
+
+  return (
+    <View>
+      <Column style={styles.root}>
+        {checkIsDayLabelNeeded(timestamp) && (
+          <Row style={styles.dateWrapper}>
+            <Text style={styles.dateText}>{transformTimestamp(timestamp)}</Text>
           </Row>
-          <Row>
-            <View style={[styles.statusWrapper, styles[transactionStatus]]}>
-              <Text style={styles.statusText}>{transactionStatus}</Text>
-            </View>
-            <Text style={styles.smallGreyText}>{timestamp}</Text>
-          </Row>
-        </Column>
-        <Column>
-          <Row style={styles.hash}>
-            <Text style={styles.smallGreyText}>hash</Text>
-            <Text style={styles.txHash}>{shortize(hash)}</Text>
-            <Icon name={IconNameEnum.Tooltip} />
-          </Row>
-          <Row>
-            <Text style={styles.amount}>
-              {amount || 0} {symbol}
-            </Text>
-          </Row>
-        </Column>
-      </Row>
-    </Column>
-  </View>
-);
+        )}
+        <Row style={styles.wrapper}>
+          <Column style={styles.leftContent}>
+            <Row style={styles.sendWrapper}>
+              {transactionLabel === TransactionLabelEnum.Send ? (
+                <Icon name={IconNameEnum.Send} />
+              ) : (
+                <Icon name={IconNameEnum.Receive} color={colors.green} />
+              )}
+              <Text style={styles.send}>{transactionLabel}</Text>
+            </Row>
+            <Row>
+              <View style={[styles.statusWrapper, styles[transactionStatus]]}>
+                <Text style={styles.statusText}>{transactionStatus}</Text>
+              </View>
+              <Text style={styles.smallGreyText}>{timestamp}</Text>
+            </Row>
+          </Column>
+          <Column>
+            <Row style={styles.hash}>
+              <Text style={styles.smallGreyText}>hash</Text>
+              <Text style={styles.txHash} onPress={onBlockchainExplorerPress}>
+                {shortize(hash)}
+              </Text>
+              <Icon name={IconNameEnum.Tooltip} />
+            </Row>
+            <Row style={styles.amountContainer}>
+              <Text style={styles.amount}>
+                {Number(formatBalances(amount))} {symbol?.toUpperCase()}
+              </Text>
+            </Row>
+          </Column>
+        </Row>
+      </Column>
+    </View>
+  );
+};

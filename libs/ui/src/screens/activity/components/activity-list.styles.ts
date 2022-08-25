@@ -6,11 +6,14 @@ import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
+    marginLeft: getCustomSize(1.5),
+    marginRight: getCustomSize(2)
+  },
+  dateWrapper: {
     borderTopWidth: getCustomSize(0.03125),
     borderTopColor: colors.border2,
     justifyContent: 'space-between',
-    marginLeft: getCustomSize(1.5),
-    marginRight: getCustomSize(2)
+    width: '100%'
   },
   dateText: {
     ...typography.numbersIBMPlexSansMedium11,
@@ -73,5 +76,8 @@ export const styles = StyleSheet.create({
   amount: {
     ...typography.numbersIBMPlexSansMedium15,
     flex: 1
+  },
+  amountContainer: {
+    alignSelf: 'flex-end'
   }
 });

@@ -1,63 +1,32 @@
 import { useState } from 'react';
 
 import { TransactionStatusEnum } from '../enums/transactions.enum';
+import { ActivityData, ActivityResponse, TransactionLabelEnum } from '../interfaces/activity.interface';
+import { capitalize } from '../utils/string.util';
 
 const BASE_DEBANK_URL = 'https://pro-openapi.debank.com/v1/user/history_list';
+const TOKEN_INFO_URL = 'https://pro-openapi.debank.com/v1/token';
 const MY_ACCESSKEY = 'd74c140f710733b43b228752dbedc0eff8091bc6';
 const TIME_LIMIT = 30 * 1000;
 
-enum TransactionLabelEnum {
-  Send = 'send',
-  Receive = 'receive'
-}
+const fetchTokenInfo = async (contractAddress: string, chainName: string) => {
+  try {
+    const tokenInfo = fetch(`${TOKEN_INFO_URL}?id=${contractAddress}&chain_id=${chainName}`, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        AccessKey: MY_ACCESSKEY
+      }
+    })
+      .then(response => response.json())
+      .then(result => result?.symbol)
+      .catch(e => console.log(e));
 
-export interface TxInterface {
-  eth_gas_fee: number;
-  from_addr: string;
-  name: string;
-  params: string;
-  status: number;
-  to_addr: string;
-  usd_gas_fee: number;
-  value: number;
-}
-
-export interface TransactionResponse {
-  id: string;
-  time_at: number;
-  cate_id: string;
-  tx: TxInterface;
-  sends: [
-    {
-      amount: number;
-      to_addr: string;
-      token_id: string;
-    }
-  ];
-  receives: [
-    {
-      amount: number;
-      to_addr: string;
-      token_id: string;
-    }
-  ];
-}
-
-interface ActivityResponse {
-  cate_dict: unknown;
-  history_list: TransactionResponse[];
-  project_dict: unknown;
-  token_dict: unknown;
-}
-
-export interface ActivityData {
-  hash: string;
-  timestamp: number;
-  transactionLabel: TransactionLabelEnum;
-  transactionStatus: TransactionStatusEnum;
-  amount: number;
-  symbol: string;
-}
+    return tokenInfo;
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 function transformApiData(data: ActivityResponse, publicKey: string, chainName: string): ActivityData[] {
   const result = data?.history_list.map(txData => {
@@ -66,15 +35,19 @@ function transformApiData(data: ActivityResponse, publicKey: string, chainName: 
     activityData.hash = txData.id;
     activityData.timestamp = txData.time_at;
     if (txData.cate_id !== null) {
-      activityData.transactionLabel = txData.cate_id as TransactionLabelEnum;
+      activityData.transactionLabel = capitalize(txData.cate_id) as TransactionLabelEnum;
+
       if (activityData.transactionLabel === TransactionLabelEnum.Send) {
         activityData.amount = txData.sends[0]?.amount;
+        fetchTokenInfo(txData.sends[0].token_id, chainName).then(symbol => (activityData.symbol = symbol));
       } else {
+        fetchTokenInfo(txData.receives[0].token_id, chainName).then(symbol => (activityData.symbol = symbol));
         activityData.amount = txData.receives[0]?.amount;
       }
     } else {
       activityData.symbol = chainName;
-      if (publicKey.toLowerCase() === txData.tx.from_addr) {
+      activityData.amount = txData.tx?.value;
+      if (publicKey.toLowerCase() === txData.tx.from_addr.toLowerCase()) {
         activityData.transactionLabel = TransactionLabelEnum.Send;
       } else {
         activityData.transactionLabel = TransactionLabelEnum.Receive;
@@ -115,7 +88,6 @@ export const useAllActivity = (publicKey: string, chainName: string) => {
   if (activity !== undefined) {
     response = transformApiData(activity, publicKey, chainName);
   }
-  console.log(response);
 
   return { response, fetchActivity };
 };
