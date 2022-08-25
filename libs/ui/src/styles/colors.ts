@@ -20,7 +20,8 @@ const accentColors = {
   red: '#CC2500',
   orange: '#ED3D25',
   green: '#14BA30',
-  yellow: '#D6A700'
+  yellow: '#D6A700',
+  brown: '#ed3d2514'
 };
 
 const basicColors = {

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { View, Share, Animated } from 'react-native';
+import { View, Animated } from 'react-native';
 import QRCodeLibrary from 'react-native-qrcode-svg';
 
 import { Column } from '../../../../components/column/column';
@@ -12,6 +12,7 @@ import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
 import { handleCopyToClipboard } from '../../../../utils/copy-to-clipboard.util';
 import { isMobile } from '../../../../utils/platform.utils';
+import { share } from '../../../../utils/share.util';
 
 import { styles } from './qr-code.styles';
 
@@ -24,7 +25,7 @@ export const QrCode: FC<Props> = ({ contentOffsetY }) => {
 
   const copyAddress = () => handleCopyToClipboard(address);
 
-  const shareAddress = () => Share.share({ message: address }).catch(error => console.log('Share error:', error));
+  const shareAddress = () => share({ message: address });
 
   const animationOpacity = new Animated.Value(contentOffsetY).interpolate({
     inputRange: [0, 160],
