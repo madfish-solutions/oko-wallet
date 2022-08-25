@@ -5,7 +5,7 @@ import { BackgroundMessageType } from '../../libs/ui/src/messagers/enums/backgro
 import { BackgroundMessage } from '../../libs/ui/src/messagers/types/background-message.types';
 
 const INITIAL_PASSWORD_HASH = '';
-const LOCK_PERIOD = 1 * 60 * 1000;
+const LOCK_PERIOD = 5 * 60 * 1000;
 const URL_BASE = 'extension://';
 
 let passwordHash = INITIAL_PASSWORD_HASH;
@@ -22,36 +22,36 @@ browser.runtime.onConnect.addListener(port => {
     isFullpageOpen = getChromePredicateFullpage(port);
   }
 
-  console.log('open action - isFullpageOpen', isFullpageOpen);
+  // console.log('open action - isFullpageOpen', isFullpageOpen);
 
   if (savedSessionTimeExpired && !isFullpageOpen) {
     isLockApp = true;
 
-    console.log({
-      action: 'Lock app',
-      closeTime: lastUserActivityTimestamp === 0 ? '0' : new Date(lastUserActivityTimestamp),
-      openTime: new Date(Date.now()),
-      timeGap: `need more than 60_000 - ${Date.now() - lastUserActivityTimestamp}`,
-      isFullpageOpen,
-      savedSessionTimeExpired
-    });
+    // console.log({
+    //   action: 'Lock app',
+    //   closeTime: lastUserActivityTimestamp === 0 ? '0' : new Date(lastUserActivityTimestamp),
+    //   openTime: new Date(Date.now()),
+    //   timeGap: `need more than 60_000 - ${Date.now() - lastUserActivityTimestamp}`,
+    //   isFullpageOpen,
+    //   savedSessionTimeExpired
+    // });
   } else {
     isLockApp = false;
 
-    console.log({
-      action: 'Unlock app',
-      closeTime: lastUserActivityTimestamp === 0 ? '0' : new Date(lastUserActivityTimestamp),
-      timeGap: `need less than 60_000 - ${Date.now() - lastUserActivityTimestamp}`,
-      openTime: new Date(Date.now()),
-      isFullpageOpen,
-      savedSessionTimeExpired
-    });
+    // console.log({
+    //   action: 'Unlock app',
+    //   closeTime: lastUserActivityTimestamp === 0 ? '0' : new Date(lastUserActivityTimestamp),
+    //   timeGap: `need less than 60_000 - ${Date.now() - lastUserActivityTimestamp}`,
+    //   openTime: new Date(Date.now()),
+    //   isFullpageOpen,
+    //   savedSessionTimeExpired
+    // });
   }
 
   // listen when UI is closed
   if (port.name === 'klaytn_wallet_ui') {
     port.onDisconnect.addListener(port => {
-      console.log('Close popup time:', new Date(Date.now()));
+      // console.log('Close popup time:', new Date(Date.now()));
 
       if (getChromePredicateFullpage(port)) {
         isFullpageOpen = false;
