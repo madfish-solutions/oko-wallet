@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { FlatList, ListRenderItemInfo } from 'react-native';
 
 import { EmptySearchIcon } from '../../components/icon/components/empty-search-icon/empty-search-icon';
@@ -18,24 +18,41 @@ import {
 import { styles } from './activity.styles';
 import { ActivityList } from './components/activity-list';
 
+const startTime = Date.now();
+
 export const Activity: FC = () => {
   const { navigate } = useNavigation();
   const selectedPublicKey = useSelectedAccountPublicKeyHashSelector();
   const {
     gasTokenMetadata: { symbol }
   } = useSelectedNetworkSelector();
+  const [activity, setActivity] = useState<ActivityData[]>([]);
 
-  const { activity, fetchActivity } = useAllActivity(selectedPublicKey, symbol.toLowerCase());
+  const { fetchActivity, lastTimestamp } = useAllActivity(selectedPublicKey, symbol.toLowerCase());
 
   useEffect(() => {
-    fetchActivity();
-  }, [selectedPublicKey]);
+    (async () => {
+      const firstActivity = await fetchActivity(startTime);
+      if (firstActivity !== undefined) {
+        setActivity(firstActivity);
+      }
+    })();
+  }, []);
 
   const navigateToWallet = () => navigate(ScreensEnum.Wallet);
 
+  const fetchMoreData = useCallback(() => {
+    (async () => {
+      const newActivity = await fetchActivity(lastTimestamp);
+      if (newActivity !== undefined) {
+        setActivity([...activity, ...newActivity]);
+      }
+    })();
+  }, [lastTimestamp]);
+
   const renderItem = useCallback(
-    ({ item: activity }: ListRenderItemInfo<ActivityData>) => (
-      <ActivityList transaction={activity} address={selectedPublicKey} />
+    ({ item: activityItems }: ListRenderItemInfo<ActivityData>) => (
+      <ActivityList transaction={activityItems} address={selectedPublicKey} />
     ),
     []
   );
@@ -50,8 +67,10 @@ export const Activity: FC = () => {
         data={activity}
         renderItem={renderItem}
         keyExtractor={({ hash }) => hash}
-        showsVerticalScrollIndicator={false}
         ListEmptyComponent={<EmptySearchIcon />}
+        showsVerticalScrollIndicator={false}
+        onEndReachedThreshold={0.1}
+        onEndReached={fetchMoreData}
       />
       <NavigationBar />
     </ScreenContainer>

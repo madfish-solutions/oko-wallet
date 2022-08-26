@@ -26,8 +26,6 @@ export const ActivityList: FC<Props> = ({
   const { explorerUrl } = useSelectedNetworkSelector();
   const onBlockchainExplorerPress = () => Linking.openURL(`${explorerUrl}tx/${hash}`);
 
-  console.log(symbol, 'SYMBOL!!');
-
   return (
     <View>
       <Column style={styles.root}>
