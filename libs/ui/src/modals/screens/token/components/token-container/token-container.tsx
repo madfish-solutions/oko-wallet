@@ -96,9 +96,24 @@ export const TokenContainer: FC<Props> = ({
             <TextInput
               field={field}
               label="Symbol"
-              prompt="Token symbol, like ‘BTC’ for Bitcoin"
-              placeholder="BTC"
+              prompt="Token symbol, like ‘ETH’ for Ethereum"
+              placeholder="ETH"
               error={errors?.symbol?.message}
+              containerStyle={styles.inputContainer}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="name"
+          rules={commonRules}
+          render={({ field }) => (
+            <TextInput
+              field={field}
+              label="Name"
+              prompt="Token name, like ‘Ethereum’ for ETH"
+              placeholder="Ethereum"
+              error={errors?.name?.message}
               containerStyle={styles.inputContainer}
             />
           )}

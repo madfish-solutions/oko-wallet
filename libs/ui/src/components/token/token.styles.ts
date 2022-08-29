@@ -23,10 +23,12 @@ export const styles = StyleSheet.create({
   },
   symbol: {
     color: colors.textGrey1,
+    maxWidth: getCustomSize(10),
     ...typography.bodyInterSemiBold15
   },
   name: {
     color: colors.textGrey1,
+    maxWidth: getCustomSize(18),
     ...typography.captionInterRegular11
   }
 });
