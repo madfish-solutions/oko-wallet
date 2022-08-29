@@ -33,17 +33,15 @@ export const Send: FC = () => {
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
 
-  const {
-    params: { token }
-  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Send>>();
+  const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Send>>();
 
   const { control, handleSubmit } = useForm({
     mode: 'onBlur',
     defaultValues: {
       ...defaultValues,
-      tokenAddress: token?.tokenAddress ?? defaultValues.tokenAddress,
-      tokenId: token?.tokenId ?? defaultValues.tokenId,
-      decimals: String(token?.decimals) ?? defaultValues.decimals
+      tokenAddress: params?.token?.tokenAddress ?? defaultValues.tokenAddress,
+      tokenId: params?.token?.tokenId ?? defaultValues.tokenId,
+      decimals: params?.token && params?.token.decimals ? String(params.token.decimals) : defaultValues.decimals
     }
   });
 

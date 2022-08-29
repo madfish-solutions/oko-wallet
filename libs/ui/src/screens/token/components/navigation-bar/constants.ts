@@ -20,6 +20,7 @@ export const tokenNavigationBar = [
   {
     id: 4,
     iconName: IconNameEnum.Deposit,
-    routeName: ScreensEnum.Send
+    routeName: ScreensEnum.Send,
+    disabled: true
   }
 ];

@@ -18,5 +18,8 @@ export const styles = StyleSheet.create({
     borderRadius: getCustomSize(1.75),
     borderWidth: getCustomSize(0.25),
     borderColor: colors.bgGrey2
+  },
+  buttonDisabled: {
+    borderColor: colors.bgGrey5
   }
 });

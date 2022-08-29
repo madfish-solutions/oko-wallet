@@ -1,3 +1,4 @@
+import { isDefined } from '@rnw-community/shared';
 import React, { FC, Fragment } from 'react';
 import { Pressable } from 'react-native';
 
@@ -8,6 +9,7 @@ import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token } from '../../../../interfaces/token.interface';
+import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
 
 import { tokenNavigationBar } from './constants';
@@ -20,7 +22,11 @@ interface Props {
 export const NavigationBar: FC<Props> = ({ token }) => {
   const { navigate } = useNavigation();
 
-  const navigateToRoute = (screen: ScreensEnum) => {
+  const navigateToRoute = (screen: ScreensEnum, disabled?: boolean) => {
+    if (isDefined(disabled)) {
+      return null;
+    }
+
     if (token.tokenAddress !== GAS_TOKEN_ADDRESS) {
       return navigate(screen, { token });
     }
@@ -30,10 +36,13 @@ export const NavigationBar: FC<Props> = ({ token }) => {
 
   return (
     <Row style={styles.root}>
-      {tokenNavigationBar.map(({ id, routeName, iconName }) => (
+      {tokenNavigationBar.map(({ id, routeName, iconName, disabled }) => (
         <Fragment key={id}>
-          <Pressable onPress={() => navigateToRoute(routeName)} style={styles.button}>
-            <Icon name={iconName} />
+          <Pressable
+            onPress={() => navigateToRoute(routeName, disabled)}
+            style={[styles.button, isDefined(disabled) && styles.buttonDisabled]}
+          >
+            <Icon name={iconName} color={isDefined(disabled) ? colors.bgGrey5 : colors.orange} />
           </Pressable>
           {id < 4 && <Divider size={getCustomSize(2)} />}
         </Fragment>

@@ -30,7 +30,7 @@ export type ScreensParamList = {
   [ScreensEnum.ImportAccount]: undefined;
   [ScreensEnum.ManageTokens]: undefined;
   [ScreensEnum.Receive]: undefined;
-  [ScreensEnum.Send]: { token?: Token };
+  [ScreensEnum.Send]?: { token: Token };
   [ScreensEnum.SendConfirmation]: {
     transferParams: TransferParams;
   };
