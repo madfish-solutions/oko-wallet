@@ -4,7 +4,6 @@ import { TouchableOpacity } from 'react-native';
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { ViewStyleProps } from '../../../interfaces/style.interface';
-import { createEntity } from '../../../store/utils/entity.utils';
 import { Icon } from '../../icon/icon';
 import { IconProps } from '../../icon/icon.interface';
 
