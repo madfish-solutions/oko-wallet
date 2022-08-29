@@ -14,6 +14,7 @@ import { NetworksSelector } from '../../modals/screens/networks-selector/network
 import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
 import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
+import { CreateANewWallet } from '../../screens/create-wallet/screens/create-a-new-wallet/create-a-new-wallet';
 import { ImportAccount } from '../../screens/import-account/import-account';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
@@ -129,8 +130,9 @@ export const Navigator: FC = () => {
             </Stack.Group>
           </>
         ) : (
-          <Stack.Group screenOptions={{ headerShown: false }}>
+          <Stack.Group screenOptions={{ headerShown: true }}>
             <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />
+            <Stack.Screen name={ScreensEnum.CreateANewWallet} component={CreateANewWallet} />
           </Stack.Group>
         )}
       </Stack.Navigator>
