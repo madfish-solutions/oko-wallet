@@ -1,4 +1,5 @@
 import { isDefined, isNotEmptyString, OnEventFn } from '@rnw-community/shared';
+import { BigNumber } from 'bignumber.js';
 import React from 'react';
 import { ControllerRenderProps, FieldPath, FieldValues } from 'react-hook-form';
 import {
@@ -81,8 +82,18 @@ export const TextInput = <
   };
 
   const onBlur = () => {
+    let correctedValue: string = value;
+
     if (isDefined(maxSymbolsAfterDot) && isNotEmptyString(value)) {
-      onChange(getValueWithMaxSymbolsAfterDot(value, maxSymbolsAfterDot));
+      correctedValue = getValueWithMaxSymbolsAfterDot(value, maxSymbolsAfterDot);
+    }
+
+    if (type === TextInputTypesEnum.Float && isNotEmptyString(correctedValue) && !isNaN(+correctedValue)) {
+      correctedValue = new BigNumber(correctedValue).toString();
+    }
+
+    if (correctedValue !== value) {
+      onChange(correctedValue);
     }
 
     onBlurField();
