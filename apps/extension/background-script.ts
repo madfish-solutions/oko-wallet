@@ -5,6 +5,7 @@ import { BackgroundMessageType } from '../../libs/ui/src/messagers/enums/backgro
 import { BackgroundMessage } from '../../libs/ui/src/messagers/types/background-message.types';
 
 const INITIAL_PASSWORD_HASH = '';
+// Now lock period when background-script is die!
 const LOCK_PERIOD = 5 * 60 * 1000;
 const URL_BASE = 'extension://';
 
@@ -22,7 +23,7 @@ browser.runtime.onConnect.addListener(port => {
   const savedSessionTimeExpired = Date.now() > lastUserActivityTimestamp + LOCK_PERIOD;
 
   if (getChromePredicateFullpage(port)) {
-    isFullpageOpen = getChromePredicateFullpage(port);
+    isFullpageOpen = true;
   }
 
   if (savedSessionTimeExpired && !isFullpageOpen) {
