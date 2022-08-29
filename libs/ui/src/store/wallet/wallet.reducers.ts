@@ -4,6 +4,7 @@ import { isDefined } from '@rnw-community/shared';
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { getAccountTokensSlug } from '../../utils/address.util';
+import { getAllAccountsWithoutCurrent } from '../../utils/get-all-accounts-without-current.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { getTokenSlug } from '../../utils/token.utils';
 import { createEntity } from '../utils/entity.utils';
@@ -45,16 +46,21 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       selectedAccountPublicKeyHash: getPublicKeyHash(newAccount, getSelectedNetworkType(state)),
       accountsTokens: updateAccountsTokensState(state, newAccount)
     }))
-    .addCase(createHdAccountForNewNetworkTypeAction, (state, { payload: newAccount }) => {
-      const accountsWithoutCurrent = state.accounts.filter(account => account.accountIndex !== newAccount.accountIndex);
+    .addCase(
+      createHdAccountForNewNetworkTypeAction,
+      (state, { payload: { account: newAccount, switchToNewAccount } }) => {
+        const accountsWithoutCurrent = getAllAccountsWithoutCurrent(state.accounts, newAccount);
 
-      return {
-        ...state,
-        accounts: [...accountsWithoutCurrent, newAccount].sort((a, b) => a.accountIndex - b.accountIndex),
-        selectedAccountPublicKeyHash: getPublicKeyHash(newAccount, getSelectedNetworkType(state)),
-        accountsTokens: updateAccountsTokensState(state, newAccount)
-      };
-    })
+        return {
+          ...state,
+          accounts: [...accountsWithoutCurrent, newAccount].sort((a, b) => a.accountIndex - b.accountIndex),
+          accountsTokens: updateAccountsTokensState(state, newAccount),
+          ...(switchToNewAccount && {
+            selectedAccountPublicKeyHash: getPublicKeyHash(newAccount, getSelectedNetworkType(state))
+          })
+        };
+      }
+    )
     .addCase(setSelectedAccountAction, (state, { payload: selectedAccountPublicKeyHash }) => ({
       ...state,
       selectedAccountPublicKeyHash

@@ -46,14 +46,14 @@ export const EditToken: FC = () => {
   };
 
   const watchAddressUrl = watch('tokenAddress');
-  const warchIconUrl = watch('thumbnailUri');
+  const watchIconUrl = watch('thumbnailUri');
   const watchSymbol = watch('symbol');
 
   useEffect(() => {
-    if (warchIconUrl !== thumbnailUri) {
+    if (watchIconUrl !== thumbnailUri) {
       setValue('symbol', watchSymbol);
     }
-  }, [warchIconUrl, thumbnailUri, watchSymbol]);
+  }, [watchIconUrl, thumbnailUri, watchSymbol]);
 
   useEffect(() => {
     if (!isNotEmptyString(watchAddressUrl.trim())) {

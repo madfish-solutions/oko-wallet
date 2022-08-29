@@ -8,6 +8,8 @@ export enum ScreensEnum {
   ManageTokens = 'ManageTokens',
   Receive = 'Receive',
   Send = 'Send',
+  SendTokensSelector = 'SendTokensSelector',
+  SendAccountsSelector = 'SendAccountsSelector',
   SendConfirmation = 'SendConfirmation',
   Settings = 'Settings',
   Wallet = 'Wallet',
@@ -29,7 +31,11 @@ export type ScreensParamList = {
   [ScreensEnum.ImportAccount]: undefined;
   [ScreensEnum.ManageTokens]: undefined;
   [ScreensEnum.Receive]: undefined;
-  [ScreensEnum.Send]: undefined;
+  [ScreensEnum.Send]:
+    | { selectedAccount?: AccountInterface; selectedAsset?: Token; receiverPublicKeyHash?: string }
+    | undefined;
+  [ScreensEnum.SendTokensSelector]: { selectedAsset: Token };
+  [ScreensEnum.SendAccountsSelector]: { selectedAccount: AccountInterface };
   [ScreensEnum.SendConfirmation]: {
     transferParams: TransferParams;
   };

@@ -1,7 +1,10 @@
+import { AccountInterface } from '../../interfaces/account.interface';
+import { Token } from '../../interfaces/token.interface';
+
 export interface FormTypes {
-  tokenAddress: string;
-  tokenId: string;
+  asset: Token;
   amount: string;
   receiverPublicKeyHash: string;
-  decimals: string;
+  selectedAccount?: AccountInterface;
+  isTransferBetweenAccounts: boolean;
 }

@@ -45,7 +45,9 @@ export enum IconNameEnum {
   Trash = 'Trash',
   Clear = 'Clear',
   Success = 'Success',
-  Warning = 'Warning',
+  WarningWhite = 'WarningWhite',
+  WarningYellow = 'WarningYellow',
   Error = 'Error',
-  QrScanner = 'QrScanner'
+  QrScanner = 'QrScanner',
+  Info = 'Info'
 }

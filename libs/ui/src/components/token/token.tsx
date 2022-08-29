@@ -5,6 +5,7 @@ import { Image, View } from 'react-native';
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { getCustomSize } from '../../styles/format-size';
 import { Column } from '../column/column';
+import { IconWithBorderEnum } from '../icon-with-border/enums';
 import { IconWithBorder } from '../icon-with-border/icon-with-border';
 import { Icon } from '../icon/icon';
 import { IconNameEnum } from '../icon/icon-name.enum';
@@ -20,9 +21,18 @@ interface Props {
   gasToken?: boolean;
   forceHideTokenName?: boolean;
   style?: ViewStyleProps;
+  iconType?: IconWithBorderEnum;
 }
 
-export const Token: FC<Props> = ({ uri, symbol, name, gasToken = false, forceHideTokenName = false, style }) => {
+export const Token: FC<Props> = ({
+  uri,
+  symbol,
+  name,
+  gasToken = false,
+  forceHideTokenName = false,
+  iconType = IconWithBorderEnum.Quinary,
+  style
+}) => {
   const [isLoadingError, setIsLoadingError] = useState(false);
 
   const onError = () => setIsLoadingError(true);
@@ -32,15 +42,15 @@ export const Token: FC<Props> = ({ uri, symbol, name, gasToken = false, forceHid
   }, [uri]);
 
   return (
-    <Row style={[styles.flex, style]}>
-      <IconWithBorder type="quinary" style={styles.icon}>
+    <Row style={style}>
+      <IconWithBorder type={iconType} style={styles.icon}>
         {isDefined(uri) && isNotEmptyString(uri) && !isLoadingError ? (
           <Image source={{ uri }} onError={onError} style={styles.image} />
         ) : (
           <View style={styles.fallback} />
         )}
       </IconWithBorder>
-      <Column style={styles.flex}>
+      <Column>
         <Row style={styles.row}>
           <Text style={styles.symbol} numberOfLines={1}>
             {symbol}

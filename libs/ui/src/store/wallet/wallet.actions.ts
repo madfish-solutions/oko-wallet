@@ -9,9 +9,10 @@ import { TokenFormTypes } from '../../modals/screens/token/types/form-types.inte
 import { createActions } from '../utils/action.utils';
 
 export const createHdAccountAction = createAction<AccountInterface>('wallet/CREATE_HD_ACCOUNT');
-export const createHdAccountForNewNetworkTypeAction = createAction<AccountInterface>(
-  'wallet/CREATE_HD_ACCOUNT_WITH_OTHER_NETWORK_TYPE'
-);
+export const createHdAccountForNewNetworkTypeAction = createAction<{
+  account: AccountInterface;
+  switchToNewAccount: boolean;
+}>('wallet/CREATE_HD_ACCOUNT_WITH_OTHER_NETWORK_TYPE');
 export const changeAccountAction = createAction<AccountInterface>('wallet/CHANGE_ACCOUNT');
 export const setSelectedAccountAction = createAction<string>('wallet/SET_SELECTED_ACCOUNT');
 export const editAccountNameAction = createAction<{ accountIndex: AccountInterface['accountIndex']; name: string }>(

@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Text, View } from 'react-native';
 
+import { IconWithBorderEnum } from '../../../components/icon-with-border/enums';
 import { IconWithBorder } from '../../../components/icon-with-border/icon-with-border';
 import { Row } from '../../../components/row/row';
 import { ViewStyleProps } from '../../../interfaces/style.interface';
@@ -14,7 +15,7 @@ interface Props extends ModalHeaderInterface {
 
 export const ModalHeader: FC<Props> = ({ name, balanceTitle, balance, icon, style }) => (
   <Row style={style}>
-    <IconWithBorder type="quaternary" style={styles.icon}>
+    <IconWithBorder type={IconWithBorderEnum.Quaternary} style={styles.icon}>
       {icon}
     </IconWithBorder>
     <View>

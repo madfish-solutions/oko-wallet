@@ -54,8 +54,12 @@ export const useShelter = () => {
     [createHdAccount$, accounts.length, networkType]
   );
   const createHdAccountForNewNetworkType = useCallback(
-    (account: AccountInterface, networkType: NetworkTypeEnum, successCallback?: OnEventFn<void>) =>
-      createHdAccountForNewNetworkType$.next({ account, networkType, successCallback }),
+    (
+      account: AccountInterface,
+      networkType: NetworkTypeEnum,
+      successCallback?: OnEventFn<AccountInterface>,
+      switchToNewAccount?: boolean
+    ) => createHdAccountForNewNetworkType$.next({ account, networkType, successCallback, switchToNewAccount }),
     [createHdAccount$]
   );
   const sendEvmTransaction = useCallback(

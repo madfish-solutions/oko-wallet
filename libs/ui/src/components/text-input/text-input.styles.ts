@@ -6,58 +6,32 @@ import { typography } from '../../styles/typography';
 import { isWeb } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
-  labelContainer: {
-    justifyContent: 'space-between',
-    marginBottom: getCustomSize(0.75)
-  },
-  label: {
-    color: colors.textGrey3,
-    ...typography.captionInterRegular13
-  },
-  optionalText: {
-    color: colors.textGrey2,
-    opacity: 0.5,
-    ...typography.captionInterRegular11
-  },
-  promptContainer: {
-    marginBottom: getCustomSize()
-  },
-  promptText: {
-    marginRight: getCustomSize(0.5),
-    color: colors.textGrey2,
-    ...typography.captionInterRegular11
-  },
   inputContainer: {
-    position: 'relative'
+    backgroundColor: colors.bgGrey4,
+    borderWidth: 1,
+    borderColor: colors.bgGrey4,
+    borderRadius: getCustomSize(),
+    paddingLeft: getCustomSize(1.5),
+    paddingRight: getCustomSize(1.25)
   },
   input: {
-    width: '100%',
-    height: getCustomSize(6),
-    paddingLeft: getCustomSize(1.5),
-    paddingRight: getCustomSize(4.5),
-    borderRadius: getCustomSize(),
-    borderWidth: 1,
-    backgroundColor: colors.bgGrey4,
-    borderColor: colors.bgGrey4,
+    width: '95%',
+    height: getCustomSize(5.75),
     color: colors.textGrey1,
+    paddingRight: getCustomSize(0.5),
     ...typography.bodyInterRegular15,
     ...(isWeb && { outlineStyle: 'none' }),
     ...(isWeb && { caretColor: colors.orange }),
     lineHeight: undefined
   },
-  clearIcon: {
-    position: 'absolute',
-    right: getCustomSize()
-  },
   errorInput: {
     borderColor: colors.red
   },
-  errorContainer: {
-    position: 'relative'
+  textErrorContainer: {
+    position: 'absolute',
+    bottom: -getCustomSize(2.25)
   },
   textError: {
-    position: 'absolute',
-    top: getCustomSize(0.75),
     color: colors.red,
     ...typography.captionInterRegular11
   }

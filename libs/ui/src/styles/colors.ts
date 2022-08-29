@@ -3,7 +3,8 @@ const backgroundColors = {
   bgGrey2: '#252934',
   bgGrey3: '#2F3238',
   bgGrey4: '#1D2129',
-  bgGrey5: '#2F3031'
+  bgGrey5: '#2F3031',
+  bgBrown: '#ED3D2514'
 };
 
 const navigationColors = {
@@ -13,7 +14,8 @@ const navigationColors = {
 const textColors = {
   textGrey1: '#F8F8F8',
   textGrey2: '#868993',
-  textGrey3: '#B4B6BC'
+  textGrey3: '#B4B6BC',
+  textGrey4: '#E1E3E9'
 };
 
 const accentColors = {

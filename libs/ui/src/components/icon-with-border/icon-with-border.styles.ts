@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     height: getCustomSize(5),
     borderRadius: getCustomSize(6)
   },
-  tertiary: {
+  ternary: {
     width: getCustomSize(3),
     height: getCustomSize(3),
     borderRadius: getCustomSize(6)
