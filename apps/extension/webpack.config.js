@@ -47,10 +47,16 @@ module.exports = {
         'utf-8-validate': 'commonjs utf-8-validate'
     },
 
-    entry: [path.resolve(appDirectory, 'index.ts')],
+    entry: {
+        'background-script': path.resolve(appDirectory, 'background-script.ts'),
+        'content-script': path.resolve(appDirectory, 'content-script.ts'),
+        main: path.resolve(appDirectory, 'index.ts')
+    },
 
     output: {
-        path: path.resolve(appDirectory, 'dist')
+        path: path.resolve(appDirectory, 'dist'),
+        filename: 'scripts/[name].js',
+        chunkFilename: 'scripts/[name].chunk.js'
     },
 
     module: {
@@ -97,16 +103,18 @@ module.exports = {
                         ]
                     }
                 },
-                {from: 'node_modules/wasm-themis/src/libthemis.wasm'}
+                {from: 'node_modules/wasm-themis/src/libthemis.wasm', to: 'scripts/libthemis.wasm'}
             ]
         }),
         new HtmlWebpackPlugin({
             template: 'public/popup.html',
-            filename: 'popup.html'
+            filename: 'popup.html',
+            chunks: ['main']
         }),
         new HtmlWebpackPlugin({
             template: 'public/fullpage.html',
-            filename: 'fullpage.html'
+            filename: 'fullpage.html',
+            chunks: ['main']
         })
     ]
 };
