@@ -5,7 +5,7 @@ import { BackgroundMessageType } from '../../libs/ui/src/messagers/enums/backgro
 import { BackgroundMessage } from '../../libs/ui/src/messagers/types/background-message.types';
 
 const INITIAL_PASSWORD_HASH = '';
-// Now lock period when background-script is die!
+// Locks when background-script dies!
 const LOCK_PERIOD = 5 * 60 * 1000;
 const URL_BASE = 'extension://';
 
@@ -16,13 +16,10 @@ let isLockApp = true;
 let isFullpageOpen = false;
 
 browser.runtime.onConnect.addListener(port => {
-  // TODO: Need for unsleep background.script
-  console.log('Welcome to Klaytn wallet!');
-
   // check for time expired and max-view no opened then extension need to lock
   const savedSessionTimeExpired = Date.now() > lastUserActivityTimestamp + LOCK_PERIOD;
 
-  if (getChromePredicateFullpage(port)) {
+  if (isFullpagePort(port)) {
     isFullpageOpen = true;
   }
 
@@ -35,7 +32,7 @@ browser.runtime.onConnect.addListener(port => {
   // listen when UI is closed
   if (port.name === 'klaytn_wallet_ui') {
     port.onDisconnect.addListener(port => {
-      if (getChromePredicateFullpage(port)) {
+      if (isFullpagePort(port)) {
         isFullpageOpen = false;
       }
 
@@ -65,5 +62,5 @@ browser.runtime.onMessage.addListener((message: BackgroundMessage) => {
   }
 });
 
-const getChromePredicateFullpage = (port: Runtime.Port) =>
+const isFullpagePort = (port: Runtime.Port) =>
   port.sender?.url?.includes(`${URL_BASE}${browser.runtime.id}/fullpage.html`) ?? false;
