@@ -34,7 +34,7 @@ export const TokenInfo: FC = () => {
     ...(tokenAddress !== GAS_TOKEN_ADDRESS && {
       contract: {
         name: 'Contract',
-        value: <CopyText address={tokenAddress} />,
+        value: <CopyText text={tokenAddress} />,
         prompt: viewTokenDetails(tokenAddress)
       }
     }),
