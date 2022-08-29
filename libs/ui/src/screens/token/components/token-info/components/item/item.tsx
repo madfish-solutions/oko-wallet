@@ -6,6 +6,7 @@ import { Icon } from '../../../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../../../components/row/row';
 import { Text } from '../../../../../../components/text/text';
+import { TouchableIcon } from '../../../../../../components/touchable-icon/touchable-icon';
 
 import { styles } from './item.styles';
 
@@ -41,12 +42,10 @@ export const Item: FC<Props> = ({ name, value, prompt }) => {
       default: {
         if (isDefined(prompt)) {
           return (
-            <Pressable onPress={promptNavigate}>
-              <Row>
-                {value}
-                <Icon name={IconNameEnum.Tooltip} iconStyle={styles.icon} />
-              </Row>
-            </Pressable>
+            <Row>
+              {value}
+              <TouchableIcon name={IconNameEnum.Tooltip} onPress={promptNavigate} iconStyle={styles.icon} />
+            </Row>
           );
         }
 

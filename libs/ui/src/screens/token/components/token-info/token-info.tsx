@@ -3,7 +3,7 @@ import { isDefined } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { ScrollView } from 'react-native';
 
-import { Address } from '../../../../components/address/address';
+import { CopyText } from '../../../../components/copy-text/copy-text';
 import { Currency } from '../../../../components/currency/currency';
 import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
@@ -34,7 +34,7 @@ export const TokenInfo: FC = () => {
     ...(tokenAddress !== GAS_TOKEN_ADDRESS && {
       contract: {
         name: 'Contract',
-        value: <Address address={tokenAddress} />,
+        value: <CopyText address={tokenAddress} />,
         prompt: viewTokenDetails(tokenAddress)
       }
     }),
