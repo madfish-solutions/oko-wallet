@@ -148,7 +148,7 @@ export const useMintedTransactionsSelector = () => {
   );
 };
 
-export const useTokenBalanceFromStore = (tokenSlug: string): string => {
+export const useTokenBalanceSelector = (tokenSlug: string): string => {
   const network = useSelectedNetworkSelector();
   const accountTokens = useAccountTokensSelector();
 

@@ -11,7 +11,7 @@ import { GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { ViewStyleProps } from '../../interfaces/style.interface';
-import { useTokenBalanceFromStore } from '../../store/wallet/wallet.selectors';
+import { useTokenBalanceSelector } from '../../store/wallet/wallet.selectors';
 import { getTokenSlug } from '../../utils/token.utils';
 
 import { Activity } from './components/activity/activity';
@@ -46,7 +46,7 @@ export const Token: FC<Props> = ({ style }) => {
 
   const { name, symbol, tokenAddress, decimals, tokenId, thumbnailUri, balance } = token;
 
-  const balanceFromStore = useTokenBalanceFromStore(getTokenSlug(tokenAddress, tokenId));
+  const balanceFromStore = useTokenBalanceSelector(getTokenSlug(tokenAddress, tokenId));
   const formattedBalance = formatUnits(balanceFromStore, decimals);
   const isGasToken = tokenAddress === GAS_TOKEN_ADDRESS;
 
