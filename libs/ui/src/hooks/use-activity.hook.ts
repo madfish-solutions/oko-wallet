@@ -1,4 +1,5 @@
 import axios from 'axios';
+import memoize from 'fast-memoize';
 import { useState } from 'react';
 
 import { BASE_DEBANK_URL, DEBANK_HEADERS } from '../constants/defaults';
@@ -6,13 +7,13 @@ import { TransactionStatusEnum } from '../enums/transactions.enum';
 import { ActivityData, ActivityResponse, TokenInfo, TransactionLabelEnum } from '../interfaces/activity.interface';
 import { capitalize } from '../utils/string.util';
 
-const axiosInstance = axios.create({
+const debankApiRequest = axios.create({
   baseURL: BASE_DEBANK_URL,
   headers: DEBANK_HEADERS.headers
 });
 
 const fetchTokenInfo = async (contractAddress: string, chainName: string): Promise<TokenInfo | undefined> =>
-  axiosInstance
+  debankApiRequest
     .get(`v1/token?id=${contractAddress}&chain_id=${chainName}`)
     .then(result => result.data)
     .catch(e => console.log(e));
@@ -65,12 +66,16 @@ const transformApiData = async (
   );
 
 export const useAllActivity = (publicKey: string, chainName: string) => {
-  const [lastTimestamp, setLastTimestamp] = useState(Date.now());
+  const [lastTimestamp, setLastTimestamp] = useState(0);
+  console.log(lastTimestamp, 'last timestamp');
   const [activity, setActivity] = useState<ActivityData[]>([]);
-  const fetchActivity = async (startTime: number) => {
+  const fetchActivity = memoize(async (startTime: number) => {
+    console.log(lastTimestamp, 'TIMESTAMP MEMOIZED');
     try {
-      const response = await axiosInstance.get(
-        `v1/user/history_list?id=${publicKey}&chain_id=${chainName}&page_count=5&start_time=${startTime}`
+      const response = await debankApiRequest.get(
+        `v1/user/history_list?id=${publicKey}&chain_id=${chainName}&page_count=5${
+          startTime !== 0 ? `&start_time=${startTime}` : ''
+        }`
       );
 
       const activityData = await transformApiData(response.data, publicKey, chainName);
@@ -79,7 +84,7 @@ export const useAllActivity = (publicKey: string, chainName: string) => {
     } catch (e) {
       console.log(e);
     }
-  };
+  });
 
   const fetchMoreData = async () => {
     fetchActivity(lastTimestamp);
