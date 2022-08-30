@@ -24,7 +24,8 @@ export const styles = StyleSheet.create({
     ...typography.bodyInterRegular15,
     ...(isWeb && { outlineStyle: 'none' }),
     ...(isWeb && { caretColor: colors.orange }),
-    lineHeight: undefined
+    lineHeight: undefined,
+    overflow: 'hidden'
   },
   errorInput: {
     borderColor: colors.red
