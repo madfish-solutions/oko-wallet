@@ -81,7 +81,7 @@ export const Send: FC = () => {
     clearErrors,
     trigger
   } = useForm({
-    mode: 'onBlur',
+    mode: 'onChange',
     defaultValues
   });
   const selectedAsset = watch('asset');
@@ -170,11 +170,17 @@ export const Send: FC = () => {
   return (
     <ScreenContainer>
       <HeaderContainer isSelectors>
-        <ScreenTitle title={`Send ${selectedAsset.symbol}`} onBackButtonPress={navigateToWallet} />
+        <ScreenTitle
+          title={`Send ${selectedAsset.symbol}`}
+          onBackButtonPress={navigateToWallet}
+          numberOfLines={1}
+          titleStyle={styles.screenTitle}
+        />
         <HeaderSideBalance symbol={selectedAsset.symbol} balance={availableBalance} />
       </HeaderContainer>
 
       <ScreenScrollView>
+        {isGasTokenZeroBalance && <Warning text={`Needed gas token: ${selectedAsset.symbol}`} style={styles.warning} />}
         <Controller
           control={control}
           name="amount"
@@ -239,7 +245,8 @@ export const Send: FC = () => {
               <TextInput
                 field={field}
                 placeholder={addressPlaceholder}
-                inputContainerStyle={styles.publicKeyHashContainer}
+                containerStyle={styles.publicKeyHashContainer}
+                inputContainerStyle={styles.publicKeyHashInputContainer}
                 inputStyle={styles.publicKeyHashInput}
                 multiline
                 clearIconStyles={styles.publicKeyHashClearIcon}
@@ -264,7 +271,6 @@ export const Send: FC = () => {
             )}
           />
         )}
-        {isGasTokenZeroBalance && <Warning text={`Needed gas token: ${selectedAsset.symbol}`} style={styles.warning} />}
       </ScreenScrollView>
 
       <View style={styles.sendButtonContainer}>

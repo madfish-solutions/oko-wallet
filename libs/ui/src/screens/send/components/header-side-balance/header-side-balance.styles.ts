@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
 import { typography } from '../../../../styles/typography';
+import { isWeb } from '../../../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {
@@ -19,6 +20,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: getCustomSize(0.25)
   },
   symbol: {
-    marginLeft: getCustomSize(0.25)
+    marginLeft: getCustomSize(0.25),
+    maxWidth: isWeb ? getCustomSize(8) : getCustomSize(9.5)
   }
 });

@@ -3,6 +3,7 @@ import { View } from 'react-native';
 
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
+import { getBalanceToShow } from '../../../../utils/get-balance-to-show.util';
 
 import { styles } from './header-side-balance.styles';
 
@@ -20,8 +21,10 @@ export const HeaderSideBalance: FC<Props> = ({ symbol, balance }) => (
       <Text style={[styles.numbersFontText13, styles.grey]}>$</Text>
     </Row>
     <Row>
-      <Text style={styles.numbersFontText15}>{balance}</Text>
-      <Text style={[styles.numbersFontText15, styles.symbol, styles.grey]}>{symbol}</Text>
+      <Text style={styles.numbersFontText15}>{getBalanceToShow(balance)}</Text>
+      <Text numberOfLines={1} style={[styles.numbersFontText15, styles.symbol, styles.grey]}>
+        {symbol}
+      </Text>
     </Row>
   </View>
 );

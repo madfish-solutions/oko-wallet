@@ -8,6 +8,9 @@ export const styles = StyleSheet.create({
   renderItem: {
     height: getCustomSize(10.125)
   },
+  symbol: {
+    ...typography.numbersIBMPlexSansMedium13
+  },
   dollarContainer: {
     marginBottom: getCustomSize(0.25)
   },

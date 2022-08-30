@@ -4,7 +4,8 @@ const backgroundColors = {
   bgGrey3: '#2F3238',
   bgGrey4: '#1D2129',
   bgGrey5: '#2F3031',
-  bgBrown: '#ED3D2514'
+  bgBrown: '#ED3D2514',
+  bgTransparentYellow: 'rgba(214, 167, 0, 0.08)'
 };
 
 const navigationColors = {

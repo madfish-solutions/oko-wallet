@@ -2,7 +2,7 @@ import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import React, { FC, useEffect, useState } from 'react';
 import { Image, View } from 'react-native';
 
-import { ViewStyleProps } from '../../interfaces/style.interface';
+import { TextStyleProps, ViewStyleProps } from '../../interfaces/style.interface';
 import { getCustomSize } from '../../styles/format-size';
 import { Column } from '../column/column';
 import { IconWithBorderEnum } from '../icon-with-border/enums';
@@ -22,6 +22,7 @@ interface Props {
   forceHideTokenName?: boolean;
   style?: ViewStyleProps;
   iconType?: IconWithBorderEnum;
+  symbolStyle?: TextStyleProps;
 }
 
 export const Token: FC<Props> = ({
@@ -31,7 +32,8 @@ export const Token: FC<Props> = ({
   gasToken = false,
   forceHideTokenName = false,
   iconType = IconWithBorderEnum.Quinary,
-  style
+  style,
+  symbolStyle
 }) => {
   const [isLoadingError, setIsLoadingError] = useState(false);
 
@@ -52,7 +54,7 @@ export const Token: FC<Props> = ({
       </IconWithBorder>
       <Column>
         <Row style={styles.row}>
-          <Text style={styles.symbol} numberOfLines={1}>
+          <Text style={[styles.symbol, symbolStyle]} numberOfLines={1}>
             {symbol}
           </Text>
           {gasToken && <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />}

@@ -77,6 +77,7 @@ export const TokensSelector: FC = () => {
             gasToken={isGasToken}
             uri={item.thumbnailUri}
             forceHideTokenName
+            symbolStyle={styles.symbol}
           />
         }
         leftBottomComponent={

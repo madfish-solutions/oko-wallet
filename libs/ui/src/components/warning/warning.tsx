@@ -16,6 +16,8 @@ interface Props {
 export const Warning: FC<Props> = ({ text, style }) => (
   <Row style={[styles.root, style]}>
     <Icon name={IconNameEnum.WarningYellow} iconStyle={styles.icon} />
-    <Text style={styles.text}>{text}</Text>
+    <Text style={styles.text} numberOfLines={1}>
+      {text}
+    </Text>
   </Row>
 );

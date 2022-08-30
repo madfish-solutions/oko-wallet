@@ -14,11 +14,13 @@ export const styles = StyleSheet.create({
     paddingLeft: getCustomSize(1.5),
     paddingRight: getCustomSize(1.25)
   },
+  innerContainer: {
+    justifyContent: 'space-between'
+  },
   input: {
-    width: '95%',
+    width: '94%',
     height: getCustomSize(5.75),
     color: colors.textGrey1,
-    paddingRight: getCustomSize(0.5),
     ...typography.bodyInterRegular15,
     ...(isWeb && { outlineStyle: 'none' }),
     ...(isWeb && { caretColor: colors.orange }),

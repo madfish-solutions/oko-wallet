@@ -6,6 +6,9 @@ import { typography } from '../../styles/typography';
 import { isMobile } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
+  screenTitle: {
+    maxWidth: isMobile ? getCustomSize(22.5) : getCustomSize(20)
+  },
   assetContainer: {
     flexDirection: 'column-reverse',
     paddingTop: getCustomSize(1.5),
@@ -30,14 +33,17 @@ export const styles = StyleSheet.create({
     color: colors.textGrey2
   },
   publicKeyHashContainer: {
+    marginBottom: getCustomSize(2)
+  },
+  publicKeyHashInputContainer: {
     paddingTop: getCustomSize(1.75),
     justifyContent: 'space-between',
-    paddingBottom: getCustomSize(1),
-    height: getCustomSize(14.75)
+    paddingBottom: isMobile ? getCustomSize(1) : getCustomSize(1.75),
+    height: isMobile ? getCustomSize(14.75) : getCustomSize(9)
   },
   publicKeyHashInput: {
     ...typography.numbersIBMPlexSansMedium15,
-    height: isMobile ? getCustomSize(7.75) : getCustomSize(10)
+    height: isMobile ? getCustomSize(7.75) : getCustomSize(4.875)
   },
   publicKeyHashClearIcon: {
     alignSelf: 'flex-start'
@@ -47,7 +53,7 @@ export const styles = StyleSheet.create({
     paddingRight: getCustomSize(0.25)
   },
   warning: {
-    marginTop: getCustomSize(4.625)
+    marginBottom: getCustomSize(2.125)
   },
   sendButtonContainer: {
     paddingHorizontal: getCustomSize(2),

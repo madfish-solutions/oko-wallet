@@ -108,7 +108,7 @@ export const TextInput = <
       {isLabel && <Label title={label} isOptional={!required} />}
       {isPrompt && <Prompt title={prompt} handlePrompt={handlePrompt} />}
       <View style={[styles.inputContainer, isError && styles.errorInput, inputContainerStyle]}>
-        <Row>
+        <Row style={styles.innerContainer}>
           <TextInputBase
             ref={ref}
             placeholderTextColor={placeholderTextColor}
