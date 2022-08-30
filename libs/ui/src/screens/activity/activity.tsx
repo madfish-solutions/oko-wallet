@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { FlatList, ListRenderItemInfo } from 'react-native';
 
 import { EmptySearchIcon } from '../../components/icon/components/empty-search-icon/empty-search-icon';
@@ -18,39 +18,20 @@ import {
 import { styles } from './activity.styles';
 import { ActivityList } from './components/activity-list';
 
-const startTime = Date.now();
-
 export const Activity: FC = () => {
   const { navigate } = useNavigation();
   const selectedPublicKey = useSelectedAccountPublicKeyHashSelector();
   const {
     gasTokenMetadata: { symbol }
   } = useSelectedNetworkSelector();
-  const [activity, setActivity] = useState<ActivityData[]>([]);
 
-  const { fetchActivity, lastTimestamp } = useAllActivity(selectedPublicKey, symbol.toLowerCase());
+  const { activity, fetchMoreData } = useAllActivity(selectedPublicKey, symbol.toLowerCase());
 
   useEffect(() => {
-    (async () => {
-      const firstActivity = await fetchActivity(startTime);
-      if (firstActivity !== undefined) {
-        setActivity(firstActivity);
-      }
-      console.log(activity, 'activity after first render');
-    })();
+    fetchMoreData();
   }, []);
 
   const navigateToWallet = () => navigate(ScreensEnum.Wallet);
-
-  const fetchMoreData = useCallback(() => {
-    (async () => {
-      const newActivity = await fetchActivity(lastTimestamp);
-
-      if (newActivity !== undefined) {
-        setActivity([...activity, ...newActivity]);
-      }
-    })();
-  }, [lastTimestamp]);
 
   const renderItem = useCallback(
     ({ item: activityItems }: ListRenderItemInfo<ActivityData>) => (
@@ -69,8 +50,6 @@ export const Activity: FC = () => {
         data={activity}
         renderItem={renderItem}
         keyExtractor={({ hash }) => hash}
-        showsVerticalScrollIndicator
-        showsHorizontalScrollIndicator
         ListEmptyComponent={<EmptySearchIcon />}
         onEndReachedThreshold={0.1}
         onEndReached={fetchMoreData}

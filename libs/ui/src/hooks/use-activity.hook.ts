@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { BASE_DEBANK_URL, DEBANK_HEADERS } from '../constants/defaults';
 import { TransactionStatusEnum } from '../enums/transactions.enum';
@@ -66,19 +66,24 @@ const transformApiData = async (
 
 export const useAllActivity = (publicKey: string, chainName: string) => {
   const [lastTimestamp, setLastTimestamp] = useState(Date.now());
-  const fetchActivity = useCallback(async (startTime: number) => {
+  const [activity, setActivity] = useState<ActivityData[]>([]);
+  const fetchActivity = async (startTime: number) => {
     try {
       const response = await axiosInstance.get(
         `v1/user/history_list?id=${publicKey}&chain_id=${chainName}&page_count=5&start_time=${startTime}`
       );
+
       const activityData = await transformApiData(response.data, publicKey, chainName);
       setLastTimestamp(activityData[activityData.length - 1].timestamp);
-
-      return activityData;
+      setActivity([...activity, ...activityData]);
     } catch (e) {
       console.log(e);
     }
-  }, []);
+  };
 
-  return { lastTimestamp, fetchActivity };
+  const fetchMoreData = async () => {
+    fetchActivity(lastTimestamp);
+  };
+
+  return { activity, fetchMoreData };
 };
