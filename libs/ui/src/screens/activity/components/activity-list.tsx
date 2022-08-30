@@ -46,15 +46,16 @@ export const ActivityList: FC<Props> = ({
             </Row>
             <Row>
               <View style={[styles.statusWrapper, styles[transactionStatus]]}>
-                <Text style={styles.statusText}>{transactionStatus}</Text>
+                <Text style={styles.statusText}>{transactionStatus.toUpperCase()}</Text>
               </View>
               <Text style={styles.smallGreyText}>{transformTimestampToTime(timestamp)}</Text>
             </Row>
           </Column>
           <Column>
             <Row style={styles.hash}>
-              <Text style={styles.smallGreyText}>hash</Text>
+              <Text style={styles.smallGreyText}>Hash</Text>
               <TouchableOpacity onPress={onBlockchainExplorerPress} style={styles.touchable}>
+                {/* @TODO : update to copy text component */}
                 <Text style={styles.txHash}>{shortize(hash)}</Text>
                 <Icon name={IconNameEnum.Tooltip} />
               </TouchableOpacity>

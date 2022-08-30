@@ -36,6 +36,7 @@ export const Activity: FC = () => {
       if (firstActivity !== undefined) {
         setActivity(firstActivity);
       }
+      console.log(activity, 'activity after first render');
     })();
   }, []);
 
@@ -44,6 +45,7 @@ export const Activity: FC = () => {
   const fetchMoreData = useCallback(() => {
     (async () => {
       const newActivity = await fetchActivity(lastTimestamp);
+
       if (newActivity !== undefined) {
         setActivity([...activity, ...newActivity]);
       }
@@ -67,8 +69,9 @@ export const Activity: FC = () => {
         data={activity}
         renderItem={renderItem}
         keyExtractor={({ hash }) => hash}
+        showsVerticalScrollIndicator
+        showsHorizontalScrollIndicator
         ListEmptyComponent={<EmptySearchIcon />}
-        showsVerticalScrollIndicator={false}
         onEndReachedThreshold={0.1}
         onEndReached={fetchMoreData}
       />

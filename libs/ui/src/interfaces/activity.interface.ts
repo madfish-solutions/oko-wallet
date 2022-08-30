@@ -35,7 +35,7 @@ export interface TxInterface {
 export interface TransactionResponse {
   id: string;
   time_at: number;
-  cate_id: string;
+  cate_id: string | null;
   tx: TxInterface;
   sends: [
     {

@@ -1,30 +1,21 @@
+import axios from 'axios';
 import { useCallback, useState } from 'react';
 
+import { BASE_DEBANK_URL, DEBANK_HEADERS } from '../constants/defaults';
 import { TransactionStatusEnum } from '../enums/transactions.enum';
 import { ActivityData, ActivityResponse, TokenInfo, TransactionLabelEnum } from '../interfaces/activity.interface';
 import { capitalize } from '../utils/string.util';
 
-const BASE_DEBANK_URL = 'https://pro-openapi.debank.com/v1/user/history_list';
-const TOKEN_INFO_URL = 'https://pro-openapi.debank.com/v1/token';
-const MY_ACCESSKEY = 'd74c140f710733b43b228752dbedc0eff8091bc6';
-const DEBANK_HEADERS = {
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-    AccessKey: MY_ACCESSKEY
-  }
-};
+const axiosInstance = axios.create({
+  baseURL: BASE_DEBANK_URL,
+  headers: DEBANK_HEADERS.headers
+});
 
-const fetchTokenInfo = async (contractAddress: string, chainName: string): Promise<TokenInfo | undefined> => {
-  try {
-    const response = await fetch(`${TOKEN_INFO_URL}?id=${contractAddress}&chain_id=${chainName}`, DEBANK_HEADERS);
-    const tokenInfo = response.json();
-
-    return tokenInfo;
-  } catch (e) {
-    console.log(e);
-  }
-};
+const fetchTokenInfo = async (contractAddress: string, chainName: string): Promise<TokenInfo | undefined> =>
+  axiosInstance
+    .get(`v1/token?id=${contractAddress}&chain_id=${chainName}`)
+    .then(result => result.data)
+    .catch(e => console.log(e));
 
 /*
 transform data from API
@@ -36,10 +27,14 @@ const transformApiData = async (
   data: ActivityResponse,
   publicKey: string,
   chainName: string
-): Promise<ActivityData[]> => {
-  const result = await Promise.all(
+): Promise<ActivityData[]> =>
+  Promise.all(
     data?.history_list.map(async txData => {
-      const activityData: ActivityData = {} as ActivityData;
+      const activityData = {
+        transactionStatus: TransactionStatusEnum.applied,
+        hash: txData.id,
+        timestamp: txData.time_at
+      } as ActivityData;
       activityData.transactionStatus = TransactionStatusEnum.applied;
       activityData.hash = txData.id;
       activityData.timestamp = txData.time_at;
@@ -69,20 +64,15 @@ const transformApiData = async (
     })
   );
 
-  return result;
-};
-
 export const useAllActivity = (publicKey: string, chainName: string) => {
   const [lastTimestamp, setLastTimestamp] = useState(Date.now());
   const fetchActivity = useCallback(async (startTime: number) => {
     try {
-      const response = await fetch(
-        `${BASE_DEBANK_URL}?id=${publicKey}&chain_id=${chainName}&page_count=5&start_time=${startTime}`,
-        DEBANK_HEADERS
+      const response = await axiosInstance.get(
+        `v1/user/history_list?id=${publicKey}&chain_id=${chainName}&page_count=5&start_time=${startTime}`
       );
-      const result = await response.json();
-      const activityData = await transformApiData(result, publicKey, chainName);
-      setLastTimestamp(activityData?.[activityData.length - 1]?.timestamp);
+      const activityData = await transformApiData(response.data, publicKey, chainName);
+      setLastTimestamp(activityData[activityData.length - 1].timestamp);
 
       return activityData;
     } catch (e) {
