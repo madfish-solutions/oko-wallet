@@ -13,8 +13,10 @@ import { EditNetwork } from '../../modals/screens/network/edit-network/edit-netw
 import { NetworksSelector } from '../../modals/screens/networks-selector/networks-selector';
 import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
 import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
+import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
 import { CreateANewWallet } from '../../screens/create-wallet/screens/create-a-new-wallet/create-a-new-wallet';
+import { VerifyMnemonic } from '../../screens/create-wallet/screens/verify-mnemonic/verify-mnemonic';
 import { ImportAccount } from '../../screens/import-account/import-account';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
@@ -130,10 +132,21 @@ export const Navigator: FC = () => {
             </Stack.Group>
           </>
         ) : (
-          <Stack.Group screenOptions={{ headerShown: true }}>
-            <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />
-            <Stack.Screen name={ScreensEnum.CreateANewWallet} component={CreateANewWallet} />
-          </Stack.Group>
+          <>
+            <Stack.Group screenOptions={{ headerShown: false }}>
+              <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />
+              <Stack.Screen name={ScreensEnum.CreateANewWallet} component={CreateANewWallet} />
+              <Stack.Screen name={ScreensEnum.VerifyMnemonic} component={VerifyMnemonic} />
+            </Stack.Group>
+
+            <Stack.Group screenOptions={modalScreenOptions}>
+              <Stack.Screen
+                name={ScreensEnum.WordsAmountSelector}
+                options={{ title: 'Amount Words' }}
+                component={WordsAmountSelector}
+              />
+            </Stack.Group>
+          </>
         )}
       </Stack.Navigator>
 

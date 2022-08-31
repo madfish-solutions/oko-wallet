@@ -7,9 +7,10 @@ export const styles = StyleSheet.create({
   title: {
     ...typography.bodyInterRegular17
   },
-  root: {
+  content: {
     flex: 1,
     width: '100%',
-    padding: getCustomSize(2)
+    marginTop: getCustomSize(2),
+    paddingHorizontal: getCustomSize(2)
   }
 });

@@ -6,7 +6,7 @@ import { typography } from '../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
-    flex: 1,
+    flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: getCustomSize(1.75),

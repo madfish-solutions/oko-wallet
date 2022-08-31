@@ -7,3 +7,5 @@ export const CHAINS_JSON = 'https://chainid.network/chains.json';
 export const DEBOUNCE_TIME = 500;
 
 export const GAS_TOKEN_ADDRESS = 'gas_token_address';
+
+export const SECURITY_TIME = 30000;

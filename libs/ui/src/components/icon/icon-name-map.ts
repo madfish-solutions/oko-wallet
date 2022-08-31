@@ -5,11 +5,13 @@ import AccountLogo from './assets/account-logo.svg';
 import ActivityIcon from './assets/activity.svg';
 import AddChain from './assets/add-chain.svg';
 import AddIcon from './assets/add.svg';
+import ArrowDropdown from './assets/arrow-dropdown.svg';
 import ArrowLeftIcon from './assets/arrow-left.svg';
 import ArrowRightIcon from './assets/arrow-right.svg';
 import AssetsIcon from './assets/assets.svg';
 import CheckDoneIcon from './assets/check-done.svg';
 import CheckEmptyIcon from './assets/check-empty.svg';
+import Chevron from './assets/chevron.svg';
 import Clear from './assets/clear.svg';
 import CopyIcon from './assets/copy.svg';
 import DropdownIcon from './assets/dropdown.svg';
@@ -30,6 +32,7 @@ import QrScanner from './assets/qr-scanner.svg';
 import QrIcon from './assets/qr.svg';
 import QrscanIcon from './assets/qrscan.svg';
 import ReceiveIcon from './assets/receive.svg';
+import Refresh from './assets/refresh.svg';
 import SearchIcon from './assets/search.svg';
 import SelectedCheckbox from './assets/selected-checkbox.svg';
 import SelectedSquareCheckbox from './assets/selected-square-checkbox.svg';
@@ -101,5 +104,8 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Success]: Success,
   [IconNameEnum.Warning]: Warning,
   [IconNameEnum.Error]: Error,
-  [IconNameEnum.QrScanner]: QrScanner
+  [IconNameEnum.QrScanner]: QrScanner,
+  [IconNameEnum.Chevron]: Chevron,
+  [IconNameEnum.ArrowDropdown]: ArrowDropdown,
+  [IconNameEnum.Refresh]: Refresh
 };

@@ -1,3 +1,4 @@
+import { SeedWordsAmount } from '../constants/seed-words-amount';
 import { AccountInterface } from '../interfaces/account.interface';
 import { NetworkInterface } from '../interfaces/network.interface';
 import { Token } from '../interfaces/token.interface';
@@ -23,7 +24,9 @@ export enum ScreensEnum {
   EditToken = 'EditToken',
   Tokens = 'Tokens',
   ScanQrCode = 'ScanQrCode',
-  CreateANewWallet = 'CreateANewWallet'
+  CreateANewWallet = 'CreateANewWallet',
+  WordsAmountSelector = 'WordsAmountSelector',
+  VerifyMnemonic = 'VerifyMnemonic'
 }
 
 export type ScreensParamList = {
@@ -48,5 +51,7 @@ export type ScreensParamList = {
   [ScreensEnum.EditNetwork]: { network: NetworkInterface; isNetworkSelected: boolean };
   [ScreensEnum.Tokens]: undefined;
   [ScreensEnum.ScanQrCode]: undefined;
-  [ScreensEnum.CreateANewWallet]: undefined;
+  [ScreensEnum.CreateANewWallet]?: { wordsAmount: SeedWordsAmount };
+  [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };
+  [ScreensEnum.VerifyMnemonic]: undefined;
 };
