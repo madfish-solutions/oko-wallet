@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Linking, TouchableOpacity, View } from 'react-native';
 
 import { Column } from '../../../components/column/column';
@@ -6,6 +6,7 @@ import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
+import { useTokenInfo } from '../../../hooks/use-activity.hook';
 import { ActivityData, TransactionLabelEnum } from '../../../interfaces/activity.interface';
 import { useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
 import { colors } from '../../../styles/colors';
@@ -18,13 +19,20 @@ import { checkIsDayLabelNeeded, transformTimestampToDate, transformTimestampToTi
 interface Props {
   transaction: ActivityData;
   address: string;
+  chainName: string;
 }
 
 export const ActivityList: FC<Props> = ({
-  transaction: { hash, timestamp, transactionLabel, transactionStatus, symbol, amount }
+  transaction: { hash, timestamp, transactionLabel, transactionStatus, symbol, amount, tokenId },
+  chainName
 }) => {
   const { explorerUrl } = useSelectedNetworkSelector();
+  const { symbol: tokenSymbol, fetchTokenSymbol } = useTokenInfo(tokenId, chainName);
   const onBlockchainExplorerPress = () => Linking.openURL(`${explorerUrl}tx/${hash}`);
+
+  useEffect(() => {
+    fetchTokenSymbol();
+  }, []);
 
   return (
     <View>
@@ -62,7 +70,7 @@ export const ActivityList: FC<Props> = ({
             </Row>
             <Row style={styles.amountContainer}>
               <Text style={styles.amount}>
-                {Number(formatBalances(amount))} {symbol?.toUpperCase()}
+                {Number(formatBalances(amount))} {symbol ? symbol.toUpperCase() : tokenSymbol.toUpperCase()}
               </Text>
             </Row>
           </Column>

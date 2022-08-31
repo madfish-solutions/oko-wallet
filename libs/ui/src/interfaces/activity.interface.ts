@@ -67,4 +67,5 @@ export interface ActivityData {
   transactionStatus: TransactionStatusEnum;
   amount: number;
   symbol: string;
+  tokenId?: string;
 }

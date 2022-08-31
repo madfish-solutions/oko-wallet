@@ -1,6 +1,7 @@
 import { isDefined } from '@rnw-community/shared';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { TokenMetadata } from 'src/interfaces/token-metadata.interface';
 
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
@@ -145,4 +146,22 @@ export const useMintedTransactionsSelector = () => {
         : [],
     [transactions, selectedNetworkRpcUrl, selectedAccountPublicKeyHash]
   );
+};
+
+export const useAllSavedTokensSelector = () => {
+  const tokensMetadata = useSelector<WalletRootState, Record<string, TokenMetadata>>(
+    ({ wallet }) => wallet.tokensMetadata
+  );
+
+  const allTokens = Object.entries(tokensMetadata);
+
+  const getTokenAddress = (metadataSlug: string) => metadataSlug.split('_')[1];
+
+  allTokens.map(token => {
+    token[0] = getTokenAddress(token[0]);
+
+    return token;
+  });
+
+  return allTokens;
 };

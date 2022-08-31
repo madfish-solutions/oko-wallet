@@ -17,15 +17,14 @@ import {
 
 import { styles } from './activity.styles';
 import { ActivityList } from './components/activity-list';
+import { getDebankId } from './utils/activity.utils';
 
 export const Activity: FC = () => {
   const { navigate } = useNavigation();
   const selectedPublicKey = useSelectedAccountPublicKeyHashSelector();
-  const {
-    gasTokenMetadata: { symbol }
-  } = useSelectedNetworkSelector();
+  const { chainId } = useSelectedNetworkSelector();
 
-  const { activity, fetchMoreData } = useAllActivity(selectedPublicKey, symbol.toLowerCase());
+  const { activity, fetchMoreData } = useAllActivity(selectedPublicKey, getDebankId(chainId));
 
   useEffect(() => {
     fetchMoreData();
@@ -35,7 +34,7 @@ export const Activity: FC = () => {
 
   const renderItem = useCallback(
     ({ item: activityItems }: ListRenderItemInfo<ActivityData>) => (
-      <ActivityList transaction={activityItems} address={selectedPublicKey} />
+      <ActivityList transaction={activityItems} address={selectedPublicKey} chainName={getDebankId(chainId)} />
     ),
     []
   );
