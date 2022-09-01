@@ -3,6 +3,7 @@ import React, { FC, Fragment, useCallback, useEffect, useRef, useState } from 'r
 import { Animated, Easing, GestureResponderEvent, Pressable, View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
+import { isAndroid } from '../../utils/platform.utils';
 import { Divider } from '../divider/divider';
 import { Row } from '../row/row';
 import { Text } from '../text/text';
@@ -22,6 +23,8 @@ export const Tabs: FC<Props> = ({ values, style }) => {
   const widthElement = useRef(new Animated.Value(0)).current;
   const offsetXElement = useRef(new Animated.Value(0)).current;
 
+  const [tabsXOffsetForAndroid, setTabsXOffsetForAndroid] = useState<number[]>([]);
+
   // get first item width when component mount and add to border width
   useEffect(() => {
     if (isDefined(firstElement) && firstElement.current) {
@@ -36,18 +39,22 @@ export const Tabs: FC<Props> = ({ values, style }) => {
     (id: number, el: GestureResponderEvent) => {
       setActiveElementId(id);
       // @ts-ignore
-      el.currentTarget.measure(setBorderParams);
+      el.currentTarget.measure((...props: number[]) => {
+        let offsetX;
+        const width = props[2];
+
+        if (isAndroid) {
+          offsetX = tabsXOffsetForAndroid[id - 1];
+        } else {
+          offsetX = props[0];
+        }
+
+        animatedOffset(offsetX);
+        animatedWidth(width);
+      });
     },
-    [activeElementId]
+    [activeElementId, tabsXOffsetForAndroid]
   );
-
-  const setBorderParams = (...props: number[]) => {
-    const offsetX = props[0];
-    const width = props[2];
-
-    animatedOffset(offsetX);
-    animatedWidth(width);
-  };
 
   const animatedWidth = (toValue: number) => animated(widthElement, toValue);
 
@@ -70,6 +77,10 @@ export const Tabs: FC<Props> = ({ values, style }) => {
           <Fragment key={id}>
             <Pressable
               ref={el => (index === 0 ? (firstElement.current = el) : null)}
+              onLayout={props => {
+                const layout = props.nativeEvent.layout;
+                setTabsXOffsetForAndroid(prev => [...prev, layout.x]);
+              }}
               onPress={el => handleActiveItem(id, el)}
               style={styles.element}
             >
