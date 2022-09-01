@@ -17,7 +17,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: getCustomSize(1.625)
   },
-  nameContainer: { marginLeft: getCustomSize(0.5) },
+  nameContainer: {
+    maxWidth: getCustomSize(19),
+    marginLeft: getCustomSize(0.5)
+  },
   name: {
     ...typography.bodyInterSemiBold15
   },

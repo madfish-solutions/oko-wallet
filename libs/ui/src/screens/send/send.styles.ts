@@ -3,18 +3,21 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { typography } from '../../styles/typography';
-import { isMobile } from '../../utils/platform.utils';
+import { isMobile, isAndroid, isWeb } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   screenTitle: {
-    maxWidth: isMobile ? getCustomSize(22.5) : getCustomSize(20)
+    maxWidth: getCustomSize(20)
   },
   assetContainer: {
     flexDirection: 'column-reverse',
     paddingTop: getCustomSize(1.5),
-    paddingBottom: getCustomSize(2)
+    ...(!isAndroid && { paddingBottom: getCustomSize(2) })
   },
-  amountInput: { ...typography.numbersIBMPlexSansMedium20, height: getCustomSize(3.125) },
+  amountInput: {
+    ...typography.numbersIBMPlexSansMedium20,
+    height: isAndroid ? getCustomSize(5.125) : getCustomSize(3.125)
+  },
   dollarAmountContainer: { marginTop: getCustomSize(2), marginBottom: getCustomSize(0.5) },
   text: {
     color: colors.textGrey2,
@@ -43,10 +46,13 @@ export const styles = StyleSheet.create({
   },
   publicKeyHashInput: {
     ...typography.numbersIBMPlexSansMedium15,
-    height: isMobile ? getCustomSize(7.75) : getCustomSize(4.875)
+    height: isMobile ? getCustomSize(7.75) : getCustomSize(4.875),
+    textAlignVertical: 'top'
   },
   publicKeyHashClearIcon: {
-    alignSelf: 'flex-start'
+    alignSelf: 'flex-start',
+    ...(isAndroid && { marginTop: getCustomSize(0.75) }),
+    ...(isWeb && { marginTop: -getCustomSize(0.5) })
   },
   publicKeyHashFooter: {
     justifyContent: 'space-between',

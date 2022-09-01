@@ -18,7 +18,6 @@ import { ScreenContainer } from '../../components/screen-components/screen-conta
 import { ScreenScrollView } from '../../components/screen-components/screen-scroll-view/screen-scroll-view';
 import { Label } from '../../components/text-input/components/label/label';
 import { Prompt } from '../../components/text-input/components/prompt/prompt';
-import { TextInputTypesEnum } from '../../components/text-input/enums';
 import { TextInput } from '../../components/text-input/text-input';
 import { Text } from '../../components/text/text';
 import { Token } from '../../components/token/token';
@@ -89,7 +88,6 @@ export const Send: FC = () => {
   const isTransferBetweenAccounts = watch('isTransferBetweenAccounts');
   const isSendButtonDisabled = !isEmpty(errors);
 
-  const isGasTokenZeroBalance = Number(gasTokenBalance.data) === 0;
   const addressPlaceholder = networkType === NetworkTypeEnum.EVM ? '0x0000...' : 'tz...';
   const availableBalance = formatUnits(selectedAsset.balance.data, selectedAsset.decimals);
 
@@ -100,6 +98,8 @@ export const Send: FC = () => {
     isTransferBetweenAccounts,
     selectedAccount
   }: FormTypes) => {
+    const isGasTokenZeroBalance = Number(gasTokenBalance.data) === 0;
+
     if (isGasTokenZeroBalance) {
       return showErrorToast('Not enough gas');
     }
@@ -180,7 +180,7 @@ export const Send: FC = () => {
       </HeaderContainer>
 
       <ScreenScrollView>
-        {isGasTokenZeroBalance && <Warning text={`Needed gas token: ${selectedAsset.symbol}`} style={styles.warning} />}
+        <Warning text={`Needed gas token: ${selectedAsset.symbol}`} style={styles.warning} />
         <Controller
           control={control}
           name="amount"
@@ -192,8 +192,7 @@ export const Send: FC = () => {
               placeholder="0.00"
               inputContainerStyle={styles.assetContainer}
               inputStyle={styles.amountInput}
-              type={TextInputTypesEnum.Float}
-              maxSymbolsAfterDot={selectedAsset.decimals}
+              decimals={selectedAsset.decimals}
               error={errors?.amount?.message}
               keyboardType="numeric"
             >
@@ -232,8 +231,12 @@ export const Send: FC = () => {
           </Pressable>
         </Row>
 
-        <Label title="Address" />
-        <Prompt title="Address to send funds To" handlePrompt={emptyFn} isInfo />
+        <Label title={isTransferBetweenAccounts ? 'Account' : 'Address'} />
+        <Prompt
+          title={isTransferBetweenAccounts ? 'Your Account to send funds To' : 'Address to send funds To'}
+          handlePrompt={emptyFn}
+          isInfo
+        />
         {isTransferBetweenAccounts && selectedAccount ? (
           <SelectedAccount account={selectedAccount} />
         ) : (

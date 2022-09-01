@@ -14,6 +14,12 @@ export const styles = StyleSheet.create({
     paddingLeft: getCustomSize(1.5),
     paddingRight: getCustomSize(1.25)
   },
+  errorContainer: {
+    borderColor: colors.red
+  },
+  focusedContainer: {
+    borderColor: colors.border2
+  },
   innerContainer: {
     justifyContent: 'space-between'
   },
@@ -26,9 +32,6 @@ export const styles = StyleSheet.create({
     ...(isWeb && { caretColor: colors.orange }),
     lineHeight: undefined,
     overflow: 'hidden'
-  },
-  errorInput: {
-    borderColor: colors.red
   },
   textErrorContainer: {
     position: 'absolute',

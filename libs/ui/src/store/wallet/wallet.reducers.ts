@@ -137,7 +137,8 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         }
       };
     })
-    .addCase(editTokenAction, (state, { payload: editedToken }) => {
+    .addCase(editTokenAction, (state, { payload }) => {
+      const editedToken = { ...payload, decimals: Number(payload.decimals) };
       const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
       const updatedAccountTokens = state.accountsTokens[accountTokensSlug].map(accountToken =>
         getTokenSlug(accountToken.tokenAddress, accountToken.tokenId) ===

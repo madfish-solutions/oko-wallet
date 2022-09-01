@@ -66,7 +66,9 @@ export const SelectedAccount: FC<Props> = ({ account }) => {
               <RobotIcon seed={publicKeyHash} />
             </IconWithBorder>
             <View style={styles.nameContainer}>
-              <Text style={styles.name}>{account.name}</Text>
+              <Text style={styles.name} numberOfLines={1}>
+                {account.name}
+              </Text>
             </View>
             <Icon name={IconNameEnum.Dropdown} size={getCustomSize(2)} />
           </Row>
