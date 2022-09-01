@@ -1,6 +1,6 @@
 import { isDefined } from '@rnw-community/shared';
 import React, { FC, Fragment, useCallback, useEffect, useRef, useState } from 'react';
-import { Animated, Easing, GestureResponderEvent, Pressable, View } from 'react-native';
+import { Animated, Easing, GestureResponderEvent, LayoutChangeEvent, Pressable, View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { isAndroid } from '../../utils/platform.utils';
@@ -34,6 +34,11 @@ export const Tabs: FC<Props> = ({ values, style }) => {
       });
     }
   }, []);
+
+  const onTabLayout = (props: LayoutChangeEvent) => {
+    const layout = props.nativeEvent.layout;
+    setTabsXOffsetForAndroid(prev => [...prev, layout.x]);
+  };
 
   const handleActiveItem = useCallback(
     (id: number, el: GestureResponderEvent) => {
@@ -77,10 +82,7 @@ export const Tabs: FC<Props> = ({ values, style }) => {
           <Fragment key={id}>
             <Pressable
               ref={el => (index === 0 ? (firstElement.current = el) : null)}
-              onLayout={props => {
-                const layout = props.nativeEvent.layout;
-                setTabsXOffsetForAndroid(prev => [...prev, layout.x]);
-              }}
+              onLayout={onTabLayout}
               onPress={el => handleActiveItem(id, el)}
               style={styles.element}
             >
