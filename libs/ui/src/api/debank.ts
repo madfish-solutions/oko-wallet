@@ -9,7 +9,7 @@ export const debankApiRequest = axios.create({
   headers: DEBANK_HEADERS
 });
 
-export const fetchTokenInfo = async (contractAddress: string, chainName: string): Promise<TokenInfo | undefined> =>
+export const getTokenInfo = async (contractAddress: string, chainName: string): Promise<TokenInfo | undefined> =>
   debankApiRequest
     .get(`v1/token?id=${contractAddress}&chain_id=${chainName}`)
     .then(result => result.data)

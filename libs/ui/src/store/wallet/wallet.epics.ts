@@ -5,7 +5,7 @@ import { catchError, map, switchMap, concatMap } from 'rxjs/operators';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
-import { fetchTokenInfo } from '../../api/debank';
+import { getTokenInfo } from '../../api/debank';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { parseTezosTransferParams } from '../../utils/parse-tezos-transfer-params.utils';
@@ -21,7 +21,8 @@ import {
   loadGasTokenBalanceAction,
   loadAccountTokenBalanceAction,
   sendAssetAction,
-  saveNewTokenMetadataAction
+  saveNewTokenMetadataAction,
+  addNewTokenAction
 } from './wallet.actions';
 
 const getGasTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Observable<RootState>) =>
@@ -85,8 +86,8 @@ const saveNewTokenEpic: Epic = (action$: Observable<Action>) =>
     ofType(saveNewTokenMetadataAction.submit),
     toPayload(),
     concatMap(({ tokenId, chainName }) =>
-      from(fetchTokenInfo(tokenId, chainName)).pipe(
-        map(result => isDefined(result) && saveNewTokenMetadataAction.success({ ...result, tokenAddress: result.id })),
+      from(getTokenInfo(tokenId, chainName)).pipe(
+        map(result => isDefined(result) && addNewTokenAction({ ...result, tokenAddress: result.id })),
         catchError(error => of(console.log(error)))
       )
     )

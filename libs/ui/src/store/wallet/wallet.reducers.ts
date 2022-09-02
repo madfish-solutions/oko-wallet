@@ -25,8 +25,7 @@ import {
   editNetworkAction,
   removeNetworkAction,
   editTokenAction,
-  sortAccountTokensByVisibility,
-  saveNewTokenMetadataAction
+  sortAccountTokensByVisibility
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -274,35 +273,5 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     );
 
     return { ...state, transactions: { ...state.transactions, [accountTokensSlug]: updatedAccountTransactions } };
-  });
-  builder.addCase(saveNewTokenMetadataAction.success, (state, { payload: newToken }) => {
-    const { selectedAccountPublicKeyHash, selectedNetworkRpcUrl } = state;
-    const { tokenAddress, tokenId, ...tokenMetadata } = newToken;
-    const tokenMetadataSlug = getTokenMetadataSlug(selectedNetworkRpcUrl, tokenAddress, tokenId);
-    const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
-
-    const prevAccountTokens = isDefined(state.accountsTokens[accountTokensSlug])
-      ? state.accountsTokens[accountTokensSlug]
-      : [];
-
-    return {
-      ...state,
-      tokensMetadata: {
-        ...state.tokensMetadata,
-        [tokenMetadataSlug]: tokenMetadata
-      },
-      accountsTokens: {
-        ...state.accountsTokens,
-        [accountTokensSlug]: [
-          ...prevAccountTokens,
-          {
-            tokenId,
-            tokenAddress,
-            isVisible: true,
-            balance: createEntity('0')
-          }
-        ]
-      }
-    };
   });
 });
