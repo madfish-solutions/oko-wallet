@@ -1,7 +1,8 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
+import { isDefined } from '@rnw-community/shared';
 import { generateMnemonic as generateMnemonicLib } from 'bip39';
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { Image, Pressable, TouchableOpacity, View } from 'react-native';
+import { Pressable, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { Column } from '../../../../components/column/column';
@@ -38,7 +39,7 @@ export const CreateANewWallet: FC = () => {
   const scrollViewRef = useRef<ScrollView>(null);
 
   useEffect(() => {
-    if (routeParams?.wordsAmount) {
+    if (isDefined(routeParams)) {
       setWordsAmount(routeParams.wordsAmount);
       setIsError(false);
       setIsShowProtectLayout(true);
@@ -53,7 +54,7 @@ export const CreateANewWallet: FC = () => {
     }
 
     return () => clearTimeout(timeout);
-  }, [isShowProtectLayout]);
+  }, [isShowProtectLayout, mnemonic]);
 
   useEffect(() => {
     setMnemonic(generateMnemonic());
@@ -139,8 +140,8 @@ export const CreateANewWallet: FC = () => {
         <Row style={styles.wordsWrapper}>
           {isShowProtectLayout && (
             <Pressable onPress={handleHideLayout} style={styles.layout}>
+              <View style={styles.layoutBlock} />
               <Text style={styles.layoutText}>Tap to reveal</Text>
-              <Image source={require('../../static/protect-layout.png')} style={styles.image} />
             </Pressable>
           )}
 

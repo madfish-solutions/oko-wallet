@@ -6,6 +6,7 @@ import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useShelter } from '../../hooks/use-shelter.hook';
 import { colors } from '../../styles/colors';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
+import { isWeb } from '../../utils/platform.utils';
 
 import { ImportAccountStyles } from './import-account.styles';
 
@@ -19,7 +20,10 @@ export const ImportAccount: FC = () => {
   const handleImportAccount = () => importWallet({ seedPhrase: seed, password, hdAccountsLength: 1 });
   const handleCreateANewWallet = () => {
     navigate(ScreensEnum.CreateANewWallet);
-    openMaximiseScreen();
+
+    if (isWeb) {
+      openMaximiseScreen();
+    }
   };
 
   return (

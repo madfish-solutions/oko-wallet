@@ -56,9 +56,11 @@ export const styles = StyleSheet.create({
     ...typography.taglineInterSemiBoldUppercase13,
     color: colors.orange
   },
-  image: {
+  layoutBlock: {
     width: '100%',
-    height: '100%'
+    height: '100%',
+    backgroundColor: colors.bgGrey2,
+    borderRadius: getCustomSize(0.5)
   },
   wordsColumn: {
     flex: 1
