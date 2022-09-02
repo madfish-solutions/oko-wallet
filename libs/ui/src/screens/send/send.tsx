@@ -180,7 +180,7 @@ export const Send: FC = () => {
       </HeaderContainer>
 
       <ScreenScrollView>
-        <Warning text={`Needed gas token: ${selectedAsset.symbol}`} style={styles.warning} />
+        <Warning text={`Needed gas token: ${gasTokenMetadata.symbol}`} style={styles.warning} />
         <Controller
           control={control}
           name="amount"
