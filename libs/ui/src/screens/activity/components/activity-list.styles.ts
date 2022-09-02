@@ -74,11 +74,11 @@ export const styles = StyleSheet.create({
     marginBottom: getCustomSize()
   },
   amount: {
-    ...typography.numbersIBMPlexSansMedium15,
-    flex: 1
+    ...typography.numbersIBMPlexSansMedium15
   },
   amountContainer: {
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
+    flex: 1
   },
   touchable: {
     flexDirection: 'row',

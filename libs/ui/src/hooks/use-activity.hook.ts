@@ -35,7 +35,7 @@ const transformApiData = (data: ActivityResponse, publicKeyHash: string, chainNa
     } else {
       activityData.symbol = chainName;
       activityData.amount = txData.tx?.value;
-      if (publicKeyHash.toLowerCase() === txData.tx.from_addr.toLowerCase()) {
+      if (publicKeyHash.toLowerCase() === txData.tx?.from_addr?.toLowerCase()) {
         activityData.transactionLabel = TransactionLabelEnum.Send;
       } else {
         activityData.transactionLabel = TransactionLabelEnum.Receive;

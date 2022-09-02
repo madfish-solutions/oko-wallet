@@ -23,7 +23,7 @@ interface Props {
 }
 
 export const ActivityList: FC<Props> = ({
-  transaction: { hash, timestamp, transactionLabel, transactionStatus, symbol, amount, tokenId },
+  transaction: { hash, timestamp, transactionLabel, transactionStatus, symbol, amount = 0, tokenId },
   chainName
 }) => {
   const { explorerUrl } = useSelectedNetworkSelector();

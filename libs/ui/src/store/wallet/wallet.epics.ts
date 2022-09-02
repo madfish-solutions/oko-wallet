@@ -1,4 +1,3 @@
-import { isDefined } from '@rnw-community/shared';
 import { combineEpics, Epic } from 'redux-observable';
 import { from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, concatMap } from 'rxjs/operators';
@@ -87,7 +86,7 @@ const saveNewTokenEpic: Epic = (action$: Observable<Action>) =>
     toPayload(),
     concatMap(({ tokenId, chainName }) =>
       from(getTokenInfo(tokenId, chainName)).pipe(
-        map(result => isDefined(result) && addNewTokenAction({ ...result, tokenAddress: result.id })),
+        map(result => addNewTokenAction({ ...result, tokenAddress: result.id })),
         catchError(error => of(console.log(error)))
       )
     )

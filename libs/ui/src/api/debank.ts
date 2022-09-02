@@ -9,11 +9,11 @@ export const debankApiRequest = axios.create({
   headers: DEBANK_HEADERS
 });
 
-export const getTokenInfo = async (contractAddress: string, chainName: string): Promise<TokenInfo | undefined> =>
+export const getTokenInfo = async (contractAddress: string, chainName: string): Promise<TokenInfo> =>
   debankApiRequest
     .get(`v1/token?id=${contractAddress}&chain_id=${chainName}`)
     .then(result => result.data)
-    .catch(e => console.log(e));
+    .catch(() => ({} as TokenInfo));
 
 export const getHistoryList = memoize(
   async (publicKey: string, chainName: string, startTime: number): Promise<ActivityResponse | void> =>
