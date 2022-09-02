@@ -13,6 +13,7 @@ import { EditNetwork } from '../../modals/screens/network/edit-network/edit-netw
 import { NetworksSelector } from '../../modals/screens/networks-selector/networks-selector';
 import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
 import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
+import { Activity } from '../../screens/activity/activity';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
 import { ImportAccount } from '../../screens/import-account/import-account';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
@@ -86,6 +87,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.Tokens} component={Tokens} />
               <Stack.Screen name={ScreensEnum.ScanQrCode} component={ScanQrCode} />
               <Stack.Screen name={ScreensEnum.Token} component={Token} />
+              <Stack.Screen name={ScreensEnum.Activity} component={Activity} />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptions}>

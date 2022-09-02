@@ -23,7 +23,8 @@ export enum ScreensEnum {
   EditToken = 'EditToken',
   Tokens = 'Tokens',
   ScanQrCode = 'ScanQrCode',
-  Token = 'Token'
+  Token = 'Token',
+  Activity = 'Activity'
 }
 
 export type ScreensParamList = {
@@ -49,4 +50,5 @@ export type ScreensParamList = {
   [ScreensEnum.Tokens]: undefined;
   [ScreensEnum.ScanQrCode]: undefined;
   [ScreensEnum.Token]: { token: Token };
+  [ScreensEnum.Activity]: undefined;
 };
