@@ -1,6 +1,6 @@
 import Clipboard from '@react-native-clipboard/clipboard';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { emptyFn, isDefined, isEmptyString } from '@rnw-community/shared';
+import { emptyFn, isDefined, isEmptyString, isNotEmptyString } from '@rnw-community/shared';
 import isEmpty from 'lodash/isEmpty';
 import React, { FC, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -148,8 +148,12 @@ export const Send: FC = () => {
   };
 
   const onPastePress = async () => {
-    setValue('receiverPublicKeyHash', await Clipboard.getString());
-    await trigger('receiverPublicKeyHash');
+    const copiedText = await Clipboard.getString();
+
+    if (isNotEmptyString(copiedText)) {
+      setValue('receiverPublicKeyHash', await Clipboard.getString());
+      await trigger('receiverPublicKeyHash');
+    }
   };
 
   useEffect(() => {
