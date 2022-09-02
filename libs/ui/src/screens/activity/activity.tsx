@@ -21,10 +21,10 @@ import { getDebankId } from './utils/activity.utils';
 
 export const Activity: FC = () => {
   const { navigate } = useNavigation();
-  const selectedPublicKey = useSelectedAccountPublicKeyHashSelector();
+  const selectedPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { chainId } = useSelectedNetworkSelector();
 
-  const { activity, fetchMoreData } = useAllActivity(selectedPublicKey, getDebankId(chainId));
+  const { activity, fetchMoreData } = useAllActivity(selectedPublicKeyHash, getDebankId(chainId));
 
   useEffect(() => {
     fetchMoreData();
@@ -34,7 +34,7 @@ export const Activity: FC = () => {
 
   const renderItem = useCallback(
     ({ item: activityItems }: ListRenderItemInfo<ActivityData>) => (
-      <ActivityList transaction={activityItems} address={selectedPublicKey} chainName={getDebankId(chainId)} />
+      <ActivityList transaction={activityItems} address={selectedPublicKeyHash} chainName={getDebankId(chainId)} />
     ),
     []
   );

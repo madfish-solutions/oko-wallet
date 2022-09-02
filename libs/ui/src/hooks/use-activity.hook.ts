@@ -1,26 +1,13 @@
 import { isDefined } from '@rnw-community/shared';
-import axios from 'axios';
-import memoize from 'fast-memoize';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { BASE_DEBANK_URL, DEBANK_HEADERS } from '../constants/defaults';
+import { fetchTokenInfo, getHistoryList } from '../api/debank';
 import { TransactionStatusEnum } from '../enums/transactions.enum';
-import { ActivityData, ActivityResponse, TokenInfo, TransactionLabelEnum } from '../interfaces/activity.interface';
+import { ActivityData, ActivityResponse, TransactionLabelEnum } from '../interfaces/activity.interface';
 import { addNewTokenAction } from '../store/wallet/wallet.actions';
 import { useAllSavedTokensSelector } from '../store/wallet/wallet.selectors';
 import { capitalize } from '../utils/string.util';
-
-const debankApiRequest = axios.create({
-  baseURL: BASE_DEBANK_URL,
-  headers: DEBANK_HEADERS.headers
-});
-
-const fetchTokenInfo = async (contractAddress: string, chainName: string): Promise<TokenInfo | undefined> =>
-  debankApiRequest
-    .get(`v1/token?id=${contractAddress}&chain_id=${chainName}`)
-    .then(result => result.data)
-    .catch(e => console.log(e));
 
 /*
 transform data from API
@@ -28,16 +15,13 @@ transform data from API
 to ActivityData type, as we needed
 */
 
-const transformApiData = (data: ActivityResponse, publicKey: string, chainName: string): ActivityData[] =>
+const transformApiData = (data: ActivityResponse, publicKeyHash: string, chainName: string): ActivityData[] =>
   data?.history_list.map(txData => {
     const activityData = {
       transactionStatus: TransactionStatusEnum.applied,
       hash: txData.id,
       timestamp: txData.time_at
     } as ActivityData;
-    activityData.transactionStatus = TransactionStatusEnum.applied;
-    activityData.hash = txData.id;
-    activityData.timestamp = txData.time_at;
     if (txData.cate_id !== null) {
       activityData.transactionLabel = capitalize(txData.cate_id) as TransactionLabelEnum;
 
@@ -51,7 +35,7 @@ const transformApiData = (data: ActivityResponse, publicKey: string, chainName: 
     } else {
       activityData.symbol = chainName;
       activityData.amount = txData.tx?.value;
-      if (publicKey.toLowerCase() === txData.tx.from_addr.toLowerCase()) {
+      if (publicKeyHash.toLowerCase() === txData.tx.from_addr.toLowerCase()) {
         activityData.transactionLabel = TransactionLabelEnum.Send;
       } else {
         activityData.transactionLabel = TransactionLabelEnum.Receive;
@@ -61,24 +45,16 @@ const transformApiData = (data: ActivityResponse, publicKey: string, chainName: 
     return activityData;
   });
 
-const getHistoryList = memoize(
-  async (publicKey: string, chainName: string, startTime: number): Promise<ActivityResponse> =>
-    debankApiRequest
-      .get<ActivityResponse>(
-        `v1/user/history_list?id=${publicKey}&chain_id=${chainName}&page_count=5&start_time=${startTime}`
-      )
-      .then(result => result.data)
-      .catch(() => undefined as unknown as ActivityResponse)
-);
-
-export const useAllActivity = (publicKey: string, chainName: string) => {
+export const useAllActivity = (publicKeyHash: string, chainName: string) => {
   const [lastTimestamp, setLastTimestamp] = useState(0);
   const [activity, setActivity] = useState<ActivityData[]>([]);
   const fetchActivity = async (startTime: number) => {
-    const response = await getHistoryList(publicKey, chainName, startTime);
-    const activityData = transformApiData(response, publicKey, chainName);
-    setLastTimestamp(activityData[activityData.length - 1].timestamp);
-    setActivity([...activity, ...activityData]);
+    const response = await getHistoryList(publicKeyHash, chainName, startTime);
+    if (response !== undefined) {
+      const activityData = transformApiData(response, publicKeyHash, chainName);
+      setLastTimestamp(activityData[activityData.length - 1].timestamp);
+      setActivity([...activity, ...activityData]);
+    }
   };
 
   const fetchMoreData = async () => {
