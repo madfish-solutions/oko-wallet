@@ -69,3 +69,8 @@ export interface ActivityData {
   symbol: string;
   tokenId?: string;
 }
+
+export interface NewTokenMetadataRequest {
+  tokenId: string;
+  chainName: string;
+}

@@ -2,10 +2,10 @@ import { isDefined } from '@rnw-community/shared';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { fetchTokenInfo, getHistoryList } from '../api/debank';
+import { getHistoryList } from '../api/debank';
 import { TransactionStatusEnum } from '../enums/transactions.enum';
 import { ActivityData, ActivityResponse, TransactionLabelEnum } from '../interfaces/activity.interface';
-import { addNewTokenAction } from '../store/wallet/wallet.actions';
+import { saveNewTokenMetadataAction } from '../store/wallet/wallet.actions';
 import { useAllSavedTokensSelector } from '../store/wallet/wallet.selectors';
 import { capitalize } from '../utils/string.util';
 
@@ -49,11 +49,13 @@ export const useAllActivity = (publicKeyHash: string, chainName: string) => {
   const [lastTimestamp, setLastTimestamp] = useState(0);
   const [activity, setActivity] = useState<ActivityData[]>([]);
   const fetchActivity = async (startTime: number) => {
-    const response = await getHistoryList(publicKeyHash, chainName, startTime);
-    if (response !== undefined) {
-      const activityData = transformApiData(response, publicKeyHash, chainName);
-      setLastTimestamp(activityData[activityData.length - 1].timestamp);
-      setActivity([...activity, ...activityData]);
+    if (chainName !== undefined) {
+      const response = await getHistoryList(publicKeyHash, chainName, startTime);
+      if (response !== undefined) {
+        const activityData = transformApiData(response, publicKeyHash, chainName);
+        setLastTimestamp(activityData[activityData.length - 1].timestamp);
+        setActivity([...activity, ...activityData]);
+      }
     }
   };
 
@@ -74,12 +76,7 @@ export const useTokenInfo = (tokenId: string | undefined, chainName: string) => 
     if (isDefined(token)) {
       setSymbol(token[1].symbol);
     } else if (isDefined(tokenId)) {
-      fetchTokenInfo(tokenId, chainName).then(result => {
-        if (isDefined(result)) {
-          setSymbol(result.symbol);
-          dispatch(addNewTokenAction({ ...result, tokenAddress: result.id }));
-        }
-      });
+      dispatch(saveNewTokenMetadataAction.submit({ tokenId, chainName }));
     }
   };
 
