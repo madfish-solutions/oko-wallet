@@ -159,7 +159,7 @@ export const useTokenBalanceSelector = (tokenSlug: string): string => {
       : accountTokens.find(token => getTokenSlug(token.tokenAddress, token.tokenId) === tokenSlug)?.balance.data ?? '0';
 
   return useMemo(() => tokenBalance, [tokenBalance]);
-}
+};
 
 export const useAllSavedTokensSelector = () => {
   const tokensMetadata = useSelector<WalletRootState, Record<string, TokenMetadata>>(

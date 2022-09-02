@@ -1,3 +1,4 @@
+import { isDefined } from '@rnw-community/shared';
 import axios from 'axios';
 import memoize from 'fast-memoize';
 
@@ -16,11 +17,19 @@ export const fetchTokenInfo = async (contractAddress: string, chainName: string)
     .catch(e => console.log(e));
 
 export const getHistoryList = memoize(
-  async (publicKey: string, chainName: string, startTime: number): Promise<ActivityResponse | void> =>
-    debankApiRequest
+  async (
+    publicKey: string,
+    chainName: string,
+    startTime: number,
+    tokenId?: string
+  ): Promise<ActivityResponse | void> => {
+    const tokenIdqueryParam = isDefined(tokenId) ? `&token_id=${tokenId}` : '';
+
+    return debankApiRequest
       .get<ActivityResponse>(
-        `v1/user/history_list?id=${publicKey}&chain_id=${chainName}&page_count=20&start_time=${startTime}`
+        `v1/user/history_list?id=${publicKey}&chain_id=${chainName}&page_count=20&start_time=${startTime}${tokenIdqueryParam}`
       )
       .then(result => result.data)
-      .catch(e => console.log(e))
+      .catch(e => console.log(e));
+  }
 );
