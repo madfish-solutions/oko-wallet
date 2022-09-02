@@ -53,5 +53,5 @@ export type ScreensParamList = {
   [ScreensEnum.ScanQrCode]: undefined;
   [ScreensEnum.CreateANewWallet]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };
-  [ScreensEnum.VerifyMnemonic]: undefined;
+  [ScreensEnum.VerifyMnemonic]: { mnemonic: string[] };
 };
