@@ -5,6 +5,7 @@ import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useShelter } from '../../hooks/use-shelter.hook';
 import { colors } from '../../styles/colors';
+import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 
 import { ImportAccountStyles } from './import-account.styles';
 
@@ -16,7 +17,10 @@ export const ImportAccount: FC = () => {
   const { importWallet } = useShelter();
 
   const handleImportAccount = () => importWallet({ seedPhrase: seed, password, hdAccountsLength: 1 });
-  const handleCreateANewWallet = () => navigate(ScreensEnum.CreateANewWallet);
+  const handleCreateANewWallet = () => {
+    navigate(ScreensEnum.CreateANewWallet);
+    openMaximiseScreen();
+  };
 
   return (
     <View style={ImportAccountStyles.root}>

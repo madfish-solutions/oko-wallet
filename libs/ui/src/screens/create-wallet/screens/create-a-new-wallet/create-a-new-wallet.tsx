@@ -32,7 +32,7 @@ export const CreateANewWallet: FC = () => {
   const [mnemonic, setMnemonic] = useState<string[]>(generateMnemonic());
   const [isSelectedCheckbox, setIsSelectedCheckbox] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [isShowLayout, setIsShowLayout] = useState(true);
+  const [isShowProtectLayout, setIsShowProtectLayout] = useState(true);
   const [isOpenWarningDropdown, setIsOpenWarningDropdown] = useState(false);
 
   const scrollViewRef = useRef<ScrollView>(null);
@@ -41,19 +41,19 @@ export const CreateANewWallet: FC = () => {
     if (routeParams?.wordsAmount) {
       setWordsAmount(routeParams.wordsAmount);
       setIsError(false);
-      setIsShowLayout(true);
+      setIsShowProtectLayout(true);
     }
   }, [routeParams]);
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
 
-    if (!isShowLayout) {
-      timeout = setTimeout(() => setIsShowLayout(true), SECURITY_TIME);
+    if (!isShowProtectLayout) {
+      timeout = setTimeout(() => setIsShowProtectLayout(true), SECURITY_TIME);
     }
 
     return () => clearTimeout(timeout);
-  }, [isShowLayout]);
+  }, [isShowProtectLayout]);
 
   useEffect(() => {
     setMnemonic(generateMnemonic());
@@ -71,7 +71,7 @@ export const CreateANewWallet: FC = () => {
       return setIsError(true);
     }
 
-    setIsShowLayout(true);
+    setIsShowProtectLayout(true);
     navigate(ScreensEnum.VerifyMnemonic);
   };
 
@@ -84,7 +84,7 @@ export const CreateANewWallet: FC = () => {
 
   const handleCopyMnemonic = () => {
     handleCopyToClipboard(mnemonic.join(' '));
-    setIsShowLayout(true);
+    setIsShowProtectLayout(true);
   };
 
   const handleToggleCheckbox = () => {
@@ -92,20 +92,20 @@ export const CreateANewWallet: FC = () => {
   };
 
   const handleHideLayout = () => {
-    setIsShowLayout(false);
+    setIsShowProtectLayout(false);
   };
 
   useEffect(() => {
     setIsError(false);
 
     if (isSelectedCheckbox) {
-      setIsShowLayout(true);
+      setIsShowProtectLayout(true);
     }
   }, [isSelectedCheckbox]);
 
   useEffect(() => {
     if (isOpenWarningDropdown) {
-      setIsShowLayout(true);
+      setIsShowProtectLayout(true);
     }
   }, [isOpenWarningDropdown]);
 
@@ -137,10 +137,10 @@ export const CreateANewWallet: FC = () => {
 
       <Column style={styles.mnemonicContainer}>
         <Row style={styles.wordsWrapper}>
-          {isShowLayout && (
+          {isShowProtectLayout && (
             <Pressable onPress={handleHideLayout} style={styles.layout}>
               <Text style={styles.layoutText}>Tap to reveal</Text>
-              <Image source={require('../../static/mnemonic-layout.png')} style={styles.image} />
+              <Image source={require('../../static/protect-layout.png')} style={styles.image} />
             </Pressable>
           )}
 
