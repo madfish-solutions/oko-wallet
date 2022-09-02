@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
   },
   amountInput: {
     ...typography.numbersIBMPlexSansMedium20,
-    height: isAndroid ? getCustomSize(5.125) : getCustomSize(3.125)
+    ...(!isAndroid && { height: getCustomSize(3.125) })
   },
   dollarAmountContainer: { marginTop: getCustomSize(2), marginBottom: getCustomSize(0.5) },
   text: {
