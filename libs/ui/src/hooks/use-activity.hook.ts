@@ -45,11 +45,11 @@ const transformApiData = (data: ActivityResponse, publicKeyHash: string, chainNa
     return activityData;
   });
 
-export const useAllActivity = (publicKeyHash: string, chainName: string) => {
+export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAddress?: string) => {
   const [lastTimestamp, setLastTimestamp] = useState(0);
   const [activity, setActivity] = useState<ActivityData[]>([]);
   const fetchActivity = async (startTime: number) => {
-    const response = await getHistoryList(publicKeyHash, chainName, startTime);
+    const response = await getHistoryList(publicKeyHash, chainName, startTime, tokenAddress);
     if (response !== undefined) {
       const activityData = transformApiData(response, publicKeyHash, chainName);
       setLastTimestamp(activityData[activityData.length - 1].timestamp);
