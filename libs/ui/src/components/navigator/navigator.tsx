@@ -21,6 +21,7 @@ import { ScanQrCode } from '../../screens/scan-qr-code/scan-qr-code';
 import { SendConfirmation } from '../../screens/send-confirmation/send-confirmation';
 import { Send } from '../../screens/send/send';
 import { Settings } from '../../screens/settings/settings';
+import { Token } from '../../screens/token/token';
 import { Tokens } from '../../screens/tokens/tokens';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
@@ -84,6 +85,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
               <Stack.Screen name={ScreensEnum.Tokens} component={Tokens} />
               <Stack.Screen name={ScreensEnum.ScanQrCode} component={ScanQrCode} />
+              <Stack.Screen name={ScreensEnum.Token} component={Token} />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptions}>

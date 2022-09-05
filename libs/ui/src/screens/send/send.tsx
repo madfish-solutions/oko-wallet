@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { View } from 'react-native';
@@ -11,7 +12,7 @@ import { HeaderContainer } from '../../components/screen-components/header-conta
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { ScreenScrollView } from '../../components/screen-components/screen-scroll-view/screen-scroll-view';
 import { TextInput } from '../../components/text-input/text-input';
-import { ScreensEnum } from '../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { Asset } from '../../interfaces/asset.interface';
 import { sendAssetAction } from '../../store/wallet/wallet.actions';
@@ -32,9 +33,16 @@ export const Send: FC = () => {
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
 
+  const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Send>>();
+
   const { control, handleSubmit } = useForm({
     mode: 'onBlur',
-    defaultValues
+    defaultValues: {
+      ...defaultValues,
+      tokenAddress: params?.token?.tokenAddress ?? defaultValues.tokenAddress,
+      tokenId: params?.token?.tokenId ?? defaultValues.tokenId,
+      decimals: params?.token && params?.token.decimals ? String(params.token.decimals) : defaultValues.decimals
+    }
   });
 
   const onSubmit = ({ decimals, tokenAddress, tokenId, amount, receiverPublicKeyHash }: FormTypes) => {
