@@ -46,6 +46,7 @@
     "ts-action": "^11.0.0",
     "ts-action-operators": "^9.1.2",
     "wasm-themis": "^0.14.5",
+    "webextension-polyfill": "^0.9.0",
     "webextension-polyfill-ts": "^0.26.0"
   },
   "devDependencies": {
@@ -59,6 +60,7 @@
     "@types/react-dom": "^18.0.1",
     "@types/react-native": "^0.67.6",
     "@types/redux-persist": "^4.3.1",
+    "@types/webextension-polyfill": "^0.9.0",
     "babel-plugin-react-native-web": "^0.17.7",
     "copy-webpack-plugin": "^10.2.4",
     "html-webpack-plugin": "^5.5.0",

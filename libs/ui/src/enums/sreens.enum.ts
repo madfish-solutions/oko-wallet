@@ -23,14 +23,15 @@ export enum ScreensEnum {
   EditToken = 'EditToken',
   Tokens = 'Tokens',
   ScanQrCode = 'ScanQrCode',
-  Activity = 'Activity'
+  Activity = 'Activity',
+  Token = 'Token'
 }
 
 export type ScreensParamList = {
   [ScreensEnum.ImportAccount]: undefined;
   [ScreensEnum.ManageTokens]: undefined;
   [ScreensEnum.Receive]: undefined;
-  [ScreensEnum.Send]: undefined;
+  [ScreensEnum.Send]?: { token: Token };
   [ScreensEnum.SendConfirmation]: {
     transferParams: TransferParams;
   };
@@ -49,4 +50,5 @@ export type ScreensParamList = {
   [ScreensEnum.Tokens]: undefined;
   [ScreensEnum.ScanQrCode]: undefined;
   [ScreensEnum.Activity]: undefined;
+  [ScreensEnum.Token]: { token: Token };
 };
