@@ -133,7 +133,9 @@ export const Navigator: FC = () => {
             </Stack.Group>
           </>
         ) : (
-          <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />
+          <Stack.Group screenOptions={{ headerShown: false }}>
+            <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />
+          </Stack.Group>
         )}
       </Stack.Navigator>
 
