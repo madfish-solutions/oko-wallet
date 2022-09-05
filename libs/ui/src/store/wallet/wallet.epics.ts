@@ -20,7 +20,7 @@ import {
   loadGasTokenBalanceAction,
   loadAccountTokenBalanceAction,
   sendAssetAction,
-  saveNewTokenMetadataAction,
+  loadTokenMetadataAction,
   addNewTokenAction
 } from './wallet.actions';
 
@@ -82,7 +82,7 @@ const sendAssetEpic: Epic = (action$: Observable<Action>, state$: Observable<Roo
 
 const saveNewTokenEpic: Epic = (action$: Observable<Action>) =>
   action$.pipe(
-    ofType(saveNewTokenMetadataAction.submit),
+    ofType(loadTokenMetadataAction),
     toPayload(),
     concatMap(({ tokenId, chainName }) =>
       from(getTokenInfo(tokenId, chainName)).pipe(

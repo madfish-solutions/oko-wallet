@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { getHistoryList } from '../api/debank';
 import { TransactionStatusEnum } from '../enums/transactions.enum';
 import { ActivityData, ActivityResponse, TransactionLabelEnum } from '../interfaces/activity.interface';
-import { saveNewTokenMetadataAction } from '../store/wallet/wallet.actions';
+import { loadTokenMetadataAction } from '../store/wallet/wallet.actions';
 import { useAllSavedTokensSelector } from '../store/wallet/wallet.selectors';
 import { capitalize } from '../utils/string.util';
 
@@ -76,7 +76,7 @@ export const useTokenInfo = (tokenId: string | undefined, chainName: string) => 
     if (isDefined(token)) {
       setSymbol(token[1].symbol);
     } else if (isDefined(tokenId)) {
-      dispatch(saveNewTokenMetadataAction.submit({ tokenId, chainName }));
+      dispatch(loadTokenMetadataAction({ tokenId, chainName }));
     }
   };
 
