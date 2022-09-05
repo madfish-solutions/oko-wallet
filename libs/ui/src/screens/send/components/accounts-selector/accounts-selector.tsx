@@ -18,7 +18,7 @@ export const AccountsSelector: FC = () => {
   const { createHdAccountForNewNetworkType } = useShelter();
   const { navigate } = useNavigation();
   const {
-    params: { selectedAccount }
+    params: { account }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendAccountsSelector>>();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
   const allAccounts = useAllAccountsSelector();
@@ -27,7 +27,7 @@ export const AccountsSelector: FC = () => {
     account => account.accountIndex !== currentSelectedAccount.accountIndex
   );
 
-  const navigateToSend = (account: AccountInterface) => navigate(ScreensEnum.Send, { selectedAccount: account });
+  const navigateToSend = (account: AccountInterface) => navigate(ScreensEnum.Send, { account });
 
   const onSelectAccount = (account: AccountInterface) => {
     if (checkIsNetworkTypeKeyExist(account, selectedNetworkType)) {
@@ -41,7 +41,7 @@ export const AccountsSelector: FC = () => {
     <ModalContainer screenTitle="Select Account">
       <AccountsList
         accounts={accountsWithoutCurrent}
-        selectedAccount={selectedAccount}
+        selectedAccount={account}
         onSelectItem={onSelectAccount}
         isSearchInitiallyOpened
       />

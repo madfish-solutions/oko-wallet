@@ -64,10 +64,10 @@ export const Send: FC = () => {
   const isTransferBetweenAccountsDisabled = allAccountsWithoutSelected.length === 0;
 
   const defaultValues: FormTypes = {
-    asset: { ...gasTokenMetadata, balance: gasTokenBalance } as TokenType,
+    token: { ...gasTokenMetadata, balance: gasTokenBalance } as TokenType,
     amount: '',
     receiverPublicKeyHash: '',
-    selectedAccount: allAccountsWithoutSelected[0],
+    account: allAccountsWithoutSelected[0],
     isTransferBetweenAccounts: false
   };
 
@@ -83,20 +83,20 @@ export const Send: FC = () => {
     mode: 'onChange',
     defaultValues
   });
-  const selectedAsset = watch('asset');
-  const selectedAccount = watch('selectedAccount');
+  const token = watch('token');
+  const account = watch('account');
   const isTransferBetweenAccounts = watch('isTransferBetweenAccounts');
   const isSendButtonDisabled = !isEmpty(errors);
 
   const addressPlaceholder = networkType === NetworkTypeEnum.EVM ? '0x0000...' : 'tz...';
-  const availableBalance = formatUnits(selectedAsset.balance.data, selectedAsset.decimals);
+  const availableBalance = formatUnits(token.balance.data, token.decimals);
 
   const onSubmit = ({
-    asset: { decimals, tokenAddress, tokenId },
+    token: { decimals, tokenAddress, tokenId },
     amount,
     receiverPublicKeyHash,
     isTransferBetweenAccounts,
-    selectedAccount
+    account
   }: FormTypes) => {
     const isGasTokenZeroBalance = Number(gasTokenBalance.data) === 0;
 
@@ -115,9 +115,7 @@ export const Send: FC = () => {
         asset: assetToSend,
         amount,
         receiverPublicKeyHash:
-          isTransferBetweenAccounts && selectedAccount
-            ? getPublicKeyHash(selectedAccount, networkType)
-            : receiverPublicKeyHash
+          isTransferBetweenAccounts && account ? getPublicKeyHash(account, networkType) : receiverPublicKeyHash
       })
     );
   };
@@ -125,22 +123,17 @@ export const Send: FC = () => {
   const navigateToWallet = () => navigate(ScreensEnum.Wallet);
   const navigateToScanQrCode = () => navigate(ScreensEnum.ScanQrCode);
   const navigateToTokensSelector = () => {
-    navigate(ScreensEnum.SendTokensSelector, { selectedAsset });
+    navigate(ScreensEnum.SendTokensSelector, { token });
   };
 
   const onTransferBetweenAccountsPress = () => {
     if (isTransferBetweenAccountsDisabled) {
       return showWarningToast('Please, add one more account');
     }
-    const publicKeyHashOfSelectedAccount = getPublicKeyHash(selectedAccount as AccountInterface, networkType);
+    const publicKeyHashOfSelectedAccount = getPublicKeyHash(account as AccountInterface, networkType);
 
-    if (!isTransferBetweenAccounts && selectedAccount && isEmptyString(publicKeyHashOfSelectedAccount)) {
-      createHdAccountForNewNetworkType(
-        selectedAccount,
-        networkType,
-        selectedAccount => setValue('selectedAccount', selectedAccount),
-        false
-      );
+    if (!isTransferBetweenAccounts && account && isEmptyString(publicKeyHashOfSelectedAccount)) {
+      createHdAccountForNewNetworkType(account, networkType, account => setValue('account', account), false);
     }
 
     clearErrors('receiverPublicKeyHash');
@@ -157,12 +150,12 @@ export const Send: FC = () => {
   };
 
   useEffect(() => {
-    if (isDefined(params) && isDefined(params.selectedAccount)) {
-      setValue('selectedAccount', params.selectedAccount);
+    if (isDefined(params) && isDefined(params.account)) {
+      setValue('account', params.account);
     }
 
-    if (isDefined(params) && isDefined(params.selectedAsset)) {
-      setValue('asset', params.selectedAsset);
+    if (isDefined(params) && isDefined(params.token)) {
+      setValue('token', params.token);
     }
 
     if (isDefined(params) && isDefined(params.receiverPublicKeyHash)) {
@@ -175,12 +168,12 @@ export const Send: FC = () => {
     <ScreenContainer>
       <HeaderContainer isSelectors>
         <ScreenTitle
-          title={`Send ${selectedAsset.symbol}`}
+          title={`Send ${token.symbol}`}
           onBackButtonPress={navigateToWallet}
           numberOfLines={1}
           titleStyle={styles.screenTitle}
         />
-        <HeaderSideBalance symbol={selectedAsset.symbol} balance={availableBalance} />
+        <HeaderSideBalance symbol={token.symbol} balance={availableBalance} />
       </HeaderContainer>
 
       <ScreenScrollView>
@@ -196,7 +189,7 @@ export const Send: FC = () => {
               placeholder="0.00"
               inputContainerStyle={styles.assetContainer}
               inputStyle={styles.amountInput}
-              decimals={selectedAsset.decimals}
+              decimals={token.decimals}
               error={errors?.amount?.message}
               keyboardType="numeric"
             >
@@ -204,7 +197,7 @@ export const Send: FC = () => {
                 <Row>
                   <Pressable onPress={navigateToTokensSelector}>
                     <Row>
-                      <Token symbol={selectedAsset.symbol} uri={selectedAsset.thumbnailUri} forceHideTokenName />
+                      <Token symbol={token.symbol} uri={token.thumbnailUri} forceHideTokenName />
                       <Icon name={IconNameEnum.Dropdown} size={getCustomSize(2)} />
                     </Row>
                   </Pressable>
@@ -241,8 +234,8 @@ export const Send: FC = () => {
           handlePrompt={emptyFn}
           isInfo
         />
-        {isTransferBetweenAccounts && selectedAccount ? (
-          <SelectedAccount account={selectedAccount} />
+        {isTransferBetweenAccounts && account ? (
+          <SelectedAccount account={account} />
         ) : (
           <Controller
             control={control}

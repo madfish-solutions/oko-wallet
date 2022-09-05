@@ -24,18 +24,17 @@ export enum ScreensEnum {
   AddNewToken = 'AddNewToken',
   EditToken = 'EditToken',
   Tokens = 'Tokens',
-  ScanQrCode = 'ScanQrCode'
+  ScanQrCode = 'ScanQrCode',
+  Token = 'Token'
 }
 
 export type ScreensParamList = {
   [ScreensEnum.ImportAccount]: undefined;
   [ScreensEnum.ManageTokens]: undefined;
   [ScreensEnum.Receive]: undefined;
-  [ScreensEnum.Send]:
-    | { selectedAccount?: AccountInterface; selectedAsset?: Token; receiverPublicKeyHash?: string }
-    | undefined;
-  [ScreensEnum.SendTokensSelector]: { selectedAsset: Token };
-  [ScreensEnum.SendAccountsSelector]: { selectedAccount: AccountInterface };
+  [ScreensEnum.Send]?: { account?: AccountInterface; token?: Token; receiverPublicKeyHash?: string };
+  [ScreensEnum.SendTokensSelector]: { token: Token };
+  [ScreensEnum.SendAccountsSelector]: { account: AccountInterface };
   [ScreensEnum.SendConfirmation]: {
     transferParams: TransferParams;
   };
@@ -53,4 +52,5 @@ export type ScreensParamList = {
   [ScreensEnum.EditNetwork]: { network: NetworkInterface; isNetworkSelected: boolean };
   [ScreensEnum.Tokens]: undefined;
   [ScreensEnum.ScanQrCode]: undefined;
+  [ScreensEnum.Token]: { token: Token };
 };

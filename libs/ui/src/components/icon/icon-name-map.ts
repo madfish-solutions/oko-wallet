@@ -12,6 +12,7 @@ import CheckDoneIcon from './assets/check-done.svg';
 import CheckEmptyIcon from './assets/check-empty.svg';
 import Clear from './assets/clear.svg';
 import CopyIcon from './assets/copy.svg';
+import Deposit from './assets/deposit.svg';
 import DropdownIcon from './assets/dropdown.svg';
 import DropupIcon from './assets/dropup.svg';
 import EditIcon from './assets/edit.svg';
@@ -105,5 +106,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.WarningYellow]: WarningYellow,
   [IconNameEnum.Error]: Error,
   [IconNameEnum.QrScanner]: QrScanner,
-  [IconNameEnum.Info]: Info
+  [IconNameEnum.Info]: Info,
+  [IconNameEnum.Deposit]: Deposit
 };

@@ -1,6 +1,5 @@
-import { isDefined, isNotEmptyString } from '@rnw-community/shared';
+import { isNotEmptyString } from '@rnw-community/shared';
 import React, { FC, useEffect, useState } from 'react';
-import { Image, View } from 'react-native';
 
 import { TextStyleProps, ViewStyleProps } from '../../interfaces/style.interface';
 import { getCustomSize } from '../../styles/format-size';
@@ -9,6 +8,7 @@ import { IconWithBorderEnum } from '../icon-with-border/enums';
 import { IconWithBorder } from '../icon-with-border/icon-with-border';
 import { Icon } from '../icon/icon';
 import { IconNameEnum } from '../icon/icon-name.enum';
+import { Image } from '../image/image';
 import { Row } from '../row/row';
 import { Text } from '../text/text';
 
@@ -46,11 +46,7 @@ export const Token: FC<Props> = ({
   return (
     <Row style={style}>
       <IconWithBorder type={iconType} style={styles.icon}>
-        {isDefined(uri) && isNotEmptyString(uri) && !isLoadingError ? (
-          <Image source={{ uri }} onError={onError} style={styles.image} />
-        ) : (
-          <View style={styles.fallback} />
-        )}
+        <Image uri={uri} isLoadingError={isLoadingError} onError={onError} />
       </IconWithBorder>
       <Column>
         <Row style={styles.row}>

@@ -2,9 +2,9 @@ import { AccountInterface } from '../../interfaces/account.interface';
 import { Token } from '../../interfaces/token.interface';
 
 export interface FormTypes {
-  asset: Token;
+  token: Token;
   amount: string;
   receiverPublicKeyHash: string;
-  selectedAccount?: AccountInterface;
+  account?: AccountInterface;
   isTransferBetweenAccounts: boolean;
 }

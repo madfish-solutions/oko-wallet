@@ -54,7 +54,7 @@ export const SelectedAccount: FC<Props> = ({ account }) => {
   const onChangeAccountPress = () => {
     setBalance('0');
 
-    navigate(ScreensEnum.SendAccountsSelector, { selectedAccount: account });
+    navigate(ScreensEnum.SendAccountsSelector, { account });
   };
 
   return (

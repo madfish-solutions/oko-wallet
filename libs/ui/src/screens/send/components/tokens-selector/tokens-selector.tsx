@@ -24,7 +24,7 @@ const keyExtractor = ({ tokenAddress, tokenId }: TokenType) => getTokenSlug(toke
 
 export const TokensSelector: FC = () => {
   const {
-    params: { selectedAsset }
+    params: { token }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendTokensSelector>>();
   const { navigate } = useNavigation();
   const { gasTokenMetadata, gasTokenBalance, rpcUrl } = useSelectedNetworkSelector();
@@ -53,7 +53,7 @@ export const TokensSelector: FC = () => {
   const selectedIndex = useMemo(
     () =>
       accountTokens.findIndex(
-        token => token.tokenAddress === selectedAsset?.tokenAddress && token.tokenId === selectedAsset?.tokenId
+        accountToken => accountToken.tokenAddress === token?.tokenAddress && accountToken.tokenId === token?.tokenId
       ),
     [accountTokens]
   );
@@ -63,7 +63,7 @@ export const TokensSelector: FC = () => {
     const isGasToken = !item.tokenAddress;
     const balance = formatUnits(item.balance.data, item.decimals);
 
-    const onSelectItem = () => navigate(ScreensEnum.Send, { selectedAsset: item });
+    const onSelectItem = () => navigate(ScreensEnum.Send, { token: item });
 
     return (
       <RenderItem

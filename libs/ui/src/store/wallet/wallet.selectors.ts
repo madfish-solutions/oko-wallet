@@ -2,6 +2,7 @@ import { isDefined } from '@rnw-community/shared';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
+import { GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
@@ -12,7 +13,7 @@ import { initialAccount } from '../../mocks/account.interface.mock';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { getAllAccountsWithoutCurrent } from '../../utils/get-all-accounts-without-current.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
-import { isCollectible } from '../../utils/token.utils';
+import { getTokenSlug, isCollectible } from '../../utils/token.utils';
 import { checkEquality } from '../utils/check-equality.util';
 
 import { WalletRootState, WalletState } from './wallet.state';
@@ -153,4 +154,16 @@ export const useMintedTransactionsSelector = () => {
         : [],
     [transactions, selectedNetworkRpcUrl, selectedAccountPublicKeyHash]
   );
+};
+
+export const useTokenBalanceSelector = (tokenSlug: string): string => {
+  const network = useSelectedNetworkSelector();
+  const accountTokens = useAccountTokensSelector();
+
+  const tokenBalance =
+    tokenSlug === getTokenSlug(GAS_TOKEN_ADDRESS)
+      ? network.gasTokenBalance.data
+      : accountTokens.find(token => getTokenSlug(token.tokenAddress, token.tokenId) === tokenSlug)?.balance.data ?? '0';
+
+  return useMemo(() => tokenBalance, [tokenBalance]);
 };
