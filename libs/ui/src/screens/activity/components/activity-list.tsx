@@ -70,7 +70,8 @@ export const ActivityList: FC<Props> = ({
             </Row>
             <Row style={styles.amountContainer}>
               <Text style={styles.amount}>
-                {Number(formatBalances(amount))} {symbol ? symbol.toUpperCase() : tokenSymbol.toUpperCase()}
+                {Number(formatBalances(amount))}
+                {symbol ? symbol.toUpperCase() : tokenSymbol.toUpperCase()}
               </Text>
             </Row>
           </Column>

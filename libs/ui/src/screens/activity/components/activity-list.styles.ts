@@ -6,8 +6,8 @@ import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
-    marginLeft: getCustomSize(1.5),
-    marginRight: getCustomSize(2)
+    // marginLeft: getCustomSize(1.5),
+    // marginRight: getCustomSize(2)
   },
   dateWrapper: {
     borderBottomWidth: getCustomSize(0.03125),

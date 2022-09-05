@@ -3,11 +3,18 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { fetchTokenInfo, getHistoryList } from '../api/debank';
+import { GAS_TOKEN_ADDRESS } from '../constants/defaults';
 import { TransactionStatusEnum } from '../enums/transactions.enum';
 import { ActivityData, ActivityResponse, TransactionLabelEnum } from '../interfaces/activity.interface';
 import { addNewTokenAction } from '../store/wallet/wallet.actions';
 import { useAllSavedTokensSelector } from '../store/wallet/wallet.selectors';
 import { capitalize } from '../utils/string.util';
+
+const filterGasTokenTransaction = (data: ActivityResponse) => {
+  data = { ...data, history_list: data?.history_list.filter(txData => txData.cate_id === null) };
+
+  return data;
+};
 
 /*
 transform data from API
@@ -35,7 +42,7 @@ const transformApiData = (data: ActivityResponse, publicKeyHash: string, chainNa
     } else {
       activityData.symbol = chainName;
       activityData.amount = txData.tx?.value;
-      if (publicKeyHash.toLowerCase() === txData.tx.from_addr.toLowerCase()) {
+      if (publicKeyHash.toLowerCase() === txData.tx?.from_addr.toLowerCase()) {
         activityData.transactionLabel = TransactionLabelEnum.Send;
       } else {
         activityData.transactionLabel = TransactionLabelEnum.Receive;
@@ -48,11 +55,16 @@ const transformApiData = (data: ActivityResponse, publicKeyHash: string, chainNa
 export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAddress?: string) => {
   const [lastTimestamp, setLastTimestamp] = useState(0);
   const [activity, setActivity] = useState<ActivityData[]>([]);
+  const tokenAddressRequest = tokenAddress === GAS_TOKEN_ADDRESS ? undefined : tokenAddress;
   const fetchActivity = async (startTime: number) => {
-    const response = await getHistoryList(publicKeyHash, chainName, startTime, tokenAddress);
+    const response = await getHistoryList(publicKeyHash, chainName, startTime, tokenAddressRequest);
     if (response !== undefined) {
-      const activityData = transformApiData(response, publicKeyHash, chainName);
-      setLastTimestamp(activityData[activityData.length - 1].timestamp);
+      const activityData = isDefined(tokenAddressRequest)
+        ? transformApiData(response, publicKeyHash, chainName)
+        : transformApiData(filterGasTokenTransaction(response), publicKeyHash, chainName);
+      if (activityData.length > 0) {
+        setLastTimestamp(activityData[activityData.length - 1].timestamp);
+      }
       setActivity([...activity, ...activityData]);
     }
   };
