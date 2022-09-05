@@ -8,7 +8,7 @@ import { RenderItem } from '../../../../components/selector/components/render-it
 import { Selector } from '../../../../components/selector/selector';
 import { Text } from '../../../../components/text/text';
 import { Token } from '../../../../components/token/token';
-import { EMPTY_STRING } from '../../../../constants/defaults';
+import { EMPTY_STRING, GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token as TokenType } from '../../../../interfaces/token.interface';
@@ -35,8 +35,10 @@ export const TokensSelector: FC = () => {
     [visibleAccountTokens]
   );
 
-  const gasToken = useMemo(() => ({ ...gasTokenMetadata, balance: gasTokenBalance } as TokenType), [rpcUrl]);
-
+  const gasToken = useMemo(
+    () => ({ ...gasTokenMetadata, balance: gasTokenBalance, tokenAddress: GAS_TOKEN_ADDRESS } as TokenType),
+    [rpcUrl]
+  );
   const accountTokensWithBalanceAndGasToken: TokenType[] = useMemo(
     () => [gasToken, ...accountTokensWithBalance],
     [accountTokensWithBalance, gasToken]
@@ -60,7 +62,7 @@ export const TokensSelector: FC = () => {
 
   const renderItem = ({ item, index }: ListRenderItemInfo<TokenType>) => {
     const isTokenSelected = selectedIndex === index;
-    const isGasToken = !item.tokenAddress;
+    const isGasToken = item.tokenAddress === GAS_TOKEN_ADDRESS;
     const balance = formatUnits(item.balance.data, item.decimals);
 
     const onSelectItem = () => navigate(ScreensEnum.Send, { token: item });

@@ -47,7 +47,7 @@ export const GasToken: FC<Props> = ({ theme, loadBalance = true }) => {
         name,
         decimals,
         isVisible: true,
-        balance: createEntity(formattedBalance)
+        balance: gasTokenBalance
       }
     });
 

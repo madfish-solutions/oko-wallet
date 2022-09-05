@@ -23,6 +23,7 @@ import { Text } from '../../components/text/text';
 import { Token } from '../../components/token/token';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
 import { Warning } from '../../components/warning/warning';
+import { GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
@@ -64,7 +65,7 @@ export const Send: FC = () => {
   const isTransferBetweenAccountsDisabled = allAccountsWithoutSelected.length === 0;
 
   const defaultValues: FormTypes = {
-    token: { ...gasTokenMetadata, balance: gasTokenBalance } as TokenType,
+    token: { ...gasTokenMetadata, balance: gasTokenBalance, tokenAddress: GAS_TOKEN_ADDRESS } as TokenType,
     amount: '',
     receiverPublicKeyHash: '',
     account: allAccountsWithoutSelected[0],
