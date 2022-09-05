@@ -10,11 +10,10 @@ import { addNewTokenAction } from '../store/wallet/wallet.actions';
 import { useAllSavedTokensSelector } from '../store/wallet/wallet.selectors';
 import { capitalize } from '../utils/string.util';
 
-const filterGasTokenTransaction = (data: ActivityResponse) => {
-  data = { ...data, history_list: data?.history_list.filter(txData => txData.cate_id === null) };
-
-  return data;
-};
+const filterGasTokenTransaction = (data: ActivityResponse) => ({
+  ...data,
+  history_list: data?.history_list.filter(txData => txData.cate_id === null)
+});
 
 /*
 transform data from API
