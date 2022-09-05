@@ -27,7 +27,7 @@ export const EditAccount: FC = () => {
     setFocus,
     formState: { errors }
   } = useForm({
-    mode: 'onBlur',
+    mode: 'onChange',
     defaultValues: {
       name: account.name
     }

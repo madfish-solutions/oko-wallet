@@ -11,6 +11,7 @@ import { NetworkInterface } from '../../interfaces/network.interface';
 import { Token } from '../../interfaces/token.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';
 import { getAccountTokensSlug } from '../../utils/address.util';
+import { getAllAccountsWithoutCurrent } from '../../utils/get-all-accounts-without-current.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { getTokenSlug, isCollectible } from '../../utils/token.utils';
 import { checkEquality } from '../utils/check-equality.util';
@@ -59,6 +60,13 @@ export const useAllAccountsNameSelector = () => {
   const accounts = useAllAccountsSelector();
 
   return useMemo(() => accounts.map(({ name }) => name.toLowerCase()), [accounts]);
+};
+
+export const useAllAccountsWithoutSelectedSelector = () => {
+  const allAccounts = useAllAccountsSelector();
+  const selectedAccount = useSelectedAccountSelector();
+
+  return useMemo(() => getAllAccountsWithoutCurrent(allAccounts, selectedAccount), [allAccounts, selectedAccount]);
 };
 
 export const useAccountAssetsSelector = () =>
