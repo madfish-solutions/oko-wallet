@@ -26,7 +26,8 @@ export enum ScreensEnum {
   ScanQrCode = 'ScanQrCode',
   CreateANewWallet = 'CreateANewWallet',
   WordsAmountSelector = 'WordsAmountSelector',
-  VerifyMnemonic = 'VerifyMnemonic'
+  VerifyMnemonic = 'VerifyMnemonic',
+  AlmostDone = 'AlmostDone'
 }
 
 export type ScreensParamList = {
@@ -54,4 +55,5 @@ export type ScreensParamList = {
   [ScreensEnum.CreateANewWallet]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.VerifyMnemonic]: { mnemonic: string[] };
+  [ScreensEnum.AlmostDone]: undefined;
 };

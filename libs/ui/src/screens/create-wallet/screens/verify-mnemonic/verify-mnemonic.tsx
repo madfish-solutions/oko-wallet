@@ -8,6 +8,7 @@ import { Column } from '../../../../components/column/column';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Container } from '../../components/container/container';
 
 import { shuffledInitialState, wordsInitialState } from './state';
@@ -19,6 +20,7 @@ export const VerifyMnemonic: FC = () => {
   const {
     params: { mnemonic }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.VerifyMnemonic>>();
+  const { navigate } = useNavigation();
 
   const [correctWordOrder, setCorrectWordOrder] = useState<Word[]>(wordsInitialState);
   const [words, setWords] = useState<Word[]>(wordsInitialState);
@@ -141,7 +143,7 @@ export const VerifyMnemonic: FC = () => {
 
   const navigateToAlmostDoneScreen = () => {
     if (JSON.stringify(correctWordOrder) === JSON.stringify(words)) {
-      return console.log('Success!');
+      return navigate(ScreensEnum.AlmostDone);
     }
 
     if (Object.values(words).every(item => isNotEmptyString(item.word))) {
