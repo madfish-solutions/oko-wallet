@@ -28,6 +28,9 @@ import { Tokens } from '../../screens/tokens/tokens';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
+import { checkActiveApplicationSession } from '../../utils/check-active-application-session.util';
+import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
+import { isWeb } from '../../utils/platform.utils';
 import { getStoredValue, setStoredValue } from '../../utils/store.util';
 
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
@@ -42,9 +45,15 @@ export const Navigator: FC = () => {
   const [isReady, setIsReady] = useState(false);
   const [initialState, setInitialState] = useState<InitialState>();
 
+  const { isPopupOpened } = checkActiveApplicationSession();
+
   useEffect(() => {
     const restoreState = async () => {
       try {
+        if (!isWeb) {
+          return;
+        }
+
         const savedStateString: InitialState = await getStoredValue(PERSISTENCE_KEY);
         const state = isDefined(savedStateString) ? savedStateString : undefined;
         if (state !== undefined) {
@@ -59,6 +68,18 @@ export const Navigator: FC = () => {
       restoreState();
     }
   }, [isReady]);
+
+  useEffect(() => {
+    // TODO: Add check for ScreenEnum.AlmostDone screen later
+    const isCreateWalletScreensOpened =
+      initialState?.routes.some(
+        route => route.name === ScreensEnum.CreateANewWallet || route.name === ScreensEnum.VerifyMnemonic
+      ) ?? false;
+
+    if (isPopupOpened && isCreateWalletScreensOpened && isReady) {
+      openMaximiseScreen();
+    }
+  }, [initialState, isReady]);
 
   if (!isReady) {
     return (
