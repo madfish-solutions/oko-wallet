@@ -3,6 +3,7 @@ import { Text } from 'react-native';
 
 import { Column } from '../../../../components/column/column';
 import { Dynamics } from '../../../../components/dynamics/dynamics';
+import { IconWithBorderEnum } from '../../../../components/icon-with-border/enums';
 import { IconWithBorder } from '../../../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
@@ -31,7 +32,7 @@ export const HeaderSideToken: FC<Props> = ({ name, price, dynamics, thumbnailUri
     <Row>
       {isGasToken && <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />}
       <Text style={styles.tokenName}>{name}</Text>
-      <IconWithBorder type="secondary" style={styles.imageContainer}>
+      <IconWithBorder type={IconWithBorderEnum.Secondary} style={styles.imageContainer}>
         <Image uri={thumbnailUri} />
       </IconWithBorder>
     </Row>

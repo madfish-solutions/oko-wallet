@@ -29,7 +29,7 @@ export const createHdAccountForNewNetworkTypeSubscription = ({
 }: CreateHdAccountForNewNetworkType) =>
   createHdAccountForNewNetworkType$
     .pipe(
-      switchMap(({ account, networkType, successCallback }) =>
+      switchMap(({ account, networkType, successCallback, switchToNewAccount }) =>
         Shelter.createHdAccount$(networkType, account.accountIndex, account.name).pipe(
           map(newAccount => ({
             updatedAccount: {
@@ -40,14 +40,15 @@ export const createHdAccountForNewNetworkTypeSubscription = ({
                 ...newAccount?.networksKeys
               }
             },
-            successCallback
+            successCallback,
+            switchToNewAccount
           }))
         )
       )
     )
-    .subscribe(({ updatedAccount, successCallback }) => {
+    .subscribe(({ updatedAccount, successCallback, switchToNewAccount = true }) => {
       if (updatedAccount !== undefined) {
-        dispatch(createHdAccountForNewNetworkTypeAction(updatedAccount));
-        successCallback?.();
+        dispatch(createHdAccountForNewNetworkTypeAction({ account: updatedAccount, switchToNewAccount }));
+        successCallback?.(updatedAccount);
       }
     });

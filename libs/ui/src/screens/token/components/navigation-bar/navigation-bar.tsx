@@ -5,7 +5,6 @@ import { Pressable } from 'react-native';
 import { Divider } from '../../../../components/divider/divider';
 import { Icon } from '../../../../components/icon/icon';
 import { Row } from '../../../../components/row/row';
-import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token } from '../../../../interfaces/token.interface';
@@ -27,11 +26,7 @@ export const NavigationBar: FC<Props> = ({ token }) => {
       return null;
     }
 
-    if (token.tokenAddress !== GAS_TOKEN_ADDRESS) {
-      return navigate(screen, { token });
-    }
-
-    return navigate(screen, { token: { ...token, tokenAddress: '', tokenId: '' } });
+    navigate(screen, { token });
   };
 
   return (

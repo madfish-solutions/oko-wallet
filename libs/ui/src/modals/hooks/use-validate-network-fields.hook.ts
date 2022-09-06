@@ -1,5 +1,6 @@
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 
+import { onlySpacesError, requiredFieldError } from '../../constants/form-errors';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { removeTrailingSlash } from '../../utils/remove-trailing-slash.util';
 import { FormTypes } from '../screens/network/types/form-types.interface';
@@ -44,12 +45,12 @@ export const useNetworkFieldsRules = ({ networks, chainId, defaultValues }: Netw
 
   const checkIfOnlySpaces = (currentValue?: string) => {
     if (isNotEmptyString(currentValue) && !currentValue.trim()) {
-      return '1-21 characters, no special';
+      return onlySpacesError;
     }
   };
 
   const commonRules = {
-    required: 'This field is required',
+    required: requiredFieldError,
     validate: { checkIfOnlySpaces }
   };
 
