@@ -45,10 +45,13 @@ export enum IconNameEnum {
   Trash = 'Trash',
   Clear = 'Clear',
   Success = 'Success',
-  Warning = 'Warning',
+  WarningWhite = 'WarningWhite',
+  WarningYellow = 'WarningYellow',
   Error = 'Error',
   QrScanner = 'QrScanner',
   Chevron = 'Chevron',
   ArrowDropdown = 'ArrowDropdown',
-  Refresh = 'Refresh'
+  Refresh = 'Refresh',
+  Info = 'Info',
+  Deposit = 'Deposit'
 }

@@ -24,7 +24,7 @@ export const AddAccount: FC = () => {
     setFocus,
     formState: { errors, isSubmitSuccessful }
   } = useForm({
-    mode: 'onBlur',
+    mode: 'onChange',
     defaultValues: {
       name: defaultValue
     }

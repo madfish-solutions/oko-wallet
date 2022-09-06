@@ -87,7 +87,7 @@ export const Tokens: FC = () => {
 
   const renderItem = useCallback(
     ({ item: token }: ListRenderItemInfo<Token>) => {
-      const isGasToken = token.tokenAddress === 'gas_token_address';
+      const isGasToken = token.tokenAddress === GAS_TOKEN_ADDRESS;
 
       if (isGasToken) {
         return <GasToken searchValue={searchValue} theme={TokenItemThemesEnum.Secondary} loadBalance={!searchValue} />;

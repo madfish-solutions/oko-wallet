@@ -9,6 +9,10 @@ export const themeClasses = {
   [ButtonThemesEnum.Secondary]: {
     button: styles.buttonSecondary,
     text: styles.textSecondary
+  },
+  [ButtonThemesEnum.Ternary]: {
+    button: styles.buttonTernary,
+    text: styles.textTernary
   }
 };
 

@@ -22,8 +22,11 @@ import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
 import { ScanQrCode } from '../../screens/scan-qr-code/scan-qr-code';
 import { SendConfirmation } from '../../screens/send-confirmation/send-confirmation';
+import { AccountsSelector as SendAccountsSelector } from '../../screens/send/components/accounts-selector/accounts-selector';
+import { TokensSelector as SendTokensSelector } from '../../screens/send/components/tokens-selector/tokens-selector';
 import { Send } from '../../screens/send/send';
 import { Settings } from '../../screens/settings/settings';
+import { Token } from '../../screens/token/token';
 import { Tokens } from '../../screens/tokens/tokens';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
@@ -108,6 +111,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
               <Stack.Screen name={ScreensEnum.Tokens} component={Tokens} />
               <Stack.Screen name={ScreensEnum.ScanQrCode} component={ScanQrCode} />
+              <Stack.Screen name={ScreensEnum.Token} component={Token} />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptions}>
@@ -120,6 +124,16 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.NetworksSelector}
                 options={{ title: 'Networks' }}
                 component={NetworksSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SendTokensSelector}
+                options={{ title: 'Select Token From' }}
+                component={SendTokensSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SendAccountsSelector}
+                options={{ title: 'Select Account' }}
+                component={SendAccountsSelector}
               />
             </Stack.Group>
 

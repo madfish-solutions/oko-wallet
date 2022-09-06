@@ -1,15 +1,26 @@
+import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 
+import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { IconNameEnum } from '../../../icon/icon-name.enum';
 import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
 
 import { styles } from './header-close-button.styles';
 
+const goBackRoutes = [ScreensEnum.SendAccountsSelector, ScreensEnum.SendTokensSelector];
+
 export const HeaderCloseButton: FC = () => {
-  const { goBack } = useNavigation();
+  const { navigate, goBack } = useNavigation();
+  const { name } = useRoute<RouteProp<ScreensParamList>>();
 
-  const navigateToWallet = () => goBack();
+  const onClosePress = () => {
+    if (goBackRoutes.includes(name)) {
+      goBack();
+    } else {
+      navigate(ScreensEnum.Wallet);
+    }
+  };
 
-  return <TouchableIcon style={styles.root} onPress={navigateToWallet} name={IconNameEnum.X} />;
+  return <TouchableIcon style={styles.root} onPress={onClosePress} name={IconNameEnum.X} />;
 };

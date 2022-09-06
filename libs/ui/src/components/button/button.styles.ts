@@ -38,6 +38,14 @@ export const styles = StyleSheet.create({
     color: colors.textGrey1,
     ...typography.taglineInterSemiBoldUppercase15
   },
+  buttonTernary: {
+    borderWidth: 0,
+    backgroundColor: 'transparent'
+  },
+  textTernary: {
+    color: colors.orange,
+    ...typography.taglineInterSemiBoldUppercase11
+  },
   // disabled
   disabledButton: {
     borderColor: 'transparent',
