@@ -12,7 +12,7 @@ import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Container } from '../../components/container/container';
 
 import { shuffledInitialState, wordsInitialState } from './state';
-import { ShuffleWord, Word } from './types';
+import { SelectedContainer, ShuffleWord, Word } from './types';
 import { getRandomMnemonicWords } from './utils';
 import { styles } from './verify-mnemonic.styles';
 
@@ -25,7 +25,7 @@ export const VerifyMnemonic: FC = () => {
   const [correctWordOrder, setCorrectWordOrder] = useState<Word[]>(wordsInitialState);
   const [words, setWords] = useState<Word[]>(wordsInitialState);
   const [shuffledWords, setShuffledWords] = useState<ShuffleWord[]>(shuffledInitialState);
-  const [selectedContainer, setSelectedContainer] = useState<{ id: number; force: boolean }>({
+  const [selectedContainer, setSelectedContainer] = useState<SelectedContainer>({
     id: words[0].id,
     // force: true - force stay on the select container
     force: false
@@ -53,16 +53,16 @@ export const VerifyMnemonic: FC = () => {
 
   // choose next container
   useEffect(() => {
-    let nextSelecteContainerdId = 0;
+    let nextSelectContainerdId = 0;
 
     words.find(item => {
       if (item.word === '') {
-        return (nextSelecteContainerdId = item.id);
+        return (nextSelectContainerdId = item.id);
       }
     });
 
     setSelectedContainer(prev =>
-      !prev.force ? { id: nextSelecteContainerdId, force: false } : { ...prev, force: false }
+      !prev.force ? { id: nextSelectContainerdId, force: false } : { ...prev, force: false }
     );
   }, [words]);
 

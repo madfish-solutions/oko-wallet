@@ -11,3 +11,8 @@ export interface ShuffleWord {
   word: string;
   selected: boolean;
 }
+
+export interface SelectedContainer {
+  id: number;
+  force: boolean;
+}
