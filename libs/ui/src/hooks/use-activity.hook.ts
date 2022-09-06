@@ -21,8 +21,12 @@ transform data from API
 to ActivityData type, as we needed
 */
 
-const transformApiData = (data: ActivityResponse, publicKeyHash: string, chainName: string): ActivityData[] =>
-  data?.history_list.map(txData => {
+const transformApiData = (data: ActivityResponse, publicKeyHash: string, chainName: string): ActivityData[] => {
+  const filtredTransactions = data?.history_list.filter(
+    txData => !(txData.cate_id === null && txData.receives.length > 0 && txData.sends.length > 0)
+  );
+
+  return filtredTransactions.map(txData => {
     const activityData = {
       transactionStatus: TransactionStatusEnum.applied,
       hash: txData.id,
@@ -50,6 +54,7 @@ const transformApiData = (data: ActivityResponse, publicKeyHash: string, chainNa
 
     return activityData;
   });
+};
 
 export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAddress?: string) => {
   const [lastTimestamp, setLastTimestamp] = useState(0);
