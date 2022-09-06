@@ -41,7 +41,7 @@ export const WarningMessage: FC<Props> = ({ checkIsOpenDropdownState, style }) =
       <Animated.View style={[styles.root, style]}>
         <Row style={styles.header}>
           <Row>
-            <Icon name={IconNameEnum.Warning} iconStyle={styles.warningIcon} />
+            <Icon name={IconNameEnum.WarningYellow} iconStyle={styles.warningIcon} />
             <Text style={styles.warningTitle}>Backup your mnemonic securely!</Text>
           </Row>
           <Animated.View style={{ transform: [{ rotateZ: arrowAnimation }] }}>

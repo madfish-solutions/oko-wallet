@@ -26,7 +26,7 @@ export const Container: FC<Props> = ({ title, step, onSubmitPress, isSubmitDisab
   return (
     <ScreenContainer>
       <HeaderContainer>
-        <ScreenTitle title={title} onBackButtonPress={navigateToCreateANewWallet} textStyle={styles.title} />
+        <ScreenTitle title={title} onBackButtonPress={navigateToCreateANewWallet} titleStyle={styles.title} />
         <Steps currentStep={step} stepsAmount={3} />
       </HeaderContainer>
 
