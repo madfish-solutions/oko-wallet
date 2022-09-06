@@ -2,7 +2,7 @@ import { TransactionStatusEnum } from '../enums/transactions.enum';
 
 export enum TransactionLabelEnum {
   Send = 'Send',
-  Receive = 'Receive'
+  Received = 'Received'
 }
 
 export interface TokenInfo {

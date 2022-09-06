@@ -31,6 +31,7 @@ const transformApiData = (data: ActivityResponse, publicKeyHash: string, chainNa
       } else {
         activityData.tokenId = txData.receives[0].token_id;
         activityData.amount = txData.receives[0]?.amount;
+        activityData.transactionLabel = TransactionLabelEnum.Received;
       }
     } else {
       activityData.symbol = chainName;
@@ -38,7 +39,7 @@ const transformApiData = (data: ActivityResponse, publicKeyHash: string, chainNa
       if (publicKeyHash.toLowerCase() === txData.tx?.from_addr?.toLowerCase()) {
         activityData.transactionLabel = TransactionLabelEnum.Send;
       } else {
-        activityData.transactionLabel = TransactionLabelEnum.Receive;
+        activityData.transactionLabel = TransactionLabelEnum.Received;
       }
     }
 
