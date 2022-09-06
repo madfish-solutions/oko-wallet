@@ -31,6 +31,7 @@
     "@types/react-test-renderer": "^17.0.2",
     "@types/redux-persist": "^4.3.1",
     "@walletconnect/client": "^1.7.8",
+    "axios": "^0.27.2",
     "babel-jest": "^28.0.1",
     "bignumber.js": "^9.0.2",
     "bip39": "^3.0.4",
