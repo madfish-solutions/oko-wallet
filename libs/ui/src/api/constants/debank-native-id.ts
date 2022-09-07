@@ -1,4 +1,4 @@
-const debankNativeId = {
+export const debankNativeId = {
   '1': 'eth',
   '56': 'bsc',
   '100': 'xdai',
@@ -36,5 +36,3 @@ const debankNativeId = {
   '42170': 'nova',
   '7700': 'canto'
 };
-
-export const getDebankId = (chainId: string) => debankNativeId[chainId as keyof typeof debankNativeId];
