@@ -39,7 +39,8 @@ export const styles = StyleSheet.create({
   },
   divider: {
     height: getCustomSize(0.125),
-    backgroundColor: colors.bgGrey3
+    backgroundColor: colors.bgGrey3,
+    width: '100%'
   },
   from: {
     marginTop: getCustomSize(2.25),
@@ -54,7 +55,6 @@ export const styles = StyleSheet.create({
   },
   button: {
     padding: getCustomSize(0.5),
-    //backgroundColor: colors.navGrey1,
     borderRadius: getCustomSize(1.75)
   },
   accName: {
@@ -77,8 +77,28 @@ export const styles = StyleSheet.create({
     ...typography.numbersIBMPlexSansMedium13
   },
   buttonPanel: {
-    flex: 1,
     alignItems: 'flex-end',
     paddingBottom: getCustomSize(2)
+  },
+  greyLabel: {
+    ...typography.captionInterRegular13,
+    color: colors.textGrey3
+  },
+  greyText: {
+    ...typography.captionInterRegular11,
+    color: colors.textGrey3
+  },
+  allowsBlock: {
+    marginTop: getCustomSize(3.75),
+    flex: 1
+  },
+  allowsText: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'space-between',
+    marginVertical: getCustomSize(1.5)
+  },
+  allowStatus: {
+    marginRight: getCustomSize(0.5)
   }
 });

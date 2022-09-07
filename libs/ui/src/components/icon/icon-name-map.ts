@@ -24,6 +24,8 @@ import EyeOpenIcon from './assets/eye-open.svg';
 import GasIcon from './assets/gas.svg';
 import IconPlaceholder from './assets/icon-placeholder.svg';
 import LoadersIcon from './assets/loaders.svg';
+import LockClosed from './assets/lock-closed.svg';
+import LockOpen from './assets/lock-open.svg';
 import NftIcon from './assets/nft.svg';
 import OutIcon from './assets/out.svg';
 import PartnersIcon from './assets/partners.svg';
@@ -103,5 +105,7 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Warning]: Warning,
   [IconNameEnum.Error]: Error,
   [IconNameEnum.SwapItems]: SwapItems,
-  [IconNameEnum.IconPlaceholder]: IconPlaceholder
+  [IconNameEnum.IconPlaceholder]: IconPlaceholder,
+  [IconNameEnum.LockOpen]: LockOpen,
+  [IconNameEnum.LockClosed]: LockClosed
 };

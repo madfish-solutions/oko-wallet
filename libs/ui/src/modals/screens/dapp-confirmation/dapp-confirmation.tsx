@@ -1,10 +1,11 @@
 import React, { FC, useState } from 'react';
-import { View, Image, Linking, TouchableOpacity } from 'react-native';
+import { View, Image, Linking, TouchableOpacity, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { browser } from 'webextension-polyfill-ts';
 
 import { Button } from '../../../components/button/button';
 import { ButtonThemesEnum } from '../../../components/button/enums';
+import { Divider } from '../../../components/divider/divider';
 import { IconWithBorder } from '../../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
@@ -135,9 +136,36 @@ export const DappConfirmation: FC<Props> = ({ dappName }) => {
             </View>
           </Row>
         </View>
+        <ScrollView style={styles.allowsBlock}>
+          <Text style={styles.greyLabel}>Allows</Text>
+          <Row style={styles.allowsText}>
+            <Text style={styles.greyText}>See wallet balance activity</Text>
+            <Row>
+              <Text style={styles.allowStatus}>ALLOWED</Text>
+              <Icon name={IconNameEnum.LockOpen} />
+            </Row>
+          </Row>
+          <Divider style={styles.divider} />
+          <Row style={styles.allowsText}>
+            <Text style={styles.greyText}>Send request for transactions</Text>
+            <Row>
+              <Text style={styles.allowStatus}>ALLOWED</Text>
+              <Icon name={IconNameEnum.LockOpen} />
+            </Row>
+          </Row>
+          <Divider style={styles.divider} />
+          <Row style={styles.allowsText}>
+            <Text style={styles.greyText}>Move funds without permissions</Text>
+            <Row>
+              <Text style={styles.allowStatus}>BLOCKED</Text>
+              <Icon name={IconNameEnum.LockClosed} />
+            </Row>
+          </Row>
+          <Divider style={styles.divider} />
+        </ScrollView>
         <Row style={styles.buttonPanel}>
           <Button theme={ButtonThemesEnum.Primary} title="Decline" />
-          <Button onPress={sendMessage} theme={ButtonThemesEnum.Secondary} title="Send" />
+          <Button onPress={sendMessage} theme={ButtonThemesEnum.Secondary} title="Connect" />
         </Row>
       </View>
     </ModalContainer>
