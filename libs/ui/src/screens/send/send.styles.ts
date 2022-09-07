@@ -63,6 +63,7 @@ export const styles = StyleSheet.create({
   },
   sendButtonContainer: {
     paddingHorizontal: getCustomSize(2),
+    marginTop: getCustomSize(2),
     marginBottom: isMobile ? getCustomSize(4) : getCustomSize(2),
     height: getCustomSize(5)
   }

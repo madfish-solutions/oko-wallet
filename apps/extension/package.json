@@ -21,6 +21,7 @@
     "@taquito/taquito": "^12.1.1",
     "@taquito/utils": "^12.1.0",
     "@walletconnect/client": "^1.7.8",
+    "axios": "^0.27.2",
     "bignumber.js": "^9.0.2",
     "bip39": "^3.0.4",
     "buffer": "^6.0.3",
