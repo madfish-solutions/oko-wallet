@@ -81,6 +81,8 @@ export const Navigator: FC = () => {
       ) ?? false;
 
     if (isPopupOpened && isCreateWalletScreensOpened && isReady) {
+      // clear previous navigation state and leave only ScreenEnum.ImportAccount route when click by extension icon
+      setStoredValue(PERSISTENCE_KEY, JSON.stringify({ ...initialState, routes: initialState?.routes.slice(0, 1) }));
       openMaximiseScreen();
     }
   }, [initialState, isReady]);
