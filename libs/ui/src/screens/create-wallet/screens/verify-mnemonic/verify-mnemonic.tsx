@@ -36,12 +36,18 @@ export const VerifyMnemonic: FC = () => {
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    setError('');
-  }, [selectedContainer]);
+    if (words.find(item => isNotEmptyString(item.word))) {
+      setError('');
+    }
+
+    if (words.every(item => !isNotEmptyString(item.word))) {
+      setSelectedContainer({ id: words[0].id, force: false });
+    }
+  }, [words]);
 
   // Initial setup
   useEffect(() => {
-    const randomWords = getRandomMnemonicWords(mnemonic);
+    const randomWords = getRandomMnemonicWords(mnemonic).sort((a, b) => a.index - b.index);
 
     setCorrectWordOrder(randomWords);
     setWords(randomWords.map(item => ({ ...item, word: '', shuffledWordId: 0 })));
@@ -147,6 +153,11 @@ export const VerifyMnemonic: FC = () => {
     }
 
     if (Object.values(words).every(item => isNotEmptyString(item.word))) {
+      const resetWords = words.map(item => ({ ...item, word: '' }));
+      const resetShuffledWords = shuffledWords.map(item => ({ ...item, selected: false }));
+      setWords(resetWords);
+      setShuffledWords(resetShuffledWords);
+
       return setError('Wrong combination. Try again.');
     }
 
