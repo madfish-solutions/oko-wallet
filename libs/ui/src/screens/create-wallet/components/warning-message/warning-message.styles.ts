@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     paddingTop: getCustomSize(1.25),
     paddingHorizontal: getCustomSize(1.5),
     paddingBottom: getCustomSize(1.5),
-    backgroundColor: 'rgba(214, 167, 0, 0.08)',
+    backgroundColor: colors.bgTransparentYellow,
     borderRadius: getCustomSize(1.75),
     overflow: 'hidden'
   },
