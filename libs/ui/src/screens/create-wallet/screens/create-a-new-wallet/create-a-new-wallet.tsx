@@ -148,7 +148,7 @@ export const CreateANewWallet: FC = () => {
           <Column style={[styles.wordsColumn, styles.marginRight]}>
             {wordsColumn1.map((word, index) => (
               <View key={`${word}_${index}`} style={styles.mnemonicItem}>
-                <Text selectable={false} style={styles.wordIndex}>{`${Math.round(index + 1)}.`}</Text>
+                <Text selectable={false} style={styles.wordIndex}>{`${index + 1}.`}</Text>
                 <Text selectable={false} style={styles.word}>
                   {word}
                 </Text>

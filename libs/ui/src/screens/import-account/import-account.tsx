@@ -5,6 +5,7 @@ import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useShelter } from '../../hooks/use-shelter.hook';
 import { colors } from '../../styles/colors';
+import { checkActiveApplicationSession } from '../../utils/check-active-application-session.util';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 import { isWeb } from '../../utils/platform.utils';
 
@@ -17,11 +18,13 @@ export const ImportAccount: FC = () => {
   const [password, setPassword] = useState('');
   const { importWallet } = useShelter();
 
+  const { isMaximiseScreenOpened } = checkActiveApplicationSession();
+
   const handleImportAccount = () => importWallet({ seedPhrase: seed, password, hdAccountsLength: 1 });
   const handleCreateANewWallet = () => {
     navigate(ScreensEnum.CreateANewWallet);
 
-    if (isWeb) {
+    if (isWeb && !isMaximiseScreenOpened) {
       openMaximiseScreen();
     }
   };

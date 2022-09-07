@@ -20,8 +20,16 @@ export const styles = StyleSheet.create({
   },
   indicator: {
     height: getCustomSize(1.25),
-    backgroundColor: colors.border1,
     borderRadius: getCustomSize(0.125)
+  },
+  primary: {
+    backgroundColor: colors.border1
+  },
+  secondary: {
+    backgroundColor: colors.red
+  },
+  tertiary: {
+    backgroundColor: colors.yellow
   },
   indicatorOffset: {
     marginRight: getCustomSize(0.125)

@@ -9,6 +9,8 @@ export enum ScreensEnum {
   ManageTokens = 'ManageTokens',
   Receive = 'Receive',
   Send = 'Send',
+  SendTokensSelector = 'SendTokensSelector',
+  SendAccountsSelector = 'SendAccountsSelector',
   SendConfirmation = 'SendConfirmation',
   Settings = 'Settings',
   Wallet = 'Wallet',
@@ -27,14 +29,17 @@ export enum ScreensEnum {
   CreateANewWallet = 'CreateANewWallet',
   WordsAmountSelector = 'WordsAmountSelector',
   VerifyMnemonic = 'VerifyMnemonic',
-  AlmostDone = 'AlmostDone'
+  AlmostDone = 'AlmostDone',
+  Token = 'Token'
 }
 
 export type ScreensParamList = {
   [ScreensEnum.ImportAccount]: undefined;
   [ScreensEnum.ManageTokens]: undefined;
   [ScreensEnum.Receive]: undefined;
-  [ScreensEnum.Send]: undefined;
+  [ScreensEnum.Send]?: { account?: AccountInterface; token?: Token; receiverPublicKeyHash?: string };
+  [ScreensEnum.SendTokensSelector]: { token: Token };
+  [ScreensEnum.SendAccountsSelector]: { account: AccountInterface };
   [ScreensEnum.SendConfirmation]: {
     transferParams: TransferParams;
   };
@@ -56,4 +61,5 @@ export type ScreensParamList = {
   [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.VerifyMnemonic]: { mnemonic: string[] };
   [ScreensEnum.AlmostDone]: undefined;
+  [ScreensEnum.Token]: { token: Token };
 };

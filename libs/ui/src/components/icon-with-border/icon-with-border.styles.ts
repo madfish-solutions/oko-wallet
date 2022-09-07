@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: getCustomSize(0.25),
     borderColor: colors.bgGrey3,
-    backgroundColor: colors.navGrey1,
+    backgroundColor: colors.bgGrey4,
     overflow: 'hidden'
   },
   primary: {
@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     height: getCustomSize(5),
     borderRadius: getCustomSize(6)
   },
-  tertiary: {
+  ternary: {
     width: getCustomSize(3),
     height: getCustomSize(3),
     borderRadius: getCustomSize(6)

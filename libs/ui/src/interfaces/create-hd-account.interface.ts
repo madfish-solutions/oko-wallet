@@ -21,7 +21,8 @@ export type CreateHdAccountType = {
 export interface CreateHdAccountForNewNetworkParams {
   account: AccountInterface;
   networkType: NetworkTypeEnum;
-  successCallback?: OnEventFn<void>;
+  switchToNewAccount?: boolean;
+  successCallback?: OnEventFn<AccountInterface>;
 }
 
 export type CreateHdAccountForNewNetworkType = {

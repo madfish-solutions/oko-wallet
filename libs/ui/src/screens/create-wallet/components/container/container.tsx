@@ -11,6 +11,8 @@ import { FooterButtons, FooterButtonsInterface } from '../footer-buttons/footer-
 
 import { styles } from './container.styles';
 
+const CREATE_WALLET_STEPS = 3;
+
 interface Props extends Pick<FooterButtonsInterface, 'isSubmitDisabled' | 'onSubmitPress'> {
   title: string;
   step: number;
@@ -26,8 +28,8 @@ export const Container: FC<Props> = ({ title, step, onSubmitPress, isSubmitDisab
   return (
     <ScreenContainer>
       <HeaderContainer>
-        <ScreenTitle title={title} onBackButtonPress={navigateToCreateANewWallet} textStyle={styles.title} />
-        <Steps currentStep={step} stepsAmount={3} />
+        <ScreenTitle title={title} onBackButtonPress={navigateToCreateANewWallet} titleStyle={styles.title} />
+        <Steps currentStep={step} stepsAmount={CREATE_WALLET_STEPS} />
       </HeaderContainer>
 
       <ScrollView ref={scrollViewRef} style={styles.content}>

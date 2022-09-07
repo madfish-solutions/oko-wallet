@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     paddingLeft: getCustomSize(2.25),
     paddingRight: getCustomSize(1.75),
     borderRadius: getCustomSize(2.5),
-    backgroundColor: colors.bgGrey2
+    backgroundColor: colors.bgGrey4
   },
   amountWords: {
     marginRight: getCustomSize(2.625),

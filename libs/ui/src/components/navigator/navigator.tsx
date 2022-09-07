@@ -23,12 +23,18 @@ import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
 import { ScanQrCode } from '../../screens/scan-qr-code/scan-qr-code';
 import { SendConfirmation } from '../../screens/send-confirmation/send-confirmation';
+import { AccountsSelector as SendAccountsSelector } from '../../screens/send/components/accounts-selector/accounts-selector';
+import { TokensSelector as SendTokensSelector } from '../../screens/send/components/tokens-selector/tokens-selector';
 import { Send } from '../../screens/send/send';
 import { Settings } from '../../screens/settings/settings';
+import { Token } from '../../screens/token/token';
 import { Tokens } from '../../screens/tokens/tokens';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
+import { checkActiveApplicationSession } from '../../utils/check-active-application-session.util';
+import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
+import { isWeb } from '../../utils/platform.utils';
 import { getStoredValue, setStoredValue } from '../../utils/store.util';
 
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
@@ -43,9 +49,15 @@ export const Navigator: FC = () => {
   const [isReady, setIsReady] = useState(false);
   const [initialState, setInitialState] = useState<InitialState>();
 
+  const { isPopupOpened } = checkActiveApplicationSession();
+
   useEffect(() => {
     const restoreState = async () => {
       try {
+        if (!isWeb) {
+          return;
+        }
+
         const savedStateString: InitialState = await getStoredValue(PERSISTENCE_KEY);
         const state = isDefined(savedStateString) ? savedStateString : undefined;
         if (state !== undefined) {
@@ -60,6 +72,18 @@ export const Navigator: FC = () => {
       restoreState();
     }
   }, [isReady]);
+
+  useEffect(() => {
+    // TODO: Add check for ScreenEnum.AlmostDone screen later
+    const isCreateWalletScreensOpened =
+      initialState?.routes.some(
+        route => route.name === ScreensEnum.CreateANewWallet || route.name === ScreensEnum.VerifyMnemonic
+      ) ?? false;
+
+    if (isPopupOpened && isCreateWalletScreensOpened && isReady) {
+      openMaximiseScreen();
+    }
+  }, [initialState, isReady]);
 
   if (!isReady) {
     return (
@@ -88,6 +112,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
               <Stack.Screen name={ScreensEnum.Tokens} component={Tokens} />
               <Stack.Screen name={ScreensEnum.ScanQrCode} component={ScanQrCode} />
+              <Stack.Screen name={ScreensEnum.Token} component={Token} />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptions}>
@@ -100,6 +125,16 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.NetworksSelector}
                 options={{ title: 'Networks' }}
                 component={NetworksSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SendTokensSelector}
+                options={{ title: 'Select Token From' }}
+                component={SendTokensSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SendAccountsSelector}
+                options={{ title: 'Select Account' }}
+                component={SendAccountsSelector}
               />
             </Stack.Group>
 
