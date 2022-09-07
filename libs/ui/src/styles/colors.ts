@@ -3,7 +3,9 @@ const backgroundColors = {
   bgGrey2: '#252934',
   bgGrey3: '#2F3238',
   bgGrey4: '#1D2129',
-  bgGrey5: '#2F3031'
+  bgGrey5: '#2F3031',
+  bgBrown: '#ED3D2514',
+  bgTransparentYellow: 'rgba(214, 167, 0, 0.08)'
 };
 
 const navigationColors = {
@@ -13,14 +15,16 @@ const navigationColors = {
 const textColors = {
   textGrey1: '#F8F8F8',
   textGrey2: '#868993',
-  textGrey3: '#B4B6BC'
+  textGrey3: '#B4B6BC',
+  textGrey4: '#E1E3E9'
 };
 
 const accentColors = {
   red: '#CC2500',
   orange: '#ED3D25',
   green: '#14BA30',
-  yellow: '#D6A700'
+  yellow: '#D6A700',
+  brown: '#ed3d2514'
 };
 
 const basicColors = {

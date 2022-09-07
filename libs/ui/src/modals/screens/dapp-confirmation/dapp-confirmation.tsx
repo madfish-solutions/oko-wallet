@@ -66,7 +66,7 @@ export const DappConfirmation: FC<Props> = ({ dappName }) => {
   const { navigate } = useNavigation();
   const objToDapp: MessageToDapp = {
     data: {
-      data: { ...dappInfo[dappName].data, method: 'eth_requestAccounts', jsonrpc: '2.0', result: [selectedAddress] },
+      data: { ...dappInfo[dappName]?.data, method: 'eth_requestAccounts', jsonrpc: '2.0', result: [selectedAddress] },
       name: 'metamask-provider'
     },
     target: 'metamask-inpage'
@@ -102,7 +102,7 @@ export const DappConfirmation: FC<Props> = ({ dappName }) => {
           <Text style={styles.smallText}>Address</Text>
           <Row>
             <Text style={styles.explorerLink} onPress={() => Linking.openURL('')} numberOfLines={1}>
-              {dappInfo[dappName].dappName}
+              {dappInfo[dappName]?.dappName}
             </Text>
             <Icon name={IconNameEnum.Copy} />
           </Row>

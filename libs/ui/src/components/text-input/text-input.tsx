@@ -1,16 +1,26 @@
 import { isDefined, isNotEmptyString, OnEventFn } from '@rnw-community/shared';
-import React from 'react';
+import { BigNumber } from 'bignumber.js';
+import React, { useState } from 'react';
 import { ControllerRenderProps, FieldPath, FieldValues } from 'react-hook-form';
-import { GestureResponderEvent, Text, TextInput as TextInputBase, TextInputProps, View } from 'react-native';
+import {
+  GestureResponderEvent,
+  Text,
+  TextInput as TextInputBase,
+  TextInputProps,
+  View,
+  KeyboardTypeOptions
+} from 'react-native';
 
 import { TextStyleProps, ViewStyleProps } from '../../interfaces/style.interface';
 import { colors } from '../../styles/colors';
-import { getCustomSize } from '../../styles/format-size';
 import { IconNameEnum } from '../icon/icon-name.enum';
 import { Row } from '../row/row';
 import { TouchableIcon } from '../touchable-icon/touchable-icon';
 
+import { Label } from './components/label/label';
+import { Prompt } from './components/prompt/prompt';
 import { styles } from './text-input.styles';
+import { getValueWithMaxNumberOfDecimals } from './utils/get-value-with-max-number-of-decimals.util';
 
 interface Props<
   TFieldValues extends FieldValues = FieldValues,
@@ -21,69 +31,120 @@ interface Props<
   error?: string;
   prompt?: string;
   required?: boolean;
-  handlePrompt?: OnEventFn<GestureResponderEvent, void>;
+  handlePrompt?: OnEventFn<GestureResponderEvent>;
   editable?: boolean;
   containerStyle?: ViewStyleProps;
   inputStyle?: TextStyleProps;
+  clearIconStyles?: ViewStyleProps;
+  inputContainerStyle?: ViewStyleProps;
+  decimals?: number;
+  keyboardType?: KeyboardTypeOptions;
 }
 
 export const TextInput = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
-  field: { onBlur, onChange, value, ref },
+  field: { onBlur: onBlurField, onChange, value, ref },
   label,
   error,
   prompt,
-  required = true,
   handlePrompt,
+  decimals,
   placeholder = '',
   placeholderTextColor = colors.border1,
+  keyboardType,
+  required = true,
   editable = true,
+  multiline = false,
   containerStyle,
-  inputStyle
+  inputStyle,
+  inputContainerStyle,
+  children,
+  clearIconStyles
 }: Props<TFieldValues, TName>) => {
+  const [isFocused, setIsFocused] = useState(false);
+
   const isLabel = isDefined(label);
   const isError = isDefined(error);
   const isPrompt = isDefined(prompt);
 
-  const handleInputClear = () => {
-    onChange?.('');
+  const onChangeText = (value: string) => {
+    let correctedValue = value;
+
+    if (keyboardType === 'numeric') {
+      correctedValue = correctedValue
+        .replace(/ /g, '')
+        .replace(/,/g, '.')
+        .replace(/[^\d.]+/g, '');
+    }
+
+    if (isDefined(decimals) && isNotEmptyString(correctedValue)) {
+      correctedValue = getValueWithMaxNumberOfDecimals(correctedValue, decimals);
+    }
+
+    onChange(correctedValue);
   };
+
+  const onBlur = () => {
+    let correctedValue: string = value;
+
+    if (keyboardType === 'numeric' && isNotEmptyString(correctedValue) && !isNaN(+correctedValue)) {
+      correctedValue = new BigNumber(correctedValue).toString();
+    }
+
+    if (correctedValue !== value) {
+      onChange(correctedValue);
+    }
+
+    setIsFocused(false);
+    onBlurField();
+  };
+
+  const onFocus = () => setIsFocused(true);
+
+  const handleInputClear = () => onChange?.('');
 
   return (
     <View style={containerStyle}>
-      {isLabel && (
-        <Row style={styles.labelContainer}>
-          <Text style={styles.label}>{label}</Text>
-          {!required && <Text style={styles.optionalText}>Optional</Text>}
+      {isLabel && <Label title={label} isOptional={!required} />}
+      {isPrompt && <Prompt title={prompt} handlePrompt={handlePrompt} />}
+      <View
+        style={[
+          styles.inputContainer,
+          isFocused && styles.focusedContainer,
+          isError && styles.errorContainer,
+          inputContainerStyle
+        ]}
+      >
+        <Row style={styles.innerContainer}>
+          <TextInputBase
+            ref={ref}
+            placeholderTextColor={placeholderTextColor}
+            style={[styles.input, inputStyle]}
+            placeholder={placeholder}
+            onBlur={onBlur}
+            onChangeText={onChangeText}
+            selectionColor={colors.orange}
+            editable={editable}
+            accessibilityElementsHidden
+            autoCapitalize="none"
+            value={value}
+            onFocus={onFocus}
+            multiline={multiline}
+            keyboardType={keyboardType}
+          />
+          {isNotEmptyString(value) && editable && (
+            <TouchableIcon name={IconNameEnum.Clear} onPress={handleInputClear} style={clearIconStyles} />
+          )}
         </Row>
+        {children}
+      </View>
+      {isError && (
+        <View style={styles.textErrorContainer}>
+          <Text style={styles.textError}>{error}</Text>
+        </View>
       )}
-      {isPrompt && (
-        <Row style={styles.promptContainer}>
-          <Text style={styles.promptText}>{prompt}</Text>
-          <TouchableIcon name={IconNameEnum.Tooltip} onPress={handlePrompt} size={getCustomSize(2)} />
-        </Row>
-      )}
-      <Row style={styles.inputContainer}>
-        <TextInputBase
-          ref={ref}
-          placeholderTextColor={placeholderTextColor}
-          style={[styles.input, isError && styles.errorInput, inputStyle]}
-          placeholder={placeholder}
-          onBlur={onBlur}
-          onChangeText={onChange}
-          selectionColor={colors.orange}
-          editable={editable}
-          accessibilityElementsHidden
-          autoCapitalize="none"
-          value={value}
-        />
-        {isNotEmptyString(value) && editable && (
-          <TouchableIcon name={IconNameEnum.Clear} onPress={handleInputClear} style={styles.clearIcon} />
-        )}
-      </Row>
-      <View style={styles.errorContainer}>{isError && <Text style={styles.textError}>{error}</Text>}</View>
     </View>
   );
 };

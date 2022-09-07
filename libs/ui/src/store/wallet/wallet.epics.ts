@@ -1,9 +1,10 @@
 import { combineEpics, Epic } from 'redux-observable';
-import { Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, concatMap } from 'rxjs/operators';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
+import { getTokenList } from '../../api/debank';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { parseTezosTransferParams } from '../../utils/parse-tezos-transfer-params.utils';
@@ -15,7 +16,12 @@ import { navigateAction } from '../root-state.actions';
 import { RootState } from '../store';
 import { createEntity } from '../utils/entity.utils';
 
-import { loadGasTokenBalanceAction, loadAccountTokenBalanceAction, sendAssetAction } from './wallet.actions';
+import {
+  loadGasTokenBalanceAction,
+  loadAccountTokenBalanceAction,
+  sendAssetAction,
+  addNewTokensAction
+} from './wallet.actions';
 
 const getGasTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Observable<RootState>) =>
   action$.pipe(
@@ -73,4 +79,15 @@ const sendAssetEpic: Epic = (action$: Observable<Action>, state$: Observable<Roo
     )
   );
 
-export const walletEpics = combineEpics(getGasTokenBalanceEpic, getTokenBalanceEpic, sendAssetEpic);
+const addNewTokensEpic: Epic = (action$: Observable<Action>) =>
+  action$.pipe(
+    ofType(addNewTokensAction.submit),
+    toPayload(),
+    concatMap(({ debankId, publicKeyHash }) =>
+      from(getTokenList(publicKeyHash, debankId)).pipe(
+        map(tokenList => addNewTokensAction.success({ tokenList, debankGasTokenName: debankId }))
+      )
+    )
+  );
+
+export const walletEpics = combineEpics(getGasTokenBalanceEpic, getTokenBalanceEpic, sendAssetEpic, addNewTokensEpic);

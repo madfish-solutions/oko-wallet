@@ -7,21 +7,22 @@ import { typography } from '../../../styles/typography';
 export const styles = StyleSheet.create({
   root: {
     justifyContent: 'space-between',
-    borderRadius: getCustomSize(0.5),
-    marginBottom: getCustomSize(0.25),
-    padding: getCustomSize(1)
+    width: '100%'
   },
   rootPrimary: {
-    backgroundColor: colors.navGrey1
+    backgroundColor: colors.navGrey1,
+    borderRadius: getCustomSize(0.5),
+    padding: getCustomSize(1),
+    marginBottom: getCustomSize(0.25)
   },
   rootSecondary: {
     backgroundColor: 'transparent',
     borderTopWidth: getCustomSize(0.0625),
     borderColor: colors.border2,
-    paddingLeft: 0
+    paddingVertical: getCustomSize(2)
   },
   token: {
-    width: 'auto'
+    flex: 1
   },
   image: {
     borderColor: colors.bgGrey3,
@@ -38,15 +39,22 @@ export const styles = StyleSheet.create({
     height: getCustomSize(4)
   },
   text: {
-    color: colors.textGrey1,
+    maxWidth: getCustomSize(16),
+    alignItems: 'flex-end'
+  },
+  textPrimary: {
     ...typography.numbersIBMPlexSansMediumUppercase13
+  },
+  textSecondary: {
+    ...typography.numbersIBMPlexSansMedium15
   },
   tokenName: {
     color: colors.textGrey1,
     ...typography.captionInterRegular11
   },
   rightSideContainer: {
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
+    flex: 1
   },
   usdBalance: {
     color: colors.textGrey1,

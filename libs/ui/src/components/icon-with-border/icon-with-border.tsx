@@ -1,22 +1,22 @@
 import React, { FC } from 'react';
 import { View, ViewStyle } from 'react-native';
 
+import { IconWithBorderEnum } from './enums';
 import { styles } from './icon-with-border.styles';
 
 const themeClasses = {
-  primary: styles.primary,
-  secondary: styles.secondary,
-  tertiary: styles.tertiary,
-  quaternary: styles.quaternary
+  [IconWithBorderEnum.Primary]: styles.primary,
+  [IconWithBorderEnum.Secondary]: styles.secondary,
+  [IconWithBorderEnum.Ternary]: styles.ternary,
+  [IconWithBorderEnum.Quaternary]: styles.quaternary,
+  [IconWithBorderEnum.Quinary]: styles.quinary
 };
 
-export type IconContainerType = keyof typeof themeClasses;
-
 interface Props {
-  type?: IconContainerType;
+  type?: IconWithBorderEnum;
   style?: ViewStyle;
 }
 
-export const IconWithBorder: FC<Props> = ({ type = 'primary', style, children }) => (
+export const IconWithBorder: FC<Props> = ({ type = IconWithBorderEnum.Primary, style, children }) => (
   <View style={[styles.root, themeClasses[type], style]}>{children}</View>
 );

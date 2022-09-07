@@ -35,7 +35,10 @@ export const CollectiblesWidget: FC = () => {
         <Row>
           <Row>
             {collectibles.map(collectible => (
-              <CollectibleImages collectible={collectible} key={getTokenSlug(collectible)} />
+              <CollectibleImages
+                collectible={collectible}
+                key={getTokenSlug(collectible.tokenAddress, collectible.tokenId)}
+              />
             ))}
           </Row>
           <Column style={styles.buttons}>

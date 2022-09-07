@@ -14,14 +14,19 @@ import { EditAccount } from '../../modals/screens/edit-account/edit-account';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
 import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
 import { NetworksSelector } from '../../modals/screens/networks-selector/networks-selector';
-import { AddNewToken } from '../../screens/add-new-token/add-new-token';
+import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
+import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
 import { ImportAccount } from '../../screens/import-account/import-account';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
+import { ScanQrCode } from '../../screens/scan-qr-code/scan-qr-code';
 import { SendConfirmation } from '../../screens/send-confirmation/send-confirmation';
+import { AccountsSelector as SendAccountsSelector } from '../../screens/send/components/accounts-selector/accounts-selector';
+import { TokensSelector as SendTokensSelector } from '../../screens/send/components/tokens-selector/tokens-selector';
 import { Send } from '../../screens/send/send';
 import { Settings } from '../../screens/settings/settings';
+import { Token } from '../../screens/token/token';
 import { Tokens } from '../../screens/tokens/tokens';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
@@ -104,11 +109,12 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
               <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
               <Stack.Screen name={ScreensEnum.Send} component={Send} />
-              <Stack.Screen name={ScreensEnum.AddNewToken} component={AddNewToken} />
               <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
               <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
               <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
               <Stack.Screen name={ScreensEnum.Tokens} component={Tokens} />
+              <Stack.Screen name={ScreensEnum.ScanQrCode} component={ScanQrCode} />
+              <Stack.Screen name={ScreensEnum.Token} component={Token} />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptions}>
@@ -122,13 +128,16 @@ export const Navigator: FC = () => {
                 options={{ title: 'Networks' }}
                 component={NetworksSelector}
               />
-              {/* {isConfirmationScreen && (
-                <Stack.Screen
-                  name={ScreensEnum.DappConfirmation}
-                  options={{ title: 'Dapp' }}
-                  component={DappConfirmation}
-                />
-              )} */}
+              <Stack.Screen
+                name={ScreensEnum.SendTokensSelector}
+                options={{ title: 'Select Token From' }}
+                component={SendTokensSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SendAccountsSelector}
+                options={{ title: 'Select Account' }}
+                component={SendAccountsSelector}
+              />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptionsWithBackButton}>
@@ -152,10 +161,18 @@ export const Navigator: FC = () => {
                 options={{ title: 'Edit network' }}
                 component={EditNetwork}
               />
+              <Stack.Screen
+                name={ScreensEnum.AddNewToken}
+                options={{ title: 'Add new token' }}
+                component={AddNewToken}
+              />
+              <Stack.Screen name={ScreensEnum.EditToken} options={{ title: 'Edit token' }} component={EditToken} />
             </Stack.Group>
           </>
         ) : (
-          <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />
+          <Stack.Group screenOptions={{ headerShown: false }}>
+            <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />
+          </Stack.Group>
         )}
       </Stack.Navigator>
 

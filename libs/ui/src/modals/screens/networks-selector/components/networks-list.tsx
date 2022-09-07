@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux';
 
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
+import { Selector } from '../../../../components/selector/selector';
+import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
 import { EMPTY_STRING } from '../../../../constants/defaults';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
@@ -16,12 +18,9 @@ import {
   useSelectedNetworkSelector
 } from '../../../../store/wallet/wallet.selectors';
 import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
-import { ModalFlatList } from '../../../components/modal-flat-list/modal-flat-list';
 import { ModalGasToken } from '../../../components/modal-gas-token/modal-gas-token';
 import { ModalRenderItem } from '../../../components/modal-render-item/modal-render-item';
-import { useFlatListRef } from '../../../hooks/use-flat-list-ref.hook';
 import { useListSearch } from '../../../hooks/use-list-search.hook';
-import { getItemLayout } from '../../../utils/get-item-layout.util';
 
 export const NetworksList = () => {
   const dispatch = useDispatch();
@@ -40,7 +39,6 @@ export const NetworksList = () => {
     () => filteredList.findIndex(account => account.rpcUrl === selectedNetwork.rpcUrl),
     [filteredList, selectedNetwork.rpcUrl]
   );
-  const { flatListRef } = useFlatListRef({ data: filteredList, selectedIndex });
 
   const handleChangeNetwork = useCallback(
     ({ rpcUrl, networkType }: NetworkInterface) => {
@@ -70,21 +68,22 @@ export const NetworksList = () => {
         balanceTitle="Gas balance"
         balance={<ModalGasToken balance={item.gasTokenBalance.data} metadata={item.gasTokenMetadata} />}
         onSelectItem={() => handleChangeNetwork(item)}
-        onEdit={() => navigateToEditNetwork(item, isNetworkSelected)}
+        rightBottomComponent={
+          <TouchableIcon name={IconNameEnum.Edit} onPress={() => navigateToEditNetwork(item, isNetworkSelected)} />
+        }
       />
     );
   };
 
   return (
-    <ModalFlatList
+    <Selector
       onPressAddIcon={navigateToAddNetwork}
-      flatListRef={flatListRef}
       data={filteredList}
       renderItem={renderItem}
       setSearchValue={setSearchValue}
-      selectedItem={selectedNetwork}
-      getItemLayout={getItemLayout}
+      selectedItemName={selectedNetwork.name}
       keyExtractor={keyExtractor}
+      selectedIndex={selectedIndex}
     />
   );
 };

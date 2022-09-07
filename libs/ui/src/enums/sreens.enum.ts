@@ -1,14 +1,15 @@
 import { AccountInterface } from '../interfaces/account.interface';
 import { NetworkInterface } from '../interfaces/network.interface';
+import { Token } from '../interfaces/token.interface';
 import { TransferParams } from '../interfaces/transfer-params.interface';
 
 export enum ScreensEnum {
-  AddNetwork = 'AddNetwork',
-  AddNewToken = 'AddNewToken',
   ImportAccount = 'ImportAccount',
   ManageTokens = 'ManageTokens',
   Receive = 'Receive',
   Send = 'Send',
+  SendTokensSelector = 'SendTokensSelector',
+  SendAccountsSelector = 'SendAccountsSelector',
   SendConfirmation = 'SendConfirmation',
   Settings = 'Settings',
   Wallet = 'Wallet',
@@ -18,17 +19,23 @@ export enum ScreensEnum {
   NetworksSelector = 'NetworksSelector',
   EditAccount = 'EditAccount',
   AddAccount = 'AddAccount',
+  AddNetwork = 'AddNetwork',
   EditNetwork = 'EditNetwork',
+  DappConfirmation = 'DappConfirmation',
+  AddNewToken = 'AddNewToken',
+  EditToken = 'EditToken',
   Tokens = 'Tokens',
-  DappConfirmation = 'DappConfirmation'
+  ScanQrCode = 'ScanQrCode',
+  Token = 'Token'
 }
 
 export type ScreensParamList = {
-  [ScreensEnum.AddNewToken]: undefined;
   [ScreensEnum.ImportAccount]: undefined;
   [ScreensEnum.ManageTokens]: undefined;
   [ScreensEnum.Receive]: undefined;
-  [ScreensEnum.Send]: undefined;
+  [ScreensEnum.Send]?: { account?: AccountInterface; token?: Token; receiverPublicKeyHash?: string };
+  [ScreensEnum.SendTokensSelector]: { token: Token };
+  [ScreensEnum.SendAccountsSelector]: { account: AccountInterface };
   [ScreensEnum.SendConfirmation]: {
     transferParams: TransferParams;
   };
@@ -41,7 +48,11 @@ export type ScreensParamList = {
   [ScreensEnum.EditAccount]: { account: AccountInterface };
   [ScreensEnum.AddAccount]: undefined;
   [ScreensEnum.AddNetwork]: undefined;
+  [ScreensEnum.AddNewToken]: undefined;
+  [ScreensEnum.EditToken]: { token: Token };
   [ScreensEnum.EditNetwork]: { network: NetworkInterface; isNetworkSelected: boolean };
   [ScreensEnum.Tokens]: undefined;
   [ScreensEnum.DappConfirmation]: undefined;
+  [ScreensEnum.ScanQrCode]: undefined;
+  [ScreensEnum.Token]: { token: Token };
 };

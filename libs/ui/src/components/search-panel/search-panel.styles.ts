@@ -6,7 +6,8 @@ export const styles = StyleSheet.create({
   root: {
     justifyContent: 'space-between',
     height: getCustomSize(5),
-    marginVertical: getCustomSize()
+    marginTop: getCustomSize(),
+    marginBottom: getCustomSize(2)
   },
   close: {
     marginLeft: getCustomSize(2)
@@ -18,6 +19,6 @@ export const styles = StyleSheet.create({
     height: getCustomSize(5)
   },
   extraIcon: {
-    marginLeft: getCustomSize(2.25)
+    marginLeft: getCustomSize(2)
   }
 });

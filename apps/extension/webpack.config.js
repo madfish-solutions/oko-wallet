@@ -37,11 +37,6 @@ const cssLoaderConfiguration = {
     use: ['style-loader', 'css-loader']
 };
 
-const ENTRIES = {
-    background: path.resolve(appDirectory, 'background.ts'),
-    contentScript: path.resolve(appDirectory, 'contentScript.ts'),
-    main: path.resolve(appDirectory, 'index.ts')
-  };
 
 module.exports = {
     target: 'web',
@@ -53,7 +48,11 @@ module.exports = {
         'utf-8-validate': 'commonjs utf-8-validate'
     },
 
-    entry: ENTRIES,
+    entry: {
+        'background-script': path.resolve(appDirectory, 'background-script.ts'),
+        'content-script': path.resolve(appDirectory, 'content-script.ts'),
+        main: path.resolve(appDirectory, 'index.ts')
+    },
 
     output: {
         path: path.resolve(appDirectory, 'dist'),

@@ -12,6 +12,7 @@ import CheckDoneIcon from './assets/check-done.svg';
 import CheckEmptyIcon from './assets/check-empty.svg';
 import Clear from './assets/clear.svg';
 import CopyIcon from './assets/copy.svg';
+import Deposit from './assets/deposit.svg';
 import DropdownIcon from './assets/dropdown.svg';
 import DropupIcon from './assets/dropup.svg';
 import EditIcon from './assets/edit.svg';
@@ -23,12 +24,14 @@ import EyeClosedIcon from './assets/eye-closed.svg';
 import EyeOpenIcon from './assets/eye-open.svg';
 import GasIcon from './assets/gas.svg';
 import IconPlaceholder from './assets/icon-placeholder.svg';
+import Info from './assets/info.svg';
 import LoadersIcon from './assets/loaders.svg';
 import LockClosed from './assets/lock-closed.svg';
 import LockOpen from './assets/lock-open.svg';
 import NftIcon from './assets/nft.svg';
 import OutIcon from './assets/out.svg';
 import PartnersIcon from './assets/partners.svg';
+import QrScanner from './assets/qr-scanner.svg';
 import QrIcon from './assets/qr.svg';
 import QrscanIcon from './assets/qrscan.svg';
 import ReceiveIcon from './assets/receive.svg';
@@ -46,7 +49,8 @@ import SwapItems from './assets/swapItems.svg';
 import Tooltip from './assets/tooltip.svg';
 import TopupIcon from './assets/topup.svg';
 import Trash from './assets/trash.svg';
-import Warning from './assets/warning.svg';
+import WarningWhite from './assets/warning-white.svg';
+import WarningYellow from './assets/warning-yellow.svg';
 import WidgetSettings from './assets/widget-settings.svg';
 import XIcon from './assets/x.svg';
 import { IconNameEnum } from './icon-name.enum';
@@ -102,10 +106,15 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Trash]: Trash,
   [IconNameEnum.Clear]: Clear,
   [IconNameEnum.Success]: Success,
-  [IconNameEnum.Warning]: Warning,
   [IconNameEnum.Error]: Error,
   [IconNameEnum.SwapItems]: SwapItems,
   [IconNameEnum.IconPlaceholder]: IconPlaceholder,
   [IconNameEnum.LockOpen]: LockOpen,
-  [IconNameEnum.LockClosed]: LockClosed
+  [IconNameEnum.LockClosed]: LockClosed,
+  [IconNameEnum.WarningWhite]: WarningWhite,
+  [IconNameEnum.WarningYellow]: WarningYellow,
+  [IconNameEnum.Error]: Error,
+  [IconNameEnum.QrScanner]: QrScanner,
+  [IconNameEnum.Info]: Info,
+  [IconNameEnum.Deposit]: Deposit
 };

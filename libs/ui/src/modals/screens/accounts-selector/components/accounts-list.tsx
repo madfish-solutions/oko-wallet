@@ -1,34 +1,42 @@
-import React, { useMemo, useState } from 'react';
-import { ListRenderItemInfo } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { isDefined, OnEventFn, isNotEmptyString } from '@rnw-community/shared';
+import React, { FC, useMemo, useState } from 'react';
+import { ListRenderItemInfo, View } from 'react-native';
 
+import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { RobotIcon } from '../../../../components/robot-icon/robot-icon';
+import { Selector } from '../../../../components/selector/selector';
+import { Text } from '../../../../components/text/text';
+import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
 import { EMPTY_STRING } from '../../../../constants/defaults';
-import { ScreensEnum } from '../../../../enums/sreens.enum';
-import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { AccountInterface } from '../../../../interfaces/account.interface';
-import { changeAccountAction } from '../../../../store/wallet/wallet.actions';
-import {
-  useAllAccountsSelector,
-  useSelectedAccountSelector,
-  useSelectedNetworkTypeSelector
-} from '../../../../store/wallet/wallet.selectors';
+import { useSelectedNetworkTypeSelector } from '../../../../store/wallet/wallet.selectors';
 import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
-import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
+import { shortize } from '../../../../utils/shortize.util';
 import { ModalAccountBalance } from '../../../components/modal-account-balance/modal-account-balance';
-import { ModalFlatList } from '../../../components/modal-flat-list/modal-flat-list';
 import { ModalRenderItem } from '../../../components/modal-render-item/modal-render-item';
-import { useFlatListRef } from '../../../hooks/use-flat-list-ref.hook';
 import { useListSearch } from '../../../hooks/use-list-search.hook';
-import { getItemLayout } from '../../../utils/get-item-layout.util';
 
-export const AccountsList = () => {
-  const { navigate } = useNavigation();
-  const dispatch = useDispatch();
-  const { createHdAccountForNewNetworkType } = useShelter();
-  const selectedAccount = useSelectedAccountSelector();
-  const accounts = useAllAccountsSelector();
+import { styles } from './accounts-list.styles';
+
+interface Props {
+  accounts: AccountInterface[];
+  selectedAccount: AccountInterface;
+  onSelectItem: OnEventFn<AccountInterface>;
+  onEdit?: OnEventFn<AccountInterface>;
+  onPressAddIcon?: OnEventFn;
+  isSearchInitiallyOpened?: boolean;
+}
+
+const keyExtractor = (item: AccountInterface) => item.name;
+
+export const AccountsList: FC<Props> = ({
+  accounts,
+  selectedAccount,
+  onSelectItem,
+  onEdit,
+  onPressAddIcon,
+  isSearchInitiallyOpened = false
+}) => {
   const selectedNetworkType = useSelectedNetworkTypeSelector();
 
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
@@ -40,47 +48,45 @@ export const AccountsList = () => {
     [filteredList, selectedAccount]
   );
 
-  const { flatListRef } = useFlatListRef({ data: filteredList, selectedIndex });
-
-  const handleChangeAccount = (account: AccountInterface) => {
-    if (checkIsNetworkTypeKeyExist(account, selectedNetworkType)) {
-      dispatch(changeAccountAction(account));
-    } else {
-      createHdAccountForNewNetworkType(account, selectedNetworkType);
-    }
-  };
-
-  const onAddAccount = () => navigate(ScreensEnum.AddAccount);
-  const onEditAccount = (account: AccountInterface) => navigate(ScreensEnum.EditAccount, { account });
-
-  const keyExtractor = (item: AccountInterface) => item.name;
-
   const renderItem = ({ item, index }: ListRenderItemInfo<AccountInterface>) => {
     const isAccountSelected = selectedIndex === index;
+    const currentPublicKeyHash = getPublicKeyHash(item, selectedNetworkType);
 
     return (
       <ModalRenderItem
         name={item.name}
-        icon={<RobotIcon seed={getPublicKeyHash(item, selectedNetworkType)} />}
+        icon={<RobotIcon seed={currentPublicKeyHash} />}
         isActive={isAccountSelected}
         balanceTitle="Total balance"
         balance={<ModalAccountBalance />}
-        onSelectItem={() => handleChangeAccount(item)}
-        onEdit={() => onEditAccount(item)}
+        onSelectItem={() => onSelectItem(item)}
+        rightBottomComponent={
+          isDefined(onEdit) ? (
+            <TouchableIcon name={IconNameEnum.Edit} onPress={() => onEdit(item)} />
+          ) : (
+            <>
+              {isNotEmptyString(currentPublicKeyHash) && (
+                <View style={styles.publicKeyHashContainer}>
+                  <Text style={styles.text}>{shortize(currentPublicKeyHash, 6, -4)}</Text>
+                </View>
+              )}
+            </>
+          )
+        }
       />
     );
   };
 
   return (
-    <ModalFlatList
-      onPressAddIcon={onAddAccount}
-      flatListRef={flatListRef}
+    <Selector
+      onPressAddIcon={onPressAddIcon}
       data={filteredList}
       renderItem={renderItem}
       setSearchValue={setSearchValue}
-      selectedItem={selectedAccount}
-      getItemLayout={getItemLayout}
+      selectedItemName={selectedAccount.name}
       keyExtractor={keyExtractor}
+      selectedIndex={selectedIndex}
+      isSearchInitiallyOpened={isSearchInitiallyOpened}
     />
   );
 };

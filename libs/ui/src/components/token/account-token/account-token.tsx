@@ -1,33 +1,33 @@
-import { isString } from '@rnw-community/shared';
+import { isDefined } from '@rnw-community/shared';
 import React, { FC, useEffect } from 'react';
-import { View } from 'react-native';
+import { Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import { ScreensEnum } from '../../../enums/sreens.enum';
+import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { Token } from '../../../interfaces/token.interface';
-import { AddHideButtonsEnum } from '../../../screens/tokens/enums';
 import { getImageSource } from '../../../screens/wallet/components/assets-widget/utils/get-image-source.util';
 import { changeTokenVisibilityAction, loadAccountTokenBalanceAction } from '../../../store/wallet/wallet.actions';
-import { formatUnits } from '../../../utils/units.utils';
-import { Button } from '../../button/button';
-import { ButtonSizeEnum } from '../../button/enums';
+import { formatBalances, formatUnits } from '../../../utils/units.utils';
+import { SwitchThemesEnum } from '../../switch/enum';
+import { Switch } from '../../switch/switch';
 import { TokenItemThemesEnum } from '../token-item/enums';
 import { TokenItem } from '../token-item/token-item';
 
-import { styles } from './account-token.styles';
-
 interface Props {
   token: Token;
-  showButton?: AddHideButtonsEnum | null;
+  showButton?: boolean;
   loadBalance?: boolean;
   theme?: TokenItemThemesEnum;
 }
 
-export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = true, theme }) => {
+export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = false, theme }) => {
   const dispatch = useDispatch();
+  const { navigate } = useNavigation();
   const { decimals, thumbnailUri, balance, symbol, name } = token;
 
   const imageSource = getImageSource(thumbnailUri);
-  const formattedBalance = formatUnits(balance.data, decimals);
+  const formattedBalance = formatBalances(Number(formatUnits(balance.data, decimals)));
 
   useEffect(() => {
     if (loadBalance) {
@@ -35,20 +35,17 @@ export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = true,
     }
   }, []);
 
-  const handleTokenVisibility = () => dispatch(changeTokenVisibilityAction(token.tokenAddress));
+  const handleTokenVisibility = () => dispatch(changeTokenVisibilityAction(token));
+
+  const navigateToTokenDetails = () => navigate(ScreensEnum.Token, { token });
 
   return (
-    <TokenItem imageSource={imageSource} balance={formattedBalance} symbol={symbol} theme={theme} name={name}>
-      {isString(showButton) ? (
-        <View style={styles.buttonContainer}>
-          <Button
-            title={showButton}
-            size={ButtonSizeEnum.Small}
-            onPress={handleTokenVisibility}
-            styleText={[styles.buttonText, showButton === AddHideButtonsEnum.Hide && styles.redText]}
-          />
-        </View>
-      ) : undefined}
-    </TokenItem>
+    <Pressable onPress={navigateToTokenDetails}>
+      <TokenItem imageSource={imageSource} balance={formattedBalance} symbol={symbol} theme={theme} name={name}>
+        {isDefined(showButton) && showButton ? (
+          <Switch onPress={handleTokenVisibility} theme={SwitchThemesEnum.Primary} isActive={token.isVisible} />
+        ) : undefined}
+      </TokenItem>
+    </Pressable>
   );
 };

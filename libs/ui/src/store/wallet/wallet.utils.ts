@@ -52,8 +52,9 @@ export const getDefaultAccountTokens = (state: WalletState, account: AccountInte
     return {
       accountTokensSlug,
       defaultAccountTokens: TOKENS_DEFAULT_LIST[currentNetwork.chainId].map(
-        ({ tokenAddress, name, symbol }, index) => ({
+        ({ tokenAddress, name, symbol, tokenId }, index) => ({
           tokenAddress,
+          tokenId,
           name,
           symbol,
           isVisible: index < initialVisibleTokens,
@@ -71,7 +72,7 @@ export const updateAccountTokenState = (
 ): WalletState => {
   const { selectedNetworkRpcUrl, selectedAccountPublicKeyHash, accountsTokens } = state;
   const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
-  const tokenSlug = getTokenSlug(token);
+  const tokenSlug = getTokenSlug(token.tokenAddress, token.tokenId);
   const targetAccountTokens = accountsTokens[accountTokensSlug];
 
   if (typeof targetAccountTokens === 'undefined') {
@@ -83,7 +84,7 @@ export const updateAccountTokenState = (
     accountsTokens: {
       ...accountsTokens,
       [accountTokensSlug]: targetAccountTokens.map(accountToken =>
-        getTokenSlug(accountToken) === tokenSlug
+        getTokenSlug(accountToken.tokenAddress, accountToken.tokenId) === tokenSlug
           ? {
               ...accountToken,
               ...updateFunc(accountToken)

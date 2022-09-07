@@ -1,38 +1,85 @@
-import Clipboard from '@react-native-clipboard/clipboard';
-import React, { FC, useMemo, useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import React, { FC, useState } from 'react';
+import { TouchableOpacity, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
-import { HeaderSideTypeEnum } from '../../components/header/enums/header-side-type.enum';
-import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
+import { Column } from '../../components/column/column';
+import { Icon } from '../../components/icon/icon';
+import { IconNameEnum } from '../../components/icon/icon-name.enum';
+import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { Row } from '../../components/row/row';
+import { ScreenTitle } from '../../components/screen-components/header-container/components/screen-title/screen-title';
+import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
+import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
+import { ScreenScrollView } from '../../components/screen-components/screen-scroll-view/screen-scroll-view';
 import { Text } from '../../components/text/text';
+import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
+import { ScreensEnum } from '../../enums/sreens.enum';
 import { useDelayedEffect } from '../../hooks/use-delayed-effect.hook';
-import { useSelectedAccountSelector, useSelectedNetworkTypeSelector } from '../../store/wallet/wallet.selectors';
+import { useNavigation } from '../../hooks/use-navigation.hook';
+import {
+  useSelectedAccountPublicKeyHashSelector,
+  useSelectedNetworkSelector
+} from '../../store/wallet/wallet.selectors';
+import { colors } from '../../styles/colors';
+import { getCustomSize } from '../../styles/format-size';
+import { handleCopyToClipboard } from '../../utils/copy-to-clipboard.util';
+import { isMobile } from '../../utils/platform.utils';
+import { share } from '../../utils/share.util';
+
+import { styles } from './receive.styles';
 
 export const Receive: FC = () => {
+  const { navigate } = useNavigation();
   const [isCopied, setIsCopied] = useState(false);
-  const selectedAccount = useSelectedAccountSelector();
-  const networkType = useSelectedNetworkTypeSelector();
+  const network = useSelectedNetworkSelector();
+  const address = useSelectedAccountPublicKeyHashSelector();
 
-  const publicKeyHash = useMemo(() => selectedAccount.networksKeys[networkType]?.publicKeyHash, [networkType]);
-
-  const handleCopyToClipboard = () => {
-    if (typeof publicKeyHash === 'string') {
-      Clipboard.setString(publicKeyHash);
-      setIsCopied(true);
-    }
-  };
+  const navigateToWallet = () => navigate(ScreensEnum.Wallet);
+  const copyAddress = () => handleCopyToClipboard(address);
+  const shareAddress = () => share({ message: address });
+  const promptNavigate = () => null;
 
   useDelayedEffect(() => setIsCopied(false), [isCopied]);
 
   return (
-    <ScreenContainer screenTitle="Receive" navigationType={HeaderSideTypeEnum.Swap}>
-      <QRCode value={publicKeyHash} />
-      <Text>{publicKeyHash}</Text>
-      <TouchableOpacity onPress={handleCopyToClipboard}>
-        <Text>Copy</Text>
-      </TouchableOpacity>
-      {isCopied && <Text>Copied!</Text>}
+    <ScreenContainer>
+      <HeaderContainer isSelectors>
+        <ScreenTitle title="Receive" onBackButtonPress={navigateToWallet} />
+      </HeaderContainer>
+
+      <ScreenScrollView style={styles.root}>
+        <TouchableOpacity onPress={promptNavigate} style={styles.promptWrapper}>
+          <Row style={styles.prompt}>
+            <Text style={styles.propmtText}>How to receive Crypto & NFT</Text>
+            <Icon name={IconNameEnum.Tooltip} />
+          </Row>
+        </TouchableOpacity>
+
+        <Column style={styles.container}>
+          <View style={styles.qrCodeWrapper}>
+            <QRCode
+              value={address !== '' ? address : 'Not generated'}
+              size={getCustomSize(20)}
+              backgroundColor="transparent"
+              color={colors.textGrey1}
+            />
+          </View>
+
+          <Text style={styles.text}>{`Wallet Address on the ${network.name} Network`}</Text>
+          <TouchableOpacity onPress={copyAddress} style={styles.addressWrapper}>
+            <Text numberOfLines={2} style={styles.address}>
+              {address}
+            </Text>
+          </TouchableOpacity>
+        </Column>
+
+        <Row style={styles.actions}>
+          {isMobile && <TouchableIcon name={IconNameEnum.Share} onPress={shareAddress} style={styles.shareIcon} />}
+          <TouchableIcon name={IconNameEnum.Copy} onPress={copyAddress} />
+        </Row>
+      </ScreenScrollView>
+
+      <NavigationBar />
     </ScreenContainer>
   );
 };

@@ -1,35 +1,75 @@
-import React, { FC, Fragment } from 'react';
-import { Pressable } from 'react-native';
+import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { ScreenContainer } from '../../components/screen-container/screen-container/screen-container';
-import { Text } from '../../components/text/text';
-import { Token } from '../../interfaces/token.interface';
+import { IconNameEnum } from '../../components/icon/icon-name.enum';
+import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { Row } from '../../components/row/row';
+import { ScreenTitle } from '../../components/screen-components/header-container/components/screen-title/screen-title';
+import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
+import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
+import { ScreenScrollView } from '../../components/screen-components/screen-scroll-view/screen-scroll-view';
+import { SwitchThemesEnum } from '../../components/switch/enum';
+import { Switch } from '../../components/switch/switch';
+import { Token } from '../../components/token/token';
+import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
+import { ScreensEnum } from '../../enums/sreens.enum';
+import { useNavigation } from '../../hooks/use-navigation.hook';
+import { Token as TokenInterface } from '../../interfaces/token.interface';
 import { changeTokenVisibilityAction } from '../../store/wallet/wallet.actions';
-import { useAccountTokensSelector } from '../../store/wallet/wallet.selectors';
+import { useAccountTokensSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
 import { getTokenSlug } from '../../utils/token.utils';
+
+import { styles } from './manage-tokens.styles';
 
 export const ManageTokens: FC = () => {
   const dispatch = useDispatch();
+  const { navigate, goBack } = useNavigation();
   const accountTokens = useAccountTokensSelector();
+  const {
+    gasTokenMetadata: { thumbnailUri, symbol, name }
+  } = useSelectedNetworkSelector();
 
-  const handleTokenVisibility = (token: Token) => dispatch(changeTokenVisibilityAction(token.tokenAddress));
+  const navigateToEditTokenScreen = (token: TokenInterface) => navigate(ScreensEnum.EditToken, { token });
+
+  const handleTokenVisibility = (token: TokenInterface) => dispatch(changeTokenVisibilityAction(token));
 
   return (
-    <ScreenContainer screenTitle="Manage tokens">
-      {accountTokens.map(token => (
-        <Fragment key={getTokenSlug(token)}>
-          <Text>Token Address: {token.tokenAddress}</Text>
-          <Text>Name: {token.name}</Text>
-          <Text>Thumbnail Uri: {token.thumbnailUri}</Text>
-          <Text>Token ID: {token.tokenId}</Text>
-          <Text>Token Type (for Tezos): {token.tezosTokenType}</Text>
-          <Text>isVisible: {token.isVisible.toString()}</Text>
-          <Pressable onPress={() => handleTokenVisibility(token)}>
-            <Text>{token.isVisible ? 'Hide' : 'Show'}</Text>
-          </Pressable>
-        </Fragment>
-      ))}
+    <ScreenContainer>
+      <HeaderContainer isSelectors>
+        <ScreenTitle title="Edit Token List" onBackButtonPress={goBack} />
+      </HeaderContainer>
+
+      <ScreenScrollView style={styles.root}>
+        <Row style={[styles.token, styles.borderBottom]}>
+          <Token uri={thumbnailUri} symbol={symbol} name={name} gasToken />
+          <Row>
+            <TouchableIcon name={IconNameEnum.Edit} disabled style={[styles.editIcon]} />
+            <Switch theme={SwitchThemesEnum.Primary} isActive disabled />
+          </Row>
+        </Row>
+        {accountTokens.map((token, i) => (
+          <Row
+            key={getTokenSlug(token.tokenAddress, token.tokenId)}
+            style={[styles.token, i !== accountTokens.length - 1 && styles.borderBottom]}
+          >
+            <Token uri={token.thumbnailUri} symbol={token.symbol} name={token.name} />
+            <Row>
+              <TouchableIcon
+                onPress={() => navigateToEditTokenScreen(token)}
+                name={IconNameEnum.Edit}
+                style={styles.editIcon}
+              />
+              <Switch
+                onPress={() => handleTokenVisibility(token)}
+                theme={SwitchThemesEnum.Primary}
+                isActive={token.isVisible}
+              />
+            </Row>
+          </Row>
+        ))}
+      </ScreenScrollView>
+
+      <NavigationBar />
     </ScreenContainer>
   );
 };
