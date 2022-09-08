@@ -26,6 +26,7 @@ export enum ScreensEnum {
   EditToken = 'EditToken',
   Tokens = 'Tokens',
   ScanQrCode = 'ScanQrCode',
+  Activity = 'Activity',
   Token = 'Token'
 }
 
@@ -54,5 +55,6 @@ export type ScreensParamList = {
   [ScreensEnum.Tokens]: undefined;
   [ScreensEnum.DappConfirmation]: { dappName: string; id: string };
   [ScreensEnum.ScanQrCode]: undefined;
+  [ScreensEnum.Activity]: undefined;
   [ScreensEnum.Token]: { token: Token };
 };

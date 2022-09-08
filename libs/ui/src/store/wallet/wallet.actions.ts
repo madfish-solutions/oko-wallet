@@ -2,6 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 
 import { TokenListResponse } from '../../api/types';
 import { AccountInterface, PendingTransaction, Transaction } from '../../interfaces/account.interface';
+import { NewTokenMetadataRequest } from '../../interfaces/activity.interface';
 import { DappConnectionInfo } from '../../interfaces/dapp-connection.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
@@ -54,3 +55,4 @@ export const addTransactionAction = createAction<PendingTransaction>('wallet/ADD
 export const updateTransactionAction = createAction<Transaction>('wallet/CHANGE_TRANSACTION_STATUS');
 
 export const setConfirmedDapp = createAction<DappConnectionInfo>('wallet/SET_CONFIRMED_DAPP');
+export const loadTokenMetadataAction = createAction<NewTokenMetadataRequest>('wallet/LOAD_NEW_TOKEN_METADATA');
