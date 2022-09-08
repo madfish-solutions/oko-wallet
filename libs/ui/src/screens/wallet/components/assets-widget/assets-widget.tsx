@@ -23,6 +23,7 @@ export const AssetsWidget: FC = () => {
   const visibleAccountTokens = useMemo(() => accountTokens.slice(0, VISIBLE_TOKENS_NUMBER), [accountTokens]);
 
   const navigateToTokens = () => navigate(ScreensEnum.Tokens);
+  const navigateToActivity = () => navigate(ScreensEnum.Activity);
 
   return (
     <WidgetContainer style={styles.widgetStyles} iconName={IconNameEnum.Assets} title="Tokens">
@@ -52,6 +53,7 @@ export const AssetsWidget: FC = () => {
             size={ButtonWithIconSizeEnum.Medium}
             theme={ButtonWithIconThemesEnum.Tertiary}
             leftIcon={IconNameEnum.Activity}
+            onPress={navigateToActivity}
           />
           <Divider />
           <ButtonWithIcon
