@@ -1,9 +1,4 @@
-export interface DappConnection {
+export interface DappConnectionInfo {
   dappName: string;
   id: string;
-}
-
-export interface DappConnectionStatus {
-  pendingConnection: DappConnection;
-  confirmedConnection: DappConnection;
 }

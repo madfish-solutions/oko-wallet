@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 
 import { TokenListResponse } from '../../api/types';
 import { AccountInterface, PendingTransaction, Transaction } from '../../interfaces/account.interface';
-import { DappConnection } from '../../interfaces/dapp-connection.interface';
+import { DappConnectionInfo } from '../../interfaces/dapp-connection.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
 import { AccountTokenInput } from '../../interfaces/token-input.interface';
@@ -53,4 +53,4 @@ export const sendAssetAction = createActions<SendAssetPayload>('wallet/SEND_ASSE
 export const addTransactionAction = createAction<PendingTransaction>('wallet/ADD_TRANSACTION');
 export const updateTransactionAction = createAction<Transaction>('wallet/CHANGE_TRANSACTION_STATUS');
 
-export const setConfirmedDapp = createAction<DappConnection>('wallet/SET_CONFIRMED_DAPP');
+export const setConfirmedDapp = createAction<DappConnectionInfo>('wallet/SET_CONFIRMED_DAPP');

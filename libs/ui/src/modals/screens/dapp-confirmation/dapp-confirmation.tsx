@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import React, { FC, useState } from 'react';
-import { View, Image, Linking, TouchableOpacity, ScrollView } from 'react-native';
+import React, { FC } from 'react';
+import { View, Linking, TouchableOpacity, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { browser } from 'webextension-polyfill-ts';
 
@@ -24,41 +24,25 @@ import { getCustomSize } from '../../../styles/format-size';
 import { shortize } from '../../../utils/shortize.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
+import { DappImage } from './components/dapp-image';
 import { styles } from './dapp-confirmation.styles';
 
 const CLOSE_DELAY = 1000;
-
-interface DappImageProps {
-  image: string;
-}
 
 interface MessageToDapp {
   data: unknown;
   target: string;
 }
 
-const DappImage: FC<DappImageProps> = ({ image }) => {
-  const [showPlaceholder, setShowPlaceholder] = useState(false);
-
-  return (
-    <View style={styles.imageContainer}>
-      {showPlaceholder ? (
-        <Image source={{ uri: image }} onError={() => setShowPlaceholder(true)} />
-      ) : (
-        <Icon name={IconNameEnum.IconPlaceholder} size={getCustomSize(2.5)} />
-      )}
-    </View>
-  );
-};
-
 export const DappConfirmation: FC = () => {
   const dispatch = useDispatch();
   const selectedAddress = useSelectedAccountPublicKeyHashSelector();
+  const { name } = useSelectedAccountSelector();
   const { navigate } = useNavigation();
   const {
     params: { dappName, id }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DappConfirmation>>();
-  const objToDapp: MessageToDapp = {
+  const responseToDapp: MessageToDapp = {
     data: {
       data: { id, method: 'eth_requestAccounts', jsonrpc: '2.0', result: [selectedAddress] },
       name: 'metamask-provider'
@@ -69,7 +53,7 @@ export const DappConfirmation: FC = () => {
   const sendMessage = () => {
     browser.tabs.query({ active: true }).then(tabs => {
       if (tabs[0].id !== undefined) {
-        browser.tabs.sendMessage(tabs[0].id, objToDapp);
+        browser.tabs.sendMessage(tabs[0].id, responseToDapp);
         setTimeout(() => {
           window.close();
         }, CLOSE_DELAY);
@@ -78,7 +62,6 @@ export const DappConfirmation: FC = () => {
     });
   };
 
-  const selectedAccount = useSelectedAccountSelector();
   const selectAccount = () => navigate(ScreensEnum.AccountsSelector);
 
   return (
@@ -110,7 +93,7 @@ export const DappConfirmation: FC = () => {
               </TouchableOpacity>
               <TouchableOpacity onPress={selectAccount}>
                 <Row>
-                  <Text style={styles.accName}>{selectedAccount.name}</Text>
+                  <Text style={styles.accName}>{name}</Text>
                   <Icon name={IconNameEnum.Dropdown} size={getCustomSize(2)} />
                 </Row>
               </TouchableOpacity>

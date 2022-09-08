@@ -24,10 +24,7 @@ import {
   loadAccountTokenBalanceAction,
   updateTransactionAction,
   addTransactionAction,
-  setConnectionFromDapp,
-  deletePendingConnection,
   setConfirmedDapp,
-  changeConfirmationScreenStatus,
   editNetworkAction,
   removeNetworkAction,
   editTokenAction,
@@ -346,9 +343,5 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       ...state.confirmedEVMDappConnection,
       [dappName]: { dappName, id }
     }
-  }));
-  builder.addCase(changeConfirmationScreenStatus, (state, { payload }) => ({
-    ...state,
-    isConfirmationPage: payload
   }));
 });
