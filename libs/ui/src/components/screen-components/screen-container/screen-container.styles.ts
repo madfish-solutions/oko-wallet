@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   root: {
     width: '100%',
     alignItems: 'stretch',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     height: isWeb ? EXTENSION_FULL_SIZE : '100%',
     backgroundColor: colors.navGrey1
   }
