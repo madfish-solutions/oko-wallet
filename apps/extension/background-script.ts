@@ -15,7 +15,7 @@ let isLockApp = true;
 
 let isFullpageOpen = false;
 
-let messageData: any;
+let messageData: unknown;
 let origin: string;
 
 browser.runtime.onConnect.addListener(port => {

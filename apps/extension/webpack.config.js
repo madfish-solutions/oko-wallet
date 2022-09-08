@@ -37,7 +37,6 @@ const cssLoaderConfiguration = {
     use: ['style-loader', 'css-loader']
 };
 
-
 module.exports = {
     target: 'web',
 

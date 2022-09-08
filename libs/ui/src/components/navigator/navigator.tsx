@@ -82,7 +82,6 @@ export const Navigator: FC = () => {
       dispatch(setConnectionFromDapp({ chainId: '', dappName: query?.origin as string, data: { id: query?.id } }));
       setDappName(query?.origin as string);
     }
-    console.log(query, 'PARAMS!!');
   }, []);
 
   if (!isReady) {

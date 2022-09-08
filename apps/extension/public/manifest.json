@@ -15,19 +15,13 @@
     "48": "mics/logo192.png",
     "128": "mics/logo192.png"
   },
-  "web_accessible_resources": [
-    {
-      "resources": ["scripts/ethereum.js"],
-      "matches": ["<all_urls>"]
-    }
-  ],
   "content_scripts": [
     {
       "matches": [
         "<all_urls>"
       ],
       "js": [
-        "scripts/contentScript.js"
+        "scripts/content-script.js"
       ],
       "run_at": "document_idle",
       "all_frames": true
