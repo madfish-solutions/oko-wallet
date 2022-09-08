@@ -29,6 +29,7 @@ export enum ScreensEnum {
   CreateANewWallet = 'CreateANewWallet',
   WordsAmountSelector = 'WordsAmountSelector',
   VerifyMnemonic = 'VerifyMnemonic',
+  Activity = 'Activity',
   Token = 'Token'
 }
 
@@ -59,5 +60,6 @@ export type ScreensParamList = {
   [ScreensEnum.CreateANewWallet]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.VerifyMnemonic]: undefined;
+  [ScreensEnum.Activity]: undefined;
   [ScreensEnum.Token]: { token: Token };
 };
