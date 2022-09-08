@@ -14,6 +14,7 @@ import { NetworksSelector } from '../../modals/screens/networks-selector/network
 import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
 import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
+import { Activity } from '../../screens/activity/activity';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
 import { AlmostDone } from '../../screens/create-wallet/screens/almost-done/almost-done';
 import { CreateANewWallet } from '../../screens/create-wallet/screens/create-a-new-wallet/create-a-new-wallet';
@@ -114,6 +115,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
               <Stack.Screen name={ScreensEnum.Tokens} component={Tokens} />
               <Stack.Screen name={ScreensEnum.ScanQrCode} component={ScanQrCode} />
+              <Stack.Screen name={ScreensEnum.Activity} component={Activity} />
               <Stack.Screen name={ScreensEnum.Token} component={Token} />
             </Stack.Group>
 

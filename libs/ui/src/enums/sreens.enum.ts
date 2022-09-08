@@ -30,6 +30,7 @@ export enum ScreensEnum {
   WordsAmountSelector = 'WordsAmountSelector',
   VerifyMnemonic = 'VerifyMnemonic',
   AlmostDone = 'AlmostDone',
+  Activity = 'Activity',
   Token = 'Token'
 }
 
@@ -61,5 +62,6 @@ export type ScreensParamList = {
   [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.VerifyMnemonic]: { mnemonic: string[] };
   [ScreensEnum.AlmostDone]: { mnemonic: string };
+  [ScreensEnum.Activity]: undefined;
   [ScreensEnum.Token]: { token: Token };
 };

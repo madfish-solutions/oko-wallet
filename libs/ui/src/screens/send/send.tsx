@@ -107,7 +107,7 @@ export const Send: FC = () => {
 
     const assetToSend: Asset = {
       decimals,
-      tokenAddress: tokenAddress ?? '',
+      tokenAddress: tokenAddress === GAS_TOKEN_ADDRESS ? '' : tokenAddress,
       tokenId: tokenId ?? ''
     };
 

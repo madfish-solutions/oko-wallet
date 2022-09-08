@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
   wordsWrapper: {
     width: '100%',
     alignItems: 'flex-start',
-    marginBottom: getCustomSize(2.5)
+    marginBottom: getCustomSize(3)
   },
   wordsColumn: {
     flex: 1

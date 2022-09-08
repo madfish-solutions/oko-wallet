@@ -9,7 +9,7 @@ import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.int
 import { getAssetType } from '../get-asset-type.util';
 import { getString } from '../get-string.utils';
 import { createReadOnlyTezosToolkit } from '../tezos-toolkit.utils';
-import { tezosFormatUnits } from '../units.utils';
+import { parseUnits } from '../units.utils';
 
 export const getTezosTransferParams$ = (
   { receiverPublicKeyHash, amount, asset }: SendAssetPayload,
@@ -19,7 +19,7 @@ export const getTezosTransferParams$ = (
   const { tokenId, tokenAddress, decimals } = asset;
   const { rpcUrl, networkType } = selectedNetwork;
   const senderPublicKeyHash = getString(sender.networksKeys[networkType]?.publicKeyHash);
-  const amountBN = tezosFormatUnits(amount, decimals);
+  const amountBN = parseUnits(amount, decimals);
   const assetType = getAssetType(asset);
 
   return assetType === AssetTypeEnum.GasToken

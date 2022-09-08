@@ -36,11 +36,13 @@ export const VerifyMnemonic: FC = () => {
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    if (words.find(item => isNotEmptyString(item.word))) {
+    const isEmptyWordExist = words.find(item => isNotEmptyString(item.word));
+    if (isEmptyWordExist) {
       setError('');
     }
 
-    if (words.every(item => !isNotEmptyString(item.word))) {
+    const allWordsAreSelected = words.every(item => !isNotEmptyString(item.word));
+    if (allWordsAreSelected) {
       setSelectedContainer({ id: words[0].id, force: false });
     }
   }, [words]);
@@ -152,9 +154,11 @@ export const VerifyMnemonic: FC = () => {
       return navigate(ScreensEnum.AlmostDone, { mnemonic: mnemonic.join(' ') });
     }
 
-    if (Object.values(words).every(item => isNotEmptyString(item.word))) {
+    const allWordsAreSelected = words.every(item => isNotEmptyString(item.word));
+    if (allWordsAreSelected) {
       const resetWords = words.map(item => ({ ...item, word: '' }));
       const resetShuffledWords = shuffledWords.map(item => ({ ...item, selected: false }));
+
       setWords(resetWords);
       setShuffledWords(resetShuffledWords);
 
