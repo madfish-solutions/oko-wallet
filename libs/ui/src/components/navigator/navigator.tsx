@@ -46,10 +46,8 @@ export const Navigator: FC = () => {
   const { isLocked } = useUnlock();
   const [isReady, setIsReady] = useState(false);
   const [initialState, setInitialState] = useState<InitialState>();
-  const isConfirmationScreen = useIsConfirmationScreenSelector();
   const [dappName, setDappName] = useState('');
-
-  console.log(isConfirmationScreen, 'CONFIRMATION SCREEN');
+  const isConfirmationScreen = useIsConfirmationScreenSelector();
 
   useEffect(() => {
     const restoreState = async () => {
@@ -102,7 +100,14 @@ export const Navigator: FC = () => {
       onStateChange={state => setStoredValue(PERSISTENCE_KEY, JSON.stringify(state))}
     >
       <Stack.Navigator>
-        {isAuthorised ? (
+        {isAuthorised && isConfirmationScreen && (
+          <Stack.Group>
+            <Stack.Screen name={ScreensEnum.DappConfirmation}>
+              {() => <DappConfirmation dappName={dappName} />}
+            </Stack.Screen>
+          </Stack.Group>
+        )}
+        {isAuthorised && !isConfirmationScreen ? (
           <>
             <Stack.Group screenOptions={{ headerShown: false }}>
               <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
@@ -175,8 +180,6 @@ export const Navigator: FC = () => {
           </Stack.Group>
         )}
       </Stack.Navigator>
-
-      {isConfirmationScreen && isAuthorised && <DappConfirmation dappName={dappName} />}
 
       {isLocked && isAuthorised && <UnlockApp />}
     </NavigationContainer>

@@ -42,6 +42,24 @@ browser.runtime.onConnect.addListener(port => {
       return (lastUserActivityTimestamp = Date.now());
     });
   }
+
+  // listen content script messages
+  port.onMessage.addListener(async msg => {
+    if (msg.data?.target === 'metamask-contentscript' && msg.data?.data?.data?.method === 'eth_requestAccounts') {
+      messageData = msg.data?.data?.data;
+      origin = msg.origin;
+      await browser.windows.create({
+        type: 'popup',
+        url: browser.runtime.getURL(`popup.html?confirmation=true&origin=${origin}&id=${messageData?.id}`),
+        width: 360,
+        height: 600,
+        top: 20,
+        left: 20
+      });
+
+      return Promise.resolve();
+    }
+  });
 });
 
 // listen messages from UI
@@ -67,21 +85,3 @@ browser.runtime.onMessage.addListener((message: BackgroundMessage) => {
 
 const isFullpagePort = (port: Runtime.Port) =>
   port.sender?.url?.includes(`${URL_BASE}${browser.runtime.id}/fullpage.html`) ?? false;
-
-// listen content script messages
-browser.runtime.onConnect.addListener(async myPort => {
-  myPort.onMessage.addListener(async msg => {
-    if (msg.data?.target === 'metamask-contentscript' && msg.data?.data?.data?.method === 'eth_requestAccounts') {
-      messageData = msg.data?.data?.data;
-      origin = msg.origin;
-      await browser.windows.create({
-        type: 'popup',
-        url: browser.runtime.getURL(`popup.html?confirmation=true&origin=${origin}&id=${messageData?.id}`),
-        width: 360,
-        height: 600,
-        top: 20,
-        left: 20
-      });
-    }
-  });
-});
