@@ -13,20 +13,26 @@ import { styles } from './checkbox.styles';
 interface Props {
   text: string;
   selected: boolean;
-  onSelect: () => void;
+  onSelect: (arg: boolean) => void;
   style?: ViewStyleProps;
 }
 
-export const Checkbox: FC<Props> = ({ text, selected = false, onSelect, style, children }) => (
-  <Pressable onPress={onSelect} style={style}>
-    <Row style={styles.root}>
-      {selected ? (
-        <Icon name={IconNameEnum.SelectedSquareCheckbox} />
-      ) : (
-        <Icon name={IconNameEnum.EmptySquareCheckbox} />
-      )}
-      <Text style={styles.text}>{text}</Text>
-    </Row>
-    {isDefined(children) && <View style={styles.children}>{children}</View>}
-  </Pressable>
-);
+export const Checkbox: FC<Props> = ({ text, selected = false, onSelect, style, children }) => {
+  const handleToggleCheckbox = () => {
+    onSelect(!selected);
+  };
+
+  return (
+    <Pressable onPress={handleToggleCheckbox} style={style}>
+      <Row style={styles.root}>
+        {selected ? (
+          <Icon name={IconNameEnum.SelectedSquareCheckbox} />
+        ) : (
+          <Icon name={IconNameEnum.EmptySquareCheckbox} />
+        )}
+        <Text style={styles.text}>{text}</Text>
+      </Row>
+      {isDefined(children) && <View style={styles.children}>{children}</View>}
+    </Pressable>
+  );
+};

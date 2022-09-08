@@ -11,8 +11,8 @@ import { Shelter } from '../shelter';
 export const importWalletSubscription = (importWallet$: Subject<ImportWalletParams>, dispatch: Dispatch) =>
   importWallet$
     .pipe(
-      switchMap(({ seedPhrase, password, hdAccountsLength }) =>
-        Shelter.importAccount$(seedPhrase, password, hdAccountsLength)
+      switchMap(({ seedPhrase, password, hdAccountsLength, accountName }) =>
+        Shelter.importAccount$(seedPhrase, password, hdAccountsLength, accountName)
       )
     )
     .subscribe(importedAccounts => {

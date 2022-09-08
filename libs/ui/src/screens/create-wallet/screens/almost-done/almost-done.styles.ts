@@ -5,20 +5,42 @@ import { getCustomSize } from '../../../../styles/format-size';
 import { typography } from '../../../../styles/typography';
 
 export const styles = StyleSheet.create({
-  marginBottom: {
+  controllerOffset: {
     marginBottom: getCustomSize(3.5)
+  },
+  passwordContainer: {
+    marginBottom: getCustomSize(1.5)
   },
   inputContainer: {
     position: 'relative',
-    marginBottom: getCustomSize(1.5)
+    width: '100%'
   },
   input: {
     width: '100%'
+  },
+  errorInput: {
+    borderColor: colors.red
+  },
+  clearIcon: {
+    marginRight: getCustomSize(4)
   },
   eyeIcon: {
     position: 'absolute',
     top: getCustomSize(1.25),
     right: getCustomSize()
+  },
+  passwordValidationContainer: {
+    marginTop: getCustomSize(0.5)
+  },
+  passwordValidationText: {
+    ...typography.captionInterRegular11,
+    color: colors.textGrey5
+  },
+  valid: {
+    color: colors.green
+  },
+  noValid: {
+    color: colors.red
   },
   checkbox: {
     marginBottom: getCustomSize(3)
@@ -27,11 +49,18 @@ export const styles = StyleSheet.create({
     ...typography.captionInterSemiBold11,
     color: colors.textGrey2
   },
-  linkingText: {
+  link: {
     marginHorizontal: getCustomSize(0.25),
-    ...typography.captionInterSemiBold11,
-    color: colors.orange,
     borderBottomWidth: getCustomSize(0.125),
     borderBottomColor: colors.orange
+  },
+  linkingText: {
+    ...typography.captionInterSemiBold11,
+    color: colors.orange
+  },
+  error: {
+    marginTop: getCustomSize(1.25),
+    ...typography.captionInterRegular11,
+    color: colors.red
   }
 });
