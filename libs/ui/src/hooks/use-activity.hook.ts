@@ -23,7 +23,9 @@ to ActivityData type, as we needed
 
 const transformApiData = (data: ActivityResponse, publicKeyHash: string, chainName: string): ActivityData[] => {
   const filtredTransactions = data?.history_list.filter(
-    txData => !(txData.cate_id === null && txData.receives.length > 0 && txData.sends.length > 0)
+    txData =>
+      !(txData.cate_id === null && txData.receives.length > 0 && txData.sends.length > 0) ||
+      txData.cate_id !== 'approve'
   );
 
   return filtredTransactions.map(txData => {
@@ -75,6 +77,7 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
   };
 
   const fetchMoreData = async () => {
+    console.log('fetching more...');
     fetchActivity(lastTimestamp);
   };
 

@@ -12,7 +12,6 @@ export const debankApiRequest = axios.create({
   headers: DEBANK_HEADERS
 });
 
-
 export const getHistoryList = memoize(
   async (
     publicKey: string,

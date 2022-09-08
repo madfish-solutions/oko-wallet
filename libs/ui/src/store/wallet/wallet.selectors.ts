@@ -157,24 +157,6 @@ export const useMintedTransactionsSelector = () => {
   );
 };
 
-export const useAllSavedTokensSelector = () => {
-  const tokensMetadata = useSelector<WalletRootState, Record<string, TokenMetadata>>(
-    ({ wallet }) => wallet.tokensMetadata
-  );
-
-  const allTokens = Object.entries(tokensMetadata);
-
-  const getTokenAddress = (metadataSlug: string) => metadataSlug.split('_')[1];
-
-  allTokens.map(token => {
-    token[0] = getTokenAddress(token[0]);
-
-    return token;
-  });
-
-  return allTokens;
-};
-
 export const useTokenBalanceSelector = (tokenSlug: string): string => {
   const network = useSelectedNetworkSelector();
   const accountTokens = useAccountTokensSelector();
