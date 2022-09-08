@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 
+import { TokenListResponse } from '../../api/types';
 import { AccountInterface, PendingTransaction, Transaction } from '../../interfaces/account.interface';
 import { NewTokenMetadataRequest } from '../../interfaces/activity.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
@@ -39,6 +40,10 @@ export const removeNetworkAction = createAction<{ network: NetworkInterface; isN
 );
 
 export const addNewTokenAction = createAction<AccountTokenInput>('wallet/ADD_NEW_TOKEN');
+export const addNewTokensAction = createActions<
+  { debankId: string; publicKeyHash: string },
+  { tokenList: TokenListResponse; debankGasTokenName: string }
+>('wallet/ADD_NEW_TOKENS');
 export const editTokenAction = createAction<TokenFormTypes>('wallet/EDIT_TOKEN');
 export const changeTokenVisibilityAction = createAction<Token>('wallet/CHANGE_TOKEN_VISIBILITY');
 export const sortAccountTokensByVisibility = createAction('wallet/SORT_ACCOUNT_TOKENS_BY_VISIBILITY');
