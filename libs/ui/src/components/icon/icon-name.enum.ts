@@ -52,6 +52,5 @@ export enum IconNameEnum {
   Chevron = 'Chevron',
   ArrowDropdown = 'ArrowDropdown',
   Refresh = 'Refresh',
-  Info = 'Info',
-  Deposit = 'Deposit'
+  Info = 'Info'
 }
