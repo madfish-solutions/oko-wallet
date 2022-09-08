@@ -340,27 +340,11 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
 
     return { ...state, transactions: { ...state.transactions, [accountTokensSlug]: updatedAccountTransactions } };
   });
-  builder.addCase(setConnectionFromDapp, (state, { payload: { dappName, chainId, data } }) => ({
-    ...state,
-    pendingEVMDappConnection: {
-      ...state.pendingEVMDappConnection,
-      [dappName]: { chainId, dappName, data }
-    }
-  }));
-  builder.addCase(deletePendingConnection, (state, { payload }) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { [payload]: omit, ...otherPendingEVMConnection } = state.pendingEVMDappConnection;
-
-    return {
-      ...state,
-      pendingEVMDappConnection: otherPendingEVMConnection
-    };
-  });
-  builder.addCase(setConfirmedDapp, (state, { payload: { dappName, chainId, data } }) => ({
+  builder.addCase(setConfirmedDapp, (state, { payload: { dappName, id } }) => ({
     ...state,
     confirmedEVMDappConnection: {
       ...state.confirmedEVMDappConnection,
-      [dappName]: { chainId, dappName, data }
+      [dappName]: { dappName, id }
     }
   }));
   builder.addCase(changeConfirmationScreenStatus, (state, { payload }) => ({

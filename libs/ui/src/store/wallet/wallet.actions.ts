@@ -53,7 +53,4 @@ export const sendAssetAction = createActions<SendAssetPayload>('wallet/SEND_ASSE
 export const addTransactionAction = createAction<PendingTransaction>('wallet/ADD_TRANSACTION');
 export const updateTransactionAction = createAction<Transaction>('wallet/CHANGE_TRANSACTION_STATUS');
 
-export const setConnectionFromDapp = createAction<DappConnection>('wallet/SET_DAPP_INFO');
-export const deletePendingConnection = createAction<string>('wallet/DELETE_PENDING_DAPP_CONNECTION');
 export const setConfirmedDapp = createAction<DappConnection>('wallet/SET_CONFIRMED_DAPP');
-export const changeConfirmationScreenStatus = createAction<boolean>('wallet/CHANGE_CONFIMATION_SCREEN');

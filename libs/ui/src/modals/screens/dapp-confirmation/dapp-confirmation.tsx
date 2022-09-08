@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC, useState } from 'react';
 import { View, Image, Linking, TouchableOpacity, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -12,15 +13,10 @@ import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { RobotIcon } from '../../../components/robot-icon/robot-icon';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
-import { ScreensEnum } from '../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
+import { setConfirmedDapp } from '../../../store/wallet/wallet.actions';
 import {
-  changeConfirmationScreenStatus,
-  deletePendingConnection,
-  setConfirmedDapp
-} from '../../../store/wallet/wallet.actions';
-import {
-  usePendingDappConnectionSelector,
   useSelectedAccountPublicKeyHashSelector,
   useSelectedAccountSelector
 } from '../../../store/wallet/wallet.selectors';
@@ -29,10 +25,6 @@ import { shortize } from '../../../utils/shortize.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
 import { styles } from './dapp-confirmation.styles';
-
-interface Props {
-  dappName: string;
-}
 
 const CLOSE_DELAY = 1000;
 
@@ -59,20 +51,21 @@ const DappImage: FC<DappImageProps> = ({ image }) => {
   );
 };
 
-export const DappConfirmation: FC<Props> = ({ dappName }) => {
+export const DappConfirmation: FC = () => {
   const dispatch = useDispatch();
   const selectedAddress = useSelectedAccountPublicKeyHashSelector();
-  const dappInfo = usePendingDappConnectionSelector();
   const { navigate } = useNavigation();
+  const {
+    params: { dappName, id }
+  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DappConfirmation>>();
   const objToDapp: MessageToDapp = {
     data: {
-      data: { ...dappInfo[dappName]?.data, method: 'eth_requestAccounts', jsonrpc: '2.0', result: [selectedAddress] },
+      data: { id, method: 'eth_requestAccounts', jsonrpc: '2.0', result: [selectedAddress] },
       name: 'metamask-provider'
     },
     target: 'metamask-inpage'
   };
 
-  console.log(dappInfo, 'DAPP INFO');
   const sendMessage = () => {
     browser.tabs.query({ active: true }).then(tabs => {
       if (tabs[0].id !== undefined) {
@@ -80,9 +73,7 @@ export const DappConfirmation: FC<Props> = ({ dappName }) => {
         setTimeout(() => {
           window.close();
         }, CLOSE_DELAY);
-        dispatch(changeConfirmationScreenStatus(false));
-        dispatch(deletePendingConnection(dappName));
-        dispatch(setConfirmedDapp(dappInfo[dappName]));
+        dispatch(setConfirmedDapp({ dappName, id }));
       }
     });
   };
@@ -102,7 +93,7 @@ export const DappConfirmation: FC<Props> = ({ dappName }) => {
           <Text style={styles.smallText}>Address</Text>
           <Row>
             <Text style={styles.explorerLink} onPress={() => Linking.openURL('')} numberOfLines={1}>
-              {dappInfo[dappName]?.dappName}
+              {dappName}
             </Text>
             <Icon name={IconNameEnum.Copy} />
           </Row>

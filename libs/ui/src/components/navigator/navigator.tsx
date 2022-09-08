@@ -1,11 +1,10 @@
-import { InitialState, NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
-import { isDefined } from '@rnw-community/shared';
-import { parse } from 'query-string';
-import React, { FC, createRef, useState, useEffect } from 'react';
+import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
+import React, { FC, createRef } from 'react';
 import { View, Text } from 'react-native';
-import { useDispatch } from 'react-redux';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
+import { useDappConnection } from '../../hooks/use-dapp-connection.hook';
+import { usePersistedNavigationState } from '../../hooks/use-persisted-navigation-state.hook';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
 import { AddAccount } from '../../modals/screens/add-account/add-account';
@@ -30,61 +29,21 @@ import { Token } from '../../screens/token/token';
 import { Tokens } from '../../screens/tokens/tokens';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
-import { changeConfirmationScreenStatus, setConnectionFromDapp } from '../../store/wallet/wallet.actions';
-import { useIsAuthorisedSelector, useIsConfirmationScreenSelector } from '../../store/wallet/wallet.selectors';
-import { getStoredValue, setStoredValue } from '../../utils/store.util';
+import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
 
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
-import { PERSISTENCE_KEY } from './constants/perstistence-key';
 import { Stack } from './utils/get-stack-navigator';
 
-export const navigationRef = createRef<NavigationContainerRef<ScreensParamList>>();
+export const globalNavigationRef = createRef<NavigationContainerRef<ScreensParamList>>();
 
 export const Navigator: FC = () => {
-  const dispatch = useDispatch();
+  const navigationState = usePersistedNavigationState();
   const isAuthorised = useIsAuthorisedSelector();
   const { isLocked } = useUnlock();
-  const [isReady, setIsReady] = useState(false);
-  const [initialState, setInitialState] = useState<InitialState>();
-  const [dappName, setDappName] = useState('');
-  const isConfirmationScreen = useIsConfirmationScreenSelector();
 
-  useEffect(() => {
-    const restoreState = async () => {
-      try {
-        const savedStateString: InitialState = await getStoredValue(PERSISTENCE_KEY);
-        const state = isDefined(savedStateString) ? savedStateString : undefined;
-        if (state !== undefined) {
-          setInitialState(state);
-        }
-      } finally {
-        setIsReady(true);
-      }
-    };
+  useDappConnection();
 
-    if (!isReady) {
-      restoreState();
-    }
-  }, [isReady]);
-
-  interface QueryParamsFromDapp {
-    id: number;
-    confirmation: boolean;
-    origin: string;
-  }
-
-  // invoke background script when popup is loaded
-  useEffect(() => {
-    const query = parse(location.search);
-    if ((query as unknown as QueryParamsFromDapp).confirmation) {
-      console.log(query.origin);
-      dispatch(changeConfirmationScreenStatus(true));
-      dispatch(setConnectionFromDapp({ chainId: '', dappName: query?.origin as string, data: { id: query?.id } }));
-      setDappName(query?.origin as string);
-    }
-  }, []);
-
-  if (!isReady) {
+  if (!navigationState.isReady) {
     return (
       <View>
         <Text>Loading....</Text>
@@ -94,19 +53,12 @@ export const Navigator: FC = () => {
 
   return (
     <NavigationContainer
-      ref={navigationRef}
-      initialState={initialState}
-      onStateChange={state => setStoredValue(PERSISTENCE_KEY, JSON.stringify(state))}
+      ref={globalNavigationRef}
+      initialState={navigationState.initialState}
+      onStateChange={navigationState.handleStateChange}
     >
       <Stack.Navigator>
-        {isAuthorised && isConfirmationScreen && (
-          <Stack.Group>
-            <Stack.Screen name={ScreensEnum.DappConfirmation}>
-              {() => <DappConfirmation dappName={dappName} />}
-            </Stack.Screen>
-          </Stack.Group>
-        )}
-        {isAuthorised && !isConfirmationScreen ? (
+        {isAuthorised ? (
           <>
             <Stack.Group screenOptions={{ headerShown: false }}>
               <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
@@ -141,6 +93,11 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.SendAccountsSelector}
                 options={{ title: 'Select Account' }}
                 component={SendAccountsSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.DappConfirmation}
+                options={{ title: 'Connect' }}
+                component={DappConfirmation}
               />
             </Stack.Group>
 

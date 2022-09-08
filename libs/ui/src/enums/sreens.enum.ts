@@ -52,7 +52,7 @@ export type ScreensParamList = {
   [ScreensEnum.EditToken]: { token: Token };
   [ScreensEnum.EditNetwork]: { network: NetworkInterface; isNetworkSelected: boolean };
   [ScreensEnum.Tokens]: undefined;
-  [ScreensEnum.DappConfirmation]: undefined;
+  [ScreensEnum.DappConfirmation]: { dappName: string; id: string };
   [ScreensEnum.ScanQrCode]: undefined;
   [ScreensEnum.Token]: { token: Token };
 };

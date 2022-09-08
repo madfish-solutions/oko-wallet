@@ -7,7 +7,6 @@ import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
 import { AccountInterface, Transaction } from '../../interfaces/account.interface';
-import { DappConnection } from '../../interfaces/dapp-connection.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { Token } from '../../interfaces/token.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';
@@ -155,20 +154,6 @@ export const useMintedTransactionsSelector = () => {
         : [],
     [transactions, selectedNetworkRpcUrl, selectedAccountPublicKeyHash]
   );
-};
-
-export const usePendingDappConnectionSelector = () => {
-  const dappInfo = useSelector<WalletRootState, Record<string, DappConnection>>(
-    ({ wallet }) => wallet.pendingEVMDappConnection
-  );
-
-  return useMemo(() => dappInfo, [dappInfo]);
-};
-
-export const useIsConfirmationScreenSelector = () => {
-  const isConfirmationScren = useSelector<WalletRootState, boolean>(({ wallet }) => wallet.isConfirmationPage);
-
-  return useMemo(() => isConfirmationScren, [isConfirmationScren]);
 };
 
 export const useTokenBalanceSelector = (tokenSlug: string): string => {

@@ -1,7 +1,6 @@
 export interface DappConnection {
-  chainId: string;
   dappName: string;
-  data: Record<string, unknown>;
+  id: string;
 }
 
 export interface DappConnectionStatus {

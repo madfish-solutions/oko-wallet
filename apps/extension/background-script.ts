@@ -15,9 +15,6 @@ let isLockApp = true;
 
 let isFullpageOpen = false;
 
-let messageData: unknown;
-let origin: string;
-
 browser.runtime.onConnect.addListener(port => {
   // check for time expired and max-view no opened then extension need to lock
   const savedSessionTimeExpired = Date.now() > lastUserActivityTimestamp + LOCK_PERIOD;
@@ -46,11 +43,12 @@ browser.runtime.onConnect.addListener(port => {
   // listen content script messages
   port.onMessage.addListener(async msg => {
     if (msg.data?.target === 'metamask-contentscript' && msg.data?.data?.data?.method === 'eth_requestAccounts') {
-      messageData = msg.data?.data?.data;
-      origin = msg.origin;
+      const id = msg.data?.data?.data?.id;
+      const origin = msg.origin;
+
       await browser.windows.create({
         type: 'popup',
-        url: browser.runtime.getURL(`popup.html?confirmation=true&origin=${origin}&id=${messageData?.id}`),
+        url: browser.runtime.getURL(`popup.html?confirmation=true&origin=${origin}&id=${id}`),
         width: 360,
         height: 600,
         top: 20,
