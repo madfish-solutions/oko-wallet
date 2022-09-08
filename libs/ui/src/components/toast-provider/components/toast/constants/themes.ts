@@ -9,7 +9,7 @@ export const themes = {
   },
   [ToastsEnum.warning]: {
     root: styles.warning,
-    iconName: IconNameEnum.Warning
+    iconName: IconNameEnum.WarningWhite
   },
   [ToastsEnum.error]: {
     root: styles.error,

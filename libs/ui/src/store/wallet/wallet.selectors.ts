@@ -12,6 +12,7 @@ import { NetworkInterface } from '../../interfaces/network.interface';
 import { Token } from '../../interfaces/token.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';
 import { getAccountTokensSlug } from '../../utils/address.util';
+import { getAllAccountsWithoutCurrent } from '../../utils/get-all-accounts-without-current.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { getTokenSlug, isCollectible } from '../../utils/token.utils';
 import { checkEquality } from '../utils/check-equality.util';
@@ -60,6 +61,13 @@ export const useAllAccountsNameSelector = () => {
   const accounts = useAllAccountsSelector();
 
   return useMemo(() => accounts.map(({ name }) => name.toLowerCase()), [accounts]);
+};
+
+export const useAllAccountsWithoutSelectedSelector = () => {
+  const allAccounts = useAllAccountsSelector();
+  const selectedAccount = useSelectedAccountSelector();
+
+  return useMemo(() => getAllAccountsWithoutCurrent(allAccounts, selectedAccount), [allAccounts, selectedAccount]);
 };
 
 export const useAccountAssetsSelector = () =>
@@ -147,6 +155,24 @@ export const useMintedTransactionsSelector = () => {
         : [],
     [transactions, selectedNetworkRpcUrl, selectedAccountPublicKeyHash]
   );
+};
+
+export const useAllSavedTokensSelector = () => {
+  const tokensMetadata = useSelector<WalletRootState, Record<string, TokenMetadata>>(
+    ({ wallet }) => wallet.tokensMetadata
+  );
+
+  const allTokens = Object.entries(tokensMetadata);
+
+  const getTokenAddress = (metadataSlug: string) => metadataSlug.split('_')[1];
+
+  allTokens.map(token => {
+    token[0] = getTokenAddress(token[0]);
+
+    return token;
+  });
+
+  return allTokens;
 };
 
 export const useTokenBalanceSelector = (tokenSlug: string): string => {

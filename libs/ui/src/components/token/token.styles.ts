@@ -5,9 +5,6 @@ import { getCustomSize } from '../../styles/format-size';
 import { typography } from '../../styles/typography';
 
 export const styles = StyleSheet.create({
-  flex: {
-    flex: 1
-  },
   icon: {
     marginRight: getCustomSize(0.5)
   },

@@ -6,13 +6,14 @@ import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
-    // marginLeft: getCustomSize(1.5),
-    // marginRight: getCustomSize(2)
+    marginLeft: getCustomSize(1.5),
+    marginRight: getCustomSize(2)
   },
   dateWrapper: {
     borderBottomWidth: getCustomSize(0.03125),
     borderBottomColor: colors.border2,
     justifyContent: 'space-between',
+    marginLeft: getCustomSize(0.5),
     width: '100%'
   },
   dateText: {
@@ -27,7 +28,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     width: '100%'
   },
-  leftContent: {
+  content: {
     paddingVertical: getCustomSize(),
     justifyContent: 'space-between',
     flex: 1
@@ -67,15 +68,21 @@ export const styles = StyleSheet.create({
   },
   txHash: {
     ...typography.numbersIBMPlexSansMedium11,
-    marginHorizontal: getCustomSize()
+    marginLeft: getCustomSize(),
+    marginRight: getCustomSize(0.5),
+    paddingHorizontal: getCustomSize(0.5)
   },
   hash: {
     alignItems: 'center',
     marginBottom: getCustomSize()
   },
   amount: {
-    ...typography.numbersIBMPlexSansMedium15,
-    flex: 1
+    ...typography.numbersIBMPlexSansMedium15
+  },
+  rightContainer: {
+    alignSelf: 'flex-end',
+    flex: 1,
+    marginBottom: getCustomSize(1.5)
   },
   amountContainer: {
     alignSelf: 'flex-end'
@@ -83,5 +90,8 @@ export const styles = StyleSheet.create({
   touchable: {
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  label: {
+    marginLeft: getCustomSize(0.5)
   }
 });

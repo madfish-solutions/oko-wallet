@@ -5,16 +5,13 @@ import memoize from 'fast-memoize';
 import { BASE_DEBANK_URL, DEBANK_HEADERS } from '../constants/defaults';
 import { ActivityResponse, TokenInfo } from '../interfaces/activity.interface';
 
+import { TokenListResponse } from './types';
+
 export const debankApiRequest = axios.create({
   baseURL: BASE_DEBANK_URL,
   headers: DEBANK_HEADERS
 });
 
-export const fetchTokenInfo = async (contractAddress: string, chainName: string): Promise<TokenInfo | undefined> =>
-  debankApiRequest
-    .get(`v1/token?id=${contractAddress}&chain_id=${chainName}`)
-    .then(result => result.data)
-    .catch(e => console.log(e));
 
 export const getHistoryList = memoize(
   async (
@@ -33,3 +30,16 @@ export const getHistoryList = memoize(
       .catch(e => console.log(e));
   }
 );
+export const getTokenInfo = async (contractAddress: string, chainName: string): Promise<TokenInfo> =>
+  debankApiRequest
+    .get(`v1/token?id=${contractAddress}&chain_id=${chainName}`)
+    .then(result => result.data)
+    .catch(() => ({} as TokenInfo));
+
+export const getTokenList = (publicKeyHash: string, chainName: string | undefined) =>
+  isDefined(chainName)
+    ? debankApiRequest
+        .get<TokenListResponse>(`v1/user/token_list?id=${publicKeyHash}&chain_id=${chainName}`)
+        .then(({ data }) => data)
+        .catch(() => [])
+    : [];

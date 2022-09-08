@@ -47,7 +47,7 @@ export const Token: FC<Props> = ({ style }) => {
   const { name, symbol, tokenAddress, decimals, tokenId, thumbnailUri, balance } = token;
 
   const balanceFromStore = useTokenBalanceSelector(getTokenSlug(tokenAddress, tokenId));
-  const formattedBalance = formatUnits(balanceFromStore, decimals);
+  const formattedBalance = formatUnits(balanceFromStore ?? balance.data, decimals);
   const isGasToken = tokenAddress === GAS_TOKEN_ADDRESS;
 
   return (
@@ -63,7 +63,7 @@ export const Token: FC<Props> = ({ style }) => {
         />
       </HeaderContainer>
 
-      <Balance balance={formattedBalance ?? balance.data} />
+      <Balance balance={formattedBalance} />
       <NavigationBar token={token} />
 
       <Divider style={styles.divider} />

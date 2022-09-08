@@ -2,8 +2,10 @@ import { createReducer } from '@reduxjs/toolkit';
 import { isDefined } from '@rnw-community/shared';
 
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
+import { AccountToken } from '../../interfaces/account-token.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { getAccountTokensSlug } from '../../utils/address.util';
+import { getAllAccountsWithoutCurrent } from '../../utils/get-all-accounts-without-current.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { getTokenSlug } from '../../utils/token.utils';
 import { createEntity } from '../utils/entity.utils';
@@ -25,7 +27,8 @@ import {
   editNetworkAction,
   removeNetworkAction,
   editTokenAction,
-  sortAccountTokensByVisibility
+  sortAccountTokensByVisibility,
+  addNewTokensAction
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -45,16 +48,21 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       selectedAccountPublicKeyHash: getPublicKeyHash(newAccount, getSelectedNetworkType(state)),
       accountsTokens: updateAccountsTokensState(state, newAccount)
     }))
-    .addCase(createHdAccountForNewNetworkTypeAction, (state, { payload: newAccount }) => {
-      const accountsWithoutCurrent = state.accounts.filter(account => account.accountIndex !== newAccount.accountIndex);
+    .addCase(
+      createHdAccountForNewNetworkTypeAction,
+      (state, { payload: { account: newAccount, switchToNewAccount } }) => {
+        const accountsWithoutCurrent = getAllAccountsWithoutCurrent(state.accounts, newAccount);
 
-      return {
-        ...state,
-        accounts: [...accountsWithoutCurrent, newAccount].sort((a, b) => a.accountIndex - b.accountIndex),
-        selectedAccountPublicKeyHash: getPublicKeyHash(newAccount, getSelectedNetworkType(state)),
-        accountsTokens: updateAccountsTokensState(state, newAccount)
-      };
-    })
+        return {
+          ...state,
+          accounts: [...accountsWithoutCurrent, newAccount].sort((a, b) => a.accountIndex - b.accountIndex),
+          accountsTokens: updateAccountsTokensState(state, newAccount),
+          ...(switchToNewAccount && {
+            selectedAccountPublicKeyHash: getPublicKeyHash(newAccount, getSelectedNetworkType(state))
+          })
+        };
+      }
+    )
     .addCase(setSelectedAccountAction, (state, { payload: selectedAccountPublicKeyHash }) => ({
       ...state,
       selectedAccountPublicKeyHash
@@ -88,7 +96,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
   builder
     .addCase(loadAccountTokenBalanceAction.success, (state, { payload: { token } }) => {
       const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
-      const currentToken = state.accountsTokens[accountTokensSlug].find(
+      const currentToken = state.accountsTokens[accountTokensSlug]?.find(
         accountToken =>
           getTokenSlug(accountToken.tokenAddress, accountToken.tokenId) ===
           getTokenSlug(token.tokenAddress, token.tokenId)
@@ -131,7 +139,61 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         }
       };
     })
-    .addCase(editTokenAction, (state, { payload: editedToken }) => {
+    .addCase(addNewTokensAction.success, (state, { payload: { tokenList, debankGasTokenName } }) => {
+      if (!tokenList.length) {
+        return state;
+      }
+
+      const { selectedAccountPublicKeyHash, selectedNetworkRpcUrl } = state;
+      const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+      const defaultAccountTokens = { [debankGasTokenName]: true };
+      const prevAccountTokens: Record<string, boolean> =
+        state.accountsTokens[accountTokensSlug]?.reduce(
+          (acc, accountToken) => ({ ...acc, [accountToken.tokenAddress]: true }),
+          defaultAccountTokens
+        ) ?? defaultAccountTokens;
+
+      const newTokens = tokenList.filter(token => !prevAccountTokens[token.id]);
+
+      const accountTokens: AccountToken[] = newTokens.map(token => ({
+        tokenAddress: token.id,
+        name: token.name,
+        symbol: token.symbol,
+        isVisible: true,
+        balance: createEntity(token.raw_amount.toString())
+      }));
+      const tokensMetadata = newTokens.reduce((acc, token) => {
+        const tokenMetadataSlug = getTokenMetadataSlug(selectedNetworkRpcUrl, token.id);
+
+        if (isDefined(state.tokensMetadata[tokenMetadataSlug])) {
+          return { ...acc };
+        }
+
+        return {
+          ...acc,
+          [tokenMetadataSlug]: {
+            name: token.name,
+            symbol: token.symbol,
+            decimals: token.decimals,
+            thumbnailUri: token.logo_url
+          }
+        };
+      }, {});
+
+      return {
+        ...state,
+        accountsTokens: {
+          ...state.accountsTokens,
+          [accountTokensSlug]: [...(state.accountsTokens[accountTokensSlug] ?? []), ...accountTokens]
+        },
+        tokensMetadata: {
+          ...state.tokensMetadata,
+          ...tokensMetadata
+        }
+      };
+    })
+    .addCase(editTokenAction, (state, { payload }) => {
+      const editedToken = { ...payload, decimals: Number(payload.decimals) };
       const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
       const updatedAccountTokens = state.accountsTokens[accountTokensSlug].map(accountToken =>
         getTokenSlug(accountToken.tokenAddress, accountToken.tokenId) ===

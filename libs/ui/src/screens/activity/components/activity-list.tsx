@@ -2,6 +2,7 @@ import React, { FC, useEffect } from 'react';
 import { Linking, TouchableOpacity, View } from 'react-native';
 
 import { Column } from '../../../components/column/column';
+import { CopyText } from '../../../components/copy-text/copy-text';
 import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { Row } from '../../../components/row/row';
@@ -10,7 +11,6 @@ import { useTokenInfo } from '../../../hooks/use-activity.hook';
 import { ActivityData, TransactionLabelEnum } from '../../../interfaces/activity.interface';
 import { useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
 import { colors } from '../../../styles/colors';
-import { shortize } from '../../../utils/shortize.util';
 import { formatBalances } from '../../../utils/units.utils';
 
 import { styles } from './activity-list.styles';
@@ -43,7 +43,7 @@ export const ActivityList: FC<Props> = ({
           </Row>
         )}
         <Row style={styles.wrapper}>
-          <Column style={styles.leftContent}>
+          <Column style={styles.content}>
             <Row style={styles.sendWrapper}>
               {transactionLabel === TransactionLabelEnum.Send ? (
                 <Icon name={IconNameEnum.Send} />
@@ -52,26 +52,24 @@ export const ActivityList: FC<Props> = ({
               )}
               <Text style={styles.send}>{transactionLabel}</Text>
             </Row>
-            <Row>
+            <Row style={styles.label}>
               <View style={[styles.statusWrapper, styles[transactionStatus]]}>
                 <Text style={styles.statusText}>{transactionStatus.toUpperCase()}</Text>
               </View>
               <Text style={styles.smallGreyText}>{transformTimestampToTime(timestamp)}</Text>
             </Row>
           </Column>
-          <Column>
-            <Row style={styles.hash}>
+          <Column style={styles.content}>
+            <Row style={styles.rightContainer}>
               <Text style={styles.smallGreyText}>Hash</Text>
+              <CopyText text={hash} style={styles.txHash} />
               <TouchableOpacity onPress={onBlockchainExplorerPress} style={styles.touchable}>
-                {/* @TODO : update to copy text component */}
-                <Text style={styles.txHash}>{shortize(hash)}</Text>
                 <Icon name={IconNameEnum.Tooltip} />
               </TouchableOpacity>
             </Row>
             <Row style={styles.amountContainer}>
               <Text style={styles.amount}>
-                {Number(formatBalances(amount))}
-                {symbol ? symbol.toUpperCase() : tokenSymbol.toUpperCase()}
+                {Number(formatBalances(amount))} {symbol ? symbol.toUpperCase() : tokenSymbol.toUpperCase()}
               </Text>
             </Row>
           </Column>

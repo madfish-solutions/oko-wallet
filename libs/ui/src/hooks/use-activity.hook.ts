@@ -2,11 +2,11 @@ import { isDefined } from '@rnw-community/shared';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { fetchTokenInfo, getHistoryList } from '../api/debank';
+import { getHistoryList } from '../api/debank';
 import { GAS_TOKEN_ADDRESS } from '../constants/defaults';
 import { TransactionStatusEnum } from '../enums/transactions.enum';
 import { ActivityData, ActivityResponse, TransactionLabelEnum } from '../interfaces/activity.interface';
-import { addNewTokenAction } from '../store/wallet/wallet.actions';
+import { loadTokenMetadataAction } from '../store/wallet/wallet.actions';
 import { useAllSavedTokensSelector } from '../store/wallet/wallet.selectors';
 import { capitalize } from '../utils/string.util';
 
@@ -37,18 +37,19 @@ const transformApiData = (data: ActivityResponse, publicKeyHash: string, chainNa
 
       if (activityData.transactionLabel === TransactionLabelEnum.Send) {
         activityData.amount = txData.sends[0]?.amount;
-        activityData.tokenId = txData.sends[0].token_id;
+        activityData.tokenId = txData.sends[0]?.token_id;
       } else {
-        activityData.tokenId = txData.receives[0].token_id;
+        activityData.tokenId = txData.receives[0]?.token_id;
         activityData.amount = txData.receives[0]?.amount;
+        activityData.transactionLabel = TransactionLabelEnum.Received;
       }
     } else {
       activityData.symbol = chainName;
       activityData.amount = txData.tx?.value;
-      if (publicKeyHash.toLowerCase() === txData.tx?.from_addr.toLowerCase()) {
+      if (publicKeyHash.toLowerCase() === txData.tx?.from_addr?.toLowerCase()) {
         activityData.transactionLabel = TransactionLabelEnum.Send;
       } else {
-        activityData.transactionLabel = TransactionLabelEnum.Receive;
+        activityData.transactionLabel = TransactionLabelEnum.Received;
       }
     }
 
@@ -90,12 +91,7 @@ export const useTokenInfo = (tokenId: string | undefined, chainName: string) => 
     if (isDefined(token)) {
       setSymbol(token[1].symbol);
     } else if (isDefined(tokenId)) {
-      fetchTokenInfo(tokenId, chainName).then(result => {
-        if (isDefined(result)) {
-          setSymbol(result.symbol);
-          dispatch(addNewTokenAction({ ...result, tokenAddress: result.id }));
-        }
-      });
+      dispatch(loadTokenMetadataAction({ tokenId, chainName }));
     }
   };
 

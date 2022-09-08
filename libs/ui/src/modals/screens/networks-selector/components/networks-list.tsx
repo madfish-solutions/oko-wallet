@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Selector } from '../../../../components/selector/selector';
+import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
 import { EMPTY_STRING } from '../../../../constants/defaults';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
@@ -67,7 +68,9 @@ export const NetworksList = () => {
         balanceTitle="Gas balance"
         balance={<ModalGasToken balance={item.gasTokenBalance.data} metadata={item.gasTokenMetadata} />}
         onSelectItem={() => handleChangeNetwork(item)}
-        onEdit={() => navigateToEditNetwork(item, isNetworkSelected)}
+        rightBottomComponent={
+          <TouchableIcon name={IconNameEnum.Edit} onPress={() => navigateToEditNetwork(item, isNetworkSelected)} />
+        }
       />
     );
   };

@@ -2,7 +2,7 @@ import { TransactionStatusEnum } from '../enums/transactions.enum';
 
 export enum TransactionLabelEnum {
   Send = 'Send',
-  Receive = 'Receive'
+  Received = 'Received'
 }
 
 export interface TokenInfo {
@@ -68,4 +68,9 @@ export interface ActivityData {
   amount: number;
   symbol: string;
   tokenId?: string;
+}
+
+export interface NewTokenMetadataRequest {
+  tokenId: string;
+  chainName: string;
 }

@@ -1,5 +1,6 @@
 import { isNotEmptyString } from '@rnw-community/shared';
 
+import { requiredFieldError, onlySpacesError } from '../../constants/form-errors';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { useSelectedNetworkTypeSelector } from '../../store/wallet/wallet.selectors';
 import { isEvmAddressValid } from '../../utils/is-evm-address-valid.util';
@@ -36,18 +37,18 @@ export const useTokenFieldsRules = () => {
 
   const checkIfOnlySpaces = (currentValue?: string) => {
     if (isNotEmptyString(currentValue) && !currentValue.trim()) {
-      return '1-21 characters, no special';
+      return onlySpacesError;
     }
   };
 
-  const checOnlyNymbers = (currentValue: string) => {
+  const checkOnlyNumbers = (currentValue: string) => {
     if (!currentValue.match(/^\d*?\d*$/)) {
       return 'Only numbers';
     }
   };
 
   const commonRules = {
-    required: 'This field is required',
+    required: requiredFieldError,
     validate: { checkIfOnlySpaces }
   };
 
@@ -62,7 +63,7 @@ export const useTokenFieldsRules = () => {
 
   const decimalsRules = {
     required: commonRules.required,
-    validate: { ...commonRules.validate, checOnlyNymbers }
+    validate: { ...commonRules.validate, checkOnlyNumbers }
   };
 
   return {

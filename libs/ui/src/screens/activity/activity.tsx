@@ -1,5 +1,9 @@
 import React, { FC, useCallback, useEffect } from 'react';
+<<<<<<< HEAD
 import { FlatList, ListRenderItemInfo, ScrollView } from 'react-native';
+=======
+import { FlatList, ListRenderItemInfo } from 'react-native';
+>>>>>>> origin/development
 
 import { EmptySearchIcon } from '../../components/icon/components/empty-search-icon/empty-search-icon';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
@@ -44,6 +48,7 @@ export const Activity: FC = () => {
       <HeaderContainer isSelectors>
         <ScreenTitle title="Transactions" onBackButtonPress={navigateToWallet} />
       </HeaderContainer>
+<<<<<<< HEAD
       <ScrollView style={styles.flatlist}>
         <FlatList
           data={activity}
@@ -54,6 +59,17 @@ export const Activity: FC = () => {
           onEndReached={fetchMoreData}
         />
       </ScrollView>
+=======
+
+      <FlatList
+        data={activity}
+        renderItem={renderItem}
+        keyExtractor={({ hash }) => hash}
+        ListEmptyComponent={<EmptySearchIcon />}
+        onEndReachedThreshold={0.1}
+        onEndReached={fetchMoreData}
+      />
+>>>>>>> origin/development
       <NavigationBar />
     </ScreenContainer>
   );
