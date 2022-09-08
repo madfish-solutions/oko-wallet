@@ -9,9 +9,10 @@ export const styles = StyleSheet.create({
     flex: 1
   },
   description: {
+    width: '100%',
     marginTop: getCustomSize(2.25),
     marginBottom: getCustomSize(2.375),
-    marginHorizontal: 'auto',
+    textAlign: 'center',
     color: colors.textGrey2,
     ...typography.captionInterRegular11
   },
