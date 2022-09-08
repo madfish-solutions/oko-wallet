@@ -21,7 +21,7 @@ import {
   loadAccountTokenBalanceAction,
   sendAssetAction,
   loadTokenMetadataAction,
-  addNewTokenAction
+  addNewTokenAction,
   addNewTokensAction
 } from './wallet.actions';
 
@@ -88,8 +88,11 @@ const saveNewTokenEpic: Epic = (action$: Observable<Action>) =>
     concatMap(({ tokenId, chainName }) =>
       from(getTokenInfo(tokenId, chainName)).pipe(
         map(result => addNewTokenAction({ ...result, tokenAddress: result.id })),
-        catchError(error => of(console.log(error))))))
-        
+        catchError(error => of(console.log(error)))
+      )
+    )
+  );
+
 const addNewTokensEpic: Epic = (action$: Observable<Action>) =>
   action$.pipe(
     ofType(addNewTokensAction.submit),
@@ -101,4 +104,10 @@ const addNewTokensEpic: Epic = (action$: Observable<Action>) =>
     )
   );
 
-export const walletEpics = combineEpics(getGasTokenBalanceEpic, getTokenBalanceEpic, sendAssetEpic, saveNewTokenEpic, addNewTokensEpic);
+export const walletEpics = combineEpics(
+  getGasTokenBalanceEpic,
+  getTokenBalanceEpic,
+  sendAssetEpic,
+  saveNewTokenEpic,
+  addNewTokensEpic
+);
