@@ -16,6 +16,7 @@ import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
 import { Activity } from '../../screens/activity/activity';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
+import { AlmostDone } from '../../screens/create-wallet/screens/almost-done/almost-done';
 import { CreateANewWallet } from '../../screens/create-wallet/screens/create-a-new-wallet/create-a-new-wallet';
 import { VerifyMnemonic } from '../../screens/create-wallet/screens/verify-mnemonic/verify-mnemonic';
 import { ImportAccount } from '../../screens/import-account/import-account';
@@ -81,6 +82,8 @@ export const Navigator: FC = () => {
       ) ?? false;
 
     if (isPopupOpened && isCreateWalletScreensOpened && isReady) {
+      // clear previous navigation state and leave only ScreenEnum.ImportAccount route when click by extension icon
+      setStoredValue(PERSISTENCE_KEY, JSON.stringify({ ...initialState, routes: initialState?.routes.slice(0, 1) }));
       openMaximiseScreen();
     }
   }, [initialState, isReady]);
@@ -174,6 +177,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />
               <Stack.Screen name={ScreensEnum.CreateANewWallet} component={CreateANewWallet} />
               <Stack.Screen name={ScreensEnum.VerifyMnemonic} component={VerifyMnemonic} />
+              <Stack.Screen name={ScreensEnum.AlmostDone} component={AlmostDone} />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptions}>
