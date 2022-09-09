@@ -23,9 +23,7 @@ to ActivityData type, as we needed
 
 const transformApiData = (data: ActivityResponse, publicKeyHash: string, chainName: string): ActivityData[] => {
   const filtredTransactions = data?.history_list.filter(
-    txData =>
-      !(txData.cate_id === null && txData.receives.length > 0 && txData.sends.length > 0) ||
-      txData.cate_id !== 'approve'
+    txData => !(txData.receives.length > 0 && txData.sends.length > 0) && txData.cate_id !== 'approve'
   );
 
   return filtredTransactions.map(txData => {
@@ -34,6 +32,12 @@ const transformApiData = (data: ActivityResponse, publicKeyHash: string, chainNa
       hash: txData.id,
       timestamp: txData.time_at
     } as ActivityData;
+    if (txData.tx?.status === 1) {
+      activityData.transactionStatus = TransactionStatusEnum.applied;
+    } else {
+      activityData.transactionStatus = TransactionStatusEnum.failed;
+    }
+
     if (txData.cate_id !== null) {
       activityData.transactionLabel = capitalize(txData.cate_id) as TransactionLabelEnum;
 
