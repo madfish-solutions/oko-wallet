@@ -136,8 +136,6 @@ export const AlmostDone: FC = () => {
     }
   };
 
-  console.log(isSubmitted);
-
   const handleTogglePasswordVisibility = () => setIsSecurePassword(prev => !prev);
   const handleToggleConfirmPasswordVisibility = () => setIsSecureConfirmPassword(prev => !prev);
 
