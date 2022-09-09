@@ -22,7 +22,8 @@ export const styles = StyleSheet.create({
     borderColor: colors.red
   },
   clearIcon: {
-    marginRight: getCustomSize(4)
+    position: 'relative',
+    right: getCustomSize(4)
   },
   eyeIcon: {
     position: 'absolute',

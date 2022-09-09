@@ -13,6 +13,7 @@ import { Text } from '../../../../components/text/text';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
+import { isMobile } from '../../../../utils/platform.utils';
 import { Container } from '../../components/container/container';
 
 import { styles } from './almost-done.styles';
@@ -177,6 +178,8 @@ export const AlmostDone: FC = () => {
                 secureTextEntry={isSecurePassword}
                 placeholder="Password"
                 prompt="Password is used to protect the wallet"
+                clearTextOnFocus={false}
+                autoCorrect={false}
                 containerStyle={styles.input}
                 clearIconStyles={styles.clearIcon}
                 inputContainerStyle={
@@ -226,6 +229,8 @@ export const AlmostDone: FC = () => {
               secureTextEntry={isSecureConfirmPassword}
               placeholder="Password"
               prompt="Password is used to protect the wallet"
+              clearTextOnFocus={false}
+              autoCorrect={false}
               error={errors.confirmPassword?.message}
               containerStyle={styles.input}
               clearIconStyles={styles.clearIcon}
@@ -246,7 +251,9 @@ export const AlmostDone: FC = () => {
           </Row>
         )}
       />
-      <Checkbox text="Use Face ID" selected={isUseFaceId} onSelect={setIsUseFaceId} style={styles.checkbox} />
+      {isMobile && (
+        <Checkbox text="Use Face ID" selected={isUseFaceId} onSelect={setIsUseFaceId} style={styles.checkbox} />
+      )}
       <Checkbox text="Accept terms" selected={isAcceptTerms} onSelect={setIsAcceptTerms} style={styles.checkbox}>
         <Column>
           <Text style={styles.text}>I have read and agree to</Text>
