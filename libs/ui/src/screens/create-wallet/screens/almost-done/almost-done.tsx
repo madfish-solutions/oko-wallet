@@ -139,8 +139,16 @@ export const AlmostDone: FC = () => {
   const handleTogglePasswordVisibility = () => setIsSecurePassword(prev => !prev);
   const handleToggleConfirmPasswordVisibility = () => setIsSecureConfirmPassword(prev => !prev);
 
+  const isValidationError = Object.keys(errors).length > 0 || !isAcceptTerms;
+
   return (
-    <Container title="Almost Done" step={3} submitTitle="Create" onSubmitPress={handleSubmit(handleCreateAccount)}>
+    <Container
+      title="Almost Done"
+      step={3}
+      submitTitle="Create"
+      onSubmitPress={handleSubmit(handleCreateAccount)}
+      isSubmitDisabled={isValidationError}
+    >
       <Controller
         control={control}
         name="name"
