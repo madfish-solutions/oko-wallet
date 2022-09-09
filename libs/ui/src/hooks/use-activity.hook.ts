@@ -32,10 +32,10 @@ const transformApiData = (data: ActivityResponse, publicKeyHash: string, chainNa
       hash: txData.id,
       timestamp: txData.time_at
     } as ActivityData;
-    if (txData.tx?.status === 1) {
-      activityData.transactionStatus = TransactionStatusEnum.applied;
-    } else {
+    if (txData.tx?.status === 0) {
       activityData.transactionStatus = TransactionStatusEnum.failed;
+    } else {
+      activityData.transactionStatus = TransactionStatusEnum.applied;
     }
 
     if (txData.cate_id !== null) {
@@ -71,7 +71,7 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
   const fetchActivity = async (startTime: number) => {
     const response = await getHistoryList(publicKeyHash, chainName, startTime, tokenAddressRequest);
     if (response !== undefined) {
-      const activityData = isDefined(tokenAddressRequest)
+      const activityData = isDefined(tokenAddress === GAS_TOKEN_ADDRESS)
         ? transformApiData(response, publicKeyHash, chainName)
         : transformApiData(filterGasTokenTransaction(response), publicKeyHash, chainName);
       if (activityData.length > 0) {
