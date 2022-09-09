@@ -55,5 +55,4 @@ export type ScreensParamList = {
   [ScreensEnum.ScanQrCode]: undefined;
   [ScreensEnum.Activity]: undefined;
   [ScreensEnum.Token]: { token: Token };
-  [ScreensEnum.Activity]: undefined;
 };

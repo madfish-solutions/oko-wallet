@@ -21,16 +21,17 @@ export const Activity: FC = () => {
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Token>>();
   const selectedPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { chainId } = useSelectedNetworkSelector();
+  const debankChainId = getDebankId(chainId);
 
-  const { activity, fetchMoreData } = useAllActivity(selectedPublicKeyHash, getDebankId(chainId), tokenAddress);
+  const { activity, fetchData } = useAllActivity(selectedPublicKeyHash, debankChainId, tokenAddress);
 
   useEffect(() => {
-    fetchMoreData();
+    fetchData();
   }, []);
 
   const renderItem = useCallback(
     ({ item: activityItems }: ListRenderItemInfo<ActivityData>) => (
-      <ActivityList transaction={activityItems} address={selectedPublicKeyHash} chainName={getDebankId(chainId)} />
+      <ActivityList transaction={activityItems} address={selectedPublicKeyHash} chainName={debankChainId} />
     ),
     []
   );
@@ -42,7 +43,7 @@ export const Activity: FC = () => {
       keyExtractor={({ hash }) => hash}
       ListEmptyComponent={<EmptySearchIcon />}
       onEndReachedThreshold={0.1}
-      onEndReached={fetchMoreData}
+      onEndReached={fetchData}
     />
   );
 };

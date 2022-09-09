@@ -19,15 +19,17 @@ import {
 import { styles } from './activity.styles';
 import { ActivityList } from './components/activity-list';
 
+const keyExtractor = ({ hash }: ActivityData) => hash;
+
 export const Activity: FC = () => {
   const { navigate } = useNavigation();
   const selectedPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { chainId } = useSelectedNetworkSelector();
 
-  const { activity, fetchMoreData } = useAllActivity(selectedPublicKeyHash, getDebankId(chainId));
+  const { activity, fetchData } = useAllActivity(selectedPublicKeyHash, getDebankId(chainId));
 
   useEffect(() => {
-    fetchMoreData();
+    fetchData();
   }, []);
 
   const navigateToWallet = () => navigate(ScreensEnum.Wallet);
@@ -47,10 +49,10 @@ export const Activity: FC = () => {
       <FlatList
         data={activity}
         renderItem={renderItem}
-        keyExtractor={({ hash }) => hash}
+        keyExtractor={keyExtractor}
         ListEmptyComponent={<EmptySearchIcon />}
         onEndReachedThreshold={0.1}
-        onEndReached={fetchMoreData}
+        onEndReached={fetchData}
       />
       <NavigationBar />
     </ScreenContainer>

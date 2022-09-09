@@ -63,6 +63,7 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
   const [lastTimestamp, setLastTimestamp] = useState(0);
   const [activity, setActivity] = useState<ActivityData[]>([]);
   const tokenAddressRequest = tokenAddress === GAS_TOKEN_ADDRESS ? undefined : tokenAddress;
+
   const fetchActivity = async (startTime: number) => {
     const response = await getHistoryList(publicKeyHash, chainName, startTime, tokenAddressRequest);
     if (response !== undefined) {
@@ -76,12 +77,11 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
     }
   };
 
-  const fetchMoreData = async () => {
-    console.log('fetching more...');
+  const fetchData = async () => {
     fetchActivity(lastTimestamp);
   };
 
-  return { activity, fetchMoreData };
+  return { activity, fetchData };
 };
 
 export const useTokenInfo = (tokenId: string | undefined, chainName: string) => {
