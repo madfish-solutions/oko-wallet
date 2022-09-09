@@ -41,7 +41,7 @@ export const AlmostDone: FC = () => {
   const [isSecurePassword, setIsSecurePassword] = useState(true);
   const [isSecureConfirmPassword, setIsSecureConfirmPassword] = useState(true);
   const [isUseFaceId, setIsUseFaceId] = useState(false);
-  const [isAcceptTerms, setIsAcceptTerms] = useState(true);
+  const [isAcceptTerms, setIsAcceptTerms] = useState(false);
   const [isAllowUseAnalytics, setIsAllowUseAnalytics] = useState(true);
   const [passwordValidationMessages, setPasswordValidationMessages] = useState(passwordValidationInitialState);
 
@@ -49,7 +49,7 @@ export const AlmostDone: FC = () => {
     control,
     handleSubmit,
     watch,
-    formState: { errors, dirtyFields }
+    formState: { errors, dirtyFields, isSubmitted }
   } = useForm<CreateAccountType>({
     mode: 'onChange',
     defaultValues
@@ -136,10 +136,12 @@ export const AlmostDone: FC = () => {
     }
   };
 
+  console.log(isSubmitted);
+
   const handleTogglePasswordVisibility = () => setIsSecurePassword(prev => !prev);
   const handleToggleConfirmPasswordVisibility = () => setIsSecureConfirmPassword(prev => !prev);
 
-  const isValidationError = Object.keys(errors).length > 0 || !isAcceptTerms;
+  const isValidationError = (Object.keys(errors).length > 0 || !isAcceptTerms) && isSubmitted;
 
   return (
     <Container
@@ -261,7 +263,7 @@ export const AlmostDone: FC = () => {
             </TouchableOpacity>
           </Row>
         </Column>
-        {!isAcceptTerms && <Text style={styles.error}>You need to accept terms to create account</Text>}
+        {!isAcceptTerms && isSubmitted && <Text style={styles.error}>You need to accept terms to create account</Text>}
       </Checkbox>
       <Checkbox text="Analytics" selected={isAllowUseAnalytics} onSelect={setIsAllowUseAnalytics}>
         <Column>
