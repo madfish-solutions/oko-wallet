@@ -2,7 +2,10 @@ import { StyleSheet } from 'react-native';
 
 import { colors } from '../../../styles/colors';
 import { getCustomSize } from '../../../styles/format-size';
+import { checkActiveApplicationSession } from '../../../utils/check-active-application-session.util';
 import { isWeb, isMobile } from '../../../utils/platform.utils';
+
+const { isMaximiseScreenOpened } = checkActiveApplicationSession();
 
 const childrenHeight = `calc(100vh - ${getCustomSize(10)}px)`;
 
@@ -17,6 +20,7 @@ export const styles = StyleSheet.create({
     borderTopColor: colors.border2,
 
     ...(isMobile && { flex: 1 }),
-    ...(isWeb && { height: childrenHeight })
+    ...(isWeb && { height: childrenHeight }),
+    ...(isMaximiseScreenOpened && { borderWidth: getCustomSize(0.125), borderColor: colors.bgGrey2, borderTopWidth: 0 })
   }
 });

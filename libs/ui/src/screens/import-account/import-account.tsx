@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
-import { Text, TextInput, Button, View } from 'react-native';
+import { TextInput, Button, View } from 'react-native';
 
+import { Text } from '../../components/text/text';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useShelter } from '../../hooks/use-shelter.hook';
@@ -9,7 +10,7 @@ import { checkActiveApplicationSession } from '../../utils/check-active-applicat
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 import { isWeb } from '../../utils/platform.utils';
 
-import { ImportAccountStyles } from './import-account.styles';
+import { styles } from './import-account.styles';
 
 export const ImportAccount: FC = () => {
   const { navigate } = useNavigation();
@@ -30,21 +31,11 @@ export const ImportAccount: FC = () => {
   };
 
   return (
-    <View style={ImportAccountStyles.root}>
-      <Text> IMPORT ACCOUNT </Text>
-      <TextInput
-        style={ImportAccountStyles.input}
-        onChangeText={setSeed}
-        value={seed}
-        placeholder="write seed phrase"
-      />
+    <View style={styles.root}>
+      <Text style={styles.title}>Import Account</Text>
+      <TextInput style={styles.input} onChangeText={setSeed} value={seed} placeholder="write seed phrase" />
 
-      <TextInput
-        style={ImportAccountStyles.input}
-        onChangeText={setPassword}
-        value={password}
-        placeholder="set password"
-      />
+      <TextInput style={styles.input} onChangeText={setPassword} value={password} placeholder="set password" />
 
       <Button onPress={handleImportAccount} title="import account" color="#841584" />
       <Button onPress={handleCreateANewWallet} title="create a new wallet" color={colors.green} />

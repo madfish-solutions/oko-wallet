@@ -50,6 +50,9 @@
 
 body {
   margin: auto;
+  max-width: 375px;
+  width: 100%;
+  background-color: #141920;
   overflow: hidden;
 }
 
