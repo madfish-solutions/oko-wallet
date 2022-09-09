@@ -63,6 +63,7 @@ export const DappConfirmation: FC = () => {
   };
 
   const selectAccount = () => navigate(ScreensEnum.AccountsSelector);
+  const goHome = () => navigate(ScreensEnum.Wallet);
 
   return (
     <ModalContainer screenTitle="Confirmation">
@@ -138,7 +139,7 @@ export const DappConfirmation: FC = () => {
           <Divider style={styles.divider} />
         </ScrollView>
         <Row style={styles.buttonPanel}>
-          <Button theme={ButtonThemesEnum.Primary} title="Decline" />
+          <Button onPress={goHome} theme={ButtonThemesEnum.Primary} title="Decline" />
           <Button onPress={sendMessage} theme={ButtonThemesEnum.Secondary} title="Connect" />
         </Row>
       </View>

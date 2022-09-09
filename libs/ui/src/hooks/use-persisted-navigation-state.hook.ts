@@ -2,12 +2,13 @@ import { InitialState, NavigationState } from '@react-navigation/native';
 import { isDefined } from '@rnw-community/shared';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { isMobile, isWeb } from '../utils/platform.utils';
 import { getStoredValue, setStoredValue } from '../utils/store.util';
 
 const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
 export const usePersistedNavigationState = () => {
-  const [isReady, setIsReady] = useState(false);
+  const [isReady, setIsReady] = useState(isMobile);
   const [initialState, setInitialState] = useState<InitialState>();
 
   useEffect(() => {
@@ -23,7 +24,7 @@ export const usePersistedNavigationState = () => {
       }
     };
 
-    if (!isReady) {
+    if (!isReady && isWeb) {
       restoreState();
     }
   }, [isReady]);
