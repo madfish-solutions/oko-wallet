@@ -14,6 +14,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     height: isWeb ? EXTENSION_FULL_SIZE : '100%',
     backgroundColor: colors.navGrey1,
-    ...(isMaximiseScreenOpened && { height: '100vh', borderWidth: getCustomSize(0.125), borderColor: colors.bgGrey2 })
+    ...(isMaximiseScreenOpened && { borderWidth: getCustomSize(0.125), borderColor: colors.bgGrey2 })
   }
 });
