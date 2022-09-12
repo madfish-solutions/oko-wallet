@@ -71,9 +71,10 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
   const fetchActivity = async (startTime: number) => {
     const response = await getHistoryList(publicKeyHash, chainName, startTime, tokenAddressRequest);
     if (response !== undefined) {
-      const activityData = isDefined(tokenAddress === GAS_TOKEN_ADDRESS)
-        ? transformApiData(response, publicKeyHash, chainName)
-        : transformApiData(filterGasTokenTransaction(response), publicKeyHash, chainName);
+      const activityData =
+        tokenAddress === GAS_TOKEN_ADDRESS
+          ? transformApiData(filterGasTokenTransaction(response), publicKeyHash, chainName)
+          : transformApiData(response, publicKeyHash, chainName);
       if (activityData.length > 0) {
         setLastTimestamp(activityData[activityData.length - 1].timestamp);
       }
