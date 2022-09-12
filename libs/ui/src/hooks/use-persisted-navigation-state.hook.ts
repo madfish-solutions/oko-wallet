@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { isMobile, isWeb } from '../utils/platform.utils';
 import { getStoredValue, setStoredValue } from '../utils/store.util';
 
-const PERSISTENCE_KEY = 'NAVIGATION_STATE';
+export const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
 export const usePersistedNavigationState = () => {
   const [isReady, setIsReady] = useState(isMobile);

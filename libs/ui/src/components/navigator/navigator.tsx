@@ -1,10 +1,10 @@
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
-import React, { FC, createRef } from 'react';
+import React, { FC, createRef, useEffect } from 'react';
 import { View, Text } from 'react-native';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useDappConnection } from '../../hooks/use-dapp-connection.hook';
-import { usePersistedNavigationState } from '../../hooks/use-persisted-navigation-state.hook';
+import { PERSISTENCE_KEY, usePersistedNavigationState } from '../../hooks/use-persisted-navigation-state.hook';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
 import { AddAccount } from '../../modals/screens/add-account/add-account';
@@ -15,8 +15,12 @@ import { EditNetwork } from '../../modals/screens/network/edit-network/edit-netw
 import { NetworksSelector } from '../../modals/screens/networks-selector/networks-selector';
 import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
 import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
+import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
 import { Activity } from '../../screens/activity/activity';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
+import { AlmostDone } from '../../screens/create-wallet/screens/almost-done/almost-done';
+import { CreateANewWallet } from '../../screens/create-wallet/screens/create-a-new-wallet/create-a-new-wallet';
+import { VerifyMnemonic } from '../../screens/create-wallet/screens/verify-mnemonic/verify-mnemonic';
 import { ImportAccount } from '../../screens/import-account/import-account';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
@@ -31,6 +35,9 @@ import { Tokens } from '../../screens/tokens/tokens';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
+import { checkActiveApplicationSession } from '../../utils/check-active-application-session.util';
+import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
+import { setStoredValue } from '../../utils/store.util';
 
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
 import { Stack } from './utils/get-stack-navigator';
@@ -38,13 +45,29 @@ import { Stack } from './utils/get-stack-navigator';
 export const globalNavigationRef = createRef<NavigationContainerRef<ScreensParamList>>();
 
 export const Navigator: FC = () => {
-  const navigationState = usePersistedNavigationState();
+  const { initialState, isReady, handleStateChange } = usePersistedNavigationState();
   const isAuthorised = useIsAuthorisedSelector();
   const { isLocked } = useUnlock();
 
   useDappConnection();
 
-  if (!navigationState.isReady) {
+  const { isPopupOpened } = checkActiveApplicationSession();
+
+  useEffect(() => {
+    // TODO: Add check for ScreenEnum.AlmostDone screen later
+    const isCreateWalletScreensOpened =
+      initialState?.routes.some(
+        route => route.name === ScreensEnum.CreateANewWallet || route.name === ScreensEnum.VerifyMnemonic
+      ) ?? false;
+
+    if (isPopupOpened && isCreateWalletScreensOpened && isReady) {
+      // clear previous navigation state and leave only ScreenEnum.ImportAccount route when click by extension icon
+      setStoredValue(PERSISTENCE_KEY, JSON.stringify({ ...initialState, routes: initialState?.routes.slice(0, 1) }));
+      openMaximiseScreen();
+    }
+  }, [initialState, isReady]);
+
+  if (!isReady) {
     return (
       <View>
         <Text>Loading....</Text>
@@ -53,11 +76,7 @@ export const Navigator: FC = () => {
   }
 
   return (
-    <NavigationContainer
-      ref={globalNavigationRef}
-      initialState={navigationState.initialState}
-      onStateChange={navigationState.handleStateChange}
-    >
+    <NavigationContainer ref={globalNavigationRef} initialState={initialState} onStateChange={handleStateChange}>
       <Stack.Navigator>
         {isAuthorised ? (
           <>
@@ -133,9 +152,22 @@ export const Navigator: FC = () => {
             </Stack.Group>
           </>
         ) : (
-          <Stack.Group screenOptions={{ headerShown: false }}>
-            <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />
-          </Stack.Group>
+          <>
+            <Stack.Group screenOptions={{ headerShown: false }}>
+              <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />
+              <Stack.Screen name={ScreensEnum.CreateANewWallet} component={CreateANewWallet} />
+              <Stack.Screen name={ScreensEnum.VerifyMnemonic} component={VerifyMnemonic} />
+              <Stack.Screen name={ScreensEnum.AlmostDone} component={AlmostDone} />
+            </Stack.Group>
+
+            <Stack.Group screenOptions={modalScreenOptions}>
+              <Stack.Screen
+                name={ScreensEnum.WordsAmountSelector}
+                options={{ title: 'Amount Words' }}
+                component={WordsAmountSelector}
+              />
+            </Stack.Group>
+          </>
         )}
       </Stack.Navigator>
 

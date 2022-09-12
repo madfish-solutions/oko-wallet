@@ -42,10 +42,10 @@ export const AccountsSelector: FC = () => {
   const handleChangeAccount = (account: AccountInterface) => {
     if (checkIsNetworkTypeKeyExist(account, selectedNetworkType)) {
       dispatch(changeAccountAction(account));
-      goBack();
     } else {
       createHdAccountForNewNetworkType(account, selectedNetworkType);
     }
+    goBack();
   };
 
   const onAddAccount = () => navigate(ScreensEnum.AddAccount);
