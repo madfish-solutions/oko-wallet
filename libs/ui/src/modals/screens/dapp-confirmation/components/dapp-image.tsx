@@ -7,17 +7,19 @@ import { getCustomSize } from '../../../../styles/format-size';
 
 import { styles } from './dapp-image.styles';
 
-interface DappImageProps {
-  image: string;
+interface Props {
+  imageUri?: string;
 }
 
-export const DappImage: FC<DappImageProps> = ({ image }) => {
-  const [showPlaceholder, setShowPlaceholder] = useState(false);
+export const DappImage: FC<Props> = ({ imageUri = '' }) => {
+  const [isShowPlaceholder, setIsShowPlaceholder] = useState(false);
+
+  const handleError = () => setIsShowPlaceholder(true);
 
   return (
-    <View style={styles.imageContainer}>
-      {showPlaceholder ? (
-        <Image source={{ uri: image }} onError={() => setShowPlaceholder(true)} />
+    <View style={styles.root}>
+      {isShowPlaceholder ? (
+        <Image source={{ uri: imageUri }} onError={handleError} />
       ) : (
         <Icon name={IconNameEnum.IconPlaceholder} size={getCustomSize(2.5)} />
       )}

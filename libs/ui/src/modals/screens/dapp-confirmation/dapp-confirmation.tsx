@@ -6,6 +6,8 @@ import { browser } from 'webextension-polyfill-ts';
 
 import { Button } from '../../../components/button/button';
 import { ButtonThemesEnum } from '../../../components/button/enums';
+import { Column } from '../../../components/column/column';
+import { CopyText } from '../../../components/copy-text/copy-text';
 import { Divider } from '../../../components/divider/divider';
 import { IconWithBorder } from '../../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../../components/icon/icon';
@@ -15,13 +17,12 @@ import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
-import { setConfirmedDapp } from '../../../store/wallet/wallet.actions';
+import { setConfirmedDappAction } from '../../../store/wallet/wallet.actions';
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedAccountSelector
 } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
-import { shortize } from '../../../utils/shortize.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
 import { DappImage } from './components/dapp-image';
@@ -57,26 +58,26 @@ export const DappConfirmation: FC = () => {
         setTimeout(() => {
           window.close();
         }, CLOSE_DELAY);
-        dispatch(setConfirmedDapp({ dappName, id }));
+        dispatch(setConfirmedDappAction({ dappName, id }));
       }
     });
   };
 
-  const selectAccount = () => navigate(ScreensEnum.AccountsSelector);
-  const goHome = () => navigate(ScreensEnum.Wallet);
+  const navigateToAccountsSelector = () => navigate(ScreensEnum.AccountsSelector);
+  const navigateToWalletScreen = () => navigate(ScreensEnum.Wallet);
 
   return (
     <ModalContainer screenTitle="Confirmation">
       <View style={styles.root}>
         <Row style={styles.container}>
-          <DappImage image="" />
+          <DappImage />
           <Icon name={IconNameEnum.SwapItems} size={getCustomSize(9)} />
-          <DappImage image="" />
+          <DappImage />
         </Row>
         <Row style={styles.addressRow}>
           <Text style={styles.smallText}>Address</Text>
           <Row>
-            <Text style={styles.explorerLink} onPress={() => Linking.openURL('')} numberOfLines={1}>
+            <Text style={styles.explorerLink} onPress={() => Linking.openURL(dappName)} numberOfLines={1}>
               {dappName}
             </Text>
             <Icon name={IconNameEnum.Copy} />
@@ -87,28 +88,30 @@ export const DappConfirmation: FC = () => {
         <View style={styles.accountSelector}>
           <Row style={styles.selectorRow}>
             <Row>
-              <TouchableOpacity onPress={selectAccount} style={styles.button}>
+              <TouchableOpacity onPress={navigateToAccountsSelector} style={styles.button}>
                 <IconWithBorder>
                   <RobotIcon seed={selectedAddress} />
                 </IconWithBorder>
               </TouchableOpacity>
-              <TouchableOpacity onPress={selectAccount}>
+              <TouchableOpacity onPress={navigateToAccountsSelector}>
                 <Row>
-                  <Text style={styles.accName}>{name}</Text>
+                  <Text style={styles.accountName}>{name}</Text>
                   <Icon name={IconNameEnum.Dropdown} size={getCustomSize(2)} />
                 </Row>
               </TouchableOpacity>
             </Row>
-            <Text style={styles.address}>{shortize(selectedAddress)}</Text>
           </Row>
           <Row>
-            <View>
-              <Text style={styles.gasBalanceTitle}>Gas Balance</Text>
-              <Row>
-                <Text style={styles.gasBalance}>404.03231 M SYMBL </Text>
-                <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />
-              </Row>
-            </View>
+            <Row style={styles.bottomContainer}>
+              <Column>
+                <Text style={styles.gasBalanceTitle}>Gas Balance</Text>
+                <Row>
+                  <Text style={styles.gasBalance}>404.03231 M SYMBL </Text>
+                  <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />
+                </Row>
+              </Column>
+              <CopyText style={styles.address} text={selectedAddress} isShortize />
+            </Row>
           </Row>
         </View>
         <ScrollView style={styles.allowsBlock}>
@@ -139,7 +142,7 @@ export const DappConfirmation: FC = () => {
           <Divider style={styles.divider} />
         </ScrollView>
         <Row style={styles.buttonPanel}>
-          <Button onPress={goHome} theme={ButtonThemesEnum.Primary} title="Decline" />
+          <Button onPress={navigateToWalletScreen} theme={ButtonThemesEnum.Primary} title="Decline" />
           <Button onPress={sendMessage} theme={ButtonThemesEnum.Secondary} title="Connect" />
         </Row>
       </View>

@@ -4,7 +4,7 @@ import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
 
 export const styles = StyleSheet.create({
-  imageContainer: {
+  root: {
     height: getCustomSize(8),
     width: getCustomSize(8),
     borderColor: colors.border2,

@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
     padding: getCustomSize(0.5),
     borderRadius: getCustomSize(1.75)
   },
-  accName: {
+  accountName: {
     ...typography.bodyInterSemiBold15,
     marginLeft: getCustomSize(0.5),
     marginRight: getCustomSize(0.25)
@@ -100,5 +100,10 @@ export const styles = StyleSheet.create({
   },
   allowStatus: {
     marginRight: getCustomSize(0.5)
+  },
+  bottomContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'flex-end'
   }
 });
