@@ -5,7 +5,7 @@ import memoize from 'fast-memoize';
 import { BASE_DEBANK_URL, DEBANK_HEADERS } from '../constants/defaults';
 import { ActivityResponse, TokenInfo } from '../interfaces/activity.interface';
 
-import { TokenListResponse } from './types';
+import { NftListResponse, TokenListResponse } from './types';
 
 export const debankApiRequest = axios.create({
   baseURL: BASE_DEBANK_URL,
@@ -32,6 +32,14 @@ export const getTokenList = (publicKeyHash: string, chainName: string | undefine
   isDefined(chainName)
     ? debankApiRequest
         .get<TokenListResponse>(`v1/user/token_list?id=${publicKeyHash}&chain_id=${chainName}`)
+        .then(({ data }) => data)
+        .catch(() => [])
+    : [];
+
+export const getAllUserNftList = (publicKeyHash: string, chainId: string | undefined) =>
+  isDefined(chainId)
+    ? debankApiRequest
+        .get<NftListResponse[]>(`v1/user/nft_list?id=${publicKeyHash}&chain_id=${chainId}`)
         .then(({ data }) => data)
         .catch(() => [])
     : [];

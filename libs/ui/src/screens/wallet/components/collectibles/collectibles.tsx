@@ -7,6 +7,8 @@ import { Divider } from '../../../../components/divider/divider';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';
 import { WidgetContainer } from '../../../../components/widget-container/widget-container';
+import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useCollectiblesWidgetSelector } from '../../../../store/wallet/wallet.selectors';
 import { isEmptyArray } from '../../../../utils/array.utils';
 import { getTokenSlug } from '../../../../utils/token.utils';
@@ -20,7 +22,10 @@ const RECEIVE = 'RECEIVE';
 const VIEW_ALL = 'VIEW ALL';
 
 export const CollectiblesWidget: FC = () => {
+  const { navigate } = useNavigation();
   const collectibles = useCollectiblesWidgetSelector();
+
+  const navigateToNftList = () => navigate(ScreensEnum.Collectibles);
 
   return (
     <WidgetContainer title={COLLECTIBLES} iconName={IconNameEnum.Nft}>
@@ -47,13 +52,16 @@ export const CollectiblesWidget: FC = () => {
               size={ButtonWithIconSizeEnum.Medium}
               theme={ButtonWithIconThemesEnum.Tertiary}
               rightIcon={IconNameEnum.Receive}
+              style={styles.button}
             />
             <Divider />
             <ButtonWithIcon
               title={VIEW_ALL}
+              onPress={navigateToNftList}
               size={ButtonWithIconSizeEnum.Medium}
               theme={ButtonWithIconThemesEnum.Tertiary}
               rightIcon={IconNameEnum.ArrowRight}
+              style={styles.button}
             />
           </Column>
         </Row>

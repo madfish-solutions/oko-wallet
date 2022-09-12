@@ -31,7 +31,8 @@ export enum ScreensEnum {
   VerifyMnemonic = 'VerifyMnemonic',
   AlmostDone = 'AlmostDone',
   Activity = 'Activity',
-  Token = 'Token'
+  Token = 'Token',
+  Collectibles = 'Collectibles'
 }
 
 export type ScreensParamList = {
@@ -64,4 +65,5 @@ export type ScreensParamList = {
   [ScreensEnum.AlmostDone]: undefined;
   [ScreensEnum.Activity]: undefined;
   [ScreensEnum.Token]: { token: Token };
+  [ScreensEnum.Collectibles]: undefined;
 };

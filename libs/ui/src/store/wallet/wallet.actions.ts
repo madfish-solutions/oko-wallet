@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import { TokenListResponse } from '../../api/types';
+import { NftListResponse, TokenListResponse } from '../../api/types';
 import { AccountInterface, PendingTransaction, Transaction } from '../../interfaces/account.interface';
 import { NewTokenMetadataRequest } from '../../interfaces/activity.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
@@ -47,6 +47,11 @@ export const addNewTokensAction = createActions<
 export const editTokenAction = createAction<TokenFormTypes>('wallet/EDIT_TOKEN');
 export const changeTokenVisibilityAction = createAction<Token>('wallet/CHANGE_TOKEN_VISIBILITY');
 export const sortAccountTokensByVisibility = createAction('wallet/SORT_ACCOUNT_TOKENS_BY_VISIBILITY');
+
+export const getAllUserNftAction = createActions<
+  { debankId: string; publicKeyHash: string; is_all?: boolean },
+  { nftList: NftListResponse[] }
+>('wallet/GET_ALL_USER_NFT');
 
 export const sendAssetAction = createActions<SendAssetPayload>('wallet/SEND_ASSET');
 
