@@ -17,8 +17,6 @@ export const useHeaderAnimation = () => {
     setContentOffsetY(offsetY);
   };
 
-  console.log(contentOffsetY);
-
   useEffect(() => {
     if (isWeb) {
       hideQrCode(false);
