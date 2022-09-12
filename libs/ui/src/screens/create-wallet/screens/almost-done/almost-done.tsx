@@ -178,8 +178,6 @@ export const AlmostDone: FC = () => {
                 secureTextEntry={isSecurePassword}
                 placeholder="Password"
                 prompt="Password is used to protect the wallet"
-                clearTextOnFocus={false}
-                autoCorrect={false}
                 containerStyle={styles.input}
                 clearIconStyles={styles.clearIcon}
                 inputContainerStyle={
@@ -229,8 +227,6 @@ export const AlmostDone: FC = () => {
               secureTextEntry={isSecureConfirmPassword}
               placeholder="Password"
               prompt="Password is used to protect the wallet"
-              clearTextOnFocus={false}
-              autoCorrect={false}
               error={errors.confirmPassword?.message}
               containerStyle={styles.input}
               clearIconStyles={styles.clearIcon}
