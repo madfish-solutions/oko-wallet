@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     borderColor: colors.bgGrey4,
     borderRadius: getCustomSize(),
     paddingLeft: getCustomSize(1.5),
-    paddingRight: getCustomSize(1.25)
+    paddingRight: getCustomSize()
   },
   errorContainer: {
     borderColor: colors.red
