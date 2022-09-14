@@ -32,7 +32,7 @@ export const useGroupedCollectibles = () => {
       return acc;
     }, {} as Record<string, Token[]>);
 
-    const collectionIds = Object.keys(groupedCollectibles).filter(key => (key !== SINGLE_NFTS_KEY ? key : null));
+    const collectionIds = Object.keys(groupedCollectibles).filter(key => key !== SINGLE_NFTS_KEY);
 
     const randomNftFromEachCollection = collectionIds.map(collectionId => {
       const randomIndex = Math.round(Math.random() * groupedCollectibles[collectionId].length);

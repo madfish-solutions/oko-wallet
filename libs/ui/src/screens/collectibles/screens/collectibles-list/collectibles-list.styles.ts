@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center'
   },
   columnWrapperStyle: {
-    width: isMobile ? 343 : 328
+    width: isMobile ? getCustomSize(42.875) : getCustomSize(41)
   },
   nft: {
     width: IMAGE_CONTAINER_SIZE,
