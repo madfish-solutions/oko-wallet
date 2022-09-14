@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { ActivitySectionList } from '../../components/activity/activity-section-list';
+import { ActivitySectionList } from '../../components/activity-section-list/activity-section-list';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { ScreenTitle } from '../../components/screen-components/header-container/components/screen-title/screen-title';
 import { HeaderContainer } from '../../components/screen-components/header-container/header-container';

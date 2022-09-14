@@ -33,13 +33,13 @@ const transformApiData = (
   chainName: string
 ): SectionListActivityData[] => {
   let response: SectionListActivityData[] = [];
-  const filtredTransactions = data?.history_list.filter(
+  const filteredTransactions = data?.history_list.filter(
     txData => !(txData.receives.length > 0 && txData.sends.length > 0) && txData.cate_id !== 'approve'
   );
 
   let sectionListItem: SectionListActivityData;
 
-  filtredTransactions.map(txData => {
+  filteredTransactions.forEach(txData => {
     const activityData = {
       transactionStatus: TransactionStatusEnum.applied,
       hash: txData.id,

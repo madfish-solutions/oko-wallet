@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 
-import { ActivitySectionList } from '../../../../components/activity/activity-section-list';
+import { ActivitySectionList } from '../../../../components/activity-section-list/activity-section-list';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import {
   useSelectedAccountPublicKeyHashSelector,
