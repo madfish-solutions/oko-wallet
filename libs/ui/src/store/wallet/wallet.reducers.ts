@@ -159,24 +159,27 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
 
       const accountTokens: AccountToken[] = newTokens.map(token => ({
         tokenAddress: token.id,
+        name: token.name,
+        symbol: token.symbol,
         isVisible: true,
         balance: createEntity(token.raw_amount.toString())
       }));
       const tokensMetadata = newTokens.reduce((acc, token) => {
         const tokenMetadataSlug = getTokenMetadataSlug(selectedNetworkRpcUrl, token.id);
 
-        const currentAcc: Record<string, TokenMetadata> = { ...acc };
+        if (isDefined(state.tokensMetadata[tokenMetadataSlug])) {
+          return { ...acc };
+        }
 
-        if (!isDefined(state.tokensMetadata[tokenMetadataSlug])) {
-          currentAcc[tokenMetadataSlug] = {
+        return {
+          ...acc,
+          [tokenMetadataSlug]: {
             name: token.name,
             symbol: token.symbol,
             decimals: token.decimals,
-            thumbnailUri: token.logo_url ?? ''
-          };
-        }
-
-        return currentAcc;
+            thumbnailUri: token.logo_url
+          }
+        };
       }, {});
 
       return {
