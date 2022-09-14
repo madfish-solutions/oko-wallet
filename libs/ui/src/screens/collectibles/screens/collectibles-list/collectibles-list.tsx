@@ -3,7 +3,6 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import { ListRenderItemInfo, Pressable, FlatList, View } from 'react-native';
 
 import { Column } from '../../../../components/column/column';
-import { EmptySearchIcon } from '../../../../components/icon/components/empty-search-icon/empty-search-icon';
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { ScreenTitle } from '../../../../components/screen-components/header-container/components/screen-title/screen-title';
@@ -101,7 +100,11 @@ export const CollectiblesList: FC = () => {
       </HeaderContainer>
 
       <Column style={styles.root}>
-        <SearchPanel onPressAddIcon={navigateToAddNewNft} setSearchValue={setSearchValue} />
+        <SearchPanel
+          onPressAddIcon={navigateToAddNewNft}
+          setSearchValue={setSearchValue}
+          isEmptyList={!collectibles.length}
+        />
 
         <FlatList
           data={collectibles}
@@ -109,7 +112,6 @@ export const CollectiblesList: FC = () => {
           renderItem={renderItem}
           keyExtractor={keyExtractor}
           numColumns={2}
-          ListEmptyComponent={<EmptySearchIcon />}
           contentContainerStyle={styles.contentContainerStyle}
           columnWrapperStyle={styles.columnWrapperStyle}
           style={styles.flatList}

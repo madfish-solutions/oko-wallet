@@ -4,6 +4,8 @@ import { useForm, Controller, ControllerRenderProps, FieldValues, FieldPath } fr
 import { GestureResponderEvent } from 'react-native';
 
 import { EMPTY_STRING } from '../../constants/defaults';
+import { Column } from '../column/column';
+import { EmptySearchIcon } from '../icon/components/empty-search-icon/empty-search-icon';
 import { IconNameEnum } from '../icon/icon-name.enum';
 import { Row } from '../row/row';
 import { TextInput } from '../text-input/text-input';
@@ -14,6 +16,7 @@ import { styles } from './search-panel.styles';
 const SEARCH_FIELD = 'search';
 
 interface Props {
+  isEmptyList: boolean;
   setSearchValue: OnEventFn<string>;
   onPressAddIcon?: OnEventFn<GestureResponderEvent>;
   onPressEditIcon?: OnEventFn<GestureResponderEvent>;
@@ -31,6 +34,7 @@ const renderTextInput = <
 ) => <TextInput field={field} placeholder="Search" containerStyle={styles.inputContainer} inputStyle={styles.input} />;
 
 export const SearchPanel: React.FC<Props> = ({
+  isEmptyList,
   setSearchValue,
   selectedItemName,
   onSearchClose,
@@ -79,28 +83,31 @@ export const SearchPanel: React.FC<Props> = ({
   }, [selectedItemName]);
 
   return (
-    <Row style={styles.root}>
-      {isShowSearchField ? (
-        <>
-          <Controller control={control} name={SEARCH_FIELD} render={({ field }) => renderTextInput(field)} />
-          {!isSearchInitiallyOpened && (
-            <TouchableIcon name={IconNameEnum.X} onPress={hideSearchField} style={styles.close} />
-          )}
-        </>
-      ) : (
-        <>
-          <TouchableIcon name={IconNameEnum.Search} onPress={showSearchField} />
-          <Row>
-            <TouchableIcon name={IconNameEnum.Add} onPress={onPressAddIcon} />
-            {onPressEditIcon && (
-              <TouchableIcon style={styles.extraIcon} name={IconNameEnum.Edit} onPress={onPressEditIcon} />
-            )}
-            {onPressActivityIcon && (
-              <TouchableIcon style={styles.extraIcon} name={IconNameEnum.Activity} onPress={onPressActivityIcon} />
+    <Column style={styles.root}>
+      <Row style={styles.wrapper}>
+        {isShowSearchField ? (
+          <Row style={styles.searchWrapper}>
+            <Controller control={control} name={SEARCH_FIELD} render={({ field }) => renderTextInput(field)} />
+            {!isSearchInitiallyOpened && (
+              <TouchableIcon name={IconNameEnum.X} onPress={hideSearchField} style={styles.close} />
             )}
           </Row>
-        </>
-      )}
-    </Row>
+        ) : (
+          <Row style={styles.iconsWrapper}>
+            <TouchableIcon name={IconNameEnum.Search} onPress={showSearchField} />
+            <Row>
+              <TouchableIcon name={IconNameEnum.Add} onPress={onPressAddIcon} />
+              {onPressEditIcon && (
+                <TouchableIcon style={styles.extraIcon} name={IconNameEnum.Edit} onPress={onPressEditIcon} />
+              )}
+              {onPressActivityIcon && (
+                <TouchableIcon style={styles.extraIcon} name={IconNameEnum.Activity} onPress={onPressActivityIcon} />
+              )}
+            </Row>
+          </Row>
+        )}
+      </Row>
+      {isEmptyList && <EmptySearchIcon style={styles.emtySearchIcon} />}
+    </Column>
   );
 };

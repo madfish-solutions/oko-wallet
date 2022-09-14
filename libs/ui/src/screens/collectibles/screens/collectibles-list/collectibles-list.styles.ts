@@ -8,6 +8,7 @@ import { IMAGE_CONTAINER_SIZE, IMAGE_SIZE } from '../../constants';
 
 export const styles = StyleSheet.create({
   root: {
+    position: 'relative',
     width: '100%',
     flex: 1,
     paddingHorizontal: getCustomSize(2)
