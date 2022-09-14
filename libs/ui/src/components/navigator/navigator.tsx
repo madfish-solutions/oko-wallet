@@ -90,8 +90,8 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
               <Stack.Screen name={ScreensEnum.Tokens} component={Tokens} />
               <Stack.Screen name={ScreensEnum.ScanQrCode} component={ScanQrCode} />
-              <Stack.Screen name={ScreensEnum.Activity} component={Activity} />
               <Stack.Screen name={ScreensEnum.Token} component={Token} />
+              <Stack.Screen name={ScreensEnum.Activity} component={Activity} />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptions}>

@@ -16,10 +16,19 @@ const CREATE_WALLET_STEPS = 3;
 interface Props extends Pick<FooterButtonsInterface, 'isSubmitDisabled' | 'onSubmitPress'> {
   title: string;
   step: number;
+  submitTitle?: string;
   scrollViewRef?: RefObject<ScrollView>;
 }
 
-export const Container: FC<Props> = ({ title, step, onSubmitPress, isSubmitDisabled, scrollViewRef, children }) => {
+export const Container: FC<Props> = ({
+  title,
+  step,
+  onSubmitPress,
+  isSubmitDisabled,
+  submitTitle = 'Next',
+  scrollViewRef,
+  children
+}) => {
   const { navigate, goBack } = useNavigation();
 
   const navigateToCreateANewWallet = () => goBack();
@@ -37,7 +46,7 @@ export const Container: FC<Props> = ({ title, step, onSubmitPress, isSubmitDisab
       </ScrollView>
 
       <FooterButtons
-        submitTitle="Next"
+        submitTitle={submitTitle}
         onCancelPress={closeCreateWalletSteps}
         isSubmitDisabled={isSubmitDisabled}
         onSubmitPress={onSubmitPress}

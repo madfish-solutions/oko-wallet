@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useEffect } from 'react';
 import { FlatList, ListRenderItemInfo } from 'react-native';
 
+import { getDebankId } from '../../api/utils/get-debank-id.util';
 import { EmptySearchIcon } from '../../components/icon/components/empty-search-icon/empty-search-icon';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { ScreenTitle } from '../../components/screen-components/header-container/components/screen-title/screen-title';
@@ -17,17 +18,18 @@ import {
 
 import { styles } from './activity.styles';
 import { ActivityList } from './components/activity-list';
-import { getDebankId } from './utils/activity.utils';
+
+const keyExtractor = ({ hash }: ActivityData) => hash;
 
 export const Activity: FC = () => {
   const { navigate } = useNavigation();
   const selectedPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { chainId } = useSelectedNetworkSelector();
 
-  const { activity, fetchMoreData } = useAllActivity(selectedPublicKeyHash, getDebankId(chainId));
+  const { activity, fetchData } = useAllActivity(selectedPublicKeyHash, getDebankId(chainId));
 
   useEffect(() => {
-    fetchMoreData();
+    fetchData();
   }, []);
 
   const navigateToWallet = () => navigate(ScreensEnum.Wallet);
@@ -44,14 +46,13 @@ export const Activity: FC = () => {
       <HeaderContainer isSelectors>
         <ScreenTitle title="Transactions" onBackButtonPress={navigateToWallet} />
       </HeaderContainer>
-
       <FlatList
         data={activity}
         renderItem={renderItem}
-        keyExtractor={({ hash }) => hash}
+        keyExtractor={keyExtractor}
         ListEmptyComponent={<EmptySearchIcon />}
         onEndReachedThreshold={0.1}
-        onEndReached={fetchMoreData}
+        onEndReached={fetchData}
       />
       <NavigationBar />
     </ScreenContainer>
