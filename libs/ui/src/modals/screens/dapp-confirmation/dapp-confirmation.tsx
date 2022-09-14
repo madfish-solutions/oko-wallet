@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
-import { View, Linking, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Linking, TouchableOpacity, ScrollView, Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { browser } from 'webextension-polyfill-ts';
 
@@ -23,6 +23,8 @@ import {
   useSelectedAccountSelector
 } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
+import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
+import { eraseProtocol } from '../../../utils/string.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
 import { DappImage } from './components/dapp-image';
@@ -65,87 +67,92 @@ export const DappConfirmation: FC = () => {
 
   const navigateToAccountsSelector = () => navigate(ScreensEnum.AccountsSelector);
   const navigateToWalletScreen = () => navigate(ScreensEnum.Wallet);
+  const copy = () => handleCopyToClipboard(dappName);
 
   return (
-    <ModalContainer screenTitle="Confirmation">
-      <View style={styles.root}>
-        <Row style={styles.container}>
-          <DappImage />
-          <Icon name={IconNameEnum.SwapItems} size={getCustomSize(9)} />
-          <DappImage />
-        </Row>
-        <Row style={styles.addressRow}>
-          <Text style={styles.smallText}>Address</Text>
-          <Row>
-            <Text style={styles.explorerLink} onPress={() => Linking.openURL(dappName)} numberOfLines={1}>
-              {dappName}
-            </Text>
-            <Icon name={IconNameEnum.Copy} />
+    <ModalContainer screenTitle="Confirm operation">
+      <ScrollView style={styles.root}>
+        <View style={styles.viewRoot}>
+          <Row style={styles.container}>
+            <DappImage />
+            <Icon name={IconNameEnum.SwapItems} size={getCustomSize(9)} />
+            <DappImage />
           </Row>
-        </Row>
-        <View style={styles.divider} />
-        <Text style={[styles.smallText, styles.from]}>From</Text>
-        <View style={styles.accountSelector}>
-          <Row style={styles.selectorRow}>
+          <Row style={styles.addressRow}>
+            <Text style={styles.smallText}>Address</Text>
             <Row>
-              <TouchableOpacity onPress={navigateToAccountsSelector} style={styles.button}>
-                <IconWithBorder>
-                  <RobotIcon seed={selectedAddress} />
-                </IconWithBorder>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={navigateToAccountsSelector}>
-                <Row>
-                  <Text style={styles.accountName}>{name}</Text>
-                  <Icon name={IconNameEnum.Dropdown} size={getCustomSize(2)} />
-                </Row>
-              </TouchableOpacity>
+              <Text style={styles.explorerLink} onPress={() => Linking.openURL(dappName)} numberOfLines={1}>
+                {eraseProtocol(dappName)}
+              </Text>
+              <Pressable onPress={copy}>
+                <Icon name={IconNameEnum.Copy} />
+              </Pressable>
             </Row>
           </Row>
-          <Row>
-            <Row style={styles.bottomContainer}>
-              <Column>
-                <Text style={styles.gasBalanceTitle}>Gas Balance</Text>
-                <Row>
-                  <Text style={styles.gasBalance}>404.03231 M SYMBL </Text>
-                  <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />
-                </Row>
-              </Column>
-              <CopyText style={styles.address} text={selectedAddress} isShortize />
+          <View style={styles.divider} />
+          <Text style={[styles.smallText, styles.from]}>From</Text>
+          <View style={styles.accountSelector}>
+            <Row style={styles.selectorRow}>
+              <Row>
+                <TouchableOpacity onPress={navigateToAccountsSelector} style={styles.button}>
+                  <IconWithBorder>
+                    <RobotIcon seed={selectedAddress} />
+                  </IconWithBorder>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={navigateToAccountsSelector}>
+                  <Row>
+                    <Text style={styles.accountName}>{name}</Text>
+                    <Icon name={IconNameEnum.Dropdown} size={getCustomSize(2)} />
+                  </Row>
+                </TouchableOpacity>
+              </Row>
             </Row>
-          </Row>
+            <Row>
+              <Row style={styles.bottomContainer}>
+                <Column>
+                  <Text style={styles.gasBalanceTitle}>Gas Balance</Text>
+                  <Row>
+                    <Text style={styles.gasBalance}>404.03231 M SYMBL </Text>
+                    <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />
+                  </Row>
+                </Column>
+                <CopyText style={styles.address} text={selectedAddress} isShortize />
+              </Row>
+            </Row>
+          </View>
+          <View style={styles.allowsBlock}>
+            <Text style={styles.greyLabel}>Allows</Text>
+            <Row style={styles.allowsText}>
+              <Text style={styles.greyText}>See wallet balance and activity</Text>
+              <Row>
+                <Text style={styles.allowStatus}>ALLOWED</Text>
+                <Icon name={IconNameEnum.LockOpen} />
+              </Row>
+            </Row>
+            <Divider style={styles.divider} />
+            <Row style={styles.allowsText}>
+              <Text style={styles.greyText}>Send request for transactions</Text>
+              <Row>
+                <Text style={styles.allowStatus}>ALLOWED</Text>
+                <Icon name={IconNameEnum.LockOpen} />
+              </Row>
+            </Row>
+            <Divider style={styles.divider} />
+            <Row style={styles.allowsText}>
+              <Text style={styles.greyText}>Move funds without permissions</Text>
+              <Row>
+                <Text style={styles.allowStatus}>BLOCKED</Text>
+                <Icon name={IconNameEnum.LockClosed} />
+              </Row>
+            </Row>
+            <Divider style={styles.divider} />
+          </View>
         </View>
-        <ScrollView style={styles.allowsBlock}>
-          <Text style={styles.greyLabel}>Allows</Text>
-          <Row style={styles.allowsText}>
-            <Text style={styles.greyText}>See wallet balance activity</Text>
-            <Row>
-              <Text style={styles.allowStatus}>ALLOWED</Text>
-              <Icon name={IconNameEnum.LockOpen} />
-            </Row>
-          </Row>
-          <Divider style={styles.divider} />
-          <Row style={styles.allowsText}>
-            <Text style={styles.greyText}>Send request for transactions</Text>
-            <Row>
-              <Text style={styles.allowStatus}>ALLOWED</Text>
-              <Icon name={IconNameEnum.LockOpen} />
-            </Row>
-          </Row>
-          <Divider style={styles.divider} />
-          <Row style={styles.allowsText}>
-            <Text style={styles.greyText}>Move funds without permissions</Text>
-            <Row>
-              <Text style={styles.allowStatus}>BLOCKED</Text>
-              <Icon name={IconNameEnum.LockClosed} />
-            </Row>
-          </Row>
-          <Divider style={styles.divider} />
-        </ScrollView>
-        <Row style={styles.buttonPanel}>
-          <Button onPress={navigateToWalletScreen} theme={ButtonThemesEnum.Primary} title="Decline" />
-          <Button onPress={sendMessage} theme={ButtonThemesEnum.Secondary} title="Connect" />
-        </Row>
-      </View>
+      </ScrollView>
+      <Row style={styles.buttonPanel}>
+        <Button onPress={navigateToWalletScreen} theme={ButtonThemesEnum.Primary} title="Decline" />
+        <Button onPress={sendMessage} theme={ButtonThemesEnum.Secondary} title="Connect" />
+      </Row>
     </ModalContainer>
   );
 };

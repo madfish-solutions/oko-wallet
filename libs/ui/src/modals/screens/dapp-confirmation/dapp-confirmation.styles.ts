@@ -6,9 +6,11 @@ import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
-    marginHorizontal: getCustomSize(2),
-    alignItems: 'stretch',
+    // alignItems: 'stretch',
     height: '100%'
+  },
+  viewRoot: {
+    marginHorizontal: getCustomSize(2)
   },
   container: {
     marginHorizontal: getCustomSize(2),
@@ -71,14 +73,17 @@ export const styles = StyleSheet.create({
   },
   gasBalanceTitle: {
     ...typography.numbersIBMPlexSansRegular11,
-    color: colors.textGrey3
+    color: colors.textGrey2
   },
   gasBalance: {
     ...typography.numbersIBMPlexSansMedium13
   },
   buttonPanel: {
     alignItems: 'flex-end',
-    paddingBottom: getCustomSize(2)
+    paddingVertical: getCustomSize(2),
+    marginTop: getCustomSize(2),
+    marginHorizontal: getCustomSize(2),
+    gap: getCustomSize(2)
   },
   greyLabel: {
     ...typography.captionInterRegular13,
