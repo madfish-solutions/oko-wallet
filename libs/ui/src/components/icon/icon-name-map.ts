@@ -32,6 +32,7 @@ import NftCollectionLayout from './assets/nft-collection-layout.svg';
 import NftIcon from './assets/nft.svg';
 import OutIcon from './assets/out.svg';
 import PartnersIcon from './assets/partners.svg';
+import PixelShit from './assets/pixel-shit.svg';
 import QrScanner from './assets/qr-scanner.svg';
 import QrIcon from './assets/qr.svg';
 import QrscanIcon from './assets/qrscan.svg';
@@ -115,5 +116,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Refresh]: Refresh,
   [IconNameEnum.Info]: Info,
   [IconNameEnum.Deposit]: Deposit,
-  [IconNameEnum.NftCollectionLayout]: NftCollectionLayout
+  [IconNameEnum.NftCollectionLayout]: NftCollectionLayout,
+  [IconNameEnum.PixelShit]: PixelShit
 };

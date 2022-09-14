@@ -145,7 +145,11 @@ export const Navigator: FC = () => {
                 options={{ title: 'Select Account' }}
                 component={SendAccountsSelector}
               />
-              <Stack.Screen name={ScreensEnum.NFT} options={{ title: 'NFT #1' }} component={NFT} />
+              <Stack.Screen
+                name={ScreensEnum.NFT}
+                options={({ route }) => ({ title: route.params.nft.name })}
+                component={NFT}
+              />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptionsWithBackButton}>

@@ -1,3 +1,4 @@
+import { isDefined } from '@rnw-community/shared';
 import React, { FC } from 'react';
 
 import { ButtonWithIcon } from '../../../../components/button-with-icon/button-with-icon';
@@ -9,9 +10,10 @@ import { Row } from '../../../../components/row/row';
 import { WidgetContainer } from '../../../../components/widget-container/widget-container';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { useCollectiblesWidgetSelector } from '../../../../store/wallet/wallet.selectors';
+import { Token } from '../../../../interfaces/token.interface';
 import { isEmptyArray } from '../../../../utils/array.utils';
 import { getTokenSlug } from '../../../../utils/token.utils';
+import { useGroupedCollectibles } from '../../../collectibles/hooks/use-grouped-collectibles.hook';
 
 import { styles } from './collectibles.styles';
 import { CollectibleImages } from './components/collectible-image';
@@ -23,13 +25,21 @@ const VIEW_ALL = 'VIEW ALL';
 
 export const CollectiblesWidget: FC = () => {
   const { navigate } = useNavigation();
-  const collectibles = useCollectiblesWidgetSelector();
+  const { collectiblesList, groupedCollectibles } = useGroupedCollectibles();
 
   const navigateToNftList = () => navigate(ScreensEnum.CollectiblesList);
 
+  const handleItemPress = (nft: Token) => {
+    if (isDefined(nft.collectionId) && isDefined(groupedCollectibles)) {
+      return navigate(ScreensEnum.SpicificCollectiblesList, { collectibles: groupedCollectibles[nft.collectionId] });
+    }
+
+    return navigate(ScreensEnum.NFT, { nft });
+  };
+
   return (
     <WidgetContainer title={COLLECTIBLES} iconName={IconNameEnum.Nft}>
-      {isEmptyArray(collectibles) ? (
+      {isEmptyArray(collectiblesList) ? (
         <ButtonWithIcon
           title={EMPTY_NFT}
           size={ButtonWithIconSizeEnum.Medium}
@@ -39,14 +49,11 @@ export const CollectiblesWidget: FC = () => {
       ) : (
         <Row>
           <Row>
-            {collectibles.map(collectible => (
-              <>
-                <CollectibleImages
-                  collectible={collectible}
-                  key={getTokenSlug(collectible.tokenAddress, collectible.tokenId)}
-                />
+            {collectiblesList.slice(0, 2).map(collectible => (
+              <React.Fragment key={getTokenSlug(collectible.tokenAddress, collectible.tokenId)}>
+                <CollectibleImages collectible={collectible} onPress={() => handleItemPress(collectible)} />
                 <Divider />
-              </>
+              </React.Fragment>
             ))}
           </Row>
           <Column style={styles.buttons}>

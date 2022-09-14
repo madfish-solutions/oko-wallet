@@ -1,8 +1,7 @@
-import { OnEventFn } from '@rnw-community/shared';
+import { isDefined, isNotEmptyString, OnEventFn } from '@rnw-community/shared';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { View, Image, Animated, Easing, Pressable, GestureResponderEvent, ImageStyle } from 'react-native';
 
-import { Divider } from '../../../../../components/divider/divider';
 import { Icon } from '../../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../../components/icon/icon-name.enum';
 import { ViewStyleProps } from '../../../../../interfaces/style.interface';
@@ -58,16 +57,20 @@ export const CollectibleImages: FC<Props> = ({
       {!imageIsLoaded && (
         <View style={[styles.image, { width: size, height: size }, imageStyle]}>
           <Animated.View style={animatedStyle}>
-            <Icon name={IconNameEnum.Success} size={getCustomSize(4)} iconStyle={styles.icon} />
+            <Icon name={IconNameEnum.Loaders} size={getCustomSize(4)} iconStyle={styles.icon} />
           </Animated.View>
         </View>
       )}
       <Pressable onPress={onPress}>
-        <Image
-          source={{ uri: collectible.artifactUri }}
-          style={[styles.image, { width: size, height: size }, imageStyle]}
-          onLoadEnd={() => setImageIsLoaded(true)}
-        />
+        {isDefined(collectible.artifactUri) && isNotEmptyString(collectible.artifactUri) ? (
+          <Image
+            source={{ uri: collectible.artifactUri }}
+            style={[styles.image, { width: size, height: size }, imageStyle]}
+            onLoadEnd={() => setImageIsLoaded(true)}
+          />
+        ) : (
+          <Icon name={IconNameEnum.PixelShit} size={getCustomSize(5)} />
+        )}
       </Pressable>
     </View>
   );

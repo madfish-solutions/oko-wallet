@@ -18,7 +18,7 @@ import { Token } from '../../../../interfaces/token.interface';
 import { getTokenSlug } from '../../../../utils/token.utils';
 import { CollectibleImages } from '../../../wallet/components/collectibles/components/collectible-image';
 import { IMAGE_CONTAINER_SIZE, IMAGE_SIZE } from '../../constants';
-import { useGroupedCollectibles } from '../../use-grouped-collectibles.hook';
+import { useGroupedCollectibles } from '../../hooks/use-grouped-collectibles.hook';
 
 import { styles } from './collectibles-list.styles';
 

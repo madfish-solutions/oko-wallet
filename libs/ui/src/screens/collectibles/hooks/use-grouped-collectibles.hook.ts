@@ -1,11 +1,10 @@
 import { isDefined } from '@rnw-community/shared';
 import { useEffect, useState } from 'react';
 
-import { SINGLE_NFTS_KEY } from '../../constants/defaults';
-import { Token } from '../../interfaces/token.interface';
-import { useCollectiblesSelector } from '../../store/wallet/wallet.selectors';
-
-import { SINGLE_NFT } from './constants';
+import { SINGLE_NFTS_KEY } from '../../../constants/defaults';
+import { Token } from '../../../interfaces/token.interface';
+import { useCollectiblesSelector } from '../../../store/wallet/wallet.selectors';
+import { SINGLE_NFT } from '../constants';
 
 export const useGroupedCollectibles = () => {
   const initialCollectiblesValue = useCollectiblesSelector();
@@ -40,7 +39,7 @@ export const useGroupedCollectibles = () => {
 
       return groupedCollectibles[collectionId][randomIndex > 0 ? randomIndex - 1 : 0];
     });
-    const singleNfts = groupedCollectibles[SINGLE_NFTS_KEY];
+    const singleNfts = groupedCollectibles.hasOwnProperty(SINGLE_NFTS_KEY) ? groupedCollectibles[SINGLE_NFTS_KEY] : [];
 
     setGroupedCollectibles(groupedCollectibles);
     setCollectiblesList([...randomNftFromEachCollection, ...singleNfts]);
