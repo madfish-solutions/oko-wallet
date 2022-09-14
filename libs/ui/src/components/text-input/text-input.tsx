@@ -57,6 +57,7 @@ export const TextInput = <
   required = true,
   editable = true,
   multiline = false,
+  secureTextEntry = false,
   containerStyle,
   inputStyle,
   inputContainerStyle,
@@ -133,6 +134,7 @@ export const TextInput = <
             onFocus={onFocus}
             multiline={multiline}
             keyboardType={keyboardType}
+            secureTextEntry={secureTextEntry}
           />
           {isNotEmptyString(value) && editable && (
             <TouchableIcon name={IconNameEnum.Clear} onPress={handleInputClear} style={clearIconStyles} />

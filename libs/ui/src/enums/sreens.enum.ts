@@ -64,7 +64,7 @@ export type ScreensParamList = {
   [ScreensEnum.CreateANewWallet]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.VerifyMnemonic]: { mnemonic: string[] };
-  [ScreensEnum.AlmostDone]: undefined;
+  [ScreensEnum.AlmostDone]: { mnemonic: string };
   [ScreensEnum.Activity]: undefined;
   [ScreensEnum.Token]: { token: Token };
   [ScreensEnum.CollectiblesList]: undefined;

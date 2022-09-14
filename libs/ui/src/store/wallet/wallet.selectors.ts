@@ -150,6 +150,18 @@ export const useMintedTransactionsSelector = () => {
   );
 };
 
+export const useTokenBalanceSelector = (tokenSlug: string): string => {
+  const network = useSelectedNetworkSelector();
+  const accountTokens = useAccountTokensSelector();
+
+  const tokenBalance =
+    tokenSlug === getTokenSlug(GAS_TOKEN_ADDRESS)
+      ? network.gasTokenBalance.data
+      : accountTokens.find(token => getTokenSlug(token.tokenAddress, token.tokenId) === tokenSlug)?.balance.data ?? '0';
+
+  return useMemo(() => tokenBalance, [tokenBalance]);
+};
+
 export const useAllSavedTokensSelector = () => {
   const tokensMetadata = useSelector<WalletRootState, Record<string, TokenMetadata>>(
     ({ wallet }) => wallet.tokensMetadata
@@ -166,16 +178,4 @@ export const useAllSavedTokensSelector = () => {
   });
 
   return allTokens;
-};
-
-export const useTokenBalanceSelector = (tokenSlug: string): string => {
-  const network = useSelectedNetworkSelector();
-  const accountTokens = useAccountTokensSelector();
-
-  const tokenBalance =
-    tokenSlug === getTokenSlug(GAS_TOKEN_ADDRESS)
-      ? network.gasTokenBalance.data
-      : accountTokens.find(token => getTokenSlug(token.tokenAddress, token.tokenId) === tokenSlug)?.balance.data ?? '0';
-
-  return useMemo(() => tokenBalance, [tokenBalance]);
 };

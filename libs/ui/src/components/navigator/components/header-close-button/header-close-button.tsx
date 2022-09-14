@@ -8,9 +8,18 @@ import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
 
 import { styles } from './header-close-button.styles';
 
-const goBackRoutes = [ScreensEnum.SendAccountsSelector, ScreensEnum.SendTokensSelector, ScreensEnum.NFT];
+const goBackRoutes = [
+  ScreensEnum.SendAccountsSelector,
+  ScreensEnum.SendTokensSelector,
+  ScreensEnum.WordsAmountSelector,
+  ScreensEnum.NFT
+];
 
-export const HeaderCloseButton: FC = () => {
+interface Props {
+  closeNavigationRoute?: ScreensEnum;
+}
+
+export const HeaderCloseButton: FC<Props> = ({ closeNavigationRoute }) => {
   const { navigate, goBack } = useNavigation();
   const { name } = useRoute<RouteProp<ScreensParamList>>();
 
@@ -18,7 +27,7 @@ export const HeaderCloseButton: FC = () => {
     if (goBackRoutes.includes(name)) {
       goBack();
     } else {
-      navigate(ScreensEnum.Wallet);
+      navigate(closeNavigationRoute ?? ScreensEnum.Wallet);
     }
   };
 

@@ -151,7 +151,7 @@ export const VerifyMnemonic: FC = () => {
 
   const navigateToAlmostDoneScreen = () => {
     if (JSON.stringify(correctWordOrder) === JSON.stringify(words)) {
-      return navigate(ScreensEnum.AlmostDone);
+      return navigate(ScreensEnum.AlmostDone, { mnemonic: mnemonic.join(' ') });
     }
 
     const allWordsAreSelected = words.every(item => isNotEmptyString(item.word));
