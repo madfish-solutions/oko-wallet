@@ -37,7 +37,7 @@ const transformApiData = (
     txData => !(txData.receives.length > 0 && txData.sends.length > 0) && txData.cate_id !== 'approve'
   );
 
-  let sectionListItem: SectionListActivityData;
+  let sectionListItem: SectionListActivityData | undefined;
 
   filteredTransactions.forEach(txData => {
     const activityData = {
@@ -81,6 +81,10 @@ const transformApiData = (
       sectionListItem = { title: transformTimestampToDate(txData.time_at), data: [...data, activityData] };
     }
   });
+
+  if (sectionListItem !== undefined) {
+    response = [...response, sectionListItem];
+  }
 
   return response;
 };
