@@ -5,7 +5,13 @@ import { useDispatch } from 'react-redux';
 import { getHistoryList } from '../api/debank';
 import { GAS_TOKEN_ADDRESS } from '../constants/defaults';
 import { TransactionStatusEnum } from '../enums/transactions.enum';
-import { ActivityData, ActivityResponse, TransactionLabelEnum } from '../interfaces/activity.interface';
+import {
+  ActivityData,
+  ActivityResponse,
+  SectionListActivityData,
+  TransactionLabelEnum
+} from '../interfaces/activity.interface';
+import { checkIsDayLabelNeeded, transformTimestampToDate } from '../screens/activity/components/activity-list.utils';
 import { loadTokenMetadataAction } from '../store/wallet/wallet.actions';
 import { useAllSavedTokensSelector } from '../store/wallet/wallet.selectors';
 import { capitalize } from '../utils/string.util';
@@ -21,17 +27,25 @@ transform data from API
 to ActivityData type, as we needed
 */
 
-const transformApiData = (data: ActivityResponse, publicKeyHash: string, chainName: string): ActivityData[] => {
+const transformApiData = (
+  data: ActivityResponse,
+  publicKeyHash: string,
+  chainName: string
+): SectionListActivityData[] => {
+  let response: SectionListActivityData[] = [];
   const filtredTransactions = data?.history_list.filter(
     txData => !(txData.receives.length > 0 && txData.sends.length > 0) && txData.cate_id !== 'approve'
   );
 
-  return filtredTransactions.map(txData => {
+  let sectionListItem: SectionListActivityData;
+
+  filtredTransactions.map(txData => {
     const activityData = {
       transactionStatus: TransactionStatusEnum.applied,
       hash: txData.id,
       timestamp: txData.time_at
     } as ActivityData;
+
     if (txData.tx?.status === 0) {
       activityData.transactionStatus = TransactionStatusEnum.failed;
     } else {
@@ -59,13 +73,21 @@ const transformApiData = (data: ActivityResponse, publicKeyHash: string, chainNa
       }
     }
 
-    return activityData;
+    if (checkIsDayLabelNeeded(txData.time_at) && sectionListItem !== undefined) {
+      response = [...response, sectionListItem];
+      sectionListItem = { title: transformTimestampToDate(txData.time_at), data: [activityData] };
+    } else {
+      const data = sectionListItem?.data ?? [];
+      sectionListItem = { title: transformTimestampToDate(txData.time_at), data: [...data, activityData] };
+    }
   });
+
+  return response;
 };
 
 export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAddress?: string) => {
   const [lastTimestamp, setLastTimestamp] = useState(0);
-  const [activity, setActivity] = useState<ActivityData[]>([]);
+  const [activity, setActivity] = useState<SectionListActivityData[]>([]);
   const tokenAddressRequest = tokenAddress === GAS_TOKEN_ADDRESS ? undefined : tokenAddress;
 
   const fetchActivity = async (startTime: number) => {
@@ -75,8 +97,8 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
         tokenAddress === GAS_TOKEN_ADDRESS
           ? transformApiData(filterGasTokenTransaction(response), publicKeyHash, chainName)
           : transformApiData(response, publicKeyHash, chainName);
-      if (activityData.length > 0) {
-        setLastTimestamp(activityData[activityData.length - 1].timestamp);
+      if (response.history_list.length > 0) {
+        setLastTimestamp(response.history_list[response.history_list.length - 1].time_at);
       }
       setActivity([...activity, ...activityData]);
     }

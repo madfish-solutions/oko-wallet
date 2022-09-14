@@ -14,7 +14,7 @@ import { colors } from '../../../styles/colors';
 import { formatBalances } from '../../../utils/units.utils';
 
 import { styles } from './activity-list.styles';
-import { checkIsDayLabelNeeded, transformTimestampToDate, transformTimestampToTime } from './activity-list.utils';
+import { transformTimestampToTime } from './activity-list.utils';
 
 interface Props {
   transaction: ActivityData;
@@ -37,11 +37,6 @@ export const ActivityList: FC<Props> = ({
   return (
     <View>
       <Column style={styles.root}>
-        {checkIsDayLabelNeeded(timestamp) && (
-          <Row style={styles.dateWrapper}>
-            <Text style={styles.dateText}>{transformTimestampToDate(timestamp)}</Text>
-          </Row>
-        )}
         <Row style={styles.wrapper}>
           <Column style={styles.content}>
             <Row style={styles.sendWrapper}>

@@ -1,13 +1,8 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import React, { FC, useCallback, useEffect } from 'react';
-import { FlatList, ListRenderItemInfo } from 'react-native';
+import React, { FC } from 'react';
 
-import { getDebankId } from '../../../../api/utils/get-debank-id.util';
-import { EmptySearchIcon } from '../../../../components/icon/components/empty-search-icon/empty-search-icon';
+import { ActivitySectionList } from '../../../../components/activity/activity-section-list';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
-import { useAllActivity } from '../../../../hooks/use-activity.hook';
-import { ActivityData } from '../../../../interfaces/activity.interface';
-import { ActivityList } from '../../../../screens/activity/components/activity-list';
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector
@@ -21,29 +16,6 @@ export const Activity: FC = () => {
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Token>>();
   const selectedPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { chainId } = useSelectedNetworkSelector();
-  const debankChainId = getDebankId(chainId);
 
-  const { activity, fetchData } = useAllActivity(selectedPublicKeyHash, debankChainId, tokenAddress);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const renderItem = useCallback(
-    ({ item: activityItems }: ListRenderItemInfo<ActivityData>) => (
-      <ActivityList transaction={activityItems} address={selectedPublicKeyHash} chainName={debankChainId} />
-    ),
-    []
-  );
-
-  return (
-    <FlatList
-      data={activity}
-      renderItem={renderItem}
-      keyExtractor={({ hash }) => hash}
-      ListEmptyComponent={<EmptySearchIcon />}
-      onEndReachedThreshold={0.1}
-      onEndReached={fetchData}
-    />
-  );
+  return <ActivitySectionList publicKeyHash={selectedPublicKeyHash} chainId={chainId} tokenAddress={tokenAddress} />;
 };
