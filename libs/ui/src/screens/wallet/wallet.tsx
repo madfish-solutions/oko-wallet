@@ -17,6 +17,7 @@ import { styles } from './wallet.styles';
 export const Wallet: FC = () => {
   const { isLocked } = useUnlock();
   const { onScroll, onTouchEnd, changeQrCodeVisibility, contentOffsetY, scrollViewRef } = useHeaderAnimation();
+
   useActiveTokenList();
   useAllUserNft();
 

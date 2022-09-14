@@ -6,7 +6,7 @@ export interface TokenMetadata {
   tezosTokenType?: string;
   artifactUri?: string;
   amount?: number;
-  collectionId?: string;
+  collectionId?: string | null;
   contractName?: string;
   innerId?: string;
 }

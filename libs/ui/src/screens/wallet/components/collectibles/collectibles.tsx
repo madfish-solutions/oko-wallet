@@ -25,7 +25,7 @@ export const CollectiblesWidget: FC = () => {
   const { navigate } = useNavigation();
   const collectibles = useCollectiblesWidgetSelector();
 
-  const navigateToNftList = () => navigate(ScreensEnum.Collectibles);
+  const navigateToNftList = () => navigate(ScreensEnum.CollectiblesList);
 
   return (
     <WidgetContainer title={COLLECTIBLES} iconName={IconNameEnum.Nft}>
@@ -40,10 +40,13 @@ export const CollectiblesWidget: FC = () => {
         <Row>
           <Row>
             {collectibles.map(collectible => (
-              <CollectibleImages
-                collectible={collectible}
-                key={getTokenSlug(collectible.tokenAddress, collectible.tokenId)}
-              />
+              <>
+                <CollectibleImages
+                  collectible={collectible}
+                  key={getTokenSlug(collectible.tokenAddress, collectible.tokenId)}
+                />
+                <Divider />
+              </>
             ))}
           </Row>
           <Column style={styles.buttons}>

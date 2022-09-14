@@ -8,7 +8,7 @@ import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
 
 import { styles } from './header-close-button.styles';
 
-const goBackRoutes = [ScreensEnum.SendAccountsSelector, ScreensEnum.SendTokensSelector];
+const goBackRoutes = [ScreensEnum.SendAccountsSelector, ScreensEnum.SendTokensSelector, ScreensEnum.NFT];
 
 export const HeaderCloseButton: FC = () => {
   const { navigate, goBack } = useNavigation();

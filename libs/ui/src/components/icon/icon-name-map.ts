@@ -28,6 +28,7 @@ import EyeOpenIcon from './assets/eye-open.svg';
 import GasIcon from './assets/gas.svg';
 import Info from './assets/info.svg';
 import LoadersIcon from './assets/loaders.svg';
+import NftCollectionLayout from './assets/nft-collection-layout.svg';
 import NftIcon from './assets/nft.svg';
 import OutIcon from './assets/out.svg';
 import PartnersIcon from './assets/partners.svg';
@@ -113,5 +114,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.ArrowDropdown]: ArrowDropdown,
   [IconNameEnum.Refresh]: Refresh,
   [IconNameEnum.Info]: Info,
-  [IconNameEnum.Deposit]: Deposit
+  [IconNameEnum.Deposit]: Deposit,
+  [IconNameEnum.NftCollectionLayout]: NftCollectionLayout
 };

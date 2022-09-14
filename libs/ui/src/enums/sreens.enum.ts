@@ -32,7 +32,9 @@ export enum ScreensEnum {
   AlmostDone = 'AlmostDone',
   Activity = 'Activity',
   Token = 'Token',
-  Collectibles = 'Collectibles'
+  CollectiblesList = 'CollectiblesList',
+  SpicificCollectiblesList = 'SpicificCollectiblesList',
+  NFT = 'NFT'
 }
 
 export type ScreensParamList = {
@@ -65,5 +67,8 @@ export type ScreensParamList = {
   [ScreensEnum.AlmostDone]: undefined;
   [ScreensEnum.Activity]: undefined;
   [ScreensEnum.Token]: { token: Token };
-  [ScreensEnum.Collectibles]: undefined;
+  [ScreensEnum.CollectiblesList]: undefined;
+  [ScreensEnum.CollectiblesList]: undefined;
+  [ScreensEnum.SpicificCollectiblesList]: { collectibles: Token[] };
+  [ScreensEnum.NFT]: { nft: Token };
 };

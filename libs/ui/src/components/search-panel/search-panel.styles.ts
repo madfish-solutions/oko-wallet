@@ -7,7 +7,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     height: getCustomSize(5),
     marginTop: getCustomSize(),
-    marginBottom: getCustomSize(2)
+    marginBottom: getCustomSize(2),
+    width: '100%'
   },
   close: {
     marginLeft: getCustomSize(2)

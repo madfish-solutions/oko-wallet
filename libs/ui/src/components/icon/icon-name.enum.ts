@@ -53,5 +53,6 @@ export enum IconNameEnum {
   ArrowDropdown = 'ArrowDropdown',
   Refresh = 'Refresh',
   Info = 'Info',
-  Deposit = 'Deposit'
+  Deposit = 'Deposit',
+  NftCollectionLayout = 'NftCollectionLayout'
 }
