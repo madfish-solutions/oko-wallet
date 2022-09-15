@@ -17,6 +17,7 @@ import {
   useSelectedAccountSelector,
   useSelectedNetworkSelector
 } from '../../../../store/wallet/wallet.selectors';
+import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
 import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
 import { ModalGasToken } from '../../../components/modal-gas-token/modal-gas-token';
 import { ModalRenderItem } from '../../../components/modal-render-item/modal-render-item';
@@ -59,6 +60,7 @@ export const NetworksList = () => {
 
   const renderItem = ({ item, index }: ListRenderItemInfo<NetworkInterface>) => {
     const isNetworkSelected = selectedIndex === index;
+    const selectedAccountPublicKeyHash = getPublicKeyHash(selectedAccount, item.networkType);
 
     return (
       <ModalRenderItem
@@ -66,7 +68,12 @@ export const NetworksList = () => {
         icon={<Icon name={item.iconName ?? IconNameEnum.NetworkFallback} />}
         isActive={isNetworkSelected}
         balanceTitle="Gas balance"
-        balance={<ModalGasToken balance={item.gasTokenBalance.data} metadata={item.gasTokenMetadata} />}
+        balance={
+          <ModalGasToken
+            balance={item.gasTokenBalance[selectedAccountPublicKeyHash]?.data}
+            metadata={item.gasTokenMetadata}
+          />
+        }
         onSelectItem={() => handleChangeNetwork(item)}
         rightBottomComponent={
           <TouchableIcon name={IconNameEnum.Edit} onPress={() => navigateToEditNetwork(item, isNetworkSelected)} />

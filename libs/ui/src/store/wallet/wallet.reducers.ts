@@ -80,17 +80,33 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
   builder
     .addCase(loadGasTokenBalanceAction.submit, state =>
       updateSelectedNetworkState(state, selectedNetwork => ({
-        gasTokenBalance: createEntity(selectedNetwork.gasTokenBalance.data, true)
+        gasTokenBalance: {
+          ...selectedNetwork.gasTokenBalance,
+          [state.selectedAccountPublicKeyHash]: createEntity(
+            selectedNetwork.gasTokenBalance[state.selectedAccountPublicKeyHash]?.data ?? '0',
+            true
+          )
+        }
       }))
     )
     .addCase(loadGasTokenBalanceAction.success, (state, { payload }) =>
-      updateSelectedNetworkState(state, () => ({
-        gasTokenBalance: createEntity(payload, false)
+      updateSelectedNetworkState(state, selectedNetwork => ({
+        gasTokenBalance: {
+          ...selectedNetwork.gasTokenBalance,
+          [state.selectedAccountPublicKeyHash]: createEntity(payload, false)
+        }
       }))
     )
     .addCase(loadGasTokenBalanceAction.fail, (state, { payload: error }) =>
       updateSelectedNetworkState(state, selectedNetwork => ({
-        gasTokenBalance: createEntity(selectedNetwork.gasTokenBalance.data, false, error)
+        gasTokenBalance: {
+          ...selectedNetwork.gasTokenBalance,
+          [state.selectedAccountPublicKeyHash]: createEntity(
+            selectedNetwork.gasTokenBalance[state.selectedAccountPublicKeyHash]?.data ?? '0',
+            false,
+            error
+          )
+        }
       }))
     );
   builder
@@ -193,16 +209,20 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       };
     })
     .addCase(editTokenAction, (state, { payload }) => {
-      const editedToken = { ...payload, decimals: Number(payload.decimals) };
-      const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
-      const updatedAccountTokens = state.accountsTokens[accountTokensSlug].map(accountToken =>
-        getTokenSlug(accountToken.tokenAddress, accountToken.tokenId) ===
-        getTokenSlug(editedToken.tokenAddress, editedToken.tokenId)
-          ? { ...accountToken, ...editedToken }
-          : accountToken
-      );
+      const { tokenAddress, tokenId, decimals, ...metadata } = payload;
+      const tokenMetadataSlug = getTokenMetadataSlug(state.selectedNetworkRpcUrl, tokenAddress, tokenId);
 
-      return { ...state, accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: updatedAccountTokens } };
+      return {
+        ...state,
+        tokensMetadata: {
+          ...state.tokensMetadata,
+          [tokenMetadataSlug]: {
+            ...state.tokensMetadata[tokenMetadataSlug],
+            ...metadata,
+            decimals: Number(decimals)
+          }
+        }
+      };
     })
     .addCase(changeTokenVisibilityAction, (state, { payload: token }) => {
       const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkRpcUrl, state.selectedAccountPublicKeyHash);
@@ -305,12 +325,17 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     const prevNetworkType = getSelectedNetworkType(state);
     const newNetworkType = getSelectedNetworkType({ ...state, selectedNetworkRpcUrl });
     const selectedAccount = getSelectedAccount(state, prevNetworkType);
+    const selectedAccountPublicKeyHash = getPublicKeyHash(selectedAccount, newNetworkType);
+    const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+    const isTokensForNetworkExist: boolean = isDefined(state.accountsTokens[accountTokensSlug]);
 
     return {
       ...state,
       selectedNetworkRpcUrl,
-      selectedAccountPublicKeyHash: getPublicKeyHash(selectedAccount, newNetworkType),
-      accountsTokens: updateAccountsTokensState({ ...state, selectedNetworkRpcUrl }, selectedAccount)
+      selectedAccountPublicKeyHash,
+      ...(!isTokensForNetworkExist && {
+        accountsTokens: updateAccountsTokensState({ ...state, selectedNetworkRpcUrl }, selectedAccount)
+      })
     };
   });
   builder.addCase(addTransactionAction, (state, { payload: transaction }) => {

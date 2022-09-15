@@ -10,15 +10,15 @@ import { styles } from './header-side-balance.styles';
 interface Props {
   symbol: string;
   balance: string;
+  usdBalance: number | string;
 }
 
-export const HeaderSideBalance: FC<Props> = ({ symbol, balance }) => (
+export const HeaderSideBalance: FC<Props> = ({ symbol, balance, usdBalance }) => (
   <View style={styles.root}>
     <Text style={[styles.numbersFontText11, styles.grey]}>Available balance</Text>
     <Row style={styles.dollarContainer}>
-      <Text style={styles.numbersFontText13}>410</Text>
-      <Text style={[styles.numbersFontText13, styles.m]}>M</Text>
-      <Text style={[styles.numbersFontText13, styles.grey]}>$</Text>
+      <Text style={styles.numbersFontText13}>{usdBalance}</Text>
+      <Text style={[styles.numbersFontText13, styles.grey, styles.dollar]}>$</Text>
     </Row>
     <Row>
       <Text style={styles.numbersFontText15}>{getBalanceToShow(balance)}</Text>

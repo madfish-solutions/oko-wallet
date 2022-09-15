@@ -50,9 +50,6 @@ export const useSelectedAccountSelector = () =>
     return selectedAccount;
   }, checkEquality);
 
-export const useSelectedAccountPkhSelector = () =>
-  useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedAccountPublicKeyHash);
-
 export const useAllAccountsSelector = () =>
   useSelector<WalletRootState, WalletState['accounts']>(({ wallet }) => wallet.accounts);
 
@@ -69,6 +66,15 @@ export const useAllAccountsWithoutSelectedSelector = () => {
   return useMemo(() => getAllAccountsWithoutCurrent(allAccounts, selectedAccount), [allAccounts, selectedAccount]);
 };
 
+export const useAllAccountsTokensAndTokensMetadataSelector = () =>
+  useSelector<
+    WalletRootState,
+    { accountsTokens: WalletState['accountsTokens']; tokensMetadata: WalletState['tokensMetadata'] }
+  >(({ wallet: { accountsTokens, tokensMetadata } }) => ({
+    accountsTokens,
+    tokensMetadata
+  }));
+
 export const useAccountAssetsSelector = () =>
   useSelector<WalletRootState, Token[]>(
     ({ wallet: { accountsTokens, selectedAccountPublicKeyHash, tokensMetadata, selectedNetworkRpcUrl } }) => {
@@ -83,14 +89,29 @@ export const useAccountAssetsSelector = () =>
           );
 
           return {
-            ...tokensMetadata[tokenMetadataSlug],
-            ...accountToken
+            ...accountToken,
+            ...tokensMetadata[tokenMetadataSlug]
           };
         }) ?? []
       );
     },
     checkEquality
   );
+
+export const useGasTokenSelector = () => {
+  const selectedAccountPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
+  const { gasTokenMetadata, gasTokenBalance, rpcUrl } = useSelectedNetworkSelector();
+
+  return useMemo(
+    () => ({
+      ...gasTokenMetadata,
+      balance: gasTokenBalance[selectedAccountPublicKeyHash],
+      tokenAddress: GAS_TOKEN_ADDRESS,
+      isVisible: true
+    }),
+    [rpcUrl, gasTokenBalance]
+  );
+};
 
 export const useAccountTokensSelector = () => {
   const assets = useAccountAssetsSelector();
@@ -102,6 +123,20 @@ export const useVisibleAccountTokensSelector = () => {
   const accountTokens = useAccountTokensSelector();
 
   return useMemo(() => accountTokens.filter(({ isVisible }) => isVisible), [accountTokens]);
+};
+
+export const useAccountTokensAndGasTokenSelector = (): Token[] => {
+  const allAccountTokens = useAccountTokensSelector();
+  const gasToken = useGasTokenSelector();
+
+  return useMemo(() => [gasToken, ...allAccountTokens], [allAccountTokens, gasToken]);
+};
+
+export const useVisibleAccountTokensAndGasTokenSelector = (): Token[] => {
+  const visibleAccountTokens = useVisibleAccountTokensSelector();
+  const gasToken = useGasTokenSelector();
+
+  return useMemo(() => [gasToken, ...visibleAccountTokens], [visibleAccountTokens, gasToken]);
 };
 
 export const useCollectiblesSelector = () => {
@@ -125,7 +160,7 @@ export const useIsAuthorisedSelector = () => {
 
 export const usePendingTransactionsSelector = () => {
   const transactions = useSelector<WalletRootState, Record<string, Transaction[]>>(({ wallet }) => wallet.transactions);
-  const selectedAccountPublicKeyHash = useSelectedAccountPkhSelector();
+  const selectedAccountPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const selectedNetworkRpcUrl = useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedNetworkRpcUrl);
 
   const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
@@ -142,7 +177,7 @@ export const usePendingTransactionsSelector = () => {
 export const useMintedTransactionsSelector = () => {
   const transactions = useSelector<WalletRootState, Record<string, Transaction[]>>(({ wallet }) => wallet.transactions);
 
-  const selectedAccountPublicKeyHash = useSelectedAccountPkhSelector();
+  const selectedAccountPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const selectedNetworkRpcUrl = useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedNetworkRpcUrl);
 
   const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
@@ -157,12 +192,13 @@ export const useMintedTransactionsSelector = () => {
 };
 
 export const useTokenBalanceSelector = (tokenSlug: string): string => {
+  const selectedAccountPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const network = useSelectedNetworkSelector();
   const accountTokens = useAccountTokensSelector();
 
   const tokenBalance =
     tokenSlug === getTokenSlug(GAS_TOKEN_ADDRESS)
-      ? network.gasTokenBalance.data
+      ? network.gasTokenBalance[selectedAccountPublicKeyHash].data
       : accountTokens.find(token => getTokenSlug(token.tokenAddress, token.tokenId) === tokenSlug)?.balance.data ?? '0';
 
   return useMemo(() => tokenBalance, [tokenBalance]);

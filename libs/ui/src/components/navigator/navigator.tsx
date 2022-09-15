@@ -32,6 +32,8 @@ import { getStoredValue, setStoredValue } from '../../utils/store.util';
 
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
 import { PERSISTENCE_KEY } from './constants/perstistence-key';
+import { useActiveTokenList } from './hooks/use-active-token-list.hook';
+import { useTokensPriceInfo } from './hooks/use-tokens-price-info.hook';
 import { Stack } from './utils/get-stack-navigator';
 
 export const navigationRef = createRef<NavigationContainerRef<ScreensParamList>>();
@@ -41,6 +43,8 @@ export const Navigator: FC = () => {
   const { isLocked } = useUnlock();
   const [isReady, setIsReady] = useState(false);
   const [initialState, setInitialState] = useState<InitialState>();
+  useActiveTokenList();
+  useTokensPriceInfo();
 
   useEffect(() => {
     const restoreState = async () => {

@@ -7,11 +7,15 @@ import { Divider } from '../../../../components/divider/divider';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';
 import { AccountToken } from '../../../../components/token/account-token/account-token';
-import { GasToken } from '../../../../components/token/gas-token/gas-token';
 import { WidgetContainer } from '../../../../components/widget-container/widget-container';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { useVisibleAccountTokensSelector } from '../../../../store/wallet/wallet.selectors';
+import { useTokensMarketInfoSelector } from '../../../../store/tokens-market-info/token-market-info.selectors';
+import {
+  useVisibleAccountTokensAndGasTokenSelector,
+  useSelectedNetworkSelector
+} from '../../../../store/wallet/wallet.selectors';
+import { getTokenMetadataSlug } from '../../../../utils/token-metadata.util';
 import { getTokenSlug } from '../../../../utils/token.utils';
 
 import { styles } from './assets-widget.styles';
@@ -19,7 +23,9 @@ import { VISIBLE_TOKENS_NUMBER } from './constants/assets-number';
 
 export const AssetsWidget: FC = () => {
   const { navigate } = useNavigation();
-  const accountTokens = useVisibleAccountTokensSelector();
+  const { rpcUrl } = useSelectedNetworkSelector();
+  const allTokensMarketInfo = useTokensMarketInfoSelector();
+  const accountTokens = useVisibleAccountTokensAndGasTokenSelector();
   const visibleAccountTokens = useMemo(() => accountTokens.slice(0, VISIBLE_TOKENS_NUMBER), [accountTokens]);
 
   const navigateToTokens = () => navigate(ScreensEnum.Tokens);
@@ -42,9 +48,13 @@ export const AssetsWidget: FC = () => {
             rightIcon={IconNameEnum.Topup}
           />
         </Row>
-        <GasToken />
         {visibleAccountTokens.map(token => (
-          <AccountToken key={getTokenSlug(token.tokenAddress, token.tokenId)} token={token} loadBalance />
+          <AccountToken
+            key={getTokenSlug(token.tokenAddress, token.tokenId)}
+            token={token}
+            marketInfo={allTokensMarketInfo[getTokenMetadataSlug(rpcUrl, token.tokenAddress, token.tokenId)]}
+            loadBalance
+          />
         ))}
         <Row>
           <ButtonWithIcon

@@ -11,6 +11,7 @@ import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { RobotIcon } from '../../../components/robot-icon/robot-icon';
 import { Row } from '../../../components/row/row';
 import { ScreensEnum } from '../../../enums/sreens.enum';
+import { useAllTokensUsdTotalBalanceOfSelectedAccount } from '../../../hooks/use-all-tokens-usd-total-balance-of-selected-account.hook';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../hooks/use-shelter.hook';
 import { AccountInterface } from '../../../interfaces/account.interface';
@@ -38,6 +39,9 @@ export const AccountsSelector: FC = () => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const accounts = useAllAccountsSelector();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
+  const { totalAccountsBalance, accountsBalanceInUsd } = useAllTokensUsdTotalBalanceOfSelectedAccount();
+
+  const totalBalanceOfSelectedAccount = accountsBalanceInUsd[selectedAccount.name];
 
   const handleChangeAccount = (account: AccountInterface) => {
     if (checkIsNetworkTypeKeyExist(account, selectedNetworkType)) {
@@ -60,7 +64,7 @@ export const AccountsSelector: FC = () => {
           name={selectedAccount.name}
           balanceTitle="Total balance"
           icon={<RobotIcon seed={publicKeyHash} size={getCustomSize(6)} />}
-          balance={<ModalAccountBalance />}
+          balance={<ModalAccountBalance balance={totalBalanceOfSelectedAccount} />}
           style={styles.header}
         />
         <Row style={styles.buttonsContainer}>
@@ -87,9 +91,9 @@ export const AccountsSelector: FC = () => {
       <Column style={styles.accountsBalanceContainer}>
         <Text style={styles.accountsBalanceTitle}>All accounts balance</Text>
         <Row>
-          <Text style={styles.accountsBalance}>401 987.01</Text>
+          <Text style={styles.accountsBalance}>{totalAccountsBalance}</Text>
           <Text style={styles.accountsBalanceCurrency}>$</Text>
-          <Dynamics value="10.2" style={styles.dynamics} />
+          <Dynamics value={10.2} style={styles.dynamics} />
         </Row>
       </Column>
       <Divider size={getCustomSize(0.5)} style={styles.divider} />

@@ -7,11 +7,12 @@ import { ScreenTitle } from '../../components/screen-components/header-container
 import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { Tabs } from '../../components/tabs/tabs';
-import { GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { ViewStyleProps } from '../../interfaces/style.interface';
-import { useTokenBalanceSelector } from '../../store/wallet/wallet.selectors';
+import { useTokenMarketInfoSelector } from '../../store/tokens-market-info/token-market-info.selectors';
+import { useTokenBalanceSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
+import { checkIsGasToken } from '../../utils/check-is-gas-token.util';
 import { getTokenSlug } from '../../utils/token.utils';
 
 import { Activity } from './components/activity/activity';
@@ -43,12 +44,14 @@ export const Token: FC<Props> = ({ style }) => {
   const {
     params: { token }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Token>>();
+  const { rpcUrl } = useSelectedNetworkSelector();
 
   const { name, symbol, tokenAddress, decimals, tokenId, thumbnailUri, balance } = token;
+  const { price, changeInPrice24h } = useTokenMarketInfoSelector(tokenAddress, rpcUrl);
 
   const balanceFromStore = useTokenBalanceSelector(getTokenSlug(tokenAddress, tokenId));
   const formattedBalance = formatUnits(balanceFromStore ?? balance.data, decimals);
-  const isGasToken = tokenAddress === GAS_TOKEN_ADDRESS;
+  const isGasToken = checkIsGasToken(tokenAddress);
 
   return (
     <ScreenContainer style={[styles.root, style]}>
@@ -56,8 +59,8 @@ export const Token: FC<Props> = ({ style }) => {
         <ScreenTitle title={symbol} onBackButtonPress={goBack} />
         <HeaderSideToken
           name={name}
-          dynamics="20.43"
-          price="0.34"
+          dynamics={changeInPrice24h}
+          price={price}
           thumbnailUri={thumbnailUri}
           isGasToken={isGasToken}
         />

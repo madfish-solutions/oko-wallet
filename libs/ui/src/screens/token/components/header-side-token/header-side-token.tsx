@@ -1,3 +1,4 @@
+import { isDefined } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { Text } from 'react-native';
 
@@ -16,8 +17,8 @@ import { styles } from './header-side-token.styles';
 
 interface Props {
   name: string;
-  price: string;
-  dynamics: string;
+  price?: number;
+  dynamics?: number;
   thumbnailUri?: string;
   isGasToken?: boolean;
   style?: ViewStyleProps;
@@ -26,8 +27,8 @@ interface Props {
 export const HeaderSideToken: FC<Props> = ({ name, price, dynamics, thumbnailUri, isGasToken = false, style }) => (
   <Column style={[styles.root, style]}>
     <Row style={styles.wrapper}>
-      <Text style={styles.amount}>{`${price} $`}</Text>
-      <Dynamics value={dynamics} />
+      {isDefined(price) && <Text style={styles.amount}>{`${price.toFixed(2)} $`}</Text>}
+      {isDefined(dynamics) && <Dynamics value={dynamics} />}
     </Row>
     <Row>
       {isGasToken && <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />}

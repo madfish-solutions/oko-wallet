@@ -12,7 +12,11 @@ import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
 import { createEntity } from '../../../../store/utils/entity.utils';
 import { addNewNetworkAction } from '../../../../store/wallet/wallet.actions';
-import { useAllNetworksSelector, useSelectedAccountSelector } from '../../../../store/wallet/wallet.selectors';
+import {
+  useAllNetworksSelector,
+  useSelectedAccountPublicKeyHashSelector,
+  useSelectedAccountSelector
+} from '../../../../store/wallet/wallet.selectors';
 import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
 import { getDefaultEvmProvider } from '../../../../utils/get-default-evm-provider.utils';
 import { useNetworkFieldsRules } from '../../../hooks/use-validate-network-fields.hook';
@@ -34,6 +38,7 @@ export const AddNetwork: FC = () => {
   const { createHdAccountForNewNetworkType } = useShelter();
 
   const selectedAccount = useSelectedAccountSelector();
+  const selectedAccountPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const networks = useAllNetworksSelector();
 
   const [chainId, setChainId] = useState<string>('');
@@ -146,7 +151,7 @@ export const AddNetwork: FC = () => {
         symbol: tokenSymbol.trim(),
         decimals: nativeTokenInfo.decimals
       },
-      gasTokenBalance: createEntity('0'),
+      gasTokenBalance: { [selectedAccountPublicKeyHash]: createEntity('0') },
       explorerUrl: blockExplorerUrl?.trim(),
       networkType
     };

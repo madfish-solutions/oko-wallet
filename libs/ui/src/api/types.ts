@@ -9,3 +9,11 @@ export type TokenListResponse<
     chain: string;
   }
 > = Token[];
+
+export type TokenPriceInfoResponse = Record<
+  string,
+  {
+    usd: number;
+    usd_24h_change: number;
+  }
+>;

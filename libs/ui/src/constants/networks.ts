@@ -1,7 +1,6 @@
 import { IconNameEnum } from '../components/icon/icon-name.enum';
 import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { NetworkChainIdsByNetworkType, NetworkInterface } from '../interfaces/network.interface';
-import { createEntity } from '../store/utils/entity.utils';
 
 import { MainnetRpcEnum, TestnetRpcEnum } from './rpc';
 
@@ -16,7 +15,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 18,
       thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4256.png'
     },
-    gasTokenBalance: createEntity('0'),
+    gasTokenBalance: {},
     explorerUrl: 'https://scope.klaytn.com/',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Klaytn
@@ -31,7 +30,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 18,
       thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4256.png'
     },
-    gasTokenBalance: createEntity('0'),
+    gasTokenBalance: {},
     explorerUrl: 'https://baobab.scope.klaytn.com/',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Klaytn
@@ -46,7 +45,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 18,
       thumbnailUri: ''
     },
-    gasTokenBalance: createEntity('0'),
+    gasTokenBalance: {},
     explorerUrl: 'https://etherscan.io/',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Ethereum
@@ -61,7 +60,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 18,
       thumbnailUri: ''
     },
-    gasTokenBalance: createEntity('0'),
+    gasTokenBalance: {},
     explorerUrl: 'https://rinkeby.etherscan.io/',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Ethereum
@@ -76,7 +75,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 18,
       thumbnailUri: ''
     },
-    gasTokenBalance: createEntity('0'),
+    gasTokenBalance: {},
     explorerUrl: 'https://ropsten.etherscan.io/',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Ethereum
@@ -92,14 +91,14 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 18,
       thumbnailUri: ''
     },
-    gasTokenBalance: createEntity('0'),
+    gasTokenBalance: {},
     explorerUrl: 'https://bscscan.com/',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.BinanceSmartChain
   },
   {
     chainId: '97',
-    rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+    rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545',
     name: 'BSC Testnet',
     gasTokenMetadata: {
       name: 'Binance Coin',
@@ -108,7 +107,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 18,
       thumbnailUri: ''
     },
-    gasTokenBalance: createEntity('0'),
+    gasTokenBalance: {},
     explorerUrl: 'https://testnet.bscscan.com/',
     networkType: NetworkTypeEnum.EVM
   },
@@ -122,7 +121,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 9,
       thumbnailUri: ''
     },
-    gasTokenBalance: createEntity('0'),
+    gasTokenBalance: {},
     explorerUrl: 'https://moonbeam.moonscan.io/',
     networkType: NetworkTypeEnum.EVM
   },
@@ -136,7 +135,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 18,
       thumbnailUri: ''
     },
-    gasTokenBalance: createEntity('0'),
+    gasTokenBalance: {},
     explorerUrl: 'https://moonbase.moonscan.io/',
     networkType: NetworkTypeEnum.EVM
   },
@@ -150,7 +149,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 6,
       thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/2011.png'
     },
-    gasTokenBalance: createEntity('0'),
+    gasTokenBalance: {},
     explorerUrl: 'https://tzkt.io/',
     networkType: NetworkTypeEnum.Tezos
   },
@@ -164,7 +163,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 6,
       thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/2011.png'
     },
-    gasTokenBalance: createEntity('0'),
+    gasTokenBalance: {},
     explorerUrl: 'https://ithacanet.tzkt.io/',
     networkType: NetworkTypeEnum.Tezos
   }
