@@ -2,12 +2,12 @@ import { isDefined } from '@rnw-community/shared';
 import React, { FC, useCallback } from 'react';
 import { ListRenderItemInfo, View } from 'react-native';
 
+import { CollectibleImage } from '../../../../components/collectible-image/collectible-image';
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token } from '../../../../interfaces/token.interface';
-import { CollectibleImages } from '../../../wallet/components/collectibles/components/collectible-image';
 import { ListContainer } from '../../components/list-container/list-container';
 import { NftRenderItem } from '../../components/nft-render-item/nft-render-item';
 import { IMAGE_CONTAINER_SIZE, IMAGE_SIZE } from '../../constants';
@@ -46,7 +46,7 @@ export const CollectiblesList: FC = () => {
         ) : (
           <View style={styles.blockLayout} />
         )}
-        <CollectibleImages
+        <CollectibleImage
           artifactUri={nft.artifactUri}
           size={IMAGE_SIZE}
           onPress={() => handleItemPress(nft)}

@@ -2,13 +2,13 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC, useCallback } from 'react';
 import { ListRenderItemInfo, View } from 'react-native';
 
+import { CollectibleImage } from '../../../../components/collectible-image/collectible-image';
 import { Column } from '../../../../components/column/column';
 import { Text } from '../../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token } from '../../../../interfaces/token.interface';
 import { getCustomSize } from '../../../../styles/format-size';
-import { CollectibleImages } from '../../../wallet/components/collectibles/components/collectible-image';
 import { ListContainer } from '../../components/list-container/list-container';
 import { NftRenderItem } from '../../components/nft-render-item/nft-render-item';
 import { IMAGE_CONTAINER_SIZE } from '../../constants';
@@ -31,7 +31,7 @@ export const SpecificCollectiblesList: FC = () => {
       <NftRenderItem nft={nft} name={nft.name} handleItemPress={handleItemPress} index={index}>
         <View style={styles.blockLayout} />
 
-        <CollectibleImages
+        <CollectibleImage
           artifactUri={nft.artifactUri}
           size={IMAGE_CONTAINER_SIZE}
           height={getCustomSize(20.5)}

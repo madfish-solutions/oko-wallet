@@ -4,12 +4,12 @@ import { View, ScrollView } from 'react-native';
 
 import { Button } from '../../../components/button/button';
 import { ButtonSizeEnum, ButtonThemesEnum } from '../../../components/button/enums';
+import { CollectibleImage } from '../../../components/collectible-image/collectible-image';
 import { Column } from '../../../components/column/column';
 import { CopyText } from '../../../components/copy-text/copy-text';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
-import { CollectibleImages } from '../../../screens/wallet/components/collectibles/components/collectible-image';
 import { getCustomSize } from '../../../styles/format-size';
 import { isMobile } from '../../../utils/platform.utils';
 import { ModalContainer } from '../../components/modal-container/modal-container';
@@ -46,7 +46,7 @@ export const NFT: FC = () => {
     <ModalContainer screenTitle={nft.name}>
       <View style={styles.root}>
         <ScrollView style={styles.content} contentContainerStyle={styles.contentContainerStyle}>
-          <CollectibleImages
+          <CollectibleImage
             artifactUri={nft.artifactUri}
             size={isMobile ? getCustomSize(42.875) : getCustomSize(41)}
             pixelShitSize={getCustomSize(10)}

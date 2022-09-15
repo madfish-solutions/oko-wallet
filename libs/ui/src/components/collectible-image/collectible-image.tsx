@@ -2,10 +2,10 @@ import { isDefined, isNotEmptyString, OnEventFn } from '@rnw-community/shared';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { View, Image, Animated, Easing, Pressable, GestureResponderEvent, ImageStyle } from 'react-native';
 
-import { Icon } from '../../../../../components/icon/icon';
-import { IconNameEnum } from '../../../../../components/icon/icon-name.enum';
-import { ViewStyleProps } from '../../../../../interfaces/style.interface';
-import { getCustomSize } from '../../../../../styles/format-size';
+import { ViewStyleProps } from '../../interfaces/style.interface';
+import { getCustomSize } from '../../styles/format-size';
+import { Icon } from '../icon/icon';
+import { IconNameEnum } from '../icon/icon-name.enum';
 
 import { styles } from './collectible-image.styles';
 
@@ -19,7 +19,7 @@ interface Props {
   imageStyle?: ImageStyle;
 }
 
-export const CollectibleImages: FC<Props> = ({
+export const CollectibleImage: FC<Props> = ({
   artifactUri,
   size = getCustomSize(12.25),
   height,
