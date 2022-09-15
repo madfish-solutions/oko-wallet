@@ -51,7 +51,7 @@ export const CollectiblesWidget: FC = () => {
           <Row>
             {collectiblesList.slice(0, 2).map(collectible => (
               <React.Fragment key={getTokenSlug(collectible.tokenAddress, collectible.tokenId)}>
-                <CollectibleImages collectible={collectible} onPress={() => handleItemPress(collectible)} />
+                <CollectibleImages artifactUri={collectible.artifactUri} onPress={() => handleItemPress(collectible)} />
                 <Divider />
               </React.Fragment>
             ))}

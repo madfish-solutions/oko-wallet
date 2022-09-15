@@ -5,25 +5,26 @@ import { View, Image, Animated, Easing, Pressable, GestureResponderEvent, ImageS
 import { Icon } from '../../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../../components/icon/icon-name.enum';
 import { ViewStyleProps } from '../../../../../interfaces/style.interface';
-import { Token } from '../../../../../interfaces/token.interface';
 import { getCustomSize } from '../../../../../styles/format-size';
 
 import { styles } from './collectible-image.styles';
 
 interface Props {
-  collectible: Token;
+  artifactUri: string | undefined | null;
   size?: number;
   height?: number;
   onPress?: OnEventFn<GestureResponderEvent>;
+  pixelShitSize?: number;
   style?: ViewStyleProps;
   imageStyle?: ImageStyle;
 }
 
 export const CollectibleImages: FC<Props> = ({
-  collectible,
+  artifactUri,
   size = getCustomSize(12.25),
   height,
   onPress,
+  pixelShitSize,
   style,
   imageStyle
 }) => {
@@ -63,15 +64,11 @@ export const CollectibleImages: FC<Props> = ({
           </Animated.View>
         </View>
       )}
-      <Pressable onPress={onPress}>
-        {isDefined(collectible.artifactUri) && isNotEmptyString(collectible.artifactUri) ? (
-          <Image
-            source={{ uri: collectible.artifactUri }}
-            style={[styles.image, { width: size, height: height ?? size }, imageStyle]}
-            onLoadEnd={() => setImageIsLoaded(true)}
-          />
+      <Pressable onPress={onPress} style={[styles.imageContainer, { width: size, height: height ?? size }, imageStyle]}>
+        {isDefined(artifactUri) && isNotEmptyString(artifactUri) ? (
+          <Image source={{ uri: artifactUri }} style={[styles.image]} onLoadEnd={() => setImageIsLoaded(true)} />
         ) : (
-          <Icon name={IconNameEnum.PixelShit} size={getCustomSize(5)} />
+          <Icon name={IconNameEnum.PixelShit} size={pixelShitSize ?? getCustomSize(5)} />
         )}
       </Pressable>
     </View>

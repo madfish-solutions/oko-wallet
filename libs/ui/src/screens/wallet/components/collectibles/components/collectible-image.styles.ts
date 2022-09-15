@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 
-import { colors } from '../../../../../styles/colors';
 import { getCustomSize } from '../../../../../styles/format-size';
 
 export const styles = StyleSheet.create({
@@ -9,12 +8,18 @@ export const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   image: {
+    width: '100%',
+    height: '100%',
     borderRadius: getCustomSize(0.5),
-    backgroundColor: colors.navGrey1,
     justifyContent: 'center'
   },
   icon: {
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  imageContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: getCustomSize(0.5)
   }
 });

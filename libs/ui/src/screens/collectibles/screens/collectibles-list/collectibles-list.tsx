@@ -47,7 +47,7 @@ export const CollectiblesList: FC = () => {
           <View style={styles.blockLayout} />
         )}
         <CollectibleImages
-          collectible={nft}
+          artifactUri={nft.artifactUri}
           size={IMAGE_SIZE}
           onPress={() => handleItemPress(nft)}
           style={styles.imageContainer}
