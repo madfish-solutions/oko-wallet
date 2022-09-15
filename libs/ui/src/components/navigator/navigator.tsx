@@ -13,7 +13,12 @@ import { EditNetwork } from '../../modals/screens/network/edit-network/edit-netw
 import { NetworksSelector } from '../../modals/screens/networks-selector/networks-selector';
 import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
 import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
+import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
+import { Activity } from '../../screens/activity/activity';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
+import { AlmostDone } from '../../screens/create-wallet/screens/almost-done/almost-done';
+import { CreateANewWallet } from '../../screens/create-wallet/screens/create-a-new-wallet/create-a-new-wallet';
+import { VerifyMnemonic } from '../../screens/create-wallet/screens/verify-mnemonic/verify-mnemonic';
 import { ImportAccount } from '../../screens/import-account/import-account';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
@@ -28,6 +33,9 @@ import { Tokens } from '../../screens/tokens/tokens';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
+import { checkActiveApplicationSession } from '../../utils/check-active-application-session.util';
+import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
+import { isWeb } from '../../utils/platform.utils';
 import { getStoredValue, setStoredValue } from '../../utils/store.util';
 
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
@@ -46,9 +54,15 @@ export const Navigator: FC = () => {
   useActiveTokenList();
   useTokensPriceInfo();
 
+  const { isPopupOpened } = checkActiveApplicationSession();
+
   useEffect(() => {
     const restoreState = async () => {
       try {
+        if (!isWeb) {
+          return;
+        }
+
         const savedStateString: InitialState = await getStoredValue(PERSISTENCE_KEY);
         const state = isDefined(savedStateString) ? savedStateString : undefined;
         if (state !== undefined) {
@@ -63,6 +77,20 @@ export const Navigator: FC = () => {
       restoreState();
     }
   }, [isReady]);
+
+  useEffect(() => {
+    // TODO: Add check for ScreenEnum.AlmostDone screen later
+    const isCreateWalletScreensOpened =
+      initialState?.routes.some(
+        route => route.name === ScreensEnum.CreateANewWallet || route.name === ScreensEnum.VerifyMnemonic
+      ) ?? false;
+
+    if (isPopupOpened && isCreateWalletScreensOpened && isReady) {
+      // clear previous navigation state and leave only ScreenEnum.ImportAccount route when click by extension icon
+      setStoredValue(PERSISTENCE_KEY, JSON.stringify({ ...initialState, routes: initialState?.routes.slice(0, 1) }));
+      openMaximiseScreen();
+    }
+  }, [initialState, isReady]);
 
   if (!isReady) {
     return (
@@ -92,6 +120,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.Tokens} component={Tokens} />
               <Stack.Screen name={ScreensEnum.ScanQrCode} component={ScanQrCode} />
               <Stack.Screen name={ScreensEnum.Token} component={Token} />
+              <Stack.Screen name={ScreensEnum.Activity} component={Activity} />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptions}>
@@ -147,9 +176,22 @@ export const Navigator: FC = () => {
             </Stack.Group>
           </>
         ) : (
-          <Stack.Group screenOptions={{ headerShown: false }}>
-            <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />
-          </Stack.Group>
+          <>
+            <Stack.Group screenOptions={{ headerShown: false }}>
+              <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />
+              <Stack.Screen name={ScreensEnum.CreateANewWallet} component={CreateANewWallet} />
+              <Stack.Screen name={ScreensEnum.VerifyMnemonic} component={VerifyMnemonic} />
+              <Stack.Screen name={ScreensEnum.AlmostDone} component={AlmostDone} />
+            </Stack.Group>
+
+            <Stack.Group screenOptions={modalScreenOptions}>
+              <Stack.Screen
+                name={ScreensEnum.WordsAmountSelector}
+                options={{ title: 'Amount Words' }}
+                component={WordsAmountSelector}
+              />
+            </Stack.Group>
+          </>
         )}
       </Stack.Navigator>
 

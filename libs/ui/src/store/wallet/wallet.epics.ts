@@ -4,7 +4,7 @@ import { catchError, map, switchMap, concatMap } from 'rxjs/operators';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
-import { getTokenList } from '../../api/debank';
+import { getTokenInfo, getTokenList } from '../../api/debank';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { parseTezosTransferParams } from '../../utils/parse-tezos-transfer-params.utils';
@@ -20,6 +20,8 @@ import {
   loadGasTokenBalanceAction,
   loadAccountTokenBalanceAction,
   sendAssetAction,
+  loadTokenMetadataAction,
+  addNewTokenAction,
   addNewTokensAction
 } from './wallet.actions';
 
@@ -79,6 +81,18 @@ const sendAssetEpic: Epic = (action$: Observable<Action>, state$: Observable<Roo
     )
   );
 
+const saveNewTokenEpic: Epic = (action$: Observable<Action>) =>
+  action$.pipe(
+    ofType(loadTokenMetadataAction),
+    toPayload(),
+    concatMap(({ tokenId, chainName }) =>
+      from(getTokenInfo(tokenId, chainName)).pipe(
+        map(result => addNewTokenAction({ ...result, tokenAddress: result.id })),
+        catchError(error => of(console.log(error)))
+      )
+    )
+  );
+
 const addNewTokensEpic: Epic = (action$: Observable<Action>) =>
   action$.pipe(
     ofType(addNewTokensAction.submit),
@@ -90,4 +104,10 @@ const addNewTokensEpic: Epic = (action$: Observable<Action>) =>
     )
   );
 
-export const walletEpics = combineEpics(getGasTokenBalanceEpic, getTokenBalanceEpic, sendAssetEpic, addNewTokensEpic);
+export const walletEpics = combineEpics(
+  getGasTokenBalanceEpic,
+  getTokenBalanceEpic,
+  sendAssetEpic,
+  saveNewTokenEpic,
+  addNewTokensEpic
+);

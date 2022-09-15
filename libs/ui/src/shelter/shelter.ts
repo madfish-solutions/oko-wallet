@@ -78,7 +78,8 @@ export class Shelter {
   static importAccount$ = (
     seedPhrase: string,
     password: string,
-    hdAccountsLength = 1
+    hdAccountsLength = 1,
+    accountName?: string
   ): Observable<AccountInterface[]> =>
     generateHash$(password).pipe(
       switchMap(passwordHash => {
@@ -88,7 +89,7 @@ export class Shelter {
           [...Array(hdAccountsLength).keys()].map(hdAccountIndex =>
             from(generateHdAccount(seedPhrase, getEtherDerivationPath(hdAccountIndex))).pipe(
               map(({ privateKey, publicKey, address }) => {
-                const name = `Account ${hdAccountIndex + 1}`;
+                const name = accountName ?? `Account ${hdAccountIndex + 1}`;
 
                 return {
                   privateData: {

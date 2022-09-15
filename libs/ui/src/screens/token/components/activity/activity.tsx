@@ -1,7 +1,21 @@
+import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 
-import { Text } from '../../../../components/text/text';
+import { ActivitySectionList } from '../../../../components/activity-section-list/activity-section-list';
+import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
+import {
+  useSelectedAccountPublicKeyHashSelector,
+  useSelectedNetworkSelector
+} from '../../../../store/wallet/wallet.selectors';
 
-import { styles } from './activity.styles';
+export const Activity: FC = () => {
+  const {
+    params: {
+      token: { tokenAddress }
+    }
+  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Token>>();
+  const selectedPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
+  const { chainId } = useSelectedNetworkSelector();
 
-export const Activity: FC = () => <Text style={styles.root}>Activity</Text>;
+  return <ActivitySectionList publicKeyHash={selectedPublicKeyHash} chainId={chainId} tokenAddress={tokenAddress} />;
+};

@@ -1,6 +1,8 @@
 import axios from 'axios';
+import memoize from 'fast-memoize';
 
 import { BASE_DEBANK_URL, DEBANK_HEADERS } from '../constants/defaults';
+import { ActivityResponse, TokenInfo } from '../interfaces/activity.interface';
 
 import { TokenListResponse } from './types';
 
@@ -19,3 +21,19 @@ export const getTokenList = (publicKeyHash: string, chainName: string) =>
     })
     .then(({ data }) => data)
     .catch(() => []);
+
+export const getHistoryList = memoize(
+  async (publicKey: string, chainName: string, startTime: number, tokenId?: string): Promise<ActivityResponse | void> =>
+    debankApiRequest
+      .get<ActivityResponse>('v1/user/history_list', {
+        params: { chain_id: chainName, id: publicKey, page_count: 20, start_time: startTime, token_id: tokenId }
+      })
+      .then(result => result.data)
+      .catch(e => console.log(e))
+);
+
+export const getTokenInfo = async (contractAddress: string, chainName: string): Promise<TokenInfo> =>
+  debankApiRequest
+    .get('v1/token', { params: { id: contractAddress, chain_id: chainName } })
+    .then(result => result.data)
+    .catch(() => ({} as TokenInfo));
