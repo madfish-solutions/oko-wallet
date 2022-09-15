@@ -39,6 +39,7 @@ export const ListContainer: FC<Props> = ({ title, collectibles, setSearchValue, 
           onPressAddIcon={navigateToAddNewNft}
           setSearchValue={setSearchValue}
           isEmptyList={!collectibles.length}
+          style={styles.searchPanel}
         />
 
         <FlatList
