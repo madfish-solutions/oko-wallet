@@ -1,23 +1,60 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import React, { FC } from 'react';
+import React, { FC, useCallback } from 'react';
+import { ListRenderItemInfo, View } from 'react-native';
 
-import { ScreenTitle } from '../../../../components/screen-components/header-container/components/screen-title/screen-title';
-import { HeaderContainer } from '../../../../components/screen-components/header-container/header-container';
-import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
+import { Column } from '../../../../components/column/column';
+import { Text } from '../../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
+import { Token } from '../../../../interfaces/token.interface';
+import { getCustomSize } from '../../../../styles/format-size';
+import { CollectibleImages } from '../../../wallet/components/collectibles/components/collectible-image';
+import { ListContainer } from '../../components/list-container/list-container';
+import { NftRenderItem } from '../../components/nft-render-item/nft-render-item';
+import { IMAGE_CONTAINER_SIZE } from '../../constants';
+import { usePageDataProcessing } from '../../hooks/use-page-data-processing.hook';
+
+import { styles } from './specific-collectibles-list.styles';
 
 export const SpecificCollectiblesList: FC = () => {
   const {
-    params: { collectibles }
+    params: { collectibles: collectiblesList }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SpicificCollectiblesList>>();
-  const { goBack } = useNavigation();
+  const { navigate } = useNavigation();
+
+  const { collectibles, setSearchValue } = usePageDataProcessing(collectiblesList, true);
+
+  const handleItemPress = (nft: Token) => navigate(ScreensEnum.NFT, { nft });
+
+  const renderItem = useCallback(
+    ({ item: nft, index }: ListRenderItemInfo<Token>) => (
+      <NftRenderItem nft={nft} name={nft.name} handleItemPress={handleItemPress} index={index}>
+        <View style={styles.blockLayout} />
+
+        <CollectibleImages
+          collectible={nft}
+          size={IMAGE_CONTAINER_SIZE}
+          height={getCustomSize(20.5)}
+          onPress={() => handleItemPress(nft)}
+          style={styles.imageContainer}
+          imageStyle={styles.image}
+        />
+      </NftRenderItem>
+    ),
+    []
+  );
 
   return (
-    <ScreenContainer>
-      <HeaderContainer isSelectors>
-        <ScreenTitle title={collectibles[0].contractName ?? 'Collection'} onBackButtonPress={goBack} />
-      </HeaderContainer>
-    </ScreenContainer>
+    <ListContainer
+      title={collectiblesList[0].contractName ?? 'Collection'}
+      collectibles={collectibles}
+      renderItem={renderItem}
+      setSearchValue={setSearchValue}
+    >
+      <Column style={styles.amountWrapper}>
+        <Text style={styles.headerText}>Amount</Text>
+        <Text style={styles.amount}>{collectiblesList.length}</Text>
+      </Column>
+    </ListContainer>
   );
 };
