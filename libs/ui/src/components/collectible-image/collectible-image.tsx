@@ -10,7 +10,7 @@ import { IconNameEnum } from '../icon/icon-name.enum';
 import { styles } from './collectible-image.styles';
 
 interface Props {
-  artifactUri: string | undefined | null;
+  artifactUri: string | undefined;
   size?: number;
   height?: number;
   onPress?: OnEventFn<GestureResponderEvent>;
@@ -28,7 +28,7 @@ export const CollectibleImage: FC<Props> = ({
   style,
   imageStyle
 }) => {
-  const [imageIsLoaded, setImageIsLoaded] = useState(true);
+  const [imageIsLoaded, setImageIsLoaded] = useState(false);
   const spinAnimation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -57,20 +57,28 @@ export const CollectibleImage: FC<Props> = ({
 
   return (
     <View style={[styles.root, { width: size, height: height ?? size }, style]}>
+      <Pressable onPress={onPress} style={[styles.imageContainer, { width: size, height: height ?? size }]}>
+        <Image
+          source={{ uri: artifactUri }}
+          style={[styles.image, imageStyle]}
+          onLoadEnd={() => setImageIsLoaded(true)}
+        />
+        {(!isDefined(artifactUri) && imageIsLoaded) ||
+          (isDefined(artifactUri) && !isNotEmptyString(artifactUri) && imageIsLoaded && (
+            <Icon
+              name={IconNameEnum.PixelShit}
+              size={pixelShitSize ?? getCustomSize(5)}
+              iconStyle={styles.pixelShitIcon}
+            />
+          ))}
+      </Pressable>
       {!imageIsLoaded && (
-        <View style={[styles.image, imageStyle]}>
+        <View style={[styles.layout, { width: size, height: size }, imageStyle]}>
           <Animated.View style={animatedStyle}>
-            <Icon name={IconNameEnum.Loaders} size={getCustomSize(4)} iconStyle={styles.icon} />
+            <Icon name={IconNameEnum.Loaders} size={getCustomSize(4)} />
           </Animated.View>
         </View>
       )}
-      <Pressable onPress={onPress} style={[styles.imageContainer, { width: size, height: height ?? size }, imageStyle]}>
-        {isDefined(artifactUri) && isNotEmptyString(artifactUri) ? (
-          <Image source={{ uri: artifactUri }} style={[styles.image]} onLoadEnd={() => setImageIsLoaded(true)} />
-        ) : (
-          <Icon name={IconNameEnum.PixelShit} size={pixelShitSize ?? getCustomSize(5)} />
-        )}
-      </Pressable>
     </View>
   );
 };

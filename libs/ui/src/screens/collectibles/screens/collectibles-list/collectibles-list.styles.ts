@@ -2,10 +2,16 @@ import { StyleSheet } from 'react-native';
 
 import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
-import { IMAGE_SIZE } from '../../constants';
+import { IMAGE_CONTAINER_SIZE, IMAGE_SIZE } from '../../constants';
 
 export const styles = StyleSheet.create({
-  blockLayout: {
+  layoutContainer: {
+    width: IMAGE_CONTAINER_SIZE,
+    height: IMAGE_CONTAINER_SIZE,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  layout: {
     width: IMAGE_SIZE,
     height: getCustomSize(17.5),
     backgroundColor: colors.bgGrey2,

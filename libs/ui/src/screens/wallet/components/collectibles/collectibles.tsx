@@ -31,7 +31,7 @@ export const CollectiblesWidget: FC = () => {
 
   const handleItemPress = (nft: Token) => {
     if (isDefined(nft.collectionId) && isDefined(groupedCollectibles)) {
-      return navigate(ScreensEnum.SpicificCollectiblesList, { collectibles: groupedCollectibles[nft.collectionId] });
+      return navigate(ScreensEnum.SpecificCollectiblesList, { collectibles: groupedCollectibles[nft.collectionId] });
     }
 
     return navigate(ScreensEnum.NFT, { nft });
