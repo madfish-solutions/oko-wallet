@@ -9,18 +9,6 @@ export const styles = StyleSheet.create({
     marginLeft: getCustomSize(1.5),
     marginRight: getCustomSize(2)
   },
-  dateWrapper: {
-    borderBottomWidth: getCustomSize(0.03125),
-    borderBottomColor: colors.border2,
-    justifyContent: 'space-between',
-    marginLeft: getCustomSize(0.5),
-    width: '100%'
-  },
-  dateText: {
-    ...typography.numbersIBMPlexSansMedium11,
-    marginVertical: getCustomSize(),
-    color: colors.textGrey3
-  },
   wrapper: {
     borderBottomWidth: getCustomSize(0.03125),
     borderBottomColor: colors.border2,
