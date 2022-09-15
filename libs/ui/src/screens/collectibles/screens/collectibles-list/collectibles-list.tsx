@@ -102,6 +102,7 @@ export const CollectiblesList: FC = () => {
           onPressAddIcon={navigateToAddNewNft}
           setSearchValue={setSearchValue}
           isEmptyList={!collectibles.length}
+          style={styles.searchPanel}
         />
 
         <FlatList

@@ -13,6 +13,9 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: getCustomSize(2)
   },
+  searchPanel: {
+    marginBottom: getCustomSize(3)
+  },
   flatList: {
     width: '100%'
   },
