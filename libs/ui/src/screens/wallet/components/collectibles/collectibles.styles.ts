@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+import { colors } from '../../../../styles/colors';
+
 export const styles = StyleSheet.create({
   buttons: {
     flex: 1,
@@ -7,5 +9,8 @@ export const styles = StyleSheet.create({
   },
   button: {
     width: '100%'
+  },
+  image: {
+    backgroundColor: colors.navGrey1
   }
 });

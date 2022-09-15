@@ -24,8 +24,6 @@ export interface NftListResponse {
   is_erc1155?: boolean;
   is_erc721?: boolean;
   amount: number;
-  protocol: any;
-  pay_token: any;
   usd_price?: number;
   collection_id: string;
   thumbnail_url: string;

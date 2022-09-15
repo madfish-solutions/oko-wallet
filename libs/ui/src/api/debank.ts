@@ -39,7 +39,7 @@ export const getTokenList = (publicKeyHash: string, chainName: string | undefine
 export const getAllUserNftList = (publicKeyHash: string, chainId: string | undefined) =>
   isDefined(chainId)
     ? debankApiRequest
-        .get<NftListResponse[]>(`v1/user/nft_list?id=${publicKeyHash}&chain_id=${chainId}`)
+        .get<NftListResponse[]>('v1/user/nft_list', { params: { id: publicKeyHash, chain_id: chainId } })
         .then(({ data }) => data)
         .catch(() => [])
     : [];

@@ -25,7 +25,7 @@ export const CollectiblesList: FC = () => {
   const handleItemPress = useCallback(
     (nft: Token) => {
       if (isDefined(nft.collectionId) && isDefined(groupedCollectibles)) {
-        return navigate(ScreensEnum.SpicificCollectiblesList, { collectibles: groupedCollectibles[nft.collectionId] });
+        return navigate(ScreensEnum.SpecificCollectiblesList, { collectibles: groupedCollectibles[nft.collectionId] });
       }
 
       return navigate(ScreensEnum.NFT, { nft });
@@ -44,7 +44,9 @@ export const CollectiblesList: FC = () => {
         {isDefined(nft.collectionId) ? (
           <Icon name={IconNameEnum.NftCollectionLayout} size={IMAGE_CONTAINER_SIZE} />
         ) : (
-          <View style={styles.blockLayout} />
+          <View style={styles.layoutContainer}>
+            <View style={styles.layout} />
+          </View>
         )}
         <CollectibleImages
           collectible={nft}

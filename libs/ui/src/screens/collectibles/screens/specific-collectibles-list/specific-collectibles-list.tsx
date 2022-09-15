@@ -19,7 +19,7 @@ import { styles } from './specific-collectibles-list.styles';
 export const SpecificCollectiblesList: FC = () => {
   const {
     params: { collectibles: collectiblesList }
-  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SpicificCollectiblesList>>();
+  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SpecificCollectiblesList>>();
   const { navigate } = useNavigation();
 
   const { collectibles, setSearchValue } = usePageDataProcessing(collectiblesList, true);

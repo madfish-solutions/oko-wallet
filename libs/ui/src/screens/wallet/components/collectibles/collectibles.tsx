@@ -31,7 +31,7 @@ export const CollectiblesWidget: FC = () => {
 
   const handleItemPress = (nft: Token) => {
     if (isDefined(nft.collectionId) && isDefined(groupedCollectibles)) {
-      return navigate(ScreensEnum.SpicificCollectiblesList, { collectibles: groupedCollectibles[nft.collectionId] });
+      return navigate(ScreensEnum.SpecificCollectiblesList, { collectibles: groupedCollectibles[nft.collectionId] });
     }
 
     return navigate(ScreensEnum.NFT, { nft });
@@ -51,7 +51,11 @@ export const CollectiblesWidget: FC = () => {
           <Row>
             {collectiblesList.slice(0, 2).map(collectible => (
               <React.Fragment key={getTokenSlug(collectible.tokenAddress, collectible.tokenId)}>
-                <CollectibleImages collectible={collectible} onPress={() => handleItemPress(collectible)} />
+                <CollectibleImages
+                  collectible={collectible}
+                  onPress={() => handleItemPress(collectible)}
+                  imageStyle={styles.image}
+                />
                 <Divider />
               </React.Fragment>
             ))}
