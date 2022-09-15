@@ -10,7 +10,7 @@ import { useNavigation } from '../../../../hooks/use-navigation.hook';
 export const SpecificCollectiblesList: FC = () => {
   const {
     params: { collectibles }
-  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SpicificCollectiblesList>>();
+  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SpecificCollectiblesList>>();
   const { goBack } = useNavigation();
 
   return (

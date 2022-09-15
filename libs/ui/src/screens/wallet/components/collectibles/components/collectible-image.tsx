@@ -25,7 +25,7 @@ export const CollectibleImages: FC<Props> = ({
   style,
   imageStyle
 }) => {
-  const [imageIsLoaded, setImageIsLoaded] = useState(true);
+  const [imageIsLoaded, setImageIsLoaded] = useState(false);
   const spinAnimation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -54,24 +54,24 @@ export const CollectibleImages: FC<Props> = ({
 
   return (
     <View style={[styles.root, { width: size, height: size }, style]}>
+      <Pressable onPress={onPress} style={styles.imageContainer}>
+        <Image
+          source={{ uri: collectible.artifactUri }}
+          style={[{ width: size, height: size, borderRadius: getCustomSize(0.5) }, imageStyle]}
+          onLoadEnd={() => setImageIsLoaded(true)}
+        />
+        {(!isDefined(collectible.artifactUri) && imageIsLoaded) ||
+          (isDefined(collectible.artifactUri) && !isNotEmptyString(collectible.artifactUri) && imageIsLoaded && (
+            <Icon name={IconNameEnum.PixelShit} size={getCustomSize(5)} iconStyle={styles.pixelShitIcon} />
+          ))}
+      </Pressable>
       {!imageIsLoaded && (
-        <View style={[styles.image, { width: size, height: size }, imageStyle]}>
+        <View style={[styles.layout, { width: size, height: size }, imageStyle]}>
           <Animated.View style={animatedStyle}>
             <Icon name={IconNameEnum.Loaders} size={getCustomSize(4)} iconStyle={styles.icon} />
           </Animated.View>
         </View>
       )}
-      <Pressable onPress={onPress}>
-        {isDefined(collectible.artifactUri) && isNotEmptyString(collectible.artifactUri) ? (
-          <Image
-            source={{ uri: collectible.artifactUri }}
-            style={[styles.image, { width: size, height: size }, imageStyle]}
-            onLoadEnd={() => setImageIsLoaded(true)}
-          />
-        ) : (
-          <Icon name={IconNameEnum.PixelShit} size={getCustomSize(5)} />
-        )}
-      </Pressable>
     </View>
   );
 };

@@ -57,7 +57,7 @@ export const CollectiblesList: FC = () => {
   const handleItemPress = useCallback(
     (nft: Token) => {
       if (isDefined(nft.collectionId) && isDefined(groupedCollectibles)) {
-        return navigate(ScreensEnum.SpicificCollectiblesList, { collectibles: groupedCollectibles[nft.collectionId] });
+        return navigate(ScreensEnum.SpecificCollectiblesList, { collectibles: groupedCollectibles[nft.collectionId] });
       }
 
       return navigate(ScreensEnum.NFT, { nft });
@@ -67,16 +67,14 @@ export const CollectiblesList: FC = () => {
 
   const renderItem = useCallback(
     ({ item: nft, index }: ListRenderItemInfo<Token>) => (
-      <Pressable
-        key={getTokenSlug(nft.tokenAddress, nft.tokenId)}
-        onPress={() => handleItemPress(nft)}
-        style={[styles.nft, index % 2 === 0 && styles.marginRight]}
-      >
+      <Pressable onPress={() => handleItemPress(nft)} style={[styles.nft, index % 2 === 0 && styles.marginRight]}>
         <View style={styles.imageWrapper}>
           {isDefined(nft.collectionId) ? (
             <Icon name={IconNameEnum.NftCollectionLayout} size={IMAGE_CONTAINER_SIZE} />
           ) : (
-            <View style={styles.blockLayout} />
+            <View style={styles.layoutContainer}>
+              <View style={styles.layout} />
+            </View>
           )}
           <CollectibleImages
             collectible={nft}

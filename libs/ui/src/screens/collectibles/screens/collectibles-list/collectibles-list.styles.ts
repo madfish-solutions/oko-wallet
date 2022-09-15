@@ -33,7 +33,13 @@ export const styles = StyleSheet.create({
     width: '100%',
     marginBottom: getCustomSize()
   },
-  blockLayout: {
+  layoutContainer: {
+    width: IMAGE_CONTAINER_SIZE,
+    height: IMAGE_CONTAINER_SIZE,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  layout: {
     width: IMAGE_SIZE,
     height: getCustomSize(17.5),
     backgroundColor: colors.bgGrey2,

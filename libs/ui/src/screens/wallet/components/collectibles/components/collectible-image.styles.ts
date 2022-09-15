@@ -8,13 +8,24 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  image: {
-    borderRadius: getCustomSize(0.5),
+  imageContainer: {
+    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  layout: {
+    position: 'absolute',
     backgroundColor: colors.navGrey1,
     justifyContent: 'center'
+  },
+  image: {
+    borderRadius: getCustomSize(0.5)
   },
   icon: {
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  pixelShitIcon: {
+    position: 'absolute'
   }
 });
