@@ -26,7 +26,7 @@ export const useSelectedAccountPublicKeyHashSelector = () =>
 export const useSelectedNetworkSelector = () =>
   useSelector<WalletRootState, NetworkInterface>(
     ({ wallet }) =>
-      wallet.networks.find(network => network.rpcUrl === wallet.selectedNetworkRpcUrl) ?? NETWORKS_DEFAULT_LIST[0],
+      wallet.networks.find(network => network.chainId === wallet.selectedNetworkChainId) ?? NETWORKS_DEFAULT_LIST[0],
     checkEquality
   );
 
@@ -41,14 +41,14 @@ export const useSelectedAccountSelector = () =>
     const { accounts, selectedAccountPublicKeyHash } = wallet;
 
     const selectedNetworkType = getSelectedNetworkType(wallet);
-    const selectedAccount =
+
+    return (
       accounts.find(account => {
         const isExist = account.networksKeys.hasOwnProperty(selectedNetworkType);
 
         return isExist ? getPublicKeyHash(account, selectedNetworkType) === selectedAccountPublicKeyHash : null;
-      }) ?? initialAccount;
-
-    return selectedAccount;
+      }) ?? initialAccount
+    );
   }, checkEquality);
 
 export const useAllAccountsSelector = () =>

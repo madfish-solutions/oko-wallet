@@ -42,8 +42,8 @@ export const NetworksList = () => {
   );
 
   const handleChangeNetwork = useCallback(
-    ({ rpcUrl, networkType, chainId }: NetworkInterface) => {
-      dispatch(changeNetworkAction({ rpcUrl, chainId }));
+    ({ networkType, chainId }: NetworkInterface) => {
+      dispatch(changeNetworkAction(chainId));
 
       if (!checkIsNetworkTypeKeyExist(selectedAccount, networkType)) {
         createHdAccountForNewNetworkType(selectedAccount, networkType);

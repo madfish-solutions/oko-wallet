@@ -256,25 +256,19 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     const prevNetworkType = getSelectedNetworkType(state);
     const selectedAccount = getSelectedAccount(state, prevNetworkType);
     const networks = [...state.networks, newNetwork];
-    const selectedNetworkRpcUrl = newNetwork.rpcUrl;
     const selectedNetworkChainId = newNetwork.chainId;
 
     return {
       ...state,
       networks,
-      selectedNetworkRpcUrl,
       selectedNetworkChainId,
       selectedAccountPublicKeyHash: getPublicKeyHash(selectedAccount, newNetwork.networkType),
-      accountsTokens: updateAccountsTokensState(
-        { ...state, networks, selectedNetworkRpcUrl, selectedNetworkChainId },
-        selectedAccount
-      )
+      accountsTokens: updateAccountsTokensState({ ...state, networks, selectedNetworkChainId }, selectedAccount)
     };
   });
   builder.addCase(editNetworkAction, (state, { payload: { network: editedNetwork, isNetworkSelected } }) => {
     const prevNetworkType = getSelectedNetworkType(state);
     const selectedAccount = getSelectedAccount(state, prevNetworkType);
-    const selectedNetworkRpcUrl = isNetworkSelected ? editedNetwork.rpcUrl : state.selectedNetworkRpcUrl;
     const selectedNetworkChainId = isNetworkSelected ? editedNetwork.chainId : state.selectedNetworkChainId;
 
     const networks: NetworkInterface[] = state.networks.map(network => {
@@ -288,7 +282,6 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     return {
       ...state,
       networks,
-      selectedNetworkRpcUrl,
       selectedNetworkChainId,
       selectedAccountPublicKeyHash: getPublicKeyHash(
         selectedAccount,
@@ -298,7 +291,6 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         {
           ...state,
           networks,
-          selectedNetworkRpcUrl,
           selectedNetworkChainId
         },
         selectedAccount
@@ -309,13 +301,11 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     const prevNetworkType = getSelectedNetworkType(state);
     const selectedAccount = getSelectedAccount(state, prevNetworkType);
     const networks = state.networks.filter(network => network.rpcUrl !== editedNetwork.rpcUrl);
-    const selectedNetworkRpcUrl = isNetworkSelected ? networks[0].rpcUrl : state.selectedNetworkRpcUrl;
     const selectedNetworkChainId = isNetworkSelected ? networks[0].chainId : state.selectedNetworkChainId;
 
     return {
       ...state,
       networks,
-      selectedNetworkRpcUrl,
       selectedNetworkChainId,
       selectedAccountPublicKeyHash: getPublicKeyHash(
         selectedAccount,
@@ -325,34 +315,29 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         {
           ...state,
           networks,
-          selectedNetworkRpcUrl,
           selectedNetworkChainId
         },
         selectedAccount
       )
     };
   });
-  builder.addCase(
-    changeNetworkAction,
-    (state, { payload: { rpcUrl: selectedNetworkRpcUrl, chainId: selectedNetworkChainId } }) => {
-      const prevNetworkType = getSelectedNetworkType(state);
-      const newNetworkType = getSelectedNetworkType({ ...state, selectedNetworkRpcUrl });
-      const selectedAccount = getSelectedAccount(state, prevNetworkType);
-      const selectedAccountPublicKeyHash = getPublicKeyHash(selectedAccount, newNetworkType);
-      const accountTokensSlug = getAccountTokensSlug(selectedNetworkChainId, selectedAccountPublicKeyHash);
-      const isTokensForNetworkExist: boolean = isDefined(state.accountsTokens[accountTokensSlug]);
+  builder.addCase(changeNetworkAction, (state, { payload: selectedNetworkChainId }) => {
+    const prevNetworkType = getSelectedNetworkType(state);
+    const newNetworkType = getSelectedNetworkType({ ...state, selectedNetworkChainId });
+    const selectedAccount = getSelectedAccount(state, prevNetworkType);
+    const selectedAccountPublicKeyHash = getPublicKeyHash(selectedAccount, newNetworkType);
+    const accountTokensSlug = getAccountTokensSlug(selectedNetworkChainId, selectedAccountPublicKeyHash);
+    const isTokensForNetworkExist: boolean = isDefined(state.accountsTokens[accountTokensSlug]);
 
-      return {
-        ...state,
-        selectedNetworkRpcUrl,
-        selectedNetworkChainId,
-        selectedAccountPublicKeyHash,
-        ...(!isTokensForNetworkExist && {
-          accountsTokens: updateAccountsTokensState({ ...state, selectedNetworkRpcUrl }, selectedAccount)
-        })
-      };
-    }
-  );
+    return {
+      ...state,
+      selectedNetworkChainId,
+      selectedAccountPublicKeyHash,
+      ...(!isTokensForNetworkExist && {
+        accountsTokens: updateAccountsTokensState({ ...state, selectedNetworkChainId }, selectedAccount)
+      })
+    };
+  });
   builder.addCase(addTransactionAction, (state, { payload: transaction }) => {
     const accountTokensSlug = getAccountTokensSlug(state.selectedNetworkChainId, state.selectedAccountPublicKeyHash);
     const updatedTransactions =

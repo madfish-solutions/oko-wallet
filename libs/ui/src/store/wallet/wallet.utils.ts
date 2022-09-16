@@ -20,7 +20,7 @@ export const updateSelectedNetworkState = (
 ): WalletState => ({
   ...state,
   networks: state.networks.map(network =>
-    network.rpcUrl === state.selectedNetworkRpcUrl
+    network.chainId === state.selectedNetworkChainId
       ? {
           ...network,
           ...updateFunc(network)
@@ -96,7 +96,7 @@ export const updateAccountTokenState = (
 };
 
 export const getSelectedNetworkType = (state: WalletState): NetworkTypeEnum =>
-  state.networks.find(network => network.rpcUrl === state.selectedNetworkRpcUrl)?.networkType ?? NetworkTypeEnum.EVM;
+  state.networks.find(network => network.chainId === state.selectedNetworkChainId)?.networkType ?? NetworkTypeEnum.EVM;
 
 export const getPublicKeyHash = (account: AccountInterface, networkType: NetworkTypeEnum): string =>
   checkIsNetworkTypeKeyExist(account, networkType) ? getString(account.networksKeys[networkType]?.publicKeyHash) : '';
