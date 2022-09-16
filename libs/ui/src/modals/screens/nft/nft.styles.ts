@@ -3,12 +3,13 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../../styles/colors';
 import { getCustomSize } from '../../../styles/format-size';
 import { typography } from '../../../styles/typography';
+import { isMobile } from '../../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {
     flex: 1,
     paddingTop: getCustomSize(2),
-    paddingBottom: getCustomSize(4),
+    paddingBottom: isMobile ? getCustomSize(4) : getCustomSize(2),
     justifyContent: 'space-between'
   },
   content: {
@@ -41,7 +42,8 @@ export const styles = StyleSheet.create({
     color: colors.textGrey3
   },
   itemValue: {
-    ...typography.captionInterSemiBold13
+    ...typography.numbersIBMPlexSansMedium13,
+    color: colors.textGrey4
   },
   buttonContainer: {
     paddingHorizontal: getCustomSize(2)
