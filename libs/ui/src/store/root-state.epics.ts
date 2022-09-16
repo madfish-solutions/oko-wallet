@@ -4,7 +4,7 @@ import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
-import { navigationRef } from '../components/navigator/navigator';
+import { globalNavigationRef } from '../components/navigator/navigator';
 import { Shelter } from '../shelter/shelter';
 import { resetStore$ } from '../utils/keychain.utils';
 
@@ -27,7 +27,7 @@ const navigateEpic = (action$: Observable<Action>) =>
     ofType(untypedNavigateAction),
     toPayload(),
     concatMap(navigationArgs => {
-      navigationRef.current?.navigate(...navigationArgs);
+      globalNavigationRef.current?.navigate(...navigationArgs);
 
       return EMPTY;
     })

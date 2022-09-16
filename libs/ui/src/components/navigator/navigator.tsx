@@ -1,12 +1,14 @@
-import { InitialState, NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
-import { isDefined } from '@rnw-community/shared';
-import React, { FC, createRef, useState, useEffect } from 'react';
+import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
+import React, { FC, createRef, useEffect } from 'react';
 import { View, Text } from 'react-native';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
+import { useDappConnection } from '../../hooks/use-dapp-connection.hook';
+import { PERSISTENCE_KEY, usePersistedNavigationState } from '../../hooks/use-persisted-navigation-state.hook';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
 import { AddAccount } from '../../modals/screens/add-account/add-account';
+import { DappConfirmation } from '../../modals/screens/dapp-confirmation/dapp-confirmation';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
 import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
@@ -35,44 +37,21 @@ import { Wallet } from '../../screens/wallet/wallet';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
 import { checkActiveApplicationSession } from '../../utils/check-active-application-session.util';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
-import { isWeb } from '../../utils/platform.utils';
-import { getStoredValue, setStoredValue } from '../../utils/store.util';
+import { setStoredValue } from '../../utils/store.util';
 
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
-import { PERSISTENCE_KEY } from './constants/perstistence-key';
 import { Stack } from './utils/get-stack-navigator';
 
-export const navigationRef = createRef<NavigationContainerRef<ScreensParamList>>();
+export const globalNavigationRef = createRef<NavigationContainerRef<ScreensParamList>>();
 
 export const Navigator: FC = () => {
+  const { initialState, isReady, handleStateChange } = usePersistedNavigationState();
   const isAuthorised = useIsAuthorisedSelector();
   const { isLocked } = useUnlock();
-  const [isReady, setIsReady] = useState(false);
-  const [initialState, setInitialState] = useState<InitialState>();
+
+  useDappConnection();
 
   const { isPopupOpened } = checkActiveApplicationSession();
-
-  useEffect(() => {
-    const restoreState = async () => {
-      try {
-        if (!isWeb) {
-          return;
-        }
-
-        const savedStateString: InitialState = await getStoredValue(PERSISTENCE_KEY);
-        const state = isDefined(savedStateString) ? savedStateString : undefined;
-        if (state !== undefined) {
-          setInitialState(state);
-        }
-      } finally {
-        setIsReady(true);
-      }
-    };
-
-    if (!isReady) {
-      restoreState();
-    }
-  }, [isReady]);
 
   useEffect(() => {
     // TODO: Add check for ScreenEnum.AlmostDone screen later
@@ -97,11 +76,7 @@ export const Navigator: FC = () => {
   }
 
   return (
-    <NavigationContainer
-      ref={navigationRef}
-      initialState={initialState}
-      onStateChange={state => setStoredValue(PERSISTENCE_KEY, JSON.stringify(state))}
-    >
+    <NavigationContainer ref={globalNavigationRef} initialState={initialState} onStateChange={handleStateChange}>
       <Stack.Navigator>
         {isAuthorised ? (
           <>
@@ -139,6 +114,11 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.SendAccountsSelector}
                 options={{ title: 'Select Account' }}
                 component={SendAccountsSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.DappConfirmation}
+                options={{ title: 'Connect' }}
+                component={DappConfirmation}
               />
             </Stack.Group>
 
