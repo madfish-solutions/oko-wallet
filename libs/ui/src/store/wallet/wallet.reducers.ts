@@ -24,6 +24,7 @@ import {
   loadAccountTokenBalanceAction,
   updateTransactionAction,
   addTransactionAction,
+  setConfirmedDappAction,
   editNetworkAction,
   removeNetworkAction,
   editTokenAction,
@@ -361,4 +362,11 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
 
     return { ...state, transactions: { ...state.transactions, [accountTokensSlug]: updatedAccountTransactions } };
   });
+  builder.addCase(setConfirmedDappAction, (state, { payload: { dappName, id } }) => ({
+    ...state,
+    confirmedEVMDappConnection: {
+      ...state.confirmedEVMDappConnection,
+      [dappName]: { dappName, id }
+    }
+  }));
 });
