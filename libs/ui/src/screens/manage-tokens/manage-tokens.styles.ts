@@ -7,6 +7,9 @@ export const styles = StyleSheet.create({
   root: {
     paddingVertical: 0
   },
+  searchPanel: {
+    marginBottom: 0
+  },
   token: {
     justifyContent: 'space-between',
     width: '100%',

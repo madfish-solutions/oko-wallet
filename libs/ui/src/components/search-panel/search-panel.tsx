@@ -4,6 +4,7 @@ import { useForm, Controller, ControllerRenderProps, FieldValues, FieldPath } fr
 import { GestureResponderEvent } from 'react-native';
 
 import { EMPTY_STRING } from '../../constants/defaults';
+import { ViewStyleProps } from '../../interfaces/style.interface';
 import { IconNameEnum } from '../icon/icon-name.enum';
 import { Row } from '../row/row';
 import { TextInput } from '../text-input/text-input';
@@ -21,6 +22,7 @@ interface Props {
   selectedItemName?: string;
   onSearchClose?: () => void;
   isSearchInitiallyOpened?: boolean;
+  style?: ViewStyleProps;
 }
 
 const renderTextInput = <
@@ -37,7 +39,8 @@ export const SearchPanel: React.FC<Props> = ({
   isSearchInitiallyOpened = false,
   onPressAddIcon,
   onPressEditIcon,
-  onPressActivityIcon
+  onPressActivityIcon,
+  style
 }) => {
   const [isShowSearchField, setIsShowSearchField] = useState(isSearchInitiallyOpened);
   const initialSelectedItemName = useRef(selectedItemName);
@@ -79,7 +82,7 @@ export const SearchPanel: React.FC<Props> = ({
   }, [selectedItemName]);
 
   return (
-    <Row style={styles.root}>
+    <Row style={[styles.root, style]}>
       {isShowSearchField ? (
         <>
           <Controller control={control} name={SEARCH_FIELD} render={({ field }) => renderTextInput(field)} />
@@ -91,7 +94,7 @@ export const SearchPanel: React.FC<Props> = ({
         <>
           <TouchableIcon name={IconNameEnum.Search} onPress={showSearchField} />
           <Row>
-            <TouchableIcon name={IconNameEnum.Add} onPress={onPressAddIcon} />
+            {onPressAddIcon && <TouchableIcon name={IconNameEnum.Add} onPress={onPressAddIcon} />}
             {onPressEditIcon && (
               <TouchableIcon style={styles.extraIcon} name={IconNameEnum.Edit} onPress={onPressEditIcon} />
             )}

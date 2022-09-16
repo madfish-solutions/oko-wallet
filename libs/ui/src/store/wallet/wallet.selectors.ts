@@ -93,6 +93,20 @@ export const useAccountAssetsSelector = () =>
     checkEquality
   );
 
+export const useGasTokenSelector = () => {
+  const { gasTokenMetadata, gasTokenBalance, rpcUrl } = useSelectedNetworkSelector();
+
+  return useMemo(
+    () => ({
+      ...gasTokenMetadata,
+      balance: gasTokenBalance,
+      tokenAddress: GAS_TOKEN_ADDRESS,
+      isVisible: true
+    }),
+    [rpcUrl, gasTokenBalance]
+  );
+};
+
 export const useAccountTokensSelector = () => {
   const assets = useAccountAssetsSelector();
 
@@ -103,6 +117,13 @@ export const useVisibleAccountTokensSelector = () => {
   const accountTokens = useAccountTokensSelector();
 
   return useMemo(() => accountTokens.filter(({ isVisible }) => isVisible), [accountTokens]);
+};
+
+export const useAccountTokensAndGasTokenSelector = (): Token[] => {
+  const allAccountTokens = useAccountTokensSelector();
+  const gasToken = useGasTokenSelector();
+
+  return useMemo(() => [gasToken, ...allAccountTokens], [allAccountTokens, gasToken]);
 };
 
 export const useCollectiblesSelector = () => {
