@@ -1,1 +1,0 @@
-export const PERSISTENCE_KEY = 'NAVIGATION_STATE';

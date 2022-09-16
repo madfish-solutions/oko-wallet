@@ -26,8 +26,11 @@ import Error from './assets/error.svg';
 import EyeClosedIcon from './assets/eye-closed.svg';
 import EyeOpenIcon from './assets/eye-open.svg';
 import GasIcon from './assets/gas.svg';
+import IconPlaceholder from './assets/icon-placeholder.svg';
 import Info from './assets/info.svg';
 import LoadersIcon from './assets/loaders.svg';
+import LockClosed from './assets/lock-closed.svg';
+import LockOpen from './assets/lock-open.svg';
 import NftCollectionLayout from './assets/nft-collection-layout.svg';
 import NftIcon from './assets/nft.svg';
 import OutIcon from './assets/out.svg';
@@ -47,6 +50,7 @@ import Slider from './assets/slider.svg';
 import StakeIcon from './assets/stake.svg';
 import Success from './assets/success.svg';
 import SwapIcon from './assets/swap.svg';
+import SwapItems from './assets/swapItems.svg';
 import Tooltip from './assets/tooltip.svg';
 import TopupIcon from './assets/topup.svg';
 import Trash from './assets/trash.svg';
@@ -107,6 +111,11 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Trash]: Trash,
   [IconNameEnum.Clear]: Clear,
   [IconNameEnum.Success]: Success,
+  [IconNameEnum.Error]: Error,
+  [IconNameEnum.SwapItems]: SwapItems,
+  [IconNameEnum.IconPlaceholder]: IconPlaceholder,
+  [IconNameEnum.LockOpen]: LockOpen,
+  [IconNameEnum.LockClosed]: LockClosed,
   [IconNameEnum.WarningWhite]: WarningWhite,
   [IconNameEnum.WarningYellow]: WarningYellow,
   [IconNameEnum.Error]: Error,
