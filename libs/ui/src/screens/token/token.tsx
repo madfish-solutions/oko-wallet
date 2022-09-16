@@ -47,7 +47,7 @@ export const Token: FC<Props> = ({ style }) => {
   const { chainId } = useSelectedNetworkSelector();
 
   const { name, symbol, tokenAddress, decimals, tokenId, thumbnailUri, balance } = token;
-  const { price, changeInPrice24h } = useTokenMarketInfoSelector(tokenAddress, chainId);
+  const { price, usdPriceChange24h } = useTokenMarketInfoSelector(tokenAddress, chainId);
 
   const balanceFromStore = useTokenBalanceSelector(getTokenSlug(tokenAddress, tokenId));
   const formattedBalance = formatUnits(balanceFromStore ?? balance.data, decimals);
@@ -59,7 +59,7 @@ export const Token: FC<Props> = ({ style }) => {
         <ScreenTitle title={symbol} onBackButtonPress={goBack} />
         <HeaderSideToken
           name={name}
-          dynamics={changeInPrice24h}
+          dynamics={usdPriceChange24h}
           price={price}
           thumbnailUri={thumbnailUri}
           isGasToken={isGasToken}

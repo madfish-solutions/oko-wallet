@@ -26,10 +26,12 @@ interface Props {
 
 export const HeaderSideToken: FC<Props> = ({ name, price, dynamics, thumbnailUri, isGasToken = false, style }) => (
   <Column style={[styles.root, style]}>
-    <Row style={styles.wrapper}>
-      {isDefined(price) && <Text style={styles.amount}>{`${price.toFixed(2)} $`}</Text>}
-      {isDefined(dynamics) && <Dynamics value={dynamics} />}
-    </Row>
+    {isDefined(price) && (
+      <Row style={styles.wrapper}>
+        <Text style={styles.amount}>{`${price.toFixed(2)} $`}</Text>
+        {isDefined(dynamics) && <Dynamics value={dynamics} />}
+      </Row>
+    )}
     <Row>
       {isGasToken && <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />}
       <Text style={styles.tokenName}>{name}</Text>

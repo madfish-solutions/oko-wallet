@@ -14,11 +14,11 @@ export const tokensMarketInfoReducers = createReducer<TokensMarketInfoState>(Tok
     if (!isEmpty(payload.gasTokenPriceInfo)) {
       const tokenMetadataSlug = getTokenMetadataSlug(payload.chainId, GAS_TOKEN_ADDRESS);
       const [gasTokenPriceInfo] = Object.entries(payload.gasTokenPriceInfo);
-      const [, { usd, usd_24h_change }] = gasTokenPriceInfo;
+      const { usd, usd_24h_change } = gasTokenPriceInfo[1];
 
       tokensPriceInfo[tokenMetadataSlug] = {
         price: usd,
-        changeInPrice24h: usd_24h_change
+        usdPriceChange24h: usd_24h_change
       };
     }
 
@@ -27,7 +27,7 @@ export const tokensMarketInfoReducers = createReducer<TokensMarketInfoState>(Tok
 
       tokensPriceInfo[tokenMetadataSlug] = {
         price: usd,
-        changeInPrice24h: usd_24h_change
+        usdPriceChange24h: usd_24h_change
       };
     }
 

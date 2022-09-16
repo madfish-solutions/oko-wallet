@@ -4,7 +4,7 @@ export interface TokensMarketInfoRootState {
 
 export interface TokenPriceInfo {
   price: number;
-  changeInPrice24h: number;
+  usdPriceChange24h: number;
 }
 
 export interface TokensMarketInfoState {
