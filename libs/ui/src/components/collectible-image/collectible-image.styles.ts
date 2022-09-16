@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 
+import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 
 export const styles = StyleSheet.create({
@@ -12,7 +13,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: getCustomSize(0.5),
-    overflow: 'hidden'
+    overflow: 'hidden',
+    backgroundColor: colors.bgGrey2
   },
   image: {
     width: '100%',

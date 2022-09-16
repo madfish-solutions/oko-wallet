@@ -12,7 +12,7 @@ import { getCustomSize } from '../../../../styles/format-size';
 import { ListContainer } from '../../components/list-container/list-container';
 import { NftRenderItem } from '../../components/nft-render-item/nft-render-item';
 import { IMAGE_CONTAINER_SIZE } from '../../constants';
-import { usePageDataProcessing } from '../../hooks/use-page-data-processing.hook';
+import { useCollectibleList } from '../../hooks/use-page-data-processing.hook';
 
 import { styles } from './specific-collectibles-list.styles';
 
@@ -22,7 +22,7 @@ export const SpecificCollectiblesList: FC = () => {
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SpecificCollectiblesList>>();
   const { navigate } = useNavigation();
 
-  const { collectibles, setSearchValue } = usePageDataProcessing(collectiblesList, true);
+  const { collectibles, setSearchValue } = useCollectibleList(collectiblesList, true);
 
   const handleItemPress = (nft: Token) => navigate(ScreensEnum.NFT, { nft });
 
@@ -37,7 +37,6 @@ export const SpecificCollectiblesList: FC = () => {
           height={getCustomSize(20.5)}
           onPress={() => handleItemPress(nft)}
           style={styles.imageContainer}
-          imageStyle={styles.image}
         />
       </NftRenderItem>
     ),

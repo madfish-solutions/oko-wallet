@@ -54,7 +54,7 @@ export const CollectiblesWidget: FC = () => {
                 <CollectibleImage
                   artifactUri={collectible.artifactUri}
                   onPress={() => handleItemPress(collectible)}
-                  imageStyle={styles.image}
+                  containerStyle={styles.imageContainer}
                 />
                 <Divider />
               </React.Fragment>

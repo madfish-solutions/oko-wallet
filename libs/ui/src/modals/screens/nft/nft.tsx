@@ -51,7 +51,6 @@ export const NFT: FC = () => {
             size={isMobile ? getCustomSize(42.875) : getCustomSize(41)}
             pixelShitSize={getCustomSize(10)}
             style={styles.imageContainer}
-            imageStyle={styles.image}
           />
 
           <Column style={styles.list}>

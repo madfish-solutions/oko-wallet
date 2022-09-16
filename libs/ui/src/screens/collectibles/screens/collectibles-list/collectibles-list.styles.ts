@@ -19,8 +19,5 @@ export const styles = StyleSheet.create({
   },
   imageContainer: {
     position: 'absolute'
-  },
-  image: {
-    backgroundColor: 'transparent'
   }
 });

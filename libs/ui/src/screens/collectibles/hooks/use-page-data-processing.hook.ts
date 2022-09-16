@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { EMPTY_STRING } from '../../../constants/defaults';
 import { Token } from '../../../interfaces/token.interface';
 
-export const usePageDataProcessing = (collectiblesList: Token[], isSpecificCollection = false) => {
+export const useCollectibleList = (collectiblesList: Token[], isSpecificCollection = false) => {
   const [collectibles, setCollectibles] = useState<Token[]>(collectiblesList);
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
 

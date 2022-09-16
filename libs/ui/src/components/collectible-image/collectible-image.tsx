@@ -16,7 +16,7 @@ interface Props {
   onPress?: OnEventFn<GestureResponderEvent>;
   pixelShitSize?: number;
   style?: ViewStyleProps;
-  imageStyle?: ImageStyle;
+  containerStyle?: ImageStyle;
 }
 
 export const CollectibleImage: FC<Props> = ({
@@ -26,9 +26,9 @@ export const CollectibleImage: FC<Props> = ({
   onPress,
   pixelShitSize,
   style,
-  imageStyle
+  containerStyle
 }) => {
-  const [imageIsLoaded, setImageIsLoaded] = useState(false);
+  const [imageIsLoaded, setImageIsLoaded] = useState(isNotEmptyString(artifactUri) ? false : true);
   const spinAnimation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -57,12 +57,13 @@ export const CollectibleImage: FC<Props> = ({
 
   return (
     <View style={[styles.root, { width: size, height: height ?? size }, style]}>
-      <Pressable onPress={onPress} style={[styles.imageContainer, { width: size, height: height ?? size }]}>
-        <Image
-          source={{ uri: artifactUri }}
-          style={[styles.image, imageStyle]}
-          onLoadEnd={() => setImageIsLoaded(true)}
-        />
+      <Pressable
+        onPress={onPress}
+        style={[styles.imageContainer, { width: size, height: height ?? size }, containerStyle]}
+      >
+        {isNotEmptyString(artifactUri) && (
+          <Image source={{ uri: artifactUri }} style={[styles.image]} onLoadEnd={() => setImageIsLoaded(true)} />
+        )}
         {(!isDefined(artifactUri) && imageIsLoaded) ||
           (isDefined(artifactUri) && !isNotEmptyString(artifactUri) && imageIsLoaded && (
             <Icon
@@ -73,7 +74,7 @@ export const CollectibleImage: FC<Props> = ({
           ))}
       </Pressable>
       {!imageIsLoaded && (
-        <View style={[styles.layout, { width: size, height: size }, imageStyle]}>
+        <View style={[styles.layout, { width: size, height: size }, containerStyle]}>
           <Animated.View style={animatedStyle}>
             <Icon name={IconNameEnum.Loaders} size={getCustomSize(4)} />
           </Animated.View>

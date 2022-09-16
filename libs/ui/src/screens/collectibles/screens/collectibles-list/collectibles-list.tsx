@@ -12,7 +12,7 @@ import { ListContainer } from '../../components/list-container/list-container';
 import { NftRenderItem } from '../../components/nft-render-item/nft-render-item';
 import { IMAGE_CONTAINER_SIZE, IMAGE_SIZE } from '../../constants';
 import { useGroupedCollectibles } from '../../hooks/use-grouped-collectibles.hook';
-import { usePageDataProcessing } from '../../hooks/use-page-data-processing.hook';
+import { useCollectibleList } from '../../hooks/use-page-data-processing.hook';
 
 import { styles } from './collectibles-list.styles';
 
@@ -20,7 +20,7 @@ export const CollectiblesList: FC = () => {
   const { navigate } = useNavigation();
   const { collectiblesList, groupedCollectibles } = useGroupedCollectibles();
 
-  const { collectibles, setSearchValue } = usePageDataProcessing(collectiblesList);
+  const { collectibles, setSearchValue } = useCollectibleList(collectiblesList);
 
   const handleItemPress = useCallback(
     (nft: Token) => {
@@ -53,7 +53,6 @@ export const CollectiblesList: FC = () => {
           size={IMAGE_SIZE}
           onPress={() => handleItemPress(nft)}
           style={styles.imageContainer}
-          imageStyle={styles.image}
         />
       </NftRenderItem>
     ),
