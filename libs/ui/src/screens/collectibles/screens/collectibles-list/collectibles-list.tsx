@@ -5,6 +5,7 @@ import { ListRenderItemInfo, Pressable, FlatList, View } from 'react-native';
 import { Column } from '../../../../components/column/column';
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
+import { NavigationBar } from '../../../../components/navigation-bar/navigation-bar';
 import { ScreenTitle } from '../../../../components/screen-components/header-container/components/screen-title/screen-title';
 import { HeaderContainer } from '../../../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
@@ -116,6 +117,8 @@ export const CollectiblesList: FC = () => {
           style={styles.flatList}
         />
       </Column>
+
+      <NavigationBar />
     </ScreenContainer>
   );
 };
