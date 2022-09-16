@@ -1,3 +1,4 @@
+import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { Pressable, View } from 'react-native';
 
@@ -9,7 +10,7 @@ import { styles } from './nft-render-item.styles';
 interface Props {
   nft: Token;
   name: string;
-  handleItemPress: (nft: Token) => void;
+  handleItemPress: OnEventFn<Token>;
   index: number;
 }
 
