@@ -10,9 +10,9 @@ export const useTokensMarketInfoSelector = () =>
     ({ tokensMarketInfo: { tokensPriceInfo } }) => tokensPriceInfo
   );
 
-export const useTokenMarketInfoSelector = (tokenAddress: string, rpcUrl: string) => {
+export const useTokenMarketInfoSelector = (tokenAddress: string, chainId: string) => {
   const allTokensMarketInfo = useTokensMarketInfoSelector();
-  const tokenMetadataSlug = getTokenMetadataSlug(rpcUrl, tokenAddress);
+  const tokenMetadataSlug = getTokenMetadataSlug(chainId, tokenAddress);
 
   return useMemo(() => allTokensMarketInfo[tokenMetadataSlug] ?? {}, [allTokensMarketInfo]);
 };

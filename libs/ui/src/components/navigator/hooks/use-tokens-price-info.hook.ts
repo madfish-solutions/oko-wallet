@@ -10,13 +10,13 @@ import {
 
 export const useTokensPriceInfo = () => {
   const dispatch = useDispatch();
-  const { chainId, rpcUrl } = useSelectedNetworkSelector();
+  const { chainId } = useSelectedNetworkSelector();
   const visibleAccountTokens = useVisibleAccountTokensSelector();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
   useEffect(() => {
     const tokenAddressesList = visibleAccountTokens.map(visibleAccountToken => visibleAccountToken.tokenAddress);
 
-    dispatch(addTokensPriceInfo.submit({ tokenAddressesList, chainId, rpcUrl }));
+    dispatch(addTokensPriceInfo.submit({ tokenAddressesList, chainId }));
   }, [chainId, visibleAccountTokens.length, publicKeyHash]);
 };

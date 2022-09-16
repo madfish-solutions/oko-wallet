@@ -29,7 +29,7 @@ export const loadAccountTokenBalanceAction = createActions<
 >('wallet/LOAD_TOKEN_BALANCE');
 
 export const addNewNetworkAction = createAction<NetworkInterface>('wallet/ADD_NEW_NETWORK');
-export const changeNetworkAction = createAction<string>('wallet/CHANGE_NETWORK');
+export const changeNetworkAction = createAction<{ rpcUrl: string; chainId: string }>('wallet/CHANGE_NETWORK');
 export const editNetworkAction = createAction<{
   network: NetworkInterface;
   isNetworkSelected: boolean;

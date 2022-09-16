@@ -39,14 +39,14 @@ export const updateAccountsTokensState = (state: WalletState, account: AccountIn
 };
 
 export const getDefaultAccountTokens = (state: WalletState, account: AccountInterface) => {
-  const { networks, selectedNetworkRpcUrl } = state;
+  const { networks, selectedNetworkChainId } = state;
 
   const accountTokensSlug = getAccountTokensSlug(
-    selectedNetworkRpcUrl,
+    selectedNetworkChainId,
     getPublicKeyHash(account, getSelectedNetworkType(state))
   );
 
-  const currentNetwork = networks.find(network => network.rpcUrl === selectedNetworkRpcUrl);
+  const currentNetwork = networks.find(network => network.chainId === selectedNetworkChainId);
 
   if (currentNetwork && currentNetwork.chainId && TOKENS_DEFAULT_LIST.hasOwnProperty(currentNetwork.chainId)) {
     return {
@@ -70,8 +70,8 @@ export const updateAccountTokenState = (
   token: Token,
   updateFunc: (token: AccountToken) => Partial<AccountToken>
 ): WalletState => {
-  const { selectedNetworkRpcUrl, selectedAccountPublicKeyHash, accountsTokens } = state;
-  const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+  const { selectedAccountPublicKeyHash, accountsTokens, selectedNetworkChainId } = state;
+  const accountTokensSlug = getAccountTokensSlug(selectedNetworkChainId, selectedAccountPublicKeyHash);
   const tokenSlug = getTokenSlug(token.tokenAddress, token.tokenId);
   const targetAccountTokens = accountsTokens[accountTokensSlug];
 

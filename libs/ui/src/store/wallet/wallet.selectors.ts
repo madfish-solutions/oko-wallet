@@ -78,13 +78,13 @@ export const useAllAccountsTokensAndTokensMetadataSelector = () =>
 
 export const useAccountAssetsSelector = () =>
   useSelector<WalletRootState, Token[]>(
-    ({ wallet: { accountsTokens, selectedAccountPublicKeyHash, tokensMetadata, selectedNetworkRpcUrl } }) => {
-      const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+    ({ wallet: { accountsTokens, selectedAccountPublicKeyHash, tokensMetadata, selectedNetworkChainId } }) => {
+      const accountTokensSlug = getAccountTokensSlug(selectedNetworkChainId, selectedAccountPublicKeyHash);
 
       return (
         accountsTokens[accountTokensSlug]?.map(accountToken => {
           const tokenMetadataSlug = getTokenMetadataSlug(
-            selectedNetworkRpcUrl,
+            selectedNetworkChainId,
             accountToken.tokenAddress,
             accountToken.tokenId
           );
@@ -162,16 +162,16 @@ export const useIsAuthorisedSelector = () => {
 export const usePendingTransactionsSelector = () => {
   const transactions = useSelector<WalletRootState, Record<string, Transaction[]>>(({ wallet }) => wallet.transactions);
   const selectedAccountPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
-  const selectedNetworkRpcUrl = useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedNetworkRpcUrl);
+  const selectedNetworkChainId = useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedNetworkChainId);
 
-  const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+  const accountTokensSlug = getAccountTokensSlug(selectedNetworkChainId, selectedAccountPublicKeyHash);
 
   return useMemo(
     () =>
       isDefined(transactions[accountTokensSlug])
         ? transactions[accountTokensSlug].filter(tx => tx.status === TransactionStatusEnum.pending)
         : [],
-    [transactions, selectedNetworkRpcUrl, selectedAccountPublicKeyHash]
+    [transactions, selectedNetworkChainId, selectedAccountPublicKeyHash]
   );
 };
 
@@ -179,16 +179,16 @@ export const useMintedTransactionsSelector = () => {
   const transactions = useSelector<WalletRootState, Record<string, Transaction[]>>(({ wallet }) => wallet.transactions);
 
   const selectedAccountPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
-  const selectedNetworkRpcUrl = useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedNetworkRpcUrl);
+  const selectedNetworkChainId = useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedNetworkChainId);
 
-  const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+  const accountTokensSlug = getAccountTokensSlug(selectedNetworkChainId, selectedAccountPublicKeyHash);
 
   return useMemo(
     () =>
       isDefined(transactions[accountTokensSlug])
         ? transactions[accountTokensSlug].filter(tx => tx.status === TransactionStatusEnum.applied)
         : [],
-    [transactions, selectedNetworkRpcUrl, selectedAccountPublicKeyHash]
+    [transactions, selectedNetworkChainId, selectedAccountPublicKeyHash]
   );
 };
 

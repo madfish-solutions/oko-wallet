@@ -37,7 +37,7 @@ import { getListOfTokensAddresses } from './utils/get-list-of-tokens-adresses.ut
 const keyExtractor = ({ tokenAddress, tokenId }: Token) => getTokenSlug(tokenAddress, tokenId);
 
 export const Tokens: FC = () => {
-  const { rpcUrl } = useSelectedNetworkSelector();
+  const { chainId } = useSelectedNetworkSelector();
   const dispatch = useDispatch();
   const { navigate, goBack } = useNavigation();
   const allAccountTokens = useAccountTokensSelector();
@@ -62,7 +62,7 @@ export const Tokens: FC = () => {
     }
 
     return visibleAccountTokensWithGasToken;
-  }, [searchValue, allAccountTokens]);
+  }, [searchValue, allAccountTokens, visibleAccountTokensWithGasToken]);
 
   const navigateToAddNewToken = () => navigate(ScreensEnum.AddNewToken);
   const navigateToManageTokens = () => navigate(ScreensEnum.ManageTokens);
@@ -84,7 +84,7 @@ export const Tokens: FC = () => {
 
   const renderItem = useCallback(
     ({ item: token }: ListRenderItemInfo<Token>) => {
-      const tokenMetadataSlug = getTokenMetadataSlug(rpcUrl, token.tokenAddress);
+      const tokenMetadataSlug = getTokenMetadataSlug(chainId, token.tokenAddress);
 
       const showButton = !token.isVisible || !tokensAddresses.includes(token.tokenAddress);
 

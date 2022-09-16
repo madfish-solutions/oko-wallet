@@ -23,7 +23,7 @@ import { VISIBLE_TOKENS_NUMBER } from './constants/assets-number';
 
 export const AssetsWidget: FC = () => {
   const { navigate } = useNavigation();
-  const { rpcUrl } = useSelectedNetworkSelector();
+  const { chainId } = useSelectedNetworkSelector();
   const allTokensMarketInfo = useTokensMarketInfoSelector();
   const accountTokens = useVisibleAccountTokensAndGasTokenSelector();
   const visibleAccountTokens = useMemo(() => accountTokens.slice(0, VISIBLE_TOKENS_NUMBER), [accountTokens]);
@@ -53,7 +53,7 @@ export const AssetsWidget: FC = () => {
           <AccountToken
             key={getTokenSlug(token.tokenAddress, token.tokenId)}
             token={token}
-            marketInfo={allTokensMarketInfo[getTokenMetadataSlug(rpcUrl, token.tokenAddress, token.tokenId)]}
+            marketInfo={allTokensMarketInfo[getTokenMetadataSlug(chainId, token.tokenAddress, token.tokenId)]}
             loadBalance
           />
         ))}
