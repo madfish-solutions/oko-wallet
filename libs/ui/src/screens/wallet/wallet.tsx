@@ -9,12 +9,15 @@ import { AssetsWidget } from './components/assets-widget/assets-widget';
 import { CollectiblesWidget } from './components/collectibles/collectibles';
 import { Header } from './components/header/header';
 import { QrCode } from './components/qr-code/qr-code';
+import { useAllUserNft } from './hooks/use-all-user-nft.hook';
 import { useHeaderAnimation } from './hooks/use-header-animation.hook';
 import { styles } from './wallet.styles';
 
 export const Wallet: FC = () => {
   const { isLocked } = useUnlock();
   const { onScroll, onTouchEnd, changeQrCodeVisibility, contentOffsetY, scrollViewRef } = useHeaderAnimation();
+
+  useAllUserNft();
 
   return (
     <ScreenContainer>

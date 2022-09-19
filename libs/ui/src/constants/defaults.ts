@@ -1,5 +1,7 @@
 export const EMPTY_STRING = '';
 
+export const SINGLE_NFTS_KEY = 'single_nfts';
+
 // all chains
 export const CHAINS_JSON = 'https://chainid.network/chains.json';
 

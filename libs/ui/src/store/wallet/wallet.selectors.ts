@@ -146,13 +146,6 @@ export const useCollectiblesSelector = () => {
   return useMemo(() => assets.filter(token => isCollectible(token)), [assets]);
 };
 
-export const useCollectiblesWidgetSelector = () => {
-  const WIDGET_VISIBLE_COLLECTIBLES = 2;
-  const collectibles = useCollectiblesSelector();
-
-  return useMemo(() => collectibles.slice(0, WIDGET_VISIBLE_COLLECTIBLES), [collectibles]);
-};
-
 export const useIsAuthorisedSelector = () => {
   const accounts = useSelector<WalletRootState, AccountInterface[]>(({ wallet }) => wallet.accounts);
 

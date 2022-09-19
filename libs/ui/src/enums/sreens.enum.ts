@@ -32,7 +32,10 @@ export enum ScreensEnum {
   VerifyMnemonic = 'VerifyMnemonic',
   AlmostDone = 'AlmostDone',
   Activity = 'Activity',
-  Token = 'Token'
+  Token = 'Token',
+  CollectiblesList = 'CollectiblesList',
+  SpecificCollectiblesList = 'SpecificCollectiblesList',
+  NFT = 'NFT'
 }
 
 export type ScreensParamList = {
@@ -66,4 +69,8 @@ export type ScreensParamList = {
   [ScreensEnum.AlmostDone]: { mnemonic: string };
   [ScreensEnum.Activity]: undefined;
   [ScreensEnum.Token]: { token: Token };
+  [ScreensEnum.CollectiblesList]: undefined;
+  [ScreensEnum.CollectiblesList]: undefined;
+  [ScreensEnum.SpecificCollectiblesList]: { collectibles: Token[] };
+  [ScreensEnum.NFT]: { nft: Token };
 };
