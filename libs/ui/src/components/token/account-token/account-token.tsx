@@ -27,7 +27,7 @@ export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = false
   const { decimals, thumbnailUri, balance, symbol, name } = token;
 
   const imageSource = getImageSource(thumbnailUri);
-  const formattedBalance = formatBalances(Number(formatUnits(balance.data, decimals)));
+  const formattedBalance = formatBalances(formatUnits(balance.data, decimals));
 
   useEffect(() => {
     if (loadBalance) {

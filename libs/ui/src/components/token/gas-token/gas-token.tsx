@@ -29,7 +29,7 @@ export const GasToken: FC<Props> = ({ theme, loadBalance = true }) => {
   const { navigate } = useNavigation();
 
   const imageSource = getImageSource(thumbnailUri);
-  const formattedBalance = formatBalances(Number(formatUnits(gasTokenBalance.data, decimals)));
+  const formattedBalance = formatBalances(formatUnits(gasTokenBalance.data, decimals));
 
   useEffect(() => {
     if (loadBalance) {

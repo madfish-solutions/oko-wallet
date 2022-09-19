@@ -42,7 +42,7 @@ import { getPublicKeyHash } from '../../store/wallet/wallet.utils';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { isMobile } from '../../utils/platform.utils';
-import { formatUnits } from '../../utils/units.utils';
+import { formatBalances, formatUnits } from '../../utils/units.utils';
 
 import { HeaderSideBalance } from './components/header-side-balance/header-side-balance';
 import { SelectedAccount } from './components/selected-account/selected-account';
@@ -90,7 +90,7 @@ export const Send: FC = () => {
   const isSendButtonDisabled = !isEmpty(errors);
 
   const addressPlaceholder = networkType === NetworkTypeEnum.EVM ? '0x0000...' : 'tz...';
-  const availableBalance = formatUnits(token.balance.data, token.decimals);
+  const availableBalance = formatBalances(formatUnits(token.balance.data, token.decimals));
 
   const onSubmit = ({
     token: { decimals, tokenAddress, tokenId },

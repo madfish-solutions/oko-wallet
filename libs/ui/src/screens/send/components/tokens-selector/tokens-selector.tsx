@@ -15,7 +15,7 @@ import { Token as TokenType } from '../../../../interfaces/token.interface';
 import { ModalContainer } from '../../../../modals/components/modal-container/modal-container';
 import { useSelectedNetworkSelector, useVisibleAccountTokensSelector } from '../../../../store/wallet/wallet.selectors';
 import { getTokenSlug } from '../../../../utils/token.utils';
-import { formatUnits } from '../../../../utils/units.utils';
+import { formatBalances, formatUnits } from '../../../../utils/units.utils';
 import { filterAccountTokensByValue } from '../../../tokens/utils/filter-account-tokens-by-value';
 
 import { styles } from './tokens-selector.styles';
@@ -63,7 +63,7 @@ export const TokensSelector: FC = () => {
   const renderItem = ({ item, index }: ListRenderItemInfo<TokenType>) => {
     const isTokenSelected = selectedIndex === index;
     const isGasToken = item.tokenAddress === GAS_TOKEN_ADDRESS;
-    const balance = formatUnits(item.balance.data, item.decimals);
+    const balance = formatBalances(formatUnits(item.balance.data, item.decimals));
 
     const onSelectItem = () => navigate(ScreensEnum.Send, { token: item });
 

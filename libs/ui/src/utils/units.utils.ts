@@ -21,13 +21,16 @@ export const parseUnits = (value: BigNumberish, decimals: number) => {
   return bigNum.decimalPlaces(decimals).times(new BigNumber(10).pow(decimals));
 };
 
-export const formatBalances = (amount: number): string => {
-  if (Number.isInteger(amount)) {
+export const formatBalances = (amount: number | string): string => {
+  const correctedAmount = typeof amount === 'string' ? Number(amount) : amount;
+
+  if (Number.isInteger(correctedAmount)) {
     return amount.toString();
   }
-  if (amount > 1000) {
-    return amount.toFixed(2);
+
+  if (correctedAmount > 1000) {
+    return correctedAmount.toFixed(2);
   }
 
-  return amount.toFixed(6);
+  return correctedAmount.toFixed(6);
 };

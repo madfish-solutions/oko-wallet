@@ -17,9 +17,7 @@ interface Props {
 
 export const ModalGasToken: FC<Props> = ({ balance, metadata }) => (
   <View style={styles.wrapper}>
-    <Text style={[styles.marginRight, styles.balance]}>
-      {formatBalances(Number(formatUnits(balance, metadata.decimals)))}
-    </Text>
+    <Text style={[styles.marginRight, styles.balance]}>{formatBalances(formatUnits(balance, metadata.decimals))}</Text>
     <Text style={styles.text} numberOfLines={1}>
       {metadata.symbol}
     </Text>
