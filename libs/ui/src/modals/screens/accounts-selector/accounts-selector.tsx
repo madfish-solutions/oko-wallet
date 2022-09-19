@@ -32,7 +32,7 @@ import { AccountsList } from './components/accounts-list';
 
 export const AccountsSelector: FC = () => {
   const { createHdAccountForNewNetworkType } = useShelter();
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
   const dispatch = useDispatch();
   const selectedAccount = useSelectedAccountSelector();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
@@ -45,6 +45,7 @@ export const AccountsSelector: FC = () => {
     } else {
       createHdAccountForNewNetworkType(account, selectedNetworkType);
     }
+    goBack();
   };
 
   const onAddAccount = () => navigate(ScreensEnum.AddAccount);

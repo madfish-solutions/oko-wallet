@@ -14,6 +14,7 @@ const peerMetaInitialValue = {
   ssl: false
 };
 
+/** @deprecated */
 export const useConnectToDapp = () => {
   const [connector, setConnector] = useState<WalletConnect | null>(null);
   const [uri, setUri] = useState('');

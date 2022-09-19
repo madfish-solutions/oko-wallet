@@ -22,6 +22,7 @@ export enum ScreensEnum {
   AddAccount = 'AddAccount',
   AddNetwork = 'AddNetwork',
   EditNetwork = 'EditNetwork',
+  DappConfirmation = 'DappConfirmation',
   AddNewToken = 'AddNewToken',
   EditToken = 'EditToken',
   Tokens = 'Tokens',
@@ -57,11 +58,12 @@ export type ScreensParamList = {
   [ScreensEnum.EditToken]: { token: Token };
   [ScreensEnum.EditNetwork]: { network: NetworkInterface; isNetworkSelected: boolean };
   [ScreensEnum.Tokens]: undefined;
+  [ScreensEnum.DappConfirmation]: { dappName: string; id: string };
   [ScreensEnum.ScanQrCode]: undefined;
   [ScreensEnum.CreateANewWallet]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.VerifyMnemonic]: { mnemonic: string[] };
-  [ScreensEnum.AlmostDone]: undefined;
+  [ScreensEnum.AlmostDone]: { mnemonic: string };
   [ScreensEnum.Activity]: undefined;
   [ScreensEnum.Token]: { token: Token };
 };

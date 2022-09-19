@@ -74,3 +74,8 @@ export interface NewTokenMetadataRequest {
   tokenId: string;
   chainName: string;
 }
+
+export interface SectionListActivityData {
+  title: string;
+  data: ActivityData[];
+}
