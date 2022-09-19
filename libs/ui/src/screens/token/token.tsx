@@ -13,6 +13,7 @@ import { useNavigation } from '../../hooks/use-navigation.hook';
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { useTokenBalanceSelector } from '../../store/wallet/wallet.selectors';
 import { getTokenSlug } from '../../utils/token.utils';
+import { formatBalances } from '../../utils/units.utils';
 
 import { Activity } from './components/activity/activity';
 import { Balance } from './components/balance/balance';
@@ -47,7 +48,7 @@ export const Token: FC<Props> = ({ style }) => {
   const { name, symbol, tokenAddress, decimals, tokenId, thumbnailUri, balance } = token;
 
   const balanceFromStore = useTokenBalanceSelector(getTokenSlug(tokenAddress, tokenId));
-  const formattedBalance = formatUnits(balanceFromStore ?? balance.data, decimals);
+  const formattedBalance = formatBalances(formatUnits(balanceFromStore ?? balance.data, decimals));
   const isGasToken = tokenAddress === GAS_TOKEN_ADDRESS;
 
   return (
