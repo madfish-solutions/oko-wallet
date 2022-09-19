@@ -1,4 +1,4 @@
-import { isMaximiseScreen, isWeb } from '../../../utils/platform.utils';
+import { isMaximiseScreen, isMobile, isWeb } from '../../../utils/platform.utils';
 import { extensionHeight } from '../../navigator/utils/maximise-view-options';
 
-export const offset = isWeb && !isMaximiseScreen ? -505 : -(extensionHeight - 40);
+export const offset = isMobile ? 95 : isWeb && !isMaximiseScreen ? -505 : -(extensionHeight - 40);
