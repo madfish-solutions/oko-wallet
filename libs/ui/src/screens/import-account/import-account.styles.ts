@@ -4,10 +4,7 @@ import { maximiseViewStyles } from '../../components/navigator/utils/maximise-vi
 import { colors } from '../../styles/colors';
 import { EXTENSION_FULL_SIZE, getCustomSize } from '../../styles/format-size';
 import { typography } from '../../styles/typography';
-import { checkActiveApplicationSession } from '../../utils/check-active-application-session.util';
-import { isWeb } from '../../utils/platform.utils';
-
-const { isMaximiseScreenOpened } = checkActiveApplicationSession();
+import { isMaximiseScreen, isWeb } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {
@@ -16,7 +13,7 @@ export const styles = StyleSheet.create({
     paddingTop: getCustomSize(6),
     textAlign: 'center',
     width: '100%',
-    ...(isMaximiseScreenOpened && maximiseViewStyles)
+    ...(isMaximiseScreen && maximiseViewStyles)
   },
   title: {
     ...typography.bodyInterSemiBold17

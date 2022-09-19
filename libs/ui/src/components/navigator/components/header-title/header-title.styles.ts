@@ -3,15 +3,13 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
 import { typography } from '../../../../styles/typography';
-import { checkActiveApplicationSession } from '../../../../utils/check-active-application-session.util';
+import { isMaximiseScreen } from '../../../../utils/platform.utils';
 import { maximiseViewStyles } from '../../utils/maximise-view-options';
-
-const { isMaximiseScreenOpened } = checkActiveApplicationSession();
 
 export const styles = StyleSheet.create({
   root: {
     backgroundColor: colors.bgGrey2,
-    ...(isMaximiseScreenOpened && {
+    ...(isMaximiseScreen && {
       marginTop: maximiseViewStyles.marginTop,
       borderRadius: maximiseViewStyles.borderRadius
     })
