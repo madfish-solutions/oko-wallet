@@ -41,7 +41,7 @@ export const ManageTokens: FC = () => {
       </HeaderContainer>
 
       <ScreenScrollView style={styles.root}>
-        <SearchPanel setSearchValue={setSearchValue} style={styles.searchPanel} />
+        <SearchPanel setSearchValue={setSearchValue} style={styles.searchPanel} isEmptyList={!accountTokens.length} />
         {accountTokens.map((token, i) => {
           const isGasToken = token.tokenAddress === GAS_TOKEN_ADDRESS;
 

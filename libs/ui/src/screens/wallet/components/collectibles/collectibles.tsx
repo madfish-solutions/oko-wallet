@@ -1,3 +1,4 @@
+import { isDefined } from '@rnw-community/shared';
 import React, { FC } from 'react';
 
 import { ButtonWithIcon } from '../../../../components/button-with-icon/button-with-icon';
@@ -7,9 +8,12 @@ import { Divider } from '../../../../components/divider/divider';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';
 import { WidgetContainer } from '../../../../components/widget-container/widget-container';
-import { useCollectiblesWidgetSelector } from '../../../../store/wallet/wallet.selectors';
+import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
+import { Token } from '../../../../interfaces/token.interface';
 import { isEmptyArray } from '../../../../utils/array.utils';
 import { getTokenSlug } from '../../../../utils/token.utils';
+import { useGroupedCollectibles } from '../../../collectibles/hooks/use-grouped-collectibles.hook';
 
 import { styles } from './collectibles.styles';
 import { CollectibleImages } from './components/collectible-image';
@@ -20,11 +24,22 @@ const RECEIVE = 'RECEIVE';
 const VIEW_ALL = 'VIEW ALL';
 
 export const CollectiblesWidget: FC = () => {
-  const collectibles = useCollectiblesWidgetSelector();
+  const { navigate } = useNavigation();
+  const { collectiblesList, groupedCollectibles } = useGroupedCollectibles();
+
+  const navigateToNftList = () => navigate(ScreensEnum.CollectiblesList);
+
+  const handleItemPress = (nft: Token) => {
+    if (isDefined(nft.collectionId) && isDefined(groupedCollectibles)) {
+      return navigate(ScreensEnum.SpecificCollectiblesList, { collectibles: groupedCollectibles[nft.collectionId] });
+    }
+
+    return navigate(ScreensEnum.NFT, { nft });
+  };
 
   return (
     <WidgetContainer title={COLLECTIBLES} iconName={IconNameEnum.Nft}>
-      {isEmptyArray(collectibles) ? (
+      {isEmptyArray(collectiblesList) ? (
         <ButtonWithIcon
           title={EMPTY_NFT}
           size={ButtonWithIconSizeEnum.Medium}
@@ -34,11 +49,15 @@ export const CollectiblesWidget: FC = () => {
       ) : (
         <Row>
           <Row>
-            {collectibles.map(collectible => (
-              <CollectibleImages
-                collectible={collectible}
-                key={getTokenSlug(collectible.tokenAddress, collectible.tokenId)}
-              />
+            {collectiblesList.slice(0, 2).map(collectible => (
+              <React.Fragment key={getTokenSlug(collectible.tokenAddress, collectible.tokenId)}>
+                <CollectibleImages
+                  collectible={collectible}
+                  onPress={() => handleItemPress(collectible)}
+                  imageStyle={styles.image}
+                />
+                <Divider />
+              </React.Fragment>
             ))}
           </Row>
           <Column style={styles.buttons}>
@@ -47,13 +66,16 @@ export const CollectiblesWidget: FC = () => {
               size={ButtonWithIconSizeEnum.Medium}
               theme={ButtonWithIconThemesEnum.Tertiary}
               rightIcon={IconNameEnum.Receive}
+              style={styles.button}
             />
             <Divider />
             <ButtonWithIcon
               title={VIEW_ALL}
+              onPress={navigateToNftList}
               size={ButtonWithIconSizeEnum.Medium}
               theme={ButtonWithIconThemesEnum.Tertiary}
               rightIcon={IconNameEnum.ArrowRight}
+              style={styles.button}
             />
           </Column>
         </Row>

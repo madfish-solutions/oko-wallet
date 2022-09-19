@@ -11,7 +11,8 @@ import { styles } from './header-close-button.styles';
 const goBackRoutes = [
   ScreensEnum.SendAccountsSelector,
   ScreensEnum.SendTokensSelector,
-  ScreensEnum.WordsAmountSelector
+  ScreensEnum.WordsAmountSelector,
+  ScreensEnum.NFT
 ];
 
 interface Props {

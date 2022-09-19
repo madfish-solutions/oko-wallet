@@ -2,7 +2,6 @@ import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { FlatList, ListRenderItemInfo, Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { EmptySearchIcon } from '../../components/icon/components/empty-search-icon/empty-search-icon';
 import { Icon } from '../../components/icon/icon';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
@@ -121,6 +120,7 @@ export const Tokens: FC = () => {
           onPressActivityIcon={onPressActivityIcon}
           setSearchValue={setSearchValue}
           onSearchClose={onSearchClose}
+          isEmptyList={!accountTokens.length}
         />
         {accountTokens.length > 0 && (
           <Row style={styles.checkboxContainer}>
@@ -133,7 +133,6 @@ export const Tokens: FC = () => {
           showsVerticalScrollIndicator={false}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
-          ListEmptyComponent={<EmptySearchIcon />}
         />
       </View>
 

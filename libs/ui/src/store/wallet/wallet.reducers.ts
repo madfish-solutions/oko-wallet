@@ -4,6 +4,7 @@ import { isDefined } from '@rnw-community/shared';
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
 import { AccountToken } from '../../interfaces/account-token.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
+import { TokenMetadata } from '../../interfaces/token-metadata.interface';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { getAllAccountsWithoutCurrent } from '../../utils/get-all-accounts-without-current.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
@@ -29,7 +30,8 @@ import {
   removeNetworkAction,
   editTokenAction,
   sortAccountTokensByVisibility,
-  addNewTokensAction
+  addNewTokensAction,
+  getAllUserNftAction
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -179,6 +181,60 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
             thumbnailUri: token.logo_url
           }
         };
+      }, {});
+
+      return {
+        ...state,
+        accountsTokens: {
+          ...state.accountsTokens,
+          [accountTokensSlug]: [...(state.accountsTokens[accountTokensSlug] ?? []), ...accountTokens]
+        },
+        tokensMetadata: {
+          ...state.tokensMetadata,
+          ...tokensMetadata
+        }
+      };
+    })
+    .addCase(getAllUserNftAction.success, (state, { payload: { nftList } }) => {
+      const { selectedAccountPublicKeyHash, selectedNetworkRpcUrl } = state;
+      const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+
+      const stateAccountTokens = state.accountsTokens[accountTokensSlug];
+
+      const accountTokens = nftList.reduce((acc, nft) => {
+        const currentTokenExist = stateAccountTokens.find(
+          token => getTokenSlug(nft.contract_id, nft.inner_id) === getTokenSlug(token.tokenAddress, token.tokenId)
+        );
+
+        if (!isDefined(currentTokenExist)) {
+          acc.push({
+            tokenAddress: nft.contract_id,
+            tokenId: nft.inner_id,
+            isVisible: true,
+            balance: createEntity('0')
+          });
+        }
+
+        return acc;
+      }, [] as AccountToken[]);
+
+      const tokensMetadata = nftList.reduce((acc, nft) => {
+        const tokenMetadataSlug = getTokenMetadataSlug(selectedNetworkRpcUrl, nft.contract_id, nft.inner_id);
+
+        const currentAcc: Record<string, Omit<TokenMetadata, 'symbol'>> = { ...acc };
+
+        if (!isDefined(state.tokensMetadata[tokenMetadataSlug])) {
+          currentAcc[tokenMetadataSlug] = {
+            name: nft.name,
+            amount: nft.amount,
+            collectionId: nft.collection_id,
+            contractName: nft.contract_name,
+            decimals: 0,
+            artifactUri: nft.thumbnail_url
+          };
+        }
+
+        return currentAcc;
       }, {});
 
       return {

@@ -4,7 +4,7 @@ import { catchError, map, switchMap, concatMap } from 'rxjs/operators';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
-import { getTokenInfo, getTokenList } from '../../api/debank';
+import { getAllUserNftList, getTokenInfo, getTokenList } from '../../api/debank';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { parseTezosTransferParams } from '../../utils/parse-tezos-transfer-params.utils';
@@ -22,7 +22,8 @@ import {
   sendAssetAction,
   loadTokenMetadataAction,
   addNewTokenAction,
-  addNewTokensAction
+  addNewTokensAction,
+  getAllUserNftAction
 } from './wallet.actions';
 
 const getGasTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Observable<RootState>) =>
@@ -104,10 +105,20 @@ const addNewTokensEpic: Epic = (action$: Observable<Action>) =>
     )
   );
 
+const getAllUserNftEpic: Epic = (action$: Observable<Action>) =>
+  action$.pipe(
+    ofType(getAllUserNftAction.submit),
+    toPayload(),
+    concatMap(({ debankId, publicKeyHash }) =>
+      from(getAllUserNftList(publicKeyHash, debankId)).pipe(map(nftList => getAllUserNftAction.success({ nftList })))
+    )
+  );
+
 export const walletEpics = combineEpics(
   getGasTokenBalanceEpic,
   getTokenBalanceEpic,
   sendAssetEpic,
   saveNewTokenEpic,
-  addNewTokensEpic
+  addNewTokensEpic,
+  getAllUserNftEpic
 );

@@ -13,10 +13,13 @@ import { EditAccount } from '../../modals/screens/edit-account/edit-account';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
 import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
 import { NetworksSelector } from '../../modals/screens/networks-selector/networks-selector';
+import { NFT } from '../../modals/screens/nft/nft';
 import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
 import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
 import { Activity } from '../../screens/activity/activity';
+import { CollectiblesList } from '../../screens/collectibles/screens/collectibles-list/collectibles-list';
+import { SpecificCollectiblesList } from '../../screens/collectibles/screens/specific-collectibles-list/specific-collectibles-list';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
 import { AlmostDone } from '../../screens/create-wallet/screens/almost-done/almost-done';
 import { CreateANewWallet } from '../../screens/create-wallet/screens/create-a-new-wallet/create-a-new-wallet';
@@ -91,6 +94,8 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.Tokens} component={Tokens} />
               <Stack.Screen name={ScreensEnum.ScanQrCode} component={ScanQrCode} />
               <Stack.Screen name={ScreensEnum.Token} component={Token} />
+              <Stack.Screen name={ScreensEnum.CollectiblesList} component={CollectiblesList} />
+              <Stack.Screen name={ScreensEnum.SpecificCollectiblesList} component={SpecificCollectiblesList} />
               <Stack.Screen name={ScreensEnum.Activity} component={Activity} />
             </Stack.Group>
 
@@ -114,6 +119,11 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.SendAccountsSelector}
                 options={{ title: 'Select Account' }}
                 component={SendAccountsSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.NFT}
+                options={({ route }) => ({ title: route.params.nft.name })}
+                component={NFT}
               />
               <Stack.Screen
                 name={ScreensEnum.DappConfirmation}

@@ -2,7 +2,6 @@ import { OnEventFn } from '@rnw-community/shared';
 import React from 'react';
 import { View, FlatList, FlatListProps, GestureResponderEvent } from 'react-native';
 
-import { EmptySearchIcon } from '../icon/components/empty-search-icon/empty-search-icon';
 import { SearchPanel } from '../search-panel/search-panel';
 
 import { useFlatListRef } from './hooks/use-flat-list-ref.hook';
@@ -38,6 +37,7 @@ export const Selector = <T extends object>({
         setSearchValue={setSearchValue}
         selectedItemName={selectedItemName}
         isSearchInitiallyOpened={isSearchInitiallyOpened}
+        isEmptyList={!data.length}
       />
 
       <FlatList
@@ -47,7 +47,6 @@ export const Selector = <T extends object>({
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
-        ListEmptyComponent={<EmptySearchIcon />}
       />
     </View>
   );
