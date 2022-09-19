@@ -12,14 +12,31 @@ interface GetDollarValueArgs {
   isNeedToFormat?: boolean;
 }
 
-export const getDollarValue = ({
+export function getDollarValue(arg: {
+  amount: string;
+  decimals: number;
+  price: number | undefined;
+  errorValue?: string;
+  isNeedToFormat?: boolean;
+}): string;
+
+export function getDollarValue(arg: {
+  amount: string;
+  decimals: number;
+  price: number | undefined;
+  errorValue: BigNumber;
+  isNeedToFormat?: boolean;
+  toFixed: false;
+}): BigNumber;
+
+export function getDollarValue({
   amount,
   price,
   decimals,
   toFixed = true,
   isNeedToFormat = true,
   errorValue = '---'
-}: GetDollarValueArgs): string | BigNumber => {
+}: GetDollarValueArgs) {
   const bigNumAmount = isNeedToFormat ? formatUnits(amount, decimals) : new BigNumber(amount);
 
   if (isEmptyString(amount) || !isDefined(price) || bigNumAmount.isNaN()) {
@@ -29,4 +46,4 @@ export const getDollarValue = ({
   const dollarValue = bigNumAmount.multipliedBy(price);
 
   return toFixed ? dollarValue.toFixed(2) : dollarValue;
-};
+}

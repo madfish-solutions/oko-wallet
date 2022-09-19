@@ -103,7 +103,7 @@ export const Send: FC = () => {
     decimals: token.decimals,
     price,
     isNeedToFormat: false
-  }) as string;
+  });
   const amountInDollar = getDollarValue({
     amount,
     decimals: token.decimals,

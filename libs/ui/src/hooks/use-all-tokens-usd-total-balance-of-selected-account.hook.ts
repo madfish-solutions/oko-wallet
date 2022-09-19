@@ -38,7 +38,7 @@ export const useAllTokensUsdTotalBalanceOfSelectedAccount = () => {
         decimals,
         errorValue: new BigNumber(0),
         toFixed: false
-      }) as BigNumber;
+      });
 
       return dollarValue.plus(sum);
     }, new BigNumber(0));
@@ -61,7 +61,7 @@ export const useAllTokensUsdTotalBalanceOfSelectedAccount = () => {
             price,
             errorValue: new BigNumber(0),
             toFixed: false
-          }) as BigNumber;
+          });
 
           return dollarValue.plus(sum);
         }, new BigNumber(0));

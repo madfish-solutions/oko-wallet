@@ -27,7 +27,7 @@ export const useAllTokensUsdTotalBalanceOfSelectedNetwork = () => {
             price,
             errorValue: new BigNumber(0),
             toFixed: false
-          }) as BigNumber;
+          });
 
           return dollarValue.plus(sum);
         }, new BigNumber(0))
