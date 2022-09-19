@@ -1,1 +1,1 @@
-export const shortize = (text: string, start = 5, end = -5) => `${text.slice(0, start)}...${text.slice(end)}`;
+export const shortize = (text: string, start = 6, end = -4) => `${text.slice(0, start)}...${text.slice(end)}`;
