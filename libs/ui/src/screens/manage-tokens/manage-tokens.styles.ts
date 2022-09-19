@@ -8,7 +8,8 @@ export const styles = StyleSheet.create({
     paddingVertical: 0
   },
   searchPanel: {
-    marginBottom: 0
+    paddingHorizontal: getCustomSize(2),
+    marginBottom: getCustomSize(3)
   },
   token: {
     justifyContent: 'space-between',
