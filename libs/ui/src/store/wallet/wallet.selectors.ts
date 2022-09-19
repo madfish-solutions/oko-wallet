@@ -192,7 +192,7 @@ export const useTokenBalanceSelector = (tokenSlug: string): string => {
 
   const tokenBalance =
     tokenSlug === getTokenSlug(GAS_TOKEN_ADDRESS)
-      ? network.gasTokenBalance[selectedAccountPublicKeyHash].data
+      ? network?.gasTokenBalance[selectedAccountPublicKeyHash]?.data
       : accountTokens.find(token => getTokenSlug(token.tokenAddress, token.tokenId) === tokenSlug)?.balance.data ?? '0';
 
   return useMemo(() => tokenBalance, [tokenBalance]);

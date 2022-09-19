@@ -13,6 +13,7 @@ import { ViewStyleProps } from '../../interfaces/style.interface';
 import { useTokenMarketInfoSelector } from '../../store/tokens-market-info/token-market-info.selectors';
 import { useTokenBalanceSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
 import { checkIsGasToken } from '../../utils/check-is-gas-token.util';
+import { getDollarValue } from '../../utils/get-dollar-amount.util';
 import { getTokenSlug } from '../../utils/token.utils';
 
 import { Activity } from './components/activity/activity';
@@ -52,6 +53,7 @@ export const Token: FC<Props> = ({ style }) => {
   const balanceFromStore = useTokenBalanceSelector(getTokenSlug(tokenAddress, tokenId));
   const formattedBalance = formatUnits(balanceFromStore ?? balance.data, decimals);
   const isGasToken = checkIsGasToken(tokenAddress);
+  const usdBalance = getDollarValue({ amount: balance?.data ?? 0, price, decimals });
 
   return (
     <ScreenContainer style={[styles.root, style]}>
@@ -66,7 +68,7 @@ export const Token: FC<Props> = ({ style }) => {
         />
       </HeaderContainer>
 
-      <Balance balance={formattedBalance} />
+      <Balance balance={formattedBalance} usdBalance={usdBalance} />
       <NavigationBar token={token} />
 
       <Divider style={styles.divider} />
