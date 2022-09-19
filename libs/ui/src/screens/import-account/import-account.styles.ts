@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 
+import { maximiseViewStyles } from '../../components/navigator/utils/maximise-view-options';
 import { colors } from '../../styles/colors';
 import { EXTENSION_FULL_SIZE, getCustomSize } from '../../styles/format-size';
 import { typography } from '../../styles/typography';
@@ -15,7 +16,7 @@ export const styles = StyleSheet.create({
     paddingTop: getCustomSize(6),
     textAlign: 'center',
     width: '100%',
-    ...(isMaximiseScreenOpened && { height: '100vh', borderWidth: getCustomSize(0.125), borderColor: colors.bgGrey2 })
+    ...(isMaximiseScreenOpened && maximiseViewStyles)
   },
   title: {
     ...typography.bodyInterSemiBold17

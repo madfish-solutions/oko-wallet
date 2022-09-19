@@ -4,13 +4,17 @@ import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
 import { typography } from '../../../../styles/typography';
 import { checkActiveApplicationSession } from '../../../../utils/check-active-application-session.util';
+import { maximiseViewStyles } from '../../utils/maximise-view-options';
 
 const { isMaximiseScreenOpened } = checkActiveApplicationSession();
 
 export const styles = StyleSheet.create({
   root: {
     backgroundColor: colors.bgGrey2,
-    ...(isMaximiseScreenOpened && { borderWidth: getCustomSize(0.125), borderColor: colors.bgGrey2 })
+    ...(isMaximiseScreenOpened && {
+      marginTop: maximiseViewStyles.marginTop,
+      borderRadius: maximiseViewStyles.borderRadius
+    })
   },
   backgroundSpace: {
     height: getCustomSize(3)

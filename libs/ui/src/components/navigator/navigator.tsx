@@ -39,11 +39,7 @@ import { checkActiveApplicationSession } from '../../utils/check-active-applicat
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 import { setStoredValue } from '../../utils/store.util';
 
-import {
-  alignCenterExtension,
-  modalScreenOptions,
-  modalScreenOptionsWithBackButton
-} from './constants/modal-screen-options';
+import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
 import { Stack } from './utils/get-stack-navigator';
 
 export const globalNavigationRef = createRef<NavigationContainerRef<ScreensParamList>>();
@@ -54,8 +50,6 @@ export const Navigator: FC = () => {
   const { isLocked } = useUnlock();
 
   useDappConnection();
-
-  const { isMaximiseScreenOpened } = checkActiveApplicationSession();
 
   const { isPopupOpened } = checkActiveApplicationSession();
 
@@ -86,9 +80,7 @@ export const Navigator: FC = () => {
       <Stack.Navigator>
         {isAuthorised ? (
           <>
-            <Stack.Group
-              screenOptions={isMaximiseScreenOpened ? { contentStyle: alignCenterExtension } : { headerShown: false }}
-            >
+            <Stack.Group screenOptions={{ headerShown: false }}>
               <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
               <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
               <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
