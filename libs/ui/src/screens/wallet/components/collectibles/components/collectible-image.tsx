@@ -13,6 +13,7 @@ import { styles } from './collectible-image.styles';
 interface Props {
   collectible: Token;
   size?: number;
+  height?: number;
   onPress?: OnEventFn<GestureResponderEvent>;
   style?: ViewStyleProps;
   imageStyle?: ImageStyle;
@@ -21,6 +22,7 @@ interface Props {
 export const CollectibleImages: FC<Props> = ({
   collectible,
   size = getCustomSize(12.25),
+  height,
   onPress,
   style,
   imageStyle
@@ -53,11 +55,11 @@ export const CollectibleImages: FC<Props> = ({
   };
 
   return (
-    <View style={[styles.root, { width: size, height: size }, style]}>
+    <View style={[styles.root, { width: size, height: height ?? size }, style]}>
       <Pressable onPress={onPress} style={styles.imageContainer}>
         <Image
           source={{ uri: collectible.artifactUri }}
-          style={[{ width: size, height: size, borderRadius: getCustomSize(0.5) }, imageStyle]}
+          style={[{ width: size, height: height ?? size, borderRadius: getCustomSize(0.5) }, imageStyle]}
           onLoadEnd={() => setImageIsLoaded(true)}
         />
         {(!isDefined(collectible.artifactUri) && imageIsLoaded) ||
