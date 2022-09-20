@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { FlatList, ListRenderItem } from 'react-native';
 
 import { Column } from '../../../../components/column/column';
+import { NavigationBar } from '../../../../components/navigation-bar/navigation-bar';
 import { ScreenTitle } from '../../../../components/screen-components/header-container/components/screen-title/screen-title';
 import { HeaderContainer } from '../../../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
@@ -52,6 +53,8 @@ export const ListContainer: FC<Props> = ({ title, collectibles, setSearchValue, 
           style={styles.flatList}
         />
       </Column>
+
+      <NavigationBar />
     </ScreenContainer>
   );
 };
