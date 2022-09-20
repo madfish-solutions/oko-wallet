@@ -29,6 +29,7 @@ import GasIcon from './assets/gas.svg';
 import Info from './assets/info.svg';
 import LoadersIcon from './assets/loaders.svg';
 import NftCollectionLayout from './assets/nft-collection-layout.svg';
+import NftLayout from './assets/nft-layout.svg';
 import NftIcon from './assets/nft.svg';
 import OutIcon from './assets/out.svg';
 import PartnersIcon from './assets/partners.svg';
@@ -49,6 +50,7 @@ import Success from './assets/success.svg';
 import SwapIcon from './assets/swap.svg';
 import Tooltip from './assets/tooltip.svg';
 import TopupIcon from './assets/topup.svg';
+import TransparencyLayout from './assets/transparency-layout.svg';
 import Trash from './assets/trash.svg';
 import WarningWhite from './assets/warning-white.svg';
 import WarningYellow from './assets/warning-yellow.svg';
@@ -117,5 +119,7 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Info]: Info,
   [IconNameEnum.Deposit]: Deposit,
   [IconNameEnum.NftCollectionLayout]: NftCollectionLayout,
-  [IconNameEnum.PixelShit]: PixelShit
+  [IconNameEnum.PixelShit]: PixelShit,
+  [IconNameEnum.NftLayout]: NftLayout,
+  [IconNameEnum.TransparencyLayout]: TransparencyLayout
 };

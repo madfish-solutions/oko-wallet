@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 import { getCustomSize } from '../../../../styles/format-size';
-import { isMobile } from '../../../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {
@@ -14,12 +13,11 @@ export const styles = StyleSheet.create({
     marginBottom: getCustomSize(3)
   },
   flatList: {
-    width: '100%'
-  },
-  contentContainerStyle: {
-    alignItems: 'center'
+    width: '100%',
+    flex: 1
   },
   columnWrapperStyle: {
-    width: isMobile ? getCustomSize(42.875) : getCustomSize(41)
+    width: '100%',
+    justifyContent: 'space-between'
   }
 });

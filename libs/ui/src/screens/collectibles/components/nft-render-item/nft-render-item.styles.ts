@@ -2,11 +2,12 @@ import { StyleSheet } from 'react-native';
 
 import { getCustomSize } from '../../../../styles/format-size';
 import { typography } from '../../../../styles/typography';
-import { IMAGE_CONTAINER_SIZE } from '../../constants';
+import { isWeb } from '../../../../utils/platform.utils';
+import { customNftContainerWidth } from '../../constants';
 
 export const styles = StyleSheet.create({
   nft: {
-    width: IMAGE_CONTAINER_SIZE,
+    width: isWeb ? 'calc(50% - 8px)' : customNftContainerWidth,
     marginBottom: getCustomSize(2.5)
   },
   marginRight: {
@@ -16,7 +17,6 @@ export const styles = StyleSheet.create({
     position: 'relative',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%',
     marginBottom: getCustomSize()
   },
   nftName: {

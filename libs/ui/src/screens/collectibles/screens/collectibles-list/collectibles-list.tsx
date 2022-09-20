@@ -8,9 +8,10 @@ import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token } from '../../../../interfaces/token.interface';
+import { isMobile } from '../../../../utils/platform.utils';
 import { ListContainer } from '../../components/list-container/list-container';
 import { NftRenderItem } from '../../components/nft-render-item/nft-render-item';
-import { IMAGE_CONTAINER_SIZE, IMAGE_SIZE } from '../../constants';
+import { customNftContainerWidth } from '../../constants';
 import { useGroupedCollectibles } from '../../hooks/use-grouped-collectibles.hook';
 import { useCollectibleList } from '../../hooks/use-page-data-processing.hook';
 
@@ -41,19 +42,23 @@ export const CollectiblesList: FC = () => {
         handleItemPress={handleItemPress}
         index={index}
       >
-        {isDefined(nft.collectionId) ? (
-          <Icon name={IconNameEnum.NftCollectionLayout} size={IMAGE_CONTAINER_SIZE} />
-        ) : (
-          <View style={styles.layoutContainer}>
-            <View style={styles.layout} />
-          </View>
-        )}
-        <CollectibleImage
-          artifactUri={nft.artifactUri}
-          size={IMAGE_SIZE}
-          onPress={() => handleItemPress(nft)}
-          style={styles.imageContainer}
-        />
+        <View style={styles.layoutContainer}>
+          {isDefined(nft.collectionId) ? (
+            <Icon name={IconNameEnum.NftCollectionLayout} size={isMobile ? customNftContainerWidth : '100%'} />
+          ) : (
+            <Icon
+              name={IconNameEnum.NftLayout}
+              size={isMobile ? customNftContainerWidth : '100%'}
+              iconStyle={styles.layoutIcon}
+            />
+          )}
+          <CollectibleImage
+            artifactUri={nft.artifactUri}
+            size={isMobile ? customNftContainerWidth : '100%'}
+            onPress={() => handleItemPress(nft)}
+            style={styles.imageContainer}
+          />
+        </View>
       </NftRenderItem>
     ),
     [groupedCollectibles]

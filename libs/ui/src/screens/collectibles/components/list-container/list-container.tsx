@@ -48,7 +48,6 @@ export const ListContainer: FC<Props> = ({ title, collectibles, setSearchValue, 
           renderItem={renderItem}
           keyExtractor={keyExtractor}
           numColumns={2}
-          contentContainerStyle={styles.contentContainerStyle}
           columnWrapperStyle={styles.columnWrapperStyle}
           style={styles.flatList}
         />

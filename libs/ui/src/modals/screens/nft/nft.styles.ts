@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../../styles/colors';
 import { getCustomSize } from '../../../styles/format-size';
 import { typography } from '../../../styles/typography';
-import { isMobile } from '../../../utils/platform.utils';
+import { isMobile, isWeb } from '../../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {
@@ -20,11 +20,25 @@ export const styles = StyleSheet.create({
   contentContainerStyle: {
     alignItems: 'center'
   },
-  imageContainer: {
-    marginBottom: getCustomSize(2)
+  nftWrapper: {
+    position: 'relative',
+    marginBottom: getCustomSize(2),
+    ...(isMobile && {
+      maxHeight: getCustomSize(37.5),
+      maxWidth: getCustomSize(37.5),
+      width: '100%',
+      height: '100%'
+    })
   },
-  image: {
-    backgroundColor: colors.bgGrey2
+  imageContainer: {
+    borderRadius: getCustomSize(0.5),
+    ...(isWeb && {
+      position: 'absolute',
+      maxHeight: getCustomSize(37.5),
+      maxWidth: getCustomSize(37.5),
+      width: '100%',
+      height: '100%'
+    })
   },
   list: {
     width: '100%'

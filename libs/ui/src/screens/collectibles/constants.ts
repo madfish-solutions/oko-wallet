@@ -1,8 +1,7 @@
-import { getCustomSize } from '../../styles/format-size';
-import { isMobile } from '../../utils/platform.utils';
+import { mobileWidth } from '../../constants/mobile-dimensions';
 
-export const IMAGE_CONTAINER_SIZE = isMobile ? getCustomSize(20.5) : getCustomSize(19.5);
-export const IMAGE_SIZE = isMobile ? getCustomSize(17.5) : getCustomSize(17.125);
+// paddingHorizontal: 16px * 2; offset between nft: 16px = 48px
+export const customNftContainerWidth = (mobileWidth - 48) / 2;
 
 // TODO: Remove later - only for test
 export const SINGLE_NFT = {

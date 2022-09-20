@@ -7,11 +7,13 @@ import { ButtonSizeEnum, ButtonThemesEnum } from '../../../components/button/enu
 import { CollectibleImage } from '../../../components/collectible-image/collectible-image';
 import { Column } from '../../../components/column/column';
 import { CopyText } from '../../../components/copy-text/copy-text';
+import { Icon } from '../../../components/icon/icon';
+import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { getCustomSize } from '../../../styles/format-size';
-import { isMobile } from '../../../utils/platform.utils';
+import { isWeb } from '../../../utils/platform.utils';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
 import { styles } from './nft.styles';
@@ -46,12 +48,15 @@ export const NFT: FC = () => {
     <ModalContainer screenTitle={nft.name}>
       <View style={styles.root}>
         <ScrollView style={styles.content} contentContainerStyle={styles.contentContainerStyle}>
-          <CollectibleImage
-            artifactUri={nft.artifactUri}
-            size={isMobile ? getCustomSize(42.875) : getCustomSize(41)}
-            pixelShitSize={getCustomSize(10)}
-            style={styles.imageContainer}
-          />
+          <Column style={styles.nftWrapper}>
+            {isWeb && <Icon name={IconNameEnum.TransparencyLayout} size="100%" />}
+            <CollectibleImage
+              artifactUri={nft.artifactUri}
+              size="100%"
+              pixelShitSize={getCustomSize(10)}
+              style={styles.imageContainer}
+            />
+          </Column>
 
           <Column style={styles.list}>
             {nftInformationList.map(({ id, title, value }) => (
