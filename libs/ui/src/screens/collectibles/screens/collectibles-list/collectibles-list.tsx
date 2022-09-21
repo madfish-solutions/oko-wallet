@@ -53,7 +53,7 @@ export const CollectiblesList: FC = () => {
     }
   }, [searchValue, collectiblesList]);
 
-  const navigateToAddNewNft = () => null;
+  const navigateToAddNewNft = () => navigate(ScreensEnum.AddNewCollectible);
 
   const handleItemPress = useCallback(
     (nft: Token) => {
