@@ -10,7 +10,6 @@ import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
-import { createEntity } from '../../../../store/utils/entity.utils';
 import { addNewNetworkAction } from '../../../../store/wallet/wallet.actions';
 import {
   useAllNetworksSelector,
@@ -38,7 +37,6 @@ export const AddNetwork: FC = () => {
   const { createHdAccountForNewNetworkType } = useShelter();
 
   const selectedAccount = useSelectedAccountSelector();
-  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const networks = useAllNetworksSelector();
 
   const [chainId, setChainId] = useState<string>('');
