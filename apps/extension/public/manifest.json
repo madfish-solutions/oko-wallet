@@ -12,10 +12,20 @@
   },
   "content_scripts": [
     {
-      "js": ["scripts/content-script.js"],
+      "js": ["scripts/content-script.js", "scripts/inpage.js"],
       "matches": ["<all_urls>"]
     }
   ],
+  "permissions": [
+    "tabs",
+    "bookmarks",
+    "unlimitedStorage",
+    "scripting"
+  ],
+  "optional_permissions": [
+    "unlimitedStorage"
+  ],
+  "host_permissions": ["<all_urls>"],
   "icons": {
     "16": "mics/logo192.png",
     "48": "mics/logo192.png",

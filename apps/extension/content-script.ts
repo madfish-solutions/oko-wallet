@@ -10,6 +10,6 @@ window.addEventListener('message', async evt => {
 });
 
 // send post message to Dapp
-runtime.onMessage.addListener(request => {
+runtime.onMessage.addListener((request: unknown) => {
   window.postMessage(request, '*');
 });

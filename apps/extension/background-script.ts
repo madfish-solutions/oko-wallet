@@ -4,6 +4,8 @@ import { browser, Runtime } from 'webextension-polyfill-ts';
 import { BackgroundMessageType } from '../../libs/ui/src/messagers/enums/background-message-types.enum';
 import { BackgroundMessage } from '../../libs/ui/src/messagers/types/background-message.types';
 
+console.log('back is working...');
+
 const INITIAL_PASSWORD_HASH = '';
 // Locks when background-script dies!
 const LOCK_PERIOD = 5 * 60 * 1000;
@@ -14,6 +16,16 @@ let lastUserActivityTimestamp = 0;
 let isLockApp = true;
 
 let isFullpageOpen = false;
+
+browser.scripting.registerContentScripts([
+  {
+    id: 'inpage',
+    matches: ['file://*/*', 'http://*/*', 'https://*/*'],
+    js: ['scripts/inpage.js'],
+    runAt: 'document_start',
+    world: 'MAIN'
+  }
+]);
 
 browser.runtime.onConnect.addListener(port => {
   // check for time expired and max-view no opened then extension need to lock
