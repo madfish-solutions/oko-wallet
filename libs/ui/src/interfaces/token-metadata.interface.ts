@@ -7,6 +7,6 @@ export interface TokenMetadata {
   artifactUri?: string;
   amount?: number;
   collectionId?: string | null;
-  contractName: string;
+  contractName?: string;
   innerId?: string;
 }

@@ -24,9 +24,9 @@ export const CollectiblesList: FC = () => {
 
   const handleItemPress = useCallback(
     (collectible: Token) => {
-      if (isDefined(collectible.collectionId) && isDefined(groupedCollectibles)) {
+      if (isDefined(collectible.contractName) && isDefined(groupedCollectibles)) {
         return navigate(ScreensEnum.SpecificCollectiblesList, {
-          collectibles: groupedCollectibles[collectible.collectionId]
+          collectibles: groupedCollectibles[collectible.contractName]
         });
       }
 
@@ -39,12 +39,12 @@ export const CollectiblesList: FC = () => {
     ({ item: collectible, index }: ListRenderItemInfo<Token>) => (
       <CollectibleRenderItem
         collectible={collectible}
-        name={collectible.contractName}
+        name={isDefined(collectible.contractName) ? collectible.contractName : collectible.name}
         handleItemPress={handleItemPress}
         index={index}
       >
         <View style={styles.layoutContainer}>
-          {isDefined(collectible.collectionId) ? (
+          {isDefined(collectible.contractName) ? (
             <Icon name={IconNameEnum.NftCollectionLayout} size={COLLECTIBLE_SIZE} />
           ) : (
             <Icon name={IconNameEnum.NftLayout} size={COLLECTIBLE_SIZE} iconStyle={styles.layoutIcon} />

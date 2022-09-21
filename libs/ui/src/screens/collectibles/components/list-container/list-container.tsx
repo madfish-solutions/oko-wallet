@@ -15,7 +15,7 @@ import { getTokenSlug } from '../../../../utils/token.utils';
 import { styles } from './list-container.styles';
 
 interface Props {
-  title: string;
+  title?: string;
   collectibles: Token[];
   renderItem: ListRenderItem<Token>;
   setSearchValue: OnEventFn<string>;

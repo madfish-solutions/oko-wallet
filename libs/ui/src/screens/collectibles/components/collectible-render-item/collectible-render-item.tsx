@@ -8,7 +8,7 @@ import { styles } from './collectible-render-item.styles';
 
 interface Props {
   collectible: Token;
-  name: string;
+  name?: string;
   handleItemPress: (nft: Token) => void;
   index: number;
 }

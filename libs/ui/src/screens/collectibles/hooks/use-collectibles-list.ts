@@ -16,7 +16,7 @@ export const useCollectibleList = (collectiblesList: Token[], isSpecificCollecti
     const unifiedSearchValue = searchValue.toLowerCase().trim();
 
     const filteredCollectibles = collectiblesList.filter(nft => {
-      if (isDefined(nft.collectionId) && !isSpecificCollection) {
+      if (isDefined(nft.contractName) && !isSpecificCollection) {
         return isDefined(nft.contractName) && nft.contractName.toLowerCase().trim().includes(unifiedSearchValue);
       }
 

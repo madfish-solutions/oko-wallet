@@ -13,11 +13,11 @@ export const useGroupedCollectibles = () => {
 
   useEffect(() => {
     const manuallyGroupedCollectibles = initialCollectiblesValue.reduce((acc, current) => {
-      if (isDefined(current.collectionId)) {
-        if (acc.hasOwnProperty(current.collectionId)) {
-          acc[current.collectionId].push(current);
+      if (isDefined(current.contractName)) {
+        if (acc.hasOwnProperty(current.contractName)) {
+          acc[current.contractName].push(current);
         } else {
-          acc[current.collectionId] = [current];
+          acc[current.contractName] = [current];
         }
       } else {
         if (acc.hasOwnProperty(SINGLE_NFTS_KEY)) {
@@ -30,12 +30,12 @@ export const useGroupedCollectibles = () => {
       return acc;
     }, {} as Record<string, Token[]>);
 
-    const collectionIds = Object.keys(manuallyGroupedCollectibles).filter(key => key !== SINGLE_NFTS_KEY);
+    const collectionKeys = Object.keys(manuallyGroupedCollectibles).filter(key => key !== SINGLE_NFTS_KEY);
 
-    const randomNftFromEachCollection = collectionIds.map(collectionId => {
-      const randomIndex = Math.round(Math.random() * (manuallyGroupedCollectibles[collectionId].length - 1));
+    const randomNftFromEachCollection = collectionKeys.map(collectionKey => {
+      const randomIndex = Math.round(Math.random() * (manuallyGroupedCollectibles[collectionKey].length - 1));
 
-      return manuallyGroupedCollectibles[collectionId][randomIndex];
+      return manuallyGroupedCollectibles[collectionKey][randomIndex];
     });
     const singleNfts = manuallyGroupedCollectibles.hasOwnProperty(SINGLE_NFTS_KEY)
       ? manuallyGroupedCollectibles[SINGLE_NFTS_KEY]
