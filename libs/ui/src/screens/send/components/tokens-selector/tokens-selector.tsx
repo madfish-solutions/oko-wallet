@@ -14,7 +14,7 @@ import { useFilterAccountTokens } from '../../../../hooks/use-filter-tokens.hook
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token as TokenType } from '../../../../interfaces/token.interface';
 import { ModalContainer } from '../../../../modals/components/modal-container/modal-container';
-import { useSelectedNetworkSelector, useVisibleAccountTokensSelector } from '../../../../store/wallet/wallet.selectors';
+import { useGasTokenSelector, useVisibleAccountTokensSelector } from '../../../../store/wallet/wallet.selectors';
 import { getTokenSlug } from '../../../../utils/token.utils';
 import { formatUnits } from '../../../../utils/units.utils';
 
@@ -27,17 +27,13 @@ export const TokensSelector: FC = () => {
     params: { token }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendTokensSelector>>();
   const { navigate } = useNavigation();
-  const { gasTokenMetadata, gasTokenBalance, rpcUrl } = useSelectedNetworkSelector();
   const visibleAccountTokens = useVisibleAccountTokensSelector();
   const accountTokensWithBalance = useMemo(
     () => visibleAccountTokens.filter(visibleAccountToken => Number(visibleAccountToken.balance.data) > 0),
     [visibleAccountTokens]
   );
 
-  const gasToken = useMemo(
-    () => ({ ...gasTokenMetadata, balance: gasTokenBalance, tokenAddress: GAS_TOKEN_ADDRESS } as TokenType),
-    [rpcUrl]
-  );
+  const gasToken = useGasTokenSelector();
   const accountTokensWithBalanceAndGasToken: TokenType[] = useMemo(
     () => [gasToken, ...accountTokensWithBalance],
     [accountTokensWithBalance, gasToken]
