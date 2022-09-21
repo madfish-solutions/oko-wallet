@@ -19,6 +19,8 @@ import { ModalContainer } from '../../components/modal-container/modal-container
 
 import { styles } from './collectible.styles';
 
+const TOKEN_ID_MAX_LENGTH = 24;
+
 export const Collectible: FC = () => {
   const {
     params: { collectible }
@@ -46,7 +48,10 @@ export const Collectible: FC = () => {
             {isDefined(collectible.tokenId) && (
               <Row style={styles.listItem}>
                 <Text style={styles.itemTitle}>ID</Text>
-                <CopyText text={collectible.tokenId} isShortize={collectible.tokenId.length > 24 ? true : false} />
+                <CopyText
+                  text={collectible.tokenId}
+                  isShortize={collectible.tokenId.length > TOKEN_ID_MAX_LENGTH ? true : false}
+                />
               </Row>
             )}
             <Row style={styles.listItem}>

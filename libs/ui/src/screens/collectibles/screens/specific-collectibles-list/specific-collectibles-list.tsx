@@ -10,10 +10,9 @@ import { Text } from '../../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token } from '../../../../interfaces/token.interface';
-import { isMobile } from '../../../../utils/platform.utils';
 import { CollectibleRenderItem } from '../../components/collectible-render-item/collectible-render-item';
 import { ListContainer } from '../../components/list-container/list-container';
-import { customNftContainerWidth } from '../../constants';
+import { COLLECTIBLE_SIZE } from '../../constants';
 import { useCollectibleList } from '../../hooks/use-collectibles-list';
 
 import { styles } from './specific-collectibles-list.styles';
@@ -36,11 +35,11 @@ export const SpecificCollectiblesList: FC = () => {
         handleItemPress={handleItemPress}
         index={index}
       >
-        <Icon name={IconNameEnum.NftLayout} size={isMobile ? customNftContainerWidth : '100%'} />
+        <Icon name={IconNameEnum.NftLayout} size={COLLECTIBLE_SIZE} />
 
         <CollectibleImage
           artifactUri={collectible.artifactUri}
-          size={isMobile ? customNftContainerWidth : '100%'}
+          size={COLLECTIBLE_SIZE}
           onPress={() => handleItemPress(collectible)}
           style={styles.imageContainer}
         />
@@ -51,7 +50,7 @@ export const SpecificCollectiblesList: FC = () => {
 
   return (
     <ListContainer
-      title={collectiblesList[0].contractName ?? 'Collection'}
+      title={collectiblesList[0].contractName}
       collectibles={collectibles}
       renderItem={renderItem}
       setSearchValue={setSearchValue}

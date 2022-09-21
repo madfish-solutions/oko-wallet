@@ -8,10 +8,9 @@ import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token } from '../../../../interfaces/token.interface';
-import { isMobile } from '../../../../utils/platform.utils';
 import { CollectibleRenderItem } from '../../components/collectible-render-item/collectible-render-item';
 import { ListContainer } from '../../components/list-container/list-container';
-import { customNftContainerWidth } from '../../constants';
+import { COLLECTIBLE_SIZE } from '../../constants';
 import { useCollectibleList } from '../../hooks/use-collectibles-list';
 import { useGroupedCollectibles } from '../../hooks/use-grouped-collectibles.hook';
 
@@ -40,23 +39,19 @@ export const CollectiblesList: FC = () => {
     ({ item: collectible, index }: ListRenderItemInfo<Token>) => (
       <CollectibleRenderItem
         collectible={collectible}
-        name={isDefined(collectible.collectionId) ? collectible.contractName ?? 'Collection' : collectible.name}
+        name={collectible.contractName}
         handleItemPress={handleItemPress}
         index={index}
       >
         <View style={styles.layoutContainer}>
           {isDefined(collectible.collectionId) ? (
-            <Icon name={IconNameEnum.NftCollectionLayout} size={isMobile ? customNftContainerWidth : '100%'} />
+            <Icon name={IconNameEnum.NftCollectionLayout} size={COLLECTIBLE_SIZE} />
           ) : (
-            <Icon
-              name={IconNameEnum.NftLayout}
-              size={isMobile ? customNftContainerWidth : '100%'}
-              iconStyle={styles.layoutIcon}
-            />
+            <Icon name={IconNameEnum.NftLayout} size={COLLECTIBLE_SIZE} iconStyle={styles.layoutIcon} />
           )}
           <CollectibleImage
             artifactUri={collectible.artifactUri}
-            size={isMobile ? customNftContainerWidth : '100%'}
+            size={COLLECTIBLE_SIZE}
             onPress={() => handleItemPress(collectible)}
             style={styles.imageContainer}
           />
