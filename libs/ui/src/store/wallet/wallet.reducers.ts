@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { isDefined } from '@rnw-community/shared';
+import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
 import { AccountToken } from '../../interfaces/account-token.interface';
@@ -225,10 +225,10 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
 
         if (!isDefined(state.tokensMetadata[tokenMetadataSlug])) {
           currentAcc[tokenMetadataSlug] = {
-            name: nft.name,
+            name: isNotEmptyString(nft.name) ? nft.name : 'Unnamed NFT',
             amount: nft.amount,
             collectionId: nft.collection_id,
-            contractName: nft.contract_name,
+            contractName: isNotEmptyString(nft.contract_name) ? nft.contract_name : 'Unnamed Collection',
             decimals: 0,
             artifactUri: nft.thumbnail_url
           };

@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { SINGLE_NFTS_KEY } from '../../../constants/defaults';
 import { Token } from '../../../interfaces/token.interface';
 import { useCollectiblesSelector } from '../../../store/wallet/wallet.selectors';
-import { SINGLE_NFT } from '../constants';
 
 export const useGroupedCollectibles = () => {
   const initialCollectiblesValue = useCollectiblesSelector();
@@ -13,8 +12,7 @@ export const useGroupedCollectibles = () => {
   const [groupedCollectibles, setGroupedCollectibles] = useState<Record<string, Token[]> | null>(null);
 
   useEffect(() => {
-    // TODO: Remove SINGLE_NFT - only for test
-    const manuallyGroupedCollectibles = [...initialCollectiblesValue, SINGLE_NFT].reduce((acc, current) => {
+    const manuallyGroupedCollectibles = initialCollectiblesValue.reduce((acc, current) => {
       if (isDefined(current.collectionId)) {
         if (acc.hasOwnProperty(current.collectionId)) {
           acc[current.collectionId].push(current);

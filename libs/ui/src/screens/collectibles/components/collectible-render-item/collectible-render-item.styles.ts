@@ -6,7 +6,7 @@ import { isWeb } from '../../../../utils/platform.utils';
 import { customNftContainerWidth } from '../../constants';
 
 export const styles = StyleSheet.create({
-  nft: {
+  root: {
     width: isWeb ? 'calc(50% - 8px)' : customNftContainerWidth,
     marginBottom: getCustomSize(2.5)
   },
@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: getCustomSize()
   },
-  nftName: {
+  collectibleName: {
     ...typography.captionInterSemiBold13,
     textAlign: 'center'
   }

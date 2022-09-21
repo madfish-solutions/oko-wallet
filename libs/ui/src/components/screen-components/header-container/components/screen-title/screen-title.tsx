@@ -17,10 +17,10 @@ interface Props {
   titleStyle?: TextStyleProps;
 }
 
-export const ScreenTitle: FC<Props> = ({ title, onBackButtonPress, numberOfLines, titleStyle }) => (
+export const ScreenTitle: FC<Props> = ({ title, onBackButtonPress, numberOfLines = 1, titleStyle }) => (
   <Column style={styles.root}>
     <TouchableIcon name={IconNameEnum.ArrowLeft} onPress={onBackButtonPress} style={styles.icon} />
-    <Text style={[styles.title, titleStyle]} numberOfLines={numberOfLines}>
+    <Text style={[styles.title, titleStyle]} numberOfLines={numberOfLines} ellipsizeMode="tail">
       {title}
     </Text>
   </Column>

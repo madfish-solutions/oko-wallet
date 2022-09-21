@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
     marginBottom: getCustomSize()
   },
   title: {
+    maxWidth: getCustomSize(33),
     color: colors.textGrey1,
     ...typography.headlineInterRegular22
   }

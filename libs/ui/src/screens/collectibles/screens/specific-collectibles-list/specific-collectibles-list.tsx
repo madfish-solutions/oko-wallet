@@ -11,8 +11,8 @@ import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token } from '../../../../interfaces/token.interface';
 import { isMobile } from '../../../../utils/platform.utils';
+import { CollectibleRenderItem } from '../../components/collectible-render-item/collectible-render-item';
 import { ListContainer } from '../../components/list-container/list-container';
-import { NftRenderItem } from '../../components/nft-render-item/nft-render-item';
 import { customNftContainerWidth } from '../../constants';
 import { useCollectibleList } from '../../hooks/use-collectibles-list';
 
@@ -29,17 +29,22 @@ export const SpecificCollectiblesList: FC = () => {
   const handleItemPress = (collectible: Token) => navigate(ScreensEnum.Collectible, { collectible });
 
   const renderItem = useCallback(
-    ({ item: nft, index }: ListRenderItemInfo<Token>) => (
-      <NftRenderItem nft={nft} name={nft.name} handleItemPress={handleItemPress} index={index}>
+    ({ item: collectible, index }: ListRenderItemInfo<Token>) => (
+      <CollectibleRenderItem
+        collectible={collectible}
+        name={collectible.name}
+        handleItemPress={handleItemPress}
+        index={index}
+      >
         <Icon name={IconNameEnum.NftLayout} size={isMobile ? customNftContainerWidth : '100%'} />
 
         <CollectibleImage
-          artifactUri={nft.artifactUri}
+          artifactUri={collectible.artifactUri}
           size={isMobile ? customNftContainerWidth : '100%'}
-          onPress={() => handleItemPress(nft)}
+          onPress={() => handleItemPress(collectible)}
           style={styles.imageContainer}
         />
-      </NftRenderItem>
+      </CollectibleRenderItem>
     ),
     []
   );

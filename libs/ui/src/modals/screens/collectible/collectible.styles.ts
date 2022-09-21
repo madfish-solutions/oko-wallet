@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
   contentContainerStyle: {
     alignItems: 'center'
   },
-  nftWrapper: {
+  collectibleWrapper: {
     position: 'relative',
     marginBottom: getCustomSize(2),
     ...(isMobile && {

@@ -1,4 +1,5 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
+import { isDefined } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { View, ScrollView } from 'react-native';
 
@@ -27,7 +28,7 @@ export const Collectible: FC = () => {
     <ModalContainer screenTitle={collectible.name}>
       <View style={styles.root}>
         <ScrollView style={styles.content} contentContainerStyle={styles.contentContainerStyle}>
-          <Column style={styles.nftWrapper}>
+          <Column style={styles.collectibleWrapper}>
             {isWeb && <Icon name={IconNameEnum.TransparencyLayout} size="100%" />}
             <CollectibleImage
               artifactUri={collectible.artifactUri}
@@ -42,10 +43,12 @@ export const Collectible: FC = () => {
               <Text style={styles.itemTitle}>Amount</Text>
               <Text style={styles.itemValue}>{collectible.amount}</Text>
             </Row>
-            <Row style={styles.listItem}>
-              <Text style={styles.itemTitle}>ID</Text>
-              <Text style={styles.itemValue}>{collectible.tokenId}</Text>
-            </Row>
+            {isDefined(collectible.tokenId) && (
+              <Row style={styles.listItem}>
+                <Text style={styles.itemTitle}>ID</Text>
+                <CopyText text={collectible.tokenId} isShortize={collectible.tokenId.length > 24 ? true : false} />
+              </Row>
+            )}
             <Row style={styles.listItem}>
               <Text style={styles.itemTitle}>Address</Text>
               <CopyText text={collectible.tokenAddress} isShortize />
