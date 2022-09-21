@@ -12,8 +12,8 @@ import { isMobile } from '../../../../utils/platform.utils';
 import { ListContainer } from '../../components/list-container/list-container';
 import { NftRenderItem } from '../../components/nft-render-item/nft-render-item';
 import { customNftContainerWidth } from '../../constants';
+import { useCollectibleList } from '../../hooks/use-collectibles-list';
 import { useGroupedCollectibles } from '../../hooks/use-grouped-collectibles.hook';
-import { useCollectibleList } from '../../hooks/use-page-data-processing.hook';
 
 import { styles } from './collectibles-list.styles';
 
@@ -24,12 +24,14 @@ export const CollectiblesList: FC = () => {
   const { collectibles, setSearchValue } = useCollectibleList(collectiblesList);
 
   const handleItemPress = useCallback(
-    (nft: Token) => {
-      if (isDefined(nft.collectionId) && isDefined(groupedCollectibles)) {
-        return navigate(ScreensEnum.SpecificCollectiblesList, { collectibles: groupedCollectibles[nft.collectionId] });
+    (collectible: Token) => {
+      if (isDefined(collectible.collectionId) && isDefined(groupedCollectibles)) {
+        return navigate(ScreensEnum.SpecificCollectiblesList, {
+          collectibles: groupedCollectibles[collectible.collectionId]
+        });
       }
 
-      return navigate(ScreensEnum.NFT, { nft });
+      return navigate(ScreensEnum.Collectible, { collectible });
     },
     [groupedCollectibles]
   );

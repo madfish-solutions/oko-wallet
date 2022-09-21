@@ -10,7 +10,7 @@ import { IconNameEnum } from '../icon/icon-name.enum';
 import { styles } from './collectible-image.styles';
 
 interface Props {
-  artifactUri: string | undefined;
+  artifactUri?: string;
   size?: number | string;
   width?: number;
   height?: number;
@@ -63,14 +63,13 @@ export const CollectibleImage: FC<Props> = ({
         {isNotEmptyString(artifactUri) && (
           <Image source={{ uri: artifactUri }} style={styles.image} onLoadEnd={() => setImageIsLoaded(true)} />
         )}
-        {(!isDefined(artifactUri) && imageIsLoaded) ||
-          (isDefined(artifactUri) && !isNotEmptyString(artifactUri) && imageIsLoaded && (
-            <Icon
-              name={IconNameEnum.PixelShit}
-              size={pixelShitSize ?? getCustomSize(5)}
-              iconStyle={styles.pixelShitIcon}
-            />
-          ))}
+        {(!isDefined(artifactUri) || (isDefined(artifactUri) && !isNotEmptyString(artifactUri))) && imageIsLoaded && (
+          <Icon
+            name={IconNameEnum.PixelShit}
+            size={pixelShitSize ?? getCustomSize(5)}
+            iconStyle={styles.pixelShitIcon}
+          />
+        )}
       </Pressable>
       {!imageIsLoaded && (
         <View style={[styles.layout, containerStyle]}>

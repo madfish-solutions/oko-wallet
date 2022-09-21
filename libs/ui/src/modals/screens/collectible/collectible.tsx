@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import React, { FC, useMemo } from 'react';
+import React, { FC } from 'react';
 import { View, ScrollView } from 'react-native';
 
 import { Button } from '../../../components/button/button';
@@ -16,42 +16,21 @@ import { getCustomSize } from '../../../styles/format-size';
 import { isWeb } from '../../../utils/platform.utils';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
-import { styles } from './nft.styles';
+import { styles } from './collectible.styles';
 
-export const NFT: FC = () => {
+export const Collectible: FC = () => {
   const {
-    params: { nft }
-  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.NFT>>();
-
-  const nftInformationList = useMemo(
-    () => [
-      {
-        id: 1,
-        title: 'Amount',
-        value: nft.amount
-      },
-      {
-        id: 2,
-        title: 'ID',
-        value: nft.tokenId
-      },
-      {
-        id: 3,
-        title: 'Address',
-        value: <CopyText text={nft.tokenAddress} isShortize />
-      }
-    ],
-    [nft]
-  );
+    params: { collectible }
+  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Collectible>>();
 
   return (
-    <ModalContainer screenTitle={nft.name}>
+    <ModalContainer screenTitle={collectible.name}>
       <View style={styles.root}>
         <ScrollView style={styles.content} contentContainerStyle={styles.contentContainerStyle}>
           <Column style={styles.nftWrapper}>
             {isWeb && <Icon name={IconNameEnum.TransparencyLayout} size="100%" />}
             <CollectibleImage
-              artifactUri={nft.artifactUri}
+              artifactUri={collectible.artifactUri}
               size="100%"
               pixelShitSize={getCustomSize(10)}
               style={styles.imageContainer}
@@ -59,16 +38,18 @@ export const NFT: FC = () => {
           </Column>
 
           <Column style={styles.list}>
-            {nftInformationList.map(({ id, title, value }) => (
-              <Row key={id} style={styles.listItem}>
-                <Text style={styles.itemTitle}>{title}</Text>
-                {typeof value === 'string' || typeof value === 'number' ? (
-                  <Text style={styles.itemValue}>{value}</Text>
-                ) : (
-                  value
-                )}
-              </Row>
-            ))}
+            <Row style={styles.listItem}>
+              <Text style={styles.itemTitle}>Amount</Text>
+              <Text style={styles.itemValue}>{collectible.amount}</Text>
+            </Row>
+            <Row style={styles.listItem}>
+              <Text style={styles.itemTitle}>ID</Text>
+              <Text style={styles.itemValue}>{collectible.tokenId}</Text>
+            </Row>
+            <Row style={styles.listItem}>
+              <Text style={styles.itemTitle}>Address</Text>
+              <CopyText text={collectible.tokenAddress} isShortize />
+            </Row>
           </Column>
         </ScrollView>
 

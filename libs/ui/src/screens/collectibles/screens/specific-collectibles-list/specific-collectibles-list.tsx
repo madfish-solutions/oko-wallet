@@ -14,7 +14,7 @@ import { isMobile } from '../../../../utils/platform.utils';
 import { ListContainer } from '../../components/list-container/list-container';
 import { NftRenderItem } from '../../components/nft-render-item/nft-render-item';
 import { customNftContainerWidth } from '../../constants';
-import { useCollectibleList } from '../../hooks/use-page-data-processing.hook';
+import { useCollectibleList } from '../../hooks/use-collectibles-list';
 
 import { styles } from './specific-collectibles-list.styles';
 
@@ -26,7 +26,7 @@ export const SpecificCollectiblesList: FC = () => {
 
   const { collectibles, setSearchValue } = useCollectibleList(collectiblesList, true);
 
-  const handleItemPress = (nft: Token) => navigate(ScreensEnum.NFT, { nft });
+  const handleItemPress = (collectible: Token) => navigate(ScreensEnum.Collectible, { collectible });
 
   const renderItem = useCallback(
     ({ item: nft, index }: ListRenderItemInfo<Token>) => (

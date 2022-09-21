@@ -34,7 +34,7 @@ export enum ScreensEnum {
   Token = 'Token',
   CollectiblesList = 'CollectiblesList',
   SpecificCollectiblesList = 'SpecificCollectiblesList',
-  NFT = 'NFT'
+  Collectible = 'Collectible'
 }
 
 export type ScreensParamList = {
@@ -70,5 +70,5 @@ export type ScreensParamList = {
   [ScreensEnum.CollectiblesList]: undefined;
   [ScreensEnum.CollectiblesList]: undefined;
   [ScreensEnum.SpecificCollectiblesList]: { collectibles: Token[] };
-  [ScreensEnum.NFT]: { nft: Token };
+  [ScreensEnum.Collectible]: { collectible: Token };
 };
