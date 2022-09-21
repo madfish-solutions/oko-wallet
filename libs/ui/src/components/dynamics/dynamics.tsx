@@ -24,7 +24,7 @@ export const Dynamics: FC<Props> = ({ value, percent = true, style }) => {
 
   const customValue = useMemo(
     () => (!percent && !isDescending ? `+ ${correctedValue} $` : `${correctedValue}%`),
-    [isDescending]
+    [isDescending, percent, correctedValue]
   );
 
   return (

@@ -9,7 +9,7 @@ import {
 import { getDollarValue } from '../utils/get-dollar-amount.util';
 import { getTokenMetadataSlug } from '../utils/token-metadata.util';
 
-export const useAllTokensUsdTotalBalanceOfSelectedNetwork = () => {
+export const useFiatBalance = () => {
   const { chainId } = useSelectedNetworkSelector();
   const allTokensMarketInfoSelector = useTokensMarketInfoSelector();
   const visibleAccountTokensAndGasToken = useVisibleAccountTokensAndGasTokenSelector();

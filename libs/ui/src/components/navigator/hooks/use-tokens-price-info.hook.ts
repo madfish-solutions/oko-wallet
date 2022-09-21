@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { receiveTokensPriceInfo } from '../../../store/tokens-market-info/tokens-market-info.actions';
+import { loadTokensPriceInfo } from '../../../store/tokens-market-info/tokens-market-info.actions';
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector,
@@ -17,6 +17,6 @@ export const useTokensPriceInfo = () => {
   useEffect(() => {
     const tokenAddressesList = visibleAccountTokens.map(visibleAccountToken => visibleAccountToken.tokenAddress);
 
-    dispatch(receiveTokensPriceInfo.submit({ tokenAddressesList, chainId }));
+    dispatch(loadTokensPriceInfo.submit({ tokenAddressesList, chainId }));
   }, [chainId, visibleAccountTokens.length, publicKeyHash]);
 };

@@ -27,7 +27,7 @@ import { TokenItem } from '../token-item/token-item';
 
 interface Props {
   token: Token;
-  marketInfo: TokenPriceInfo | undefined;
+  marketInfo?: TokenPriceInfo;
   showButton?: boolean;
   loadBalance?: boolean;
   theme?: TokenItemThemesEnum;
@@ -37,7 +37,7 @@ export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = false
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
   const { rpcUrl } = useSelectedNetworkSelector();
-  const pkh = useSelectedAccountPublicKeyHashSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { price } = marketInfo;
   const { decimals, thumbnailUri, balance, symbol, name, tokenAddress } = token;
   const isGasToken = checkIsGasToken(tokenAddress);
@@ -56,7 +56,7 @@ export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = false
     } else {
       dispatch(loadAccountTokenBalanceAction.submit({ token }));
     }
-  }, [rpcUrl, pkh]);
+  }, [rpcUrl, publicKeyHash]);
 
   const handleTokenVisibility = () => dispatch(changeTokenVisibilityAction(token));
 

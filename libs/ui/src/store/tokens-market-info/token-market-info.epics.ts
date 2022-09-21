@@ -6,16 +6,16 @@ import { ofType, toPayload } from 'ts-action-operators';
 
 import { getTokensPriceInfo, getGasTokenPriceInfo } from '../../api/coin-gecko';
 
-import { receiveTokensPriceInfo } from './tokens-market-info.actions';
+import { loadTokensPriceInfo } from './tokens-market-info.actions';
 
 const receiveTokensPriceInfoEpic: Epic = (action$: Observable<Action>) =>
   action$.pipe(
-    ofType(receiveTokensPriceInfo.submit),
+    ofType(loadTokensPriceInfo.submit),
     toPayload(),
     concatMap(({ tokenAddressesList, chainId }) =>
       forkJoin([from(getTokensPriceInfo(chainId, tokenAddressesList)), from(getGasTokenPriceInfo(chainId))]).pipe(
         map(([tokensPriceInfo, gasTokenPriceInfo]) =>
-          receiveTokensPriceInfo.success({ tokensPriceInfo, gasTokenPriceInfo, chainId })
+          loadTokensPriceInfo.success({ tokensPriceInfo, gasTokenPriceInfo, chainId })
         )
       )
     )

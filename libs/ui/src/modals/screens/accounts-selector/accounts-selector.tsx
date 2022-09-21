@@ -11,7 +11,7 @@ import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { RobotIcon } from '../../../components/robot-icon/robot-icon';
 import { Row } from '../../../components/row/row';
 import { ScreensEnum } from '../../../enums/sreens.enum';
-import { useAllTokensUsdTotalBalanceOfSelectedAccount } from '../../../hooks/use-all-tokens-usd-total-balance-of-selected-account.hook';
+import { useFiatTotalBalance } from '../../../hooks/use-fiat-total-balance.hook';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../hooks/use-shelter.hook';
 import { AccountInterface } from '../../../interfaces/account.interface';
@@ -39,7 +39,7 @@ export const AccountsSelector: FC = () => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const accounts = useAllAccountsSelector();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
-  const { totalAccountsBalance, accountsBalanceInUsd } = useAllTokensUsdTotalBalanceOfSelectedAccount();
+  const { totalAccountsBalance, accountsBalanceInUsd } = useFiatTotalBalance();
 
   const totalBalanceOfSelectedAccount = accountsBalanceInUsd[selectedAccount.name];
 

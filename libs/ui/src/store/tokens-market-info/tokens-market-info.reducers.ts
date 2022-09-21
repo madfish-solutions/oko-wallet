@@ -4,11 +4,11 @@ import isEmpty from 'lodash/isEmpty';
 import { GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 
-import { receiveTokensPriceInfo } from './tokens-market-info.actions';
+import { loadTokensPriceInfo } from './tokens-market-info.actions';
 import { TokensMarketInfoState, TokensMarketInfoInitialState, TokenPriceInfo } from './tokens-market-info.state';
 
 export const tokensMarketInfoReducers = createReducer<TokensMarketInfoState>(TokensMarketInfoInitialState, builder => {
-  builder.addCase(receiveTokensPriceInfo.success, (state, { payload }) => {
+  builder.addCase(loadTokensPriceInfo.success, (state, { payload }) => {
     const tokensPriceInfo: Record<string, TokenPriceInfo> = {};
 
     if (!isEmpty(payload.gasTokenPriceInfo)) {

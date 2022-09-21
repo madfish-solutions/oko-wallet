@@ -11,7 +11,7 @@ import {
 import { getDollarValue } from '../utils/get-dollar-amount.util';
 import { getTokenMetadataSlug } from '../utils/token-metadata.util';
 
-export const useAllTokensUsdTotalBalanceOfSelectedAccount = () => {
+export const useFiatTotalBalance = () => {
   const networks = useAllNetworksSelector();
   const accounts = useAllAccountsSelector();
   const allTokensMarketInfoSelector = useTokensMarketInfoSelector();

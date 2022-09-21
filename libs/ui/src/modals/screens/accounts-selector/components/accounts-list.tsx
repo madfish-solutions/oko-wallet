@@ -8,7 +8,7 @@ import { Selector } from '../../../../components/selector/selector';
 import { Text } from '../../../../components/text/text';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
 import { EMPTY_STRING } from '../../../../constants/defaults';
-import { useAllTokensUsdTotalBalanceOfSelectedAccount } from '../../../../hooks/use-all-tokens-usd-total-balance-of-selected-account.hook';
+import { useFiatTotalBalance } from '../../../../hooks/use-fiat-total-balance.hook';
 import { AccountInterface } from '../../../../interfaces/account.interface';
 import { useSelectedNetworkTypeSelector } from '../../../../store/wallet/wallet.selectors';
 import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
@@ -38,7 +38,7 @@ export const AccountsList: FC<Props> = ({
   onPressAddIcon,
   isSearchInitiallyOpened = false
 }) => {
-  const { accountsBalanceInUsd } = useAllTokensUsdTotalBalanceOfSelectedAccount();
+  const { accountsBalanceInUsd } = useFiatTotalBalance();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
 
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);

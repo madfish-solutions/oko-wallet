@@ -38,7 +38,7 @@ export const AddNetwork: FC = () => {
   const { createHdAccountForNewNetworkType } = useShelter();
 
   const selectedAccount = useSelectedAccountSelector();
-  const selectedAccountPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const networks = useAllNetworksSelector();
 
   const [chainId, setChainId] = useState<string>('');
@@ -151,7 +151,7 @@ export const AddNetwork: FC = () => {
         symbol: tokenSymbol.trim(),
         decimals: nativeTokenInfo.decimals
       },
-      gasTokenBalance: { [selectedAccountPublicKeyHash]: createEntity('0') },
+      gasTokenBalance: { [publicKeyHash]: createEntity('0') },
       explorerUrl: blockExplorerUrl?.trim(),
       networkType
     };

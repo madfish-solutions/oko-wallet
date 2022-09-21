@@ -10,7 +10,7 @@ import { styles } from './header-side-balance.styles';
 interface Props {
   symbol: string;
   balance: string;
-  usdBalance: number | string;
+  usdBalance: string;
 }
 
 export const HeaderSideBalance: FC<Props> = ({ symbol, balance, usdBalance }) => (

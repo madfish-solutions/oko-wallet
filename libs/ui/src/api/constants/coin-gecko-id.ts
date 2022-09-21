@@ -1,14 +1,3 @@
-import { NETWORK_CHAIN_IDS_BY_NETWORK_TYPE } from '../../constants/networks';
-import { NetworkTypeEnum } from '../../enums/network-type.enum';
-
-const coinGeckoTezosIds = NETWORK_CHAIN_IDS_BY_NETWORK_TYPE[NetworkTypeEnum.Tezos].reduce(
-  (acc, tezosChainId) => ({
-    ...acc,
-    [tezosChainId]: 'tezos'
-  }),
-  {}
-);
-
 export const coinGeckoId: Record<string, string> = {
   '1': 'ethereum',
   '10': 'optimistic-ethereum',
@@ -52,7 +41,16 @@ export const coinGeckoId: Record<string, string> = {
   '888': 'wanchain',
   '53935': 'defi-kingdoms-blockchain',
   '40': 'telos',
-  ...coinGeckoTezosIds
+  NetXdQprcVkpaWU: 'tezos',
+  NetXjD3HPJJjmcd: 'tezos',
+  NetXm8tYqnMWky1: 'tezos',
+  NetXSgo1ZT2DRUG: 'tezos',
+  NetXxkAx4woPLyu: 'tezos',
+  NetXz969SFaFn8k: 'tezos',
+  NetXZSsxBpMQeAT: 'tezos',
+  NetXbhmtAbMukLc: 'tezos',
+  NetXnHfVqm9iesp: 'tezos',
+  NetXLH1uAxK7CCh: 'tezos'
 };
 
 export const coinGeckoGasTokenId: Record<string, string> = {
@@ -95,5 +93,14 @@ export const coinGeckoGasTokenId: Record<string, string> = {
   '888': 'wanchain',
   '53935': 'defi-kingdoms',
   '40': 'telos',
-  ...coinGeckoTezosIds
+  NetXdQprcVkpaWU: 'tezos',
+  NetXjD3HPJJjmcd: 'tezos',
+  NetXm8tYqnMWky1: 'tezos',
+  NetXSgo1ZT2DRUG: 'tezos',
+  NetXxkAx4woPLyu: 'tezos',
+  NetXz969SFaFn8k: 'tezos',
+  NetXZSsxBpMQeAT: 'tezos',
+  NetXbhmtAbMukLc: 'tezos',
+  NetXnHfVqm9iesp: 'tezos',
+  NetXLH1uAxK7CCh: 'tezos'
 };

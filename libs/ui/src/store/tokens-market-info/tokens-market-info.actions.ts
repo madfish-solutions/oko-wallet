@@ -1,7 +1,7 @@
-import { TokenPriceInfoResponse } from '../../api/types';
+import { TokensPriceInfoResponse } from '../../api/types';
 import { createActions } from '../utils/action.utils';
 
-export const receiveTokensPriceInfo = createActions<
+export const loadTokensPriceInfo = createActions<
   { chainId: string; tokenAddressesList: string[] },
-  { tokensPriceInfo: TokenPriceInfoResponse; gasTokenPriceInfo: TokenPriceInfoResponse; chainId: string }
->('tokens_market_info/ADD_TOKENS_PRICE');
+  { tokensPriceInfo: TokensPriceInfoResponse; gasTokenPriceInfo: TokensPriceInfoResponse; chainId: string }
+>('tokens_market_info/LOAD_TOKENS_PRICE_INFO');

@@ -17,7 +17,7 @@ interface Props {
   imageSource: ImageSourcePropType;
   balance: string;
   name: string;
-  usdBalance: number | string;
+  usdBalance: string;
   isGasToken?: boolean;
   theme?: TokenItemThemesEnum;
 }

@@ -100,13 +100,13 @@ export const useAccountAssetsSelector = () =>
   );
 
 export const useGasTokenSelector = () => {
-  const selectedAccountPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { gasTokenMetadata, gasTokenBalance, rpcUrl } = useSelectedNetworkSelector();
 
   return useMemo(
     () => ({
       ...gasTokenMetadata,
-      balance: gasTokenBalance[selectedAccountPublicKeyHash],
+      balance: gasTokenBalance[publicKeyHash],
       tokenAddress: GAS_TOKEN_ADDRESS,
       isVisible: true
     }),
@@ -154,45 +154,45 @@ export const useIsAuthorisedSelector = () => {
 
 export const usePendingTransactionsSelector = () => {
   const transactions = useSelector<WalletRootState, Record<string, Transaction[]>>(({ wallet }) => wallet.transactions);
-  const selectedAccountPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const selectedNetworkChainId = useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedNetworkChainId);
 
-  const accountTokensSlug = getAccountTokensSlug(selectedNetworkChainId, selectedAccountPublicKeyHash);
+  const accountTokensSlug = getAccountTokensSlug(selectedNetworkChainId, publicKeyHash);
 
   return useMemo(
     () =>
       isDefined(transactions[accountTokensSlug])
         ? transactions[accountTokensSlug].filter(tx => tx.status === TransactionStatusEnum.pending)
         : [],
-    [transactions, selectedNetworkChainId, selectedAccountPublicKeyHash]
+    [transactions, selectedNetworkChainId, publicKeyHash]
   );
 };
 
 export const useMintedTransactionsSelector = () => {
   const transactions = useSelector<WalletRootState, Record<string, Transaction[]>>(({ wallet }) => wallet.transactions);
 
-  const selectedAccountPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const selectedNetworkChainId = useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedNetworkChainId);
 
-  const accountTokensSlug = getAccountTokensSlug(selectedNetworkChainId, selectedAccountPublicKeyHash);
+  const accountTokensSlug = getAccountTokensSlug(selectedNetworkChainId, publicKeyHash);
 
   return useMemo(
     () =>
       isDefined(transactions[accountTokensSlug])
         ? transactions[accountTokensSlug].filter(tx => tx.status === TransactionStatusEnum.applied)
         : [],
-    [transactions, selectedNetworkChainId, selectedAccountPublicKeyHash]
+    [transactions, selectedNetworkChainId, publicKeyHash]
   );
 };
 
 export const useTokenBalanceSelector = (tokenSlug: string): string => {
-  const selectedAccountPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const network = useSelectedNetworkSelector();
   const accountTokens = useAccountTokensSelector();
 
   const tokenBalance =
     tokenSlug === getTokenSlug(GAS_TOKEN_ADDRESS)
-      ? network?.gasTokenBalance[selectedAccountPublicKeyHash]?.data
+      ? network?.gasTokenBalance[publicKeyHash]?.data
       : accountTokens.find(token => getTokenSlug(token.tokenAddress, token.tokenId) === tokenSlug)?.balance.data ?? '0';
 
   return useMemo(() => tokenBalance, [tokenBalance]);

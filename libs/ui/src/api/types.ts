@@ -33,7 +33,7 @@ export interface NftListResponse {
   }[];
 }
 
-export type TokenPriceInfoResponse = Record<
+export type TokensPriceInfoResponse = Record<
   string,
   {
     usd: number;
