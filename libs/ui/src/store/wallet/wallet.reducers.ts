@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { isDefined } from '@rnw-community/shared';
+import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
 import { AccountToken } from '../../interfaces/account-token.interface';
@@ -38,9 +38,9 @@ import {
   getPublicKeyHash,
   getSelectedAccount,
   getSelectedNetworkType,
+  updateAccountsGasTokensState,
   updateAccountsTokensState,
-  updateAccountTokenState,
-  updateSelectedNetworkState
+  updateAccountTokenState
 } from './wallet.utils';
 
 export const walletReducers = createReducer<WalletState>(walletInitialState, builder => {
@@ -81,36 +81,12 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       })
     }));
   builder
-    .addCase(loadGasTokenBalanceAction.submit, state =>
-      updateSelectedNetworkState(state, selectedNetwork => ({
-        gasTokenBalance: {
-          ...selectedNetwork.gasTokenBalance,
-          [state.selectedAccountPublicKeyHash]: createEntity(
-            selectedNetwork.gasTokenBalance[state.selectedAccountPublicKeyHash]?.data ?? '0',
-            true
-          )
-        }
-      }))
-    )
-    .addCase(loadGasTokenBalanceAction.success, (state, { payload }) =>
-      updateSelectedNetworkState(state, selectedNetwork => ({
-        gasTokenBalance: {
-          ...selectedNetwork.gasTokenBalance,
-          [state.selectedAccountPublicKeyHash]: createEntity(payload, false)
-        }
-      }))
+    .addCase(loadGasTokenBalanceAction.submit, state => updateAccountsGasTokensState(state, { isLoading: true }))
+    .addCase(loadGasTokenBalanceAction.success, (state, { payload: balance }) =>
+      updateAccountsGasTokensState(state, { balance })
     )
     .addCase(loadGasTokenBalanceAction.fail, (state, { payload: error }) =>
-      updateSelectedNetworkState(state, selectedNetwork => ({
-        gasTokenBalance: {
-          ...selectedNetwork.gasTokenBalance,
-          [state.selectedAccountPublicKeyHash]: createEntity(
-            selectedNetwork.gasTokenBalance[state.selectedAccountPublicKeyHash]?.data ?? '0',
-            false,
-            error
-          )
-        }
-      }))
+      updateAccountsGasTokensState(state, { error })
     );
   builder
     .addCase(loadAccountTokenBalanceAction.success, (state, { payload: { token } }) => {
@@ -390,9 +366,10 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       ...state,
       selectedNetworkChainId,
       selectedAccountPublicKeyHash,
-      ...(!isTokensForNetworkExist && {
-        accountsTokens: updateAccountsTokensState({ ...state, selectedNetworkChainId }, selectedAccount)
-      })
+      ...(!isTokensForNetworkExist &&
+        isNotEmptyString(selectedAccountPublicKeyHash) && {
+          accountsTokens: updateAccountsTokensState({ ...state, selectedNetworkChainId }, selectedAccount)
+        })
     };
   });
   builder.addCase(addTransactionAction, (state, { payload: transaction }) => {

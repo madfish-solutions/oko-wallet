@@ -1,4 +1,4 @@
-import { isDefined } from '@rnw-community/shared';
+import { isDefined, isEmptyString } from '@rnw-community/shared';
 import React, { FC, useEffect } from 'react';
 import { Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -47,7 +47,7 @@ export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = false
   const usdBalance = getDollarValue({ amount: balance?.data ?? 0, price, decimals });
 
   useEffect(() => {
-    if (!loadBalance) {
+    if (!loadBalance || isEmptyString(publicKeyHash)) {
       return;
     }
 

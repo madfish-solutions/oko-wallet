@@ -151,7 +151,6 @@ export const AddNetwork: FC = () => {
         symbol: tokenSymbol.trim(),
         decimals: nativeTokenInfo.decimals
       },
-      gasTokenBalance: { [publicKeyHash]: createEntity('0') },
       explorerUrl: blockExplorerUrl?.trim(),
       networkType
     };

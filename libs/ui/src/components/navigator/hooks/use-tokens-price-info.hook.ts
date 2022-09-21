@@ -1,3 +1,4 @@
+import { isNotEmptyString } from '@rnw-community/shared';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -15,8 +16,10 @@ export const useTokensPriceInfo = () => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
   useEffect(() => {
-    const tokenAddressesList = visibleAccountTokens.map(visibleAccountToken => visibleAccountToken.tokenAddress);
+    if (isNotEmptyString(publicKeyHash)) {
+      const tokenAddressesList = visibleAccountTokens.map(visibleAccountToken => visibleAccountToken.tokenAddress);
 
-    dispatch(loadTokensPriceInfo.submit({ tokenAddressesList, chainId }));
+      dispatch(loadTokensPriceInfo.submit({ tokenAddressesList, chainId }));
+    }
   }, [chainId, visibleAccountTokens.length, publicKeyHash]);
 };

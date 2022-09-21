@@ -32,6 +32,6 @@ export const useFiatBalance = () => {
           return dollarValue.plus(sum);
         }, new BigNumber(0))
         .toFixed(2),
-    [visibleAccountTokensAndGasToken]
+    [visibleAccountTokensAndGasToken, chainId]
   );
 };

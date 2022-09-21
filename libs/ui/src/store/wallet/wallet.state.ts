@@ -5,6 +5,7 @@ import { AccountInterface, Transaction } from '../../interfaces/account.interfac
 import { DappConnectionInfo } from '../../interfaces/dapp-connection.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { TokenMetadata } from '../../interfaces/token-metadata.interface';
+import { LoadableEntityState } from '../interfaces/loadable-entity-state.interface';
 
 type NetworkChainIdWithTokenAddress = string;
 type NetworkChainIdWithPublicKeyHash = string;
@@ -20,6 +21,7 @@ export interface WalletState {
   selectedNetworkChainId: string;
   tokensMetadata: Record<NetworkChainIdWithTokenAddress, TokenMetadata>;
   accountsTokens: Record<NetworkChainIdWithPublicKeyHash, AccountToken[]>;
+  accountsGasTokens: Record<NetworkChainIdWithPublicKeyHash, LoadableEntityState<string>>;
   transactions: Record<NetworkChainIdWithPublicKeyHash, Transaction[]>;
   confirmedEVMDappConnection: Record<string, DappConnectionInfo>;
 }
@@ -31,6 +33,7 @@ export const walletInitialState: WalletState = {
   selectedNetworkChainId: NETWORKS_DEFAULT_LIST[0].chainId,
   tokensMetadata: defaultTokensMetadata,
   accountsTokens: {},
+  accountsGasTokens: {},
   transactions: {},
   confirmedEVMDappConnection: {}
 };

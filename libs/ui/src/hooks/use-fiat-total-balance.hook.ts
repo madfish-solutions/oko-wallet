@@ -2,18 +2,22 @@ import { isDefined } from '@rnw-community/shared';
 import { BigNumber } from 'bignumber.js';
 
 import { GAS_TOKEN_ADDRESS } from '../constants/defaults';
+import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { useTokensMarketInfoSelector } from '../store/tokens-market-info/token-market-info.selectors';
 import {
   useAllAccountsSelector,
   useAllAccountsTokensAndTokensMetadataSelector,
-  useAllNetworksSelector
+  useAllNetworksSelector,
+  useAccountsGasTokensSelector
 } from '../store/wallet/wallet.selectors';
+import { getAccountTokensSlug } from '../utils/address.util';
 import { getDollarValue } from '../utils/get-dollar-amount.util';
 import { getTokenMetadataSlug } from '../utils/token-metadata.util';
 
 export const useFiatTotalBalance = () => {
   const networks = useAllNetworksSelector();
   const accounts = useAllAccountsSelector();
+  const accountsGasTokens = useAccountsGasTokensSelector();
   const allTokensMarketInfoSelector = useTokensMarketInfoSelector();
   const { accountsTokens, tokensMetadata } = useAllAccountsTokensAndTokensMetadataSelector();
 
@@ -27,10 +31,12 @@ export const useFiatTotalBalance = () => {
     const evmPublicKeyHash = isDefined(EVM) && isDefined(EVM.publicKeyHash) ? EVM.publicKeyHash : '';
     const tezosPublicKeyHash = isDefined(Tezos) && isDefined(Tezos.publicKeyHash) ? Tezos.publicKeyHash : '';
 
-    const gasTokenBalance = networks.reduce((sum, { chainId, gasTokenBalance, gasTokenMetadata: { decimals } }) => {
+    const gasTokenBalance = networks.reduce((sum, { chainId, networkType, gasTokenMetadata: { decimals } }) => {
       const tokenMetadataSlug = getTokenMetadataSlug(chainId, GAS_TOKEN_ADDRESS);
+      const publicKeyHash = networkType === NetworkTypeEnum.Tezos ? tezosPublicKeyHash : evmPublicKeyHash;
+      const accountGasTokenSlug = getAccountTokensSlug(chainId, publicKeyHash);
       const { price } = allTokensMarketInfoSelector[tokenMetadataSlug] ?? {};
-      const amount = gasTokenBalance[evmPublicKeyHash]?.data ?? gasTokenBalance[tezosPublicKeyHash]?.data;
+      const amount = accountsGasTokens[accountGasTokenSlug]?.data;
 
       const dollarValue = getDollarValue({
         amount,

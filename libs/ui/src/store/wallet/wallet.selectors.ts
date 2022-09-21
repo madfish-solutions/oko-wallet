@@ -15,6 +15,7 @@ import { getAccountTokensSlug } from '../../utils/address.util';
 import { getAllAccountsWithoutCurrent } from '../../utils/get-all-accounts-without-current.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { getTokenSlug, isCollectible } from '../../utils/token.utils';
+import { LoadableEntityState } from '../interfaces/loadable-entity-state.interface';
 import { checkEquality } from '../utils/check-equality.util';
 
 import { WalletRootState, WalletState } from './wallet.state';
@@ -35,6 +36,9 @@ export const useAllNetworksSelector = () =>
 
 export const useSelectedNetworkTypeSelector = () =>
   useSelector<WalletRootState, NetworkTypeEnum>(({ wallet }) => getSelectedNetworkType(wallet));
+
+export const useAccountsGasTokensSelector = () =>
+  useSelector<WalletRootState, Record<string, LoadableEntityState<string>>>(({ wallet }) => wallet.accountsGasTokens);
 
 export const useSelectedAccountSelector = () =>
   useSelector<WalletRootState, AccountInterface>(({ wallet }) => {
@@ -101,16 +105,18 @@ export const useAccountAssetsSelector = () =>
 
 export const useGasTokenSelector = () => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
-  const { gasTokenMetadata, gasTokenBalance, rpcUrl } = useSelectedNetworkSelector();
+  const accountsGasTokens = useAccountsGasTokensSelector();
+  const { gasTokenMetadata, rpcUrl, chainId } = useSelectedNetworkSelector();
+  const accountGasTokenSlug = getAccountTokensSlug(chainId, publicKeyHash);
 
   return useMemo(
     () => ({
       ...gasTokenMetadata,
-      balance: gasTokenBalance[publicKeyHash],
+      balance: accountsGasTokens[accountGasTokenSlug] ?? 0,
       tokenAddress: GAS_TOKEN_ADDRESS,
       isVisible: true
     }),
-    [rpcUrl, gasTokenBalance]
+    [rpcUrl, accountsGasTokens, accountGasTokenSlug]
   );
 };
 
@@ -189,10 +195,12 @@ export const useTokenBalanceSelector = (tokenSlug: string): string => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const network = useSelectedNetworkSelector();
   const accountTokens = useAccountTokensSelector();
+  const accountsGasTokens = useAccountsGasTokensSelector();
+  const accountGasTokenSlug = getAccountTokensSlug(network.chainId, publicKeyHash);
 
   const tokenBalance =
     tokenSlug === getTokenSlug(GAS_TOKEN_ADDRESS)
-      ? network?.gasTokenBalance[publicKeyHash]?.data
+      ? accountsGasTokens[accountGasTokenSlug]?.data
       : accountTokens.find(token => getTokenSlug(token.tokenAddress, token.tokenId) === tokenSlug)?.balance.data ?? '0';
 
   return useMemo(() => tokenBalance, [tokenBalance]);
