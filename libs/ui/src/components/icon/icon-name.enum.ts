@@ -45,6 +45,10 @@ export enum IconNameEnum {
   Trash = 'Trash',
   Clear = 'Clear',
   Success = 'Success',
+  SwapItems = 'SwapItems',
+  IconPlaceholder = 'IconPlaceholder',
+  LockOpen = 'LockOpen',
+  LockClosed = 'LockClosed',
   WarningWhite = 'WarningWhite',
   WarningYellow = 'WarningYellow',
   Error = 'Error',
@@ -55,7 +59,7 @@ export enum IconNameEnum {
   Info = 'Info',
   Deposit = 'Deposit',
   NftCollectionLayout = 'NftCollectionLayout',
-  PixelShit = 'PixelShit',
   NftLayout = 'NftLayout',
-  TransparencyLayout = 'TransparencyLayout'
+  TransparencyLayout = 'TransparencyLayout',
+  PixelShit = 'PixelShit'
 }

@@ -4,6 +4,7 @@ import { Button, Text, View } from 'react-native';
 import { Input } from '../../../../components/input/input';
 import { useConnectToDapp } from '../../../../hooks/connect-to-dapp.hook';
 
+/** @deprecated */
 export const ConnectToDapps = () => {
   const {
     setUri,
