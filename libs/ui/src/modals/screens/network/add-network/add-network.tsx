@@ -11,11 +11,7 @@ import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
 import { addNewNetworkAction } from '../../../../store/wallet/wallet.actions';
-import {
-  useAllNetworksSelector,
-  useSelectedAccountPublicKeyHashSelector,
-  useSelectedAccountSelector
-} from '../../../../store/wallet/wallet.selectors';
+import { useAllNetworksSelector, useSelectedAccountSelector } from '../../../../store/wallet/wallet.selectors';
 import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
 import { getDefaultEvmProvider } from '../../../../utils/get-default-evm-provider.utils';
 import { useNetworkFieldsRules } from '../../../hooks/use-validate-network-fields.hook';
