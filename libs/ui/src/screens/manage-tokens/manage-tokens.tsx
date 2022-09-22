@@ -13,13 +13,13 @@ import { SwitchThemesEnum } from '../../components/switch/enum';
 import { Switch } from '../../components/switch/switch';
 import { Token } from '../../components/token/token';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
-import { GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useFilterAccountTokens } from '../../hooks/use-filter-tokens.hook';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { Token as TokenInterface } from '../../interfaces/token.interface';
 import { changeTokenVisibilityAction } from '../../store/wallet/wallet.actions';
 import { useAccountTokensAndGasTokenSelector } from '../../store/wallet/wallet.selectors';
+import { checkIsGasToken } from '../../utils/check-is-gas-token.util';
 import { getTokenSlug } from '../../utils/token.utils';
 
 import { styles } from './manage-tokens.styles';
@@ -44,7 +44,7 @@ export const ManageTokens: FC = () => {
 
       <ScreenScrollView style={styles.root}>
         {accountTokens.map((token, i) => {
-          const isGasToken = token.tokenAddress === GAS_TOKEN_ADDRESS;
+          const isGasToken = checkIsGasToken(token.tokenAddress);
 
           return (
             <Row

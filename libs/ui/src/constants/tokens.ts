@@ -176,7 +176,7 @@ export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = 
 export const defaultTokensMetadata = Object.keys(TOKENS_DEFAULT_LIST).reduce((acc, chainId) => {
   const tokensMetadata = TOKENS_DEFAULT_LIST[chainId].reduce((_acc, { tokenAddress, tokenId, ...tokenMetadata }) => {
     const network = NETWORKS_DEFAULT_LIST.find(network => network.chainId === chainId) ?? NETWORKS_DEFAULT_LIST[0];
-    const tokenMetadataSlug = getTokenMetadataSlug(network.rpcUrl, tokenAddress, tokenId);
+    const tokenMetadataSlug = getTokenMetadataSlug(network.chainId, tokenAddress, tokenId);
 
     return {
       ..._acc,
