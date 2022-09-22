@@ -27,8 +27,8 @@ import { styles } from './manage-tokens.styles';
 export const ManageTokens: FC = () => {
   const dispatch = useDispatch();
   const { navigate, goBack } = useNavigation();
-  const accountTokensAndGasTokenSelector = useAccountTokensAndGasTokenSelector();
-  const { accountTokens, setSearchValue } = useFilterAccountTokens(accountTokensAndGasTokenSelector);
+  const accountTokensAndGasToken = useAccountTokensAndGasTokenSelector();
+  const { accountTokens, setSearchValue } = useFilterAccountTokens(accountTokensAndGasToken);
 
   const navigateToEditTokenScreen = (token: TokenInterface) => navigate(ScreensEnum.EditToken, { token });
 
