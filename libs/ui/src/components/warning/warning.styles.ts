@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     paddingVertical: getCustomSize(1.25),
     paddingHorizontal: getCustomSize(1.5),
     borderRadius: getCustomSize(1.75),
-    height: getCustomSize(5.5)
+    alignItems: 'flex-start'
   },
   icon: {
     marginRight: getCustomSize(0.5),
@@ -18,7 +18,6 @@ export const styles = StyleSheet.create({
   },
   text: {
     ...typography.captionInterSemiBold13,
-    color: colors.textGrey4,
-    maxWidth: getCustomSize(38)
+    color: colors.textGrey4
   }
 });

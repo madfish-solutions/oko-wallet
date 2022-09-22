@@ -8,6 +8,7 @@ import { PERSISTENCE_KEY, usePersistedNavigationState } from '../../hooks/use-pe
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
 import { AddAccount } from '../../modals/screens/add-account/add-account';
+import { AddNewCollectible } from '../../modals/screens/add-new-collectible/add-new-collectible';
 import { DappConfirmation } from '../../modals/screens/dapp-confirmation/dapp-confirmation';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
@@ -159,6 +160,11 @@ export const Navigator: FC = () => {
                 component={AddNewToken}
               />
               <Stack.Screen name={ScreensEnum.EditToken} options={{ title: 'Edit token' }} component={EditToken} />
+              <Stack.Screen
+                name={ScreensEnum.AddNewCollectible}
+                options={{ title: 'Add new NFT' }}
+                component={AddNewCollectible}
+              />
             </Stack.Group>
           </>
         ) : (

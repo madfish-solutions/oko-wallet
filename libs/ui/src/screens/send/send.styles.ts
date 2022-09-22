@@ -59,6 +59,7 @@ export const styles = StyleSheet.create({
     paddingRight: getCustomSize(0.25)
   },
   warning: {
+    alignItems: 'center',
     marginBottom: getCustomSize(2.125)
   },
   sendButtonContainer: {

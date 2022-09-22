@@ -53,8 +53,6 @@ export const useValidateAddNewCollectibleFields = () => {
 
   return {
     commonRules,
-    addressUrlRules,
-    thumbnailUrlRules,
-    decimalsRules
+    addressUrlRules
   };
 };
