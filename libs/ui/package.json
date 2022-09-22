@@ -7,7 +7,8 @@
   "scripts": {
     "ts": "tsc --pretty",
     "test": "./node_modules/.bin/jest",
-    "generate-contract-types": "typechain --target=ethers-v5 'src/constants/abi/*.json' --out-dir 'src/contract-types'"
+    "generate-contract-types": "typechain --target=ethers-v5 'src/constants/abi/*.json' --out-dir 'src/contract-types'",
+    "find-deadcode": "ts-prune"
   },
   "devDependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
@@ -45,6 +46,7 @@
     "react-hook-form": "^7.33.1",
     "react-native": "^0.68.1",
     "react-native-flipper": "^0.144.0",
+    "ts-prune": "^0.10.3",
     "react-native-gesture-handler": "^2.5.0",
     "react-native-haptic-feedback": "^1.14.0",
     "react-native-keychain": "^8.0.0",

@@ -5,7 +5,7 @@ export interface StoredSensitiveData {
   encrypted: object;
 }
 
-export const getStoredValue = async <StoredSensetiveData>(key: string): Promise<StoredSensetiveData> => {
+export const getStoredValue = async <StoredSensitiveData>(key: string): Promise<StoredSensitiveData> => {
   const encryptedData = localStorage.getItem(key);
 
   if (encryptedData !== null) {

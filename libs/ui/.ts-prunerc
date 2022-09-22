@@ -1,0 +1,3 @@
+{
+  "ignore": "src/index.ts|src/contract-types|src/screens/scan-qr-code/scan-qr-code.web.tsx|.native.ts"
+}

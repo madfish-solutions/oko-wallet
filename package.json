@@ -20,6 +20,7 @@
     "ts": "cd libs/ui && yarn ts",
     "lint": "eslint .",
     "test": "cd libs/ui && yarn test",
+    "find-deadcode": "cd libs/ui && yarn find-deadcode",
     "clear:watchman": "if [ -x \"$(command -v watchman)\" ]; then watchman watch-del-all; fi",
     "generate-contract-types": "cd libs/ui && yarn generate-contract-types"
   },

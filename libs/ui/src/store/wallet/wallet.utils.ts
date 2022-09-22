@@ -38,7 +38,7 @@ export const updateAccountsTokensState = (state: WalletState, account: AccountIn
   return { ...state.accountsTokens, ...prepareAccountTokens };
 };
 
-export const getDefaultAccountTokens = (state: WalletState, account: AccountInterface) => {
+const getDefaultAccountTokens = (state: WalletState, account: AccountInterface) => {
   const { networks, selectedNetworkRpcUrl } = state;
 
   const accountTokensSlug = getAccountTokensSlug(

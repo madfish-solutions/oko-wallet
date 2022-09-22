@@ -1,9 +1,8 @@
-import { validateAddress, ValidationResult } from '@taquito/utils';
 import { isAddress as isEvmAddressValid } from 'ethers/lib/utils';
 
 import { NetworkTypeEnum } from '../enums/network-type.enum';
 
-export const isTezosAddressValid = (address: string) => validateAddress(address) === ValidationResult.VALID;
+import { isTezosAddressValid } from './is-tezos-address-valid.util';
 
 export const isAddressValid = (address: string | undefined, networkType: NetworkTypeEnum) => {
   if (address === undefined) {

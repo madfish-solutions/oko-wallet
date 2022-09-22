@@ -7,7 +7,7 @@ import { ActivityResponse, TokenInfo } from '../interfaces/activity.interface';
 
 import { NftListResponse, TokenListResponse } from './types';
 
-export const debankApiRequest = axios.create({
+const debankApiRequest = axios.create({
   baseURL: BASE_DEBANK_URL,
   headers: DEBANK_HEADERS
 });

@@ -1,3 +1,3 @@
 import { Middleware } from '@reduxjs/toolkit';
 
-export const addFlipperDebugger = <S>(epicMidleware: Array<Middleware<string, S>>) => epicMidleware;
+export const addFlipperDebugger = <S>(epicMiddleware: Array<Middleware<string, S>>) => epicMiddleware;
