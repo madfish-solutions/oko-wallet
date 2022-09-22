@@ -8,7 +8,7 @@
     "ts": "tsc --pretty",
     "test": "./node_modules/.bin/jest",
     "generate-contract-types": "typechain --target=ethers-v5 'src/constants/abi/*.json' --out-dir 'src/contract-types'",
-    "find-deadcode": "ts-prune"
+    "find-deadcode": "ts-prune -e"
   },
   "devDependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
