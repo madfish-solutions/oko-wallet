@@ -50,9 +50,8 @@
 
 body {
   margin: auto;
+  max-width: 360px;
+  width: 100%;
+  background-color: #080E15;
   overflow: hidden;
-}
-
-.root-container {
-  height: 100vh;
 }

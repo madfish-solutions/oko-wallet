@@ -5,6 +5,9 @@ import { getCustomSize } from '../../../styles/format-size';
 import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
+  wrapper: {
+    width: '100%'
+  },
   icon: {
     marginRight: getCustomSize()
   },
@@ -19,8 +22,5 @@ export const styles = StyleSheet.create({
   balanceTitle: {
     ...typography.numbersIBMPlexSansRegular11,
     color: colors.textGrey2
-  },
-  wrapper: {
-    width: '100%'
   }
 });
