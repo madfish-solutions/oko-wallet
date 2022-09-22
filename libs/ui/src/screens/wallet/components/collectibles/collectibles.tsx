@@ -30,9 +30,9 @@ export const CollectiblesWidget: FC = () => {
   const navigateToNftList = () => navigate(ScreensEnum.CollectiblesList);
 
   const handleItemPress = (collectible: Token) => {
-    if (isDefined(collectible.collectionId) && isDefined(groupedCollectibles)) {
+    if (isDefined(collectible.contractName) && isDefined(groupedCollectibles)) {
       return navigate(ScreensEnum.SpecificCollectiblesList, {
-        collectibles: groupedCollectibles[collectible.collectionId]
+        collectibles: groupedCollectibles[collectible.contractName]
       });
     }
 
