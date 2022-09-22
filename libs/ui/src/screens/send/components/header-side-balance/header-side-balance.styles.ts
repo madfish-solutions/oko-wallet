@@ -16,8 +16,8 @@ export const styles = StyleSheet.create({
   numbersFontText11: { ...typography.numbersIBMPlexSansRegular11 },
   numbersFontText13: { ...typography.numbersIBMPlexSansMedium13 },
   numbersFontText15: { ...typography.numbersIBMPlexSansMedium15 },
-  m: {
-    marginHorizontal: getCustomSize(0.25)
+  dollar: {
+    marginLeft: getCustomSize(0.25)
   },
   symbol: {
     marginLeft: getCustomSize(0.25),

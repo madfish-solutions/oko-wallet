@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 
+import { useFiatBalance } from '../../../../../hooks/use-fiat-balance.hook';
 import { ViewStyleProps } from '../../../../../interfaces/style.interface';
 import { getCustomSize } from '../../../../../styles/format-size';
 import { IconNameEnum } from '../../../../icon/icon-name.enum';
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export const HeaderAccountBalance: FC<Props> = ({ style }) => {
+  const totalBalanceOfSelectedNetwork = useFiatBalance();
   const [isShowBalance, setIsShowBalance] = useState(true);
 
   const changeBalanceVisibility = () => {
@@ -28,7 +30,7 @@ export const HeaderAccountBalance: FC<Props> = ({ style }) => {
         onPress={changeBalanceVisibility}
         iconStyle={styles.icon}
       />
-      <Text style={[styles.balance, styles.text]}>4,123.00 M</Text>
+      <Text style={[styles.balance, styles.text]}>{totalBalanceOfSelectedNetwork}</Text>
       <Text style={[styles.currency, styles.text]}>$</Text>
     </Row>
   );

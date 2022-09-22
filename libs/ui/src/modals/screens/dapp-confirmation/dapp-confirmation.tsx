@@ -21,12 +21,12 @@ import { setConfirmedDappAction } from '../../../store/wallet/wallet.actions';
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedAccountSelector,
-  useSelectedNetworkSelector
+  useGasTokenSelector
 } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { eraseProtocol } from '../../../utils/string.util';
-import { formatBalances, formatUnits } from '../../../utils/units.utils';
+import { getFormattedBalance } from '../../../utils/units.utils';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
 import { DappImage } from './components/dapp-image';
@@ -41,24 +41,21 @@ interface MessageToDapp {
 
 export const DappConfirmation: FC = () => {
   const dispatch = useDispatch();
-  const selectedAddress = useSelectedAccountPublicKeyHashSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { name } = useSelectedAccountSelector();
-  const {
-    gasTokenMetadata: { decimals, symbol },
-    gasTokenBalance
-  } = useSelectedNetworkSelector();
+  const { decimals, symbol, balance } = useGasTokenSelector();
   const { navigate } = useNavigation();
   const {
     params: { dappName, id }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DappConfirmation>>();
   const responseToDapp: MessageToDapp = {
     data: {
-      data: { id, method: 'eth_requestAccounts', jsonrpc: '2.0', result: [selectedAddress] },
+      data: { id, method: 'eth_requestAccounts', jsonrpc: '2.0', result: [publicKeyHash] },
       name: 'metamask-provider'
     },
     target: 'metamask-inpage'
   };
-  const gasBalance = formatBalances(formatUnits(gasTokenBalance.data, decimals));
+  const gasBalance = getFormattedBalance(balance.data, decimals);
 
   const sendMessage = () => {
     browser.tabs.query({ active: true }).then(tabs => {
@@ -103,7 +100,7 @@ export const DappConfirmation: FC = () => {
               <Row>
                 <TouchableOpacity onPress={navigateToAccountsSelector} style={styles.button}>
                   <IconWithBorder>
-                    <RobotIcon seed={selectedAddress} />
+                    <RobotIcon seed={publicKeyHash} />
                   </IconWithBorder>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={navigateToAccountsSelector}>
@@ -123,7 +120,7 @@ export const DappConfirmation: FC = () => {
                     <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />
                   </Row>
                 </Column>
-                <CopyText style={styles.address} text={selectedAddress} isShortize />
+                <CopyText style={styles.address} text={publicKeyHash} isShortize />
               </Row>
             </Row>
           </View>
