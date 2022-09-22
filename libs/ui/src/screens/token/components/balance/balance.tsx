@@ -8,12 +8,13 @@ import { styles } from './balance.styles';
 
 interface Props {
   balance: string;
+  usdBalance: string;
 }
 
-export const Balance: FC<Props> = ({ balance }) => (
+export const Balance: FC<Props> = ({ balance, usdBalance }) => (
   <Column style={styles.root}>
     <Text style={styles.title}>Available balance</Text>
-    <Currency amount="410 M" />
+    <Currency amount={usdBalance} />
     <Text style={styles.balance}>{balance}</Text>
   </Column>
 );

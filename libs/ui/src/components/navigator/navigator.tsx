@@ -43,6 +43,8 @@ import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 import { setStoredValue } from '../../utils/store.util';
 
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
+import { useActiveTokenList } from './hooks/use-active-token-list.hook';
+import { useTokensPriceInfo } from './hooks/use-tokens-price-info.hook';
 import { Stack } from './utils/get-stack-navigator';
 
 export const globalNavigationRef = createRef<NavigationContainerRef<ScreensParamList>>();
@@ -53,6 +55,8 @@ export const Navigator: FC = () => {
   const { isLocked } = useUnlock();
 
   useDappConnection();
+  useActiveTokenList();
+  useTokensPriceInfo();
 
   const { isPopupOpened } = checkActiveApplicationSession();
 

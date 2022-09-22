@@ -29,20 +29,22 @@ import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useShelter } from '../../hooks/use-shelter.hook';
 import { useToast } from '../../hooks/use-toast.hook';
-import { AccountInterface } from '../../interfaces/account.interface';
 import { Asset } from '../../interfaces/asset.interface';
-import { Token as TokenType } from '../../interfaces/token.interface';
+import { useTokensMarketInfoSelector } from '../../store/tokens-market-info/token-market-info.selectors';
 import { sendAssetAction } from '../../store/wallet/wallet.actions';
 import {
   useAllAccountsWithoutSelectedSelector,
+  useGasTokenSelector,
   useSelectedNetworkSelector,
   useSelectedNetworkTypeSelector
 } from '../../store/wallet/wallet.selectors';
 import { getPublicKeyHash } from '../../store/wallet/wallet.utils';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
+import { getDollarValue } from '../../utils/get-dollar-amount.util';
 import { isMobile } from '../../utils/platform.utils';
-import { formatUnits } from '../../utils/units.utils';
+import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
+import { formatUnitsToString } from '../../utils/units.utils';
 
 import { HeaderSideBalance } from './components/header-side-balance/header-side-balance';
 import { SelectedAccount } from './components/selected-account/selected-account';
@@ -57,7 +59,9 @@ export const Send: FC = () => {
   const { createHdAccountForNewNetworkType } = useShelter();
 
   const dispatch = useDispatch();
-  const { gasTokenMetadata, gasTokenBalance } = useSelectedNetworkSelector();
+  const allTokensMarketInfoSelector = useTokensMarketInfoSelector();
+  const { chainId } = useSelectedNetworkSelector();
+  const gasToken = useGasTokenSelector();
   const networkType = useSelectedNetworkTypeSelector();
   const allAccountsWithoutSelected = useAllAccountsWithoutSelectedSelector();
   const { amountRules, receiverPublicKeyHashRules } = useValidateSendFields(networkType);
@@ -65,7 +69,7 @@ export const Send: FC = () => {
   const isTransferBetweenAccountsDisabled = allAccountsWithoutSelected.length === 0;
 
   const defaultValues: FormTypes = {
-    token: { ...gasTokenMetadata, balance: gasTokenBalance, tokenAddress: GAS_TOKEN_ADDRESS } as TokenType,
+    token: gasToken,
     amount: '',
     receiverPublicKeyHash: '',
     account: allAccountsWithoutSelected[0],
@@ -87,10 +91,26 @@ export const Send: FC = () => {
   const token = watch('token');
   const account = watch('account');
   const isTransferBetweenAccounts = watch('isTransferBetweenAccounts');
+  const amount = watch('amount');
   const isSendButtonDisabled = !isEmpty(errors);
 
   const addressPlaceholder = networkType === NetworkTypeEnum.EVM ? '0x0000...' : 'tz...';
-  const availableBalance = formatUnits(token.balance.data, token.decimals);
+
+  const { price } = allTokensMarketInfoSelector[getTokenMetadataSlug(chainId, token.tokenAddress, token.tokenId)] ?? {};
+  const availableBalance = formatUnitsToString(token.balance.data, token.decimals);
+  const availableUsdBalance = getDollarValue({
+    amount: availableBalance,
+    decimals: token.decimals,
+    price,
+    isNeedToFormat: false
+  });
+  const amountInDollar = getDollarValue({
+    amount,
+    decimals: token.decimals,
+    price,
+    errorValue: '0.00',
+    isNeedToFormat: false
+  });
 
   const onSubmit = ({
     token: { decimals, tokenAddress, tokenId },
@@ -99,7 +119,7 @@ export const Send: FC = () => {
     isTransferBetweenAccounts,
     account
   }: FormTypes) => {
-    const isGasTokenZeroBalance = Number(gasTokenBalance.data) === 0;
+    const isGasTokenZeroBalance = Number(gasToken.balance.data) === 0;
 
     if (isGasTokenZeroBalance) {
       return showErrorToast('Not enough gas');
@@ -131,10 +151,15 @@ export const Send: FC = () => {
     if (isTransferBetweenAccountsDisabled) {
       return showWarningToast('Please, add one more account');
     }
-    const publicKeyHashOfSelectedAccount = getPublicKeyHash(account as AccountInterface, networkType);
+    const selectedAccount = account ?? allAccountsWithoutSelected[0];
 
-    if (!isTransferBetweenAccounts && account && isEmptyString(publicKeyHashOfSelectedAccount)) {
-      createHdAccountForNewNetworkType(account, networkType, account => setValue('account', account), false);
+    if (!isDefined(account)) {
+      setValue('account', selectedAccount);
+    }
+    const publicKeyHashOfSelectedAccount = getPublicKeyHash(selectedAccount, networkType);
+
+    if (!isTransferBetweenAccounts && isEmptyString(publicKeyHashOfSelectedAccount)) {
+      createHdAccountForNewNetworkType(selectedAccount, networkType, account => setValue('account', account), false);
     }
 
     clearErrors('receiverPublicKeyHash');
@@ -174,11 +199,11 @@ export const Send: FC = () => {
           numberOfLines={1}
           titleStyle={styles.screenTitle}
         />
-        <HeaderSideBalance symbol={token.symbol} balance={availableBalance} />
+        <HeaderSideBalance symbol={token.symbol} balance={availableBalance} usdBalance={availableUsdBalance} />
       </HeaderContainer>
 
       <ScreenScrollView>
-        <Warning text={`Needed gas token: ${gasTokenMetadata.symbol}`} style={styles.warning} />
+        <Warning text={`Needed gas token: ${gasToken.symbol}`} style={styles.warning} />
         <Controller
           control={control}
           name="amount"
@@ -205,7 +230,7 @@ export const Send: FC = () => {
                 </Row>
                 <Row style={styles.dollarAmountContainer}>
                   <Text style={styles.text}>≈</Text>
-                  <Text style={[styles.text, styles.dollarAmount]}>0.00</Text>
+                  <Text style={[styles.text, styles.dollarAmount]}>{amountInDollar}</Text>
                   <Text style={[styles.text]}>$</Text>
                 </Row>
               </View>

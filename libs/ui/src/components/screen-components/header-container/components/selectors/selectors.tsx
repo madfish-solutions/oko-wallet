@@ -20,10 +20,10 @@ import { styles } from './selectors.styles';
 
 export const Selectors: FC = () => {
   const { iconName } = useSelectedNetworkSelector();
-  const address = useSelectedAccountPublicKeyHashSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { navigate } = useNavigation();
 
-  const copyAddress = () => handleCopyToClipboard(address);
+  const copyAddress = () => handleCopyToClipboard(publicKeyHash);
 
   const selectAccount = () => navigate(ScreensEnum.AccountsSelector);
   const selectNetwork = () => navigate(ScreensEnum.NetworksSelector);
@@ -32,14 +32,14 @@ export const Selectors: FC = () => {
     <Row style={styles.root}>
       <TouchableOpacity onPress={selectAccount} style={styles.button}>
         <IconWithBorder>
-          <RobotIcon seed={address} />
+          <RobotIcon seed={publicKeyHash} />
         </IconWithBorder>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.addressWrapper} onPress={copyAddress}>
         <Icon name={IconNameEnum.Copy} iconStyle={styles.icon} />
         <Text numberOfLines={1} style={styles.address}>
-          {shortize(address)}
+          {shortize(publicKeyHash)}
         </Text>
       </TouchableOpacity>
 

@@ -10,7 +10,6 @@ import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
-import { createEntity } from '../../../../store/utils/entity.utils';
 import { addNewNetworkAction } from '../../../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedAccountSelector } from '../../../../store/wallet/wallet.selectors';
 import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
@@ -146,7 +145,6 @@ export const AddNetwork: FC = () => {
         symbol: tokenSymbol.trim(),
         decimals: nativeTokenInfo.decimals
       },
-      gasTokenBalance: createEntity('0'),
       explorerUrl: blockExplorerUrl?.trim(),
       networkType
     };

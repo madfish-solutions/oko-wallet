@@ -11,17 +11,21 @@ import { Text } from '../text/text';
 import { styles } from './dynamics.styles';
 
 interface Props {
-  value: string;
+  value: number;
   percent?: boolean;
   style?: ViewStyleProps;
 }
 
 export const Dynamics: FC<Props> = ({ value, percent = true, style }) => {
-  const isDescending = value[0] === '-';
+  const isDescending = value < 0;
+  const correctedValue = value.toFixed(2);
 
   const color = useMemo(() => (isDescending ? colors.red : colors.green), [isDescending]);
 
-  const customValue = useMemo(() => (!percent && !isDescending ? `+ ${value} $` : `${value}%`), [isDescending]);
+  const customValue = useMemo(
+    () => (!percent && !isDescending ? `+ ${correctedValue} $` : `${correctedValue}%`),
+    [isDescending, percent, correctedValue]
+  );
 
   return (
     <Row style={style}>
