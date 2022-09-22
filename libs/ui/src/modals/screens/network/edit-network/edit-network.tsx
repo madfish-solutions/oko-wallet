@@ -75,7 +75,6 @@ export const EditNetwork: FC = () => {
         ...selectedNetwork.gasTokenMetadata,
         symbol: data.tokenSymbol.trim()
       },
-      gasTokenBalance: selectedNetwork.gasTokenBalance,
       explorerUrl: data.blockExplorerUrl?.trim(),
       networkType,
       ...(selectedNetwork.iconName && { iconName: selectedNetwork.iconName })

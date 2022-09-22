@@ -16,7 +16,8 @@ import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { Token as TokenInterface } from '../../interfaces/token.interface';
 import { changeTokenVisibilityAction } from '../../store/wallet/wallet.actions';
-import { useAccountTokensSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
+import { useAccountTokensAndGasTokenSelector } from '../../store/wallet/wallet.selectors';
+import { checkIsGasToken } from '../../utils/check-is-gas-token.util';
 import { getTokenSlug } from '../../utils/token.utils';
 
 import { styles } from './manage-tokens.styles';
@@ -24,10 +25,7 @@ import { styles } from './manage-tokens.styles';
 export const ManageTokens: FC = () => {
   const dispatch = useDispatch();
   const { navigate, goBack } = useNavigation();
-  const accountTokens = useAccountTokensSelector();
-  const {
-    gasTokenMetadata: { thumbnailUri, symbol, name }
-  } = useSelectedNetworkSelector();
+  const accountTokens = useAccountTokensAndGasTokenSelector();
 
   const navigateToEditTokenScreen = (token: TokenInterface) => navigate(ScreensEnum.EditToken, { token });
 
@@ -40,33 +38,32 @@ export const ManageTokens: FC = () => {
       </HeaderContainer>
 
       <ScreenScrollView style={styles.root}>
-        <Row style={[styles.token, styles.borderBottom]}>
-          <Token uri={thumbnailUri} symbol={symbol} name={name} gasToken />
-          <Row>
-            <TouchableIcon name={IconNameEnum.Edit} disabled style={[styles.editIcon]} />
-            <Switch theme={SwitchThemesEnum.Primary} isActive disabled />
-          </Row>
-        </Row>
-        {accountTokens.map((token, i) => (
-          <Row
-            key={getTokenSlug(token.tokenAddress, token.tokenId)}
-            style={[styles.token, i !== accountTokens.length - 1 && styles.borderBottom]}
-          >
-            <Token uri={token.thumbnailUri} symbol={token.symbol} name={token.name} />
-            <Row>
-              <TouchableIcon
-                onPress={() => navigateToEditTokenScreen(token)}
-                name={IconNameEnum.Edit}
-                style={styles.editIcon}
-              />
-              <Switch
-                onPress={() => handleTokenVisibility(token)}
-                theme={SwitchThemesEnum.Primary}
-                isActive={token.isVisible}
-              />
+        {accountTokens.map((token, i) => {
+          const isGasToken = checkIsGasToken(token.tokenAddress);
+
+          return (
+            <Row
+              key={getTokenSlug(token.tokenAddress, token.tokenId)}
+              style={[styles.token, i !== accountTokens.length - 1 && styles.borderBottom]}
+            >
+              <Token uri={token.thumbnailUri} symbol={token.symbol} name={token.name} gasToken={isGasToken} />
+              <Row>
+                <TouchableIcon
+                  onPress={() => navigateToEditTokenScreen(token)}
+                  name={IconNameEnum.Edit}
+                  style={styles.editIcon}
+                  disabled={isGasToken}
+                />
+                <Switch
+                  onPress={() => handleTokenVisibility(token)}
+                  theme={SwitchThemesEnum.Primary}
+                  isActive={token.isVisible}
+                  disabled={isGasToken}
+                />
+              </Row>
             </Row>
-          </Row>
-        ))}
+          );
+        })}
       </ScreenScrollView>
 
       <NavigationBar />

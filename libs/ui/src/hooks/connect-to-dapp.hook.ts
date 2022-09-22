@@ -27,7 +27,7 @@ export const useConnectToDapp = () => {
   );
   const [isConnecting, setIsConnecting] = useState(false);
 
-  const selectedAccountPkh = useSelectedAccountPublicKeyHashSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
   useEffect(() => {
     if (localStorageValue?.peerMeta) {
@@ -83,12 +83,12 @@ export const useConnectToDapp = () => {
 
       setConnector(connector);
     }
-  }, [connector, selectedAccountPkh]);
+  }, [connector, publicKeyHash]);
 
   const approveSession = () => {
     if (connector !== null) {
       connector.approveSession({
-        accounts: [selectedAccountPkh],
+        accounts: [publicKeyHash],
         chainId
       });
 
@@ -139,7 +139,7 @@ export const useConnectToDapp = () => {
 
       const walletConnector = new WalletConnect({ uri });
 
-      if (walletConnector.connected === false) {
+      if (!walletConnector.connected) {
         await walletConnector.createSession();
       }
 
@@ -159,7 +159,7 @@ export const useConnectToDapp = () => {
     peerMeta,
     connected,
     uri,
-    address: selectedAccountPkh,
+    address: publicKeyHash,
     clearStorage,
     isConnecting
   };

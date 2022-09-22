@@ -20,7 +20,7 @@ interface Props {
 
 export const TransactionInfo: FC<Props> = ({ transactionHash, receiver, network: { explorerUrl } }) => {
   const dispatch = useDispatch();
-  const publicKey = useSelectedAccountPublicKeyHashSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const networkType = useSelectedNetworkTypeSelector();
   const tx = networkType === NetworkTypeEnum.Tezos ? '' : 'tx/';
 
@@ -31,8 +31,8 @@ export const TransactionInfo: FC<Props> = ({ transactionHash, receiver, network:
   };
 
   useEffect(() => {
-    dispatch(addTransactionAction({ from: publicKey, to: receiver, transactionHash }));
-  }, [transactionHash, publicKey, receiver]);
+    dispatch(addTransactionAction({ from: publicKeyHash, to: receiver, transactionHash }));
+  }, [transactionHash, publicKeyHash, receiver]);
 
   return (
     <View>

@@ -39,7 +39,7 @@ interface MessageToDapp {
 
 export const DappConfirmation: FC = () => {
   const dispatch = useDispatch();
-  const selectedAddress = useSelectedAccountPublicKeyHashSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { name } = useSelectedAccountSelector();
   const { navigate } = useNavigation();
   const {
@@ -47,7 +47,7 @@ export const DappConfirmation: FC = () => {
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DappConfirmation>>();
   const responseToDapp: MessageToDapp = {
     data: {
-      data: { id, method: 'eth_requestAccounts', jsonrpc: '2.0', result: [selectedAddress] },
+      data: { id, method: 'eth_requestAccounts', jsonrpc: '2.0', result: [publicKeyHash] },
       name: 'metamask-provider'
     },
     target: 'metamask-inpage'
@@ -96,7 +96,7 @@ export const DappConfirmation: FC = () => {
               <Row>
                 <TouchableOpacity onPress={navigateToAccountsSelector} style={styles.button}>
                   <IconWithBorder>
-                    <RobotIcon seed={selectedAddress} />
+                    <RobotIcon seed={publicKeyHash} />
                   </IconWithBorder>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={navigateToAccountsSelector}>
@@ -116,7 +116,7 @@ export const DappConfirmation: FC = () => {
                     <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />
                   </Row>
                 </Column>
-                <CopyText style={styles.address} text={selectedAddress} isShortize />
+                <CopyText style={styles.address} text={publicKeyHash} isShortize />
               </Row>
             </Row>
           </View>

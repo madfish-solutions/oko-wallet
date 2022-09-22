@@ -18,7 +18,7 @@ import { styles } from './selectors.styles';
 
 export const Selectors: FC = () => {
   const { iconName } = useSelectedNetworkSelector();
-  const address = useSelectedAccountPublicKeyHashSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { navigate } = useNavigation();
 
   const selectAccount = () => navigate(ScreensEnum.AccountsSelector);
@@ -28,12 +28,12 @@ export const Selectors: FC = () => {
     <Row style={styles.root}>
       <TouchableOpacity onPress={selectAccount} style={styles.button}>
         <IconWithBorder>
-          <RobotIcon seed={address} />
+          <RobotIcon seed={publicKeyHash} />
         </IconWithBorder>
       </TouchableOpacity>
 
       <View style={styles.addressWrapper}>
-        <CopyText text={address} />
+        <CopyText text={publicKeyHash} />
       </View>
 
       <TouchableOpacity onPress={selectNetwork} style={styles.button}>
