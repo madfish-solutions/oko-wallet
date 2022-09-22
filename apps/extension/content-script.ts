@@ -1,3 +1,6 @@
+import { WindowPostMessageStream } from '@metamask/post-message-stream';
+import { ObjectMultiplex } from 'obj-multiplex';
+import pump from 'pump';
 import { runtime } from 'webextension-polyfill';
 
 const myPort = runtime.connect({ name: 'port-from-cs' });
@@ -13,3 +16,21 @@ window.addEventListener('message', async evt => {
 runtime.onMessage.addListener((request: unknown) => {
   window.postMessage(request, '*');
 });
+
+const CONTENT_SCRIPT = 'metamask-contentscript';
+const INPAGE = 'metamask-inpage';
+const PROVIDER = 'metamask-provider';
+
+const pageStream = new WindowPostMessageStream({
+  name: CONTENT_SCRIPT,
+  target: INPAGE
+});
+
+// create and connect channel muxers
+// so we can handle the channels individually
+const pageMux = new ObjectMultiplex();
+pageMux.setMaxListeners(25);
+
+pump(pageMux, pageStream, pageMux, err => console.log(err));
+
+pageMux.createStream(PROVIDER);

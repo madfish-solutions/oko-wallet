@@ -47,7 +47,7 @@ export const DappConfirmation: FC = () => {
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DappConfirmation>>();
   const responseToDapp: MessageToDapp = {
     data: {
-      data: { id, method: 'eth_requestAccounts', jsonrpc: '2.0', result: [selectedAddress] },
+      data: { id: Number(id), method: 'eth_requestAccounts', jsonrpc: '2.0', result: [selectedAddress] },
       name: 'metamask-provider'
     },
     target: 'metamask-inpage'
