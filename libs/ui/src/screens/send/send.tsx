@@ -44,7 +44,7 @@ import { getCustomSize } from '../../styles/format-size';
 import { getDollarValue } from '../../utils/get-dollar-amount.util';
 import { isMobile } from '../../utils/platform.utils';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
-import { formatUnitsToString } from '../../utils/units.utils';
+import { getFormattedBalance } from '../../utils/units.utils';
 
 import { HeaderSideBalance } from './components/header-side-balance/header-side-balance';
 import { SelectedAccount } from './components/selected-account/selected-account';
@@ -95,9 +95,8 @@ export const Send: FC = () => {
   const isSendButtonDisabled = !isEmpty(errors);
 
   const addressPlaceholder = networkType === NetworkTypeEnum.EVM ? '0x0000...' : 'tz...';
-
   const { price } = allTokensMarketInfoSelector[getTokenMetadataSlug(chainId, token.tokenAddress, token.tokenId)] ?? {};
-  const availableBalance = formatUnitsToString(token.balance.data, token.decimals);
+  const availableBalance = getFormattedBalance(token.balance.data, token.decimals);
   const availableUsdBalance = getDollarValue({
     amount: availableBalance,
     decimals: token.decimals,

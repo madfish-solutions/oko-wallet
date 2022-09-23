@@ -19,7 +19,7 @@ import {
 } from '../../../store/wallet/wallet.selectors';
 import { checkIsGasToken } from '../../../utils/check-is-gas-token.util';
 import { getDollarValue } from '../../../utils/get-dollar-amount.util';
-import { formatBalances, formatUnitsToString } from '../../../utils/units.utils';
+import { getFormattedBalance } from '../../../utils/units.utils';
 import { SwitchThemesEnum } from '../../switch/enum';
 import { Switch } from '../../switch/switch';
 import { TokenItemThemesEnum } from '../token-item/enums';
@@ -43,7 +43,7 @@ export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = false
   const isGasToken = checkIsGasToken(tokenAddress);
 
   const imageSource = getImageSource(thumbnailUri);
-  const formattedBalance = formatBalances(Number(formatUnitsToString(balance?.data ?? 0, decimals)));
+  const formattedBalance = getFormattedBalance(balance?.data ?? 0, decimals);
   const usdBalance = getDollarValue({ amount: balance?.data ?? 0, price, decimals });
 
   useEffect(() => {

@@ -23,7 +23,7 @@ import { checkIsGasToken } from '../../../../utils/check-is-gas-token.util';
 import { getDollarValue } from '../../../../utils/get-dollar-amount.util';
 import { getTokenMetadataSlug } from '../../../../utils/token-metadata.util';
 import { getTokenSlug } from '../../../../utils/token.utils';
-import { formatUnitsToString } from '../../../../utils/units.utils';
+import { getFormattedBalance } from '../../../../utils/units.utils';
 
 import { styles } from './tokens-selector.styles';
 
@@ -69,7 +69,7 @@ export const TokensSelector: FC = () => {
     } = item;
 
     const isGasToken = checkIsGasToken(tokenAddress);
-    const balance = formatUnitsToString(amount, decimals);
+    const balance = getFormattedBalance(amount, decimals);
     const tokenMetadataSlug = getTokenMetadataSlug(chainId, tokenAddress, tokenId);
     const { price } = allTokensMarketInfoSelector[tokenMetadataSlug] ?? {};
     const amountInDollar = getDollarValue({ amount, price, decimals });

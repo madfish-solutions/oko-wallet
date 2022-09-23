@@ -1,5 +1,4 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { formatUnits } from 'ethers/lib/utils';
 import React, { FC } from 'react';
 
 import { Divider } from '../../components/divider/divider';
@@ -15,6 +14,7 @@ import { useTokenBalanceSelector, useSelectedNetworkSelector } from '../../store
 import { checkIsGasToken } from '../../utils/check-is-gas-token.util';
 import { getDollarValue } from '../../utils/get-dollar-amount.util';
 import { getTokenSlug } from '../../utils/token.utils';
+import { getFormattedBalance } from '../../utils/units.utils';
 
 import { Activity } from './components/activity/activity';
 import { Balance } from './components/balance/balance';
@@ -51,7 +51,7 @@ export const Token: FC<Props> = ({ style }) => {
   const { price, usdPriceChange24h } = useTokenMarketInfoSelector(tokenAddress, chainId);
 
   const balanceFromStore = useTokenBalanceSelector(getTokenSlug(tokenAddress, tokenId));
-  const formattedBalance = formatUnits(balanceFromStore ?? balance.data, decimals);
+  const formattedBalance = getFormattedBalance(balanceFromStore ?? balance.data, decimals);
   const isGasToken = checkIsGasToken(tokenAddress);
   const usdBalance = getDollarValue({ amount: balance?.data ?? 0, price, decimals });
 
