@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
   extraIcon: {
     marginLeft: getCustomSize(2)
   },
-  emtySearchIcon: {
+  emptySearchIcon: {
     position: 'absolute',
     top: 0,
     zIndex: -1

@@ -1,8 +1,9 @@
+import { isDefined } from '@rnw-community/shared';
+
 import { TOKENS_DEFAULT_LIST } from '../../constants/tokens';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { AccountToken } from '../../interfaces/account-token.interface';
 import { AccountInterface } from '../../interfaces/account.interface';
-import { NetworkInterface } from '../../interfaces/network.interface';
 import { Token } from '../../interfaces/token.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';
 import { getAccountTokensSlug } from '../../utils/address.util';
@@ -14,20 +15,23 @@ import { createEntity } from '../utils/entity.utils';
 import { initialVisibleTokens } from './constants/initial-visible-tokens';
 import { WalletState } from './wallet.state';
 
-export const updateSelectedNetworkState = (
+export const updateAccountsGasTokensState = (
   state: WalletState,
-  updateFunc: (selectedNetwork: NetworkInterface) => Partial<NetworkInterface>
-): WalletState => ({
-  ...state,
-  networks: state.networks.map(network =>
-    network.rpcUrl === state.selectedNetworkRpcUrl
-      ? {
-          ...network,
-          ...updateFunc(network)
-        }
-      : network
-  )
-});
+  { balance, isLoading = false, error }: { balance?: string; isLoading?: boolean; error?: string }
+): WalletState => {
+  const { selectedNetworkChainId, selectedAccountPublicKeyHash, accountsGasTokens } = state;
+
+  const accountGasTokenSlug = getAccountTokensSlug(selectedNetworkChainId, selectedAccountPublicKeyHash);
+  const gasTokenBalance = isDefined(balance) ? balance : accountsGasTokens[accountGasTokenSlug]?.data;
+
+  return {
+    ...state,
+    accountsGasTokens: {
+      ...accountsGasTokens,
+      [accountGasTokenSlug]: createEntity(gasTokenBalance, isLoading, error)
+    }
+  };
+};
 
 export const updateAccountsTokensState = (state: WalletState, account: AccountInterface) => {
   const accountTokens = getDefaultAccountTokens(state, account);
@@ -39,14 +43,14 @@ export const updateAccountsTokensState = (state: WalletState, account: AccountIn
 };
 
 const getDefaultAccountTokens = (state: WalletState, account: AccountInterface) => {
-  const { networks, selectedNetworkRpcUrl } = state;
+  const { networks, selectedNetworkChainId } = state;
 
   const accountTokensSlug = getAccountTokensSlug(
-    selectedNetworkRpcUrl,
+    selectedNetworkChainId,
     getPublicKeyHash(account, getSelectedNetworkType(state))
   );
 
-  const currentNetwork = networks.find(network => network.rpcUrl === selectedNetworkRpcUrl);
+  const currentNetwork = networks.find(network => network.chainId === selectedNetworkChainId);
 
   if (currentNetwork && currentNetwork.chainId && TOKENS_DEFAULT_LIST.hasOwnProperty(currentNetwork.chainId)) {
     return {
@@ -70,8 +74,8 @@ export const updateAccountTokenState = (
   token: Token,
   updateFunc: (token: AccountToken) => Partial<AccountToken>
 ): WalletState => {
-  const { selectedNetworkRpcUrl, selectedAccountPublicKeyHash, accountsTokens } = state;
-  const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+  const { selectedAccountPublicKeyHash, accountsTokens, selectedNetworkChainId } = state;
+  const accountTokensSlug = getAccountTokensSlug(selectedNetworkChainId, selectedAccountPublicKeyHash);
   const tokenSlug = getTokenSlug(token.tokenAddress, token.tokenId);
   const targetAccountTokens = accountsTokens[accountTokensSlug];
 
@@ -96,7 +100,7 @@ export const updateAccountTokenState = (
 };
 
 export const getSelectedNetworkType = (state: WalletState): NetworkTypeEnum =>
-  state.networks.find(network => network.rpcUrl === state.selectedNetworkRpcUrl)?.networkType ?? NetworkTypeEnum.EVM;
+  state.networks.find(network => network.chainId === state.selectedNetworkChainId)?.networkType ?? NetworkTypeEnum.EVM;
 
 export const getPublicKeyHash = (account: AccountInterface, networkType: NetworkTypeEnum): string =>
   checkIsNetworkTypeKeyExist(account, networkType) ? getString(account.networksKeys[networkType]?.publicKeyHash) : '';

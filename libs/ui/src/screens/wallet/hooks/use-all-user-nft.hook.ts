@@ -1,4 +1,4 @@
-import { isDefined } from '@rnw-community/shared';
+import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -17,7 +17,7 @@ export const useAllUserNft = () => {
   useEffect(() => {
     const debankId = getDebankId(chainId);
 
-    if (isDefined(debankId)) {
+    if (isDefined(debankId) && isNotEmptyString(publicKeyHash)) {
       dispatch(getAllUserNftAction.submit({ debankId, publicKeyHash }));
     }
   }, [chainId, publicKeyHash]);

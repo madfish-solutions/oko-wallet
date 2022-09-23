@@ -16,7 +16,7 @@ import { styles } from './activity.styles';
 
 export const Activity: FC = () => {
   const { navigate } = useNavigation();
-  const selectedPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { chainId } = useSelectedNetworkSelector();
 
   const navigateToWallet = () => navigate(ScreensEnum.Wallet);
@@ -26,7 +26,7 @@ export const Activity: FC = () => {
       <HeaderContainer isSelectors>
         <ScreenTitle title="Transactions" onBackButtonPress={navigateToWallet} />
       </HeaderContainer>
-      <ActivitySectionList publicKeyHash={selectedPublicKeyHash} chainId={chainId} />
+      <ActivitySectionList publicKeyHash={publicKeyHash} chainId={chainId} />
       <NavigationBar />
     </ScreenContainer>
   );

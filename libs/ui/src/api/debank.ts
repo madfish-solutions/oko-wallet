@@ -28,13 +28,16 @@ export const getTokenInfo = async (contractAddress: string, chainName: string): 
     .then(result => result.data)
     .catch(() => ({} as TokenInfo));
 
-export const getTokenList = (publicKeyHash: string, chainName: string | undefined) =>
-  isDefined(chainName)
-    ? debankApiRequest
-        .get<TokenListResponse>('v1/user/token_list', { params: { id: publicKeyHash, chain_id: chainName } })
-        .then(({ data }) => data)
-        .catch(() => [])
-    : [];
+export const getTokenList = (publicKeyHash: string, chainName: string) =>
+  debankApiRequest
+    .get<TokenListResponse>('v1/user/token_list', {
+      params: {
+        id: publicKeyHash,
+        chain_id: chainName
+      }
+    })
+    .then(({ data }) => data)
+    .catch(() => []);
 
 export const getAllUserNftList = (publicKeyHash: string, chainId: string | undefined) =>
   isDefined(chainId)

@@ -2,16 +2,16 @@ import { isDefined, OnEventFn, isNotEmptyString } from '@rnw-community/shared';
 import React, { FC, useMemo, useState } from 'react';
 import { ListRenderItemInfo, View } from 'react-native';
 
+import { CopyText } from '../../../../components/copy-text/copy-text';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { RobotIcon } from '../../../../components/robot-icon/robot-icon';
 import { Selector } from '../../../../components/selector/selector';
-import { Text } from '../../../../components/text/text';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
 import { EMPTY_STRING } from '../../../../constants/defaults';
+import { useFiatTotalBalance } from '../../../../hooks/use-fiat-total-balance.hook';
 import { AccountInterface } from '../../../../interfaces/account.interface';
 import { useSelectedNetworkTypeSelector } from '../../../../store/wallet/wallet.selectors';
 import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
-import { shortize } from '../../../../utils/shortize.util';
 import { ModalAccountBalance } from '../../../components/modal-account-balance/modal-account-balance';
 import { ModalRenderItem } from '../../../components/modal-render-item/modal-render-item';
 import { useListSearch } from '../../../hooks/use-list-search.hook';
@@ -37,6 +37,7 @@ export const AccountsList: FC<Props> = ({
   onPressAddIcon,
   isSearchInitiallyOpened = false
 }) => {
+  const { accountsBalanceInUsd } = useFiatTotalBalance();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
 
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
@@ -58,7 +59,7 @@ export const AccountsList: FC<Props> = ({
         icon={<RobotIcon seed={currentPublicKeyHash} />}
         isActive={isAccountSelected}
         balanceTitle="Total balance"
-        balance={<ModalAccountBalance />}
+        balance={<ModalAccountBalance balance={accountsBalanceInUsd[item.name]} />}
         onSelectItem={() => onSelectItem(item)}
         rightBottomComponent={
           isDefined(onEdit) ? (
@@ -67,7 +68,7 @@ export const AccountsList: FC<Props> = ({
             <>
               {isNotEmptyString(currentPublicKeyHash) && (
                 <View style={styles.publicKeyHashContainer}>
-                  <Text style={styles.text}>{shortize(currentPublicKeyHash, 6, -4)}</Text>
+                  <CopyText text={currentPublicKeyHash} />
                 </View>
               )}
             </>

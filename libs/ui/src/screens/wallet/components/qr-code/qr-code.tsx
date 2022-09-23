@@ -21,11 +21,11 @@ interface Props {
 }
 
 export const QrCode: FC<Props> = ({ contentOffsetY }) => {
-  const address = useSelectedAccountPublicKeyHashSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
-  const copyAddress = () => handleCopyToClipboard(address);
+  const copyAddress = () => handleCopyToClipboard(publicKeyHash);
 
-  const shareAddress = () => share({ message: address });
+  const shareAddress = () => share({ message: publicKeyHash });
 
   const animationOpacity = new Animated.Value(contentOffsetY).interpolate({
     inputRange: [0, 160],
@@ -39,7 +39,7 @@ export const QrCode: FC<Props> = ({ contentOffsetY }) => {
       <Animated.View style={[styles.animatedView, { opacity: animationOpacity }]}>
         <Column style={styles.wrapper}>
           <Text style={styles.address} numberOfLines={3}>
-            {address}
+            {publicKeyHash}
           </Text>
           <Row style={styles.iconsWrapper}>
             <TouchableIcon name={IconNameEnum.Copy} onPress={copyAddress} />
@@ -50,7 +50,7 @@ export const QrCode: FC<Props> = ({ contentOffsetY }) => {
           <QRCodeLibrary
             backgroundColor="transparent"
             color={colors.textGrey1}
-            value={address !== '' ? address : 'Not generated'}
+            value={publicKeyHash !== '' ? publicKeyHash : 'Not generated'}
             size={getCustomSize(14)}
           />
         </View>
