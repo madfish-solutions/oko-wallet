@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     marginBottom: getCustomSize(1.5)
   },
   warning: {
-    marginBottom: getCustomSize(2)
+    marginBottom: getCustomSize(2.5)
   },
   collectibleName: {
     marginBottom: getCustomSize(),
@@ -29,8 +29,18 @@ export const styles = StyleSheet.create({
     ...typography.captionInterRegular13,
     color: colors.textGrey3
   },
-  image: {
-    width: 300,
-    height: 300
+  imageSection: {
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  layoutIcon: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  imageContainer: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%'
   }
 });

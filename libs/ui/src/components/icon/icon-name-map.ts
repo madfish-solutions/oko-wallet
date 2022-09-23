@@ -32,6 +32,7 @@ import LoadersIcon from './assets/loaders.svg';
 import LockClosed from './assets/lock-closed.svg';
 import LockOpen from './assets/lock-open.svg';
 import NftCollectionLayout from './assets/nft-collection-layout.svg';
+import NftLayout from './assets/nft-layout.svg';
 import NftIcon from './assets/nft.svg';
 import OutIcon from './assets/out.svg';
 import PartnersIcon from './assets/partners.svg';
@@ -126,5 +127,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Info]: Info,
   [IconNameEnum.Deposit]: Deposit,
   [IconNameEnum.NftCollectionLayout]: NftCollectionLayout,
-  [IconNameEnum.PixelShit]: PixelShit
+  [IconNameEnum.PixelShit]: PixelShit,
+  [IconNameEnum.NftLayout]: NftLayout
 };

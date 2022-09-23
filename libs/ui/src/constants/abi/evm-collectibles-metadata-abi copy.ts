@@ -1,4 +1,5 @@
 export const EVM_COLLECTIBLES_METADATA_ABI = [
-  'function name() view returns (string name)',
-  'function tokenURI(uint256 _tokenId) returns (string memory)'
+  'function name() external view returns (string memory)',
+  'function symbol() external view returns (string memory)',
+  'function tokenURI(uint256 tokenId) external view returns (string memory)'
 ];

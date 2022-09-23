@@ -31,7 +31,8 @@ import {
   editTokenAction,
   sortAccountTokensByVisibility,
   addNewTokensAction,
-  getAllUserNftAction
+  getAllUserNftAction,
+  addNewCollectibleAction
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -246,6 +247,36 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         tokensMetadata: {
           ...state.tokensMetadata,
           ...tokensMetadata
+        }
+      };
+    })
+    .addCase(addNewCollectibleAction, (state, { payload: newCollectible }) => {
+      const { selectedAccountPublicKeyHash, selectedNetworkRpcUrl } = state;
+      const { tokenAddress, tokenId, ...tokenMetadata } = newCollectible;
+      const tokenMetadataSlug = getTokenMetadataSlug(selectedNetworkRpcUrl, tokenAddress, tokenId);
+      const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
+
+      const prevAccountTokens = isDefined(state.accountsTokens[accountTokensSlug])
+        ? state.accountsTokens[accountTokensSlug]
+        : [];
+
+      return {
+        ...state,
+        tokensMetadata: {
+          ...state.tokensMetadata,
+          [tokenMetadataSlug]: tokenMetadata
+        },
+        accountsTokens: {
+          ...state.accountsTokens,
+          [accountTokensSlug]: [
+            ...prevAccountTokens,
+            {
+              tokenId,
+              tokenAddress,
+              isVisible: true,
+              balance: createEntity('0')
+            }
+          ]
         }
       };
     })
