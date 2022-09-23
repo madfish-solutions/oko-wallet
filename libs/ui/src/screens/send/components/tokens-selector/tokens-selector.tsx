@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useMemo } from 'react';
 import { ListRenderItemInfo, View } from 'react-native';
 
 import { IconWithBorderEnum } from '../../../../components/icon-with-border/enums';
@@ -8,8 +8,8 @@ import { RenderItem } from '../../../../components/selector/components/render-it
 import { Selector } from '../../../../components/selector/selector';
 import { Text } from '../../../../components/text/text';
 import { Token } from '../../../../components/token/token';
-import { EMPTY_STRING } from '../../../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
+import { useFilterAccountTokens } from '../../../../hooks/use-filter-tokens.hook';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token as TokenType } from '../../../../interfaces/token.interface';
 import { ModalContainer } from '../../../../modals/components/modal-container/modal-container';
@@ -24,7 +24,6 @@ import { getDollarValue } from '../../../../utils/get-dollar-amount.util';
 import { getTokenMetadataSlug } from '../../../../utils/token-metadata.util';
 import { getTokenSlug } from '../../../../utils/token.utils';
 import { getFormattedBalance } from '../../../../utils/units.utils';
-import { filterAccountTokensByValue } from '../../../tokens/utils/filter-account-tokens-by-value';
 
 import { styles } from './tokens-selector.styles';
 
@@ -37,7 +36,6 @@ export const TokensSelector: FC = () => {
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendTokensSelector>>();
   const { navigate } = useNavigation();
   const { chainId } = useSelectedNetworkSelector();
-  const [searchValue, setSearchValue] = useState(EMPTY_STRING);
   const visibleAccountTokens = useVisibleAccountTokensSelector();
   const accountTokensWithBalance = useMemo(
     () => visibleAccountTokens.filter(visibleAccountToken => Number(visibleAccountToken.balance.data) > 0),
@@ -50,13 +48,7 @@ export const TokensSelector: FC = () => {
     [accountTokensWithBalance, gasToken]
   );
 
-  const accountTokens = useMemo(() => {
-    if (searchValue && accountTokensWithBalanceAndGasToken.length) {
-      return filterAccountTokensByValue(accountTokensWithBalanceAndGasToken, searchValue);
-    }
-
-    return accountTokensWithBalanceAndGasToken;
-  }, [searchValue, accountTokensWithBalanceAndGasToken]);
+  const { accountTokens, setSearchValue } = useFilterAccountTokens(accountTokensWithBalanceAndGasToken);
 
   const selectedIndex = useMemo(
     () =>

@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 
 import { colors } from '../../../../../styles/colors';
 import { getCustomSize } from '../../../../../styles/format-size';
-import { typography } from '../../../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
@@ -14,15 +13,10 @@ export const styles = StyleSheet.create({
     borderRadius: getCustomSize(1.75)
   },
   addressWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginLeft: 'auto',
     marginRight: getCustomSize()
   },
   icon: {
     marginRight: getCustomSize(0.5)
-  },
-  address: {
-    ...typography.captionInterSemiBold13
   }
 });
