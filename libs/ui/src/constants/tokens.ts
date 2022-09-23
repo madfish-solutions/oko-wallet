@@ -5,9 +5,9 @@ import { NETWORKS_DEFAULT_LIST } from './networks';
 
 type NetworkChainId = string;
 
-export const KLAYTN_CHAIN_ID = '8217';
-export const TEZOS_CHAIN_ID = 'NetXdQprcVkpaWU';
-export const ROPSTEN_CHAIN_ID = '3';
+const KLAYTN_CHAIN_ID = '8217';
+const TEZOS_CHAIN_ID = 'NetXdQprcVkpaWU';
+const ROPSTEN_CHAIN_ID = '3';
 const BNB_CHAIN_ID = '56';
 
 export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = {

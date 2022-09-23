@@ -4,7 +4,7 @@ import { checkActiveApplicationSession } from './check-active-application-sessio
 
 const { isMaximiseScreenOpened } = checkActiveApplicationSession();
 
-export const isIOS = Platform.OS === 'ios';
+const isIOS = Platform.OS === 'ios';
 export const isAndroid = Platform.OS === 'android';
 export const isWeb = Platform.OS === 'web';
 export const isMaximiseScreen = isMaximiseScreenOpened;
