@@ -8,12 +8,12 @@ import { PERSISTENCE_KEY, usePersistedNavigationState } from '../../hooks/use-pe
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
 import { AddAccount } from '../../modals/screens/add-account/add-account';
+import { Collectible } from '../../modals/screens/collectible/collectible';
 import { DappConfirmation } from '../../modals/screens/dapp-confirmation/dapp-confirmation';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
 import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
 import { NetworksSelector } from '../../modals/screens/networks-selector/networks-selector';
-import { NFT } from '../../modals/screens/nft/nft';
 import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
 import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
@@ -125,9 +125,9 @@ export const Navigator: FC = () => {
                 component={SendAccountsSelector}
               />
               <Stack.Screen
-                name={ScreensEnum.NFT}
-                options={({ route }) => ({ title: route.params.nft.name })}
-                component={NFT}
+                name={ScreensEnum.Collectible}
+                options={({ route }) => ({ title: route.params.collectible.name })}
+                component={Collectible}
               />
               <Stack.Screen
                 name={ScreensEnum.DappConfirmation}
