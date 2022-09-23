@@ -24,9 +24,6 @@ export const styles = StyleSheet.create({
   name: {
     ...typography.bodyInterSemiBold15
   },
-  pkh: {
-    ...typography.numbersIBMPlexSansMedium13
-  },
   balance: {
     color: colors.textGrey2,
     ...typography.numbersIBMPlexSansRegular11

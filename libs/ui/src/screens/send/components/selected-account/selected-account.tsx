@@ -4,6 +4,7 @@ import { Pressable, View } from 'react-native';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+import { CopyText } from '../../../../components/copy-text/copy-text';
 import { IconWithBorder } from '../../../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
@@ -17,7 +18,6 @@ import { ModalGasToken } from '../../../../modals/components/modal-gas-token/mod
 import { useSelectedNetworkSelector, useSelectedNetworkTypeSelector } from '../../../../store/wallet/wallet.selectors';
 import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
 import { getCustomSize } from '../../../../styles/format-size';
-import { shortize } from '../../../../utils/shortize.util';
 import { getGasTokenBalance$ } from '../../../../utils/token.utils';
 
 import { styles } from './selected-account.styles';
@@ -73,13 +73,13 @@ export const SelectedAccount: FC<Props> = ({ account }) => {
             <Icon name={IconNameEnum.Dropdown} size={getCustomSize(2)} />
           </Row>
         </Pressable>
-        <Text style={styles.pkh}>{shortize(publicKeyHash)}</Text>
       </Row>
 
       <View>
         <Text style={styles.balance}>Gas balance</Text>
         <Row>
           <ModalGasToken balance={balance} metadata={network.gasTokenMetadata} />
+          <CopyText text={publicKeyHash} />
         </Row>
       </View>
     </View>
