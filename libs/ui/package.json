@@ -7,7 +7,8 @@
   "scripts": {
     "ts": "tsc --pretty",
     "test": "./node_modules/.bin/jest",
-    "generate-contract-types": "typechain --target=ethers-v5 'src/constants/abi/*.json' --out-dir 'src/contract-types'"
+    "generate-contract-types": "typechain --target=ethers-v5 'src/constants/abi/*.json' --out-dir 'src/contract-types'",
+    "find-deadcode": "ts-prune -e"
   },
   "devDependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
@@ -65,6 +66,7 @@
     "rxjs": "^7.5.5",
     "ts-action": "^11.0.0",
     "ts-action-operators": "^9.1.2",
+    "ts-prune": "^0.10.3",
     "typechain": "^8.1.0",
     "vision-camera-code-scanner": "^0.2.0",
     "wasm-themis": "^0.14.5",

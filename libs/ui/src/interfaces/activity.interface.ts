@@ -21,7 +21,7 @@ export interface TokenInfo {
   time_at: number;
 }
 
-export interface TxInterface {
+interface TxInterface {
   eth_gas_fee: number;
   from_addr: string;
   name: string;
@@ -32,7 +32,7 @@ export interface TxInterface {
   value: number;
 }
 
-export interface TransactionResponse {
+interface TransactionResponse {
   id: string;
   time_at: number;
   cate_id: string | null;

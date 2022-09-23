@@ -14,8 +14,8 @@ export const Activity: FC = () => {
       token: { tokenAddress }
     }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Token>>();
-  const selectedPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { chainId } = useSelectedNetworkSelector();
 
-  return <ActivitySectionList publicKeyHash={selectedPublicKeyHash} chainId={chainId} tokenAddress={tokenAddress} />;
+  return <ActivitySectionList publicKeyHash={publicKeyHash} chainId={chainId} tokenAddress={tokenAddress} />;
 };

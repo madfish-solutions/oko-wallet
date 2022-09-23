@@ -13,14 +13,19 @@ import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
 import { changeNetworkAction } from '../../../../store/wallet/wallet.actions';
 import {
+  useAccountsGasTokensSelector,
   useAllNetworksSelector,
   useSelectedAccountSelector,
   useSelectedNetworkSelector
 } from '../../../../store/wallet/wallet.selectors';
+import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
+import { getAccountTokensSlug } from '../../../../utils/address.util';
 import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
 import { ModalGasToken } from '../../../components/modal-gas-token/modal-gas-token';
 import { ModalRenderItem } from '../../../components/modal-render-item/modal-render-item';
 import { useListSearch } from '../../../hooks/use-list-search.hook';
+
+const keyExtractor = (item: NetworkInterface) => item.rpcUrl;
 
 export const NetworksList = () => {
   const dispatch = useDispatch();
@@ -30,6 +35,7 @@ export const NetworksList = () => {
   const networks = useAllNetworksSelector();
   const selectedNetwork = useSelectedNetworkSelector();
   const selectedAccount = useSelectedAccountSelector();
+  const accountsGasTokens = useAccountsGasTokensSelector();
 
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
 
@@ -41,8 +47,8 @@ export const NetworksList = () => {
   );
 
   const handleChangeNetwork = useCallback(
-    ({ rpcUrl, networkType }: NetworkInterface) => {
-      dispatch(changeNetworkAction(rpcUrl));
+    ({ networkType, chainId }: NetworkInterface) => {
+      dispatch(changeNetworkAction(chainId));
 
       if (!checkIsNetworkTypeKeyExist(selectedAccount, networkType)) {
         createHdAccountForNewNetworkType(selectedAccount, networkType);
@@ -55,10 +61,10 @@ export const NetworksList = () => {
   const navigateToEditNetwork = (selectedNetwork: NetworkInterface, isNetworkSelected: boolean) =>
     navigate(ScreensEnum.EditNetwork, { network: selectedNetwork, isNetworkSelected });
 
-  const keyExtractor = (item: NetworkInterface) => item.rpcUrl;
-
   const renderItem = ({ item, index }: ListRenderItemInfo<NetworkInterface>) => {
     const isNetworkSelected = selectedIndex === index;
+    const selectedAccountPublicKeyHash = getPublicKeyHash(selectedAccount, item.networkType);
+    const accountGasTokenSlug = getAccountTokensSlug(item.chainId, selectedAccountPublicKeyHash);
 
     return (
       <ModalRenderItem
@@ -66,7 +72,9 @@ export const NetworksList = () => {
         icon={<Icon name={item.iconName ?? IconNameEnum.NetworkFallback} />}
         isActive={isNetworkSelected}
         balanceTitle="Gas balance"
-        balance={<ModalGasToken balance={item.gasTokenBalance.data} metadata={item.gasTokenMetadata} />}
+        balance={
+          <ModalGasToken balance={accountsGasTokens[accountGasTokenSlug]?.data} metadata={item.gasTokenMetadata} />
+        }
         onSelectItem={() => handleChangeNetwork(item)}
         rightBottomComponent={
           <TouchableIcon name={IconNameEnum.Edit} onPress={() => navigateToEditNetwork(item, isNetworkSelected)} />

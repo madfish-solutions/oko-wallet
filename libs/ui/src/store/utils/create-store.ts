@@ -12,7 +12,7 @@ import { rootStateReducer } from '../root-state.reducers';
 
 import { addFlipperDebugger } from './filpper.util';
 
-export const createStore = <S, A extends Action = AnyAction>({
+export const createStore = <S extends object, A extends Action = AnyAction>({
   reducers,
   epics
 }: {

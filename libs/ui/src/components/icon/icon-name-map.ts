@@ -54,6 +54,7 @@ import SwapIcon from './assets/swap.svg';
 import SwapItems from './assets/swapItems.svg';
 import Tooltip from './assets/tooltip.svg';
 import TopupIcon from './assets/topup.svg';
+import TransparencyLayout from './assets/transparency-layout.svg';
 import Trash from './assets/trash.svg';
 import WarningWhite from './assets/warning-white.svg';
 import WarningYellow from './assets/warning-yellow.svg';
@@ -128,5 +129,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Deposit]: Deposit,
   [IconNameEnum.NftCollectionLayout]: NftCollectionLayout,
   [IconNameEnum.PixelShit]: PixelShit,
-  [IconNameEnum.NftLayout]: NftLayout
+  [IconNameEnum.NftLayout]: NftLayout,
+  [IconNameEnum.TransparencyLayout]: TransparencyLayout
 };

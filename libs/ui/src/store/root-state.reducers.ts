@@ -5,7 +5,7 @@ import { on, reducer } from 'ts-action';
 import { resetApplicationAction } from './root-state.actions';
 
 export const rootStateReducer =
-  <S, A extends Action = AnyAction>(reducers: ReducersMapObject<S, A>): Reducer<S, A> =>
+  <S extends object, A extends Action = AnyAction>(reducers: ReducersMapObject<S, A>): Reducer<S, A> =>
   (appState, action) => {
     const rootReducer = reducer(
       appState,

@@ -33,15 +33,8 @@ export const withSelectedNetwork =
     observable$.pipe(
       withLatestFrom(state$, (value, { wallet }): [T, NetworkInterface] => {
         const selectedNetwork =
-          wallet.networks.find(({ rpcUrl }) => rpcUrl === wallet.selectedNetworkRpcUrl) ?? NETWORKS_DEFAULT_LIST[0];
+          wallet.networks.find(({ chainId }) => chainId === wallet.selectedNetworkChainId) ?? NETWORKS_DEFAULT_LIST[0];
 
         return [value, selectedNetwork];
       })
-    );
-
-export const withSelectedPublicKeyHash =
-  <T>(state$: Observable<WalletRootState>) =>
-  (observable$: Observable<T>) =>
-    observable$.pipe(
-      withLatestFrom(state$, (value, { wallet }): [T, string] => [value, wallet.selectedAccountPublicKeyHash])
     );

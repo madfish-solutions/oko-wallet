@@ -6,11 +6,14 @@ import { typography } from '../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
-    paddingVertical: getCustomSize(0.25),
+    justifyContent: 'center',
+    height: getCustomSize(2.75),
     paddingHorizontal: getCustomSize(),
     backgroundColor: colors.brown,
     borderRadius: getCustomSize(0.5),
-    overflow: 'hidden',
+    overflow: 'hidden'
+  },
+  text: {
     ...typography.numbersIBMPlexSansMediumUppercase13,
     textAlign: 'center'
   }

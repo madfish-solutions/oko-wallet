@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 
 import { ButtonWithIcon } from '../../../../components/button-with-icon/button-with-icon';
 import { ButtonWithIconSizeEnum, ButtonWithIconThemesEnum } from '../../../../components/button-with-icon/enums';
+import { CollectibleImage } from '../../../../components/collectible-image/collectible-image';
 import { Column } from '../../../../components/column/column';
 import { Divider } from '../../../../components/divider/divider';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
@@ -16,7 +17,6 @@ import { getTokenSlug } from '../../../../utils/token.utils';
 import { useGroupedCollectibles } from '../../../collectibles/hooks/use-grouped-collectibles.hook';
 
 import { styles } from './collectibles.styles';
-import { CollectibleImages } from './components/collectible-image';
 
 const EMPTY_NFT = 'Receive your first NFT';
 const COLLECTIBLES = 'Collectibles';
@@ -29,12 +29,14 @@ export const CollectiblesWidget: FC = () => {
 
   const navigateToNftList = () => navigate(ScreensEnum.CollectiblesList);
 
-  const handleItemPress = (nft: Token) => {
-    if (isDefined(nft.collectionId) && isDefined(groupedCollectibles)) {
-      return navigate(ScreensEnum.SpecificCollectiblesList, { collectibles: groupedCollectibles[nft.collectionId] });
+  const handleItemPress = (collectible: Token) => {
+    if (isDefined(collectible.contractName) && isDefined(groupedCollectibles)) {
+      return navigate(ScreensEnum.SpecificCollectiblesList, {
+        collectibles: groupedCollectibles[collectible.contractName]
+      });
     }
 
-    return navigate(ScreensEnum.NFT, { nft });
+    return navigate(ScreensEnum.Collectible, { collectible });
   };
 
   return (
@@ -51,10 +53,10 @@ export const CollectiblesWidget: FC = () => {
           <Row>
             {collectiblesList.slice(0, 2).map(collectible => (
               <React.Fragment key={getTokenSlug(collectible.tokenAddress, collectible.tokenId)}>
-                <CollectibleImages
-                  collectible={collectible}
+                <CollectibleImage
+                  artifactUri={collectible.artifactUri}
                   onPress={() => handleItemPress(collectible)}
-                  imageStyle={styles.image}
+                  containerStyle={styles.imageContainer}
                 />
                 <Divider />
               </React.Fragment>

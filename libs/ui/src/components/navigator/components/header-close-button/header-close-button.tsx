@@ -12,7 +12,7 @@ const goBackRoutes = [
   ScreensEnum.SendAccountsSelector,
   ScreensEnum.SendTokensSelector,
   ScreensEnum.WordsAmountSelector,
-  ScreensEnum.NFT
+  ScreensEnum.Collectible
 ];
 
 interface Props {

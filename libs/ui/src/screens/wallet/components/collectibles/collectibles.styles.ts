@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
   button: {
     width: '100%'
   },
-  image: {
+  imageContainer: {
     backgroundColor: colors.navGrey1
   }
 });
