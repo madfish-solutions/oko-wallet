@@ -8,11 +8,13 @@ import { ScreenTitle } from '../../components/screen-components/header-container
 import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { ScreenScrollView } from '../../components/screen-components/screen-scroll-view/screen-scroll-view';
+import { SearchPanel } from '../../components/search-panel/search-panel';
 import { SwitchThemesEnum } from '../../components/switch/enum';
 import { Switch } from '../../components/switch/switch';
 import { Token } from '../../components/token/token';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
 import { ScreensEnum } from '../../enums/sreens.enum';
+import { useFilterAccountTokens } from '../../hooks/use-filter-tokens.hook';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { Token as TokenInterface } from '../../interfaces/token.interface';
 import { changeTokenVisibilityAction } from '../../store/wallet/wallet.actions';
@@ -25,7 +27,8 @@ import { styles } from './manage-tokens.styles';
 export const ManageTokens: FC = () => {
   const dispatch = useDispatch();
   const { navigate, goBack } = useNavigation();
-  const accountTokens = useAccountTokensAndGasTokenSelector();
+  const accountTokensAndGasToken = useAccountTokensAndGasTokenSelector();
+  const { accountTokens, setSearchValue } = useFilterAccountTokens(accountTokensAndGasToken);
 
   const navigateToEditTokenScreen = (token: TokenInterface) => navigate(ScreensEnum.EditToken, { token });
 
@@ -36,6 +39,8 @@ export const ManageTokens: FC = () => {
       <HeaderContainer isSelectors>
         <ScreenTitle title="Edit Token List" onBackButtonPress={goBack} />
       </HeaderContainer>
+
+      <SearchPanel setSearchValue={setSearchValue} style={styles.searchPanel} isEmptyList={!accountTokens.length} />
 
       <ScreenScrollView style={styles.root}>
         {accountTokens.map((token, i) => {
