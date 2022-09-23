@@ -1,5 +1,5 @@
+import ObjectMultiplex from '@metamask/object-multiplex';
 import { WindowPostMessageStream } from '@metamask/post-message-stream';
-import { ObjectMultiplex } from 'obj-multiplex';
 import pump from 'pump';
 import { runtime } from 'webextension-polyfill';
 
@@ -13,8 +13,10 @@ window.addEventListener('message', async evt => {
 });
 
 // send post message to Dapp
-runtime.onMessage.addListener((request: unknown) => {
+runtime.onMessage.addListener(async (request: unknown) => {
   window.postMessage(request, '*');
+
+  return Promise.resolve();
 });
 
 const CONTENT_SCRIPT = 'metamask-contentscript';
