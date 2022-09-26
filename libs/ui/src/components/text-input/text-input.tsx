@@ -91,7 +91,7 @@ export const TextInput = <
     let correctedValue: string = value;
 
     if (keyboardType === 'numeric' && isNotEmptyString(correctedValue) && !isNaN(+correctedValue)) {
-      correctedValue = new BigNumber(correctedValue).toString();
+      correctedValue = new BigNumber(correctedValue).toString(10);
     }
 
     if (correctedValue !== value) {

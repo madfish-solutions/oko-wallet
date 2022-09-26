@@ -54,7 +54,7 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPu
 
       const transactionParams: TransactionParams = {
         gasPrice: estimations.gasPrice,
-        gasLimit: estimations.gasLimit,
+        gasLimit: Number(estimations.gasLimit),
         receiverPublicKeyHash,
         tokenAddress,
         tokenId,
