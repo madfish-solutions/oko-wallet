@@ -44,7 +44,6 @@ const collectibleInitialMetadata: AccountTokenInput = {
   symbol: '',
   decimals: 0,
   artifactUri: '',
-  amount: 0,
   contractName: ''
 };
 
@@ -127,7 +126,7 @@ export const AddNewCollectible: FC = () => {
         .catch(() => ({ name: 'Unnamed NFT', image: '' }));
 
       if (errors.tokenURI && errors.name) {
-        return setErrorState('Please check the selected network');
+        return setErrorState('Not correct address to selected network');
       } else if (errors.tokenURI) {
         return setError('tokenId', { message: 'Wrong Token ID' });
       }

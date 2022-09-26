@@ -26,7 +26,7 @@ export const CollectiblesList: FC = () => {
     (collectible: Token) => {
       if (isDefined(collectible.contractName) && isDefined(groupedCollectibles)) {
         return navigate(ScreensEnum.SpecificCollectiblesList, {
-          collectibles: groupedCollectibles[collectible.contractName]
+          collectionName: collectible.contractName
         });
       }
 

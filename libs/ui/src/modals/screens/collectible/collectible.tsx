@@ -1,7 +1,8 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { isDefined } from '@rnw-community/shared';
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { View, ScrollView } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 import { Button } from '../../../components/button/button';
 import { ButtonSizeEnum, ButtonThemesEnum } from '../../../components/button/enums';
@@ -13,8 +14,11 @@ import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { loadAccountTokenBalanceAction } from '../../../store/wallet/wallet.actions';
+import { useSelectedCollectibleSelector } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
 import { isWeb } from '../../../utils/platform.utils';
+import { getTokenSlug } from '../../../utils/token.utils';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
 import { styles } from './collectible.styles';
@@ -25,6 +29,15 @@ export const Collectible: FC = () => {
   const {
     params: { collectible }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Collectible>>();
+
+  const dispatch = useDispatch();
+  const selectedCollectible = useSelectedCollectibleSelector(
+    getTokenSlug(collectible.tokenAddress, collectible.tokenId)
+  );
+
+  useEffect(() => {
+    dispatch(loadAccountTokenBalanceAction.submit({ token: collectible }));
+  }, [collectible]);
 
   return (
     <ModalContainer screenTitle={collectible.name}>
@@ -43,7 +56,7 @@ export const Collectible: FC = () => {
           <Column style={styles.list}>
             <Row style={styles.listItem}>
               <Text style={styles.itemTitle}>Amount</Text>
-              <Text style={styles.itemValue}>{collectible.amount}</Text>
+              <Text style={styles.itemValue}>{selectedCollectible?.balance.data ?? collectible.balance.data}</Text>
             </Row>
             {isDefined(collectible.tokenId) && (
               <Row style={styles.listItem}>
