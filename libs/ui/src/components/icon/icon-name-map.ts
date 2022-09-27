@@ -37,6 +37,7 @@ import LockClosed from './assets/lock-closed.svg';
 import LockOpen from './assets/lock-open.svg';
 import MadWithLove from './assets/mad-with-love.svg';
 import Maximize from './assets/maximize.svg';
+import NewTab from './assets/new-tab.svg';
 import NftCollectionLayout from './assets/nft-collection-layout.svg';
 import NftLayout from './assets/nft-layout.svg';
 import NftIcon from './assets/nft.svg';
@@ -154,5 +155,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Reddit]: Reddit,
   [IconNameEnum.Youtube]: Youtube,
   [IconNameEnum.OutLink]: OutLink,
-  [IconNameEnum.MadWithLove]: MadWithLove
+  [IconNameEnum.MadWithLove]: MadWithLove,
+  [IconNameEnum.NewTab]: NewTab
 };

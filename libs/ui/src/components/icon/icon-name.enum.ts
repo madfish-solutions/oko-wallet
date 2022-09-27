@@ -73,5 +73,6 @@ export enum IconNameEnum {
   Reddit = 'Reddit',
   Youtube = 'Youtube',
   OutLink = 'OutLink',
-  MadWithLove = 'MadWithLove'
+  MadWithLove = 'MadWithLove',
+  NewTab = 'NewTab'
 }

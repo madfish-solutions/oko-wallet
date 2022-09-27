@@ -26,7 +26,7 @@ import {
 } from '../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../styles/format-size';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
-import { isWeb, isIOS } from '../../utils/platform.utils';
+import { isMaximiseScreen, isWeb, isIOS } from '../../utils/platform.utils';
 
 import EasterEgg from './assets/easter-egg.svg';
 import { styles } from './settings.styles';
@@ -47,7 +47,12 @@ export const Settings: FC = () => {
     <ScreenContainer>
       <HeaderContainer isSelectors>
         <ScreenTitle title="Settings" onBackButtonPress={navigateToWallet} isBackButton={false} />
-        {isWeb && <TouchableIcon name={IconNameEnum.Maximize} onPress={openMaximiseScreen} />}
+        {isWeb && (
+          <TouchableIcon
+            name={isMaximiseScreen ? IconNameEnum.NewTab : IconNameEnum.Maximize}
+            onPress={openMaximiseScreen}
+          />
+        )}
       </HeaderContainer>
 
       <ScreenScrollView style={styles.root}>
