@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { View } from 'react-native';
+import { View, Linking } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { Divider } from '../../components/divider/divider';
@@ -29,6 +29,7 @@ import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 import { isMaximiseScreen, isWeb, isIOS } from '../../utils/platform.utils';
 
 import EasterEgg from './assets/easter-egg.svg';
+import { madFishUrl } from './constants';
 import { styles } from './settings.styles';
 
 const dividerSize = getCustomSize(2);
@@ -40,13 +41,14 @@ export const Settings: FC = () => {
   const { name } = useSelectedAccountSelector();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
-  const navigateToWallet = () => navigate(ScreensEnum.Wallet);
+  const navigateToSettingsAccount = () => navigate(ScreensEnum.SettingsAccount);
   const onReset = () => dispatch(resetApplicationAction.submit());
+  const goToMadFishSite = () => Linking.openURL(madFishUrl);
 
   return (
     <ScreenContainer>
       <HeaderContainer isSelectors>
-        <ScreenTitle title="Settings" onBackButtonPress={navigateToWallet} isBackButton={false} />
+        <ScreenTitle title="Settings" />
         {isWeb && (
           <TouchableIcon
             name={isMaximiseScreen ? IconNameEnum.NewTab : IconNameEnum.Maximize}
@@ -60,7 +62,7 @@ export const Settings: FC = () => {
 
         <View style={styles.content}>
           <GreyContainer>
-            <ActionContainer>
+            <ActionContainer onPress={navigateToSettingsAccount}>
               <Row>
                 <IconWithBorder style={styles.robot}>
                   <RobotIcon seed={publicKeyHash} />
@@ -132,12 +134,14 @@ export const Settings: FC = () => {
             </ActionContainer>
           </View>
 
-          <Icon
-            width={getCustomSize(13.75)}
-            height={getCustomSize(5)}
-            name={IconNameEnum.MadWithLove}
-            iconStyle={styles.madLogo}
-          />
+          <View style={styles.madLogo}>
+            <TouchableIcon
+              width={getCustomSize(13.75)}
+              height={getCustomSize(5)}
+              name={IconNameEnum.MadWithLove}
+              onPress={goToMadFishSite}
+            />
+          </View>
         </View>
       </ScreenScrollView>
 
