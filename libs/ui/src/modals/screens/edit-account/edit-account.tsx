@@ -1,7 +1,6 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { TextInput } from '../../../components/text-input/text-input';
@@ -10,6 +9,7 @@ import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { editAccountNameAction } from '../../../store/wallet/wallet.actions';
 import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';
 import { useAccountFieldRules } from '../../hooks/use-validate-account-field.hook';
+import { styles } from '../add-account/add-account.styles';
 
 export const EditAccount: FC = () => {
   const {
@@ -61,16 +61,20 @@ export const EditAccount: FC = () => {
       onSubmitPress={handleSubmit(onSubmit)}
       onCancelPress={goBack}
     >
-      <View>
-        <Controller
-          control={control}
-          name="name"
-          rules={rules}
-          render={({ field }) => (
-            <TextInput field={field} label="Account name" placeholder={account.name} error={errors?.name?.message} />
-          )}
-        />
-      </View>
+      <Controller
+        control={control}
+        name="name"
+        rules={rules}
+        render={({ field }) => (
+          <TextInput
+            field={field}
+            label="Account name"
+            placeholder={account.name}
+            error={errors?.name?.message}
+            containerStyle={styles.inputContainer}
+          />
+        )}
+      />
     </ModalActionContainer>
   );
 };

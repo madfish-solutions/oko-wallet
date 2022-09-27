@@ -61,5 +61,17 @@ export enum IconNameEnum {
   NftCollectionLayout = 'NftCollectionLayout',
   NftLayout = 'NftLayout',
   TransparencyLayout = 'TransparencyLayout',
-  PixelShit = 'PixelShit'
+  PixelShit = 'PixelShit',
+  Maximize = 'Maximize',
+  ChevronRight = 'ChevronRight',
+  Security = 'Security',
+  DappConnect = 'DappConnect',
+  InfoRed = 'InfoRed',
+  Telegram = 'Telegram',
+  Twitter = 'Twitter',
+  Discord = 'Discord',
+  Reddit = 'Reddit',
+  Youtube = 'Youtube',
+  OutLink = 'OutLink',
+  MadWithLove = 'MadWithLove'
 }
