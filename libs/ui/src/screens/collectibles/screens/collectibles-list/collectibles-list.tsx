@@ -1,10 +1,11 @@
 import { isDefined } from '@rnw-community/shared';
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useMemo } from 'react';
 import { ListRenderItemInfo, View } from 'react-native';
 
 import { CollectibleImage } from '../../../../components/collectible-image/collectible-image';
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
+import { Text } from '../../../../components/text/text';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token } from '../../../../interfaces/token.interface';
@@ -18,9 +19,19 @@ import { styles } from './collectibles-list.styles';
 
 export const CollectiblesList: FC = () => {
   const { navigate } = useNavigation();
-  const { collectiblesList, groupedCollectibles } = useGroupedCollectibles();
+  const { collectionList, groupedCollectibles, allCollectibles } = useGroupedCollectibles();
 
-  const { collectibles, setSearchValue } = useCollectibleList(collectiblesList);
+  const { collectibles: filteredCollectibles, setSearchValue } = useCollectibleList(allCollectibles);
+
+  const finalCollectiblesList = useMemo(
+    () =>
+      collectionList.filter(collectible =>
+        filteredCollectibles.find(filterCollectible =>
+          collectible.contractName?.includes(filterCollectible.contractName ?? '')
+        )
+      ),
+    [collectionList, filteredCollectibles]
+  );
 
   const handleItemPress = useCallback(
     (collectible: Token) => {
@@ -55,6 +66,11 @@ export const CollectiblesList: FC = () => {
             onPress={() => handleItemPress(collectible)}
             style={styles.imageContainer}
           />
+          {isDefined(collectible.collectionSize) && (
+            <View style={styles.collectionSize}>
+              <Text style={styles.collectionSizeText}>{collectible.collectionSize}</Text>
+            </View>
+          )}
         </View>
       </CollectibleRenderItem>
     ),
@@ -64,7 +80,7 @@ export const CollectiblesList: FC = () => {
   return (
     <ListContainer
       title="Collectibles"
-      collectibles={collectibles}
+      collectibles={finalCollectiblesList}
       renderItem={renderItem}
       setSearchValue={setSearchValue}
     />

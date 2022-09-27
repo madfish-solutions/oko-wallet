@@ -179,6 +179,12 @@ export const typography: Typography = {
     lineHeight: getCustomSize(1.625),
     letterSpacing: getCustomSize(0.00875)
   },
+  numbersIBMPlexSansBold11: {
+    fontFamily: FontsEnum.ibmPlexSansBold,
+    fontSize: getCustomSize(1.375),
+    lineHeight: getCustomSize(1.625),
+    letterSpacing: getCustomSize(0.0875)
+  },
   numbersIBMPlexSansBold8: {
     fontFamily: FontsEnum.ibmPlexSansBold,
     fontSize: getCustomSize(),

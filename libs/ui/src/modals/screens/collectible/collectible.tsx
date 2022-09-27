@@ -1,5 +1,4 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { isDefined } from '@rnw-community/shared';
 import React, { FC, useEffect } from 'react';
 import { View, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -11,15 +10,17 @@ import { Column } from '../../../components/column/column';
 import { CopyText } from '../../../components/copy-text/copy-text';
 import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
-import { Row } from '../../../components/row/row';
-import { Text } from '../../../components/text/text';
+import { InfoItem } from '../../../components/info-item/info-item';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { loadAccountTokenBalanceAction } from '../../../store/wallet/wallet.actions';
-import { useSelectedCollectibleSelector } from '../../../store/wallet/wallet.selectors';
+import { useSelectedCollectibleSelector, useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
-import { isWeb } from '../../../utils/platform.utils';
+import { getDomain } from '../../../utils/get-domain.util';
+import { getString } from '../../../utils/get-string.utils';
+import { getTokenDetailsUrl } from '../../../utils/get-token-details-url.util';
 import { getTokenSlug } from '../../../utils/token.utils';
 import { ModalContainer } from '../../components/modal-container/modal-container';
+import { COLLECTIBLE_SIZE } from '../add-new-collectible/constants';
 
 import { styles } from './collectible.styles';
 
@@ -31,6 +32,7 @@ export const Collectible: FC = () => {
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Collectible>>();
 
   const dispatch = useDispatch();
+  const { explorerUrl, networkType } = useSelectedNetworkSelector();
   const selectedCollectible = useSelectedCollectibleSelector(
     getTokenSlug(collectible.tokenAddress, collectible.tokenId)
   );
@@ -39,38 +41,57 @@ export const Collectible: FC = () => {
     dispatch(loadAccountTokenBalanceAction.submit({ token: collectible }));
   }, [collectible]);
 
+  const tokenMetadata = {
+    amount: {
+      name: 'Amount',
+      value: selectedCollectible?.balance.data ?? collectible.balance.data,
+      prompt: null
+    },
+    contractName: {
+      name: 'Collection name',
+      value: selectedCollectible?.contractName,
+      prompt: null
+    },
+    contract: {
+      name: 'Address',
+      value: <CopyText text={collectible.tokenAddress} isShortize />,
+      prompt: null
+    },
+    tokenId: {
+      name: 'ID',
+      value: (
+        <CopyText
+          text={getString(collectible.tokenId)}
+          isShortize={(collectible.tokenId?.length ?? 0) > TOKEN_ID_MAX_LENGTH ? true : false}
+        />
+      ),
+      prompt: null
+    },
+    explorer: {
+      name: 'Explorer',
+      value: getDomain(getString(explorerUrl)),
+      prompt: getTokenDetailsUrl(collectible.tokenAddress, getString(explorerUrl), networkType)
+    }
+  };
+
   return (
     <ModalContainer screenTitle={collectible.name}>
       <View style={styles.root}>
         <ScrollView style={styles.content} contentContainerStyle={styles.contentContainerStyle}>
-          <Column style={styles.collectibleWrapper}>
-            {isWeb && <Icon name={IconNameEnum.TransparencyLayout} size="100%" />}
+          <Column style={[styles.collectibleWrapper, { height: COLLECTIBLE_SIZE, width: COLLECTIBLE_SIZE }]}>
+            <Icon name={IconNameEnum.NftLayout} size={COLLECTIBLE_SIZE} />
             <CollectibleImage
               artifactUri={collectible.artifactUri}
               size="100%"
-              pixelShitSize={getCustomSize(10)}
+              pixelShitSize={getCustomSize(5)}
               style={styles.imageContainer}
             />
           </Column>
 
           <Column style={styles.list}>
-            <Row style={styles.listItem}>
-              <Text style={styles.itemTitle}>Amount</Text>
-              <Text style={styles.itemValue}>{selectedCollectible?.balance.data ?? collectible.balance.data}</Text>
-            </Row>
-            {isDefined(collectible.tokenId) && (
-              <Row style={styles.listItem}>
-                <Text style={styles.itemTitle}>ID</Text>
-                <CopyText
-                  text={collectible.tokenId}
-                  isShortize={collectible.tokenId.length > TOKEN_ID_MAX_LENGTH ? true : false}
-                />
-              </Row>
-            )}
-            <Row style={styles.listItem}>
-              <Text style={styles.itemTitle}>Address</Text>
-              <CopyText text={collectible.tokenAddress} isShortize />
-            </Row>
+            {Object.values(tokenMetadata).map(({ name, value, prompt }) => (
+              <InfoItem key={name} name={name} value={value} prompt={prompt} />
+            ))}
           </Column>
         </ScrollView>
 

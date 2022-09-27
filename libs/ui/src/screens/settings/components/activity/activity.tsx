@@ -24,7 +24,7 @@ export const Activity: FC = () => {
   const pendingTransactions = usePendingTransactionsSelector();
   const mintedTransactions = useMintedTransactionsSelector();
 
-  const explorerUrlPrefix = networkType === NetworkTypeEnum.EVM ? 'tx/' : '';
+  const explorerUrlPrefix = networkType === NetworkTypeEnum.EVM ? '/tx/' : '';
 
   const viewDetailsUrl = (txHash: string) => `${explorerUrl}${explorerUrlPrefix}${txHash}`;
 

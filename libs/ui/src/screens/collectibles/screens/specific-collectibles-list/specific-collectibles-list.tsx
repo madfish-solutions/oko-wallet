@@ -26,7 +26,7 @@ export const SpecificCollectiblesList: FC = () => {
 
   const collectiblesList = useSelectedCollectionSelector(collectionName);
 
-  const { collectibles, setSearchValue } = useCollectibleList(collectiblesList, true);
+  const { collectibles, setSearchValue } = useCollectibleList(collectiblesList);
 
   const handleItemPress = (collectible: Token) => navigate(ScreensEnum.Collectible, { collectible });
 

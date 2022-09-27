@@ -22,7 +22,7 @@ export const TransactionInfo: FC<Props> = ({ transactionHash, receiver, network:
   const dispatch = useDispatch();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const networkType = useSelectedNetworkTypeSelector();
-  const tx = networkType === NetworkTypeEnum.Tezos ? '' : 'tx/';
+  const tx = networkType === NetworkTypeEnum.Tezos ? '' : '/tx/';
 
   const onBlockchainExplorerPress = () => {
     if (isString(explorerUrl)) {

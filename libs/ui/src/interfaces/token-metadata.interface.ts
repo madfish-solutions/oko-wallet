@@ -8,4 +8,5 @@ export interface TokenMetadata {
   collectionId?: string | null;
   contractName?: string;
   innerId?: string;
+  collectionSize?: number;
 }

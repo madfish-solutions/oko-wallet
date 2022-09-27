@@ -42,6 +42,7 @@ import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
 import { checkActiveApplicationSession } from '../../utils/check-active-application-session.util';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 import { setStoredValue } from '../../utils/store.util';
+import { substring } from '../../utils/substring.util';
 
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
 import { useActiveTokenList } from './hooks/use-active-token-list.hook';
@@ -127,7 +128,7 @@ export const Navigator: FC = () => {
               />
               <Stack.Screen
                 name={ScreensEnum.Collectible}
-                options={({ route }) => ({ title: route.params.collectible.name })}
+                options={({ route }) => ({ title: substring(route.params.collectible.name, 30) })}
                 component={Collectible}
               />
               <Stack.Screen

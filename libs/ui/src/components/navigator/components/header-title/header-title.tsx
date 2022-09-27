@@ -21,7 +21,9 @@ export const HeaderTitle: FC<Props> = ({ name, isBackButton = false }) => {
       <Pressable onPress={goBack} style={styles.backgroundSpace} />
       <Row style={styles.container}>
         {isBackButton && <HeaderBackButton />}
-        <Text style={styles.title}>{name}</Text>
+        <Text style={styles.title} numberOfLines={1} lineBreakMode="tail">
+          {name}
+        </Text>
         <View style={styles.closeButton}>
           <HeaderCloseButton />
         </View>

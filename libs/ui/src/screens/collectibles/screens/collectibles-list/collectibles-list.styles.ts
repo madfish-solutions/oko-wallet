@@ -1,6 +1,8 @@
 import { StyleSheet } from 'react-native';
 
+import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
+import { typography } from '../../../../styles/typography';
 
 export const styles = StyleSheet.create({
   layoutContainer: {
@@ -17,5 +19,19 @@ export const styles = StyleSheet.create({
     padding: '5.5%',
     width: '100%',
     height: '100%'
+  },
+  collectionSize: {
+    position: 'absolute',
+    top: getCustomSize(1.5),
+    right: getCustomSize(1.5),
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: getCustomSize(2),
+    paddingHorizontal: getCustomSize(0.5),
+    backgroundColor: colors.bgGrey4,
+    borderRadius: getCustomSize(0.25)
+  },
+  collectionSizeText: {
+    ...typography.numbersIBMPlexSansBold11
   }
 });
