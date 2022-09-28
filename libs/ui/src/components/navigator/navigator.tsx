@@ -10,6 +10,7 @@ import { AccountsSelector } from '../../modals/screens/accounts-selector/account
 import { AddAccount } from '../../modals/screens/add-account/add-account';
 import { Collectible } from '../../modals/screens/collectible/collectible';
 import { DappConfirmation } from '../../modals/screens/dapp-confirmation/dapp-confirmation';
+import { DeleteDapp } from '../../modals/screens/delete-dapp/delete-dapp';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
 import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
@@ -136,6 +137,7 @@ export const Navigator: FC = () => {
                 options={{ title: 'Connect' }}
                 component={DappConfirmation}
               />
+              <Stack.Screen name={ScreensEnum.DeleteDapp} options={{ title: 'Confirm' }} component={DeleteDapp} />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptionsWithBackButton}>

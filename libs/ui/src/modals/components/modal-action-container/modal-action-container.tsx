@@ -15,6 +15,7 @@ export const ModalActionContainer: FC<Props> = ({
   screenTitle,
   children,
   submitTitle,
+  cancelTitle,
   isSubmitDisabled,
   onSubmitPress,
   onCancelPress
@@ -28,6 +29,7 @@ export const ModalActionContainer: FC<Props> = ({
         onCancelPress={onCancelPress}
         onSubmitPress={onSubmitPress}
         isSubmitDisabled={isSubmitDisabled}
+        cancelTitle={cancelTitle}
       />
     </View>
   </ModalContainer>

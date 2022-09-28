@@ -8,6 +8,9 @@ export const styles = StyleSheet.create({
   root: {
     paddingHorizontal: getCustomSize(2)
   },
+  flatlist: {
+    flex: 1
+  },
   amount: {
     ...typography.numbersIBMPlexSansMedium20
   },
@@ -15,7 +18,7 @@ export const styles = StyleSheet.create({
     borderRadius: getCustomSize(2),
     borderWidth: getCustomSize(0.25),
     borderColor: colors.bgGrey2,
-    marginVertical: getCustomSize()
+    marginBottom: getCustomSize(2)
   },
   icon: {
     margin: getCustomSize(),

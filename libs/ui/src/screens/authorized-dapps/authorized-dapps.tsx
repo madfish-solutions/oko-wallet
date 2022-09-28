@@ -1,10 +1,10 @@
 import React, { FC, useState } from 'react';
-import { FlatList, Linking, Pressable, ScrollView, View } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { FlatList, Linking, Pressable, View } from 'react-native';
 
 import { IconWithBorder } from '../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../components/icon/icon';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
+import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { Row } from '../../components/row/row';
 import { ScreenTitle } from '../../components/screen-components/header-container/components/screen-title/screen-title';
 import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
@@ -12,8 +12,8 @@ import { ScreenContainer } from '../../components/screen-components/screen-conta
 import { SearchPanel } from '../../components/search-panel/search-panel';
 import { Text } from '../../components/text/text';
 import { EMPTY_STRING } from '../../constants/defaults';
+import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
-import { deleteConfirmedDappAction } from '../../store/wallet/wallet.actions';
 import { useAuthorizedDapps } from '../../store/wallet/wallet.selectors';
 import { eraseProtocol } from '../../utils/string.util';
 
@@ -22,12 +22,13 @@ import { Permission } from './components/permission';
 import { MOCK_PERMISSIONS } from './constants';
 
 export const AuthorizedDapps: FC = () => {
-  const dispatch = useDispatch();
   const authorizedDapps = useAuthorizedDapps();
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation();
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
 
   const dapps = Object.keys(authorizedDapps).filter(dapp => dapp.includes(searchValue));
+
+  const navigateToConfirm = (dappName: string) => navigate(ScreensEnum.DeleteDapp, { dappName });
 
   const renderItem = ({ item }: { item: string }) => (
     <View style={styles.container}>
@@ -40,7 +41,7 @@ export const AuthorizedDapps: FC = () => {
             {eraseProtocol(item)}
           </Text>
         </Row>
-        <Pressable onPress={() => dispatch(deleteConfirmedDappAction(item))}>
+        <Pressable onPress={() => navigateToConfirm(item)}>
           <Icon name={IconNameEnum.Delete} iconStyle={styles.deleteIcon} />
         </Pressable>
       </Row>
@@ -59,9 +60,10 @@ export const AuthorizedDapps: FC = () => {
         <Text style={styles.amount}>{dapps.length}</Text>
       </HeaderContainer>
       <SearchPanel setSearchValue={setSearchValue} isEmptyList={!dapps.length} style={styles.root} />
-      <ScrollView style={styles.root}>
+      <View style={[styles.root, styles.flatlist]}>
         <FlatList data={dapps} renderItem={renderItem} keyExtractor={dapps => dapps} />
-      </ScrollView>
+      </View>
+      <NavigationBar />
     </ScreenContainer>
   );
 };

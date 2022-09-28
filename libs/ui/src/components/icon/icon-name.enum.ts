@@ -61,5 +61,6 @@ export enum IconNameEnum {
   NftCollectionLayout = 'NftCollectionLayout',
   NftLayout = 'NftLayout',
   TransparencyLayout = 'TransparencyLayout',
-  PixelShit = 'PixelShit'
+  PixelShit = 'PixelShit',
+  IconDisconnect = 'IconDisconnect'
 }

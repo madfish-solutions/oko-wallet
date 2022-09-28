@@ -27,6 +27,7 @@ import Error from './assets/error.svg';
 import EyeClosedIcon from './assets/eye-closed.svg';
 import EyeOpenIcon from './assets/eye-open.svg';
 import GasIcon from './assets/gas.svg';
+import IconDisconnect from './assets/icon-disconnect.svg';
 import IconPlaceholder from './assets/icon-placeholder.svg';
 import Info from './assets/info.svg';
 import LoadersIcon from './assets/loaders.svg';
@@ -130,5 +131,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.NftCollectionLayout]: NftCollectionLayout,
   [IconNameEnum.PixelShit]: PixelShit,
   [IconNameEnum.NftLayout]: NftLayout,
-  [IconNameEnum.TransparencyLayout]: TransparencyLayout
+  [IconNameEnum.TransparencyLayout]: TransparencyLayout,
+  [IconNameEnum.IconDisconnect]: IconDisconnect
 };
