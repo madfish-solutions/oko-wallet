@@ -25,6 +25,7 @@ export const Settings: FC = () => {
   const navigateToAddNetwork = () => navigate(ScreensEnum.AddNetwork);
   const navigateToConnectToDapps = () => navigate(ScreensEnum.ConnectToDapps);
   const navigateToWallet = () => navigate(ScreensEnum.Wallet);
+  const navigateToAuthorizedDapps = () => navigate(ScreensEnum.AuthorizedDapps);
 
   const onShowSuccessToastClick = () => showSuccessToast('This is Success!');
   const onShowWarningToastClick = () => showWarningToast('This is a Warning!');
@@ -43,6 +44,7 @@ export const Settings: FC = () => {
         <Button title="Show success toast" onPress={onShowSuccessToastClick} />
         <Button title="Show warning toast" onPress={onShowWarningToastClick} />
         <Button title="Show error toast" onPress={onShowErrorToastClick} />
+        <Button title="Authorized dapps" onPress={navigateToAuthorizedDapps} />
         <ResetWallet />
         <Button onPress={lock} title="lock app" color="#841584" />
         <MaximiseScreenButton />

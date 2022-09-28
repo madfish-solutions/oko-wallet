@@ -55,7 +55,7 @@ import SwapItems from './assets/swapItems.svg';
 import Tooltip from './assets/tooltip.svg';
 import TopupIcon from './assets/topup.svg';
 import TransparencyLayout from './assets/transparency-layout.svg';
-import Trash from './assets/trash.svg';
+import Delete from './assets/delete.svg';
 import WarningWhite from './assets/warning-white.svg';
 import WarningYellow from './assets/warning-yellow.svg';
 import WidgetSettings from './assets/widget-settings.svg';
@@ -110,7 +110,7 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.EmptySquareCheckbox]: EmptySquareCheckbox,
   [IconNameEnum.EmptySearch]: EmptySearch,
   [IconNameEnum.Tooltip]: Tooltip,
-  [IconNameEnum.Trash]: Trash,
+  [IconNameEnum.Delete]: Delete,
   [IconNameEnum.Clear]: Clear,
   [IconNameEnum.Success]: Success,
   [IconNameEnum.Error]: Error,

@@ -31,7 +31,8 @@ import {
   editTokenAction,
   sortAccountTokensByVisibility,
   addNewTokensAction,
-  getAllUserNftAction
+  getAllUserNftAction,
+  deleteConfirmedDappAction
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -402,4 +403,13 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       [dappName]: { dappName, id }
     }
   }));
+  builder.addCase(deleteConfirmedDappAction, (state, { payload }) => {
+    const newConfirmedDapp = { ...state.confirmedEVMDappConnection };
+    delete newConfirmedDapp[payload];
+
+    return {
+      ...state,
+      confirmedEVMDappConnection: newConfirmedDapp
+    };
+  });
 });

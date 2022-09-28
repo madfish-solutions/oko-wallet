@@ -223,3 +223,8 @@ export const useAllSavedTokensSelector = () => {
 
   return allTokens;
 };
+
+export const useAuthorizedDapps = () =>
+  useSelector<WalletRootState, WalletState['confirmedEVMDappConnection']>(
+    ({ wallet }) => wallet.confirmedEVMDappConnection
+  );

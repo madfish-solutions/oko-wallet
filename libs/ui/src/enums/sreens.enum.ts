@@ -35,7 +35,8 @@ export enum ScreensEnum {
   Token = 'Token',
   CollectiblesList = 'CollectiblesList',
   SpecificCollectiblesList = 'SpecificCollectiblesList',
-  Collectible = 'Collectible'
+  Collectible = 'Collectible',
+  AuthorizedDapps = 'AuthorizedDapps'
 }
 
 export type ScreensParamList = {
@@ -73,4 +74,5 @@ export type ScreensParamList = {
   [ScreensEnum.CollectiblesList]: undefined;
   [ScreensEnum.SpecificCollectiblesList]: { collectibles: Token[] };
   [ScreensEnum.Collectible]: { collectible: Token };
+  [ScreensEnum.AuthorizedDapps]: undefined;
 };

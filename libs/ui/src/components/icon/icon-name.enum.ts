@@ -42,7 +42,7 @@ export enum IconNameEnum {
   EmptySquareCheckbox = 'EmptySquareCheckbox',
   EmptySearch = 'EmptySearch',
   Tooltip = 'Tooltip',
-  Trash = 'Trash',
+  Delete = 'Delete',
   Clear = 'Clear',
   Success = 'Success',
   SwapItems = 'SwapItems',
