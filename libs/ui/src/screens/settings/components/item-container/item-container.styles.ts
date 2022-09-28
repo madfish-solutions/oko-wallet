@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
 
+import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
 
 export const styles = StyleSheet.create({
   root: {
-    height: getCustomSize(6),
-    padding: getCustomSize(1.5),
-    justifyContent: 'space-between'
+    backgroundColor: colors.bgGrey2,
+    borderRadius: getCustomSize(1.75),
+    overflow: 'hidden'
   }
 });

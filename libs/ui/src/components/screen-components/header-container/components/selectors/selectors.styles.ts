@@ -9,6 +9,9 @@ export const styles = StyleSheet.create({
   root: {
     justifyContent: 'space-between'
   },
+  accountContainer: {
+    maxWidth: getCustomSize(isAndroid ? 21 : 19)
+  },
   button: {
     padding: getCustomSize(0.5),
     backgroundColor: colors.navGrey1,
@@ -16,8 +19,7 @@ export const styles = StyleSheet.create({
   },
   accountName: {
     ...typography.captionInterSemiBold13,
-    marginLeft: getCustomSize(0.5),
-    maxWidth: getCustomSize(isAndroid ? 21 : 15)
+    marginLeft: getCustomSize(0.5)
   },
   addressWrapper: {
     marginLeft: 'auto',
