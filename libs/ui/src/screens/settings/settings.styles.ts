@@ -6,22 +6,24 @@ import { typography } from '../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
+    flex: 1,
     padding: 0
+  },
+  rootContentContainer: {
+    flexGrow: 1
   },
   easterEgg: {
     position: 'absolute',
     top: -getCustomSize(22)
   },
   content: {
-    padding: getCustomSize(2)
+    flex: 1,
+    padding: getCustomSize(2),
+    justifyContent: 'space-between'
   },
   robot: {
     marginRight: getCustomSize()
   },
-  text: {
-    ...typography.bodyInterSemiBold15
-  },
-  icon: { marginRight: getCustomSize(0.5) },
   separator: {
     backgroundColor: colors.bgGrey3,
     width: '100%',
@@ -37,10 +39,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: getCustomSize(3.25)
   },
-  resetActionContainer: {
-    height: 'auto',
-    padding: 0
-  },
   resetText: {
     ...typography.taglineInterSemiBoldUppercase13,
     color: colors.orange
@@ -48,7 +46,7 @@ export const styles = StyleSheet.create({
   outIcon: {
     marginLeft: getCustomSize(0.5)
   },
-  madLogo: {
+  logo: {
     marginTop: getCustomSize(5.25),
     alignItems: 'center'
   }

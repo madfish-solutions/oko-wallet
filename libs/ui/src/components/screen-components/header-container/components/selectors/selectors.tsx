@@ -30,7 +30,7 @@ export const Selectors: FC = () => {
   return (
     <Row style={styles.root}>
       <TouchableOpacity onPress={selectAccount}>
-        <Row>
+        <Row style={styles.accountContainer}>
           <View style={styles.button}>
             <IconWithBorder>
               <RobotIcon seed={publicKeyHash} />

@@ -32,9 +32,9 @@ import { SendConfirmation } from '../../screens/send-confirmation/send-confirmat
 import { AccountsSelector as SendAccountsSelector } from '../../screens/send/components/accounts-selector/accounts-selector';
 import { TokensSelector as SendTokensSelector } from '../../screens/send/components/tokens-selector/tokens-selector';
 import { Send } from '../../screens/send/send';
-import { Account as SettingsAccount } from '../../screens/settings/components/account/account';
-import { RevealPrivateKey as SettingsRevealPrivateKey } from '../../screens/settings/components/account/components/reveal-private-key/reveal-private-key';
-import { RevealSeedPhrase as SettingsRevealSeedPhrase } from '../../screens/settings/components/account/components/reveal-seed-phrase/reveal-seed-phrase';
+import { Account as SettingsAccount } from '../../screens/settings/screens/account/account';
+import { RevealPrivateKey as SettingsRevealPrivateKey } from '../../screens/settings/screens/reveal-private-key/reveal-private-key';
+import { RevealSeedPhrase as SettingsRevealSeedPhrase } from '../../screens/settings/screens/reveal-seed-phrase/reveal-seed-phrase';
 import { Settings } from '../../screens/settings/settings';
 import { Token } from '../../screens/token/token';
 import { Tokens } from '../../screens/tokens/tokens';
