@@ -74,7 +74,7 @@ export const AccountsSelector: FC = () => {
             theme={ButtonWithIconThemesEnum.Secondary}
             size={ButtonWithIconSizeEnum.Medium}
             onPress={onWidgetSettings}
-            rightIcon={IconNameEnum.WidgetSettings}
+            rightIcon={IconNameEnum.GridSettings}
             style={styles.button}
           />
           <ButtonWithIcon

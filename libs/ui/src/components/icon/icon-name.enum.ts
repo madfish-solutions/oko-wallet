@@ -1,5 +1,4 @@
 export enum IconNameEnum {
-  AccountLogo = 'AccountLogo',
   Activity = 'Activity',
   Add = 'Add',
   AddChain = 'AddChain',
@@ -35,7 +34,7 @@ export enum IconNameEnum {
   Qrcode = 'Qrcode',
   Slider = 'Slider',
   Share = 'Share',
-  WidgetSettings = 'WidgetSettings',
+  GridSettings = 'GridSettings',
   SelectedCheckbox = 'SelectedCheckbox',
   SelectedSquareCheckbox = 'SelectedSquareCheckbox',
   EmptyCheckbox = 'EmptyCheckbox',
@@ -74,5 +73,6 @@ export enum IconNameEnum {
   Youtube = 'Youtube',
   OutLink = 'OutLink',
   MadWithLove = 'MadWithLove',
-  NewTab = 'NewTab'
+  NewTab = 'NewTab',
+  See = 'See'
 }

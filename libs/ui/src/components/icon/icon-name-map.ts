@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { SvgProps } from 'react-native-svg';
 
-import AccountLogo from './assets/account-logo.svg';
 import ActivityIcon from './assets/activity.svg';
 import AddChain from './assets/add-chain.svg';
 import AddIcon from './assets/add.svg';
@@ -29,6 +28,7 @@ import Error from './assets/error.svg';
 import EyeClosedIcon from './assets/eye-closed.svg';
 import EyeOpenIcon from './assets/eye-open.svg';
 import GasIcon from './assets/gas.svg';
+import GridSettings from './assets/grid-settings.svg';
 import IconPlaceholder from './assets/icon-placeholder.svg';
 import InfoRed from './assets/info-red.svg';
 import Info from './assets/info.svg';
@@ -53,6 +53,7 @@ import Reddit from './assets/reddit.svg';
 import Refresh from './assets/refresh.svg';
 import SearchIcon from './assets/search.svg';
 import Security from './assets/security.svg';
+import See from './assets/see.svg';
 import SelectedCheckbox from './assets/selected-checkbox.svg';
 import SendIcon from './assets/send.svg';
 import SettingsIcon from './assets/settings.svg';
@@ -70,7 +71,6 @@ import Trash from './assets/trash.svg';
 import Twitter from './assets/twitter.svg';
 import WarningWhite from './assets/warning-white.svg';
 import WarningYellow from './assets/warning-yellow.svg';
-import WidgetSettings from './assets/widget-settings.svg';
 import XIcon from './assets/x.svg';
 import Youtube from './assets/youtube.svg';
 import { IconNameEnum } from './icon-name.enum';
@@ -80,7 +80,6 @@ import NetworkFallback from './networks/fallback.svg';
 import Klaytn from './networks/klaytn.svg';
 
 export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
-  [IconNameEnum.AccountLogo]: AccountLogo,
   [IconNameEnum.Activity]: ActivityIcon,
   [IconNameEnum.Add]: AddIcon,
   [IconNameEnum.ArrowLeft]: ArrowLeftIcon,
@@ -116,7 +115,7 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Slider]: Slider,
   [IconNameEnum.AddChain]: AddChain,
   [IconNameEnum.Share]: Share,
-  [IconNameEnum.WidgetSettings]: WidgetSettings,
+  [IconNameEnum.GridSettings]: GridSettings,
   [IconNameEnum.SelectedCheckbox]: SelectedCheckbox,
   [IconNameEnum.SelectedSquareCheckbox]: SelectedSquareCheckbox,
   [IconNameEnum.EmptyCheckbox]: EmptyCheckbox,
@@ -156,5 +155,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Youtube]: Youtube,
   [IconNameEnum.OutLink]: OutLink,
   [IconNameEnum.MadWithLove]: MadWithLove,
-  [IconNameEnum.NewTab]: NewTab
+  [IconNameEnum.NewTab]: NewTab,
+  [IconNameEnum.See]: See
 };
