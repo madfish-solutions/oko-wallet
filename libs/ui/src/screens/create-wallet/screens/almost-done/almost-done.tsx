@@ -3,6 +3,7 @@ import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { TouchableOpacity } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 import { Checkbox } from '../../../../components/checkbox/checkbox';
 import { Column } from '../../../../components/column/column';
@@ -13,6 +14,7 @@ import { Text } from '../../../../components/text/text';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
+import { setIsAnalyticsEnabled } from '../../../../store/settings/settings.actions';
 import { isMobile } from '../../../../utils/platform.utils';
 import { Container } from '../../components/container/container';
 
@@ -38,6 +40,7 @@ export const AlmostDone: FC = () => {
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.AlmostDone>>();
 
   const { importWallet } = useShelter();
+  const dispatch = useDispatch();
 
   const [isSecurePassword, setIsSecurePassword] = useState(true);
   const [isSecureConfirmPassword, setIsSecureConfirmPassword] = useState(true);
@@ -129,6 +132,9 @@ export const AlmostDone: FC = () => {
         hdAccountsLength: 1,
         accountName: name.trim()
       });
+
+      dispatch(setIsAnalyticsEnabled(isAllowUseAnalytics));
+
       console.log('Submitted:', {
         useFaceId: isUseFaceId,
         acceptTerms: isAcceptTerms,

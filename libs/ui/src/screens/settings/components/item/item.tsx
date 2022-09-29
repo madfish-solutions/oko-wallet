@@ -7,6 +7,7 @@ import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Pressable } from '../../../../components/pressable/pressable';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
+import { ViewStyleProps } from '../../../../interfaces/style.interface';
 
 import { styles } from './item.styles';
 
@@ -14,10 +15,11 @@ interface Props extends Pick<PressableProps, 'onPress'> {
   icon?: IconNameEnum;
   title: string;
   iconComponent?: ReactChild;
+  style?: ViewStyleProps;
 }
 
-export const Item: FC<Props> = ({ icon, iconComponent, title, onPress, children }) => (
-  <Pressable onPress={onPress} style={styles.root}>
+export const Item: FC<Props> = ({ icon, iconComponent, title, onPress, children, style }) => (
+  <Pressable onPress={onPress} style={[styles.root, style]}>
     <Row style={styles.content}>
       <Row>
         {isDefined(icon) && <Icon iconStyle={styles.icon} name={icon} />}

@@ -33,6 +33,7 @@ import { AccountsSelector as SendAccountsSelector } from '../../screens/send/com
 import { TokensSelector as SendTokensSelector } from '../../screens/send/components/tokens-selector/tokens-selector';
 import { Send } from '../../screens/send/send';
 import { Account as SettingsAccount } from '../../screens/settings/screens/account/account';
+import { General as SettingsGeneral } from '../../screens/settings/screens/general/general';
 import { RevealPrivateKey as SettingsRevealPrivateKey } from '../../screens/settings/screens/reveal-private-key/reveal-private-key';
 import { RevealSeedPhrase as SettingsRevealSeedPhrase } from '../../screens/settings/screens/reveal-seed-phrase/reveal-seed-phrase';
 import { Settings } from '../../screens/settings/settings';
@@ -95,6 +96,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
               <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
               <Stack.Screen name={ScreensEnum.SettingsAccount} component={SettingsAccount} />
+              <Stack.Screen name={ScreensEnum.SettingsGeneral} component={SettingsGeneral} />
               <Stack.Screen name={ScreensEnum.SettingsRevealSeedPhrase} component={SettingsRevealSeedPhrase} />
               <Stack.Screen name={ScreensEnum.SettingsRevealPrivateKey} component={SettingsRevealPrivateKey} />
               <Stack.Screen name={ScreensEnum.Send} component={Send} />

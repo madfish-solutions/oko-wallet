@@ -1,5 +1,5 @@
 import { OnEventFn } from '@rnw-community/shared';
-import React, { FC, useRef } from 'react';
+import React, { FC, useRef, useEffect } from 'react';
 import { Animated, Easing, Pressable } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
@@ -24,12 +24,20 @@ interface Props {
   theme?: SwitchThemesEnum;
   disabled?: boolean;
   style?: ViewStyleProps;
+  triggerAnimation?: boolean;
 }
 
 const TURN_ON = getCustomSize(2.5);
 const TURN_OFF = 0;
 
-export const Switch: FC<Props> = ({ isActive, onPress, theme = SwitchThemesEnum.Primary, disabled = false, style }) => {
+export const Switch: FC<Props> = ({
+  isActive,
+  onPress,
+  theme = SwitchThemesEnum.Primary,
+  disabled = false,
+  triggerAnimation = false,
+  style
+}) => {
   const initialPosition = isActive ? TURN_ON : TURN_OFF;
 
   const knobPosition = useRef(new Animated.Value(initialPosition)).current;
@@ -53,6 +61,20 @@ export const Switch: FC<Props> = ({ isActive, onPress, theme = SwitchThemesEnum.
       useNativeDriver: true,
       easing: Easing.linear
     }).start();
+
+  useEffect(() => {
+    if (!triggerAnimation) {
+      return;
+    }
+
+    if (!isActive) {
+      animation();
+    } else {
+      animation(TURN_ON);
+    }
+
+    hapticFeedback();
+  }, [isActive, triggerAnimation]);
 
   return (
     <Pressable
