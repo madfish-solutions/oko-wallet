@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
   },
   easterEgg: {
     position: 'absolute',
-    top: -getCustomSize(22)
+    top: -getCustomSize(24)
   },
   content: {
     flex: 1,
@@ -22,7 +22,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   robot: {
-    marginRight: getCustomSize()
+    marginRight: getCustomSize(),
+    borderRadius: getCustomSize(1.03125)
   },
   separator: {
     backgroundColor: colors.bgGrey3,

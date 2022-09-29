@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   accountContainer: {
-    maxWidth: getCustomSize(isAndroid ? 21 : 19)
+    maxWidth: getCustomSize(isAndroid ? 21.5 : 19)
   },
   button: {
     padding: getCustomSize(0.5),
@@ -22,7 +22,6 @@ export const styles = StyleSheet.create({
     marginLeft: getCustomSize(0.5)
   },
   addressWrapper: {
-    marginLeft: 'auto',
     marginRight: getCustomSize()
   },
   icon: {

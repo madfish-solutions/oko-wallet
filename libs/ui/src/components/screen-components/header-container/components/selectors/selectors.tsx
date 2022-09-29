@@ -42,14 +42,16 @@ export const Selectors: FC = () => {
           </Text>
         </Row>
       </TouchableOpacity>
-      <View style={styles.addressWrapper}>
-        <CopyText text={publicKeyHash} />
-      </View>
-      <TouchableOpacity onPress={selectNetwork} style={styles.button}>
-        <IconWithBorder>
-          <Icon name={iconName ?? IconNameEnum.NetworkFallback} />
-        </IconWithBorder>
-      </TouchableOpacity>
+      <Row>
+        <View style={styles.addressWrapper}>
+          <CopyText text={publicKeyHash} />
+        </View>
+        <TouchableOpacity onPress={selectNetwork} style={styles.button}>
+          <IconWithBorder>
+            <Icon name={iconName ?? IconNameEnum.NetworkFallback} />
+          </IconWithBorder>
+        </TouchableOpacity>
+      </Row>
     </Row>
   );
 };
