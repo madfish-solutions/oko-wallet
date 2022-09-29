@@ -3,14 +3,16 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../../../../styles/colors';
 import { getCustomSize } from '../../../../../styles/format-size';
 import { typography } from '../../../../../styles/typography';
-import { isAndroid } from '../../../../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {
     justifyContent: 'space-between'
   },
   accountContainer: {
-    maxWidth: getCustomSize(isAndroid ? 21.5 : 19)
+    maxWidth: getCustomSize(29),
+    flexGrow: 1,
+    flexShrink: 1,
+    paddingRight: getCustomSize(2)
   },
   button: {
     padding: getCustomSize(0.5),
@@ -19,7 +21,9 @@ export const styles = StyleSheet.create({
   },
   accountName: {
     ...typography.captionInterSemiBold13,
-    marginLeft: getCustomSize(0.5)
+    marginLeft: getCustomSize(0.5),
+    flexGrow: 1,
+    flexShrink: 1
   },
   addressWrapper: {
     marginRight: getCustomSize()
