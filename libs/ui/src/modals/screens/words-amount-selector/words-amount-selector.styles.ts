@@ -32,10 +32,7 @@ export const styles = StyleSheet.create({
     ...typography.bodyInterRegular15
   },
   footer: {
-    paddingHorizontal: getCustomSize(2),
-    paddingBottom: getCustomSize(4)
-  },
-  cancelButton: {
-    height: getCustomSize(5)
+    height: getCustomSize(5),
+    paddingHorizontal: getCustomSize(2)
   }
 });

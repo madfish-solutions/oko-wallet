@@ -12,6 +12,7 @@ export enum IconNameEnum {
   Dropdown = 'Dropdown',
   Dropup = 'Dropup',
   Edit = 'Edit',
+  Paste = 'Paste',
   EyeClosed = 'EyeClosed',
   EyeOpen = 'EyeOpen',
   Gas = 'Gas',

@@ -1,16 +1,17 @@
 import { StyleSheet } from 'react-native';
 
-import { colors } from '../../../../styles/colors';
-import { getCustomSize } from '../../../../styles/format-size';
-import { typography } from '../../../../styles/typography';
+import { colors } from '../../styles/colors';
+import { getCustomSize } from '../../styles/format-size';
+import { typography } from '../../styles/typography';
 
 export const styles = StyleSheet.create({
-  warning: {
-    marginBottom: getCustomSize(2)
+  title: {
+    marginBottom: getCustomSize(0.5),
+    ...typography.captionInterRegular13,
+    color: colors.textGrey3
   },
   wordsAmount: {
     justifyContent: 'space-between',
-    paddingHorizontal: getCustomSize(0.56),
     marginBottom: getCustomSize()
   },
   amountWordsText: {
@@ -40,44 +41,25 @@ export const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'flex-start'
   },
-  layout: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    top: 0,
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.bgGrey4,
-    zIndex: 1
-  },
-  layoutText: {
-    position: 'absolute',
-    ...typography.taglineInterSemiBoldUppercase13,
-    color: colors.orange
-  },
-  layoutBlock: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: colors.bgGrey2,
-    borderRadius: getCustomSize(0.5)
-  },
   wordsColumn: {
     flex: 1
   },
   marginRight: {
     marginRight: getCustomSize(0.5)
   },
-  mnemonicItem: {
+  containerStyle: {
+    paddingHorizontal: getCustomSize(4)
+  },
+  inputContainer: {
     position: 'relative',
-    alignItems: 'center',
-    width: '100%',
-    marginBottom: getCustomSize(0.5),
-    paddingHorizontal: getCustomSize(1.5),
-    paddingVertical: getCustomSize(),
     backgroundColor: colors.navGrey1,
-    borderRadius: getCustomSize(0.5)
+    height: getCustomSize(4.5),
+    marginBottom: getCustomSize(0.5)
+  },
+  mnemonicInput: {
+    alignItems: 'center',
+    height: getCustomSize(4.5),
+    width: '100%'
   },
   wordIndex: {
     position: 'absolute',
@@ -102,29 +84,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
-  buttonMarginRight: {
-    marginRight: getCustomSize(5)
-  },
   buttonIcon: {
     marginRight: getCustomSize(0.5)
-  },
-  confirmation: {
-    marginBottom: getCustomSize()
-  },
-  confirmationWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  checkbox: {
-    marginRight: getCustomSize(0.5)
-  },
-  confirmationText: {
-    ...typography.captionInterSemiBold13,
-    color: colors.textGrey2
-  },
-  error: {
-    marginTop: getCustomSize(0.5),
-    ...typography.captionInterRegular11,
-    color: colors.red
   }
 });

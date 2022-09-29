@@ -62,7 +62,7 @@ export const Collectible: FC = () => {
         </ScrollView>
 
         <View style={styles.buttonContainer}>
-          <Button title="SEND" theme={ButtonThemesEnum.Secondary} size={ButtonSizeEnum.Fluid} style={styles.button} />
+          <Button title="SEND" theme={ButtonThemesEnum.Secondary} size={ButtonSizeEnum.Large} />
         </View>
       </View>
     </ModalContainer>

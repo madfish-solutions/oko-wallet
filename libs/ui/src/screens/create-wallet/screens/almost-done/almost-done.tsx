@@ -11,10 +11,10 @@ import { Row } from '../../../../components/row/row';
 import { TextInput } from '../../../../components/text-input/text-input';
 import { Text } from '../../../../components/text/text';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
+import { WalletCreationContainer } from '../../../../components/wallet-creation-container/wallet-creation-container';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { isMobile } from '../../../../utils/platform.utils';
-import { Container } from '../../components/container/container';
 
 import { styles } from './almost-done.styles';
 import { passwordValidationInitialState } from './constants/password-validation-messages';
@@ -143,7 +143,7 @@ export const AlmostDone: FC = () => {
   const isValidationError = (Object.keys(errors).length > 0 || !isAcceptTerms) && isSubmitted;
 
   return (
-    <Container
+    <WalletCreationContainer
       title="Almost Done"
       step={3}
       submitTitle="Create"
@@ -277,6 +277,6 @@ export const AlmostDone: FC = () => {
           </Row>
         </Column>
       </Checkbox>
-    </Container>
+    </WalletCreationContainer>
   );
 };

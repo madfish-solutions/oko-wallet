@@ -36,6 +36,7 @@ import NftLayout from './assets/nft-layout.svg';
 import NftIcon from './assets/nft.svg';
 import OutIcon from './assets/out.svg';
 import PartnersIcon from './assets/partners.svg';
+import Paste from './assets/paste.svg';
 import PixelShit from './assets/pixel-shit.svg';
 import QrScanner from './assets/qr-scanner.svg';
 import QrIcon from './assets/qr.svg';
@@ -68,6 +69,7 @@ import Klaytn from './networks/klaytn.svg';
 
 export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.AccountLogo]: AccountLogo,
+  [IconNameEnum.Paste]: Paste,
   [IconNameEnum.Activity]: ActivityIcon,
   [IconNameEnum.Add]: AddIcon,
   [IconNameEnum.ArrowLeft]: ArrowLeftIcon,

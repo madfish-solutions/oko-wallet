@@ -10,14 +10,14 @@ import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
+import { WalletCreationContainer } from '../../../../components/wallet-creation-container/wallet-creation-container';
 import { SECURITY_TIME } from '../../../../constants/defaults';
 import { words } from '../../../../constants/seed-words-amount';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { getCustomSize } from '../../../../styles/format-size';
 import { handleCopyToClipboard } from '../../../../utils/copy-to-clipboard.util';
-import { Container } from '../../components/container/container';
-import { WarningMessage } from '../../components/warning-message/warning-message';
+import { WarningMessageDropdown } from '../../components/warning-message-dropdown/warning-message-dropdown';
 
 import { styles } from './create-a-new-wallet.styles';
 
@@ -116,14 +116,14 @@ export const CreateANewWallet: FC = () => {
   ];
 
   return (
-    <Container
+    <WalletCreationContainer
       title="Create A New Wallet"
       step={1}
       onSubmitPress={navigateToVerifyMnemonic}
       isSubmitDisabled={isError}
       scrollViewRef={scrollViewRef}
     >
-      <WarningMessage checkIsOpenDropdownState={setIsOpenWarningDropdown} style={styles.warning} />
+      <WarningMessageDropdown checkIsOpenDropdownState={setIsOpenWarningDropdown} style={styles.warning} />
 
       <Row style={styles.wordsAmount}>
         <Text style={styles.amountWordsText}>Amount Words</Text>
@@ -196,6 +196,6 @@ export const CreateANewWallet: FC = () => {
           <Text style={styles.error}>To continue, you need to confirm that you have saved your mnemonic</Text>
         )}
       </Column>
-    </Container>
+    </WalletCreationContainer>
   );
 };

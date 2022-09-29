@@ -17,11 +17,15 @@ import { styles } from './words-amount-selector.styles';
 
 export const WordsAmountSelector: FC = () => {
   const { params: routeParams } = useRoute<RouteProp<ScreensParamList, ScreensEnum.WordsAmountSelector>>();
-  const { navigate, goBack } = useNavigation();
+  const { navigate, goBack, getState } = useNavigation();
 
   const handleSetWordsAmount = (wordsAmount: SeedWordsAmount) => {
+    const { routes } = getState();
+
+    const parentRoute = routes[routes.length - 2];
+
     if (wordsAmount.value !== routeParams?.wordsAmount.value) {
-      navigate(ScreensEnum.CreateANewWallet, { wordsAmount });
+      navigate(parentRoute.name, { wordsAmount });
     } else {
       goBack();
     }
@@ -54,7 +58,6 @@ export const WordsAmountSelector: FC = () => {
           theme={ButtonThemesEnum.Primary}
           size={ButtonSizeEnum.Large}
           onPress={handleCloseWordsAmountSelector}
-          style={styles.cancelButton}
         />
       </View>
     </ModalContainer>

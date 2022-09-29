@@ -7,9 +7,9 @@ import { Pressable } from 'react-native';
 import { Column } from '../../../../components/column/column';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
+import { WalletCreationContainer } from '../../../../components/wallet-creation-container/wallet-creation-container';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { Container } from '../../components/container/container';
 
 import { shuffledInitialState, wordsInitialState } from './state';
 import { SelectedContainer, ShuffleWord, Word } from './types';
@@ -172,7 +172,12 @@ export const VerifyMnemonic: FC = () => {
   const [wordsColumn1, wordsColumn2] = [words.slice(0, 1).concat(words.slice(-1)), words.slice(1, 2)];
 
   return (
-    <Container title="Verify Mnemonic" step={2} isSubmitDisabled={!!error} onSubmitPress={navigateToAlmostDoneScreen}>
+    <WalletCreationContainer
+      title="Verify Mnemonic"
+      step={2}
+      isSubmitDisabled={!!error}
+      onSubmitPress={navigateToAlmostDoneScreen}
+    >
       <Text style={styles.title}>Confirm you saved mnemonic</Text>
       <Text style={styles.description}>
         You need to put the words in the correct positions according to their number
@@ -230,6 +235,6 @@ export const VerifyMnemonic: FC = () => {
       </Column>
 
       {isNotEmptyString(error) && <Text style={styles.error}>{error}</Text>}
-    </Container>
+    </WalletCreationContainer>
   );
 };
