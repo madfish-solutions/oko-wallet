@@ -15,9 +15,9 @@ import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { loadAccountTokenBalanceAction } from '../../../store/wallet/wallet.actions';
 import { useSelectedCollectibleSelector, useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
-import { getDomain } from '../../../utils/get-domain.util';
 import { getString } from '../../../utils/get-string.utils';
 import { getTokenDetailsUrl } from '../../../utils/get-token-details-url.util';
+import { eraseProtocol } from '../../../utils/string.util';
 import { getTokenSlug } from '../../../utils/token.utils';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 import { COLLECTIBLE_SIZE } from '../add-new-collectible/constants';
@@ -62,14 +62,14 @@ export const Collectible: FC = () => {
       value: (
         <CopyText
           text={getString(collectible.tokenId)}
-          isShortize={(collectible.tokenId?.length ?? 0) > TOKEN_ID_MAX_LENGTH ? true : false}
+          isShortize={(collectible.tokenId?.length ?? 0) > TOKEN_ID_MAX_LENGTH}
         />
       ),
       prompt: null
     },
     explorer: {
       name: 'Explorer',
-      value: getDomain(getString(explorerUrl)),
+      value: eraseProtocol(getString(explorerUrl)),
       prompt: getTokenDetailsUrl(collectible.tokenAddress, getString(explorerUrl), networkType)
     }
   };
@@ -78,7 +78,7 @@ export const Collectible: FC = () => {
     <ModalContainer screenTitle={collectible.name}>
       <View style={styles.root}>
         <ScrollView style={styles.content} contentContainerStyle={styles.contentContainerStyle}>
-          <Column style={[styles.collectibleWrapper, { height: COLLECTIBLE_SIZE, width: COLLECTIBLE_SIZE }]}>
+          <Column style={styles.collectibleWrapper}>
             <Icon name={IconNameEnum.NftLayout} size={COLLECTIBLE_SIZE} />
             <CollectibleImage
               artifactUri={collectible.artifactUri}

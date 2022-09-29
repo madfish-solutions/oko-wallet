@@ -19,3 +19,5 @@ export const DEBANK_HEADERS = {
   'Content-Type': 'application/json',
   AccessKey: MY_ACCESS_KEY
 };
+
+export const EXTENSION_WIDTH = 360;
