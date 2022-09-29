@@ -60,7 +60,14 @@ export const Settings: FC = () => {
       </HeaderContainer>
 
       <ScreenScrollView style={styles.root} contentContainerStyle={styles.rootContentContainer}>
-        {isIOS && <EasterEgg style={styles.easterEgg} width="100%" height="30%" />}
+        {isIOS && (
+          <EasterEgg
+            style={styles.easterEgg}
+            width="100%"
+            height={getCustomSize(23)}
+            preserveAspectRatio="xMaxYMax slice"
+          />
+        )}
 
         <View style={styles.content}>
           <View>

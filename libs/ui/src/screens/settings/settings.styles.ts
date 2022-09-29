@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
   },
   easterEgg: {
     position: 'absolute',
-    top: -getCustomSize(24)
+    top: -getCustomSize(23)
   },
   content: {
     flex: 1,
