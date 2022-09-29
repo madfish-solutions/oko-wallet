@@ -137,7 +137,11 @@ export const Navigator: FC = () => {
                 options={{ title: 'Connect' }}
                 component={DappConfirmation}
               />
-              <Stack.Screen name={ScreensEnum.DeleteDapp} options={{ title: 'Confirm' }} component={DeleteDapp} />
+              <Stack.Screen
+                name={ScreensEnum.DeleteDapp}
+                options={{ title: 'Confirm disconnection' }}
+                component={DeleteDapp}
+              />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptionsWithBackButton}>

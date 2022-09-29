@@ -40,5 +40,18 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
     marginTop: getCustomSize(3)
+  },
+  exploreDapps: {
+    alignItems: 'center',
+    backgroundColor: colors.orange,
+    marginTop: getCustomSize(10),
+    marginBottom: getCustomSize(9),
+    marginHorizontal: getCustomSize(10.5),
+    borderRadius: getCustomSize(1.75)
+  },
+  exploreText: {
+    paddingHorizontal: getCustomSize(1.5),
+    paddingVertical: getCustomSize(),
+    ...typography.taglineInterSemiBoldUppercase13
   }
 });

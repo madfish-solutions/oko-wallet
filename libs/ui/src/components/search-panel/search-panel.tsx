@@ -26,6 +26,7 @@ interface Props {
   onSearchClose?: () => void;
   isSearchInitiallyOpened?: boolean;
   style?: ViewStyleProps;
+  emptyIconSize?: number;
 }
 
 const renderTextInput = <
@@ -44,7 +45,8 @@ export const SearchPanel: React.FC<Props> = ({
   onPressAddIcon,
   onPressEditIcon,
   onPressActivityIcon,
-  style
+  style,
+  emptyIconSize
 }) => {
   const [isShowSearchField, setIsShowSearchField] = useState(isSearchInitiallyOpened);
   const initialSelectedItemName = useRef(selectedItemName);
@@ -110,7 +112,7 @@ export const SearchPanel: React.FC<Props> = ({
           </Row>
         )}
       </Row>
-      {isEmptyList && <EmptySearchIcon style={styles.emptySearchIcon} />}
+      {isEmptyList && <EmptySearchIcon style={styles.emptySearchIcon} size={emptyIconSize} />}
     </Column>
   );
 };

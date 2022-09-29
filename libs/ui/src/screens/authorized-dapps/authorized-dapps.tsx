@@ -15,6 +15,7 @@ import { EMPTY_STRING } from '../../constants/defaults';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useAuthorizedDapps } from '../../store/wallet/wallet.selectors';
+import { getCustomSize } from '../../styles/format-size';
 import { eraseProtocol } from '../../utils/string.util';
 
 import { styles } from './authorized-dapps.style';
@@ -59,9 +60,21 @@ export const AuthorizedDapps: FC = () => {
         <ScreenTitle title="Authorized Dapps" onBackButtonPress={goBack} />
         <Text style={styles.amount}>{dapps.length}</Text>
       </HeaderContainer>
-      <SearchPanel setSearchValue={setSearchValue} isEmptyList={!dapps.length} style={styles.root} />
+      <SearchPanel
+        setSearchValue={setSearchValue}
+        isEmptyList={!dapps.length}
+        style={styles.root}
+        emptyIconSize={getCustomSize(27)}
+      />
       <View style={[styles.root, styles.flatlist]}>
         <FlatList data={dapps} renderItem={renderItem} keyExtractor={dapps => dapps} />
+        {!dapps.length && (
+          <View style={styles.exploreDapps}>
+            <Text style={styles.exploreText} numberOfLines={1} onPress={() => null}>
+              EXPLORE DAPPS
+            </Text>
+          </View>
+        )}
       </View>
       <NavigationBar />
     </ScreenContainer>

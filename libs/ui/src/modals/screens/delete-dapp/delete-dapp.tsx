@@ -29,7 +29,7 @@ export const DeleteDapp: FC = () => {
 
   return (
     <ModalActionContainer
-      screenTitle="confirm disconnection"
+      screenTitle="Confirm disconnection"
       submitTitle="YES"
       cancelTitle="NO"
       onSubmitPress={confirmDeleteDapp}
