@@ -11,12 +11,7 @@ import { IconNameEnum } from '../icon/icon-name.enum';
 import { Text } from '../text/text';
 
 import { styles } from './dropdown.styles';
-
-interface Option<OptionType> {
-  id: number;
-  title: string;
-  value: OptionType;
-}
+import { Option } from './option.interface';
 
 interface Props<OptionType> {
   description?: string;
@@ -29,7 +24,7 @@ export const Dropdown = <OptionType,>({ description, selectedId, onSelect, optio
   const { goBack } = useNavigation();
 
   return (
-    <>
+    <View style={styles.container}>
       <Column style={styles.container}>
         {isDefined(description) && <Text style={styles.description}>{description}</Text>}
 
@@ -37,7 +32,7 @@ export const Dropdown = <OptionType,>({ description, selectedId, onSelect, optio
           {options.map(({ id, title, value }) => (
             <Pressable key={id} onPress={() => onSelect({ id, title, value })} style={styles.item}>
               <Text style={styles.title}>{title}</Text>
-              {(selectedId ?? options[1].id) === id ? (
+              {(selectedId ?? options[0].id) === id ? (
                 <Icon name={IconNameEnum.SelectedCheckbox} />
               ) : (
                 <Icon name={IconNameEnum.EmptyCheckbox} />
@@ -56,6 +51,6 @@ export const Dropdown = <OptionType,>({ description, selectedId, onSelect, optio
           style={styles.cancelButton}
         />
       </View>
-    </>
+    </View>
   );
 };

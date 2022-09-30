@@ -33,6 +33,8 @@ import { AccountsSelector as SendAccountsSelector } from '../../screens/send/com
 import { TokensSelector as SendTokensSelector } from '../../screens/send/components/tokens-selector/tokens-selector';
 import { Send } from '../../screens/send/send';
 import { Account as SettingsAccount } from '../../screens/settings/screens/account/account';
+import { AppearanceSelector as SettingsAppearanceSelector } from '../../screens/settings/screens/appearance-selector/appearance-selector';
+import { CurrencySelector as SettingsCurrencySelector } from '../../screens/settings/screens/currency-selector/currency-selector';
 import { General as SettingsGeneral } from '../../screens/settings/screens/general/general';
 import { RevealPrivateKey as SettingsRevealPrivateKey } from '../../screens/settings/screens/reveal-private-key/reveal-private-key';
 import { RevealSeedPhrase as SettingsRevealSeedPhrase } from '../../screens/settings/screens/reveal-seed-phrase/reveal-seed-phrase';
@@ -171,6 +173,16 @@ export const Navigator: FC = () => {
                 component={AddNewToken}
               />
               <Stack.Screen name={ScreensEnum.EditToken} options={{ title: 'Edit token' }} component={EditToken} />
+              <Stack.Screen
+                name={ScreensEnum.SettingsCurrencySelector}
+                options={{ title: 'Currency' }}
+                component={SettingsCurrencySelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SettingsAppearanceSelector}
+                options={{ title: 'Appearance' }}
+                component={SettingsAppearanceSelector}
+              />
             </Stack.Group>
           </>
         ) : (

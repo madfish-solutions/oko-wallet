@@ -9,6 +9,7 @@ import { HeaderContainer } from '../../../../components/screen-components/header
 import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
 import { ScreenScrollView } from '../../../../components/screen-components/screen-scroll-view/screen-scroll-view';
 import { Switch } from '../../../../components/switch/switch';
+import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { setIsAnalyticsEnabled } from '../../../../store/settings/settings.actions';
 import { useAnalyticsEnabledSelector } from '../../../../store/settings/settings.selectors';
@@ -21,9 +22,11 @@ import { styles } from './general.styles';
 export const General: FC = () => {
   const isAnalyticsEnabled = useAnalyticsEnabledSelector();
   const dispatch = useDispatch();
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation();
 
   const handleAnalyticsChange = () => dispatch(setIsAnalyticsEnabled(!isAnalyticsEnabled));
+  const navigateToCurrencySelector = () => navigate(ScreensEnum.SettingsCurrencySelector);
+  const navigateToAppearanceSelector = () => navigate(ScreensEnum.SettingsAppearanceSelector);
 
   return (
     <ScreenContainer>
@@ -33,7 +36,7 @@ export const General: FC = () => {
 
       <ScreenScrollView>
         <ItemContainer>
-          <Item title="Anonymous Analytics" style={styles.itemWithSwitch} onPress={handleAnalyticsChange}>
+          <Item title="Anonymous Analytics" onPress={handleAnalyticsChange} style={styles.itemWithSwitch}>
             <Switch isActive={isAnalyticsEnabled} onPress={handleAnalyticsChange} triggerAnimation />
           </Item>
         </ItemContainer>
@@ -41,16 +44,16 @@ export const General: FC = () => {
         <Divider size={getCustomSize(2)} />
 
         <ItemContainer>
-          <Item title="Currency" style={styles.itemWithDropDown}>
-            <DropdownSelectedItem title="USD" />
+          <Item title="Currency" onPress={navigateToCurrencySelector} style={styles.itemWithDropDown}>
+            <DropdownSelectedItem title="USD" onPress={navigateToCurrencySelector} />
           </Item>
         </ItemContainer>
 
         <Divider size={getCustomSize(2)} />
 
         <ItemContainer>
-          <Item title="Appearance" style={styles.itemWithDropDown}>
-            <DropdownSelectedItem title="Dark" />
+          <Item title="Appearance" onPress={navigateToAppearanceSelector} style={styles.itemWithDropDown}>
+            <DropdownSelectedItem title="Dark" onPress={navigateToAppearanceSelector} />
           </Item>
         </ItemContainer>
       </ScreenScrollView>
