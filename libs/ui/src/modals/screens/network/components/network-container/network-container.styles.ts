@@ -22,6 +22,6 @@ export const styles = StyleSheet.create({
     marginBottom: getCustomSize(3.5)
   },
   lastInputContainer: {
-    marginBottom: getCustomSize(2)
+    marginBottom: getCustomSize(2.25)
   }
 });

@@ -1,6 +1,5 @@
 import React, { FC, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { View } from 'react-native';
 
 import { TextInput } from '../../../components/text-input/text-input';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
@@ -8,6 +7,8 @@ import { useShelter } from '../../../hooks/use-shelter.hook';
 import { useAllAccountsSelector } from '../../../store/wallet/wallet.selectors';
 import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';
 import { useAccountFieldRules } from '../../hooks/use-validate-account-field.hook';
+
+import { styles } from './add-account.styles';
 
 export const AddAccount: FC = () => {
   const totalAccounts = useAllAccountsSelector().length;
@@ -50,16 +51,20 @@ export const AddAccount: FC = () => {
       onSubmitPress={handleSubmit(onSubmit)}
       isSubmitDisabled={Boolean(Object.keys(errors).length) || isSubmitSuccessful}
     >
-      <View>
-        <Controller
-          control={control}
-          name="name"
-          rules={rules}
-          render={({ field }) => (
-            <TextInput field={field} label="Account name" placeholder={defaultValue} error={errors?.name?.message} />
-          )}
-        />
-      </View>
+      <Controller
+        control={control}
+        name="name"
+        rules={rules}
+        render={({ field }) => (
+          <TextInput
+            field={field}
+            label="Account name"
+            placeholder={defaultValue}
+            error={errors?.name?.message}
+            containerStyle={styles.inputContainer}
+          />
+        )}
+      />
     </ModalActionContainer>
   );
 };
