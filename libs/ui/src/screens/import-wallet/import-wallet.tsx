@@ -112,7 +112,7 @@ export const ImportWallet: FC = () => {
         if (value.includes(clipboardValue) && isNotEmptyString(clipboardValue) && isDefined(clipboardValue)) {
           handlePasteMnemonicFromClipboard(clipboardValue);
         } else {
-          const newMnemonic = mnemonic.slice();
+          const newMnemonic = [...mnemonic];
           newMnemonic[index] = value;
 
           setMnemonic(newMnemonic);
@@ -208,7 +208,7 @@ export const ImportWallet: FC = () => {
           <Column style={[styles.wordsColumn, styles.marginRight]}>
             {wordsColumn1.map((_, index) => {
               const value = mnemonic[index];
-              const isSelectedInput = index !== selectedInputIndex;
+              const isSelectedInput = index === selectedInputIndex;
 
               return (
                 <View key={index} style={styles.inputContainer}>
