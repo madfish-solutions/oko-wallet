@@ -101,19 +101,22 @@ export const ImportWallet: FC = () => {
     return finalValue;
   };
 
-  const handlePasteMnemonicFromClipboard = useCallback(
-    (mnemonicProp: string) => {
-      const clipboardMnemonic = mnemonicProp.trim().split(' ');
-      const calculatedLength = predictMnemonicLength(clipboardMnemonic.length);
-      const filledMnemonic = maxWordsLength.map((emptyString, index) => clipboardMnemonic[index] ?? emptyString);
+  const handlePasteMnemonicFromClipboard = useCallback(() => {
+    Clipboard.getString().then(clipboardValue => {
+      const clipboardMnemonicTrim = clipboardValue.trim();
 
-      inputValueRef.current = filledMnemonic[selectedInputIndex ?? 0];
-      setWordsAmount(calculatedLength);
-      setSelectedInputIndex(null);
-      setMnemonic(filledMnemonic);
-    },
-    [selectedInputIndex]
-  );
+      if (isNotEmptyString(clipboardMnemonicTrim) && isDefined(clipboardMnemonicTrim)) {
+        const clipboardMnemonic = clipboardMnemonicTrim.split(' ');
+        const calculatedLength = predictMnemonicLength(clipboardMnemonic.length);
+        const filledMnemonic = maxWordsLength.map((emptyString, index) => clipboardMnemonic[index] ?? emptyString);
+
+        inputValueRef.current = filledMnemonic[selectedInputIndex ?? 0];
+        setWordsAmount(calculatedLength);
+        setSelectedInputIndex(null);
+        setMnemonic(filledMnemonic);
+      }
+    });
+  }, [selectedInputIndex]);
 
   const handleInputChange = useCallback(
     (value: string, index: number) => {
@@ -124,23 +127,13 @@ export const ImportWallet: FC = () => {
         setMnemonic(newMnemonic);
         inputValueRef.current = value;
       } else {
-        Clipboard.getString().then(clipboardValue => {
-          if (value.includes(clipboardValue) && isNotEmptyString(clipboardValue) && isDefined(clipboardValue)) {
-            handlePasteMnemonicFromClipboard(clipboardValue);
-          }
-        });
+        handlePasteMnemonicFromClipboard();
       }
     },
     [handlePasteMnemonicFromClipboard, mnemonic]
   );
 
-  const handlePaste = useCallback(() => {
-    Clipboard.getString().then(clipboardValue => {
-      if (isNotEmptyString(clipboardValue) && isDefined(clipboardValue)) {
-        handlePasteMnemonicFromClipboard(clipboardValue);
-      }
-    });
-  }, [handlePasteMnemonicFromClipboard]);
+  const handlePaste = useCallback(() => handlePasteMnemonicFromClipboard(), [handlePasteMnemonicFromClipboard]);
 
   const navigateToWordsAmountSelector = () =>
     navigate(ScreensEnum.WordsAmountSelector, {
