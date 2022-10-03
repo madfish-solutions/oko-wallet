@@ -3,13 +3,9 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { typography } from '../../styles/typography';
+import { isWeb } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
-  title: {
-    marginBottom: getCustomSize(0.5),
-    ...typography.captionInterRegular13,
-    color: colors.textGrey3
-  },
   wordsAmount: {
     justifyContent: 'space-between',
     marginBottom: getCustomSize()
@@ -30,7 +26,6 @@ export const styles = StyleSheet.create({
     ...typography.captionInterSemiBold13
   },
   mnemonicContainer: {
-    marginBottom: getCustomSize(2),
     paddingHorizontal: getCustomSize(0.75),
     paddingTop: getCustomSize(0.75),
     borderRadius: getCustomSize(),
@@ -52,14 +47,27 @@ export const styles = StyleSheet.create({
   },
   inputContainer: {
     position: 'relative',
-    backgroundColor: colors.navGrey1,
     height: getCustomSize(4.5),
+    width: '100%',
     marginBottom: getCustomSize(0.5)
   },
   mnemonicInput: {
     alignItems: 'center',
     height: getCustomSize(4.5),
-    width: '100%'
+    width: '100%',
+    color: colors.textGrey1,
+    paddingHorizontal: getCustomSize(4.5),
+    borderRadius: getCustomSize(0.5),
+    borderWidth: getCustomSize(0.125),
+    borderColor: colors.navGrey1,
+    backgroundColor: colors.navGrey1,
+    textAlign: 'center',
+    ...(isWeb && { outlineStyle: 'none' }),
+    ...(isWeb && { caretColor: colors.orange }),
+    overflow: 'hidden'
+  },
+  error: {
+    borderColor: colors.orange
   },
   wordIndex: {
     position: 'absolute',
@@ -68,8 +76,21 @@ export const styles = StyleSheet.create({
     color: colors.textGrey2,
     ...typography.bodyInterRegular15
   },
-  word: {
-    ...typography.bodyInterRegular15
+  layout: {
+    position: 'absolute',
+    left: getCustomSize(0.25),
+    right: getCustomSize(0.25),
+    top: getCustomSize(0.25),
+    bottom: getCustomSize(0.25),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.bgGrey2,
+    borderRadius: getCustomSize(0.25),
+    ...(isWeb && { cursor: 'pointer' })
+  },
+  layoutText: {
+    ...typography.taglineInterSemiBoldUppercase11,
+    color: colors.orange
   },
   buttonText: {
     ...typography.taglineInterSemiBoldUppercase13,
@@ -86,5 +107,10 @@ export const styles = StyleSheet.create({
   },
   buttonIcon: {
     marginRight: getCustomSize(0.5)
+  },
+  errorText: {
+    marginTop: getCustomSize(),
+    color: colors.red,
+    ...typography.captionInterRegular11
   }
 });

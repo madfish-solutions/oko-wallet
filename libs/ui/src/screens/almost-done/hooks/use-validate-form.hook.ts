@@ -1,4 +1,4 @@
-import { onlySpacesError, requiredFieldError } from '../../../../../constants/form-errors';
+import { onlySpacesError, requiredFieldError } from '../../../constants/form-errors';
 
 export const useValidateForm = (password: string) => {
   const checkName = (currentValue: string) => {
