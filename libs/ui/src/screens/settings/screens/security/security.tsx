@@ -11,50 +11,52 @@ import { ScreenScrollView } from '../../../../components/screen-components/scree
 import { Switch } from '../../../../components/switch/switch';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { setIsAnalyticsEnabled } from '../../../../store/settings/settings.actions';
-import { useAnalyticsEnabledSelector } from '../../../../store/settings/settings.selectors';
+import { setIsBiometricEnabled } from '../../../../store/settings/settings.actions';
+import { useBiometricEnabledSelector } from '../../../../store/settings/settings.selectors';
 import { getCustomSize } from '../../../../styles/format-size';
+import { isMobile } from '../../../../utils/platform.utils';
 import { ItemContainer } from '../../components/item-container/item-container';
 import { Item } from '../../components/item/item';
 import { styles } from '../../settings.styles';
 
-export const General: FC = () => {
-  const isAnalyticsEnabled = useAnalyticsEnabledSelector();
+export const Security: FC = () => {
   const dispatch = useDispatch();
   const { goBack, navigate } = useNavigation();
+  const isBiometricEnabled = useBiometricEnabledSelector();
 
-  const handleAnalyticsChange = () => dispatch(setIsAnalyticsEnabled(!isAnalyticsEnabled));
-  const navigateToCurrencySelector = () => navigate(ScreensEnum.SettingsCurrencySelector);
-  const navigateToAppearanceSelector = () => navigate(ScreensEnum.SettingsAppearanceSelector);
+  const navigateToLockTimeSelector = () => navigate(ScreensEnum.SettingsLockTimeSelector);
+  const handleBiometricChange = () => dispatch(setIsBiometricEnabled(!isBiometricEnabled));
 
   return (
     <ScreenContainer>
       <HeaderContainer isSelectors>
-        <ScreenTitle title="General" onBackButtonPress={goBack} />
+        <ScreenTitle title="Security" onBackButtonPress={goBack} />
       </HeaderContainer>
 
       <ScreenScrollView>
         <ItemContainer>
-          <Item title="Anonymous Analytics" onPress={handleAnalyticsChange} style={styles.itemWithSwitch}>
-            <Switch isActive={isAnalyticsEnabled} onPress={handleAnalyticsChange} triggerAnimation />
+          <Item title="Lock time(m)" onPress={navigateToLockTimeSelector} style={styles.itemWithDropDown}>
+            <DropdownSelectedItem title="1" onPress={navigateToLockTimeSelector} />
           </Item>
         </ItemContainer>
 
         <Divider size={getCustomSize(2)} />
 
         <ItemContainer>
-          <Item title="Currency" onPress={navigateToCurrencySelector} style={styles.itemWithDropDown}>
-            <DropdownSelectedItem title="USD" onPress={navigateToCurrencySelector} />
-          </Item>
+          <Item title="Change Password" />
         </ItemContainer>
 
-        <Divider size={getCustomSize(2)} />
+        {isMobile && (
+          <>
+            <Divider size={getCustomSize(2)} />
 
-        <ItemContainer>
-          <Item title="Appearance" onPress={navigateToAppearanceSelector} style={styles.itemWithDropDown}>
-            <DropdownSelectedItem title="Dark" onPress={navigateToAppearanceSelector} />
-          </Item>
-        </ItemContainer>
+            <ItemContainer>
+              <Item title="Biometric ID" onPress={handleBiometricChange} style={styles.itemWithSwitch}>
+                <Switch isActive={isBiometricEnabled} onPress={handleBiometricChange} triggerAnimation />
+              </Item>
+            </ItemContainer>
+          </>
+        )}
       </ScreenScrollView>
 
       <NavigationBar />

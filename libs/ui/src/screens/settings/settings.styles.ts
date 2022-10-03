@@ -50,5 +50,12 @@ export const styles = StyleSheet.create({
   logo: {
     marginTop: getCustomSize(5.25),
     alignItems: 'center'
+  },
+  itemWithSwitch: {
+    paddingRight: getCustomSize(1.75)
+  },
+  itemWithDropDown: {
+    paddingVertical: getCustomSize(0.75),
+    paddingRight: getCustomSize(0.75)
   }
 });

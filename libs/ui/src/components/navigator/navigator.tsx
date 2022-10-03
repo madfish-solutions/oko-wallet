@@ -36,8 +36,10 @@ import { Account as SettingsAccount } from '../../screens/settings/screens/accou
 import { AppearanceSelector as SettingsAppearanceSelector } from '../../screens/settings/screens/appearance-selector/appearance-selector';
 import { CurrencySelector as SettingsCurrencySelector } from '../../screens/settings/screens/currency-selector/currency-selector';
 import { General as SettingsGeneral } from '../../screens/settings/screens/general/general';
+import { LockTimeSelector as SettingsLockTimeSelector } from '../../screens/settings/screens/lock-time-selector/lock-time-selector';
 import { RevealPrivateKey as SettingsRevealPrivateKey } from '../../screens/settings/screens/reveal-private-key/reveal-private-key';
 import { RevealSeedPhrase as SettingsRevealSeedPhrase } from '../../screens/settings/screens/reveal-seed-phrase/reveal-seed-phrase';
+import { Security as SettingsSecurity } from '../../screens/settings/screens/security/security';
 import { Settings } from '../../screens/settings/settings';
 import { Token } from '../../screens/token/token';
 import { Tokens } from '../../screens/tokens/tokens';
@@ -101,6 +103,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.SettingsGeneral} component={SettingsGeneral} />
               <Stack.Screen name={ScreensEnum.SettingsRevealSeedPhrase} component={SettingsRevealSeedPhrase} />
               <Stack.Screen name={ScreensEnum.SettingsRevealPrivateKey} component={SettingsRevealPrivateKey} />
+              <Stack.Screen name={ScreensEnum.SettingsSecurity} component={SettingsSecurity} />
               <Stack.Screen name={ScreensEnum.Send} component={Send} />
               <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
               <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
@@ -182,6 +185,11 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.SettingsAppearanceSelector}
                 options={{ title: 'Appearance' }}
                 component={SettingsAppearanceSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SettingsLockTimeSelector}
+                options={{ title: 'Lock time' }}
+                component={SettingsLockTimeSelector}
               />
             </Stack.Group>
           </>

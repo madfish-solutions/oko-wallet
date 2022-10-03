@@ -44,7 +44,8 @@ export const Settings: FC = () => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
   const navigateToSettingsAccount = () => navigate(ScreensEnum.SettingsAccount);
-  const navigateToGeneral = () => navigate(ScreensEnum.SettingsGeneral);
+  const navigateToSettingsGeneral = () => navigate(ScreensEnum.SettingsGeneral);
+  const navigateToSettingsSecurity = () => navigate(ScreensEnum.SettingsSecurity);
   const onReset = () => dispatch(resetApplicationAction.submit());
   const goToMadFishSite = () => Linking.openURL(madFishUrl);
 
@@ -87,9 +88,9 @@ export const Settings: FC = () => {
             <Divider size={dividerSize} />
 
             <ItemContainer>
-              <Item title="General" icon={IconNameEnum.Slider} onPress={navigateToGeneral} />
+              <Item title="General" icon={IconNameEnum.Slider} onPress={navigateToSettingsGeneral} />
               <Divider size={getCustomSize(0.125)} style={styles.separator} />
-              <Item title="Security" icon={IconNameEnum.Security} />
+              <Item title="Security" icon={IconNameEnum.Security} onPress={navigateToSettingsSecurity} />
             </ItemContainer>
 
             <Divider size={dividerSize} />
