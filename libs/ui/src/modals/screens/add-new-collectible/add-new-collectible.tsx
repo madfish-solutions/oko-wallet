@@ -8,7 +8,6 @@ import { ScrollView, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { Announcement } from '../../../components/announcement/announcement';
-import { MessageType } from '../../../components/announcement/enum';
 import { CollectibleImage } from '../../../components/collectible-image/collectible-image';
 import { Column } from '../../../components/column/column';
 import { Icon } from '../../../components/icon/icon';
@@ -21,7 +20,7 @@ import { AccountTokenInput } from '../../../interfaces/token-input.interface';
 import { addNewCollectibleAction } from '../../../store/wallet/wallet.actions';
 import { useSelectedNetworkSelector, useAccountAssetsSelector } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
-import { formatImgUri } from '../../../utils/formatImgUri.util';
+import { formatUri } from '../../../utils/formatUrl.util';
 import { getDefaultEvmProvider } from '../../../utils/get-default-evm-provider.utils';
 import { isEvmAddressValid } from '../../../utils/is-evm-address-valid.util';
 import { getTokenSlug } from '../../../utils/token.utils';
@@ -56,7 +55,6 @@ export const AddNewCollectible: FC = () => {
 
   const [collectibleMetadata, setCollectibleMetadata] = useState<AccountTokenInput>(collectibleInitialMetadata);
   const [isLoadingMetadata, setIsLoadingMetadata] = useState(false);
-  const [errorState, setErrorState] = useState('');
 
   const {
     control,
@@ -79,7 +77,7 @@ export const AddNewCollectible: FC = () => {
 
   useEffect(() => {
     setCollectibleMetadata(collectibleInitialMetadata);
-  }, [errorState, watchAddressUrl, watchTokenId]);
+  }, [watchAddressUrl, watchTokenId]);
 
   const { addressUrlRules, commonRules } = useValidateAddNewCollectibleFields();
 
@@ -121,16 +119,18 @@ export const AddNewCollectible: FC = () => {
       ]).finally(() => {
         setIsLoadingMetadata(false);
       });
-      const metadata = await fetch(collectibleMetadataUrl)
-        .then(res => res.json())
-        .catch(() => ({ name: 'Unnamed NFT', image: '' }));
+      console.log('metadata', contractName, '/', symbol, '/', collectibleMetadataUrl);
 
       if (errors.tokenURI && errors.name) {
-        return setErrorState('Not correct address to selected network');
+        return setError('tokenAddress', { message: 'Not correct address to selected network' });
       } else if (errors.tokenURI) {
         return setError('tokenId', { message: 'Wrong Token ID' });
       }
       clearErrors();
+
+      const metadata = await fetch(formatUri(collectibleMetadataUrl))
+        .then(res => res.json())
+        .catch(() => ({ name: 'Unnamed NFT', image: '' }));
 
       setCollectibleMetadata(prev => ({
         ...prev,
@@ -149,8 +149,6 @@ export const AddNewCollectible: FC = () => {
       getEvmTokenMetadata(watchAddressUrl, watchTokenId);
       setIsLoadingMetadata(true);
     }
-
-    setErrorState('');
 
     return () => {
       getEvmTokenMetadata.cancel();
@@ -181,7 +179,7 @@ export const AddNewCollectible: FC = () => {
     <ModalActionContainer
       screenTitle="Add new NFT"
       submitTitle="Add"
-      isSubmitDisabled={Boolean(Object.keys(errors).length) || isLoadingMetadata || isNotEmptyString(errorState)}
+      isSubmitDisabled={Boolean(Object.keys(errors).length) || isLoadingMetadata}
       onSubmitPress={handleSubmit(onSubmit)}
       onCancelPress={goBack}
     >
@@ -213,25 +211,22 @@ export const AddNewCollectible: FC = () => {
           render={({ field }) => (
             <TextInput
               field={field}
-              label="Address ID"
+              label="Token ID"
               placeholder="0"
-              prompt="What is address ID?"
+              prompt="What is Token ID?"
               handlePrompt={handlePromptNavigate}
               error={errors?.tokenId?.message}
               containerStyle={styles.inputContainer}
             />
           )}
         />
-        {isNotEmptyString(errorState) && (
-          <Announcement text={errorState} type={MessageType.Error} style={styles.warning} />
-        )}
         <Column>
           <Text style={styles.collectibleName}>{collectibleMetadata.name || 'NFT name'}</Text>
           <Text style={styles.collectibleDescription}>Preview</Text>
           <View style={styles.imageSection}>
             <Icon name={IconNameEnum.NftLayout} size={COLLECTIBLE_SIZE} iconStyle={styles.layoutIcon} />
             <CollectibleImage
-              artifactUri={formatImgUri(collectibleMetadata.artifactUri)}
+              artifactUri={formatUri(collectibleMetadata.artifactUri)}
               size="100%"
               pixelShitSize={getCustomSize(5)}
               style={styles.imageContainer}

@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     marginBottom: getCustomSize(1.5)
   },
   warning: {
-    marginBottom: getCustomSize(2.5)
+    marginBottom: getCustomSize(2)
   },
   collectibleName: {
     marginBottom: getCustomSize(),
