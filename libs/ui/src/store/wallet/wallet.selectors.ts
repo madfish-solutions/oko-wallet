@@ -1,4 +1,3 @@
-import { isDefined } from '@rnw-community/shared';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { TokenMetadata } from 'src/interfaces/token-metadata.interface';
@@ -6,8 +5,7 @@ import { TokenMetadata } from 'src/interfaces/token-metadata.interface';
 import { GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
-import { TransactionStatusEnum } from '../../enums/transactions.enum';
-import { AccountInterface, Transaction } from '../../interfaces/account.interface';
+import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { Token } from '../../interfaces/token.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';
@@ -172,39 +170,6 @@ export const useIsAuthorisedSelector = () => {
   const accounts = useSelector<WalletRootState, AccountInterface[]>(({ wallet }) => wallet.accounts);
 
   return useMemo(() => accounts.length > 0, [accounts.length]);
-};
-
-export const usePendingTransactionsSelector = () => {
-  const transactions = useSelector<WalletRootState, Record<string, Transaction[]>>(({ wallet }) => wallet.transactions);
-  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
-  const selectedNetworkChainId = useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedNetworkChainId);
-
-  const accountTokensSlug = getAccountTokensSlug(selectedNetworkChainId, publicKeyHash);
-
-  return useMemo(
-    () =>
-      isDefined(transactions[accountTokensSlug])
-        ? transactions[accountTokensSlug].filter(tx => tx.status === TransactionStatusEnum.pending)
-        : [],
-    [transactions, selectedNetworkChainId, publicKeyHash]
-  );
-};
-
-export const useMintedTransactionsSelector = () => {
-  const transactions = useSelector<WalletRootState, Record<string, Transaction[]>>(({ wallet }) => wallet.transactions);
-
-  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
-  const selectedNetworkChainId = useSelector<WalletRootState, string>(({ wallet }) => wallet.selectedNetworkChainId);
-
-  const accountTokensSlug = getAccountTokensSlug(selectedNetworkChainId, publicKeyHash);
-
-  return useMemo(
-    () =>
-      isDefined(transactions[accountTokensSlug])
-        ? transactions[accountTokensSlug].filter(tx => tx.status === TransactionStatusEnum.applied)
-        : [],
-    [transactions, selectedNetworkChainId, publicKeyHash]
-  );
 };
 
 export const useTokenBalanceSelector = (tokenSlug: string): string => {

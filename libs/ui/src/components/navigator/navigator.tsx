@@ -33,6 +33,9 @@ import { SendConfirmation } from '../../screens/send-confirmation/send-confirmat
 import { AccountsSelector as SendAccountsSelector } from '../../screens/send/components/accounts-selector/accounts-selector';
 import { TokensSelector as SendTokensSelector } from '../../screens/send/components/tokens-selector/tokens-selector';
 import { Send } from '../../screens/send/send';
+import { Account as SettingsAccount } from '../../screens/settings/screens/account/account';
+import { RevealPrivateKey as SettingsRevealPrivateKey } from '../../screens/settings/screens/reveal-private-key/reveal-private-key';
+import { RevealSeedPhrase as SettingsRevealSeedPhrase } from '../../screens/settings/screens/reveal-seed-phrase/reveal-seed-phrase';
 import { Settings } from '../../screens/settings/settings';
 import { Token } from '../../screens/token/token';
 import { Tokens } from '../../screens/tokens/tokens';
@@ -93,6 +96,9 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
               <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
               <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
+              <Stack.Screen name={ScreensEnum.SettingsAccount} component={SettingsAccount} />
+              <Stack.Screen name={ScreensEnum.SettingsRevealSeedPhrase} component={SettingsRevealSeedPhrase} />
+              <Stack.Screen name={ScreensEnum.SettingsRevealPrivateKey} component={SettingsRevealPrivateKey} />
               <Stack.Screen name={ScreensEnum.Send} component={Send} />
               <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
               <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
