@@ -1,5 +1,4 @@
 export enum IconNameEnum {
-  AccountLogo = 'AccountLogo',
   Activity = 'Activity',
   Add = 'Add',
   AddChain = 'AddChain',
@@ -36,7 +35,7 @@ export enum IconNameEnum {
   Qrcode = 'Qrcode',
   Slider = 'Slider',
   Share = 'Share',
-  WidgetSettings = 'WidgetSettings',
+  GridSettings = 'GridSettings',
   SelectedCheckbox = 'SelectedCheckbox',
   SelectedSquareCheckbox = 'SelectedSquareCheckbox',
   EmptyCheckbox = 'EmptyCheckbox',
@@ -62,5 +61,19 @@ export enum IconNameEnum {
   NftCollectionLayout = 'NftCollectionLayout',
   NftLayout = 'NftLayout',
   TransparencyLayout = 'TransparencyLayout',
-  PixelShit = 'PixelShit'
+  PixelShit = 'PixelShit',
+  Maximize = 'Maximize',
+  ChevronRight = 'ChevronRight',
+  Security = 'Security',
+  DappConnect = 'DappConnect',
+  InfoRed = 'InfoRed',
+  Telegram = 'Telegram',
+  Twitter = 'Twitter',
+  Discord = 'Discord',
+  Reddit = 'Reddit',
+  Youtube = 'Youtube',
+  OutLink = 'OutLink',
+  MadWithLove = 'MadWithLove',
+  NewTab = 'NewTab',
+  See = 'See'
 }

@@ -1,4 +1,4 @@
-import { OnEventFn } from '@rnw-community/shared';
+import { OnEventFn, isDefined } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { GestureResponderEvent } from 'react-native';
 
@@ -12,14 +12,16 @@ import { styles } from './screen-title.styles';
 
 interface Props {
   title?: string;
-  onBackButtonPress: OnEventFn<GestureResponderEvent>;
+  onBackButtonPress?: OnEventFn<GestureResponderEvent>;
   numberOfLines?: number;
   titleStyle?: TextStyleProps;
 }
 
 export const ScreenTitle: FC<Props> = ({ title = 'Page', onBackButtonPress, numberOfLines = 1, titleStyle }) => (
   <Column style={styles.root}>
-    <TouchableIcon name={IconNameEnum.ArrowLeft} onPress={onBackButtonPress} style={styles.icon} />
+    {isDefined(onBackButtonPress) && (
+      <TouchableIcon name={IconNameEnum.ArrowLeft} onPress={onBackButtonPress} style={styles.icon} />
+    )}
     <Text style={[styles.title, titleStyle]} numberOfLines={numberOfLines} ellipsizeMode="tail">
       {title}
     </Text>
