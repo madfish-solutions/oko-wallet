@@ -18,6 +18,7 @@ import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
 import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
 import { Activity } from '../../screens/activity/activity';
+import { ChangePassword } from '../../screens/change-password/change-password';
 import { CollectiblesList } from '../../screens/collectibles/screens/collectibles-list/collectibles-list';
 import { SpecificCollectiblesList } from '../../screens/collectibles/screens/specific-collectibles-list/specific-collectibles-list';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
@@ -101,6 +102,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.CollectiblesList} component={CollectiblesList} />
               <Stack.Screen name={ScreensEnum.SpecificCollectiblesList} component={SpecificCollectiblesList} />
               <Stack.Screen name={ScreensEnum.Activity} component={Activity} />
+              <Stack.Screen name={ScreensEnum.ChangePassword} component={ChangePassword} />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptions}>

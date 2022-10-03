@@ -6,12 +6,16 @@ import { Shelter } from '../shelter/shelter';
 
 export const useUnlock = () => {
   const [isLocked, setIsLocked] = useState(() => Shelter.getIsLocked());
+  const [isPasswordMatch, setIsPasswordMatch] = useState(false);
 
   const unlock$ = useMemo(() => new Subject<string>(), []);
+  const changePassword$ = useMemo(() => new Subject<string[]>(), []);
 
   const unlock = useCallback((password: string) => unlock$.next(password), [unlock$]);
 
   const lock = useCallback(() => Shelter.lockApp(), []);
+
+  const changePassword = (password: string, oldPassword: string) => changePassword$.next([password, oldPassword]);
 
   useEffect(() => {
     const subscriptions = [
@@ -20,7 +24,14 @@ export const useUnlock = () => {
         if (result) {
           setIsLocked(false);
         }
-      })
+      }),
+      changePassword$
+        .pipe(switchMap(([password, oldPassword]) => Shelter.changePassword$(password, oldPassword)))
+        .subscribe(result => {
+          if (result) {
+            setIsPasswordMatch(true);
+          }
+        })
     ];
 
     return () => subscriptions.forEach(subscription => subscription.unsubscribe());
@@ -28,7 +39,9 @@ export const useUnlock = () => {
 
   return {
     isLocked,
+    isPasswordMatch,
     unlock,
-    lock
+    lock,
+    changePassword
   };
 };
