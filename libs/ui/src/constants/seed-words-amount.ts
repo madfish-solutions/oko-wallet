@@ -4,6 +4,8 @@ export interface SeedWordsAmount {
   value: number;
 }
 
+export const allMnemonicLengthValue = [12, 15, 18, 21, 24];
+
 export const words: SeedWordsAmount[] = [
   {
     id: 1,

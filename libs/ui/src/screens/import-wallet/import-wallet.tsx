@@ -21,7 +21,7 @@ import { Row } from '../../components/row/row';
 import { Text } from '../../components/text/text';
 import { WalletCreationContainer } from '../../components/wallet-creation-container/wallet-creation-container';
 import { SECURITY_TIME } from '../../constants/defaults';
-import { words } from '../../constants/seed-words-amount';
+import { allMnemonicLengthValue, words } from '../../constants/seed-words-amount';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { getCustomSize } from '../../styles/format-size';
@@ -72,33 +72,23 @@ export const ImportWallet: FC = () => {
 
   useEffect(() => {
     if (isDefined(routeParams)) {
-      setMnemonic(prev =>
-        prev.map((emptyField, index) => {
-          if (isDefined(mnemonic[index])) {
-            return mnemonic[index];
-          }
-
-          return emptyField;
-        })
-      );
+      setMnemonic(prev => prev.map((emptyField, index) => mnemonic[index] ?? emptyField));
     }
   }, [routeParams]);
 
   const predictMnemonicLength = (mnemonicLength: number) => {
-    const allMnemonicValues = [12, 15, 18, 21, 24];
-
-    const isCurrentLengthExist = allMnemonicValues.includes(mnemonicLength);
+    const isCurrentLengthExist = allMnemonicLengthValue.includes(mnemonicLength);
 
     if (isCurrentLengthExist) {
       return mnemonicLength;
     }
 
-    let finalValue = allMnemonicValues[0];
+    let finalValue = allMnemonicLengthValue[0];
     let i = 0;
 
-    while (i < allMnemonicValues.length) {
-      if (allMnemonicValues[i] > mnemonicLength) {
-        return (finalValue = allMnemonicValues[i]);
+    while (i < allMnemonicLengthValue.length) {
+      if (allMnemonicLengthValue[i] > mnemonicLength) {
+        return (finalValue = allMnemonicLengthValue[i]);
       }
       i++;
     }
@@ -106,8 +96,8 @@ export const ImportWallet: FC = () => {
     return finalValue;
   };
 
-  const handlePasteMnemonicFormClipboard = useCallback((value: string) => {
-    const clipboardMnemonic = value.trim().split(' ');
+  const handlePasteMnemonicFromClipboard = useCallback((mnemonicProp: string) => {
+    const clipboardMnemonic = mnemonicProp.trim().split(' ');
     const calculatedLength = predictMnemonicLength(clipboardMnemonic.length);
     const filledMnemonic = maxWordsLength.map((emptyString, index) => clipboardMnemonic[index] ?? emptyString);
 
@@ -120,7 +110,7 @@ export const ImportWallet: FC = () => {
     (value: string, index: number) => {
       Clipboard.getString().then(clipboardValue => {
         if (value.includes(clipboardValue) && isNotEmptyString(clipboardValue) && isDefined(clipboardValue)) {
-          handlePasteMnemonicFormClipboard(clipboardValue);
+          handlePasteMnemonicFromClipboard(clipboardValue);
         } else {
           const newMnemonic = mnemonic.slice();
           newMnemonic[index] = value;
@@ -129,16 +119,16 @@ export const ImportWallet: FC = () => {
         }
       });
     },
-    [handlePasteMnemonicFormClipboard, mnemonic]
+    [handlePasteMnemonicFromClipboard, mnemonic]
   );
 
   const handlePaste = useCallback(() => {
     Clipboard.getString().then(clipboardValue => {
       if (isNotEmptyString(clipboardValue) && isDefined(clipboardValue)) {
-        handlePasteMnemonicFormClipboard(clipboardValue);
+        handlePasteMnemonicFromClipboard(clipboardValue);
       }
     });
-  }, [handlePasteMnemonicFormClipboard]);
+  }, [handlePasteMnemonicFromClipboard]);
 
   const navigateToWordsAmountSelector = () =>
     navigate(ScreensEnum.WordsAmountSelector, {
@@ -216,30 +206,35 @@ export const ImportWallet: FC = () => {
       <Column style={styles.mnemonicContainer}>
         <Row style={styles.wordsWrapper}>
           <Column style={[styles.wordsColumn, styles.marginRight]}>
-            {wordsColumn1.map((_, index) => (
-              <View key={index} style={styles.inputContainer}>
-                <TextInput
-                  ref={el => (index === selectedInputIndex ? el?.focus() : null)}
-                  value={mnemonic[index]}
-                  onFocus={el => handleInputFocus(index, el)}
-                  onBlur={handleInputBlur}
-                  onChangeText={value => handleInputChange(value, index)}
-                  style={[styles.mnemonicInput, isSubmitted && !isNotEmptyString(mnemonic[index]) && styles.error]}
-                />
-                <Text selectable={false} style={styles.wordIndex}>{`${index + 1}.`}</Text>
-                {isNotEmptyString(mnemonic[index]) && isShowProtectLayout && index !== selectedInputIndex && (
-                  <Pressable onPress={() => handleShowLayout(index)} style={styles.layout}>
-                    <Text style={styles.layoutText}>Tap to reveal</Text>
-                  </Pressable>
-                )}
-              </View>
-            ))}
+            {wordsColumn1.map((_, index) => {
+              const value = mnemonic[index];
+              const isSelectedInput = index !== selectedInputIndex;
+
+              return (
+                <View key={index} style={styles.inputContainer}>
+                  <TextInput
+                    ref={el => (index === selectedInputIndex ? el?.focus() : null)}
+                    value={value}
+                    onFocus={el => handleInputFocus(index, el)}
+                    onBlur={handleInputBlur}
+                    onChangeText={value => handleInputChange(value, index)}
+                    style={[styles.mnemonicInput, isSubmitted && !isNotEmptyString(value) && styles.error]}
+                  />
+                  <Text selectable={false} style={styles.wordIndex}>{`${index + 1}.`}</Text>
+                  {isNotEmptyString(value) && isShowProtectLayout && !isSelectedInput && (
+                    <Pressable onPress={() => handleShowLayout(index)} style={styles.layout}>
+                      <Text style={styles.layoutText}>Tap to reveal</Text>
+                    </Pressable>
+                  )}
+                </View>
+              );
+            })}
           </Column>
           <Column style={styles.wordsColumn}>
             {wordsColumn2.map((_, index) => {
               const countIndex = Math.ceil(index + 1 + wordsAmount / 2);
               const value = mnemonic[countIndex - 1];
-              const iSelectedInput = selectedInputIndex === countIndex - 1;
+              const isSelectedInput = selectedInputIndex === countIndex - 1;
 
               return (
                 <View key={countIndex} style={styles.inputContainer}>
@@ -254,7 +249,7 @@ export const ImportWallet: FC = () => {
                   <Text selectable={false} style={styles.wordIndex}>
                     {`${countIndex}.`}
                   </Text>
-                  {isNotEmptyString(value) && isShowProtectLayout && !iSelectedInput && (
+                  {isNotEmptyString(value) && isShowProtectLayout && !isSelectedInput && (
                     <Pressable onPress={() => handleShowLayout(countIndex - 1)} style={styles.layout}>
                       <Text style={styles.layoutText}>Tap to reveal</Text>
                     </Pressable>

@@ -126,7 +126,7 @@ export const CreateANewWallet: FC = () => {
       <WarningMessageDropdown checkIsOpenDropdownState={setIsOpenWarningDropdown} style={styles.warning} />
 
       <Row style={styles.wordsAmount}>
-        <Text style={styles.amountWordsText}>Amount Words</Text>
+        <Text style={styles.amountWordsText}>Mnemonic Length</Text>
 
         <Pressable onPress={navigateToWordsAmountSelector}>
           <Row style={styles.wordsSelector}>
