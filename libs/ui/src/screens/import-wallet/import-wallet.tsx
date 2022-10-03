@@ -46,6 +46,7 @@ export const ImportWallet: FC = () => {
 
   const scrollViewRef = useRef<ScrollView>(null);
   const focusInputRef = useRef<TextInput | null>(null);
+  const inputValueRef = useRef<string>('');
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
@@ -63,6 +64,10 @@ export const ImportWallet: FC = () => {
   useEffect(() => {
     setError('');
   }, [mnemonic]);
+
+  useEffect(() => {
+    inputValueRef.current = mnemonic[selectedInputIndex ?? 0];
+  }, [selectedInputIndex]);
 
   useEffect(() => {
     if (isDefined(routeParams)) {
@@ -96,28 +101,35 @@ export const ImportWallet: FC = () => {
     return finalValue;
   };
 
-  const handlePasteMnemonicFromClipboard = useCallback((mnemonicProp: string) => {
-    const clipboardMnemonic = mnemonicProp.trim().split(' ');
-    const calculatedLength = predictMnemonicLength(clipboardMnemonic.length);
-    const filledMnemonic = maxWordsLength.map((emptyString, index) => clipboardMnemonic[index] ?? emptyString);
+  const handlePasteMnemonicFromClipboard = useCallback(
+    (mnemonicProp: string) => {
+      const clipboardMnemonic = mnemonicProp.trim().split(' ');
+      const calculatedLength = predictMnemonicLength(clipboardMnemonic.length);
+      const filledMnemonic = maxWordsLength.map((emptyString, index) => clipboardMnemonic[index] ?? emptyString);
 
-    setWordsAmount(calculatedLength);
-    setSelectedInputIndex(null);
-    setMnemonic(filledMnemonic);
-  }, []);
+      inputValueRef.current = filledMnemonic[selectedInputIndex ?? 0];
+      setWordsAmount(calculatedLength);
+      setSelectedInputIndex(null);
+      setMnemonic(filledMnemonic);
+    },
+    [selectedInputIndex]
+  );
 
   const handleInputChange = useCallback(
     (value: string, index: number) => {
-      Clipboard.getString().then(clipboardValue => {
-        if (value.includes(clipboardValue) && isNotEmptyString(clipboardValue) && isDefined(clipboardValue)) {
-          handlePasteMnemonicFromClipboard(clipboardValue);
-        } else {
-          const newMnemonic = [...mnemonic];
-          newMnemonic[index] = value;
+      if (value.length === inputValueRef.current.length + 1 || value.length < inputValueRef.current.length) {
+        const newMnemonic = [...mnemonic];
+        newMnemonic[index] = value;
 
-          setMnemonic(newMnemonic);
-        }
-      });
+        setMnemonic(newMnemonic);
+        inputValueRef.current = value;
+      } else {
+        Clipboard.getString().then(clipboardValue => {
+          if (value.includes(clipboardValue) && isNotEmptyString(clipboardValue) && isDefined(clipboardValue)) {
+            handlePasteMnemonicFromClipboard(clipboardValue);
+          }
+        });
+      }
     },
     [handlePasteMnemonicFromClipboard, mnemonic]
   );
