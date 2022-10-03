@@ -8,13 +8,14 @@ import { styles } from './screen-scroll-view.styles';
 
 interface Props {
   style?: ViewStyleProps;
+  contentContainerStyle?: ViewStyleProps;
 }
 
-export const ScreenScrollView: FC<Props> = ({ style, children }) => {
+export const ScreenScrollView: FC<Props> = ({ style, contentContainerStyle, children }) => {
   const { isLocked } = useUnlock();
 
   return (
-    <ScrollView scrollEventThrottle={10} scrollEnabled={!isLocked}>
+    <ScrollView scrollEventThrottle={10} scrollEnabled={!isLocked} contentContainerStyle={contentContainerStyle}>
       <View style={[styles.content, style]}>{children}</View>
     </ScrollView>
   );
