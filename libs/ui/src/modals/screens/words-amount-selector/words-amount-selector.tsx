@@ -24,7 +24,7 @@ export const WordsAmountSelector: FC = () => {
       <Dropdown
         description="Choose the length of the seed phrase (number of words)"
         options={words}
-        onSelect={option => handleSetWordsAmount(option)}
+        onSelect={handleSetWordsAmount}
         selectedId={routeParams?.wordsAmount.id}
       />
     </ModalContainer>
