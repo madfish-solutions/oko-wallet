@@ -1,11 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import { ethers } from 'ethers';
-import debounce from 'lodash/debounce';
-import React, { FC, useEffect, useState, useRef } from 'react';
+import React, { FC, useEffect, useState, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ScrollView, View } from 'react-native';
 import { useDispatch } from 'react-redux';
+import { Subject, switchMap } from 'rxjs';
+import { filter, debounceTime, tap } from 'rxjs/operators';
 
 import { Announcement } from '../../../components/announcement/announcement';
 import { CollectibleImage } from '../../../components/collectible-image/collectible-image';
@@ -22,7 +23,6 @@ import { useSelectedNetworkSelector, useAccountAssetsSelector } from '../../../s
 import { getCustomSize } from '../../../styles/format-size';
 import { formatUri } from '../../../utils/formatUrl.util';
 import { getDefaultEvmProvider } from '../../../utils/get-default-evm-provider.utils';
-import { isEvmAddressValid } from '../../../utils/is-evm-address-valid.util';
 import { getTokenSlug } from '../../../utils/token.utils';
 import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';
 
@@ -61,99 +61,99 @@ export const AddNewCollectible: FC = () => {
     handleSubmit,
     watch,
     setError,
-    clearErrors,
     formState: { errors }
   } = useForm<AddNewCollectibleFormTypes>({
     mode: 'onChange',
     defaultValues
   });
 
-  const watchAddressUrl = watch('tokenAddress');
+  const watchTokenAddress = watch('tokenAddress');
   const watchTokenId = watch('tokenId');
 
   useEffect(() => {
-    clearErrors('tokenAddress');
-  }, [watchTokenId]);
-
-  useEffect(() => {
     setCollectibleMetadata(collectibleInitialMetadata);
-  }, [watchAddressUrl, watchTokenId]);
+  }, [watchTokenAddress, watchTokenId]);
 
   const { addressUrlRules, commonRules } = useValidateAddNewCollectibleFields();
 
-  const getEvmTokenMetadata = useRef(
-    debounce(async (tokenAddress: string, tokenId: string) => {
-      const provider = getDefaultEvmProvider(rpcUrl);
-      const contract = new ethers.Contract(tokenAddress, EVM_COLLECTIBLES_METADATA_ABI, provider);
-      const errors = {
-        name: false,
-        tokenURI: false
-      };
-
-      const [contractName, symbol, collectibleMetadataUrl] = await Promise.all([
-        contract
-          .name()
-          .then((res: string) => {
-            errors.name = false;
-
-            return res;
-          })
-          .catch((err: Error) => {
-            console.log('Error with get collection name:', err);
-            errors.name = true;
-          }),
-        contract.symbol().catch((err: Error) => {
-          console.log('Error with get symbol:', err);
-        }),
-        contract
-          .tokenURI(tokenId)
-          .then((res: unknown) => {
-            errors.tokenURI = false;
-
-            return res;
-          })
-          .catch((err: Error) => {
-            console.log('Error with get nft metadata-url:', err);
-            errors.tokenURI = true;
-          })
-      ]).finally(() => {
-        setIsLoadingMetadata(false);
-      });
-      console.log('metadata', contractName, '/', symbol, '/', collectibleMetadataUrl);
-
-      if (errors.tokenURI && errors.name) {
-        return setError('tokenAddress', { message: 'Not correct address to selected network' });
-      } else if (errors.tokenURI) {
-        return setError('tokenId', { message: 'Wrong Token ID' });
-      }
-      clearErrors();
-
-      const metadata = await fetch(formatUri(collectibleMetadataUrl))
-        .then(res => res.json())
-        .catch(() => ({ name: 'Unnamed NFT', image: '' }));
-
-      setCollectibleMetadata(prev => ({
-        ...prev,
-        tokenAddress,
-        tokenId,
-        name: metadata.name,
-        symbol: symbol ?? 'Unnamed NFT',
-        contractName: contractName ?? 'Collection',
-        artifactUri: metadata.image
-      }));
-    }, DEBOUNCE_TIME)
-  ).current;
+  const formUpdate$ = useMemo(() => new Subject<{ tokenAddress: string; tokenId?: string; isErrors: boolean }>(), []);
 
   useEffect(() => {
-    if (isEvmAddressValid(watchAddressUrl) && isNotEmptyString(watchTokenId)) {
-      getEvmTokenMetadata(watchAddressUrl, watchTokenId);
-      setIsLoadingMetadata(true);
-    }
+    formUpdate$.next({
+      tokenAddress: watchTokenAddress,
+      tokenId: watchTokenId,
+      isErrors: Object.keys(errors).length > 0
+    });
+  }, [watchTokenAddress, watchTokenId, Object.keys(errors).length]);
 
-    return () => {
-      getEvmTokenMetadata.cancel();
-    };
-  }, [getEvmTokenMetadata, watchAddressUrl, watchTokenId]);
+  useEffect(() => {
+    const subscription = formUpdate$
+      .pipe(
+        debounceTime(DEBOUNCE_TIME),
+        filter(
+          ({ tokenAddress, tokenId, isErrors }) =>
+            isNotEmptyString(tokenAddress) && isNotEmptyString(tokenId) && !isErrors
+        ),
+        tap(() => setIsLoadingMetadata(true)),
+        switchMap(({ tokenAddress, tokenId }) => {
+          const provider = getDefaultEvmProvider(rpcUrl);
+          const contract = new ethers.Contract(tokenAddress, EVM_COLLECTIBLES_METADATA_ABI, provider);
+
+          return Promise.all([
+            Promise.resolve(tokenAddress),
+            Promise.resolve(tokenId),
+            contract.name().catch(() => undefined),
+            contract.symbol().catch(() => undefined),
+            contract.tokenURI(tokenId).catch(() => undefined)
+          ]);
+        }),
+        filter(([, , contractName, symbol, collectibleMetadataUrl]) => {
+          if (!isDefined(contractName) && !isDefined(symbol)) {
+            setError('tokenAddress', { message: 'Not correct address to selected network' });
+            setIsLoadingMetadata(false);
+
+            return false;
+          } else if (!isDefined(collectibleMetadataUrl)) {
+            setError('tokenId', { message: 'Unable to load metadata for this Token Id' });
+            setIsLoadingMetadata(false);
+
+            return false;
+          }
+
+          return true;
+        }),
+        switchMap(([tokenAddress, tokenId, contractName, symbol, collectibleMetadataUrl]) => {
+          const baseMetadata = {
+            tokenAddress,
+            tokenId,
+            symbol: symbol ?? 'Unnamed NFT',
+            contractName: contractName ?? 'Collection'
+          };
+
+          return fetch(formatUri(collectibleMetadataUrl))
+            .then(res => res.json())
+            .then(metadata => ({
+              ...baseMetadata,
+              name: metadata.name,
+              artifactUri: metadata.image
+            }))
+            .catch(() => ({
+              ...baseMetadata,
+              name: 'Unnamed NFT',
+              artifactUri: ''
+            }));
+        }),
+        tap(() => setIsLoadingMetadata(false))
+      )
+      .subscribe(metadata => {
+        setCollectibleMetadata(prev => ({
+          ...prev,
+          ...metadata
+        }));
+      });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const onSubmit = (fields: AddNewCollectibleFormTypes) => {
     const currentToken = accountTokens.find(
@@ -177,7 +177,7 @@ export const AddNewCollectible: FC = () => {
 
   return (
     <ModalActionContainer
-      screenTitle="Add new NFT"
+      screenTitle="Add new Collectible"
       submitTitle="Add"
       isSubmitDisabled={Boolean(Object.keys(errors).length) || isLoadingMetadata}
       onSubmitPress={handleSubmit(onSubmit)}
@@ -185,7 +185,7 @@ export const AddNewCollectible: FC = () => {
     >
       <ScrollView style={styles.root}>
         <Announcement
-          text="If NFT is part of a collection - it will be displayed inside the collection"
+          text="If Collectible is part of a collection - it will be displayed inside the collection"
           style={styles.warning}
         />
         <Controller
@@ -197,7 +197,7 @@ export const AddNewCollectible: FC = () => {
               field={field}
               label="Address"
               placeholder="Address"
-              prompt="How to get NFT Address?"
+              prompt="How to get Token Address?"
               handlePrompt={handlePromptNavigate}
               error={errors?.tokenAddress?.message}
               containerStyle={styles.inputContainer}
@@ -221,7 +221,7 @@ export const AddNewCollectible: FC = () => {
           )}
         />
         <Column>
-          <Text style={styles.collectibleName}>{collectibleMetadata.name || 'NFT name'}</Text>
+          <Text style={styles.collectibleName}>{collectibleMetadata.name || 'Collectible name'}</Text>
           <Text style={styles.collectibleDescription}>Preview</Text>
           <View style={styles.imageSection}>
             <Icon name={IconNameEnum.NftLayout} size={COLLECTIBLE_SIZE} iconStyle={styles.layoutIcon} />

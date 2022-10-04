@@ -173,7 +173,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.EditToken} options={{ title: 'Edit token' }} component={EditToken} />
               <Stack.Screen
                 name={ScreensEnum.AddNewCollectible}
-                options={{ title: 'Add new NFT' }}
+                options={{ title: 'Add new Collectible' }}
                 component={AddNewCollectible}
               />
             </Stack.Group>
