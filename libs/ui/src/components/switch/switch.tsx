@@ -43,13 +43,8 @@ export const Switch: FC<Props> = ({
   const knobPosition = useRef(new Animated.Value(initialPosition)).current;
 
   const switchKnob = () => {
-    if (isActive) {
-      animation();
-      onPress?.();
-    } else {
-      animation(TURN_ON);
-      onPress?.();
-    }
+    animation(isActive ? TURN_OFF : TURN_ON);
+    onPress?.();
 
     hapticFeedback();
   };
@@ -67,11 +62,7 @@ export const Switch: FC<Props> = ({
       return;
     }
 
-    if (!isActive) {
-      animation();
-    } else {
-      animation(TURN_ON);
-    }
+    animation(isActive ? TURN_ON : TURN_OFF);
 
     hapticFeedback();
   }, [isActive, triggerAnimation]);
