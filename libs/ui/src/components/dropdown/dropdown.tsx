@@ -32,11 +32,10 @@ export const Dropdown = <OptionType,>({ description, selectedId, onSelect, optio
           {options.map(({ id, title, value }) => (
             <Pressable key={id} onPress={() => onSelect({ id, title, value })} style={styles.item}>
               <Text style={styles.title}>{title}</Text>
-              {(selectedId ?? options[0].id) === id ? (
-                <Icon name={IconNameEnum.SelectedCheckbox} />
-              ) : (
-                <Icon name={IconNameEnum.EmptyCheckbox} />
-              )}
+
+              <Icon
+                name={(selectedId ?? options[0].id) === id ? IconNameEnum.SelectedCheckbox : IconNameEnum.EmptyCheckbox}
+              />
             </Pressable>
           ))}
         </Column>
