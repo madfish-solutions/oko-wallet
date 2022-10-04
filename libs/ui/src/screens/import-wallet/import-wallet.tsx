@@ -29,7 +29,7 @@ import { formatMnemonic } from '../../utils/format-mnemonic.util';
 
 import { styles } from './import-wallet.styles';
 
-const maxWordsLength = Array(24).fill('');
+const maxWordsLength = Array(words.slice(-1)[0].value).fill('');
 
 export const ImportWallet: FC = () => {
   const { params: routeParams } = useRoute<RouteProp<ScreensParamList, ScreensEnum.CreateANewWallet>>();
