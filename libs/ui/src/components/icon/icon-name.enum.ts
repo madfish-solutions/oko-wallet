@@ -74,5 +74,6 @@ export enum IconNameEnum {
   OutLink = 'OutLink',
   MadWithLove = 'MadWithLove',
   NewTab = 'NewTab',
-  See = 'See'
+  See = 'See',
+  WalletLogoPlaceholder = 'WalletLogoPlaceholder'
 }

@@ -21,6 +21,7 @@ export enum ScreensEnum {
   SettingsAppearanceSelector = 'SettingsAppearanceSelector',
   SettingsSecurity = 'SettingsSecurity',
   SettingsLockTimeSelector = 'SettingsLockTimeSelector',
+  SettingsAboutUs = 'SettingsAboutUs',
   Wallet = 'Wallet',
   ConnectToDapps = 'ConnectToDapps',
   Unlock = 'unlock',
@@ -65,6 +66,7 @@ export type ScreensParamList = {
   [ScreensEnum.SettingsAppearanceSelector]: undefined;
   [ScreensEnum.SettingsSecurity]: undefined;
   [ScreensEnum.SettingsLockTimeSelector]: undefined;
+  [ScreensEnum.SettingsAboutUs]: undefined;
   [ScreensEnum.Wallet]: undefined;
   [ScreensEnum.ConnectToDapps]: undefined;
   [ScreensEnum.Unlock]: undefined;

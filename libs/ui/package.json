@@ -45,6 +45,7 @@
     "react": "^17.0.2",
     "react-hook-form": "^7.33.1",
     "react-native": "^0.68.1",
+    "react-native-device-info": "^10.2.0",
     "react-native-flipper": "^0.144.0",
     "react-native-gesture-handler": "^2.5.0",
     "react-native-haptic-feedback": "^1.14.0",

@@ -25,11 +25,6 @@ export const styles = StyleSheet.create({
     marginRight: getCustomSize(),
     borderRadius: getCustomSize(1.03125)
   },
-  separator: {
-    backgroundColor: colors.bgGrey3,
-    width: '100%',
-    marginLeft: getCustomSize(2)
-  },
   socialMedia: {
     paddingVertical: getCustomSize(),
     paddingLeft: getCustomSize(3.5),
@@ -48,8 +43,7 @@ export const styles = StyleSheet.create({
     marginLeft: getCustomSize(0.5)
   },
   logo: {
-    marginTop: getCustomSize(5.25),
-    alignItems: 'center'
+    marginTop: getCustomSize(5.25)
   },
   itemWithSwitch: {
     paddingRight: getCustomSize(1.75)

@@ -5611,6 +5611,11 @@ react-native-crypto@^2.1.0:
     public-encrypt "^4.0.0"
     randomfill "^1.0.3"
 
+react-native-device-info@^10.2.0:
+  version "10.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-10.2.0.tgz#be17a1b86cabbe53f4adde96b662204784d3cefd"
+  integrity sha512-7VycjFGaLKIZLDwCxSK5cWZdDOGqz3QxdGF57B/a4bW3gkrUFa5Gf0v7fUR9YL/VBJM0UwDiDH7pR9hkMQt+vw==
+
 react-native-flipper@^0.144.0:
   version "0.144.0"
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.144.0.tgz#a2fbc746a8b515850e2886af46a12a3b42f1731a"

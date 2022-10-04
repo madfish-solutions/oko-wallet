@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { View, Linking } from 'react-native';
+import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { Divider } from '../../components/divider/divider';
@@ -31,7 +31,8 @@ import { isIOS, isMaximiseScreen, isWeb } from '../../utils/platform.utils';
 import EasterEgg from './assets/easter-egg.svg';
 import { ItemContainer } from './components/item-container/item-container';
 import { Item } from './components/item/item';
-import { madFishUrl } from './constants';
+import { MadFishLogo } from './components/mad-fish-logo/mad-fish-logo';
+import { Separator } from './components/separator/separator';
 import { styles } from './settings.styles';
 
 const dividerSize = getCustomSize(2);
@@ -46,8 +47,8 @@ export const Settings: FC = () => {
   const navigateToSettingsAccount = () => navigate(ScreensEnum.SettingsAccount);
   const navigateToSettingsGeneral = () => navigate(ScreensEnum.SettingsGeneral);
   const navigateToSettingsSecurity = () => navigate(ScreensEnum.SettingsSecurity);
+  const navigateToSettingsAboutUs = () => navigate(ScreensEnum.SettingsAboutUs);
   const onReset = () => dispatch(resetApplicationAction.submit());
-  const goToMadFishSite = () => Linking.openURL(madFishUrl);
 
   return (
     <ScreenContainer>
@@ -89,7 +90,7 @@ export const Settings: FC = () => {
 
             <ItemContainer>
               <Item title="General" icon={IconNameEnum.Slider} onPress={navigateToSettingsGeneral} />
-              <Divider size={getCustomSize(0.125)} style={styles.separator} />
+              <Separator />
               <Item title="Security" icon={IconNameEnum.Security} onPress={navigateToSettingsSecurity} />
             </ItemContainer>
 
@@ -102,8 +103,8 @@ export const Settings: FC = () => {
             <Divider size={dividerSize} />
 
             <ItemContainer>
-              <Item title="About us" icon={IconNameEnum.InfoRed} />
-              <Divider size={getCustomSize(0.125)} style={styles.separator} />
+              <Item title="About us" icon={IconNameEnum.InfoRed} onPress={navigateToSettingsAboutUs} />
+              <Separator />
               <Row style={styles.socialMedia}>
                 <TouchableIcon size={socialIconSize} name={IconNameEnum.Telegram} />
                 <TouchableIcon size={socialIconSize} name={IconNameEnum.Twitter} />
@@ -123,14 +124,7 @@ export const Settings: FC = () => {
             </View>
           </View>
 
-          <View style={styles.logo}>
-            <TouchableIcon
-              width={getCustomSize(13.75)}
-              height={getCustomSize(5)}
-              name={IconNameEnum.MadWithLove}
-              onPress={goToMadFishSite}
-            />
-          </View>
+          <MadFishLogo style={styles.logo} />
         </View>
       </ScreenScrollView>
 
