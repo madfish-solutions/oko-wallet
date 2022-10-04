@@ -95,33 +95,10 @@ export const AddNewCollectible: FC = () => {
             isNotEmptyString(tokenAddress) && isNotEmptyString(tokenId) && !isErrors
         ),
         tap(() => setIsLoadingMetadata(true)),
-        switchMap(({ tokenAddress, tokenId }) => {
-          const provider = getDefaultEvmProvider(rpcUrl);
-          const contract = new ethers.Contract(tokenAddress, EVM_COLLECTIBLES_METADATA_ABI, provider);
-
-          return Promise.all([
-            Promise.resolve(tokenAddress),
-            Promise.resolve(tokenId),
-            contract.name().catch(() => undefined),
-            contract.symbol().catch(() => undefined),
-            contract.tokenURI(tokenId).catch(() => undefined)
-          ]);
-        }),
-        filter(([, , contractName, symbol, collectibleMetadataUrl]) => {
-          if (!isDefined(contractName) && !isDefined(symbol)) {
-            setError('tokenAddress', { message: 'Not correct address to selected network' });
-            setIsLoadingMetadata(false);
-
-            return false;
-          } else if (!isDefined(collectibleMetadataUrl)) {
-            setError('tokenId', { message: 'Unable to load metadata for this Token Id' });
-            setIsLoadingMetadata(false);
-
-            return false;
-          }
-
-          return true;
-        }),
+        switchMap(({ tokenAddress, tokenId }) => fetchDataFromProvider(tokenAddress, tokenId)),
+        filter(([, , contractName, symbol, collectibleMetadataUrl]) =>
+          isErrorsExist(contractName, symbol, collectibleMetadataUrl)
+        ),
         switchMap(([tokenAddress, tokenId, contractName, symbol, collectibleMetadataUrl]) => {
           const baseMetadata = {
             tokenAddress,
@@ -154,6 +131,35 @@ export const AddNewCollectible: FC = () => {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  const fetchDataFromProvider = (tokenAddress: string, tokenId?: string) => {
+    const provider = getDefaultEvmProvider(rpcUrl);
+    const contract = new ethers.Contract(tokenAddress, EVM_COLLECTIBLES_METADATA_ABI, provider);
+
+    return Promise.all([
+      Promise.resolve(tokenAddress),
+      Promise.resolve(tokenId),
+      contract.name().catch(() => undefined),
+      contract.symbol().catch(() => undefined),
+      contract.tokenURI(tokenId).catch(() => undefined)
+    ]);
+  };
+
+  const isErrorsExist = (contractName: string, symbol: string, collectibleMetadataUrl: string) => {
+    if (!isDefined(contractName) && !isDefined(symbol)) {
+      setError('tokenAddress', { message: 'Not correct address to selected network' });
+      setIsLoadingMetadata(false);
+
+      return false;
+    } else if (!isDefined(collectibleMetadataUrl)) {
+      setError('tokenId', { message: 'Unable to load metadata for this Token Id' });
+      setIsLoadingMetadata(false);
+
+      return false;
+    }
+
+    return true;
+  };
 
   const onSubmit = (fields: AddNewCollectibleFormTypes) => {
     const currentToken = accountTokens.find(
