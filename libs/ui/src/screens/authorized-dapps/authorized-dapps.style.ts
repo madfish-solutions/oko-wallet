@@ -8,9 +8,6 @@ export const styles = StyleSheet.create({
   root: {
     paddingHorizontal: getCustomSize(2)
   },
-  flatlist: {
-    flex: 1
-  },
   amount: {
     ...typography.numbersIBMPlexSansMedium20
   },
@@ -18,11 +15,14 @@ export const styles = StyleSheet.create({
     borderRadius: getCustomSize(2),
     borderWidth: getCustomSize(0.25),
     borderColor: colors.bgGrey2,
-    marginBottom: getCustomSize(2)
+    marginBottom: getCustomSize(2),
+    marginHorizontal: getCustomSize(2),
+    flex: 1
   },
   icon: {
     margin: getCustomSize(),
-    padding: getCustomSize(0.5)
+    padding: getCustomSize(0.5),
+    backgroundColor: 'transparent'
   },
   explorerLink: {
     maxWidth: getCustomSize(26.5),
@@ -46,12 +46,15 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.orange,
     marginTop: getCustomSize(10),
     marginBottom: getCustomSize(9),
-    marginHorizontal: getCustomSize(10.5),
-    borderRadius: getCustomSize(1.75)
+    borderRadius: getCustomSize(1.75),
+    alignSelf: 'center',
+    paddingHorizontal: getCustomSize(1.375)
   },
   exploreText: {
-    paddingHorizontal: getCustomSize(1.5),
-    paddingVertical: getCustomSize(),
+    paddingVertical: getCustomSize(0.875),
     ...typography.taglineInterSemiBoldUppercase13
+  },
+  emptyIcon: {
+    top: -90
   }
 });

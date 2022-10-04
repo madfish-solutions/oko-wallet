@@ -396,16 +396,21 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
 
     return { ...state, transactions: { ...state.transactions, [accountTokensSlug]: updatedAccountTransactions } };
   });
-  builder.addCase(setConfirmedDappAction, (state, { payload: { dappName, id } }) => ({
-    ...state,
-    confirmedEVMDappConnection: {
-      ...state.confirmedEVMDappConnection,
-      [dappName]: { dappName, id }
-    }
-  }));
-  builder.addCase(deleteConfirmedDappAction, (state, { payload }) => {
+  builder.addCase(setConfirmedDappAction, (state, { payload: { dappName, id } }) => {
+    const dappSlug = getAccountTokensSlug(dappName, state.selectedAccountPublicKeyHash);
+
+    return {
+      ...state,
+      confirmedEVMDappConnection: {
+        ...state.confirmedEVMDappConnection,
+        [dappSlug]: { dappName, id }
+      }
+    };
+  });
+  builder.addCase(deleteConfirmedDappAction, (state, { payload: dappName }) => {
     const newConfirmedDapp = { ...state.confirmedEVMDappConnection };
-    delete newConfirmedDapp[payload];
+    const dappSlug = getAccountTokensSlug(dappName, state.selectedAccountPublicKeyHash);
+    delete newConfirmedDapp[dappSlug];
 
     return {
       ...state,

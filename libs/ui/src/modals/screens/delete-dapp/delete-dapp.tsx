@@ -41,7 +41,7 @@ export const DeleteDapp: FC = () => {
           {eraseProtocol(dappName)}
         </Text>
         <Text style={styles.label}>Are you sure?</Text>
-        <Text style={styles.text}>You wanna remove connection with this Dapp, Confirm it?</Text>
+        <Text style={styles.text}>You wanna remove connection with this DApp, Confirm it?</Text>
       </View>
     </ModalActionContainer>
   );
