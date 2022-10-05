@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
-import { View, Linking } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { View } from 'react-native';
 
 import { Divider } from '../../components/divider/divider';
 import { IconWithBorderEnum } from '../../components/icon-with-border/enums';
@@ -19,11 +18,7 @@ import { Text } from '../../components/text/text';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
-import { resetApplicationAction } from '../../store/root-state.actions';
-import {
-  useSelectedAccountPublicKeyHashSelector,
-  useSelectedAccountSelector
-} from '../../store/wallet/wallet.selectors';
+import { useSelectedAccountPublicKeyHashSelector } from '../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../styles/format-size';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 import { isIOS, isMaximiseScreen, isWeb } from '../../utils/platform.utils';
@@ -31,22 +26,22 @@ import { isIOS, isMaximiseScreen, isWeb } from '../../utils/platform.utils';
 import EasterEgg from './assets/easter-egg.svg';
 import { ItemContainer } from './components/item-container/item-container';
 import { Item } from './components/item/item';
-import { madFishUrl } from './constants';
+import { MadFishLogo } from './components/mad-fish-logo/mad-fish-logo';
+import { Separator } from './components/separator/separator';
 import { styles } from './settings.styles';
 
 const dividerSize = getCustomSize(2);
 const socialIconSize = getCustomSize(4);
 
 export const Settings: FC = () => {
-  const dispatch = useDispatch();
   const { navigate } = useNavigation();
-  const { name } = useSelectedAccountSelector();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
   const navigateToSettingsAccount = () => navigate(ScreensEnum.SettingsAccount);
-  const navigateToChangePassword = () => navigate(ScreensEnum.ChangePassword);
-  const onReset = () => dispatch(resetApplicationAction.submit());
-  const goToMadFishSite = () => Linking.openURL(madFishUrl);
+  const navigateToSettingsGeneral = () => navigate(ScreensEnum.SettingsGeneral);
+  const navigateToSettingsSecurity = () => navigate(ScreensEnum.SettingsSecurity);
+  const navigateToSettingsAboutUs = () => navigate(ScreensEnum.SettingsAboutUs);
+  const navigateToSettingsResetWalletConfirm = () => navigate(ScreensEnum.SettingsResetWalletConfirm);
 
   return (
     <ScreenContainer>
@@ -79,7 +74,7 @@ export const Settings: FC = () => {
                     <RobotIcon seed={publicKeyHash} size={getCustomSize(1.8)} />
                   </IconWithBorder>
                 }
-                title={name}
+                title="Accounts Settings"
                 onPress={navigateToSettingsAccount}
               />
             </ItemContainer>
@@ -87,9 +82,9 @@ export const Settings: FC = () => {
             <Divider size={dividerSize} />
 
             <ItemContainer>
-              <Item title="General" icon={IconNameEnum.Slider} />
-              <Divider size={getCustomSize(0.125)} style={styles.separator} />
-              <Item title="Security" icon={IconNameEnum.Security} onPress={navigateToChangePassword} />
+              <Item title="General" icon={IconNameEnum.Slider} onPress={navigateToSettingsGeneral} />
+              <Separator />
+              <Item title="Security" icon={IconNameEnum.Security} onPress={navigateToSettingsSecurity} />
             </ItemContainer>
 
             <Divider size={dividerSize} />
@@ -101,8 +96,8 @@ export const Settings: FC = () => {
             <Divider size={dividerSize} />
 
             <ItemContainer>
-              <Item title="About us" icon={IconNameEnum.InfoRed} />
-              <Divider size={getCustomSize(0.125)} style={styles.separator} />
+              <Item title="About us" icon={IconNameEnum.InfoRed} onPress={navigateToSettingsAboutUs} />
+              <Separator />
               <Row style={styles.socialMedia}>
                 <TouchableIcon size={socialIconSize} name={IconNameEnum.Telegram} />
                 <TouchableIcon size={socialIconSize} name={IconNameEnum.Twitter} />
@@ -113,7 +108,7 @@ export const Settings: FC = () => {
             </ItemContainer>
 
             <View style={styles.resetContainer}>
-              <Pressable onPress={onReset}>
+              <Pressable onPress={navigateToSettingsResetWalletConfirm}>
                 <Row>
                   <Text style={styles.resetText}>Reset wallet</Text>
                   <Icon name={IconNameEnum.Out} iconStyle={styles.outIcon} />
@@ -122,14 +117,7 @@ export const Settings: FC = () => {
             </View>
           </View>
 
-          <View style={styles.logo}>
-            <TouchableIcon
-              width={getCustomSize(13.75)}
-              height={getCustomSize(5)}
-              name={IconNameEnum.MadWithLove}
-              onPress={goToMadFishSite}
-            />
-          </View>
+          <MadFishLogo style={styles.logo} />
         </View>
       </ScreenScrollView>
 

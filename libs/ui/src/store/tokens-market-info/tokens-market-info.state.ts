@@ -11,6 +11,6 @@ export interface TokensMarketInfoState {
   tokensPriceInfo: Record<string, TokenPriceInfo>;
 }
 
-export const TokensMarketInfoInitialState: TokensMarketInfoState = {
+export const tokensMarketInfoInitialState: TokensMarketInfoState = {
   tokensPriceInfo: {}
 };
