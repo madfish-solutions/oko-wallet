@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { typography } from '../../styles/typography';
+import { isMobile } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {
@@ -50,17 +51,13 @@ export const styles = StyleSheet.create({
   noValid: {
     color: colors.red
   },
-  checkbox: {
-    marginBottom: getCustomSize(3)
-  },
-  text: {
-    ...typography.captionInterSemiBold11,
-    color: colors.textGrey2
-  },
-  sendButton: {
-    margin: getCustomSize(2)
-  },
   label: {
     marginBottom: getCustomSize(1.25)
+  },
+  saveButtonContainer: {
+    height: getCustomSize(5),
+    marginTop: getCustomSize(2),
+    marginBottom: isMobile ? getCustomSize(4) : getCustomSize(2),
+    paddingHorizontal: getCustomSize(2)
   }
 });

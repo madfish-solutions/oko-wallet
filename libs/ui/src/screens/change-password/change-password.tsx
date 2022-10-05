@@ -1,7 +1,7 @@
-import { isDefined, isNotEmptyString } from '@rnw-community/shared';
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { isDefined } from '@rnw-community/shared';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { Button } from '../../components/button/button';
 import { ButtonThemesEnum } from '../../components/button/enums';
@@ -17,12 +17,7 @@ import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useToast } from '../../hooks/use-toast.hook';
 import { useUnlock } from '../../hooks/use-unlock.hook';
-import { passwordValidationInitialState } from '../create-wallet/screens/almost-done/constants/password-validation-messages';
-import {
-  lettersNumbersMixtureRegx,
-  specialCharacterRegx,
-  uppercaseLowercaseMixtureRegx
-} from '../create-wallet/screens/almost-done/constants/regex-validation';
+import { useValidationMessages } from '../../hooks/use-validation-messages.hook';
 import { useValidateForm } from '../create-wallet/screens/almost-done/hooks/use-validate-form.hook';
 
 import { styles } from './change-password.styles';
@@ -38,16 +33,14 @@ export const ChangePassword: FC = () => {
   const [isSecurePassword, setIsSecurePassword] = useState(true);
   const [isSecureOldPassword, setIsSecureOldPassword] = useState(true);
   const [isSecureConfirmPassword, setIsSecureConfirmPassword] = useState(true);
-  const [passwordValidationMessages, setPasswordValidationMessages] = useState(passwordValidationInitialState);
   const [passwordMatchError, setPasswordMatchError] = useState<string>();
-  const { isPasswordMatch, changePassword } = useUnlock();
+  const { isPasswordMatch, changePassword, passwordAttempts } = useUnlock();
   const { showSuccessToast } = useToast();
 
   const handleTogglePasswordVisibility = () => setIsSecurePassword(prev => !prev);
   const handleToggleOldPasswordVisibility = () => setIsSecureOldPassword(prev => !prev);
   const handleToggleConfirmPasswordVisibility = () => setIsSecureConfirmPassword(prev => !prev);
   const defaultValues = {
-    name: 'Account 1',
     password: '',
     confirmPassword: '',
     oldPassword: ''
@@ -56,11 +49,15 @@ export const ChangePassword: FC = () => {
     control,
     handleSubmit,
     watch,
-    formState: { errors, dirtyFields, isDirty, isSubmitted, submitCount }
+    formState: { errors, dirtyFields, isDirty, isSubmitted }
   } = useForm<ChangePasswordType>({
     mode: 'onChange',
     defaultValues
   });
+
+  const password = watch('password');
+
+  const { passwordValidationMessages } = useValidationMessages(password, dirtyFields);
 
   const passwordIsNoValid = useMemo(
     () =>
@@ -70,81 +67,32 @@ export const ChangePassword: FC = () => {
     [passwordValidationMessages, dirtyFields.password]
   );
 
-  const password = watch('password');
-  //const oldPassword = watch('oldPassword');
-
-  const updateValidationMessageState = useCallback(
-    (id: number, valid: boolean) =>
-      setPasswordValidationMessages(prev =>
-        prev.map(item => {
-          if (item.id === id) {
-            return {
-              ...item,
-              valid
-            };
-          }
-
-          return item;
-        })
-      ),
-    []
-  );
-
-  useEffect(() => {
-    if (!isNotEmptyString(password)) {
-      setPasswordValidationMessages(passwordValidationInitialState);
-    }
-
-    if (isDefined(dirtyFields.password)) {
-      // check password length
-      if (password.trim().length < 8 || password.trim().length > 30) {
-        updateValidationMessageState(1, false);
-      } else if (isNotEmptyString(password)) {
-        updateValidationMessageState(1, true);
-      }
-
-      // check mix uppercase and lowercase letters
-      if (!uppercaseLowercaseMixtureRegx.test(password)) {
-        updateValidationMessageState(2, false);
-      } else {
-        updateValidationMessageState(2, true);
-      }
-
-      // check mix of letters and numbers
-      if (!lettersNumbersMixtureRegx.test(password)) {
-        updateValidationMessageState(3, false);
-      } else if (isNotEmptyString(password)) {
-        updateValidationMessageState(3, true);
-      }
-
-      // check special character
-      if (!specialCharacterRegx.test(password)) {
-        updateValidationMessageState(4, false);
-      } else if (isNotEmptyString(password)) {
-        updateValidationMessageState(4, true);
-      }
-    }
-  }, [dirtyFields.password, password, updateValidationMessageState]);
-
   const { commonRules, changePasswordRules } = useValidateForm(password);
 
   const handleChangePassword = ({ password, oldPassword }: ChangePasswordType) => {
-    changePassword(password, oldPassword);
+    if (!passwordIsNoValid) {
+      changePassword(password, oldPassword);
+    }
   };
 
   useEffect(() => {
-    if (!isPasswordMatch && isDirty) {
-      setPasswordMatchError('wrong password');
-    } else {
-      setPasswordMatchError(undefined);
-      if (isPasswordMatch) {
-        showSuccessToast('Password was successfully changed');
-        goBack();
-      }
+    if (isPasswordMatch) {
+      showSuccessToast('Password was successfully changed');
+      goBack();
     }
-  }, [isPasswordMatch, submitCount]);
+  }, [isPasswordMatch]);
+
+  useEffect(() => {
+    if (isDirty && !passwordIsNoValid && !isPasswordMatch) {
+      setPasswordMatchError('wrong password');
+    }
+  }, [passwordAttempts]);
 
   const isValidationError = (Object.keys(errors).length > 0 || Boolean(passwordMatchError)) && isSubmitted;
+
+  const onFocusOldPassword = () => {
+    setPasswordMatchError(undefined);
+  };
 
   return (
     <ScreenContainer>
@@ -167,7 +115,7 @@ export const ChangePassword: FC = () => {
                   containerStyle={styles.input}
                   clearIconStyles={styles.clearIcon}
                   error={passwordMatchError}
-                  onFocus={() => setPasswordMatchError(undefined)}
+                  onFocus={onFocusOldPassword}
                   labelStyle={styles.label}
                 />
                 {isSecureOldPassword ? (
@@ -209,19 +157,12 @@ export const ChangePassword: FC = () => {
                   }
                   labelStyle={styles.label}
                 />
-                {isSecurePassword ? (
-                  <TouchableIcon
-                    name={IconNameEnum.EyeOpen}
-                    onPress={handleTogglePasswordVisibility}
-                    iconStyle={styles.eyeIcon}
-                  />
-                ) : (
-                  <TouchableIcon
-                    name={IconNameEnum.EyeClosed}
-                    onPress={handleTogglePasswordVisibility}
-                    iconStyle={styles.eyeIcon}
-                  />
-                )}
+
+                <TouchableIcon
+                  name={isSecurePassword ? IconNameEnum.EyeOpen : IconNameEnum.EyeClosed}
+                  onPress={handleTogglePasswordVisibility}
+                  iconStyle={styles.eyeIcon}
+                />
               </Row>
 
               <Column style={styles.passwordValidationContainer}>
@@ -256,30 +197,24 @@ export const ChangePassword: FC = () => {
                 clearIconStyles={styles.clearIcon}
                 labelStyle={styles.label}
               />
-              {isSecureConfirmPassword ? (
-                <TouchableIcon
-                  name={IconNameEnum.EyeOpen}
-                  onPress={handleToggleConfirmPasswordVisibility}
-                  iconStyle={styles.eyeIcon}
-                />
-              ) : (
-                <TouchableIcon
-                  name={IconNameEnum.EyeClosed}
-                  onPress={handleToggleConfirmPasswordVisibility}
-                  iconStyle={styles.eyeIcon}
-                />
-              )}
+
+              <TouchableIcon
+                name={isSecureConfirmPassword ? IconNameEnum.EyeOpen : IconNameEnum.EyeClosed}
+                onPress={handleToggleConfirmPasswordVisibility}
+                iconStyle={styles.eyeIcon}
+              />
             </Row>
           )}
         />
       </ScrollView>
-      <Button
-        title="SAVE"
-        theme={ButtonThemesEnum.Secondary}
-        onPress={handleSubmit(handleChangePassword)}
-        disabled={isValidationError}
-        style={styles.sendButton}
-      />
+      <View style={styles.saveButtonContainer}>
+        <Button
+          title="SAVE"
+          theme={ButtonThemesEnum.Secondary}
+          onPress={handleSubmit(handleChangePassword)}
+          disabled={isValidationError}
+        />
+      </View>
     </ScreenContainer>
   );
 };

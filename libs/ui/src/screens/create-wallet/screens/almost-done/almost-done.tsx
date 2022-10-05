@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { isDefined, isNotEmptyString } from '@rnw-community/shared';
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { isDefined } from '@rnw-community/shared';
+import React, { FC, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { TouchableOpacity } from 'react-native';
 
@@ -13,16 +13,11 @@ import { Text } from '../../../../components/text/text';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
+import { useValidationMessages } from '../../../../hooks/use-validation-messages.hook';
 import { isMobile } from '../../../../utils/platform.utils';
 import { Container } from '../../components/container/container';
 
 import { styles } from './almost-done.styles';
-import { passwordValidationInitialState } from './constants/password-validation-messages';
-import {
-  lettersNumbersMixtureRegx,
-  specialCharacterRegx,
-  uppercaseLowercaseMixtureRegx
-} from './constants/regex-validation';
 import { useValidateForm } from './hooks/use-validate-form.hook';
 import { CreateAccountType } from './types';
 
@@ -44,7 +39,6 @@ export const AlmostDone: FC = () => {
   const [isUseFaceId, setIsUseFaceId] = useState(false);
   const [isAcceptTerms, setIsAcceptTerms] = useState(false);
   const [isAllowUseAnalytics, setIsAllowUseAnalytics] = useState(true);
-  const [passwordValidationMessages, setPasswordValidationMessages] = useState(passwordValidationInitialState);
 
   const {
     control,
@@ -58,6 +52,8 @@ export const AlmostDone: FC = () => {
 
   const password = watch('password');
 
+  const { passwordValidationMessages } = useValidationMessages(password, dirtyFields);
+
   const passwordIsNoValid = useMemo(
     () =>
       (passwordValidationMessages.some(({ valid, optional }) => !valid && !isDefined(optional)) &&
@@ -65,59 +61,6 @@ export const AlmostDone: FC = () => {
       false,
     [passwordValidationMessages, dirtyFields.password]
   );
-
-  const updateValidationMessageState = useCallback(
-    (id: number, valid: boolean) =>
-      setPasswordValidationMessages(prev =>
-        prev.map(item => {
-          if (item.id === id) {
-            return {
-              ...item,
-              valid
-            };
-          }
-
-          return item;
-        })
-      ),
-    []
-  );
-
-  useEffect(() => {
-    if (!isNotEmptyString(password)) {
-      setPasswordValidationMessages(passwordValidationInitialState);
-    }
-
-    if (isDefined(dirtyFields.password)) {
-      // check password length
-      if (password.trim().length < 8 || password.trim().length > 30) {
-        updateValidationMessageState(1, false);
-      } else if (isNotEmptyString(password)) {
-        updateValidationMessageState(1, true);
-      }
-
-      // check mix uppercase and lowercase letters
-      if (!uppercaseLowercaseMixtureRegx.test(password)) {
-        updateValidationMessageState(2, false);
-      } else {
-        updateValidationMessageState(2, true);
-      }
-
-      // check mix of letters and numbers
-      if (!lettersNumbersMixtureRegx.test(password)) {
-        updateValidationMessageState(3, false);
-      } else if (isNotEmptyString(password)) {
-        updateValidationMessageState(3, true);
-      }
-
-      // check special character
-      if (!specialCharacterRegx.test(password)) {
-        updateValidationMessageState(4, false);
-      } else if (isNotEmptyString(password)) {
-        updateValidationMessageState(4, true);
-      }
-    }
-  }, [dirtyFields.password, password, updateValidationMessageState]);
 
   const { commonRules, nameRules, confirmPasswordRules } = useValidateForm(password);
 

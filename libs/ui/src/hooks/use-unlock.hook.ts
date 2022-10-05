@@ -7,6 +7,7 @@ import { Shelter } from '../shelter/shelter';
 export const useUnlock = () => {
   const [isLocked, setIsLocked] = useState(() => Shelter.getIsLocked());
   const [isPasswordMatch, setIsPasswordMatch] = useState(false);
+  const [passwordAttempts, setPasswordAttempts] = useState(0);
 
   const unlock$ = useMemo(() => new Subject<string>(), []);
   const changePassword$ = useMemo(() => new Subject<string[]>(), []);
@@ -31,6 +32,7 @@ export const useUnlock = () => {
           if (result) {
             setIsPasswordMatch(true);
           }
+          setPasswordAttempts(prev => prev + 1);
         })
     ];
 
@@ -40,6 +42,7 @@ export const useUnlock = () => {
   return {
     isLocked,
     isPasswordMatch,
+    passwordAttempts,
     unlock,
     lock,
     changePassword
