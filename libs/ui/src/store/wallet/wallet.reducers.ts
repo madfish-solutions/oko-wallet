@@ -31,7 +31,8 @@ import {
   editTokenAction,
   sortAccountTokensByVisibility,
   addNewTokensAction,
-  getAllUserNftAction
+  getAllUserNftAction,
+  addNewCollectibleAction
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -203,7 +204,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
             tokenAddress: nft.contract_id,
             tokenId: nft.inner_id,
             isVisible: true,
-            balance: createEntity('0')
+            balance: createEntity(nft.amount.toString())
           });
         }
 
@@ -218,7 +219,6 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         if (!isDefined(state.tokensMetadata[tokenMetadataSlug])) {
           currentAcc[tokenMetadataSlug] = {
             name: isNotEmptyString(nft.name) ? nft.name : 'Unnamed NFT',
-            amount: nft.amount,
             collectionId: nft.collection_id,
             contractName: isNotEmptyString(nft.contract_name) ? nft.contract_name : 'Unnamed Collection',
             decimals: 0,
@@ -238,6 +238,36 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         tokensMetadata: {
           ...state.tokensMetadata,
           ...tokensMetadata
+        }
+      };
+    })
+    .addCase(addNewCollectibleAction, (state, { payload: newCollectible }) => {
+      const { selectedAccountPublicKeyHash, selectedNetworkChainId } = state;
+      const { tokenAddress, tokenId, ...tokenMetadata } = newCollectible;
+      const tokenMetadataSlug = getTokenMetadataSlug(selectedNetworkChainId, tokenAddress, tokenId);
+      const accountTokensSlug = getAccountTokensSlug(selectedNetworkChainId, selectedAccountPublicKeyHash);
+
+      const prevAccountTokens = isDefined(state.accountsTokens[accountTokensSlug])
+        ? state.accountsTokens[accountTokensSlug]
+        : [];
+
+      return {
+        ...state,
+        tokensMetadata: {
+          ...state.tokensMetadata,
+          [tokenMetadataSlug]: tokenMetadata
+        },
+        accountsTokens: {
+          ...state.accountsTokens,
+          [accountTokensSlug]: [
+            ...prevAccountTokens,
+            {
+              tokenId,
+              tokenAddress,
+              isVisible: true,
+              balance: createEntity('0')
+            }
+          ]
         }
       };
     })

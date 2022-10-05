@@ -45,6 +45,7 @@ export enum ScreensEnum {
   Token = 'Token',
   CollectiblesList = 'CollectiblesList',
   SpecificCollectiblesList = 'SpecificCollectiblesList',
+  AddNewCollectible = 'AddNewCollectible',
   Collectible = 'Collectible'
 }
 
@@ -91,6 +92,7 @@ export type ScreensParamList = {
   [ScreensEnum.Token]: { token: Token };
   [ScreensEnum.CollectiblesList]: undefined;
   [ScreensEnum.CollectiblesList]: undefined;
-  [ScreensEnum.SpecificCollectiblesList]: { collectibles: Token[] };
+  [ScreensEnum.SpecificCollectiblesList]: { collectionName: string };
+  [ScreensEnum.AddNewCollectible]: undefined;
   [ScreensEnum.Collectible]: { collectible: Token };
 };

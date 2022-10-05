@@ -6,7 +6,7 @@ export const SINGLE_NFTS_KEY = 'single_nfts';
 export const CHAINS_JSON = 'https://chainid.network/chains.json';
 
 // debounce time in milliseconds
-export const DEBOUNCE_TIME = 500;
+export const DEBOUNCE_TIME = 300;
 
 export const GAS_TOKEN_ADDRESS = 'gas_token_address';
 
@@ -19,3 +19,5 @@ export const DEBANK_HEADERS = {
   'Content-Type': 'application/json',
   AccessKey: MY_ACCESS_KEY
 };
+
+export const EXTENSION_WIDTH = 360;

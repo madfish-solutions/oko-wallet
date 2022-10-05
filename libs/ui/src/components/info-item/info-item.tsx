@@ -2,13 +2,13 @@ import { isDefined } from '@rnw-community/shared';
 import React, { FC, ReactNode, useMemo } from 'react';
 import { Linking, Pressable } from 'react-native';
 
-import { Icon } from '../../../../../../components/icon/icon';
-import { IconNameEnum } from '../../../../../../components/icon/icon-name.enum';
-import { Row } from '../../../../../../components/row/row';
-import { Text } from '../../../../../../components/text/text';
-import { TouchableIcon } from '../../../../../../components/touchable-icon/touchable-icon';
+import { Icon } from '../icon/icon';
+import { IconNameEnum } from '../icon/icon-name.enum';
+import { Row } from '../row/row';
+import { Text } from '../text/text';
+import { TouchableIcon } from '../touchable-icon/touchable-icon';
 
-import { styles } from './item.styles';
+import { styles } from './info-item.styles';
 
 interface Props {
   name: string;
@@ -16,7 +16,7 @@ interface Props {
   prompt: string | null;
 }
 
-export const Item: FC<Props> = ({ name, value, prompt }) => {
+export const InfoItem: FC<Props> = ({ name, value, prompt }) => {
   const promptNavigate = () => {
     if (isDefined(prompt)) {
       return Linking.openURL(prompt);
