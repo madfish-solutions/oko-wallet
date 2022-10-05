@@ -28,7 +28,7 @@ export const ActivityList: FC<Props> = ({
 }) => {
   const { explorerUrl } = useSelectedNetworkSelector();
   const { symbol: tokenSymbol, fetchTokenSymbol } = useTokenInfo(tokenId, chainName);
-  const onBlockchainExplorerPress = () => Linking.openURL(`${explorerUrl}tx/${hash}`);
+  const onBlockchainExplorerPress = () => Linking.openURL(`${explorerUrl}/tx/${hash}`);
 
   useEffect(() => {
     fetchTokenSymbol();

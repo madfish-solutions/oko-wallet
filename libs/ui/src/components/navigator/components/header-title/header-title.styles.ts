@@ -27,6 +27,7 @@ export const styles = StyleSheet.create({
   title: {
     color: colors.textGrey1,
     marginLeft: 'auto',
+    textAlign: 'center',
     ...typography.bodyInterRegular15
   },
   closeButton: {

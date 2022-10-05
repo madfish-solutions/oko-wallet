@@ -39,7 +39,8 @@ export enum ScreensEnum {
   CollectiblesList = 'CollectiblesList',
   SpecificCollectiblesList = 'SpecificCollectiblesList',
   Collectible = 'Collectible',
-  ChangePassword = 'ChangePassword'
+  ChangePassword = 'ChangePassword',
+  AddNewCollectible = 'AddNewCollectible'
 }
 
 export type ScreensParamList = {
@@ -78,7 +79,8 @@ export type ScreensParamList = {
   [ScreensEnum.Token]: { token: Token };
   [ScreensEnum.CollectiblesList]: undefined;
   [ScreensEnum.CollectiblesList]: undefined;
-  [ScreensEnum.SpecificCollectiblesList]: { collectibles: Token[] };
+  [ScreensEnum.SpecificCollectiblesList]: { collectionName: string };
+  [ScreensEnum.AddNewCollectible]: undefined;
   [ScreensEnum.Collectible]: { collectible: Token };
   [ScreensEnum.ChangePassword]: undefined;
 };

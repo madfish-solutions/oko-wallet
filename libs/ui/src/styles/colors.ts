@@ -5,7 +5,9 @@ const backgroundColors = {
   bgGrey4: '#1D2129',
   bgGrey5: '#2F3031',
   bgBrown: '#ED3D2514',
-  bgTransparentYellow: 'rgba(214, 167, 0, 0.08)'
+  bgTransparentYellow: 'rgba(214, 167, 0, 0.08)',
+  bgTransparentGreen: 'rgba(20, 186, 48, 0.08)',
+  bgTransparentRed: 'rgba(204, 37, 0, 0.08)'
 };
 
 const navigationColors = {

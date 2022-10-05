@@ -6,8 +6,7 @@ export const styles = StyleSheet.create({
   root: {
     position: 'relative',
     alignItems: 'center',
-    justifyContent: 'center',
-    maxHeight: getCustomSize(37.5)
+    justifyContent: 'center'
   },
   imageContainer: {
     alignItems: 'center',
