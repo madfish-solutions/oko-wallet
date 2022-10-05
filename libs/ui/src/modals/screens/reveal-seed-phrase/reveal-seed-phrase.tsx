@@ -2,12 +2,12 @@ import React, { FC, useState } from 'react';
 import { ScrollView } from 'react-native';
 import { map } from 'rxjs';
 
+import { Announcement } from '../../../components/announcement/announcement';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { MnemonicActionButton } from '../../../components/mnemonic-action-button/mnemonic-action-button';
 import { Mnemonic } from '../../../components/mnemonic/mnemonic';
 import { NavigationBar } from '../../../components/navigation-bar/navigation-bar';
 import { Text } from '../../../components/text/text';
-import { Warning } from '../../../components/warning/warning';
 import { Shelter } from '../../../shelter/shelter';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
@@ -32,7 +32,7 @@ export const RevealSeedPhrase: FC = () => {
   return (
     <ModalContainer screenTitle="Reveal Seed phrase">
       <ScrollView style={styles.root}>
-        <Warning text="Never share seed phrase with third persons" style={styles.warning} />
+        <Announcement text="Never share seed phrase with third persons" style={styles.warning} />
         <Text style={styles.title}>Seed Phrase</Text>
         <Text style={styles.description}>Here you can reveal your Seed Phrase</Text>
         <Mnemonic mnemonic={seedPhrase} isShowProtectLayout={isShowProtectLayout} handleHideLayout={handleHideLayout}>
