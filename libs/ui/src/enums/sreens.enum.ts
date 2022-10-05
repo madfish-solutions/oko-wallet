@@ -14,8 +14,8 @@ export enum ScreensEnum {
   SendConfirmation = 'SendConfirmation',
   Settings = 'Settings',
   SettingsAccount = 'SettingsAccount',
-  SettingsRevealPrivateKey = 'SettingsRevealPrivateKey',
-  SettingsRevealSeedPhrase = 'SettingsRevealSeedPhrase',
+  RevealPrivateKey = 'RevealPrivateKey',
+  RevealSeedPhrase = 'RevealSeedPhrase',
   Wallet = 'Wallet',
   ConnectToDapps = 'ConnectToDapps',
   Unlock = 'unlock',
@@ -53,8 +53,8 @@ export type ScreensParamList = {
   };
   [ScreensEnum.Settings]: undefined;
   [ScreensEnum.SettingsAccount]: undefined;
-  [ScreensEnum.SettingsRevealPrivateKey]: undefined;
-  [ScreensEnum.SettingsRevealSeedPhrase]: undefined;
+  [ScreensEnum.RevealPrivateKey]: undefined;
+  [ScreensEnum.RevealSeedPhrase]: undefined;
   [ScreensEnum.Wallet]: undefined;
   [ScreensEnum.ConnectToDapps]: undefined;
   [ScreensEnum.Unlock]: undefined;

@@ -2,12 +2,14 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { isDefined } from '@rnw-community/shared';
 import { generateMnemonic as generateMnemonicLib } from 'bip39';
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { Pressable, TouchableOpacity, View } from 'react-native';
+import { Pressable } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { Column } from '../../../../components/column/column';
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
+import { MnemonicActionButton } from '../../../../components/mnemonic-action-button/mnemonic-action-button';
+import { Mnemonic } from '../../../../components/mnemonic/mnemonic';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 import { SECURITY_TIME } from '../../../../constants/defaults';
@@ -110,11 +112,6 @@ export const CreateANewWallet: FC = () => {
     }
   }, [isOpenWarningDropdown]);
 
-  const [wordsColumn1, wordsColumn2] = [
-    mnemonic.slice(0, Math.round(mnemonic.length / 2)),
-    mnemonic.slice(-(mnemonic.length / 2))
-  ];
-
   return (
     <Container
       title="Create A New Wallet"
@@ -136,51 +133,10 @@ export const CreateANewWallet: FC = () => {
         </Pressable>
       </Row>
 
-      <Column style={styles.mnemonicContainer}>
-        <Row style={styles.wordsWrapper}>
-          {isShowProtectLayout && (
-            <Pressable onPress={handleHideLayout} style={styles.layout}>
-              <View style={styles.layoutBlock} />
-              <Text style={styles.layoutText}>Tap to reveal</Text>
-            </Pressable>
-          )}
-
-          <Column style={[styles.wordsColumn, styles.marginRight]}>
-            {wordsColumn1.map((word, index) => (
-              <View key={`${word}_${index}`} style={styles.mnemonicItem}>
-                <Text selectable={false} style={styles.wordIndex}>{`${index + 1}.`}</Text>
-                <Text selectable={false} style={styles.word}>
-                  {word}
-                </Text>
-              </View>
-            ))}
-          </Column>
-          <Column style={styles.wordsColumn}>
-            {wordsColumn2.map((word, index) => (
-              <View key={`${word}_${index}`} style={styles.mnemonicItem}>
-                <Text selectable={false} style={styles.wordIndex}>{`${Math.round(
-                  index + 1 + mnemonic.length / 2
-                )}.`}</Text>
-                <Text selectable={false} style={styles.word}>
-                  {word}
-                </Text>
-              </View>
-            ))}
-          </Column>
-        </Row>
-
-        <Row style={styles.buttons}>
-          <TouchableOpacity onPress={generateNewMnemonic} style={[styles.button, styles.buttonMarginRight]}>
-            <Icon name={IconNameEnum.Refresh} iconStyle={styles.buttonIcon} />
-            <Text style={styles.buttonText}>Generate New</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={handleCopyMnemonic} style={styles.button}>
-            <Icon name={IconNameEnum.Copy} iconStyle={styles.buttonIcon} />
-            <Text style={styles.buttonText}>Copy</Text>
-          </TouchableOpacity>
-        </Row>
-      </Column>
+      <Mnemonic mnemonic={mnemonic} isShowProtectLayout={isShowProtectLayout} handleHideLayout={handleHideLayout}>
+        <MnemonicActionButton onPress={generateNewMnemonic} iconName={IconNameEnum.Refresh} text="Generate New" />
+        <MnemonicActionButton onPress={handleCopyMnemonic} iconName={IconNameEnum.Copy} text="Copy" />
+      </Mnemonic>
 
       <Column style={styles.confirmation}>
         <Pressable onPress={handleToggleCheckbox} style={styles.confirmationWrapper}>
