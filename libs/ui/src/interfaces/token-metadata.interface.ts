@@ -5,8 +5,8 @@ export interface TokenMetadata {
   thumbnailUri?: string;
   tezosTokenType?: string;
   artifactUri?: string;
-  amount?: number;
   collectionId?: string | null;
   contractName?: string;
   innerId?: string;
+  collectionSize?: number;
 }

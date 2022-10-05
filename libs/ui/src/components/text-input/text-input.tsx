@@ -130,6 +130,7 @@ export const TextInput = <
             editable={editable}
             accessibilityElementsHidden
             autoCapitalize="none"
+            autoCorrect={false}
             value={value}
             onFocus={onFocus}
             multiline={multiline}

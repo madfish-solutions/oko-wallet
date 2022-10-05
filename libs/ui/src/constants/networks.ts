@@ -15,7 +15,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 18,
       thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4256.png'
     },
-    explorerUrl: 'https://scope.klaytn.com/',
+    explorerUrl: 'https://scope.klaytn.com',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Klaytn
   },
@@ -29,7 +29,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 18,
       thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4256.png'
     },
-    explorerUrl: 'https://baobab.scope.klaytn.com/',
+    explorerUrl: 'https://baobab.scope.klaytn.com',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Klaytn
   },
@@ -43,7 +43,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 18,
       thumbnailUri: ''
     },
-    explorerUrl: 'https://etherscan.io/',
+    explorerUrl: 'https://etherscan.io',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Ethereum
   },
@@ -57,7 +57,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 18,
       thumbnailUri: ''
     },
-    explorerUrl: 'https://rinkeby.etherscan.io/',
+    explorerUrl: 'https://rinkeby.etherscan.io',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Ethereum
   },
@@ -71,7 +71,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 18,
       thumbnailUri: ''
     },
-    explorerUrl: 'https://ropsten.etherscan.io/',
+    explorerUrl: 'https://ropsten.etherscan.io',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.Ethereum
   },
@@ -86,7 +86,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 18,
       thumbnailUri: ''
     },
-    explorerUrl: 'https://bscscan.com/',
+    explorerUrl: 'https://bscscan.com',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.BinanceSmartChain
   },
@@ -101,7 +101,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 18,
       thumbnailUri: ''
     },
-    explorerUrl: 'https://testnet.bscscan.com/',
+    explorerUrl: 'https://testnet.bscscan.com',
     networkType: NetworkTypeEnum.EVM
   },
   {
@@ -114,7 +114,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 9,
       thumbnailUri: ''
     },
-    explorerUrl: 'https://moonbeam.moonscan.io/',
+    explorerUrl: 'https://moonbeam.moonscan.io',
     networkType: NetworkTypeEnum.EVM
   },
   {
@@ -127,7 +127,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 18,
       thumbnailUri: ''
     },
-    explorerUrl: 'https://moonbase.moonscan.io/',
+    explorerUrl: 'https://moonbase.moonscan.io',
     networkType: NetworkTypeEnum.EVM
   },
   {
@@ -140,7 +140,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 6,
       thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/2011.png'
     },
-    explorerUrl: 'https://tzkt.io/',
+    explorerUrl: 'https://tzkt.io',
     networkType: NetworkTypeEnum.Tezos
   },
   {
@@ -153,7 +153,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       decimals: 6,
       thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/2011.png'
     },
-    explorerUrl: 'https://ithacanet.tzkt.io/',
+    explorerUrl: 'https://ithacanet.tzkt.io',
     networkType: NetworkTypeEnum.Tezos
   }
 ];
