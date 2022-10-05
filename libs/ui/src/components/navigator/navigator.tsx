@@ -80,6 +80,8 @@ export const Navigator: FC = () => {
     }
   }, [initialState, isReady]);
 
+  console.log(initialState);
+
   if (!isReady) {
     return (
       <View>

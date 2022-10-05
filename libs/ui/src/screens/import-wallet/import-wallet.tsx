@@ -72,11 +72,6 @@ export const ImportWallet: FC = () => {
   useEffect(() => {
     if (isDefined(routeParams)) {
       setWordsAmount(routeParams.wordsAmount.value);
-    }
-  }, [routeParams]);
-
-  useEffect(() => {
-    if (isDefined(routeParams)) {
       setMnemonic(prev => prev.map((emptyField, index) => mnemonic[index] ?? emptyField));
     }
   }, [routeParams]);
@@ -133,8 +128,6 @@ export const ImportWallet: FC = () => {
     [handlePasteMnemonicFromClipboard, mnemonic]
   );
 
-  const handlePaste = useCallback(() => handlePasteMnemonicFromClipboard(), [handlePasteMnemonicFromClipboard]);
-
   const navigateToWordsAmountSelector = () =>
     navigate(ScreensEnum.WordsAmountSelector, {
       wordsAmount: words.find(({ value }) => value === wordsAmount) ?? words[0]
@@ -180,19 +173,19 @@ export const ImportWallet: FC = () => {
       return setError('Wrong mnemonic type of words.');
     }
 
-    navigate(ScreensEnum.AlmostDone, { mnemonic: mnemonic.join(' '), step: 2, maxStep: 2 });
+    navigate(ScreensEnum.AlmostDone, { mnemonic: mnemonic.join(' '), currentStep: 2, stepsAmount: 2 });
   };
 
-  const [wordsColumn1, wordsColumn2] = [
-    [...Array(Math.ceil(wordsAmount / 2)).keys()],
-    [...Array(Math.floor(wordsAmount / 2)).keys()]
-  ];
+  // const [wordsColumn1, wordsColumn2] = [
+  //   [...Array(Math.ceil(wordsAmount / 2)).keys()],
+  //   [...Array(Math.floor(wordsAmount / 2)).keys()]
+  // ];
 
   return (
     <WalletCreationContainer
       title="Import Existing Wallet"
-      step={1}
-      maxSteps={2}
+      currentStep={1}
+      stepsAmount={2}
       onSubmitPress={navigateToAlmostDoneScreen}
       isSubmitDisabled={(isEmptyFieldsExist && isSubmitted) || !!error}
       scrollViewRef={scrollViewRef}
@@ -210,9 +203,9 @@ export const ImportWallet: FC = () => {
 
       <Column style={styles.mnemonicContainer}>
         <Row style={styles.wordsWrapper}>
-          <Column style={[styles.wordsColumn, styles.marginRight]}>
-            {wordsColumn1.map((_, index) => {
-              const value = mnemonic[index];
+          <Row style={[styles.wordsColumn, styles.marginRight]}>
+            {mnemonic.slice(0, wordsAmount).map((word, index) => {
+              const value = word;
               const isSelectedInput = index === selectedInputIndex;
 
               return (
@@ -234,39 +227,11 @@ export const ImportWallet: FC = () => {
                 </View>
               );
             })}
-          </Column>
-          <Column style={styles.wordsColumn}>
-            {wordsColumn2.map((_, index) => {
-              const countIndex = Math.ceil(index + 1 + wordsAmount / 2);
-              const value = mnemonic[countIndex - 1];
-              const isSelectedInput = selectedInputIndex === countIndex - 1;
-
-              return (
-                <View key={countIndex} style={styles.inputContainer}>
-                  <TextInput
-                    ref={el => (countIndex - 1 === selectedInputIndex ? el?.focus() : null)}
-                    value={value}
-                    onFocus={el => handleInputFocus(countIndex - 1, el)}
-                    onBlur={handleInputBlur}
-                    onChangeText={value => handleInputChange(value, countIndex - 1)}
-                    style={[styles.mnemonicInput, isSubmitted && !isNotEmptyString(value) && styles.error]}
-                  />
-                  <Text selectable={false} style={styles.wordIndex}>
-                    {`${countIndex}.`}
-                  </Text>
-                  {isNotEmptyString(value) && isShowProtectLayout && !isSelectedInput && (
-                    <Pressable onPress={() => handleShowLayout(countIndex - 1)} style={styles.layout}>
-                      <Text style={styles.layoutText}>Tap to reveal</Text>
-                    </Pressable>
-                  )}
-                </View>
-              );
-            })}
-          </Column>
+          </Row>
         </Row>
 
         <Row style={styles.buttons}>
-          <TouchableOpacity onPress={handlePaste} style={styles.button}>
+          <TouchableOpacity onPress={handlePasteMnemonicFromClipboard} style={styles.button}>
             <Icon name={IconNameEnum.Paste} iconStyle={styles.buttonIcon} />
             <Text style={styles.buttonText}>Paste</Text>
           </TouchableOpacity>

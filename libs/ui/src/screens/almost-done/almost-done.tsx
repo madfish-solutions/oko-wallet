@@ -34,7 +34,7 @@ const defaultValues = {
 
 export const AlmostDone: FC = () => {
   const {
-    params: { mnemonic, step, maxStep }
+    params: { mnemonic, currentStep, stepsAmount }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.AlmostDone>>();
 
   const { importWallet } = useShelter();
@@ -145,8 +145,8 @@ export const AlmostDone: FC = () => {
   return (
     <WalletCreationContainer
       title="Almost Done"
-      step={step}
-      maxSteps={maxStep}
+      currentStep={currentStep}
+      stepsAmount={stepsAmount}
       submitTitle="Create"
       onSubmitPress={handleSubmit(handleCreateAccount)}
       isSubmitDisabled={isValidationError}

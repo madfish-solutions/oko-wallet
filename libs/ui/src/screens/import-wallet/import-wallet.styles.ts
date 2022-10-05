@@ -37,18 +37,16 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-start'
   },
   wordsColumn: {
-    flex: 1
+    width: '100%',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
   },
   marginRight: {
     marginRight: getCustomSize(0.5)
   },
-  containerStyle: {
-    paddingHorizontal: getCustomSize(4)
-  },
   inputContainer: {
-    position: 'relative',
     height: getCustomSize(4.5),
-    width: '100%',
+    width: '49.3%',
     marginBottom: getCustomSize(0.5)
   },
   mnemonicInput: {

@@ -151,7 +151,7 @@ export const VerifyMnemonic: FC = () => {
 
   const navigateToAlmostDoneScreen = () => {
     if (JSON.stringify(correctWordOrder) === JSON.stringify(words)) {
-      return navigate(ScreensEnum.AlmostDone, { mnemonic: mnemonic.join(' '), step: 3, maxStep: 3 });
+      return navigate(ScreensEnum.AlmostDone, { mnemonic: mnemonic.join(' '), currentStep: 3, stepsAmount: 3 });
     }
 
     const allWordsAreSelected = words.every(item => isNotEmptyString(item.word));
@@ -168,13 +168,10 @@ export const VerifyMnemonic: FC = () => {
     return setError('Please, select all the words.');
   };
 
-  // the next container is counted not by column but by row
-  const [wordsColumn1, wordsColumn2] = [words.slice(0, 1).concat(words.slice(-1)), words.slice(1, 2)];
-
   return (
     <WalletCreationContainer
       title="Verify Mnemonic"
-      step={2}
+      currentStep={2}
       isSubmitDisabled={!!error}
       onSubmitPress={navigateToAlmostDoneScreen}
     >
@@ -185,12 +182,16 @@ export const VerifyMnemonic: FC = () => {
 
       <Column style={[styles.container, isNotEmptyString(error) && styles.containerError]}>
         <Row style={styles.wordsWrapper}>
-          <Column style={[styles.wordsColumn, styles.marginRight]}>
-            {wordsColumn1.map(({ id, index, word, shuffledWordId }) => (
+          <Row style={styles.wordsColumn}>
+            {words.map(({ id, index, word, shuffledWordId }, arrayIndex) => (
               <Pressable
                 key={`${word}_${id}`}
                 onPress={() => handleSelectContainerOrResetWord(id, shuffledWordId, word)}
-                style={[styles.mnemonicItem, id === selectedContainer.id && styles.active]}
+                style={[
+                  styles.mnemonicItem,
+                  id === selectedContainer.id && styles.active,
+                  arrayIndex % 2 === 0 && styles.marginRight
+                ]}
               >
                 <Text selectable={false} style={styles.wordIndex}>{`${index}.`}</Text>
                 <Text selectable={false} style={styles.word}>
@@ -198,21 +199,7 @@ export const VerifyMnemonic: FC = () => {
                 </Text>
               </Pressable>
             ))}
-          </Column>
-          <Column style={styles.wordsColumn}>
-            {wordsColumn2.map(({ id, index, word, shuffledWordId }) => (
-              <Pressable
-                key={`${word}_${id}`}
-                onPress={() => handleSelectContainerOrResetWord(id, shuffledWordId, word)}
-                style={[styles.mnemonicItem, id === selectedContainer.id && styles.active]}
-              >
-                <Text selectable={false} style={styles.wordIndex}>{`${index}.`}</Text>
-                <Text selectable={false} style={styles.word}>
-                  {word}
-                </Text>
-              </Pressable>
-            ))}
-          </Column>
+          </Row>
         </Row>
 
         <Text style={styles.wordsSelectorTitle}>Pick word you need</Text>
