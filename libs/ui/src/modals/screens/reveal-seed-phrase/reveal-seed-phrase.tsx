@@ -1,4 +1,5 @@
-import React, { FC, useState } from 'react';
+import { isNotEmptyString } from '@rnw-community/shared';
+import React, { FC, useEffect, useState } from 'react';
 import { ScrollView } from 'react-native';
 import { map } from 'rxjs';
 
@@ -8,29 +9,64 @@ import { MnemonicActionButton } from '../../../components/mnemonic-action-button
 import { Mnemonic } from '../../../components/mnemonic/mnemonic';
 import { NavigationBar } from '../../../components/navigation-bar/navigation-bar';
 import { Text } from '../../../components/text/text';
+import { SECURITY_TIME } from '../../../constants/defaults';
 import { Shelter } from '../../../shelter/shelter';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
 import { styles } from './reveal-seed-phrase.styles';
 
+// TODO: Add amountWords from settings
+const initialSeedPhraseValue = [...Array(12).fill('')];
+
 export const RevealSeedPhrase: FC = () => {
   const [isShowProtectLayout, setIsShowProtectLayout] = useState(true);
-  const [seedPhrase, setSeedPhrase] = useState<string[]>([...Array(12).fill('')]);
+  const [seedPhrase, setSeedPhrase] = useState<string[]>(initialSeedPhraseValue);
+
+  const getSeedPhrase = (successCallback: (arg: string) => void) =>
+    Shelter.revealSeedPhrase$()
+      .pipe(map(seedPhrase => seedPhrase))
+      .subscribe(seedPhrase => {
+        successCallback(seedPhrase);
+      });
 
   const handleHideLayout = () => {
-    Shelter.revealSeedPhrase$()
-      .pipe(map(seedPhrase => seedPhrase.split(' ')))
-      .subscribe(seedPhrase => {
-        setSeedPhrase(seedPhrase);
-        setIsShowProtectLayout(false);
-      });
+    getSeedPhrase(seedPhrase => {
+      setSeedPhrase(seedPhrase.split(' '));
+      setIsShowProtectLayout(false);
+    });
   };
 
   const handleCopy = () => {
-    handleCopyToClipboard(seedPhrase.join(' '));
-    setIsShowProtectLayout(true);
+    const seedPhraseAlreadyExist = seedPhrase.every(word => isNotEmptyString(word));
+
+    if (seedPhraseAlreadyExist) {
+      handleCopyToClipboard(seedPhrase.join(' '));
+    } else {
+      getSeedPhrase(seedPhrase => {
+        handleCopyToClipboard(seedPhrase);
+
+        if (!isShowProtectLayout) {
+          setIsShowProtectLayout(true);
+        }
+
+        setSeedPhrase(initialSeedPhraseValue);
+      });
+    }
   };
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+
+    if (!isShowProtectLayout) {
+      timeout = setTimeout(() => {
+        setIsShowProtectLayout(true);
+        setSeedPhrase(initialSeedPhraseValue);
+      }, SECURITY_TIME);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [isShowProtectLayout]);
 
   return (
     <ModalContainer screenTitle="Reveal Seed phrase">

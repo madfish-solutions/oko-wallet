@@ -134,7 +134,12 @@ export const CreateANewWallet: FC = () => {
       </Row>
 
       <Mnemonic mnemonic={mnemonic} isShowProtectLayout={isShowProtectLayout} handleHideLayout={handleHideLayout}>
-        <MnemonicActionButton onPress={generateNewMnemonic} iconName={IconNameEnum.Refresh} text="Generate New" />
+        <MnemonicActionButton
+          onPress={generateNewMnemonic}
+          iconName={IconNameEnum.Refresh}
+          text="Generate New"
+          style={styles.marginRight}
+        />
         <MnemonicActionButton onPress={handleCopyMnemonic} iconName={IconNameEnum.Copy} text="Copy" />
       </Mnemonic>
 

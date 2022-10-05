@@ -18,9 +18,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
-  buttonMarginRight: {
-    marginRight: getCustomSize(5)
-  },
   buttonIcon: {
     marginRight: getCustomSize(0.5)
   }
