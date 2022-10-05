@@ -45,14 +45,11 @@ export const RevealSeedPhrase: FC = () => {
     } else {
       getSeedPhrase(seedPhrase => {
         handleCopyToClipboard(seedPhrase);
-
-        if (!isShowProtectLayout) {
-          setIsShowProtectLayout(true);
-        }
-
         setSeedPhrase(initialSeedPhraseValue);
       });
     }
+
+    setIsShowProtectLayout(true);
   };
 
   useEffect(() => {
