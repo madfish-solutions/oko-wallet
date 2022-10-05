@@ -230,7 +230,7 @@ export const Send: FC = () => {
                 <Row style={styles.dollarAmountContainer}>
                   <Text style={styles.text}>≈</Text>
                   <Text style={[styles.text, styles.dollarAmount]}>{amountInDollar}</Text>
-                  <Text style={[styles.text]}>$</Text>
+                  <Text style={styles.text}>$</Text>
                 </Row>
               </View>
             </TextInput>

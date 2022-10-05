@@ -4,7 +4,6 @@ import { SvgProps } from 'react-native-svg';
 import ActivityIcon from './assets/activity.svg';
 import AddChain from './assets/add-chain.svg';
 import AddIcon from './assets/add.svg';
-import ArrowDropdown from './assets/arrow-dropdown.svg';
 import ArrowLeftIcon from './assets/arrow-left.svg';
 import ArrowRightIcon from './assets/arrow-right.svg';
 import AssetsIcon from './assets/assets.svg';
@@ -18,6 +17,7 @@ import CopyIcon from './assets/copy.svg';
 import DappConnect from './assets/dapp-connect.svg';
 import Deposit from './assets/deposit.svg';
 import Discord from './assets/discord.svg';
+import DropdownSelector from './assets/dropdown-selector.svg';
 import DropdownIcon from './assets/dropdown.svg';
 import DropupIcon from './assets/dropup.svg';
 import EditIcon from './assets/edit.svg';
@@ -30,6 +30,7 @@ import EyeOpenIcon from './assets/eye-open.svg';
 import GasIcon from './assets/gas.svg';
 import GridSettings from './assets/grid-settings.svg';
 import IconPlaceholder from './assets/icon-placeholder.svg';
+import IconWarning from './assets/icon-warning.svg';
 import InfoRed from './assets/info-red.svg';
 import Info from './assets/info.svg';
 import LoadersIcon from './assets/loaders.svg';
@@ -69,6 +70,7 @@ import TopupIcon from './assets/topup.svg';
 import TransparencyLayout from './assets/transparency-layout.svg';
 import Trash from './assets/trash.svg';
 import Twitter from './assets/twitter.svg';
+import WalletLogoPlaceholder from './assets/wallet-logo-placeholder.svg';
 import WarningWhite from './assets/warning-white.svg';
 import WarningYellow from './assets/warning-yellow.svg';
 import XIcon from './assets/x.svg';
@@ -135,7 +137,7 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Error]: Error,
   [IconNameEnum.QrScanner]: QrScanner,
   [IconNameEnum.Chevron]: Chevron,
-  [IconNameEnum.ArrowDropdown]: ArrowDropdown,
+  [IconNameEnum.DropdownSelector]: DropdownSelector,
   [IconNameEnum.Refresh]: Refresh,
   [IconNameEnum.Info]: Info,
   [IconNameEnum.Deposit]: Deposit,
@@ -156,5 +158,7 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.OutLink]: OutLink,
   [IconNameEnum.MadWithLove]: MadWithLove,
   [IconNameEnum.NewTab]: NewTab,
-  [IconNameEnum.See]: See
+  [IconNameEnum.See]: See,
+  [IconNameEnum.WalletLogoPlaceholder]: WalletLogoPlaceholder,
+  [IconNameEnum.IconWarning]: IconWarning
 };

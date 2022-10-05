@@ -18,7 +18,7 @@ export const DropdownSelectedItem: FC<Props> = ({ title, onPress }) => (
   <Pressable onPress={onPress} style={styles.root}>
     <Row>
       <Text style={styles.title}>{title}</Text>
-      <Icon name={IconNameEnum.ArrowDropdown} size={getCustomSize(1.25)} />
+      <Icon name={IconNameEnum.DropdownSelector} size={getCustomSize(2)} />
     </Row>
   </Pressable>
 );

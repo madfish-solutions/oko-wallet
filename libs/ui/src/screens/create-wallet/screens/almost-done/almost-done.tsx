@@ -14,7 +14,7 @@ import { Text } from '../../../../components/text/text';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
-import { setIsAnalyticsEnabled } from '../../../../store/settings/settings.actions';
+import { setIsAnalyticsEnabled, setIsBiometricEnabled } from '../../../../store/settings/settings.actions';
 import { isMobile } from '../../../../utils/platform.utils';
 import { Container } from '../../components/container/container';
 
@@ -134,6 +134,7 @@ export const AlmostDone: FC = () => {
       });
 
       dispatch(setIsAnalyticsEnabled(isAllowUseAnalytics));
+      dispatch(setIsBiometricEnabled(isUseFaceId));
 
       console.log('Submitted:', {
         useFaceId: isUseFaceId,
