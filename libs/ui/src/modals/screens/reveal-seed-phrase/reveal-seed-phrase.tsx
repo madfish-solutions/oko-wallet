@@ -42,10 +42,10 @@ export const RevealSeedPhrase: FC = () => {
 
     if (seedPhraseAlreadyExist) {
       handleCopyToClipboard(seedPhrase.join(' '));
+      setSeedPhrase(initialSeedPhraseValue);
     } else {
       getSeedPhrase(seedPhrase => {
         handleCopyToClipboard(seedPhrase);
-        setSeedPhrase(initialSeedPhraseValue);
       });
     }
 
