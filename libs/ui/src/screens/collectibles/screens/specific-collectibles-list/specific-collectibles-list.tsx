@@ -10,6 +10,7 @@ import { Text } from '../../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token } from '../../../../interfaces/token.interface';
+import { useSelectedCollectionSelector } from '../../../../store/wallet/wallet.selectors';
 import { CollectibleRenderItem } from '../../components/collectible-render-item/collectible-render-item';
 import { ListContainer } from '../../components/list-container/list-container';
 import { COLLECTIBLE_SIZE } from '../../constants';
@@ -19,11 +20,13 @@ import { styles } from './specific-collectibles-list.styles';
 
 export const SpecificCollectiblesList: FC = () => {
   const {
-    params: { collectibles: collectiblesList }
+    params: { collectionName }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SpecificCollectiblesList>>();
   const { navigate } = useNavigation();
 
-  const { collectibles, setSearchValue } = useCollectibleList(collectiblesList, true);
+  const collectiblesList = useSelectedCollectionSelector(collectionName);
+
+  const { collectibles, setSearchValue } = useCollectibleList(collectiblesList);
 
   const handleItemPress = (collectible: Token) => navigate(ScreensEnum.Collectible, { collectible });
 
@@ -50,7 +53,7 @@ export const SpecificCollectiblesList: FC = () => {
 
   return (
     <ListContainer
-      title={collectiblesList[0].contractName}
+      title={collectionName}
       collectibles={collectibles}
       renderItem={renderItem}
       setSearchValue={setSearchValue}

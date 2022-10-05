@@ -8,7 +8,7 @@ import { useCollectiblesSelector } from '../../../store/wallet/wallet.selectors'
 export const useGroupedCollectibles = () => {
   const initialCollectiblesValue = useCollectiblesSelector();
 
-  const [collectiblesList, setCollectiblesList] = useState<Token[]>([]);
+  const [collectionList, setCollectionList] = useState<Token[]>([]);
   const [groupedCollectibles, setGroupedCollectibles] = useState<Record<string, Token[]> | null>(null);
 
   useEffect(() => {
@@ -35,15 +35,18 @@ export const useGroupedCollectibles = () => {
     const randomNftFromEachCollection = collectionKeys.map(collectionKey => {
       const randomIndex = Math.round(Math.random() * (manuallyGroupedCollectibles[collectionKey].length - 1));
 
-      return manuallyGroupedCollectibles[collectionKey][randomIndex];
+      return {
+        ...manuallyGroupedCollectibles[collectionKey][randomIndex],
+        collectionSize: manuallyGroupedCollectibles[collectionKey].length
+      };
     });
     const singleNfts = manuallyGroupedCollectibles.hasOwnProperty(SINGLE_NFTS_KEY)
       ? manuallyGroupedCollectibles[SINGLE_NFTS_KEY]
       : [];
 
     setGroupedCollectibles(manuallyGroupedCollectibles);
-    setCollectiblesList([...randomNftFromEachCollection, ...singleNfts]);
+    setCollectionList([...randomNftFromEachCollection, ...singleNfts]);
   }, [initialCollectiblesValue.length]);
 
-  return { collectiblesList, groupedCollectibles };
+  return { collectionList, groupedCollectibles, allCollectibles: initialCollectiblesValue };
 };
