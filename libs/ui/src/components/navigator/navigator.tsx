@@ -19,7 +19,6 @@ import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
 import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
 import { Activity } from '../../screens/activity/activity';
-import { ChangePassword } from '../../screens/change-password/change-password';
 import { CollectiblesList } from '../../screens/collectibles/screens/collectibles-list/collectibles-list';
 import { SpecificCollectiblesList } from '../../screens/collectibles/screens/specific-collectibles-list/specific-collectibles-list';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
@@ -35,6 +34,7 @@ import { AccountsSelector as SendAccountsSelector } from '../../screens/send/com
 import { TokensSelector as SendTokensSelector } from '../../screens/send/components/tokens-selector/tokens-selector';
 import { Send } from '../../screens/send/send';
 import { Account as SettingsAccount } from '../../screens/settings/screens/account/account';
+import { ChangePassword } from '../../screens/settings/screens/change-password/change-password';
 import { RevealPrivateKey as SettingsRevealPrivateKey } from '../../screens/settings/screens/reveal-private-key/reveal-private-key';
 import { RevealSeedPhrase as SettingsRevealSeedPhrase } from '../../screens/settings/screens/reveal-seed-phrase/reveal-seed-phrase';
 import { Settings } from '../../screens/settings/settings';

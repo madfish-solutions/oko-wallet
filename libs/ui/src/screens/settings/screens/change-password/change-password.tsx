@@ -3,22 +3,22 @@ import React, { FC, useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ScrollView, View } from 'react-native';
 
-import { Button } from '../../components/button/button';
-import { ButtonThemesEnum } from '../../components/button/enums';
-import { Column } from '../../components/column/column';
-import { IconNameEnum } from '../../components/icon/icon-name.enum';
-import { Row } from '../../components/row/row';
-import { ScreenTitle } from '../../components/screen-components/header-container/components/screen-title/screen-title';
-import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
-import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
-import { TextInput } from '../../components/text-input/text-input';
-import { Text } from '../../components/text/text';
-import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
-import { useNavigation } from '../../hooks/use-navigation.hook';
-import { useToast } from '../../hooks/use-toast.hook';
-import { useUnlock } from '../../hooks/use-unlock.hook';
-import { useValidationMessages } from '../../hooks/use-validation-messages.hook';
-import { useValidateForm } from '../create-wallet/screens/almost-done/hooks/use-validate-form.hook';
+import { Button } from '../../../../components/button/button';
+import { ButtonThemesEnum } from '../../../../components/button/enums';
+import { Column } from '../../../../components/column/column';
+import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
+import { Row } from '../../../../components/row/row';
+import { ScreenTitle } from '../../../../components/screen-components/header-container/components/screen-title/screen-title';
+import { HeaderContainer } from '../../../../components/screen-components/header-container/header-container';
+import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
+import { TextInput } from '../../../../components/text-input/text-input';
+import { Text } from '../../../../components/text/text';
+import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
+import { useToast } from '../../../../hooks/use-toast.hook';
+import { useUnlock } from '../../../../hooks/use-unlock.hook';
+import { useValidationMessages } from '../../../../hooks/use-validation-messages.hook';
+import { useValidateForm } from '../../../create-wallet/screens/almost-done/hooks/use-validate-form.hook';
 
 import { styles } from './change-password.styles';
 
