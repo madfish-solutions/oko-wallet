@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { typography } from '../../styles/typography';
+import { isWeb } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   layout: {
@@ -26,6 +27,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     backgroundColor: colors.bgGrey2,
-    borderRadius: getCustomSize(0.5)
+    borderRadius: getCustomSize(0.5),
+    ...(isWeb && { cursor: 'pointer' })
   }
 });

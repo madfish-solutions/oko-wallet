@@ -20,14 +20,17 @@ export const RevealSeedPhrase: FC = () => {
 
   const handleHideLayout = () => {
     Shelter.revealSeedPhrase$()
-      .pipe(map(seed => seed.split(' ')))
+      .pipe(map(seedPhrase => seedPhrase.split(' ')))
       .subscribe(seedPhrase => {
         setSeedPhrase(seedPhrase);
         setIsShowProtectLayout(false);
       });
   };
 
-  const handleCopy = () => handleCopyToClipboard(seedPhrase.join(' '));
+  const handleCopy = () => {
+    handleCopyToClipboard(seedPhrase.join(' '));
+    setIsShowProtectLayout(true);
+  };
 
   return (
     <ModalContainer screenTitle="Reveal Seed phrase">
