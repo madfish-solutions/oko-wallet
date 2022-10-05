@@ -146,7 +146,7 @@ export const ChangePassword: FC = () => {
                   field={field}
                   label="Password"
                   secureTextEntry={isSecurePassword}
-                  placeholder="PasswordIs12345"
+                  placeholder="Password12345"
                   prompt="Set new password"
                   containerStyle={styles.input}
                   error={errors.oldPassword?.message}
