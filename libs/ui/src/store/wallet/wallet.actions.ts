@@ -53,6 +53,7 @@ export const getAllUserNftAction = createActions<
   { debankId: string; publicKeyHash: string; is_all?: boolean },
   { nftList: NftListResponse[] }
 >('wallet/GET_ALL_USER_NFT');
+export const addNewCollectibleAction = createAction<AccountTokenInput>('wallet/ADD_NEW_COLLECTIBLE');
 
 export const sendAssetAction = createActions<SendAssetPayload>('wallet/SEND_ASSET');
 

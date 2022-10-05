@@ -8,6 +8,7 @@ import { ScreenTitle } from '../../../../components/screen-components/header-con
 import { HeaderContainer } from '../../../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
 import { SearchPanel } from '../../../../components/search-panel/search-panel';
+import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token } from '../../../../interfaces/token.interface';
 import { getTokenSlug } from '../../../../utils/token.utils';
@@ -24,9 +25,9 @@ interface Props {
 const keyExtractor = ({ tokenAddress, tokenId }: Token) => getTokenSlug(tokenAddress, tokenId);
 
 export const ListContainer: FC<Props> = ({ title, collectibles, setSearchValue, renderItem, children }) => {
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation();
 
-  const navigateToAddNewNft = () => null;
+  const navigateToAddNewNft = () => navigate(ScreensEnum.AddNewCollectible);
 
   return (
     <ScreenContainer>

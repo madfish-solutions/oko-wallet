@@ -8,6 +8,7 @@ import { PERSISTENCE_KEY, usePersistedNavigationState } from '../../hooks/use-pe
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
 import { AddAccount } from '../../modals/screens/add-account/add-account';
+import { AddNewCollectible } from '../../modals/screens/add-new-collectible/add-new-collectible';
 import { Collectible } from '../../modals/screens/collectible/collectible';
 import { DappConfirmation } from '../../modals/screens/dapp-confirmation/dapp-confirmation';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
@@ -44,6 +45,7 @@ import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
 import { checkActiveApplicationSession } from '../../utils/check-active-application-session.util';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 import { setStoredValue } from '../../utils/store.util';
+import { substring } from '../../utils/substring.util';
 
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
 import { useActiveTokenList } from './hooks/use-active-token-list.hook';
@@ -132,7 +134,7 @@ export const Navigator: FC = () => {
               />
               <Stack.Screen
                 name={ScreensEnum.Collectible}
-                options={({ route }) => ({ title: route.params.collectible.name })}
+                options={({ route }) => ({ title: substring(route.params.collectible.name, 30) })}
                 component={Collectible}
               />
               <Stack.Screen
@@ -169,6 +171,11 @@ export const Navigator: FC = () => {
                 component={AddNewToken}
               />
               <Stack.Screen name={ScreensEnum.EditToken} options={{ title: 'Edit token' }} component={EditToken} />
+              <Stack.Screen
+                name={ScreensEnum.AddNewCollectible}
+                options={{ title: 'Add new Collectible' }}
+                component={AddNewCollectible}
+              />
             </Stack.Group>
           </>
         ) : (
