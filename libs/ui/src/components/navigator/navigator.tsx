@@ -33,9 +33,16 @@ import { SendConfirmation } from '../../screens/send-confirmation/send-confirmat
 import { AccountsSelector as SendAccountsSelector } from '../../screens/send/components/accounts-selector/accounts-selector';
 import { TokensSelector as SendTokensSelector } from '../../screens/send/components/tokens-selector/tokens-selector';
 import { Send } from '../../screens/send/send';
+import { AboutUs as SettingsAboutUs } from '../../screens/settings/screens/about-us/about-us';
 import { Account as SettingsAccount } from '../../screens/settings/screens/account/account';
+import { AppearanceSelector as SettingsAppearanceSelector } from '../../screens/settings/screens/appearance-selector/appearance-selector';
+import { CurrencySelector as SettingsCurrencySelector } from '../../screens/settings/screens/currency-selector/currency-selector';
+import { General as SettingsGeneral } from '../../screens/settings/screens/general/general';
+import { LockTimeSelector as SettingsLockTimeSelector } from '../../screens/settings/screens/lock-time-selector/lock-time-selector';
+import { ResetWalletConfirm as SettingsResetWalletConfirm } from '../../screens/settings/screens/reset-wallet-confirm/reset-wallet-confirm';
 import { RevealPrivateKey as SettingsRevealPrivateKey } from '../../screens/settings/screens/reveal-private-key/reveal-private-key';
 import { RevealSeedPhrase as SettingsRevealSeedPhrase } from '../../screens/settings/screens/reveal-seed-phrase/reveal-seed-phrase';
+import { Security as SettingsSecurity } from '../../screens/settings/screens/security/security';
 import { Settings } from '../../screens/settings/settings';
 import { Token } from '../../screens/token/token';
 import { Tokens } from '../../screens/tokens/tokens';
@@ -97,8 +104,11 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
               <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
               <Stack.Screen name={ScreensEnum.SettingsAccount} component={SettingsAccount} />
+              <Stack.Screen name={ScreensEnum.SettingsGeneral} component={SettingsGeneral} />
               <Stack.Screen name={ScreensEnum.SettingsRevealSeedPhrase} component={SettingsRevealSeedPhrase} />
               <Stack.Screen name={ScreensEnum.SettingsRevealPrivateKey} component={SettingsRevealPrivateKey} />
+              <Stack.Screen name={ScreensEnum.SettingsSecurity} component={SettingsSecurity} />
+              <Stack.Screen name={ScreensEnum.SettingsAboutUs} component={SettingsAboutUs} />
               <Stack.Screen name={ScreensEnum.Send} component={Send} />
               <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
               <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
@@ -175,6 +185,26 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.AddNewCollectible}
                 options={{ title: 'Add new Collectible' }}
                 component={AddNewCollectible}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SettingsCurrencySelector}
+                options={{ title: 'Currency' }}
+                component={SettingsCurrencySelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SettingsAppearanceSelector}
+                options={{ title: 'Appearance' }}
+                component={SettingsAppearanceSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SettingsLockTimeSelector}
+                options={{ title: 'Lock time' }}
+                component={SettingsLockTimeSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SettingsResetWalletConfirm}
+                options={{ title: 'Reset Wallet' }}
+                component={SettingsResetWalletConfirm}
               />
             </Stack.Group>
           </>
