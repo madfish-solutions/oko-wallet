@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { View } from 'react-native';
-import { useDispatch } from 'react-redux';
 
 import { Divider } from '../../components/divider/divider';
 import { IconWithBorderEnum } from '../../components/icon-with-border/enums';
@@ -19,11 +18,7 @@ import { Text } from '../../components/text/text';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
-import { resetApplicationAction } from '../../store/root-state.actions';
-import {
-  useSelectedAccountPublicKeyHashSelector,
-  useSelectedAccountSelector
-} from '../../store/wallet/wallet.selectors';
+import { useSelectedAccountPublicKeyHashSelector } from '../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../styles/format-size';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 import { isIOS, isMaximiseScreen, isWeb } from '../../utils/platform.utils';
@@ -39,16 +34,14 @@ const dividerSize = getCustomSize(2);
 const socialIconSize = getCustomSize(4);
 
 export const Settings: FC = () => {
-  const dispatch = useDispatch();
   const { navigate } = useNavigation();
-  const { name } = useSelectedAccountSelector();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
   const navigateToSettingsAccount = () => navigate(ScreensEnum.SettingsAccount);
   const navigateToSettingsGeneral = () => navigate(ScreensEnum.SettingsGeneral);
   const navigateToSettingsSecurity = () => navigate(ScreensEnum.SettingsSecurity);
   const navigateToSettingsAboutUs = () => navigate(ScreensEnum.SettingsAboutUs);
-  const onReset = () => dispatch(resetApplicationAction.submit());
+  const navigateToSettingsResetWalletConfirm = () => navigate(ScreensEnum.SettingsResetWalletConfirm);
 
   return (
     <ScreenContainer>
@@ -81,7 +74,7 @@ export const Settings: FC = () => {
                     <RobotIcon seed={publicKeyHash} size={getCustomSize(1.8)} />
                   </IconWithBorder>
                 }
-                title={name}
+                title="Accounts Settings"
                 onPress={navigateToSettingsAccount}
               />
             </ItemContainer>
@@ -115,7 +108,7 @@ export const Settings: FC = () => {
             </ItemContainer>
 
             <View style={styles.resetContainer}>
-              <Pressable onPress={onReset}>
+              <Pressable onPress={navigateToSettingsResetWalletConfirm}>
                 <Row>
                   <Text style={styles.resetText}>Reset wallet</Text>
                   <Icon name={IconNameEnum.Out} iconStyle={styles.outIcon} />

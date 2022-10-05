@@ -38,6 +38,7 @@ import { AppearanceSelector as SettingsAppearanceSelector } from '../../screens/
 import { CurrencySelector as SettingsCurrencySelector } from '../../screens/settings/screens/currency-selector/currency-selector';
 import { General as SettingsGeneral } from '../../screens/settings/screens/general/general';
 import { LockTimeSelector as SettingsLockTimeSelector } from '../../screens/settings/screens/lock-time-selector/lock-time-selector';
+import { ResetWalletConfirm as SettingsResetWalletConfirm } from '../../screens/settings/screens/reset-wallet-confirm/reset-wallet-confirm';
 import { RevealPrivateKey as SettingsRevealPrivateKey } from '../../screens/settings/screens/reveal-private-key/reveal-private-key';
 import { RevealSeedPhrase as SettingsRevealSeedPhrase } from '../../screens/settings/screens/reveal-seed-phrase/reveal-seed-phrase';
 import { Security as SettingsSecurity } from '../../screens/settings/screens/security/security';
@@ -192,6 +193,11 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.SettingsLockTimeSelector}
                 options={{ title: 'Lock time' }}
                 component={SettingsLockTimeSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SettingsResetWalletConfirm}
+                options={{ title: 'Reset Wallet' }}
+                component={SettingsResetWalletConfirm}
               />
             </Stack.Group>
           </>

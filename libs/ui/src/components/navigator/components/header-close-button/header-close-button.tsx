@@ -14,7 +14,9 @@ const goBackRoutes = [
   ScreensEnum.WordsAmountSelector,
   ScreensEnum.Collectible,
   ScreensEnum.SettingsCurrencySelector,
-  ScreensEnum.SettingsAppearanceSelector
+  ScreensEnum.SettingsAppearanceSelector,
+  ScreensEnum.SettingsResetWalletConfirm,
+  ScreensEnum.SettingsLockTimeSelector
 ];
 
 interface Props {

@@ -10,6 +10,7 @@ import { styles } from './modal-footer-buttons.styles';
 export const ModalFooterButtons: FC<FooterButtons> = ({
   isSubmitDisabled,
   submitTitle,
+  cancelTitle = 'Cancel',
   onSubmitPress,
   onCancelPress
 }) => (
@@ -18,7 +19,7 @@ export const ModalFooterButtons: FC<FooterButtons> = ({
       style={styles.cancelButton}
       theme={ButtonThemesEnum.Primary}
       size={ButtonSizeEnum.Large}
-      title="Cancel"
+      title={cancelTitle}
       onPress={onCancelPress}
     />
     <Button

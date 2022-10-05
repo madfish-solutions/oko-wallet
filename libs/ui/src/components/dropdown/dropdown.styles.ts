@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { typography } from '../../styles/typography';
+import { isMobile } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   container: {
@@ -33,7 +34,7 @@ export const styles = StyleSheet.create({
   },
   footer: {
     paddingHorizontal: getCustomSize(2),
-    paddingBottom: getCustomSize(4)
+    paddingBottom: getCustomSize(isMobile ? 4 : 2)
   },
   cancelButton: {
     height: getCustomSize(5)
