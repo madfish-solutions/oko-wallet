@@ -4,19 +4,13 @@ import { RouteProp } from '@react-navigation/native';
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import { validateMnemonic } from 'bip39';
 import React, { FC, useCallback, useEffect, useMemo, useState, useRef } from 'react';
-import {
-  NativeSyntheticEvent,
-  Pressable,
-  TextInput,
-  TextInputFocusEventData,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { NativeSyntheticEvent, Pressable, TextInput, TextInputFocusEventData, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { Column } from '../../components/column/column';
 import { Icon } from '../../components/icon/icon';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
+import { Paste } from '../../components/paste/paste';
 import { Row } from '../../components/row/row';
 import { Text } from '../../components/text/text';
 import { WalletCreationContainer } from '../../components/wallet-creation-container/wallet-creation-container';
@@ -26,6 +20,7 @@ import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { getCustomSize } from '../../styles/format-size';
 import { formatMnemonic } from '../../utils/format-mnemonic.util';
+import { onPasteClipboard } from '../../utils/on-paste-clipboard.util';
 
 import { styles } from './import-wallet.styles';
 
@@ -98,7 +93,10 @@ export const ImportWallet: FC = () => {
 
   const handlePasteMnemonicFromClipboard = useCallback(() => {
     Clipboard.getString().then(clipboardValue => {
-      const clipboardMnemonicTrim = clipboardValue.trim();
+      const clipboardMnemonicTrim = clipboardValue
+        .split(' ')
+        .filter(word => isNotEmptyString(word.trim()))
+        .join(' ');
 
       if (isNotEmptyString(clipboardMnemonicTrim) && isDefined(clipboardMnemonicTrim)) {
         const clipboardMnemonic = clipboardMnemonicTrim.split(' ');
@@ -122,7 +120,7 @@ export const ImportWallet: FC = () => {
         setMnemonic(newMnemonic);
         inputValueRef.current = value;
       } else {
-        handlePasteMnemonicFromClipboard();
+        onPasteClipboard(handlePasteMnemonicFromClipboard);
       }
     },
     [handlePasteMnemonicFromClipboard, mnemonic]
@@ -169,7 +167,7 @@ export const ImportWallet: FC = () => {
 
     if (isEmptyFieldsExist) {
       return setError('Please, enter all the words.');
-    } else if (!validateMnemonic(formatMnemonic(mnemonic.join(' ')))) {
+    } else if (!validateMnemonic(formatMnemonic(mnemonic.map(word => word.trim()).join(' ')))) {
       return setError('Wrong mnemonic type of words.');
     }
 
@@ -191,7 +189,7 @@ export const ImportWallet: FC = () => {
         <Pressable onPress={navigateToWordsAmountSelector}>
           <Row style={styles.wordsSelector}>
             <Text style={styles.amountWords}>{wordsAmount}</Text>
-            <Icon name={IconNameEnum.Dropdown} size={getCustomSize(1.25)} />
+            <Icon name={IconNameEnum.Dropdown} size={getCustomSize(2)} />
           </Row>
         </Pressable>
       </Row>
@@ -226,10 +224,7 @@ export const ImportWallet: FC = () => {
         </Row>
 
         <Row style={styles.buttons}>
-          <TouchableOpacity onPress={handlePasteMnemonicFromClipboard} style={styles.button}>
-            <Icon name={IconNameEnum.Paste} iconStyle={styles.buttonIcon} />
-            <Text style={styles.buttonText}>Paste</Text>
-          </TouchableOpacity>
+          <Paste handlePaste={handlePasteMnemonicFromClipboard} />
         </Row>
       </Column>
 

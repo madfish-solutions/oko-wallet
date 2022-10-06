@@ -90,21 +90,10 @@ export const styles = StyleSheet.create({
     ...typography.taglineInterSemiBoldUppercase11,
     color: colors.orange
   },
-  buttonText: {
-    ...typography.taglineInterSemiBoldUppercase13,
-    color: colors.orange
-  },
   buttons: {
     width: '100%',
     justifyContent: 'center',
     paddingVertical: getCustomSize(2)
-  },
-  button: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  buttonIcon: {
-    marginRight: getCustomSize(0.5)
   },
   errorText: {
     marginTop: getCustomSize(),
