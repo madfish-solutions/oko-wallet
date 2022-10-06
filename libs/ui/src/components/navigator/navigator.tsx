@@ -1,4 +1,4 @@
-import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
+import { NavigationContainer, NavigationContainerRef, DarkTheme } from '@react-navigation/native';
 import React, { FC, createRef, useEffect } from 'react';
 import { View, Text } from 'react-native';
 
@@ -97,7 +97,12 @@ export const Navigator: FC = () => {
   }
 
   return (
-    <NavigationContainer ref={globalNavigationRef} initialState={initialState} onStateChange={handleStateChange}>
+    <NavigationContainer
+      ref={globalNavigationRef}
+      initialState={initialState}
+      onStateChange={handleStateChange}
+      theme={DarkTheme}
+    >
       <Stack.Navigator>
         {isAuthorised ? (
           <>
