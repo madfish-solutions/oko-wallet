@@ -5,3 +5,9 @@ export const resetStore$ = () => {
 
   return of(0);
 };
+
+export const clearSensitiveData$ = (keys: string[]) => {
+  keys.map(key => localStorage.removeItem(key));
+
+  return of(0);
+};

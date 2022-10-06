@@ -24,3 +24,9 @@ export const resetStore$ = () => {
 
   return of(0);
 };
+
+export const clearSensitiveData$ = (services: string[]) => {
+  services.map(service => Keychain.resetGenericPassword({ service }));
+
+  return of(0);
+};
