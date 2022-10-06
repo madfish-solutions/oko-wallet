@@ -169,7 +169,7 @@ export const Send: FC = () => {
     const copiedText = await Clipboard.getString();
 
     if (isNotEmptyString(copiedText)) {
-      setValue('receiverPublicKeyHash', await Clipboard.getString());
+      setValue('receiverPublicKeyHash', copiedText);
       await trigger('receiverPublicKeyHash');
     }
   };
