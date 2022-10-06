@@ -11,6 +11,7 @@ import { AddAccount } from '../../modals/screens/add-account/add-account';
 import { AddNewCollectible } from '../../modals/screens/add-new-collectible/add-new-collectible';
 import { Collectible } from '../../modals/screens/collectible/collectible';
 import { DappConfirmation } from '../../modals/screens/dapp-confirmation/dapp-confirmation';
+import { DeleteDapp } from '../../modals/screens/delete-dapp/delete-dapp';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
 import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
@@ -19,6 +20,7 @@ import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
 import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
 import { Activity } from '../../screens/activity/activity';
+import { AuthorizedDapps } from '../../screens/authorized-dapps/authorized-dapps';
 import { CollectiblesList } from '../../screens/collectibles/screens/collectibles-list/collectibles-list';
 import { SpecificCollectiblesList } from '../../screens/collectibles/screens/specific-collectibles-list/specific-collectibles-list';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
@@ -121,6 +123,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.SpecificCollectiblesList} component={SpecificCollectiblesList} />
               <Stack.Screen name={ScreensEnum.Activity} component={Activity} />
               <Stack.Screen name={ScreensEnum.ChangePassword} component={ChangePassword} />
+              <Stack.Screen name={ScreensEnum.AuthorizedDapps} component={AuthorizedDapps} />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptions}>
@@ -153,6 +156,11 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.DappConfirmation}
                 options={{ title: 'Connect' }}
                 component={DappConfirmation}
+              />
+              <Stack.Screen
+                name={ScreensEnum.DeleteDapp}
+                options={{ title: 'Confirm disconnection' }}
+                component={DeleteDapp}
               />
             </Stack.Group>
 

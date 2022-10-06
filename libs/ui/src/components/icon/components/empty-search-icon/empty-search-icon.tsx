@@ -9,8 +9,9 @@ import { styles } from './empty-search-icon.styles';
 
 interface Props {
   style?: ViewStyleProps;
+  size?: number;
 }
 
-export const EmptySearchIcon: FC<Props> = ({ style }) => (
-  <Icon name={IconNameEnum.EmptySearch} size={getCustomSize(36)} iconStyle={[styles.root, style]} />
+export const EmptySearchIcon: FC<Props> = ({ style, size = getCustomSize(36) }) => (
+  <Icon name={IconNameEnum.EmptySearch} size={size} iconStyle={[styles.root, style]} />
 );

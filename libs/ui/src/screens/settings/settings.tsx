@@ -43,6 +43,8 @@ export const Settings: FC = () => {
   const navigateToSettingsAboutUs = () => navigate(ScreensEnum.SettingsAboutUs);
   const navigateToSettingsResetWalletConfirm = () => navigate(ScreensEnum.SettingsResetWalletConfirm);
 
+  const navigateToAuthorizedDapps = () => navigate(ScreensEnum.AuthorizedDapps);
+
   return (
     <ScreenContainer>
       <HeaderContainer isSelectors>
@@ -90,7 +92,7 @@ export const Settings: FC = () => {
             <Divider size={dividerSize} />
 
             <ItemContainer>
-              <Item title="Authorized DApps" icon={IconNameEnum.DappConnect} />
+              <Item title="Authorized DApps" icon={IconNameEnum.DappConnect} onPress={navigateToAuthorizedDapps} />
             </ItemContainer>
 
             <Divider size={dividerSize} />
