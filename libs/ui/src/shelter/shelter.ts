@@ -70,13 +70,13 @@ export class Shelter {
       )
     );
 
-  static changePassword$ = (password: string, oldPassword: string) =>
+  static changePassword$ = (password: string, oldPassword: string, accountsLength: number) =>
     Shelter.unlockApp$(oldPassword).pipe(
       switchMap(result => {
         if (result) {
           return Shelter.revealSeedPhrase$().pipe(
             switchMap(seedPhrase =>
-              Shelter.importAccount$(seedPhrase, password).pipe(
+              Shelter.importAccount$(seedPhrase, password, accountsLength).pipe(
                 map(() => true),
                 catchError(() => of(false))
               )

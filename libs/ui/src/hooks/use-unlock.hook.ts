@@ -3,8 +3,10 @@ import { Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { Shelter } from '../shelter/shelter';
+import { useAllHDAccountsLengthSelector } from '../store/wallet/wallet.selectors';
 
 export const useUnlock = () => {
+  const allAccountsLength = useAllHDAccountsLengthSelector();
   const [isLocked, setIsLocked] = useState(() => Shelter.getIsLocked());
   const [isPasswordMatch, setIsPasswordMatch] = useState(false);
   const [passwordAttempts, setPasswordAttempts] = useState(0);
@@ -27,7 +29,7 @@ export const useUnlock = () => {
         }
       }),
       changePassword$
-        .pipe(switchMap(([password, oldPassword]) => Shelter.changePassword$(password, oldPassword)))
+        .pipe(switchMap(([password, oldPassword]) => Shelter.changePassword$(password, oldPassword, allAccountsLength)))
         .subscribe(result => {
           if (result) {
             setIsPasswordMatch(true);

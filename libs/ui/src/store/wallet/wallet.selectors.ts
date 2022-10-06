@@ -204,3 +204,9 @@ export const useAllSavedTokensSelector = () => {
 
   return allTokens;
 };
+
+export const useAllHDAccountsLengthSelector = () => {
+  const allAccounts = useSelector<WalletRootState, AccountInterface[]>(({ wallet }) => wallet.accounts);
+
+  return allAccounts.length;
+};
