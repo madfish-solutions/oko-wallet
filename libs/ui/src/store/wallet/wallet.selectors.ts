@@ -150,6 +150,22 @@ export const useCollectiblesSelector = () => {
   return useMemo(() => assets.filter(token => isCollectible(token)), [assets]);
 };
 
+export const useSelectedCollectionSelector = (contractName: string) => {
+  const collectibles = useCollectiblesSelector();
+
+  return useMemo(() => collectibles.filter(collectible => collectible.contractName === contractName), [collectibles]);
+};
+
+export const useSelectedCollectibleSelector = (collectibleSlug: string) => {
+  const collectibles = useCollectiblesSelector();
+
+  return useMemo(
+    () =>
+      collectibles.find(collectible => getTokenSlug(collectible.tokenAddress, collectible.tokenId) === collectibleSlug),
+    [collectibles]
+  );
+};
+
 export const useIsAuthorisedSelector = () => {
   const accounts = useSelector<WalletRootState, AccountInterface[]>(({ wallet }) => wallet.accounts);
 

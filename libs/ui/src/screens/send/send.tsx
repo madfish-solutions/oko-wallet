@@ -7,6 +7,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { Pressable, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import { Announcement } from '../../components/announcement/announcement';
 import { Button } from '../../components/button/button';
 import { ButtonSizeEnum, ButtonThemesEnum } from '../../components/button/enums';
 import { Icon } from '../../components/icon/icon';
@@ -22,7 +23,6 @@ import { TextInput } from '../../components/text-input/text-input';
 import { Text } from '../../components/text/text';
 import { Token } from '../../components/token/token';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
-import { Warning } from '../../components/warning/warning';
 import { GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
@@ -202,7 +202,7 @@ export const Send: FC = () => {
       </HeaderContainer>
 
       <ScreenScrollView>
-        <Warning text={`Needed gas token: ${gasToken.symbol}`} style={styles.warning} />
+        <Announcement text={`Needed gas token: ${gasToken.symbol}`} style={styles.warning} />
         <Controller
           control={control}
           name="amount"
@@ -230,7 +230,7 @@ export const Send: FC = () => {
                 <Row style={styles.dollarAmountContainer}>
                   <Text style={styles.text}>≈</Text>
                   <Text style={[styles.text, styles.dollarAmount]}>{amountInDollar}</Text>
-                  <Text style={[styles.text]}>$</Text>
+                  <Text style={styles.text}>$</Text>
                 </Row>
               </View>
             </TextInput>

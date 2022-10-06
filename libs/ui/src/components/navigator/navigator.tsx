@@ -8,6 +8,7 @@ import { PERSISTENCE_KEY, usePersistedNavigationState } from '../../hooks/use-pe
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
 import { AddAccount } from '../../modals/screens/add-account/add-account';
+import { AddNewCollectible } from '../../modals/screens/add-new-collectible/add-new-collectible';
 import { Collectible } from '../../modals/screens/collectible/collectible';
 import { DappConfirmation } from '../../modals/screens/dapp-confirmation/dapp-confirmation';
 import { DeleteDapp } from '../../modals/screens/delete-dapp/delete-dapp';
@@ -34,9 +35,16 @@ import { SendConfirmation } from '../../screens/send-confirmation/send-confirmat
 import { AccountsSelector as SendAccountsSelector } from '../../screens/send/components/accounts-selector/accounts-selector';
 import { TokensSelector as SendTokensSelector } from '../../screens/send/components/tokens-selector/tokens-selector';
 import { Send } from '../../screens/send/send';
+import { AboutUs as SettingsAboutUs } from '../../screens/settings/screens/about-us/about-us';
 import { Account as SettingsAccount } from '../../screens/settings/screens/account/account';
+import { AppearanceSelector as SettingsAppearanceSelector } from '../../screens/settings/screens/appearance-selector/appearance-selector';
+import { CurrencySelector as SettingsCurrencySelector } from '../../screens/settings/screens/currency-selector/currency-selector';
+import { General as SettingsGeneral } from '../../screens/settings/screens/general/general';
+import { LockTimeSelector as SettingsLockTimeSelector } from '../../screens/settings/screens/lock-time-selector/lock-time-selector';
+import { ResetWalletConfirm as SettingsResetWalletConfirm } from '../../screens/settings/screens/reset-wallet-confirm/reset-wallet-confirm';
 import { RevealPrivateKey as SettingsRevealPrivateKey } from '../../screens/settings/screens/reveal-private-key/reveal-private-key';
 import { RevealSeedPhrase as SettingsRevealSeedPhrase } from '../../screens/settings/screens/reveal-seed-phrase/reveal-seed-phrase';
+import { Security as SettingsSecurity } from '../../screens/settings/screens/security/security';
 import { Settings } from '../../screens/settings/settings';
 import { Token } from '../../screens/token/token';
 import { Tokens } from '../../screens/tokens/tokens';
@@ -46,6 +54,7 @@ import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
 import { checkActiveApplicationSession } from '../../utils/check-active-application-session.util';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 import { setStoredValue } from '../../utils/store.util';
+import { substring } from '../../utils/substring.util';
 
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
 import { useActiveTokenList } from './hooks/use-active-token-list.hook';
@@ -97,8 +106,11 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
               <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
               <Stack.Screen name={ScreensEnum.SettingsAccount} component={SettingsAccount} />
+              <Stack.Screen name={ScreensEnum.SettingsGeneral} component={SettingsGeneral} />
               <Stack.Screen name={ScreensEnum.SettingsRevealSeedPhrase} component={SettingsRevealSeedPhrase} />
               <Stack.Screen name={ScreensEnum.SettingsRevealPrivateKey} component={SettingsRevealPrivateKey} />
+              <Stack.Screen name={ScreensEnum.SettingsSecurity} component={SettingsSecurity} />
+              <Stack.Screen name={ScreensEnum.SettingsAboutUs} component={SettingsAboutUs} />
               <Stack.Screen name={ScreensEnum.Send} component={Send} />
               <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
               <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
@@ -135,7 +147,7 @@ export const Navigator: FC = () => {
               />
               <Stack.Screen
                 name={ScreensEnum.Collectible}
-                options={({ route }) => ({ title: route.params.collectible.name })}
+                options={({ route }) => ({ title: substring(route.params.collectible.name, 30) })}
                 component={Collectible}
               />
               <Stack.Screen
@@ -177,6 +189,31 @@ export const Navigator: FC = () => {
                 component={AddNewToken}
               />
               <Stack.Screen name={ScreensEnum.EditToken} options={{ title: 'Edit token' }} component={EditToken} />
+              <Stack.Screen
+                name={ScreensEnum.AddNewCollectible}
+                options={{ title: 'Add new Collectible' }}
+                component={AddNewCollectible}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SettingsCurrencySelector}
+                options={{ title: 'Currency' }}
+                component={SettingsCurrencySelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SettingsAppearanceSelector}
+                options={{ title: 'Appearance' }}
+                component={SettingsAppearanceSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SettingsLockTimeSelector}
+                options={{ title: 'Lock time' }}
+                component={SettingsLockTimeSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SettingsResetWalletConfirm}
+                options={{ title: 'Reset Wallet' }}
+                component={SettingsResetWalletConfirm}
+              />
             </Stack.Group>
           </>
         ) : (

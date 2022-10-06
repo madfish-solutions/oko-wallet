@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { View, ScrollView } from 'react-native';
 
+import { ViewStyleProps } from '../../../interfaces/style.interface';
 import { ModalContainer } from '../modal-container/modal-container';
 import { ModalFooterButtons } from '../modal-footer-buttons/modal-footer-buttons';
 import { FooterButtons } from '../modal-footer-buttons/modal-footer-buttons.interface';
@@ -9,6 +10,7 @@ import { styles } from './modal-action-container.styles';
 
 interface Props extends FooterButtons {
   screenTitle: string;
+  style?: ViewStyleProps;
 }
 
 export const ModalActionContainer: FC<Props> = ({
@@ -18,10 +20,11 @@ export const ModalActionContainer: FC<Props> = ({
   cancelTitle,
   isSubmitDisabled,
   onSubmitPress,
-  onCancelPress
+  onCancelPress,
+  style
 }) => (
   <ModalContainer screenTitle={screenTitle} isBackButton>
-    <View style={styles.root}>
+    <View style={[styles.root, style]}>
       <ScrollView style={styles.content}>{children}</ScrollView>
 
       <ModalFooterButtons

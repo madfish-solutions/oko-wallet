@@ -1,8 +1,6 @@
-export interface SeedWordsAmount {
-  id: number;
-  title: string;
-  value: number;
-}
+import { Option } from '../components/dropdown/option.interface';
+
+export type SeedWordsAmount = Option<number>;
 
 export const words: SeedWordsAmount[] = [
   {

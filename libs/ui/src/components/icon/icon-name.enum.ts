@@ -53,7 +53,7 @@ export enum IconNameEnum {
   Error = 'Error',
   QrScanner = 'QrScanner',
   Chevron = 'Chevron',
-  ArrowDropdown = 'ArrowDropdown',
+  DropdownSelector = 'DropdownSelector',
   Refresh = 'Refresh',
   Info = 'Info',
   Deposit = 'Deposit',
@@ -75,5 +75,7 @@ export enum IconNameEnum {
   OutLink = 'OutLink',
   MadWithLove = 'MadWithLove',
   NewTab = 'NewTab',
-  See = 'See'
+  See = 'See',
+  WalletLogoPlaceholder = 'WalletLogoPlaceholder',
+  IconWarning = 'IconWarning'
 }

@@ -55,7 +55,7 @@ export const TokenItem: FC<Props> = ({
         children
       ) : (
         <View style={styles.text}>
-          <Text style={[themeClasses[theme].text]} numberOfLines={1}>
+          <Text style={themeClasses[theme].text} numberOfLines={1}>
             {balance}
           </Text>
           <Text style={styles.usdBalance}>

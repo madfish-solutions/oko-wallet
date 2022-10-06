@@ -16,11 +16,11 @@ export const ModalFooterButtons: FC<FooterButtons> = ({
 }) => (
   <Row style={styles.root}>
     <Button
-      style={styles.cancelButton}
       theme={ButtonThemesEnum.Primary}
       size={ButtonSizeEnum.Large}
       title={cancelTitle}
       onPress={onCancelPress}
+      style={[styles.button, styles.cancelButton]}
     />
     <Button
       disabled={isSubmitDisabled}
@@ -28,6 +28,7 @@ export const ModalFooterButtons: FC<FooterButtons> = ({
       size={ButtonSizeEnum.Large}
       title={submitTitle}
       onPress={onSubmitPress}
+      style={styles.button}
     />
   </Row>
 );

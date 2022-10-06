@@ -5,9 +5,9 @@ import { GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 
 import { loadTokensPriceInfo } from './tokens-market-info.actions';
-import { TokensMarketInfoState, TokensMarketInfoInitialState, TokenPriceInfo } from './tokens-market-info.state';
+import { TokensMarketInfoState, tokensMarketInfoInitialState, TokenPriceInfo } from './tokens-market-info.state';
 
-export const tokensMarketInfoReducers = createReducer<TokensMarketInfoState>(TokensMarketInfoInitialState, builder => {
+export const tokensMarketInfoReducers = createReducer<TokensMarketInfoState>(tokensMarketInfoInitialState, builder => {
   builder.addCase(loadTokensPriceInfo.success, (state, { payload }) => {
     const tokensPriceInfo: Record<string, TokenPriceInfo> = {};
 
