@@ -204,3 +204,12 @@ export const useAllSavedTokensSelector = () => {
 
   return allTokens;
 };
+
+export const useAuthorizedDappsByPublicKey = () => {
+  const allDapps = useSelector<WalletRootState, WalletState['confirmedEVMDappConnection']>(
+    ({ wallet }) => wallet.confirmedEVMDappConnection
+  );
+  const selectedAccountPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
+
+  return Object.keys(allDapps).filter(dapp => dapp.includes(selectedAccountPublicKeyHash));
+};

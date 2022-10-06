@@ -191,7 +191,7 @@ export const ImportWallet: FC = () => {
         <Pressable onPress={navigateToWordsAmountSelector}>
           <Row style={styles.wordsSelector}>
             <Text style={styles.amountWords}>{wordsAmount}</Text>
-            <Icon name={IconNameEnum.ArrowDropdown} size={getCustomSize(1.25)} />
+            <Icon name={IconNameEnum.Dropdown} size={getCustomSize(1.25)} />
           </Row>
         </Pressable>
       </Row>

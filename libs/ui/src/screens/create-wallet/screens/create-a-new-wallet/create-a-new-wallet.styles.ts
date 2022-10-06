@@ -15,18 +15,6 @@ export const styles = StyleSheet.create({
   amountWordsText: {
     ...typography.captionInterSemiBold13
   },
-  wordsSelector: {
-    justifyContent: 'space-between',
-    paddingVertical: getCustomSize(1.125),
-    paddingLeft: getCustomSize(2.25),
-    paddingRight: getCustomSize(1.75),
-    borderRadius: getCustomSize(2.5),
-    backgroundColor: colors.bgGrey4
-  },
-  amountWords: {
-    marginRight: getCustomSize(2.625),
-    ...typography.captionInterSemiBold13
-  },
   mnemonicContainer: {
     marginBottom: getCustomSize(2),
     paddingHorizontal: getCustomSize(0.75),

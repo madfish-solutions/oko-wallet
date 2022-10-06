@@ -15,8 +15,15 @@ export enum ScreensEnum {
   SendConfirmation = 'SendConfirmation',
   Settings = 'Settings',
   SettingsAccount = 'SettingsAccount',
+  SettingsGeneral = 'SettingsGeneral',
   SettingsRevealPrivateKey = 'SettingsRevealPrivateKey',
   SettingsRevealSeedPhrase = 'SettingsRevealSeedPhrase',
+  SettingsCurrencySelector = 'SettingsCurrencySelector',
+  SettingsAppearanceSelector = 'SettingsAppearanceSelector',
+  SettingsSecurity = 'SettingsSecurity',
+  SettingsLockTimeSelector = 'SettingsLockTimeSelector',
+  SettingsAboutUs = 'SettingsAboutUs',
+  SettingsResetWalletConfirm = 'SettingsResetWalletConfirm',
   Wallet = 'Wallet',
   ConnectToDapps = 'ConnectToDapps',
   Unlock = 'unlock',
@@ -39,6 +46,8 @@ export enum ScreensEnum {
   Token = 'Token',
   CollectiblesList = 'CollectiblesList',
   SpecificCollectiblesList = 'SpecificCollectiblesList',
+  AuthorizedDapps = 'AuthorizedDapps',
+  DeleteDapp = 'DeleteDapp',
   AddNewCollectible = 'AddNewCollectible',
   Collectible = 'Collectible'
 }
@@ -56,8 +65,15 @@ export type ScreensParamList = {
   };
   [ScreensEnum.Settings]: undefined;
   [ScreensEnum.SettingsAccount]: undefined;
+  [ScreensEnum.SettingsGeneral]: undefined;
   [ScreensEnum.SettingsRevealPrivateKey]: undefined;
   [ScreensEnum.SettingsRevealSeedPhrase]: undefined;
+  [ScreensEnum.SettingsCurrencySelector]: undefined;
+  [ScreensEnum.SettingsAppearanceSelector]: undefined;
+  [ScreensEnum.SettingsSecurity]: undefined;
+  [ScreensEnum.SettingsLockTimeSelector]: undefined;
+  [ScreensEnum.SettingsAboutUs]: undefined;
+  [ScreensEnum.SettingsResetWalletConfirm]: undefined;
   [ScreensEnum.Wallet]: undefined;
   [ScreensEnum.ConnectToDapps]: undefined;
   [ScreensEnum.Unlock]: undefined;
@@ -83,4 +99,6 @@ export type ScreensParamList = {
   [ScreensEnum.SpecificCollectiblesList]: { collectionName: string };
   [ScreensEnum.AddNewCollectible]: undefined;
   [ScreensEnum.Collectible]: { collectible: Token };
+  [ScreensEnum.AuthorizedDapps]: undefined;
+  [ScreensEnum.DeleteDapp]: { dappName: string };
 };
