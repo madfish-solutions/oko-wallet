@@ -176,11 +176,6 @@ export const ImportWallet: FC = () => {
     navigate(ScreensEnum.AlmostDone, { mnemonic: mnemonic.join(' '), currentStep: 2, stepsAmount: 2 });
   };
 
-  // const [wordsColumn1, wordsColumn2] = [
-  //   [...Array(Math.ceil(wordsAmount / 2)).keys()],
-  //   [...Array(Math.floor(wordsAmount / 2)).keys()]
-  // ];
-
   return (
     <WalletCreationContainer
       title="Import Existing Wallet"
