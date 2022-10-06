@@ -61,4 +61,5 @@ export const addTransactionAction = createAction<PendingTransaction>('wallet/ADD
 export const updateTransactionAction = createAction<Transaction>('wallet/CHANGE_TRANSACTION_STATUS');
 
 export const setConfirmedDappAction = createAction<DappConnectionInfo>('wallet/SET_CONFIRMED_DAPP');
+export const deleteConfirmedDappAction = createAction<string>('wallet/DELETE_CONFIRMED_DAPP');
 export const loadTokenMetadataAction = createAction<NewTokenMetadataRequest>('wallet/LOAD_NEW_TOKEN_METADATA');
