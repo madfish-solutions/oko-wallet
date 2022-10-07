@@ -17,8 +17,7 @@ interface Props {
 export const Paste: FC<Props> = ({ handlePaste }) => {
   useEffect(() => {
     if (!isMobile && !isMaximiseScreen) {
-      // @ts-ignore
-      navigator.permissions.query({ name: 'clipboard-read' }).then(status => {
+      navigator.permissions.query({ name: 'clipboard-read' as PermissionName }).then(status => {
         if (status.state === 'prompt') {
           openMaximiseScreen();
         }
