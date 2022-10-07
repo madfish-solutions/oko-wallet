@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
   },
   wordsAmount: {
     justifyContent: 'space-between',
-    marginBottom: getCustomSize(2)
+    marginBottom: getCustomSize()
   },
   amountWordsText: {
     ...typography.captionInterSemiBold13

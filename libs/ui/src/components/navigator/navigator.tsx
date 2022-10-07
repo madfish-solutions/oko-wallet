@@ -1,4 +1,4 @@
-import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
+import { NavigationContainer, NavigationContainerRef, DarkTheme } from '@react-navigation/native';
 import React, { FC, createRef, useEffect } from 'react';
 import { View, Text } from 'react-native';
 
@@ -22,14 +22,15 @@ import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
 import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
 import { Activity } from '../../screens/activity/activity';
+import { AlmostDone } from '../../screens/almost-done/almost-done';
+import { Authorization } from '../../screens/authorization/authorization';
 import { AuthorizedDapps } from '../../screens/authorized-dapps/authorized-dapps';
 import { CollectiblesList } from '../../screens/collectibles/screens/collectibles-list/collectibles-list';
 import { SpecificCollectiblesList } from '../../screens/collectibles/screens/specific-collectibles-list/specific-collectibles-list';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
-import { AlmostDone } from '../../screens/create-wallet/screens/almost-done/almost-done';
 import { CreateANewWallet } from '../../screens/create-wallet/screens/create-a-new-wallet/create-a-new-wallet';
 import { VerifyMnemonic } from '../../screens/create-wallet/screens/verify-mnemonic/verify-mnemonic';
-import { ImportAccount } from '../../screens/import-account/import-account';
+import { ImportWallet } from '../../screens/import-wallet/import-wallet';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
 import { ScanQrCode } from '../../screens/scan-qr-code/scan-qr-code';
@@ -97,7 +98,12 @@ export const Navigator: FC = () => {
   }
 
   return (
-    <NavigationContainer ref={globalNavigationRef} initialState={initialState} onStateChange={handleStateChange}>
+    <NavigationContainer
+      ref={globalNavigationRef}
+      initialState={initialState}
+      onStateChange={handleStateChange}
+      theme={DarkTheme}
+    >
       <Stack.Navigator>
         {isAuthorised ? (
           <>
@@ -227,7 +233,8 @@ export const Navigator: FC = () => {
         ) : (
           <>
             <Stack.Group screenOptions={{ headerShown: false }}>
-              <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />
+              <Stack.Screen name={ScreensEnum.Authorization} component={Authorization} />
+              <Stack.Screen name={ScreensEnum.ImportWallet} component={ImportWallet} />
               <Stack.Screen name={ScreensEnum.CreateANewWallet} component={CreateANewWallet} />
               <Stack.Screen name={ScreensEnum.VerifyMnemonic} component={VerifyMnemonic} />
               <Stack.Screen name={ScreensEnum.AlmostDone} component={AlmostDone} />
