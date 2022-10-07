@@ -11,7 +11,7 @@ import { Token } from '../../../../interfaces/token.interface';
 import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
 
-import { tokenNavigationBar } from './constants';
+import { TokenNavigationBarOption, tokenNavigationBar } from './constants';
 import { styles } from './navigation-bar.styles';
 
 interface Props {
@@ -21,12 +21,16 @@ interface Props {
 export const NavigationBar: FC<Props> = ({ token }) => {
   const { navigate } = useNavigation();
 
-  const navigateToRoute = (screen: ScreensEnum, disabled?: boolean) => {
+  const navigateToRoute = (screen: TokenNavigationBarOption['routeName'], disabled?: boolean) => {
     if (isDefined(disabled)) {
       return null;
     }
 
-    navigate(screen, { token });
+    if (screen === ScreensEnum.Send) {
+      navigate(screen, { token });
+    } else {
+      navigate(screen);
+    }
   };
 
   return (

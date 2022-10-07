@@ -11,13 +11,13 @@ import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
+import { WalletCreationContainer } from '../../../../components/wallet-creation-container/wallet-creation-container';
 import { SECURITY_TIME } from '../../../../constants/defaults';
 import { words } from '../../../../constants/seed-words-amount';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { handleCopyToClipboard } from '../../../../utils/copy-to-clipboard.util';
-import { Container } from '../../components/container/container';
-import { WarningMessage } from '../../components/warning-message/warning-message';
+import { WarningMessageDropdown } from '../../components/warning-message-dropdown/warning-message-dropdown';
 
 import { styles } from './create-a-new-wallet.styles';
 
@@ -110,29 +110,24 @@ export const CreateANewWallet: FC = () => {
     }
   }, [isOpenWarningDropdown]);
 
-  const [wordsColumn1, wordsColumn2] = [
-    mnemonic.slice(0, Math.round(mnemonic.length / 2)),
-    mnemonic.slice(-(mnemonic.length / 2))
-  ];
-
   return (
-    <Container
+    <WalletCreationContainer
       title="Create A New Wallet"
-      step={1}
+      currentStep={1}
       onSubmitPress={navigateToVerifyMnemonic}
       isSubmitDisabled={isError}
       scrollViewRef={scrollViewRef}
     >
-      <WarningMessage checkIsOpenDropdownState={setIsOpenWarningDropdown} style={styles.warning} />
+      <WarningMessageDropdown checkIsOpenDropdownState={setIsOpenWarningDropdown} style={styles.warning} />
 
       <Row style={styles.wordsAmount}>
-        <Text style={styles.amountWordsText}>Amount Words</Text>
+        <Text style={styles.amountWordsText}>Mnemonic Length</Text>
 
         <DropdownSelectedItem title={wordsAmount.value.toString()} onPress={navigateToWordsAmountSelector} />
       </Row>
 
       <Column style={styles.mnemonicContainer}>
-        <Row style={styles.wordsWrapper}>
+        <Column style={styles.wordsWrapper}>
           {isShowProtectLayout && (
             <Pressable onPress={handleHideLayout} style={styles.layout}>
               <View style={styles.layoutBlock} />
@@ -140,29 +135,17 @@ export const CreateANewWallet: FC = () => {
             </Pressable>
           )}
 
-          <Column style={[styles.wordsColumn, styles.marginRight]}>
-            {wordsColumn1.map((word, index) => (
-              <View key={`${word}_${index}`} style={styles.mnemonicItem}>
+          <Row style={styles.wordsColumn}>
+            {mnemonic.slice(0, wordsAmount.value).map((word, index) => (
+              <View key={`${word}_${index}`} style={[styles.mnemonicItem, index % 2 === 0 && styles.marginRight]}>
                 <Text selectable={false} style={styles.wordIndex}>{`${index + 1}.`}</Text>
                 <Text selectable={false} style={styles.word}>
                   {word}
                 </Text>
               </View>
             ))}
-          </Column>
-          <Column style={styles.wordsColumn}>
-            {wordsColumn2.map((word, index) => (
-              <View key={`${word}_${index}`} style={styles.mnemonicItem}>
-                <Text selectable={false} style={styles.wordIndex}>{`${Math.round(
-                  index + 1 + mnemonic.length / 2
-                )}.`}</Text>
-                <Text selectable={false} style={styles.word}>
-                  {word}
-                </Text>
-              </View>
-            ))}
-          </Column>
-        </Row>
+          </Row>
+        </Column>
 
         <Row style={styles.buttons}>
           <TouchableOpacity onPress={generateNewMnemonic} style={[styles.button, styles.buttonMarginRight]}>
@@ -191,6 +174,6 @@ export const CreateANewWallet: FC = () => {
           <Text style={styles.error}>To continue, you need to confirm that you have saved your mnemonic</Text>
         )}
       </Column>
-    </Container>
+    </WalletCreationContainer>
   );
 };

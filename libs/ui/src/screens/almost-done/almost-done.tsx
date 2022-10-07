@@ -5,18 +5,18 @@ import { Controller, useForm } from 'react-hook-form';
 import { TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { Checkbox } from '../../../../components/checkbox/checkbox';
-import { Column } from '../../../../components/column/column';
-import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
-import { Row } from '../../../../components/row/row';
-import { TextInput } from '../../../../components/text-input/text-input';
-import { Text } from '../../../../components/text/text';
-import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
-import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
-import { useShelter } from '../../../../hooks/use-shelter.hook';
-import { setIsAnalyticsEnabled, setIsBiometricEnabled } from '../../../../store/settings/settings.actions';
-import { isMobile } from '../../../../utils/platform.utils';
-import { Container } from '../../components/container/container';
+import { Checkbox } from '../../components/checkbox/checkbox';
+import { Column } from '../../components/column/column';
+import { IconNameEnum } from '../../components/icon/icon-name.enum';
+import { Row } from '../../components/row/row';
+import { TextInput } from '../../components/text-input/text-input';
+import { Text } from '../../components/text/text';
+import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
+import { WalletCreationContainer } from '../../components/wallet-creation-container/wallet-creation-container';
+import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
+import { useShelter } from '../../hooks/use-shelter.hook';
+import { setIsAnalyticsEnabled, setIsBiometricEnabled } from '../../store/settings/settings.actions';
+import { isMobile } from '../../utils/platform.utils';
 
 import { styles } from './almost-done.styles';
 import { passwordValidationInitialState } from './constants/password-validation-messages';
@@ -36,7 +36,7 @@ const defaultValues = {
 
 export const AlmostDone: FC = () => {
   const {
-    params: { mnemonic }
+    params: { mnemonic, currentStep, stepsAmount }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.AlmostDone>>();
 
   const { importWallet } = useShelter();
@@ -150,9 +150,10 @@ export const AlmostDone: FC = () => {
   const isValidationError = (Object.keys(errors).length > 0 || !isAcceptTerms) && isSubmitted;
 
   return (
-    <Container
+    <WalletCreationContainer
       title="Almost Done"
-      step={3}
+      currentStep={currentStep}
+      stepsAmount={stepsAmount}
       submitTitle="Create"
       onSubmitPress={handleSubmit(handleCreateAccount)}
       isSubmitDisabled={isValidationError}
@@ -284,6 +285,6 @@ export const AlmostDone: FC = () => {
           </Row>
         </Column>
       </Checkbox>
-    </Container>
+    </WalletCreationContainer>
   );
 };
