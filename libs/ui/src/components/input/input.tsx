@@ -14,6 +14,6 @@ type InputProps = {
 export const Input: React.FC<InputProps> = ({ title, style, ...props }) => (
   <View style={InputStyles.root}>
     {isNotEmptyString(title) && <Text style={InputStyles.title}>{title}</Text>}
-    <TextInput style={[InputStyles.input, style]} placeholder={props.placeholder ?? '...'} {...props} />
+    <TextInput style={[InputStyles.input, style]} {...props} />
   </View>
 );
