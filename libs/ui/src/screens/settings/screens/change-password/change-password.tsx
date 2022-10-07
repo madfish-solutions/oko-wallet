@@ -14,9 +14,9 @@ import { ScreenContainer } from '../../../../components/screen-components/screen
 import { TextInput } from '../../../../components/text-input/text-input';
 import { Text } from '../../../../components/text/text';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
+import { useChangePassword } from '../../../../hooks/use-change-password-hook';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useToast } from '../../../../hooks/use-toast.hook';
-import { useUnlock } from '../../../../hooks/use-unlock.hook';
 import { useValidationMessages } from '../../../../hooks/use-validation-messages.hook';
 import { useValidateForm } from '../../../create-wallet/screens/almost-done/hooks/use-validate-form.hook';
 
@@ -34,7 +34,7 @@ export const ChangePassword: FC = () => {
   const [isSecureOldPassword, setIsSecureOldPassword] = useState(true);
   const [isSecureConfirmPassword, setIsSecureConfirmPassword] = useState(true);
   const [passwordMatchError, setPasswordMatchError] = useState<string>();
-  const { isPasswordMatch, changePassword, passwordAttempts } = useUnlock();
+  const { isPasswordMatch, changePassword, passwordAttempts } = useChangePassword();
   const { showSuccessToast } = useToast();
 
   const handleTogglePasswordVisibility = () => setIsSecurePassword(prev => !prev);
@@ -84,7 +84,7 @@ export const ChangePassword: FC = () => {
 
   useEffect(() => {
     if (isDirty && !passwordIsNoValid && !isPasswordMatch) {
-      setPasswordMatchError('wrong password');
+      setPasswordMatchError('Wrong password');
     }
   }, [passwordAttempts]);
 

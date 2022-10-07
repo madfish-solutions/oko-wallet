@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
   },
   passwordValidationText: {
     ...typography.captionInterRegular11,
-    color: colors.textGrey5
+    color: colors.textGrey2
   },
   valid: {
     color: colors.green
