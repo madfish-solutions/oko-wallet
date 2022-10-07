@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
   },
   wordsAmount: {
     justifyContent: 'space-between',
-    marginBottom: getCustomSize(2)
+    marginBottom: getCustomSize()
   },
   amountWordsText: {
     ...typography.captionInterSemiBold13
@@ -51,15 +51,16 @@ export const styles = StyleSheet.create({
     borderRadius: getCustomSize(0.5)
   },
   wordsColumn: {
-    flex: 1
+    width: '100%',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
   },
   marginRight: {
     marginRight: getCustomSize(0.5)
   },
   mnemonicItem: {
-    position: 'relative',
     alignItems: 'center',
-    width: '100%',
+    width: '49.3%',
     marginBottom: getCustomSize(0.5),
     paddingHorizontal: getCustomSize(1.5),
     paddingVertical: getCustomSize(),

@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
-import { getCustomSize } from '../../../../styles/format-size';
-import { typography } from '../../../../styles/typography';
+import { getCustomSize } from '../../styles/format-size';
+import { typography } from '../../styles/typography';
 
 export const styles = StyleSheet.create({
   title: {

@@ -2,11 +2,11 @@ import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { GestureResponderEvent } from 'react-native';
 
-import { Button } from '../../../../components/button/button';
-import { ButtonSizeEnum, ButtonThemesEnum } from '../../../../components/button/enums';
-import { Row } from '../../../../components/row/row';
+import { Button } from '../button/button';
+import { ButtonSizeEnum, ButtonThemesEnum } from '../button/enums';
+import { Row } from '../row/row';
 
-import { styles } from './footer-buttons.styles';
+import { styles } from './footer-navigation-buttons.styles';
 
 export interface FooterButtonsInterface {
   submitTitle: string;
@@ -15,7 +15,7 @@ export interface FooterButtonsInterface {
   onCancelPress: OnEventFn<GestureResponderEvent>;
 }
 
-export const FooterButtons: FC<FooterButtonsInterface> = ({
+export const FooterNavigationButtons: FC<FooterButtonsInterface> = ({
   isSubmitDisabled,
   submitTitle,
   onSubmitPress,

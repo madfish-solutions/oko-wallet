@@ -18,7 +18,7 @@ import { useChangePassword } from '../../../../hooks/use-change-password-hook';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useToast } from '../../../../hooks/use-toast.hook';
 import { usePasswordValidation } from '../../../../hooks/use-validation-messages.hook';
-import { useValidateForm } from '../../../create-wallet/screens/almost-done/hooks/use-validate-form.hook';
+import { useValidateForm } from '../../../almost-done/hooks/use-validate-form.hook';
 
 import { styles } from './change-password.styles';
 
