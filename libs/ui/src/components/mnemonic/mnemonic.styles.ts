@@ -18,7 +18,9 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-start'
   },
   wordsColumn: {
-    flex: 1
+    width: '100%',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
   },
   marginRight: {
     marginRight: getCustomSize(0.5)
@@ -26,7 +28,7 @@ export const styles = StyleSheet.create({
   mnemonicItem: {
     position: 'relative',
     alignItems: 'center',
-    width: '100%',
+    width: '49.3%',
     height: getCustomSize(4.5),
     marginBottom: getCustomSize(0.5),
     paddingHorizontal: getCustomSize(1.5),
