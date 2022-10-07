@@ -16,6 +16,8 @@ import { EditAccount } from '../../modals/screens/edit-account/edit-account';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
 import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
 import { NetworksSelector } from '../../modals/screens/networks-selector/networks-selector';
+import { RevealPrivateKey } from '../../modals/screens/reveal-private-key/reveal-private-key';
+import { RevealSeedPhrase } from '../../modals/screens/reveal-seed-phrase/reveal-seed-phrase';
 import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
 import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
@@ -43,8 +45,6 @@ import { CurrencySelector as SettingsCurrencySelector } from '../../screens/sett
 import { General as SettingsGeneral } from '../../screens/settings/screens/general/general';
 import { LockTimeSelector as SettingsLockTimeSelector } from '../../screens/settings/screens/lock-time-selector/lock-time-selector';
 import { ResetWalletConfirm as SettingsResetWalletConfirm } from '../../screens/settings/screens/reset-wallet-confirm/reset-wallet-confirm';
-import { RevealPrivateKey as SettingsRevealPrivateKey } from '../../screens/settings/screens/reveal-private-key/reveal-private-key';
-import { RevealSeedPhrase as SettingsRevealSeedPhrase } from '../../screens/settings/screens/reveal-seed-phrase/reveal-seed-phrase';
 import { Security as SettingsSecurity } from '../../screens/settings/screens/security/security';
 import { Settings } from '../../screens/settings/settings';
 import { Token } from '../../screens/token/token';
@@ -113,8 +113,6 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
               <Stack.Screen name={ScreensEnum.SettingsAccount} component={SettingsAccount} />
               <Stack.Screen name={ScreensEnum.SettingsGeneral} component={SettingsGeneral} />
-              <Stack.Screen name={ScreensEnum.SettingsRevealSeedPhrase} component={SettingsRevealSeedPhrase} />
-              <Stack.Screen name={ScreensEnum.SettingsRevealPrivateKey} component={SettingsRevealPrivateKey} />
               <Stack.Screen name={ScreensEnum.SettingsSecurity} component={SettingsSecurity} />
               <Stack.Screen name={ScreensEnum.SettingsAboutUs} component={SettingsAboutUs} />
               <Stack.Screen name={ScreensEnum.Send} component={Send} />
@@ -155,6 +153,16 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.Collectible}
                 options={({ route }) => ({ title: substring(route.params.collectible.name, 30) })}
                 component={Collectible}
+              />
+              <Stack.Screen
+                name={ScreensEnum.RevealSeedPhrase}
+                options={{ title: 'Reveal Seed phrase' }}
+                component={RevealSeedPhrase}
+              />
+              <Stack.Screen
+                name={ScreensEnum.RevealPrivateKey}
+                options={{ title: 'Reveal Private Key' }}
+                component={RevealPrivateKey}
               />
               <Stack.Screen
                 name={ScreensEnum.DappConfirmation}
