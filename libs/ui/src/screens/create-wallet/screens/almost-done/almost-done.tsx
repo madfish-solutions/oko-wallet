@@ -14,7 +14,7 @@ import { Text } from '../../../../components/text/text';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
-import { useValidationMessages } from '../../../../hooks/use-validation-messages.hook';
+import { usePasswordValidation } from '../../../../hooks/use-validation-messages.hook';
 import { setIsAnalyticsEnabled, setIsBiometricEnabled } from '../../../../store/settings/settings.actions';
 import { isMobile } from '../../../../utils/platform.utils';
 import { Container } from '../../components/container/container';
@@ -55,7 +55,7 @@ export const AlmostDone: FC = () => {
 
   const password = watch('password');
 
-  const { passwordValidationMessages } = useValidationMessages(password, dirtyFields);
+  const { passwordValidationMessages } = usePasswordValidation(password, dirtyFields);
 
   const passwordIsNoValid = useMemo(
     () =>

@@ -15,7 +15,6 @@ import { encrypt } from '../themis/encrypt';
 import { getEtherDerivationPath } from '../utils/derivation-path.utils';
 import { derivationPathByNetworkType, generateHdAccount } from '../utils/generate-hd-account.util';
 import { generateHash$ } from '../utils/hash.utils';
-import { clearSensitiveData$ as clearSensitiveDataFunc$ } from '../utils/keychain.utils';
 import { isWeb } from '../utils/platform.utils';
 import { setStoredValue } from '../utils/store.util';
 
@@ -71,8 +70,6 @@ export class Shelter {
         )
       )
     );
-
-  static clearSensitiveData$ = (keys: string[]) => clearSensitiveDataFunc$(keys);
 
   static changePassword$ = (oldPassword: string, newPassword: string, sensitiveDataKeys: string[]) =>
     Shelter.unlockApp$(oldPassword).pipe(

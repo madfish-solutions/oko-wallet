@@ -8,7 +8,7 @@ import {
   uppercaseLowercaseMixtureRegx
 } from '../constants/regex-validation';
 
-export const useValidationMessages = <T extends { password?: boolean | undefined }>(
+export const usePasswordValidation = <T extends { password?: boolean | undefined }>(
   password: string,
   dirtyFields: T
 ) => {

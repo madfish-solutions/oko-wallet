@@ -17,7 +17,7 @@ import { TouchableIcon } from '../../../../components/touchable-icon/touchable-i
 import { useChangePassword } from '../../../../hooks/use-change-password-hook';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useToast } from '../../../../hooks/use-toast.hook';
-import { useValidationMessages } from '../../../../hooks/use-validation-messages.hook';
+import { usePasswordValidation } from '../../../../hooks/use-validation-messages.hook';
 import { useValidateForm } from '../../../create-wallet/screens/almost-done/hooks/use-validate-form.hook';
 
 import { styles } from './change-password.styles';
@@ -57,7 +57,7 @@ export const ChangePassword: FC = () => {
 
   const password = watch('password');
 
-  const { passwordValidationMessages } = useValidationMessages(password, dirtyFields);
+  const { passwordValidationMessages } = usePasswordValidation(password, dirtyFields);
 
   const passwordIsNoValid = useMemo(
     () =>
