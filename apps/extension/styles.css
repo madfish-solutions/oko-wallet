@@ -54,6 +54,9 @@ body {
   width: 100%;
   background-color: #080E15;
   overflow: hidden;
+  /* for Firefox */
+  scrollbar-color: rgba(114, 123, 147, 0.2);
+  scrollbar-width: 4px;
 }
 
 ::-webkit-scrollbar {
