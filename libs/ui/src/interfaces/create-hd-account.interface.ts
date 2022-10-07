@@ -29,3 +29,7 @@ export type CreateHdAccountForNewNetworkType = {
   createHdAccountForNewNetworkType$: Subject<CreateHdAccountForNewNetworkParams>;
   dispatch: Dispatch;
 };
+
+export type RevealSeedPhraseParams = {
+  successCallback: OnEventFn<string>;
+};

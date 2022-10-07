@@ -13,6 +13,8 @@ const goBackRoutes = [
   ScreensEnum.SendTokensSelector,
   ScreensEnum.WordsAmountSelector,
   ScreensEnum.Collectible,
+  ScreensEnum.RevealPrivateKey,
+  ScreensEnum.RevealSeedPhrase,
   ScreensEnum.SettingsCurrencySelector,
   ScreensEnum.SettingsAppearanceSelector,
   ScreensEnum.SettingsResetWalletConfirm,
