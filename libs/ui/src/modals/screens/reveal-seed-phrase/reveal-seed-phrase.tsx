@@ -1,7 +1,6 @@
 import { isNotEmptyString } from '@rnw-community/shared';
 import React, { FC, useEffect, useState } from 'react';
 import { ScrollView } from 'react-native';
-import { map } from 'rxjs';
 
 import { Announcement } from '../../../components/announcement/announcement';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
@@ -10,7 +9,7 @@ import { Mnemonic } from '../../../components/mnemonic/mnemonic';
 import { NavigationBar } from '../../../components/navigation-bar/navigation-bar';
 import { Text } from '../../../components/text/text';
 import { SECURITY_TIME } from '../../../constants/defaults';
-import { Shelter } from '../../../shelter/shelter';
+import { useShelter } from '../../../hooks/use-shelter.hook';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
@@ -23,17 +22,14 @@ export const RevealSeedPhrase: FC = () => {
   const [isShowProtectLayout, setIsShowProtectLayout] = useState(true);
   const [seedPhrase, setSeedPhrase] = useState<string[]>(initialSeedPhraseValue);
 
-  const getSeedPhrase = (successCallback: (arg: string) => void) =>
-    Shelter.revealSeedPhrase$()
-      .pipe(map(seedPhrase => seedPhrase))
-      .subscribe(seedPhrase => {
-        successCallback(seedPhrase);
-      });
+  const { revealSeedPhrase } = useShelter();
 
   const handleHideLayout = () => {
-    getSeedPhrase(seedPhrase => {
-      setSeedPhrase(seedPhrase.split(' '));
-      setIsShowProtectLayout(false);
+    revealSeedPhrase({
+      successCallback: seedPhraseParam => {
+        setSeedPhrase(seedPhraseParam.split(' '));
+        setIsShowProtectLayout(false);
+      }
     });
   };
 
@@ -44,8 +40,10 @@ export const RevealSeedPhrase: FC = () => {
       handleCopyToClipboard(seedPhrase.join(' '));
       setSeedPhrase(initialSeedPhraseValue);
     } else {
-      getSeedPhrase(seedPhrase => {
-        handleCopyToClipboard(seedPhrase);
+      revealSeedPhrase({
+        successCallback: seedPhraseParam => {
+          handleCopyToClipboard(seedPhraseParam);
+        }
       });
     }
 
