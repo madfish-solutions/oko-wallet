@@ -26,7 +26,7 @@ import { styles } from './import-wallet.styles';
 const maxWordsLength = Array(words.slice(-1)[0].value).fill('');
 
 export const ImportWallet: FC = () => {
-  const { params: routeParams } = useRoute<RouteProp<ScreensParamList, ScreensEnum.CreateANewWallet>>();
+  const { params: routeParams } = useRoute<RouteProp<ScreensParamList, ScreensEnum.ImportWallet>>();
   const { navigate } = useNavigation();
 
   const wordsAmountState = routeParams?.wordsAmount ?? words[0];

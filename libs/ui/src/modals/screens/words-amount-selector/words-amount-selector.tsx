@@ -17,7 +17,9 @@ export const WordsAmountSelector: FC = () => {
     const parentRoute = routes[routes.length - 2];
 
     if (wordsAmount.value !== routeParams?.wordsAmount.value) {
-      navigate(parentRoute.name as ScreensEnum, { wordsAmount });
+      if (parentRoute.name === ScreensEnum.ImportWallet || parentRoute.name === ScreensEnum.CreateANewWallet) {
+        navigate(parentRoute.name, { wordsAmount });
+      }
     } else {
       goBack();
     }

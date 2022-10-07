@@ -53,8 +53,8 @@ export enum ScreensEnum {
 }
 
 export type ScreensParamList = {
-  [ScreensEnum.ImportWallet]: undefined;
-  [ScreensEnum.Authorization]?: { wordsAmount: SeedWordsAmount };
+  [ScreensEnum.ImportWallet]?: { wordsAmount: SeedWordsAmount };
+  [ScreensEnum.Authorization]: undefined;
   [ScreensEnum.ManageTokens]: undefined;
   [ScreensEnum.Receive]: undefined;
   [ScreensEnum.Send]?: { account?: AccountInterface; token?: Token; receiverPublicKeyHash?: string };
