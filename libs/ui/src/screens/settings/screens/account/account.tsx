@@ -14,7 +14,7 @@ import { useSelectedAccountSelector } from '../../../../store/wallet/wallet.sele
 import { getCustomSize } from '../../../../styles/format-size';
 import { ItemContainer } from '../../components/item-container/item-container';
 import { Item } from '../../components/item/item';
-import { styles } from '../../settings.styles';
+import { Separator } from '../../components/separator/separator';
 
 export const Account: FC = () => {
   const { goBack, navigate } = useNavigation();
@@ -40,7 +40,7 @@ export const Account: FC = () => {
 
         <ItemContainer>
           <Item title="Reveal Private Key" icon={IconNameEnum.See} onPress={navigateToRevealPrivateKey} />
-          <Divider size={getCustomSize(0.125)} style={styles.separator} />
+          <Separator />
           <Item title="Reveal Seed Phrase" icon={IconNameEnum.See} onPress={navigateToRevealSeedPhrase} />
         </ItemContainer>
       </ScreenScrollView>

@@ -6,6 +6,7 @@ import { Pressable } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { Column } from '../../../../components/column/column';
+import { DropdownSelectedItem } from '../../../../components/dropdown/components/dropdown-selected-item/dropdown-selected-item';
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { MnemonicActionButton } from '../../../../components/mnemonic-action-button/mnemonic-action-button';
@@ -16,7 +17,6 @@ import { SECURITY_TIME } from '../../../../constants/defaults';
 import { words } from '../../../../constants/seed-words-amount';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { getCustomSize } from '../../../../styles/format-size';
 import { handleCopyToClipboard } from '../../../../utils/copy-to-clipboard.util';
 import { Container } from '../../components/container/container';
 import { WarningMessage } from '../../components/warning-message/warning-message';
@@ -125,12 +125,7 @@ export const CreateANewWallet: FC = () => {
       <Row style={styles.wordsAmount}>
         <Text style={styles.amountWordsText}>Amount Words</Text>
 
-        <Pressable onPress={navigateToWordsAmountSelector}>
-          <Row style={styles.wordsSelector}>
-            <Text style={styles.amountWords}>{wordsAmount.value}</Text>
-            <Icon name={IconNameEnum.ArrowDropdown} size={getCustomSize(1.25)} />
-          </Row>
-        </Pressable>
+        <DropdownSelectedItem title={wordsAmount.value.toString()} onPress={navigateToWordsAmountSelector} />
       </Row>
 
       <Mnemonic mnemonic={mnemonic} isShowProtectLayout={isShowProtectLayout} handleHideLayout={handleHideLayout}>

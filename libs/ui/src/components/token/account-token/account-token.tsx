@@ -20,7 +20,6 @@ import {
 import { checkIsGasToken } from '../../../utils/check-is-gas-token.util';
 import { getDollarValue } from '../../../utils/get-dollar-amount.util';
 import { getFormattedBalance } from '../../../utils/units.utils';
-import { SwitchThemesEnum } from '../../switch/enum';
 import { Switch } from '../../switch/switch';
 import { TokenItemThemesEnum } from '../token-item/enums';
 import { TokenItem } from '../token-item/token-item';
@@ -74,7 +73,7 @@ export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = false
         isGasToken={isGasToken}
       >
         {isDefined(showButton) && showButton && !isGasToken ? (
-          <Switch onPress={handleTokenVisibility} theme={SwitchThemesEnum.Primary} isActive={token.isVisible} />
+          <Switch onPress={handleTokenVisibility} isActive={token.isVisible} />
         ) : undefined}
       </TokenItem>
     </Pressable>

@@ -11,6 +11,7 @@ import { AddAccount } from '../../modals/screens/add-account/add-account';
 import { AddNewCollectible } from '../../modals/screens/add-new-collectible/add-new-collectible';
 import { Collectible } from '../../modals/screens/collectible/collectible';
 import { DappConfirmation } from '../../modals/screens/dapp-confirmation/dapp-confirmation';
+import { DeleteDapp } from '../../modals/screens/delete-dapp/delete-dapp';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
 import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
@@ -21,6 +22,7 @@ import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
 import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
 import { Activity } from '../../screens/activity/activity';
+import { AuthorizedDapps } from '../../screens/authorized-dapps/authorized-dapps';
 import { CollectiblesList } from '../../screens/collectibles/screens/collectibles-list/collectibles-list';
 import { SpecificCollectiblesList } from '../../screens/collectibles/screens/specific-collectibles-list/specific-collectibles-list';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
@@ -35,7 +37,14 @@ import { SendConfirmation } from '../../screens/send-confirmation/send-confirmat
 import { AccountsSelector as SendAccountsSelector } from '../../screens/send/components/accounts-selector/accounts-selector';
 import { TokensSelector as SendTokensSelector } from '../../screens/send/components/tokens-selector/tokens-selector';
 import { Send } from '../../screens/send/send';
+import { AboutUs as SettingsAboutUs } from '../../screens/settings/screens/about-us/about-us';
 import { Account as SettingsAccount } from '../../screens/settings/screens/account/account';
+import { AppearanceSelector as SettingsAppearanceSelector } from '../../screens/settings/screens/appearance-selector/appearance-selector';
+import { CurrencySelector as SettingsCurrencySelector } from '../../screens/settings/screens/currency-selector/currency-selector';
+import { General as SettingsGeneral } from '../../screens/settings/screens/general/general';
+import { LockTimeSelector as SettingsLockTimeSelector } from '../../screens/settings/screens/lock-time-selector/lock-time-selector';
+import { ResetWalletConfirm as SettingsResetWalletConfirm } from '../../screens/settings/screens/reset-wallet-confirm/reset-wallet-confirm';
+import { Security as SettingsSecurity } from '../../screens/settings/screens/security/security';
 import { Settings } from '../../screens/settings/settings';
 import { Token } from '../../screens/token/token';
 import { Tokens } from '../../screens/tokens/tokens';
@@ -97,6 +106,9 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
               <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
               <Stack.Screen name={ScreensEnum.SettingsAccount} component={SettingsAccount} />
+              <Stack.Screen name={ScreensEnum.SettingsGeneral} component={SettingsGeneral} />
+              <Stack.Screen name={ScreensEnum.SettingsSecurity} component={SettingsSecurity} />
+              <Stack.Screen name={ScreensEnum.SettingsAboutUs} component={SettingsAboutUs} />
               <Stack.Screen name={ScreensEnum.Send} component={Send} />
               <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
               <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
@@ -107,6 +119,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.CollectiblesList} component={CollectiblesList} />
               <Stack.Screen name={ScreensEnum.SpecificCollectiblesList} component={SpecificCollectiblesList} />
               <Stack.Screen name={ScreensEnum.Activity} component={Activity} />
+              <Stack.Screen name={ScreensEnum.AuthorizedDapps} component={AuthorizedDapps} />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptions}>
@@ -150,6 +163,11 @@ export const Navigator: FC = () => {
                 options={{ title: 'Connect' }}
                 component={DappConfirmation}
               />
+              <Stack.Screen
+                name={ScreensEnum.DeleteDapp}
+                options={{ title: 'Confirm disconnection' }}
+                component={DeleteDapp}
+              />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptionsWithBackButton}>
@@ -183,6 +201,26 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.AddNewCollectible}
                 options={{ title: 'Add new Collectible' }}
                 component={AddNewCollectible}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SettingsCurrencySelector}
+                options={{ title: 'Currency' }}
+                component={SettingsCurrencySelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SettingsAppearanceSelector}
+                options={{ title: 'Appearance' }}
+                component={SettingsAppearanceSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SettingsLockTimeSelector}
+                options={{ title: 'Lock time' }}
+                component={SettingsLockTimeSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SettingsResetWalletConfirm}
+                options={{ title: 'Reset Wallet' }}
+                component={SettingsResetWalletConfirm}
               />
             </Stack.Group>
           </>

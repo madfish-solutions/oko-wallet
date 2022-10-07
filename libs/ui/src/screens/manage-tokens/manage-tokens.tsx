@@ -9,7 +9,6 @@ import { HeaderContainer } from '../../components/screen-components/header-conta
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { ScreenScrollView } from '../../components/screen-components/screen-scroll-view/screen-scroll-view';
 import { SearchPanel } from '../../components/search-panel/search-panel';
-import { SwitchThemesEnum } from '../../components/switch/enum';
 import { Switch } from '../../components/switch/switch';
 import { Token } from '../../components/token/token';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
@@ -59,12 +58,7 @@ export const ManageTokens: FC = () => {
                   style={styles.editIcon}
                   disabled={isGasToken}
                 />
-                <Switch
-                  onPress={() => handleTokenVisibility(token)}
-                  theme={SwitchThemesEnum.Primary}
-                  isActive={token.isVisible}
-                  disabled={isGasToken}
-                />
+                <Switch onPress={() => handleTokenVisibility(token)} isActive={token.isVisible} disabled={isGasToken} />
               </Row>
             </Row>
           );

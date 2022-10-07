@@ -16,6 +16,13 @@ export enum ScreensEnum {
   SettingsAccount = 'SettingsAccount',
   RevealPrivateKey = 'RevealPrivateKey',
   RevealSeedPhrase = 'RevealSeedPhrase',
+  SettingsGeneral = 'SettingsGeneral',
+  SettingsCurrencySelector = 'SettingsCurrencySelector',
+  SettingsAppearanceSelector = 'SettingsAppearanceSelector',
+  SettingsSecurity = 'SettingsSecurity',
+  SettingsLockTimeSelector = 'SettingsLockTimeSelector',
+  SettingsAboutUs = 'SettingsAboutUs',
+  SettingsResetWalletConfirm = 'SettingsResetWalletConfirm',
   Wallet = 'Wallet',
   ConnectToDapps = 'ConnectToDapps',
   Unlock = 'unlock',
@@ -38,6 +45,8 @@ export enum ScreensEnum {
   Token = 'Token',
   CollectiblesList = 'CollectiblesList',
   SpecificCollectiblesList = 'SpecificCollectiblesList',
+  AuthorizedDapps = 'AuthorizedDapps',
+  DeleteDapp = 'DeleteDapp',
   AddNewCollectible = 'AddNewCollectible',
   Collectible = 'Collectible'
 }
@@ -56,6 +65,13 @@ export type ScreensParamList = {
   [ScreensEnum.SettingsAccount]: undefined;
   [ScreensEnum.RevealPrivateKey]: undefined;
   [ScreensEnum.RevealSeedPhrase]: undefined;
+  [ScreensEnum.SettingsGeneral]: undefined;
+  [ScreensEnum.SettingsCurrencySelector]: undefined;
+  [ScreensEnum.SettingsAppearanceSelector]: undefined;
+  [ScreensEnum.SettingsSecurity]: undefined;
+  [ScreensEnum.SettingsLockTimeSelector]: undefined;
+  [ScreensEnum.SettingsAboutUs]: undefined;
+  [ScreensEnum.SettingsResetWalletConfirm]: undefined;
   [ScreensEnum.Wallet]: undefined;
   [ScreensEnum.ConnectToDapps]: undefined;
   [ScreensEnum.Unlock]: undefined;
@@ -81,4 +97,6 @@ export type ScreensParamList = {
   [ScreensEnum.SpecificCollectiblesList]: { collectionName: string };
   [ScreensEnum.AddNewCollectible]: undefined;
   [ScreensEnum.Collectible]: { collectible: Token };
+  [ScreensEnum.AuthorizedDapps]: undefined;
+  [ScreensEnum.DeleteDapp]: { dappName: string };
 };
