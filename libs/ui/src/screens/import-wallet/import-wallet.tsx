@@ -20,7 +20,6 @@ import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { getCustomSize } from '../../styles/format-size';
 import { formatMnemonic } from '../../utils/format-mnemonic.util';
-import { onPasteClipboard } from '../../utils/on-paste-clipboard.util';
 
 import { styles } from './import-wallet.styles';
 
@@ -120,7 +119,7 @@ export const ImportWallet: FC = () => {
         setMnemonic(newMnemonic);
         inputValueRef.current = value;
       } else {
-        onPasteClipboard(handlePasteMnemonicFromClipboard);
+        handlePasteMnemonicFromClipboard();
       }
     },
     [handlePasteMnemonicFromClipboard, mnemonic]
