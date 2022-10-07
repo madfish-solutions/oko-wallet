@@ -205,12 +205,6 @@ export const useAllSavedTokensSelector = () => {
   return allTokens;
 };
 
-export const useAllHDAccountsLengthSelector = () => {
-  const allAccounts = useSelector<WalletRootState, AccountInterface[]>(({ wallet }) => wallet.accounts);
-
-  return allAccounts.length;
-};
-
 export const useAuthorizedDappsByPublicKey = () => {
   const allDapps = useSelector<WalletRootState, WalletState['confirmedEVMDappConnection']>(
     ({ wallet }) => wallet.confirmedEVMDappConnection
@@ -218,22 +212,4 @@ export const useAuthorizedDappsByPublicKey = () => {
   const selectedAccountPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
   return Object.keys(allDapps).filter(dapp => dapp.includes(selectedAccountPublicKeyHash));
-};
-
-export const useAllSensitiveKeysSelector = () => {
-  const allAccounts = useSelector<WalletRootState, AccountInterface[]>(({ wallet }) => wallet.accounts);
-  const sensitiveKeys = ['app-password'];
-
-  const publicKeys = allAccounts.reduce((acc, rec) => {
-    if (rec.networksKeys?.EVM?.publicKey !== undefined) {
-      acc = [...acc, rec.networksKeys?.EVM?.publicKey];
-    }
-    if (rec.networksKeys?.Tezos?.publicKey !== undefined) {
-      acc = [...acc, rec.networksKeys?.Tezos?.publicKey];
-    }
-
-    return acc;
-  }, [] as string[]);
-
-  return [...publicKeys, ...sensitiveKeys];
 };
