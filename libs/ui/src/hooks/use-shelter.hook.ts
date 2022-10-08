@@ -83,11 +83,11 @@ export const useShelter = () => {
   );
   const revealSeedPhrase = useCallback(
     (param: RevealSeedPhraseParams) => revealSeedPhrase$.next(param),
-    [sendTezosTransaction$]
+    [revealSeedPhrase$]
   );
   const revealPrivateKey = useCallback(
     (param: RevealPrivateKeyParams) => revealPrivateKey$.next(param),
-    [sendTezosTransaction$]
+    [revealPrivateKey$]
   );
 
   return {
