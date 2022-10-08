@@ -6,16 +6,18 @@ import { typography } from '../../styles/typography';
 import { isWeb } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
-  layout: {
+  root: {
     position: 'absolute',
     left: 0,
     right: 0,
     bottom: 0,
     top: 0,
     flex: 1,
+    padding: getCustomSize(0.75),
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.bgGrey4,
+    borderRadius: getCustomSize(),
     zIndex: 1
   },
   layoutText: {

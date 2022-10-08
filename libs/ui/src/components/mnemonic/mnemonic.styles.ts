@@ -7,8 +7,6 @@ import { typography } from '../../styles/typography';
 export const styles = StyleSheet.create({
   mnemonicContainer: {
     marginBottom: getCustomSize(2),
-    paddingHorizontal: getCustomSize(0.75),
-    paddingTop: getCustomSize(0.75),
     borderRadius: getCustomSize(),
     backgroundColor: colors.bgGrey4
   },
@@ -17,10 +15,12 @@ export const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'flex-start'
   },
-  wordsColumn: {
+  content: {
     width: '100%',
     flexWrap: 'wrap',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    paddingHorizontal: getCustomSize(0.75),
+    paddingTop: getCustomSize(0.75)
   },
   marginRight: {
     marginRight: getCustomSize(0.5)

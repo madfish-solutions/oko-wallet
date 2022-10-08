@@ -8,6 +8,7 @@ import { AccountInterface } from '../interfaces/account.interface';
 import {
   CreateHdAccountForNewNetworkParams,
   CreateHdAccountParams,
+  RevealPrivateKeyParams,
   RevealSeedPhraseParams
 } from '../interfaces/create-hd-account.interface';
 import { GetEvmSignerParams } from '../shelter/interfaces/get-evm-signer-params.interface';
@@ -18,6 +19,7 @@ import {
   createHdAccountForNewNetworkTypeSubscription
 } from '../shelter/utils/create-hd-account-subscription.util';
 import { importWalletSubscription } from '../shelter/utils/import-wallet-subscription.util';
+import { revealPrivateKeySubscription } from '../shelter/utils/reveal-private-key-subscription.util';
 import { revealSeedPhraseSubscription } from '../shelter/utils/reveal-seed-phrase-subscription.util';
 import { sendEvmTransactionSubscription } from '../shelter/utils/send-evm-transaction-subscription.util';
 import { sendTezosTransactionSubscription } from '../shelter/utils/send-tezos-transaction-subscription.util';
@@ -34,6 +36,7 @@ export const useShelter = () => {
   const createHdAccount$ = useMemo(() => new Subject<CreateHdAccountParams>(), []);
   const createHdAccountForNewNetworkType$ = useMemo(() => new Subject<CreateHdAccountForNewNetworkParams>(), []);
   const revealSeedPhrase$ = useMemo(() => new Subject<RevealSeedPhraseParams>(), []);
+  const revealPrivateKey$ = useMemo(() => new Subject<RevealPrivateKeyParams>(), []);
 
   useEffect(() => {
     const subscriptions = [
@@ -48,7 +51,8 @@ export const useShelter = () => {
       }),
       sendEvmTransactionSubscription(sendEvmTransaction$),
       sendTezosTransactionSubscription(sendTezosTransaction$),
-      revealSeedPhraseSubscription(revealSeedPhrase$)
+      revealSeedPhraseSubscription(revealSeedPhrase$),
+      revealPrivateKeySubscription(revealPrivateKey$)
     ];
 
     return () => subscriptions.forEach(subscription => subscription.unsubscribe());
@@ -81,6 +85,10 @@ export const useShelter = () => {
     (param: RevealSeedPhraseParams) => revealSeedPhrase$.next(param),
     [sendTezosTransaction$]
   );
+  const revealPrivateKey = useCallback(
+    (param: RevealPrivateKeyParams) => revealPrivateKey$.next(param),
+    [sendTezosTransaction$]
+  );
 
   return {
     importWallet,
@@ -88,6 +96,7 @@ export const useShelter = () => {
     createHdAccountForNewNetworkType,
     sendEvmTransaction,
     sendTezosTransaction,
-    revealSeedPhrase
+    revealSeedPhrase,
+    revealPrivateKey
   };
 };
