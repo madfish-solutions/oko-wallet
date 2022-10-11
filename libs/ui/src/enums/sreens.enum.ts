@@ -15,9 +15,9 @@ export enum ScreensEnum {
   SendConfirmation = 'SendConfirmation',
   Settings = 'Settings',
   SettingsAccount = 'SettingsAccount',
+  RevealPrivateKey = 'RevealPrivateKey',
+  RevealSeedPhrase = 'RevealSeedPhrase',
   SettingsGeneral = 'SettingsGeneral',
-  SettingsRevealPrivateKey = 'SettingsRevealPrivateKey',
-  SettingsRevealSeedPhrase = 'SettingsRevealSeedPhrase',
   SettingsCurrencySelector = 'SettingsCurrencySelector',
   SettingsAppearanceSelector = 'SettingsAppearanceSelector',
   SettingsSecurity = 'SettingsSecurity',
@@ -54,8 +54,8 @@ export enum ScreensEnum {
 }
 
 export type ScreensParamList = {
-  [ScreensEnum.ImportWallet]: undefined;
-  [ScreensEnum.Authorization]?: { wordsAmount: SeedWordsAmount };
+  [ScreensEnum.ImportWallet]?: { wordsAmount: SeedWordsAmount };
+  [ScreensEnum.Authorization]: undefined;
   [ScreensEnum.ManageTokens]: undefined;
   [ScreensEnum.Receive]: undefined;
   [ScreensEnum.Send]?: { account?: AccountInterface; token?: Token; receiverPublicKeyHash?: string };
@@ -66,9 +66,9 @@ export type ScreensParamList = {
   };
   [ScreensEnum.Settings]: undefined;
   [ScreensEnum.SettingsAccount]: undefined;
+  [ScreensEnum.RevealPrivateKey]: undefined;
+  [ScreensEnum.RevealSeedPhrase]: undefined;
   [ScreensEnum.SettingsGeneral]: undefined;
-  [ScreensEnum.SettingsRevealPrivateKey]: undefined;
-  [ScreensEnum.SettingsRevealSeedPhrase]: undefined;
   [ScreensEnum.SettingsCurrencySelector]: undefined;
   [ScreensEnum.SettingsAppearanceSelector]: undefined;
   [ScreensEnum.SettingsSecurity]: undefined;

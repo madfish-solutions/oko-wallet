@@ -21,8 +21,8 @@ export const Account: FC = () => {
   const account = useSelectedAccountSelector();
 
   const onEditAccount = () => navigate(ScreensEnum.EditAccount, { account });
-  const navigateToRevealSeedPhrase = () => navigate(ScreensEnum.SettingsRevealSeedPhrase);
-  const navigateToRevealPrivateKey = () => navigate(ScreensEnum.SettingsRevealPrivateKey);
+  const navigateToRevealSeedPhrase = () => navigate(ScreensEnum.RevealSeedPhrase);
+  const navigateToRevealPrivateKey = () => navigate(ScreensEnum.RevealPrivateKey);
 
   return (
     <ScreenContainer>

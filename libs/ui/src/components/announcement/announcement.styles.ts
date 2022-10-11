@@ -21,8 +21,6 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.bgTransparentRed
   },
   icon: {
-    position: 'relative',
-    top: -getCustomSize(0.25),
     marginRight: getCustomSize(0.5),
     color: colors.yellow
   },
@@ -32,6 +30,7 @@ export const styles = StyleSheet.create({
     flex: 1
   },
   text: {
+    paddingTop: getCustomSize(0.25),
     ...typography.captionInterSemiBold13,
     color: colors.textGrey4
   }
