@@ -170,7 +170,7 @@ export const Send: FC = () => {
   const onPastePress = async () => {
     const copiedText = await Clipboard.getString();
 
-    if (isNotEmptyString(copiedText) && copiedText.length < MAXIMUM_ADDRESS_LENGTH) {
+    if (isNotEmptyString(copiedText) && copiedText.length < MAXIMUM_ADDRESS_LENGTH && copiedText !== 'null') {
       setValue('receiverPublicKeyHash', copiedText);
       await trigger('receiverPublicKeyHash');
     }
