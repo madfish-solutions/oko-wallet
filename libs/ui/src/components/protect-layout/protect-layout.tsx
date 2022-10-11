@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const ProtectLayout: FC<Props> = ({ handleHideLayout }) => (
-  <Pressable opacity={false} onPress={handleHideLayout} style={styles.layout}>
+  <Pressable opacity={false} onPress={handleHideLayout} style={styles.root}>
     <View style={styles.layoutBlock} />
     <Text style={styles.layoutText}>Tap to reveal</Text>
   </Pressable>
