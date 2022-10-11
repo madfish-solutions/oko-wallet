@@ -41,6 +41,7 @@ import { Send } from '../../screens/send/send';
 import { AboutUs as SettingsAboutUs } from '../../screens/settings/screens/about-us/about-us';
 import { Account as SettingsAccount } from '../../screens/settings/screens/account/account';
 import { AppearanceSelector as SettingsAppearanceSelector } from '../../screens/settings/screens/appearance-selector/appearance-selector';
+import { ChangePassword } from '../../screens/settings/screens/change-password/change-password';
 import { CurrencySelector as SettingsCurrencySelector } from '../../screens/settings/screens/currency-selector/currency-selector';
 import { General as SettingsGeneral } from '../../screens/settings/screens/general/general';
 import { LockTimeSelector as SettingsLockTimeSelector } from '../../screens/settings/screens/lock-time-selector/lock-time-selector';
@@ -125,6 +126,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.CollectiblesList} component={CollectiblesList} />
               <Stack.Screen name={ScreensEnum.SpecificCollectiblesList} component={SpecificCollectiblesList} />
               <Stack.Screen name={ScreensEnum.Activity} component={Activity} />
+              <Stack.Screen name={ScreensEnum.ChangePassword} component={ChangePassword} />
               <Stack.Screen name={ScreensEnum.AuthorizedDapps} component={AuthorizedDapps} />
             </Stack.Group>
 

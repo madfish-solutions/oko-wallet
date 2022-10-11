@@ -18,7 +18,8 @@ import { generateHash$ } from '../utils/hash.utils';
 import { isWeb } from '../utils/platform.utils';
 import { setStoredValue } from '../utils/store.util';
 
-const PASSWORD_CHECK_KEY = 'app-password';
+export const PASSWORD_CHECK_KEY = 'app-password';
+export const SEED_PHRASE_KEY = 'seedPhrase';
 const INITIAL_PASSWORD_HASH = '';
 
 export class Shelter {
@@ -70,7 +71,34 @@ export class Shelter {
       )
     );
 
-  static revealSeedPhrase$ = () => Shelter.decryptSensitiveData$('seedPhrase', Shelter._passwordHash$.getValue());
+  static changePassword$ = (oldPassword: string, newPassword: string, sensitiveDataKeys: string[]) =>
+    Shelter.unlockApp$(oldPassword).pipe(
+      switchMap(result => {
+        if (result) {
+          return forkJoin([generateHash$(oldPassword), generateHash$(newPassword)]).pipe(
+            switchMap(([oldPasswordHash, newPasswordHash]) => {
+              Shelter.setPasswordHash(newPasswordHash);
+
+              return forkJoin(sensitiveDataKeys.map(key => Shelter.decryptSensitiveData$(key, oldPasswordHash))).pipe(
+                switchMap(rawDataArray => {
+                  const sensitiveData = sensitiveDataKeys.reduce(
+                    (obj, key, keyIndex) => ({ ...obj, [key]: rawDataArray[keyIndex] }),
+                    {}
+                  );
+
+                  return Shelter.saveSensitiveData$(sensitiveData);
+                }),
+                map(() => true)
+              );
+            })
+          );
+        }
+
+        return of(false);
+      })
+    );
+
+  static revealSeedPhrase$ = () => Shelter.decryptSensitiveData$(SEED_PHRASE_KEY, Shelter._passwordHash$.getValue());
 
   private static savePrivateKey$ = (publicKeyHash: string, privateKey: string) =>
     Shelter.saveSensitiveData$({ [publicKeyHash]: privateKey });
@@ -116,7 +144,7 @@ export class Shelter {
             const publicData = accountsData.map(({ publicData }) => publicData);
 
             return Shelter.saveSensitiveData$({
-              seedPhrase,
+              [SEED_PHRASE_KEY]: seedPhrase,
               [PASSWORD_CHECK_KEY]: generateMnemonic(),
               ...privateData
             }).pipe(map(() => publicData));
