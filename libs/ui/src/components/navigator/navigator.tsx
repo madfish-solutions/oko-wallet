@@ -31,6 +31,7 @@ import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps'
 import { CreateANewWallet } from '../../screens/create-wallet/screens/create-a-new-wallet/create-a-new-wallet';
 import { VerifyMnemonic } from '../../screens/create-wallet/screens/verify-mnemonic/verify-mnemonic';
 import { ImportWallet } from '../../screens/import-wallet/import-wallet';
+import { Initial } from '../../screens/initial/initial';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
 import { ScanQrCode } from '../../screens/scan-qr-code/scan-qr-code';
@@ -235,6 +236,7 @@ export const Navigator: FC = () => {
         ) : (
           <>
             <Stack.Group screenOptions={{ headerShown: false }}>
+              <Stack.Screen name={ScreensEnum.Initial} component={Initial} />
               <Stack.Screen name={ScreensEnum.Authorization} component={Authorization} />
               <Stack.Screen name={ScreensEnum.ImportWallet} component={ImportWallet} />
               <Stack.Screen name={ScreensEnum.CreateANewWallet} component={CreateANewWallet} />

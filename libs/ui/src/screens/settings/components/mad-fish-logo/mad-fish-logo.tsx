@@ -11,9 +11,10 @@ import { styles } from './mad-fish-logo.styles';
 
 interface Props {
   style?: ViewStyleProps;
+  isDark?: boolean;
 }
 
-export const MadFishLogo: FC<Props> = ({ style }) => {
+export const MadFishLogo: FC<Props> = ({ style, isDark = false }) => {
   const goToMadFishSite = () => Linking.openURL(madFishUrl);
 
   return (
@@ -21,7 +22,7 @@ export const MadFishLogo: FC<Props> = ({ style }) => {
       <TouchableIcon
         width={getCustomSize(13.75)}
         height={getCustomSize(5)}
-        name={IconNameEnum.MadWithLove}
+        name={isDark ? IconNameEnum.MadWithLoveDark : IconNameEnum.MadWithLove}
         onPress={goToMadFishSite}
       />
     </View>

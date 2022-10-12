@@ -23,13 +23,14 @@ export const FooterNavigationButtons: FC<FooterButtonsInterface> = ({
 }) => (
   <Row style={styles.root}>
     <Button
-      style={styles.cancelButton}
+      style={[styles.cancelButton, styles.button]}
       theme={ButtonThemesEnum.Primary}
       size={ButtonSizeEnum.Large}
       title="Cancel"
       onPress={onCancelPress}
     />
     <Button
+      style={styles.button}
       disabled={isSubmitDisabled}
       theme={ButtonThemesEnum.Secondary}
       size={ButtonSizeEnum.Large}

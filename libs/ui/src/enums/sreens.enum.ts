@@ -50,7 +50,8 @@ export enum ScreensEnum {
   AuthorizedDapps = 'AuthorizedDapps',
   DeleteDapp = 'DeleteDapp',
   AddNewCollectible = 'AddNewCollectible',
-  Collectible = 'Collectible'
+  Collectible = 'Collectible',
+  Initial = 'Initial'
 }
 
 export type ScreensParamList = {
@@ -103,4 +104,5 @@ export type ScreensParamList = {
   [ScreensEnum.ChangePassword]: undefined;
   [ScreensEnum.AuthorizedDapps]: undefined;
   [ScreensEnum.DeleteDapp]: { dappName: string };
+  [ScreensEnum.Initial]: undefined;
 };
