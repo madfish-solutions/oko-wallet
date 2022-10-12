@@ -20,7 +20,7 @@ export const Mnemonic: FC<Props> = ({ mnemonic, isShowProtectLayout, handleHideL
     <Row style={styles.wordsWrapper}>
       {isShowProtectLayout && <ProtectLayout handleHideLayout={handleHideLayout} />}
 
-      <Row style={styles.wordsColumn}>
+      <Row style={styles.content}>
         {mnemonic.map((word, index) => (
           <View key={`${word}_${index}`} style={[styles.mnemonicItem, index % 2 === 0 && styles.marginRight]}>
             <Text selectable={false} style={styles.wordIndex}>{`${index + 1}.`}</Text>

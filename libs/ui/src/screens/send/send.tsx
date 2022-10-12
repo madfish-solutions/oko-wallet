@@ -52,6 +52,8 @@ import { useValidateSendFields } from './hooks/use-validate-send-fields.hook';
 import { styles } from './send.styles';
 import { FormTypes } from './types';
 
+const MAXIMUM_ADDRESS_LENGTH = 64;
+
 export const Send: FC = () => {
   const { showWarningToast, showErrorToast } = useToast();
   const { navigate } = useNavigation();
@@ -168,8 +170,8 @@ export const Send: FC = () => {
   const onPastePress = async () => {
     const copiedText = await Clipboard.getString();
 
-    if (isNotEmptyString(copiedText)) {
-      setValue('receiverPublicKeyHash', await Clipboard.getString());
+    if (isNotEmptyString(copiedText) && copiedText.length < MAXIMUM_ADDRESS_LENGTH && copiedText !== 'null') {
+      setValue('receiverPublicKeyHash', copiedText);
       await trigger('receiverPublicKeyHash');
     }
   };

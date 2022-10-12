@@ -33,3 +33,8 @@ export type CreateHdAccountForNewNetworkType = {
 export type RevealSeedPhraseParams = {
   successCallback: OnEventFn<string>;
 };
+
+export type RevealPrivateKeyParams = {
+  publicKeyHash: string;
+  successCallback: OnEventFn<string>;
+};

@@ -185,7 +185,7 @@ export class Shelter {
     );
   };
 
-  private static revealPrivateKey$ = (publicKeyHash: string) =>
+  static revealPrivateKey$ = (publicKeyHash: string) =>
     Shelter.decryptSensitiveData$(publicKeyHash, Shelter._passwordHash$.getValue());
 
   static getEvmSigner$ = (publicKeyHash: string, provider: Provider) =>
