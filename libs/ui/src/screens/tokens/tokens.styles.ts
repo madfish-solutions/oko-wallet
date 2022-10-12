@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { typography } from '../../styles/typography';
+import { isWeb } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   screenContainer: {
@@ -10,7 +11,8 @@ export const styles = StyleSheet.create({
   },
   root: {
     flex: 1,
-    paddingHorizontal: getCustomSize(2)
+    paddingHorizontal: getCustomSize(2),
+    paddingRight: isWeb ? getCustomSize(1.5) : getCustomSize(2)
   },
   checkboxContainer: {
     marginBottom: getCustomSize(0.5)

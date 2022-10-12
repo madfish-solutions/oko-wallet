@@ -3,11 +3,12 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../../styles/colors';
 import { getCustomSize } from '../../../styles/format-size';
 import { typography } from '../../../styles/typography';
+import { isWeb } from '../../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {
     marginLeft: getCustomSize(1.5),
-    marginRight: getCustomSize(2)
+    marginRight: isWeb ? getCustomSize(1.5) : getCustomSize(2)
   },
   wrapper: {
     borderBottomWidth: getCustomSize(0.03125),

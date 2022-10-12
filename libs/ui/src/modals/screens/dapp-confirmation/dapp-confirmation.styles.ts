@@ -1,16 +1,17 @@
 import { StyleSheet } from 'react-native';
 
+import { isWeb } from '../../..//utils/platform.utils';
 import { colors } from '../../../styles/colors';
 import { getCustomSize } from '../../../styles/format-size';
 import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
-    // alignItems: 'stretch',
     height: '100%'
   },
   viewRoot: {
-    marginHorizontal: getCustomSize(2)
+    marginHorizontal: getCustomSize(2),
+    marginRight: isWeb ? getCustomSize(1.5) : getCustomSize(2)
   },
   container: {
     marginHorizontal: getCustomSize(2),

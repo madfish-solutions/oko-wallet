@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
   content: {
     marginTop: getCustomSize(-7),
     padding: getCustomSize(2),
+    paddingRight: isWeb ? getCustomSize(1.5) : getCustomSize(2),
     paddingTop: getCustomSize(7),
     zIndex: -1
   }

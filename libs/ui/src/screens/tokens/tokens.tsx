@@ -122,12 +122,7 @@ export const Tokens: FC = () => {
             <Text style={styles.checkboxText}>Hide 0 balances</Text>
           </Row>
         )}
-        <FlatList
-          data={accountTokens}
-          showsVerticalScrollIndicator={false}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-        />
+        <FlatList data={accountTokens} renderItem={renderItem} keyExtractor={keyExtractor} />
       </View>
 
       <NavigationBar />

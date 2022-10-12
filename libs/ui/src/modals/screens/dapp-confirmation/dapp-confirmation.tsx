@@ -75,7 +75,7 @@ export const DappConfirmation: FC = () => {
 
   return (
     <ModalContainer screenTitle="Confirm operation">
-      <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
+      <ScrollView style={styles.root}>
         <View style={styles.viewRoot}>
           <Row style={styles.container}>
             <DappImage />

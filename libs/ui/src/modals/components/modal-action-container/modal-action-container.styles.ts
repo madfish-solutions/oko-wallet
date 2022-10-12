@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 import { getCustomSize } from '../../../styles/format-size';
-import { isMobile } from '../../../utils/platform.utils';
+import { isMobile, isWeb } from '../../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {
@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
   content: {
     flex: 1,
     marginBottom: getCustomSize(2),
-    paddingHorizontal: getCustomSize(2)
+    paddingHorizontal: getCustomSize(2),
+    paddingRight: isWeb ? getCustomSize(1.5) : getCustomSize(2)
   }
 });

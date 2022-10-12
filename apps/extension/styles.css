@@ -60,11 +60,10 @@ body {
 }
 
 ::-webkit-scrollbar {
-      width: 4px;
+      width: 4px; 
 }
   
 ::-webkit-scrollbar-thumb {
       border-radius: 4px;
-      height: 24px;
       background-color: rgba(114, 123, 147, 0.2);
 }

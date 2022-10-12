@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { typography } from '../../styles/typography';
+import { isWeb } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {
@@ -17,6 +18,7 @@ export const styles = StyleSheet.create({
     borderColor: colors.bgGrey2,
     marginBottom: getCustomSize(2),
     marginHorizontal: getCustomSize(2),
+    marginRight: isWeb ? getCustomSize(1.5) : getCustomSize(2),
     flex: 1
   },
   icon: {

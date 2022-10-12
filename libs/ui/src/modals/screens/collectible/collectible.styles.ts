@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 import { getCustomSize } from '../../../styles/format-size';
-import { isMobile } from '../../../utils/platform.utils';
+import { isMobile, isWeb } from '../../../utils/platform.utils';
 import { COLLECTIBLE_SIZE } from '../add-new-collectible/constants';
 
 export const styles = StyleSheet.create({
@@ -13,7 +13,8 @@ export const styles = StyleSheet.create({
   },
   content: {
     marginBottom: getCustomSize(2),
-    paddingHorizontal: getCustomSize(2)
+    paddingHorizontal: getCustomSize(2),
+    paddingRight: isWeb ? getCustomSize(1.5) : getCustomSize(2)
   },
   contentContainerStyle: {
     alignItems: 'center'
