@@ -6,7 +6,6 @@ import { TransferParams } from '../interfaces/transfer-params.interface';
 
 export enum ScreensEnum {
   ImportWallet = 'ImportWallet',
-  Authorization = 'Authorization',
   ManageTokens = 'ManageTokens',
   Receive = 'Receive',
   Send = 'Send',
@@ -56,7 +55,6 @@ export enum ScreensEnum {
 
 export type ScreensParamList = {
   [ScreensEnum.ImportWallet]?: { wordsAmount: SeedWordsAmount };
-  [ScreensEnum.Authorization]: undefined;
   [ScreensEnum.ManageTokens]: undefined;
   [ScreensEnum.Receive]: undefined;
   [ScreensEnum.Send]?: { account?: AccountInterface; token?: Token; receiverPublicKeyHash?: string };
