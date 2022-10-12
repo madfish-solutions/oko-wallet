@@ -8,6 +8,7 @@ import { Icon } from '../../components/icon/icon';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
+import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { isMobile } from '../../utils/platform.utils';
 import { MadFishLogo } from '../settings/components/mad-fish-logo/mad-fish-logo';
@@ -35,7 +36,7 @@ export const Initial: FC = () => {
         />
         <Button title="IMPORT EXISTING WALLET" style={styles.button} onPress={navigateToImportAccount} />
         {isMobile && <Button title="IMPORT FROM NAMEHERE EXTENSION" style={styles.button} />}
-        <MadFishLogo style={styles.madLogo} isDark />
+        <MadFishLogo style={styles.madLogo} color={colors.logoDark} />
       </View>
     </View>
   );

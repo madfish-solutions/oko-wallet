@@ -23,7 +23,6 @@ import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
 import { Activity } from '../../screens/activity/activity';
 import { AlmostDone } from '../../screens/almost-done/almost-done';
-import { Authorization } from '../../screens/authorization/authorization';
 import { AuthorizedDapps } from '../../screens/authorized-dapps/authorized-dapps';
 import { CollectiblesList } from '../../screens/collectibles/screens/collectibles-list/collectibles-list';
 import { SpecificCollectiblesList } from '../../screens/collectibles/screens/specific-collectibles-list/specific-collectibles-list';
@@ -237,7 +236,6 @@ export const Navigator: FC = () => {
           <>
             <Stack.Group screenOptions={{ headerShown: false }}>
               <Stack.Screen name={ScreensEnum.Initial} component={Initial} />
-              <Stack.Screen name={ScreensEnum.Authorization} component={Authorization} />
               <Stack.Screen name={ScreensEnum.ImportWallet} component={ImportWallet} />
               <Stack.Screen name={ScreensEnum.CreateANewWallet} component={CreateANewWallet} />
               <Stack.Screen name={ScreensEnum.VerifyMnemonic} component={VerifyMnemonic} />

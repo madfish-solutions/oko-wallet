@@ -38,7 +38,6 @@ import Info from './assets/info.svg';
 import LoadersIcon from './assets/loaders.svg';
 import LockClosed from './assets/lock-closed.svg';
 import LockOpen from './assets/lock-open.svg';
-import MadWithLoveDark from './assets/mad-with-love-dark.svg';
 import MadWithLove from './assets/mad-with-love.svg';
 import Maximize from './assets/maximize.svg';
 import NewTab from './assets/new-tab.svg';
@@ -167,6 +166,5 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.See]: See,
   [IconNameEnum.WalletLogoPlaceholder]: WalletLogoPlaceholder,
   [IconNameEnum.IconWarning]: IconWarning,
-  [IconNameEnum.WalletLogoPlaceholderSquare]: WalletLogoPlaceholderSquare,
-  [IconNameEnum.MadWithLoveDark]: MadWithLoveDark
+  [IconNameEnum.WalletLogoPlaceholderSquare]: WalletLogoPlaceholderSquare
 };
