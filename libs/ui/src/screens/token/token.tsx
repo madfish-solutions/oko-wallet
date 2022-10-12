@@ -73,7 +73,7 @@ export const Token: FC<Props> = ({ style }) => {
 
       <Divider style={styles.divider} />
 
-      <Tabs values={tabs} style={styles.tabs} />
+      <Tabs values={tabs} />
     </ScreenContainer>
   );
 };

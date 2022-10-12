@@ -33,7 +33,8 @@ import {
   addNewTokensAction,
   getAllUserNftAction,
   deleteConfirmedDappAction,
-  addNewCollectibleAction
+  addNewCollectibleAction,
+  changeAccountVisibilityAction
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -77,6 +78,16 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       accounts: state.accounts.map(currentAccount => {
         if (currentAccount.accountIndex === account.accountIndex) {
           return { ...currentAccount, name: account.name };
+        }
+
+        return currentAccount;
+      })
+    }))
+    .addCase(changeAccountVisibilityAction, (state, { payload: accountIndex }) => ({
+      ...state,
+      accounts: state.accounts.map(currentAccount => {
+        if (currentAccount.accountIndex === accountIndex) {
+          return { ...currentAccount, isVisible: !currentAccount.isVisible };
         }
 
         return currentAccount;

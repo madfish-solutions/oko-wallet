@@ -132,7 +132,8 @@ export class Shelter {
                         publicKey,
                         publicKeyHash: address
                       }
-                    }
+                    },
+                    isVisible: true
                   }
                 };
               })

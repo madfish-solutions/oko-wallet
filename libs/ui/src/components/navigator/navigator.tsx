@@ -24,7 +24,6 @@ import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/
 import { Activity } from '../../screens/activity/activity';
 import { AlmostDone } from '../../screens/almost-done/almost-done';
 import { Authorization } from '../../screens/authorization/authorization';
-import { AuthorizedDapps } from '../../screens/authorized-dapps/authorized-dapps';
 import { CollectiblesList } from '../../screens/collectibles/screens/collectibles-list/collectibles-list';
 import { SpecificCollectiblesList } from '../../screens/collectibles/screens/specific-collectibles-list/specific-collectibles-list';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
@@ -39,8 +38,9 @@ import { AccountsSelector as SendAccountsSelector } from '../../screens/send/com
 import { TokensSelector as SendTokensSelector } from '../../screens/send/components/tokens-selector/tokens-selector';
 import { Send } from '../../screens/send/send';
 import { AboutUs as SettingsAboutUs } from '../../screens/settings/screens/about-us/about-us';
-import { Account as SettingsAccount } from '../../screens/settings/screens/account/account';
+import { AccountsSettings } from '../../screens/settings/screens/acсounts-settings/acсounts-settings';
 import { AppearanceSelector as SettingsAppearanceSelector } from '../../screens/settings/screens/appearance-selector/appearance-selector';
+import { AuthorizedDapps } from '../../screens/settings/screens/authorized-dapps/authorized-dapps';
 import { ChangePassword } from '../../screens/settings/screens/change-password/change-password';
 import { CurrencySelector as SettingsCurrencySelector } from '../../screens/settings/screens/currency-selector/currency-selector';
 import { General as SettingsGeneral } from '../../screens/settings/screens/general/general';
@@ -112,7 +112,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
               <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
               <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
-              <Stack.Screen name={ScreensEnum.SettingsAccount} component={SettingsAccount} />
+              <Stack.Screen name={ScreensEnum.AccountsSettings} component={AccountsSettings} />
               <Stack.Screen name={ScreensEnum.SettingsGeneral} component={SettingsGeneral} />
               <Stack.Screen name={ScreensEnum.SettingsSecurity} component={SettingsSecurity} />
               <Stack.Screen name={ScreensEnum.SettingsAboutUs} component={SettingsAboutUs} />

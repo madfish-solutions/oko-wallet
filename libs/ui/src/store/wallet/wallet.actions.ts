@@ -21,6 +21,9 @@ export const setSelectedAccountAction = createAction<string>('wallet/SET_SELECTE
 export const editAccountNameAction = createAction<{ accountIndex: AccountInterface['accountIndex']; name: string }>(
   'wallet/EDIT_ACCOUNT_NAME'
 );
+export const changeAccountVisibilityAction = createAction<AccountInterface['accountIndex']>(
+  'wallet/CHANGE_ACCOUNT_VISIBILITY'
+);
 
 export const loadGasTokenBalanceAction = createActions<void, string, string>('wallet/LOAD_GAS_TOKEN_BALANCE');
 export const loadAccountTokenBalanceAction = createActions<

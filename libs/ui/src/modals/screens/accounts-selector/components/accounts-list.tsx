@@ -42,6 +42,7 @@ export const AccountsList: FC<Props> = ({
 
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
 
+  // ask do we need to search in accounts selector by publicKeyHash
   const filteredList = useListSearch(searchValue, accounts);
 
   const selectedIndex = useMemo(
