@@ -13,17 +13,15 @@ const goBackRoutes = [
   ScreensEnum.SendTokensSelector,
   ScreensEnum.WordsAmountSelector,
   ScreensEnum.Collectible,
+  ScreensEnum.RevealPrivateKey,
+  ScreensEnum.RevealSeedPhrase,
   ScreensEnum.SettingsCurrencySelector,
   ScreensEnum.SettingsAppearanceSelector,
   ScreensEnum.SettingsResetWalletConfirm,
   ScreensEnum.SettingsLockTimeSelector
 ];
 
-interface Props {
-  closeNavigationRoute?: ScreensEnum;
-}
-
-export const HeaderCloseButton: FC<Props> = ({ closeNavigationRoute }) => {
+export const HeaderCloseButton: FC = () => {
   const { navigate, goBack } = useNavigation();
   const { name } = useRoute<RouteProp<ScreensParamList>>();
 
@@ -31,7 +29,7 @@ export const HeaderCloseButton: FC<Props> = ({ closeNavigationRoute }) => {
     if (goBackRoutes.includes(name)) {
       goBack();
     } else {
-      navigate(closeNavigationRoute ?? ScreensEnum.Wallet);
+      navigate(ScreensEnum.Wallet);
     }
   };
 

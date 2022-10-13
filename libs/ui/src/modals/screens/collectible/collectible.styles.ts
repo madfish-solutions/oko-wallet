@@ -1,14 +1,13 @@
 import { StyleSheet } from 'react-native';
 
 import { getCustomSize } from '../../../styles/format-size';
-import { isMobile, isWeb } from '../../../utils/platform.utils';
+import { isWeb } from '../../../utils/platform.utils';
 import { COLLECTIBLE_SIZE } from '../add-new-collectible/constants';
 
 export const styles = StyleSheet.create({
   root: {
     flex: 1,
     paddingTop: getCustomSize(2),
-    paddingBottom: isMobile ? getCustomSize(4) : getCustomSize(2),
     justifyContent: 'space-between'
   },
   content: {
@@ -33,10 +32,7 @@ export const styles = StyleSheet.create({
     width: '100%'
   },
   buttonContainer: {
-    paddingHorizontal: getCustomSize(2)
-  },
-  button: {
-    height: getCustomSize(5),
-    flexGrow: 0
+    paddingHorizontal: getCustomSize(2),
+    height: getCustomSize(5)
   }
 });

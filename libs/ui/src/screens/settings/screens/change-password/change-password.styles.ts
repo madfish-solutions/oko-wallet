@@ -3,13 +3,21 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
 import { typography } from '../../../../styles/typography';
+import { isMobile } from '../../../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
+  root: {
+    paddingHorizontal: getCustomSize(2)
+  },
   controllerOffset: {
     marginBottom: getCustomSize(3.5)
   },
   passwordContainer: {
     marginBottom: getCustomSize(1.5)
+  },
+  oldPasswordContainer: {
+    marginBottom: getCustomSize(3.75),
+    marginTop: getCustomSize(2.125)
   },
   inputContainer: {
     position: 'relative',
@@ -35,7 +43,7 @@ export const styles = StyleSheet.create({
   },
   passwordValidationText: {
     ...typography.captionInterRegular11,
-    color: colors.textGrey5
+    color: colors.textGrey2
   },
   valid: {
     color: colors.green
@@ -43,25 +51,13 @@ export const styles = StyleSheet.create({
   noValid: {
     color: colors.red
   },
-  checkbox: {
-    marginBottom: getCustomSize(3)
+  label: {
+    marginBottom: getCustomSize(1.25)
   },
-  text: {
-    ...typography.captionInterSemiBold11,
-    color: colors.textGrey2
-  },
-  link: {
-    marginHorizontal: getCustomSize(0.25),
-    borderBottomWidth: getCustomSize(0.125),
-    borderBottomColor: colors.orange
-  },
-  linkingText: {
-    ...typography.captionInterSemiBold11,
-    color: colors.orange
-  },
-  error: {
-    marginTop: getCustomSize(1.25),
-    ...typography.captionInterRegular11,
-    color: colors.red
+  saveButtonContainer: {
+    height: getCustomSize(5),
+    marginTop: getCustomSize(2),
+    marginBottom: isMobile ? getCustomSize(4) : getCustomSize(2),
+    paddingHorizontal: getCustomSize(2)
   }
 });

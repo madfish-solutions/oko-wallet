@@ -7,9 +7,9 @@ import { Pressable } from 'react-native';
 import { Column } from '../../../../components/column/column';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
+import { WalletCreationContainer } from '../../../../components/wallet-creation-container/wallet-creation-container';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { Container } from '../../components/container/container';
 
 import { shuffledInitialState, wordsInitialState } from './state';
 import { SelectedContainer, ShuffleWord, Word } from './types';
@@ -151,7 +151,7 @@ export const VerifyMnemonic: FC = () => {
 
   const navigateToAlmostDoneScreen = () => {
     if (JSON.stringify(correctWordOrder) === JSON.stringify(words)) {
-      return navigate(ScreensEnum.AlmostDone, { mnemonic: mnemonic.join(' ') });
+      return navigate(ScreensEnum.AlmostDone, { mnemonic: mnemonic.join(' '), currentStep: 3, stepsAmount: 3 });
     }
 
     const allWordsAreSelected = words.every(item => isNotEmptyString(item.word));
@@ -168,11 +168,13 @@ export const VerifyMnemonic: FC = () => {
     return setError('Please, select all the words.');
   };
 
-  // the next container is counted not by column but by row
-  const [wordsColumn1, wordsColumn2] = [words.slice(0, 1).concat(words.slice(-1)), words.slice(1, 2)];
-
   return (
-    <Container title="Verify Mnemonic" step={2} isSubmitDisabled={!!error} onSubmitPress={navigateToAlmostDoneScreen}>
+    <WalletCreationContainer
+      title="Verify Mnemonic"
+      currentStep={2}
+      isSubmitDisabled={!!error}
+      onSubmitPress={navigateToAlmostDoneScreen}
+    >
       <Text style={styles.title}>Confirm you saved mnemonic</Text>
       <Text style={styles.description}>
         You need to put the words in the correct positions according to their number
@@ -180,12 +182,16 @@ export const VerifyMnemonic: FC = () => {
 
       <Column style={[styles.container, isNotEmptyString(error) && styles.containerError]}>
         <Row style={styles.wordsWrapper}>
-          <Column style={[styles.wordsColumn, styles.marginRight]}>
-            {wordsColumn1.map(({ id, index, word, shuffledWordId }) => (
+          <Row style={styles.wordsColumn}>
+            {words.map(({ id, index, word, shuffledWordId }, arrayIndex) => (
               <Pressable
                 key={`${word}_${id}`}
                 onPress={() => handleSelectContainerOrResetWord(id, shuffledWordId, word)}
-                style={[styles.mnemonicItem, id === selectedContainer.id && styles.active]}
+                style={[
+                  styles.mnemonicItem,
+                  id === selectedContainer.id && styles.active,
+                  arrayIndex % 2 === 0 && styles.marginRight
+                ]}
               >
                 <Text selectable={false} style={styles.wordIndex}>{`${index}.`}</Text>
                 <Text selectable={false} style={styles.word}>
@@ -193,21 +199,7 @@ export const VerifyMnemonic: FC = () => {
                 </Text>
               </Pressable>
             ))}
-          </Column>
-          <Column style={styles.wordsColumn}>
-            {wordsColumn2.map(({ id, index, word, shuffledWordId }) => (
-              <Pressable
-                key={`${word}_${id}`}
-                onPress={() => handleSelectContainerOrResetWord(id, shuffledWordId, word)}
-                style={[styles.mnemonicItem, id === selectedContainer.id && styles.active]}
-              >
-                <Text selectable={false} style={styles.wordIndex}>{`${index}.`}</Text>
-                <Text selectable={false} style={styles.word}>
-                  {word}
-                </Text>
-              </Pressable>
-            ))}
-          </Column>
+          </Row>
         </Row>
 
         <Text style={styles.wordsSelectorTitle}>Pick word you need</Text>
@@ -230,6 +222,6 @@ export const VerifyMnemonic: FC = () => {
       </Column>
 
       {isNotEmptyString(error) && <Text style={styles.error}>{error}</Text>}
-    </Container>
+    </WalletCreationContainer>
   );
 };

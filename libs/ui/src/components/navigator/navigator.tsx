@@ -1,4 +1,4 @@
-import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
+import { NavigationContainer, NavigationContainerRef, DarkTheme } from '@react-navigation/native';
 import React, { FC, createRef, useEffect } from 'react';
 import { View, Text } from 'react-native';
 
@@ -16,18 +16,21 @@ import { EditAccount } from '../../modals/screens/edit-account/edit-account';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
 import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
 import { NetworksSelector } from '../../modals/screens/networks-selector/networks-selector';
+import { RevealPrivateKey } from '../../modals/screens/reveal-private-key/reveal-private-key';
+import { RevealSeedPhrase } from '../../modals/screens/reveal-seed-phrase/reveal-seed-phrase';
 import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
 import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
 import { Activity } from '../../screens/activity/activity';
+import { AlmostDone } from '../../screens/almost-done/almost-done';
+import { Authorization } from '../../screens/authorization/authorization';
 import { AuthorizedDapps } from '../../screens/authorized-dapps/authorized-dapps';
 import { CollectiblesList } from '../../screens/collectibles/screens/collectibles-list/collectibles-list';
 import { SpecificCollectiblesList } from '../../screens/collectibles/screens/specific-collectibles-list/specific-collectibles-list';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
-import { AlmostDone } from '../../screens/create-wallet/screens/almost-done/almost-done';
 import { CreateANewWallet } from '../../screens/create-wallet/screens/create-a-new-wallet/create-a-new-wallet';
 import { VerifyMnemonic } from '../../screens/create-wallet/screens/verify-mnemonic/verify-mnemonic';
-import { ImportAccount } from '../../screens/import-account/import-account';
+import { ImportWallet } from '../../screens/import-wallet/import-wallet';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
 import { ScanQrCode } from '../../screens/scan-qr-code/scan-qr-code';
@@ -38,12 +41,11 @@ import { Send } from '../../screens/send/send';
 import { AboutUs as SettingsAboutUs } from '../../screens/settings/screens/about-us/about-us';
 import { Account as SettingsAccount } from '../../screens/settings/screens/account/account';
 import { AppearanceSelector as SettingsAppearanceSelector } from '../../screens/settings/screens/appearance-selector/appearance-selector';
+import { ChangePassword } from '../../screens/settings/screens/change-password/change-password';
 import { CurrencySelector as SettingsCurrencySelector } from '../../screens/settings/screens/currency-selector/currency-selector';
 import { General as SettingsGeneral } from '../../screens/settings/screens/general/general';
 import { LockTimeSelector as SettingsLockTimeSelector } from '../../screens/settings/screens/lock-time-selector/lock-time-selector';
 import { ResetWalletConfirm as SettingsResetWalletConfirm } from '../../screens/settings/screens/reset-wallet-confirm/reset-wallet-confirm';
-import { RevealPrivateKey as SettingsRevealPrivateKey } from '../../screens/settings/screens/reveal-private-key/reveal-private-key';
-import { RevealSeedPhrase as SettingsRevealSeedPhrase } from '../../screens/settings/screens/reveal-seed-phrase/reveal-seed-phrase';
 import { Security as SettingsSecurity } from '../../screens/settings/screens/security/security';
 import { Settings } from '../../screens/settings/settings';
 import { Token } from '../../screens/token/token';
@@ -97,7 +99,12 @@ export const Navigator: FC = () => {
   }
 
   return (
-    <NavigationContainer ref={globalNavigationRef} initialState={initialState} onStateChange={handleStateChange}>
+    <NavigationContainer
+      ref={globalNavigationRef}
+      initialState={initialState}
+      onStateChange={handleStateChange}
+      theme={DarkTheme}
+    >
       <Stack.Navigator>
         {isAuthorised ? (
           <>
@@ -107,8 +114,6 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
               <Stack.Screen name={ScreensEnum.SettingsAccount} component={SettingsAccount} />
               <Stack.Screen name={ScreensEnum.SettingsGeneral} component={SettingsGeneral} />
-              <Stack.Screen name={ScreensEnum.SettingsRevealSeedPhrase} component={SettingsRevealSeedPhrase} />
-              <Stack.Screen name={ScreensEnum.SettingsRevealPrivateKey} component={SettingsRevealPrivateKey} />
               <Stack.Screen name={ScreensEnum.SettingsSecurity} component={SettingsSecurity} />
               <Stack.Screen name={ScreensEnum.SettingsAboutUs} component={SettingsAboutUs} />
               <Stack.Screen name={ScreensEnum.Send} component={Send} />
@@ -121,6 +126,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.CollectiblesList} component={CollectiblesList} />
               <Stack.Screen name={ScreensEnum.SpecificCollectiblesList} component={SpecificCollectiblesList} />
               <Stack.Screen name={ScreensEnum.Activity} component={Activity} />
+              <Stack.Screen name={ScreensEnum.ChangePassword} component={ChangePassword} />
               <Stack.Screen name={ScreensEnum.AuthorizedDapps} component={AuthorizedDapps} />
             </Stack.Group>
 
@@ -149,6 +155,16 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.Collectible}
                 options={({ route }) => ({ title: substring(route.params.collectible.name, 30) })}
                 component={Collectible}
+              />
+              <Stack.Screen
+                name={ScreensEnum.RevealSeedPhrase}
+                options={{ title: 'Reveal Seed phrase' }}
+                component={RevealSeedPhrase}
+              />
+              <Stack.Screen
+                name={ScreensEnum.RevealPrivateKey}
+                options={{ title: 'Reveal Private Key' }}
+                component={RevealPrivateKey}
               />
               <Stack.Screen
                 name={ScreensEnum.DappConfirmation}
@@ -219,7 +235,8 @@ export const Navigator: FC = () => {
         ) : (
           <>
             <Stack.Group screenOptions={{ headerShown: false }}>
-              <Stack.Screen name={ScreensEnum.ImportAccount} component={ImportAccount} />
+              <Stack.Screen name={ScreensEnum.Authorization} component={Authorization} />
+              <Stack.Screen name={ScreensEnum.ImportWallet} component={ImportWallet} />
               <Stack.Screen name={ScreensEnum.CreateANewWallet} component={CreateANewWallet} />
               <Stack.Screen name={ScreensEnum.VerifyMnemonic} component={VerifyMnemonic} />
               <Stack.Screen name={ScreensEnum.AlmostDone} component={AlmostDone} />

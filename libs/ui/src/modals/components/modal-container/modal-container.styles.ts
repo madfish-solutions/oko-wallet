@@ -17,7 +17,6 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.navGrey1,
     borderTopWidth: getCustomSize(0.0625),
     borderTopColor: colors.border2,
-
     ...(isMobile && { flex: 1 }),
     ...(isWeb && { height: childrenHeight }),
     ...(isMaximiseScreen && {

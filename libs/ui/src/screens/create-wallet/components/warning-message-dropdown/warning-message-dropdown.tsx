@@ -7,14 +7,14 @@ import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
 
-import { styles } from './warning-message.styles';
+import { styles } from './warning-message-dropdown.styles';
 
 interface Props {
   checkIsOpenDropdownState?: (arg: boolean) => void;
   style?: ViewStyleProps;
 }
 
-export const WarningMessage: FC<Props> = ({ checkIsOpenDropdownState, style }) => {
+export const WarningMessageDropdown: FC<Props> = ({ checkIsOpenDropdownState, style }) => {
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const animationController = useRef(new Animated.Value(0)).current;
 

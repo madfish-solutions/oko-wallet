@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
 
-import { getCustomSize } from '../../../../styles/format-size';
-import { typography } from '../../../../styles/typography';
-import { isWeb } from '../../../../utils/platform.utils';
+import { getCustomSize } from '../../styles/format-size';
+import { typography } from '../../styles/typography';
+import { isWeb } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   title: {
