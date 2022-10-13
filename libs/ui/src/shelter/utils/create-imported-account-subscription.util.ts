@@ -24,7 +24,7 @@ export const createImportAccountSubscription = (
           }
         }
 
-        return Shelter.createImportedAccount$(hdAccount, accountIndex, name);
+        return Shelter.createImportedAccount$(hdAccount, networkType, accountIndex, name);
       }),
       catchError(() => {
         // TODO: add toast or add this error to input

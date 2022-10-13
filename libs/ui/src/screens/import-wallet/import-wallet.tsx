@@ -47,7 +47,11 @@ export const ImportWallet: FC = () => {
     const isError = checkErrors();
 
     if (!isError) {
-      navigate(ScreensEnum.AlmostDone, { mnemonic: mnemonic.join(' '), currentStep: 2, stepsAmount: 2 });
+      navigate(ScreensEnum.AlmostDone, {
+        mnemonic: mnemonic.filter(word => isNotEmptyString(word)).join(' '),
+        currentStep: 2,
+        stepsAmount: 2
+      });
     }
   };
 

@@ -78,12 +78,6 @@ export const AlmostDone: FC = () => {
 
       dispatch(setIsAnalyticsEnabled(isAllowUseAnalytics));
       dispatch(setIsBiometricEnabled(isUseFaceId));
-
-      console.log('Submitted:', {
-        useFaceId: isUseFaceId,
-        acceptTerms: isAcceptTerms,
-        analytics: isAllowUseAnalytics
-      });
     }
   };
 

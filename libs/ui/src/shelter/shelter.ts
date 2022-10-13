@@ -185,7 +185,12 @@ export class Shelter {
     );
   };
 
-  static createImportedAccount$ = (hdAccount: HdAccount, accountIndex: number, name: string) =>
+  static createImportedAccount$ = (
+    hdAccount: HdAccount,
+    networkType: NetworkTypeEnum,
+    accountIndex: number,
+    name: string
+  ) =>
     of(hdAccount).pipe(
       switchMap(({ privateKey, publicKey, address: publicKeyHash }) =>
         Shelter.savePrivateKey$(publicKeyHash, privateKey).pipe(
@@ -194,7 +199,7 @@ export class Shelter {
             type: AccountTypeEnum.IMPORTED_ACCOUNT,
             accountIndex,
             networksKeys: {
-              [NetworkTypeEnum.EVM]: {
+              [networkType]: {
                 publicKey,
                 publicKeyHash
               }

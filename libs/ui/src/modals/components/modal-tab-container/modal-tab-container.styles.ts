@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 import { getCustomSize } from '../../../styles/format-size';
+import { isWeb } from '../../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   container: {
@@ -9,6 +10,6 @@ export const styles = StyleSheet.create({
   content: {
     flex: 1,
     height: '100%',
-    paddingTop: getCustomSize(2)
+    paddingVertical: isWeb ? getCustomSize(2) : getCustomSize(4)
   }
 });

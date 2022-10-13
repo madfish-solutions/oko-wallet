@@ -19,8 +19,7 @@ import { useNavigation } from '../../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../../hooks/use-shelter.hook';
 import { useAllAccountsSelector, useSelectedNetworkTypeSelector } from '../../../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../../../styles/format-size';
-import { getEtherDerivationPath } from '../../../../../utils/derivation-path.utils';
-import { generateHdAccount } from '../../../../../utils/generate-hd-account.util';
+import { derivationPathByNetworkType, generateHdAccount } from '../../../../../utils/generate-hd-account.util';
 import { ModalFooterButtons } from '../../../../components/modal-footer-buttons/modal-footer-buttons';
 import { useAccountFieldRules } from '../../../../hooks/use-validate-account-field.hook';
 
@@ -67,7 +66,7 @@ export const SeedPhrase: FC = () => {
     mode: 'onChange',
     defaultValues: {
       name: defaultValue,
-      derivationPath: getEtherDerivationPath(lastAccountIndex)
+      derivationPath: derivationPathByNetworkType[networkType](totalAccounts)
     }
   });
 
@@ -81,13 +80,21 @@ export const SeedPhrase: FC = () => {
     setFocus('name');
   }, [errors.name]);
 
-  const onSubmit = async ({ name, derivationPath }: { name: string; derivationPath: string }) => {
+  const onSubmit = async ({ name, derivationPath: derivationPathParam }: { name: string; derivationPath: string }) => {
     setIsSubmitted(true);
 
     const isError = checkErrors();
 
     if (!isError && !Object.keys(errors).length) {
-      const hdAccount = await generateHdAccount(mnemonic.join(' '), derivationPath);
+      const derivationPath = isNotEmptyString(derivationPathParam)
+        ? derivationPathParam
+        : derivationPathByNetworkType[networkType](totalAccounts);
+
+      const hdAccount = await generateHdAccount(
+        mnemonic.filter(word => isNotEmptyString(word)).join(' '),
+        derivationPath
+      );
+
       createImportedAccount({ name: name.trim().length ? name.trim() : defaultValue, hdAccount, networkType });
     }
   };
