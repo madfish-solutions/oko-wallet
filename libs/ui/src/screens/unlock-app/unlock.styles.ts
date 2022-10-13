@@ -26,6 +26,13 @@ export const styles = StyleSheet.create({
   icon: {
     margin: getCustomSize()
   },
+  iconContainer: {
+    backgroundColor: colors.bgGrey4,
+    alignSelf: 'flex-end',
+    marginBottom: getCustomSize(3.625),
+    borderRadius: getCustomSize(),
+    marginLeft: getCustomSize()
+  },
   button: {
     marginBottom: getCustomSize(2)
   },
@@ -46,13 +53,20 @@ export const styles = StyleSheet.create({
   },
   inputContainer: {
     position: 'relative',
-    width: '100%',
+    flex: 1,
     borderTopLeftRadius: getCustomSize(2),
     borderTopRightRadius: getCustomSize(2),
     paddingTop: getCustomSize(2.125),
     marginBottom: getCustomSize(3.625)
   },
   input: {
+    width: '100%'
+  },
+  label: {
+    marginBottom: getCustomSize(1.25)
+  },
+  password: {
+    position: 'relative',
     width: '100%'
   },
   clearIcon: {
@@ -67,7 +81,6 @@ export const styles = StyleSheet.create({
     color: colors.textGrey2
   },
   linkText: {
-    ...typography.captionInterSemiBold11,
     color: colors.orange,
     textDecorationLine: 'underline'
   }

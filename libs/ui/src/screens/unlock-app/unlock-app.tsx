@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { Button } from '../../components/button/button';
 import { ButtonThemesEnum } from '../../components/button/enums';
@@ -16,6 +16,7 @@ import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
+import { isMobile } from '../../utils/platform.utils';
 import { MadFishLogo } from '../settings/components/mad-fish-logo/mad-fish-logo';
 
 import { styles } from './unlock.styles';
@@ -50,33 +51,43 @@ export const UnlockApp: FC = () => {
         </IconWithBorder>
       </View>
       <View style={styles.bottomBlock}>
-        <Controller
-          control={control}
-          name="password"
-          render={({ field }) => (
-            <Row style={styles.inputContainer}>
-              <TextInput
-                field={field}
-                label="Password"
-                secureTextEntry={isSecurePassword}
-                placeholder="Password"
-                prompt="Enter your password to unlock wallet"
-                containerStyle={styles.input}
-                clearIconStyles={styles.clearIcon}
-              />
-              <TouchableIcon
-                name={isSecurePassword ? IconNameEnum.EyeOpen : IconNameEnum.EyeClosed}
-                onPress={handleTogglePasswordVisibility}
-                iconStyle={styles.eyeIcon}
-              />
-            </Row>
+        <Row style={styles.password}>
+          <Controller
+            control={control}
+            name="password"
+            render={({ field }) => (
+              <Row style={styles.inputContainer}>
+                <TextInput
+                  field={field}
+                  label="Password"
+                  secureTextEntry={isSecurePassword}
+                  placeholder="Password"
+                  prompt="Enter your password to unlock wallet"
+                  containerStyle={styles.input}
+                  clearIconStyles={styles.clearIcon}
+                  labelStyle={styles.label}
+                />
+                <TouchableIcon
+                  name={isSecurePassword ? IconNameEnum.EyeOpen : IconNameEnum.EyeClosed}
+                  onPress={handleTogglePasswordVisibility}
+                  iconStyle={styles.eyeIcon}
+                />
+              </Row>
+            )}
+          />
+          {isMobile && (
+            <Pressable style={styles.iconContainer}>
+              <Icon name={IconNameEnum.FaceId} iconStyle={styles.icon} size={getCustomSize(4)} />
+            </Pressable>
           )}
-        />
+        </Row>
         <Button title="UNLOCK WALLET" theme={ButtonThemesEnum.Secondary} style={styles.button} onPress={onUnlock} />
         <Row style={styles.textContainer}>
-          <Text style={styles.commonText}>Having troubles? </Text>
-          <Text style={styles.linkText} onPress={onResetWallet}>
-            Reset a wallet
+          <Text style={styles.commonText}>
+            Having troubles?{' '}
+            <Text style={styles.linkText} onPress={onResetWallet}>
+              Reset a wallet
+            </Text>
           </Text>
         </Row>
         <MadFishLogo style={styles.madLogo} color={colors.logoDark} />
