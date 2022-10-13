@@ -12,5 +12,8 @@ export const styles = StyleSheet.create({
   },
   cancelButton: {
     marginRight: getCustomSize(2)
+  },
+  button: {
+    flex: 1
   }
 });

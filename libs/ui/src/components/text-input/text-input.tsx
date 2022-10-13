@@ -8,7 +8,9 @@ import {
   TextInput as TextInputBase,
   TextInputProps,
   View,
-  KeyboardTypeOptions
+  KeyboardTypeOptions,
+  NativeSyntheticEvent,
+  TextInputFocusEventData
 } from 'react-native';
 
 import { TextStyleProps, ViewStyleProps } from '../../interfaces/style.interface';
@@ -39,6 +41,7 @@ interface Props<
   inputContainerStyle?: ViewStyleProps;
   decimals?: number;
   keyboardType?: KeyboardTypeOptions;
+  labelStyle?: ViewStyleProps;
 }
 
 export const TextInput = <
@@ -62,7 +65,9 @@ export const TextInput = <
   inputStyle,
   inputContainerStyle,
   children,
-  clearIconStyles
+  clearIconStyles,
+  onFocus: onFocusProps,
+  labelStyle
 }: Props<TFieldValues, TName>) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -102,13 +107,16 @@ export const TextInput = <
     onBlurField();
   };
 
-  const onFocus = () => setIsFocused(true);
+  const onFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+    setIsFocused(true);
+    onFocusProps?.(e);
+  };
 
   const handleInputClear = () => onChange?.('');
 
   return (
     <View style={containerStyle}>
-      {isLabel && <Label title={label} isOptional={!required} />}
+      {isLabel && <Label title={label} isOptional={!required} style={labelStyle} />}
       {isPrompt && <Prompt title={prompt} handlePrompt={handlePrompt} />}
       <View
         style={[

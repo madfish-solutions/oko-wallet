@@ -78,5 +78,6 @@ export enum IconNameEnum {
   NewTab = 'NewTab',
   See = 'See',
   WalletLogoPlaceholder = 'WalletLogoPlaceholder',
-  IconWarning = 'IconWarning'
+  IconWarning = 'IconWarning',
+  WalletLogoPlaceholderSquare = 'WalletLogoPlaceholderSquare'
 }

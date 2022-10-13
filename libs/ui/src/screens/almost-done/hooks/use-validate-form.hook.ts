@@ -15,8 +15,14 @@ export const useValidateForm = (password: string) => {
   };
 
   const matchPassword = (currentValue: string) => {
-    if (currentValue.trim() !== password.trim()) {
+    if (currentValue !== password) {
       return 'Must be equal to password above';
+    }
+  };
+
+  const changePasswordCheck = (currentValue: string) => {
+    if (currentValue !== password) {
+      return "Password doesn't match";
     }
   };
 
@@ -35,9 +41,15 @@ export const useValidateForm = (password: string) => {
     validate: { ...commonRules.validate, matchPassword }
   };
 
+  const changePasswordRules = {
+    required: commonRules.required,
+    validate: { ...commonRules.validate, changePasswordCheck }
+  };
+
   return {
     commonRules,
     nameRules,
-    confirmPasswordRules
+    confirmPasswordRules,
+    changePasswordRules
   };
 };

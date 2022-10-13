@@ -6,7 +6,6 @@ import { TransferParams } from '../interfaces/transfer-params.interface';
 
 export enum ScreensEnum {
   ImportWallet = 'ImportWallet',
-  Authorization = 'Authorization',
   ManageTokens = 'ManageTokens',
   Receive = 'Receive',
   Send = 'Send',
@@ -46,15 +45,16 @@ export enum ScreensEnum {
   Token = 'Token',
   CollectiblesList = 'CollectiblesList',
   SpecificCollectiblesList = 'SpecificCollectiblesList',
+  ChangePassword = 'ChangePassword',
   AuthorizedDapps = 'AuthorizedDapps',
   DeleteDapp = 'DeleteDapp',
   AddNewCollectible = 'AddNewCollectible',
-  Collectible = 'Collectible'
+  Collectible = 'Collectible',
+  Initial = 'Initial'
 }
 
 export type ScreensParamList = {
   [ScreensEnum.ImportWallet]?: { wordsAmount: SeedWordsAmount };
-  [ScreensEnum.Authorization]: undefined;
   [ScreensEnum.ManageTokens]: undefined;
   [ScreensEnum.Receive]: undefined;
   [ScreensEnum.Send]?: { account?: AccountInterface; token?: Token; receiverPublicKeyHash?: string };
@@ -99,6 +99,8 @@ export type ScreensParamList = {
   [ScreensEnum.SpecificCollectiblesList]: { collectionName: string };
   [ScreensEnum.AddNewCollectible]: undefined;
   [ScreensEnum.Collectible]: { collectible: Token };
+  [ScreensEnum.ChangePassword]: undefined;
   [ScreensEnum.AuthorizedDapps]: undefined;
   [ScreensEnum.DeleteDapp]: { dappName: string };
+  [ScreensEnum.Initial]: undefined;
 };

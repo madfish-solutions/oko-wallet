@@ -33,7 +33,8 @@ const accentColors = {
 const basicColors = {
   lines: '#495165',
   border1: '#727B93',
-  border2: '#2F3238'
+  border2: '#2F3238',
+  logoDark: '#252934'
 };
 
 export const colors = {

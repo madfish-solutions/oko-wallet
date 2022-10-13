@@ -25,6 +25,7 @@ export const Security: FC = () => {
   const isBiometricEnabled = useBiometricEnabledSelector();
 
   const navigateToLockTimeSelector = () => navigate(ScreensEnum.SettingsLockTimeSelector);
+  const navigateToChangePassword = () => navigate(ScreensEnum.ChangePassword);
   const handleBiometricChange = () => dispatch(setIsBiometricEnabled(!isBiometricEnabled));
 
   return (
@@ -43,7 +44,7 @@ export const Security: FC = () => {
         <Divider size={getCustomSize(2)} />
 
         <ItemContainer>
-          <Item title="Change Password" />
+          <Item title="Change Password" onPress={navigateToChangePassword} />
         </ItemContainer>
 
         {isMobile && (

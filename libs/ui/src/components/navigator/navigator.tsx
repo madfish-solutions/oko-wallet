@@ -23,7 +23,6 @@ import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
 import { Activity } from '../../screens/activity/activity';
 import { AlmostDone } from '../../screens/almost-done/almost-done';
-import { Authorization } from '../../screens/authorization/authorization';
 import { AuthorizedDapps } from '../../screens/authorized-dapps/authorized-dapps';
 import { CollectiblesList } from '../../screens/collectibles/screens/collectibles-list/collectibles-list';
 import { SpecificCollectiblesList } from '../../screens/collectibles/screens/specific-collectibles-list/specific-collectibles-list';
@@ -31,6 +30,7 @@ import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps'
 import { CreateANewWallet } from '../../screens/create-wallet/screens/create-a-new-wallet/create-a-new-wallet';
 import { VerifyMnemonic } from '../../screens/create-wallet/screens/verify-mnemonic/verify-mnemonic';
 import { ImportWallet } from '../../screens/import-wallet/import-wallet';
+import { Initial } from '../../screens/initial/initial';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
 import { ScanQrCode } from '../../screens/scan-qr-code/scan-qr-code';
@@ -41,6 +41,7 @@ import { Send } from '../../screens/send/send';
 import { AboutUs as SettingsAboutUs } from '../../screens/settings/screens/about-us/about-us';
 import { Account as SettingsAccount } from '../../screens/settings/screens/account/account';
 import { AppearanceSelector as SettingsAppearanceSelector } from '../../screens/settings/screens/appearance-selector/appearance-selector';
+import { ChangePassword } from '../../screens/settings/screens/change-password/change-password';
 import { CurrencySelector as SettingsCurrencySelector } from '../../screens/settings/screens/currency-selector/currency-selector';
 import { General as SettingsGeneral } from '../../screens/settings/screens/general/general';
 import { LockTimeSelector as SettingsLockTimeSelector } from '../../screens/settings/screens/lock-time-selector/lock-time-selector';
@@ -125,6 +126,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.CollectiblesList} component={CollectiblesList} />
               <Stack.Screen name={ScreensEnum.SpecificCollectiblesList} component={SpecificCollectiblesList} />
               <Stack.Screen name={ScreensEnum.Activity} component={Activity} />
+              <Stack.Screen name={ScreensEnum.ChangePassword} component={ChangePassword} />
               <Stack.Screen name={ScreensEnum.AuthorizedDapps} component={AuthorizedDapps} />
             </Stack.Group>
 
@@ -238,7 +240,7 @@ export const Navigator: FC = () => {
         ) : (
           <>
             <Stack.Group screenOptions={{ headerShown: false }}>
-              <Stack.Screen name={ScreensEnum.Authorization} component={Authorization} />
+              <Stack.Screen name={ScreensEnum.Initial} component={Initial} />
               <Stack.Screen name={ScreensEnum.ImportWallet} component={ImportWallet} />
               <Stack.Screen name={ScreensEnum.CreateANewWallet} component={CreateANewWallet} />
               <Stack.Screen name={ScreensEnum.VerifyMnemonic} component={VerifyMnemonic} />

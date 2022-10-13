@@ -72,6 +72,7 @@ import Tooltip from './assets/tooltip.svg';
 import TopupIcon from './assets/topup.svg';
 import TransparencyLayout from './assets/transparency-layout.svg';
 import Twitter from './assets/twitter.svg';
+import WalletLogoPlaceholderSquare from './assets/wallet-logo-placeholder-square.svg';
 import WalletLogoPlaceholder from './assets/wallet-logo-placeholder.svg';
 import WarningWhite from './assets/warning-white.svg';
 import WarningYellow from './assets/warning-yellow.svg';
@@ -164,5 +165,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.NewTab]: NewTab,
   [IconNameEnum.See]: See,
   [IconNameEnum.WalletLogoPlaceholder]: WalletLogoPlaceholder,
-  [IconNameEnum.IconWarning]: IconWarning
+  [IconNameEnum.IconWarning]: IconWarning,
+  [IconNameEnum.WalletLogoPlaceholderSquare]: WalletLogoPlaceholderSquare
 };
