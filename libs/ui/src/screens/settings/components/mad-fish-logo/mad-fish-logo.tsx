@@ -11,9 +11,10 @@ import { styles } from './mad-fish-logo.styles';
 
 interface Props {
   style?: ViewStyleProps;
+  color?: string;
 }
 
-export const MadFishLogo: FC<Props> = ({ style }) => {
+export const MadFishLogo: FC<Props> = ({ style, color }) => {
   const goToMadFishSite = () => Linking.openURL(madFishUrl);
 
   return (
@@ -23,6 +24,7 @@ export const MadFishLogo: FC<Props> = ({ style }) => {
         height={getCustomSize(5)}
         name={IconNameEnum.MadWithLove}
         onPress={goToMadFishSite}
+        color={color}
       />
     </View>
   );

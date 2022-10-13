@@ -23,13 +23,13 @@ import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
 import { Activity } from '../../screens/activity/activity';
 import { AlmostDone } from '../../screens/almost-done/almost-done';
-import { Authorization } from '../../screens/authorization/authorization';
 import { CollectiblesList } from '../../screens/collectibles/screens/collectibles-list/collectibles-list';
 import { SpecificCollectiblesList } from '../../screens/collectibles/screens/specific-collectibles-list/specific-collectibles-list';
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
 import { CreateANewWallet } from '../../screens/create-wallet/screens/create-a-new-wallet/create-a-new-wallet';
 import { VerifyMnemonic } from '../../screens/create-wallet/screens/verify-mnemonic/verify-mnemonic';
 import { ImportWallet } from '../../screens/import-wallet/import-wallet';
+import { Initial } from '../../screens/initial/initial';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
 import { ScanQrCode } from '../../screens/scan-qr-code/scan-qr-code';
@@ -235,7 +235,7 @@ export const Navigator: FC = () => {
         ) : (
           <>
             <Stack.Group screenOptions={{ headerShown: false }}>
-              <Stack.Screen name={ScreensEnum.Authorization} component={Authorization} />
+              <Stack.Screen name={ScreensEnum.Initial} component={Initial} />
               <Stack.Screen name={ScreensEnum.ImportWallet} component={ImportWallet} />
               <Stack.Screen name={ScreensEnum.CreateANewWallet} component={CreateANewWallet} />
               <Stack.Screen name={ScreensEnum.VerifyMnemonic} component={VerifyMnemonic} />
