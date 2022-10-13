@@ -1,10 +1,15 @@
 import React, { FC } from 'react';
-import { View } from 'react-native';
 
-import { Text } from '../../../../../../components/text/text';
+import { Announcement } from '../../../../../../components/announcement/announcement';
+import { useSelectedNetworkTypeSelector } from '../../../../../../store/wallet/wallet.selectors';
+import { AccountsContainer } from '../accounts-container/accounts-container';
 
-export const ImportedAccounts: FC = () => (
-  <View>
-    <Text>Imported Accounts</Text>
-  </View>
-);
+export const ImportedAccounts: FC = () => {
+  const networkType = useSelectedNetworkTypeSelector();
+
+  return (
+    <AccountsContainer accounts={[]}>
+      <Announcement text={`Only accounts compatible with the current network type are displayed: ${networkType}`} />
+    </AccountsContainer>
+  );
+};

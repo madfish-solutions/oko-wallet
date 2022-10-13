@@ -66,7 +66,7 @@ export type ScreensParamList = {
   };
   [ScreensEnum.Settings]: undefined;
   [ScreensEnum.AccountsSettings]: undefined;
-  [ScreensEnum.RevealPrivateKey]: undefined;
+  [ScreensEnum.RevealPrivateKey]: { publicKeyHash: string };
   [ScreensEnum.RevealSeedPhrase]: undefined;
   [ScreensEnum.SettingsGeneral]: undefined;
   [ScreensEnum.SettingsCurrencySelector]: undefined;

@@ -6,7 +6,6 @@ import { HeaderContainer } from '../../../../components/screen-components/header
 import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
 import { Tabs } from '../../../../components/tabs/tabs';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { useSelectedAccountSelector } from '../../../../store/wallet/wallet.selectors';
 
 import { HdAccounts } from './copmonents/hd-accounts/hd-accounts';
 import { ImportedAccounts } from './copmonents/imported-accounts/imported-accounts';
