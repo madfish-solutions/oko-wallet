@@ -58,6 +58,10 @@ export const styles = StyleSheet.create({
   fluid: {
     width: '100%'
   },
+  auto: {
+    width: 'auto',
+    height: 'auto'
+  },
   large: {
     height: getCustomSize(5)
   },

@@ -56,14 +56,14 @@ export const useSelectedAccountSelector = () =>
 export const useAllAccountsSelector = () =>
   useSelector<WalletRootState, WalletState['accounts']>(({ wallet }) => wallet.accounts);
 
-export const useAllAccountsNameSelector = () => {
+export const useAllVisibleAccountsSelector = () => {
   const accounts = useAllAccountsSelector();
 
-  return useMemo(() => accounts.map(({ name }) => name.toLowerCase()), [accounts]);
+  return useMemo(() => accounts.filter(account => account.isVisible), [accounts]);
 };
 
 export const useAllAccountsWithoutSelectedSelector = () => {
-  const allAccounts = useAllAccountsSelector();
+  const allAccounts = useAllVisibleAccountsSelector();
   const selectedAccount = useSelectedAccountSelector();
 
   return useMemo(() => getAllAccountsWithoutCurrent(allAccounts, selectedAccount), [allAccounts, selectedAccount]);

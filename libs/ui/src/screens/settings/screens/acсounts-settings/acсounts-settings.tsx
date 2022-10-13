@@ -33,6 +33,7 @@ export const AccountsSettings: FC = () => {
       </HeaderContainer>
 
       <Tabs values={tabs} />
+
       <NavigationBar />
     </ScreenContainer>
   );

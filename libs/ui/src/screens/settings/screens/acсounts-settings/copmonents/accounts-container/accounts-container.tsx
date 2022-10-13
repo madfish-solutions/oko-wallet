@@ -1,13 +1,14 @@
 import { isEmptyString } from '@rnw-community/shared';
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC } from 'react';
 import { FlatList, ListRenderItemInfo, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { Button } from '../../../../../../components/button/button';
-import { ButtonThemesEnum } from '../../../../../../components/button/enums';
+import { ButtonSizeEnum, ButtonThemesEnum } from '../../../../../../components/button/enums';
 import { CopyText } from '../../../../../../components/copy-text/copy-text';
 import { IconWithBorderEnum } from '../../../../../../components/icon-with-border/enums';
 import { IconWithBorder } from '../../../../../../components/icon-with-border/icon-with-border';
+import { EmptySearchIcon } from '../../../../../../components/icon/components/empty-search-icon/empty-search-icon';
 import { IconNameEnum } from '../../../../../../components/icon/icon-name.enum';
 import { RobotIcon } from '../../../../../../components/robot-icon/robot-icon';
 import { Row } from '../../../../../../components/row/row';
@@ -15,12 +16,11 @@ import { SearchPanel } from '../../../../../../components/search-panel/search-pa
 import { Switch } from '../../../../../../components/switch/switch';
 import { Text } from '../../../../../../components/text/text';
 import { TouchableIcon } from '../../../../../../components/touchable-icon/touchable-icon';
-import { EMPTY_STRING } from '../../../../../../constants/defaults';
 import { ScreensEnum } from '../../../../../../enums/sreens.enum';
+import { useFilterAccounts } from '../../../../../../hooks/use-filter-accounts.hook';
 import { useNavigation } from '../../../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../../../hooks/use-shelter.hook';
 import { AccountInterface } from '../../../../../../interfaces/account.interface';
-import { useListSearch } from '../../../../../../modals/hooks/use-list-search.hook';
 import { changeAccountVisibilityAction } from '../../../../../../store/wallet/wallet.actions';
 import {
   useSelectedAccountSelector,
@@ -40,17 +40,11 @@ export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
   const { createHdAccountForNewNetworkType } = useShelter();
-  const [searchValue, setSearchValue] = useState(EMPTY_STRING);
   const selectedAccount = useSelectedAccountSelector();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
   const networkType = useSelectedNetworkTypeSelector();
 
-  const filteredList = useListSearch(searchValue, accounts);
-
-  const selectedIndex = useMemo(
-    () => filteredList.findIndex(account => account.accountIndex === selectedAccount.accountIndex),
-    [filteredList, selectedAccount]
-  );
+  const { filteredAccounts, setSearchValue, selectedIndexAccount } = useFilterAccounts(accounts, selectedAccount);
 
   const changeAccountVisibility = (accountIndex: number) => dispatch(changeAccountVisibilityAction(accountIndex));
 
@@ -77,7 +71,7 @@ export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
   };
 
   const renderItem = ({ item: account, index }: ListRenderItemInfo<AccountInterface>) => {
-    const isAccountSelected = selectedIndex === index;
+    const isAccountSelected = selectedIndexAccount === index;
     const publicKeyHash = getPublicKeyHash(account, selectedNetworkType);
     const isPublicKeyHashNotGenerated = isEmptyString(publicKeyHash);
     const { name, isVisible, accountIndex } = account;
@@ -86,7 +80,7 @@ export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
       <View style={styles.item}>
         <Row style={[styles.upperContainer, styles.spaceBetween]}>
           <Row style={styles.nameContainer}>
-            <IconWithBorder type={IconWithBorderEnum.Quinary} style={styles.robotIconWithBorder}>
+            <IconWithBorder type={IconWithBorderEnum.Quinary} style={styles.robotIcon}>
               <RobotIcon seed={publicKeyHash} />
             </IconWithBorder>
 
@@ -121,7 +115,7 @@ export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
             title="Reveal Private Key"
             onPress={() => onRevealPrivateKeyPress(account, publicKeyHash, isPublicKeyHashNotGenerated)}
             theme={ButtonThemesEnum.Ternary}
-            style={styles.buttonPrivateKey}
+            size={ButtonSizeEnum.Auto}
           />
         </Row>
       </View>
@@ -130,18 +124,23 @@ export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
 
   return (
     <View style={styles.root}>
+      {!filteredAccounts.length && (
+        <View>
+          <EmptySearchIcon style={styles.emptySearchIcon} />
+        </View>
+      )}
+
       {children}
 
       <SearchPanel
         setSearchValue={setSearchValue}
-        isEmptyList={!filteredList.length}
+        isEmptyList={false}
         isSearchInitiallyOpened
         style={styles.searchPanel}
-        emptyIconStyle={styles.emptyIcon}
       />
 
       <FlatList
-        data={filteredList}
+        data={filteredAccounts}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}

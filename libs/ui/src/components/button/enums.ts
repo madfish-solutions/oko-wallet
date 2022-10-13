@@ -8,5 +8,6 @@ export enum ButtonSizeEnum {
   Large = 'large',
   Medium = 'medium',
   Small = 'small',
-  Fluid = 'fluid'
+  Fluid = 'fluid',
+  Auto = 'auto'
 }

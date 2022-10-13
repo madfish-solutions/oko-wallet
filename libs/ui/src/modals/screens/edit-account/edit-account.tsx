@@ -17,7 +17,7 @@ export const EditAccount: FC = () => {
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.EditAccount>>();
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
-  const rules = useAccountFieldRules(account.name);
+  const rules = useAccountFieldRules();
 
   const {
     control,
