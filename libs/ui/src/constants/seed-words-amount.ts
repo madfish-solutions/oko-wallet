@@ -31,3 +31,5 @@ export const words: SeedWordsAmount[] = [
     value: 24
   }
 ];
+
+export const maxWordsLength = Array(words.slice(-1)[0].value).fill('');

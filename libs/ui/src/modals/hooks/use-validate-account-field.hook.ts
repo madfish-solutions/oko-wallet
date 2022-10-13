@@ -1,4 +1,3 @@
-import { onlySpacesError, requiredFieldError } from '../../constants/form-errors';
 import { useAllAccountsNameSelector } from '../../store/wallet/wallet.selectors';
 
 export const useAccountFieldRules = (accountName = '') => {
@@ -14,18 +13,47 @@ export const useAccountFieldRules = (accountName = '') => {
     return 'Should be unique';
   };
 
-  const checkIfOnlySpaces = (currentValue: string) => {
-    if (!currentValue.trim()) {
-      return onlySpacesError;
+  const validateDerivationPath = (currentValue: string) => {
+    if (currentValue.length === 0) {
+      return true;
     }
+    if (!currentValue.startsWith('m')) {
+      return "Must start with 'm'";
+    }
+    if (currentValue.length > 1 && currentValue[1] !== '/') {
+      return "Separator must be '/'";
+    }
+
+    const parts = currentValue.replace('m', '').split('/').filter(Boolean);
+    if (
+      !parts.every(itemPart => {
+        const pNum = +(itemPart.includes("'") ? itemPart.replace("'", '') : itemPart);
+
+        return Number.isSafeInteger(pNum) && pNum >= 0;
+      })
+    ) {
+      return 'Invalid path';
+    }
+
+    return true;
   };
 
-  return {
+  const nameRules = {
     maxLength: {
       value: 21,
       message: 'Maximum 21 symbol'
     },
-    required: requiredFieldError,
-    validate: { checkIfAccountNameUnique, checkIfOnlySpaces }
+    required: false,
+    validate: { checkIfAccountNameUnique }
+  };
+
+  const derivationPathRules = {
+    required: false,
+    validate: { validateDerivationPath }
+  };
+
+  return {
+    nameRules,
+    derivationPathRules
   };
 };

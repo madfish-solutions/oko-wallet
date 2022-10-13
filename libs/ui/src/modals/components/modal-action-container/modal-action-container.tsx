@@ -15,13 +15,13 @@ interface Props extends FooterButtons {
 
 export const ModalActionContainer: FC<Props> = ({
   screenTitle,
-  children,
   submitTitle,
   cancelTitle,
   isSubmitDisabled,
   onSubmitPress,
   onCancelPress,
-  style
+  style,
+  children
 }) => (
   <ModalContainer screenTitle={screenTitle} isBackButton>
     <View style={[styles.root, style]}>

@@ -12,10 +12,10 @@ import { styles } from './tabs.styles';
 
 interface Props {
   values: { id: number; title: string; Component: FC }[];
-  style?: ViewStyleProps;
+  tabsStyle?: ViewStyleProps;
 }
 
-export const Tabs: FC<Props> = ({ values, style }) => {
+export const Tabs: FC<Props> = ({ values, tabsStyle }) => {
   const [activeElementId, setActiveElementId] = useState(values[0].id);
 
   const firstElement = useRef<View | null>(null);
@@ -76,8 +76,8 @@ export const Tabs: FC<Props> = ({ values, style }) => {
   const ActiveComponent = values[activeElementId - 1].Component;
 
   return (
-    <>
-      <Row style={[styles.root, style]}>
+    <View style={styles.root}>
+      <Row style={[styles.tabs, tabsStyle]}>
         {values.map(({ id, title }, index) => (
           <Fragment key={id}>
             <Pressable
@@ -96,6 +96,6 @@ export const Tabs: FC<Props> = ({ values, style }) => {
       <View style={styles.component}>
         <ActiveComponent />
       </View>
-    </>
+    </View>
   );
 };

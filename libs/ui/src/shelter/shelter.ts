@@ -9,6 +9,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { AccountTypeEnum } from '../enums/account-type.enum';
 import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { AccountInterface } from '../interfaces/account.interface';
+import { HdAccount } from '../interfaces/create-hd-account.interface';
 import { BackgroundMessager } from '../messagers/background-messager';
 import { decrypt } from '../themis/decrypt';
 import { encrypt } from '../themis/encrypt';
@@ -155,6 +156,25 @@ export class Shelter {
       )
     );
   };
+
+  static createImportedAccount$ = (hdAccount: HdAccount, accountIndex: number, name: string) =>
+    of(hdAccount).pipe(
+      switchMap(({ privateKey, publicKey, address: publicKeyHash }) =>
+        Shelter.savePrivateKey$(publicKeyHash, privateKey).pipe(
+          map(() => ({
+            name,
+            type: AccountTypeEnum.IMPORTED_ACCOUNT,
+            accountIndex,
+            networksKeys: {
+              [NetworkTypeEnum.EVM]: {
+                publicKey,
+                publicKeyHash
+              }
+            }
+          }))
+        )
+      )
+    );
 
   private static revealPrivateKey$ = (publicKeyHash: string) =>
     Shelter.decryptSensitiveData$(publicKeyHash, Shelter._passwordHash$.getValue());

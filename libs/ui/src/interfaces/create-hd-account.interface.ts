@@ -33,3 +33,12 @@ export type CreateHdAccountForNewNetworkType = {
 export type RevealSeedPhraseParams = {
   successCallback: OnEventFn<string>;
 };
+
+export type HdAccount = { publicKey: string; address: string; privateKey: string };
+
+export type CreateImportedAccountParams = {
+  name: string;
+  hdAccount: HdAccount;
+  networkType: NetworkTypeEnum;
+  accountIndex: number;
+};

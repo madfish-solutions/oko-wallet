@@ -9,7 +9,6 @@ import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { editAccountNameAction } from '../../../store/wallet/wallet.actions';
 import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';
 import { useAccountFieldRules } from '../../hooks/use-validate-account-field.hook';
-import { styles } from '../add-account/add-account.styles';
 
 export const EditAccount: FC = () => {
   const {
@@ -17,7 +16,7 @@ export const EditAccount: FC = () => {
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.EditAccount>>();
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
-  const rules = useAccountFieldRules(account.name);
+  const { nameRules } = useAccountFieldRules(account.name);
 
   const {
     control,
@@ -64,15 +63,9 @@ export const EditAccount: FC = () => {
       <Controller
         control={control}
         name="name"
-        rules={rules}
+        rules={nameRules}
         render={({ field }) => (
-          <TextInput
-            field={field}
-            label="Account name"
-            placeholder={account.name}
-            error={errors?.name?.message}
-            containerStyle={styles.inputContainer}
-          />
+          <TextInput field={field} label="Account name" placeholder={account.name} error={errors?.name?.message} />
         )}
       />
     </ModalActionContainer>

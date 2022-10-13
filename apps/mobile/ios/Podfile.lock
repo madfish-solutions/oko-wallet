@@ -422,7 +422,7 @@ PODS:
     - React-Core
   - RNDeviceInfo (10.2.0):
     - React-Core
-  - RNGestureHandler (2.5.0):
+  - RNGestureHandler (2.7.0):
     - React-Core
   - RNKeychain (8.0.0):
     - React-Core
@@ -738,7 +738,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 466b9df1a14bccda91da86e0b7d9a345d78e1673
   RNCClipboard: f1736c75ab85b627a4d57587edb4b60999c4dd80
   RNDeviceInfo: 8b83e99e290deaf1bab71673cc636776ef647b6f
-  RNGestureHandler: bad495418bcbd3ab47017a38d93d290ebd406f50
+  RNGestureHandler: 7673697e7c0e9391adefae4faa087442bc04af33
   RNKeychain: 4f63aada75ebafd26f4bc2c670199461eab85d94
   RNReactNativeHapticFeedback: 1e3efeca9628ff9876ee7cdd9edec1b336913f8c
   RNReanimated: 5c8c17e26787fd8984cd5accdc70fef2ca70aafd
