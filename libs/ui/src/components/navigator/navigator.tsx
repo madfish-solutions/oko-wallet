@@ -106,7 +106,17 @@ export const Navigator: FC = () => {
       theme={DarkTheme}
     >
       <Stack.Navigator>
-        {isAuthorised ? (
+        {isLocked && isAuthorised && (
+          <>
+            <Stack.Screen name={ScreensEnum.Unlock} component={UnlockApp} />
+            <Stack.Screen
+              name={ScreensEnum.SettingsResetWalletConfirm}
+              options={{ title: 'Reset Wallet' }}
+              component={SettingsResetWalletConfirm}
+            />
+          </>
+        )}
+        {isAuthorised && !isLocked ? (
           <>
             <Stack.Group screenOptions={{ headerShown: false }}>
               <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
@@ -252,8 +262,6 @@ export const Navigator: FC = () => {
           </>
         )}
       </Stack.Navigator>
-
-      {isLocked && isAuthorised && <UnlockApp />}
     </NavigationContainer>
   );
 };
