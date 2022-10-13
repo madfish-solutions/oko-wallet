@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { extensionHeight } from '../../components/navigator/utils/maximise-view-options';
+import { extensionHeight, maximiseViewStyles } from '../../components/navigator/utils/maximise-view-options';
 import { colors } from '../../styles/colors';
 import { EXTENSION_FULL_SIZE, getCustomSize } from '../../styles/format-size';
 import { typography } from '../../styles/typography';
@@ -9,7 +9,11 @@ import { isMaximiseScreen, isMobile } from '../../utils/platform.utils';
 export const styles = StyleSheet.create({
   root: {
     height: isMobile ? '100%' : isMaximiseScreen ? extensionHeight : EXTENSION_FULL_SIZE,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    backgroundColor: colors.bgGrey1,
+    ...(isMaximiseScreen && {
+      marginTop: maximiseViewStyles.marginTop
+    })
   },
   logoContainer: {
     backgroundColor: colors.bgGrey1,

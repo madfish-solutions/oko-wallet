@@ -108,12 +108,16 @@ export const Navigator: FC = () => {
       <Stack.Navigator>
         {isLocked && isAuthorised && (
           <>
-            <Stack.Screen name={ScreensEnum.Unlock} component={UnlockApp} />
-            <Stack.Screen
-              name={ScreensEnum.SettingsResetWalletConfirm}
-              options={{ title: 'Reset Wallet' }}
-              component={SettingsResetWalletConfirm}
-            />
+            <Stack.Group screenOptions={{ headerShown: false }}>
+              <Stack.Screen name={ScreensEnum.Unlock} component={UnlockApp} />
+            </Stack.Group>
+            <Stack.Group screenOptions={modalScreenOptions}>
+              <Stack.Screen
+                name={ScreensEnum.SettingsResetWalletConfirm}
+                options={{ title: 'Reset Wallet' }}
+                component={SettingsResetWalletConfirm}
+              />
+            </Stack.Group>
           </>
         )}
         {isAuthorised && !isLocked ? (
