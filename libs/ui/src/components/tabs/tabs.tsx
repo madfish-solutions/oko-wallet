@@ -1,8 +1,8 @@
-import { isDefined } from '@rnw-community/shared';
-import React, { FC, Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import React, { FC, Fragment, useCallback, useRef, useState } from 'react';
 import { Animated, Easing, GestureResponderEvent, LayoutChangeEvent, Pressable, View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
+import { getCustomSize } from '../../styles/format-size';
 import { isAndroid } from '../../utils/platform.utils';
 import { Divider } from '../divider/divider';
 import { Row } from '../row/row';
@@ -20,20 +20,9 @@ export const Tabs: FC<Props> = ({ values, tabsStyle }) => {
 
   const firstElement = useRef<View | null>(null);
 
-  const widthElement = useRef(new Animated.Value(0)).current;
   const offsetXElement = useRef(new Animated.Value(0)).current;
 
   const [tabsXOffsetForAndroid, setTabsXOffsetForAndroid] = useState<number[]>([]);
-
-  // get first item width when component mount and add to border width
-  useEffect(() => {
-    if (isDefined(firstElement) && firstElement.current) {
-      firstElement.current.measure((...params: number[]) => {
-        const width = params[2];
-        widthElement.setValue(width ?? 0);
-      });
-    }
-  }, []);
 
   const onTabLayout = (props: LayoutChangeEvent) => {
     const layout = props.nativeEvent.layout;
@@ -46,7 +35,6 @@ export const Tabs: FC<Props> = ({ values, tabsStyle }) => {
       // @ts-ignore
       el.currentTarget.measure((...props: number[]) => {
         let offsetX;
-        const width = props[2];
 
         if (isAndroid) {
           offsetX = tabsXOffsetForAndroid[id - 1];
@@ -55,13 +43,10 @@ export const Tabs: FC<Props> = ({ values, tabsStyle }) => {
         }
 
         animatedOffset(offsetX);
-        animatedWidth(width);
       });
     },
     [activeElementId, tabsXOffsetForAndroid]
   );
-
-  const animatedWidth = (toValue: number) => animated(widthElement, toValue);
 
   const animatedOffset = (toValue: number) => animated(offsetXElement, toValue);
 
@@ -91,7 +76,9 @@ export const Tabs: FC<Props> = ({ values, tabsStyle }) => {
             {values.length - 1 !== index && <Divider style={styles.divider} />}
           </Fragment>
         ))}
-        <Animated.View style={[styles.border, { width: widthElement, transform: [{ translateX: offsetXElement }] }]} />
+        <Animated.View
+          style={[styles.border, { width: getCustomSize(4), transform: [{ translateX: offsetXElement }] }]}
+        />
       </Row>
       <View style={styles.component}>
         <ActiveComponent />

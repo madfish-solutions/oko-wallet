@@ -40,7 +40,12 @@ export const styles = StyleSheet.create({
     paddingHorizontal: getCustomSize(0.75),
     paddingTop: getCustomSize(0.75),
     borderRadius: getCustomSize(),
-    backgroundColor: colors.bgGrey4
+    backgroundColor: colors.bgGrey4,
+    borderWidth: getCustomSize(0.125),
+    borderColor: 'transparent'
+  },
+  containerError: {
+    borderColor: colors.red
   },
   wordsWrapper: {
     position: 'relative',
@@ -108,7 +113,7 @@ export const styles = StyleSheet.create({
   },
   errorText: {
     position: 'absolute',
-    bottom: -getCustomSize(2),
+    bottom: -getCustomSize(2.2),
     left: 0,
     color: colors.red,
     ...typography.captionInterRegular11

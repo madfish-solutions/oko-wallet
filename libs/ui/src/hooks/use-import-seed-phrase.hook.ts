@@ -154,7 +154,7 @@ export const useImportSeedPhrase = (wordsAmountParam: SeedWordsAmount | undefine
       return true;
     }
     if (!validateMnemonic(formatMnemonic(mnemonic.map(word => word.trim()).join(' ')))) {
-      setError('Wrong mnemonic type of words.');
+      setError('Wrong combination. Try again.');
 
       return true;
     }

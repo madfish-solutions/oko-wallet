@@ -28,12 +28,14 @@ import { sendTezosTransactionSubscription } from '../shelter/utils/send-tezos-tr
 import { useAllAccountsSelector, useSelectedNetworkTypeSelector } from '../store/wallet/wallet.selectors';
 
 import { useNavigation } from './use-navigation.hook';
+import { useToast } from './use-toast.hook';
 
 export const useShelter = () => {
   const dispatch = useDispatch();
   const networkType = useSelectedNetworkTypeSelector();
   const accounts = useAllAccountsSelector();
   const { goBack } = useNavigation();
+  const { showErrorToast } = useToast();
 
   const importWallet$ = useMemo(() => new Subject<ImportWalletParams>(), []);
   const sendEvmTransaction$ = useMemo(() => new Subject<GetEvmSignerParams>(), []);
@@ -59,7 +61,7 @@ export const useShelter = () => {
       sendTezosTransactionSubscription(sendTezosTransaction$),
       revealSeedPhraseSubscription(revealSeedPhrase$),
       revealPrivateKeySubscription(revealPrivateKey$),
-      createImportAccountSubscription(createImportedAccount$, accounts, dispatch, goBack)
+      createImportAccountSubscription(createImportedAccount$, showErrorToast, dispatch, goBack)
     ];
 
     return () => subscriptions.forEach(subscription => subscription.unsubscribe());

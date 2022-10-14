@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { isNotEmptyString } from '@rnw-community/shared';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { View, ScrollView, TextInput } from 'react-native';
 
@@ -29,6 +29,7 @@ export const SeedPhrase: FC = () => {
   const { params: routeParams } = useRoute<RouteProp<ScreensParamList, ScreensEnum.AddAccount>>();
 
   const networkType = useSelectedNetworkTypeSelector();
+  const accounts = useAllAccountsSelector();
   const { createImportedAccount } = useShelter();
   const { goBack } = useNavigation();
   const {
@@ -61,6 +62,7 @@ export const SeedPhrase: FC = () => {
     clearErrors,
     watch,
     setFocus,
+    setError,
     formState: { errors, isSubmitSuccessful }
   } = useForm({
     mode: 'onChange',
@@ -95,9 +97,17 @@ export const SeedPhrase: FC = () => {
         derivationPath
       );
 
+      for (const account of accounts) {
+        if (account.networksKeys[networkType]?.publicKey === hdAccount.publicKey) {
+          return setError('derivationPath', { message: 'This account already imported!' });
+        }
+      }
+
       createImportedAccount({ name: name.trim().length ? name.trim() : defaultValue, hdAccount, networkType });
     }
   };
+
+  const containerError = useMemo(() => error === 'Wrong combination. Try again.', [error]);
 
   return (
     <>
@@ -129,7 +139,7 @@ export const SeedPhrase: FC = () => {
           </Pressable>
         </Row>
 
-        <Column style={styles.mnemonicContainer}>
+        <Column style={[styles.mnemonicContainer, containerError && styles.containerError]}>
           <Row style={styles.wordsWrapper}>
             <Row style={[styles.wordsColumn, styles.marginRight]}>
               {mnemonic.slice(0, wordsAmount).map((word, index) => {
