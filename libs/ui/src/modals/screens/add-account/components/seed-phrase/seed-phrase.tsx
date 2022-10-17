@@ -197,7 +197,7 @@ export const SeedPhrase: FC = () => {
             <Column style={styles.warningList}>
               <Row style={styles.listItem}>
                 <Text style={styles.listDote} />
-                <Text style={styles.listText}>We dont save your derivation path and Mnemonic</Text>
+                <Text style={styles.listText}>We don't save your derivation path and Mnemonic</Text>
               </Row>
               <Row style={styles.listItem}>
                 <Text style={styles.listDote} />

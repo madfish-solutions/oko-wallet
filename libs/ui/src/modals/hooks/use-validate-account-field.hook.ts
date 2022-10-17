@@ -25,12 +25,14 @@ export const useAccountFieldRules = (accountName = '') => {
     }
 
     const parts = currentValue.replace('m', '').split('/').filter(Boolean);
+
     if (
       !parts.every(itemPart => {
         const pNum = +(itemPart.includes("'") ? itemPart.replace("'", '') : itemPart);
 
         return Number.isSafeInteger(pNum) && pNum >= 0;
-      })
+      }) ||
+      currentValue.slice(-1) === '/'
     ) {
       return 'Invalid path';
     }
