@@ -30,7 +30,7 @@ const defaultValues = { password: '' };
 export const UnlockApp: FC = () => {
   const [isSecurePassword, setIsSecurePassword] = useState(true);
   const handleTogglePasswordVisibility = () => setIsSecurePassword(prev => !prev);
-  const { unlock } = useUnlock();
+  const { unlock, unlockError, setUnlockError } = useUnlock();
   const { navigate } = useNavigation();
 
   const { control, watch } = useForm<Password>({
@@ -66,6 +66,8 @@ export const UnlockApp: FC = () => {
                   containerStyle={styles.input}
                   clearIconStyles={styles.clearIcon}
                   labelStyle={styles.label}
+                  error={unlockError ? unlockError : undefined}
+                  onFocus={() => setUnlockError('')}
                 />
                 <TouchableIcon
                   name={isSecurePassword ? IconNameEnum.EyeOpen : IconNameEnum.EyeClosed}
