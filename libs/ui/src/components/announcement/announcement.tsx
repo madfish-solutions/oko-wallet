@@ -1,5 +1,5 @@
 import { isDefined } from '@rnw-community/shared';
-import React, { FC, ReactChild } from 'react';
+import React, { FC } from 'react';
 import { View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
@@ -13,13 +13,12 @@ import { MessageType } from './enum';
 
 interface Props {
   text?: string;
-  component?: ReactChild;
   numberOfLines?: number;
   type?: MessageType;
   style?: ViewStyleProps;
 }
 
-export const Announcement: FC<Props> = ({ text, component, type = MessageType.Warning, numberOfLines, style }) => (
+export const Announcement: FC<Props> = ({ text, type = MessageType.Warning, numberOfLines, style, children }) => (
   <Row style={[styles.root, messageTypes[type].style, style]}>
     <Icon name={messageTypes[type].icon} iconStyle={styles.icon} />
     <View style={styles.textWrapper}>
@@ -28,7 +27,7 @@ export const Announcement: FC<Props> = ({ text, component, type = MessageType.Wa
           {text}
         </Text>
       ) : (
-        component
+        children
       )}
     </View>
   </Row>
