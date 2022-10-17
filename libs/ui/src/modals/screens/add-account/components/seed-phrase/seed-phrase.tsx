@@ -51,8 +51,7 @@ export const SeedPhrase: FC = () => {
     handlePasteMnemonicFromClipboard
   } = useImportSeedPhrase(routeParams?.wordsAmount);
 
-  const totalAccounts = useAllAccountsSelector().length;
-  const lastAccountIndex = totalAccounts + 1;
+  const lastAccountIndex = accounts.length + 1;
   const defaultValue = `Account ${lastAccountIndex}`;
   const { nameRules, derivationPathRules } = useAccountFieldRules();
 
@@ -68,7 +67,7 @@ export const SeedPhrase: FC = () => {
     mode: 'onChange',
     defaultValues: {
       name: defaultValue,
-      derivationPath: derivationPathByNetworkType[networkType](totalAccounts)
+      derivationPath: derivationPathByNetworkType[networkType](accounts.length)
     }
   });
 
@@ -90,7 +89,7 @@ export const SeedPhrase: FC = () => {
     if (!isError && !Object.keys(errors).length) {
       const derivationPath = isNotEmptyString(derivationPathParam)
         ? derivationPathParam
-        : derivationPathByNetworkType[networkType](totalAccounts);
+        : derivationPathByNetworkType[networkType](accounts.length);
 
       const hdAccount = await generateHdAccount(
         mnemonic.filter(word => isNotEmptyString(word)).join(' '),
