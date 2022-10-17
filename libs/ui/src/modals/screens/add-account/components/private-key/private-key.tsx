@@ -1,9 +1,12 @@
+import Clipboard from '@react-native-clipboard/clipboard';
 import React, { FC, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { Announcement } from '../../../../../components/announcement/announcement';
+import { Pressable } from '../../../../../components/pressable/pressable';
 import { TextInput as CustomTextInput } from '../../../../../components/text-input/text-input';
+import { Text } from '../../../../../components/text/text';
 import { useNavigation } from '../../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../../hooks/use-shelter.hook';
 import { useAllAccountsSelector, useSelectedNetworkTypeSelector } from '../../../../../store/wallet/wallet.selectors';
@@ -29,6 +32,7 @@ export const PrivateKey: FC = () => {
     clearErrors,
     watch,
     setError,
+    setValue,
     setFocus,
     formState: { errors }
   } = useForm({
@@ -48,6 +52,11 @@ export const PrivateKey: FC = () => {
   useEffect(() => {
     setFocus('name');
   }, [errors.name]);
+
+  const handlePaste = async () => {
+    const value = await Clipboard.getString();
+    setValue('privateKey', value);
+  };
 
   const onSubmit = async ({ name, privateKey }: { name: string; privateKey: string }) => {
     if (!Object.keys(errors).length) {
@@ -81,21 +90,29 @@ export const PrivateKey: FC = () => {
             />
           )}
         />
-        <Controller
-          control={control}
-          name="privateKey"
-          rules={privateKeyRules}
-          render={({ field }) => (
-            <CustomTextInput
-              field={field}
-              label="Private Key"
-              prompt="Enter your Private Key"
-              placeholder="e.g. b782aa.."
-              error={errors?.privateKey?.message}
-              containerStyle={styles.inputNameContainer}
-            />
-          )}
-        />
+        <View style={styles.container}>
+          <Controller
+            control={control}
+            name="privateKey"
+            rules={privateKeyRules}
+            render={({ field }) => (
+              <CustomTextInput
+                field={field}
+                label="Private Key"
+                prompt="Enter your Private Key"
+                placeholder="e.g. b782aa.."
+                multiline
+                error={errors?.privateKey?.message}
+                containerStyle={styles.inputContainer}
+                inputStyle={styles.textarea}
+                clearIconStyles={styles.clearIcon}
+              />
+            )}
+          />
+          <Pressable onPress={handlePaste} style={styles.pasteButtonContainer}>
+            <Text style={styles.pasteButtonText}>Paste</Text>
+          </Pressable>
+        </View>
         <Announcement text={`The account will only be active for the current network type: ${networkType}`} />
       </ScrollView>
       <ModalFooterButtons
