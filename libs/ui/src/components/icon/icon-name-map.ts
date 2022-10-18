@@ -63,6 +63,7 @@ import SendIcon from './assets/send.svg';
 import SettingsIcon from './assets/settings.svg';
 import Share from './assets/share.svg';
 import Slider from './assets/slider.svg';
+import SplashScreen from './assets/splash-screen.svg';
 import StakeIcon from './assets/stake.svg';
 import Success from './assets/success.svg';
 import SwapIcon from './assets/swap.svg';
@@ -121,6 +122,7 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Slider]: Slider,
   [IconNameEnum.AddChain]: AddChain,
   [IconNameEnum.Share]: Share,
+  [IconNameEnum.SplashScreen]: SplashScreen,
   [IconNameEnum.GridSettings]: GridSettings,
   [IconNameEnum.SelectedCheckbox]: SelectedCheckbox,
   [IconNameEnum.SelectedSquareCheckbox]: SelectedSquareCheckbox,

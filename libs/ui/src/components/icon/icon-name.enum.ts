@@ -10,6 +10,7 @@ export enum IconNameEnum {
   Copy = 'Copy',
   Dropdown = 'Dropdown',
   Dropup = 'Dropup',
+  SplashScreen = 'SplashScreen',
   Edit = 'Edit',
   Paste = 'Paste',
   EyeClosed = 'EyeClosed',
