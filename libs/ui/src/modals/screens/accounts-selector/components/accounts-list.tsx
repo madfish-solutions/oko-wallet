@@ -8,7 +8,7 @@ import { RobotIcon } from '../../../../components/robot-icon/robot-icon';
 import { Selector } from '../../../../components/selector/selector';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
 import { useFiatTotalBalance } from '../../../../hooks/use-fiat-total-balance.hook';
-import { useFilterAccounts } from '../../../../hooks/use-filter-accounts.hook';
+import { useFilteredAccounts } from '../../../../hooks/use-filtered-accounts.hook';
 import { AccountInterface } from '../../../../interfaces/account.interface';
 import { useSelectedNetworkTypeSelector } from '../../../../store/wallet/wallet.selectors';
 import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
@@ -39,10 +39,10 @@ export const AccountsList: FC<Props> = ({
   const { accountsBalanceInUsd } = useFiatTotalBalance();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
 
-  const { filteredAccounts, setSearchValue, selectedIndexAccount } = useFilterAccounts(accounts, selectedAccount);
+  const { filteredAccounts, setSearchValue, selectedAccountIndex } = useFilteredAccounts(accounts, selectedAccount);
 
   const renderItem = ({ item, index }: ListRenderItemInfo<AccountInterface>) => {
-    const isAccountSelected = selectedIndexAccount === index;
+    const isAccountSelected = selectedAccountIndex === index;
     const publicKeyHash = getPublicKeyHash(item, selectedNetworkType);
 
     return (
@@ -78,7 +78,7 @@ export const AccountsList: FC<Props> = ({
       setSearchValue={setSearchValue}
       selectedItemName={selectedAccount.name}
       keyExtractor={keyExtractor}
-      selectedIndex={selectedIndexAccount}
+      selectedIndex={selectedAccountIndex}
       isSearchInitiallyOpened={isSearchInitiallyOpened}
     />
   );

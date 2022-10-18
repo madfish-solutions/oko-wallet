@@ -4,7 +4,7 @@ import { EMPTY_STRING } from '../constants/defaults';
 import { AccountInterface } from '../interfaces/account.interface';
 import { useSelectedNetworkTypeSelector } from '../store/wallet/wallet.selectors';
 
-export const useFilterAccounts = (accounts: AccountInterface[], selectedAccount: AccountInterface) => {
+export const useFilteredAccounts = (accounts: AccountInterface[], selectedAccount: AccountInterface) => {
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
   const networkType = useSelectedNetworkTypeSelector();
 
@@ -20,10 +20,10 @@ export const useFilterAccounts = (accounts: AccountInterface[], selectedAccount:
     return accounts;
   }, [searchValue, accounts, networkType]);
 
-  const selectedIndexAccount = useMemo(
+  const selectedAccountIndex = useMemo(
     () => filteredAccounts.findIndex(account => account.accountIndex === selectedAccount.accountIndex),
     [filteredAccounts, selectedAccount]
   );
 
-  return { filteredAccounts, selectedIndexAccount, setSearchValue };
+  return { filteredAccounts, selectedAccountIndex, setSearchValue };
 };

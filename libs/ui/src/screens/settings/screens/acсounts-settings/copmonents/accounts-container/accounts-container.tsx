@@ -17,7 +17,7 @@ import { Switch } from '../../../../../../components/switch/switch';
 import { Text } from '../../../../../../components/text/text';
 import { TouchableIcon } from '../../../../../../components/touchable-icon/touchable-icon';
 import { ScreensEnum } from '../../../../../../enums/sreens.enum';
-import { useFilterAccounts } from '../../../../../../hooks/use-filter-accounts.hook';
+import { useFilteredAccounts } from '../../../../../../hooks/use-filtered-accounts.hook';
 import { useNavigation } from '../../../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../../../hooks/use-shelter.hook';
 import { AccountInterface } from '../../../../../../interfaces/account.interface';
@@ -44,7 +44,7 @@ export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
   const selectedNetworkType = useSelectedNetworkTypeSelector();
   const networkType = useSelectedNetworkTypeSelector();
 
-  const { filteredAccounts, setSearchValue, selectedIndexAccount } = useFilterAccounts(accounts, selectedAccount);
+  const { filteredAccounts, setSearchValue, selectedAccountIndex } = useFilteredAccounts(accounts, selectedAccount);
 
   const changeAccountVisibility = (accountIndex: number) => dispatch(changeAccountVisibilityAction(accountIndex));
 
@@ -71,7 +71,7 @@ export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
   };
 
   const renderItem = ({ item: account, index }: ListRenderItemInfo<AccountInterface>) => {
-    const isAccountSelected = selectedIndexAccount === index;
+    const isAccountSelected = selectedAccountIndex === index;
     const publicKeyHash = getPublicKeyHash(account, selectedNetworkType);
     const isPublicKeyHashNotGenerated = isEmptyString(publicKeyHash);
     const { name, isVisible, accountIndex } = account;
