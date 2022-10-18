@@ -13,7 +13,7 @@ export const useFilteredAccounts = (accounts: AccountInterface[], selectedAccoun
       return accounts.filter(
         account =>
           account.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-          account.networksKeys[networkType]?.publicKeyHash === searchValue
+          account.networksKeys[networkType]?.publicKeyHash.toLowerCase().includes(searchValue.toLowerCase())
       );
     }
 
