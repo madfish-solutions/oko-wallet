@@ -18,13 +18,16 @@ export const styles = StyleSheet.create({
     marginTop: -getCustomSize(2)
   },
   searchPanel: {
-    marginTop: getCustomSize(2.5),
+    marginTop: getCustomSize(2),
     marginBottom: getCustomSize(3)
+  },
+  flatList: {
+    borderTopWidth: getCustomSize(0.0625),
+    borderColor: colors.border2
   },
   item: {
     paddingVertical: getCustomSize(),
     borderColor: colors.border2,
-    borderTopWidth: getCustomSize(0.0625),
     borderBottomWidth: getCustomSize(0.0625)
   },
   upperContainer: {

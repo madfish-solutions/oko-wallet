@@ -139,12 +139,14 @@ export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
         style={styles.searchPanel}
       />
 
-      <FlatList
-        data={filteredAccounts}
-        keyExtractor={keyExtractor}
-        renderItem={renderItem}
-        showsVerticalScrollIndicator={false}
-      />
+      <View style={styles.flatList}>
+        <FlatList
+          data={filteredAccounts}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
     </View>
   );
 };
