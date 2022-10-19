@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC, useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
@@ -7,8 +8,8 @@ import { Pressable } from '../../../components/pressable/pressable';
 import { ProtectLayout } from '../../../components/protect-layout/protect-layout';
 import { Text } from '../../../components/text/text';
 import { SECURITY_TIME } from '../../../constants/defaults';
+import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useShelter } from '../../../hooks/use-shelter.hook';
-import { useSelectedAccountPublicKeyHashSelector } from '../../../store/wallet/wallet.selectors';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
@@ -17,7 +18,10 @@ import { styles } from './reveal-private-key.styles';
 export const RevealPrivateKey: FC = () => {
   const [isShowProtectLayout, setIsShowProtectLayout] = useState(true);
   const [privateKey, setPrivateKey] = useState('');
-  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
+
+  const {
+    params: { publicKeyHash }
+  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.RevealPrivateKey>>();
   const { revealPrivateKey } = useShelter();
 
   const getPrivateKey = () => {

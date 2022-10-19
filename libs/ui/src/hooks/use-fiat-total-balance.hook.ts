@@ -5,10 +5,10 @@ import { GAS_TOKEN_ADDRESS } from '../constants/defaults';
 import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { useTokensMarketInfoSelector } from '../store/tokens-market-info/token-market-info.selectors';
 import {
-  useAllAccountsSelector,
   useAllAccountsTokensAndTokensMetadataSelector,
   useAllNetworksSelector,
-  useAccountsGasTokensSelector
+  useAccountsGasTokensSelector,
+  useAllVisibleAccountsSelector
 } from '../store/wallet/wallet.selectors';
 import { getAccountTokensSlug } from '../utils/address.util';
 import { getDollarValue } from '../utils/get-dollar-amount.util';
@@ -16,7 +16,7 @@ import { getTokenMetadataSlug } from '../utils/token-metadata.util';
 
 export const useFiatTotalBalance = () => {
   const networks = useAllNetworksSelector();
-  const accounts = useAllAccountsSelector();
+  const accounts = useAllVisibleAccountsSelector();
   const accountsGasTokens = useAccountsGasTokensSelector();
   const allTokensMarketInfoSelector = useTokensMarketInfoSelector();
   const { accountsTokens, tokensMetadata } = useAllAccountsTokensAndTokensMetadataSelector();

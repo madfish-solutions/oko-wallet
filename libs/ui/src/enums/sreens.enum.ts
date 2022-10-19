@@ -13,7 +13,7 @@ export enum ScreensEnum {
   SendAccountsSelector = 'SendAccountsSelector',
   SendConfirmation = 'SendConfirmation',
   Settings = 'Settings',
-  SettingsAccount = 'SettingsAccount',
+  AccountsSettings = 'AccountsSettings',
   RevealPrivateKey = 'RevealPrivateKey',
   RevealSeedPhrase = 'RevealSeedPhrase',
   SettingsGeneral = 'SettingsGeneral',
@@ -64,8 +64,8 @@ export type ScreensParamList = {
     transferParams: TransferParams;
   };
   [ScreensEnum.Settings]: undefined;
-  [ScreensEnum.SettingsAccount]: undefined;
-  [ScreensEnum.RevealPrivateKey]: undefined;
+  [ScreensEnum.AccountsSettings]: undefined;
+  [ScreensEnum.RevealPrivateKey]: { publicKeyHash: string };
   [ScreensEnum.RevealSeedPhrase]: undefined;
   [ScreensEnum.SettingsGeneral]: undefined;
   [ScreensEnum.SettingsCurrencySelector]: undefined;
