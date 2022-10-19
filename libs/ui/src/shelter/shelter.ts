@@ -127,7 +127,7 @@ export class Shelter {
                   publicData: {
                     name,
                     type: AccountTypeEnum.HD_ACCOUNT,
-                    accountIndex: hdAccountIndex,
+                    accountIndex: hdAccountIndex + 1,
                     networksKeys: {
                       [NetworkTypeEnum.EVM]: {
                         publicKey,
@@ -156,6 +156,7 @@ export class Shelter {
 
   static createHdAccount$ = (
     networkType: NetworkTypeEnum,
+    accountId: number,
     accountIndex: number,
     name: string
   ): Observable<AccountInterface | undefined> => {
@@ -168,7 +169,7 @@ export class Shelter {
             Shelter.savePrivateKey$(publicKeyHash, privateKey).pipe(
               map(() => ({
                 name,
-                accountIndex,
+                accountIndex: accountId,
                 networksKeys: {
                   [networkType]: {
                     publicKey,
@@ -188,7 +189,7 @@ export class Shelter {
   static createImportedAccount$ = (
     hdAccount: HdAccount,
     networkType: NetworkTypeEnum,
-    accountIndex: number,
+    accountId: number,
     name: string
   ) =>
     of(hdAccount).pipe(
@@ -197,7 +198,7 @@ export class Shelter {
           map(() => ({
             name,
             type: AccountTypeEnum.IMPORTED_ACCOUNT,
-            accountIndex,
+            accountIndex: accountId,
             networksKeys: {
               [networkType]: {
                 publicKey,

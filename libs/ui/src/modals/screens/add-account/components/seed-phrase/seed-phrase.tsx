@@ -51,8 +51,7 @@ export const SeedPhrase: FC = () => {
     handlePasteMnemonicFromClipboard
   } = useImportSeedPhrase(routeParams?.wordsAmount);
 
-  const totalAccounts = useAllAccountsSelector().length;
-  const lastAccountIndex = totalAccounts + 1;
+  const lastAccountIndex = accounts.length + 1;
   const defaultValue = `Account ${lastAccountIndex}`;
   const { nameRules, derivationPathRules } = useAccountFieldRules();
 
@@ -68,7 +67,7 @@ export const SeedPhrase: FC = () => {
     mode: 'onChange',
     defaultValues: {
       name: defaultValue,
-      derivationPath: derivationPathByNetworkType[networkType](totalAccounts)
+      derivationPath: derivationPathByNetworkType[networkType](0)
     }
   });
 
@@ -90,7 +89,7 @@ export const SeedPhrase: FC = () => {
     if (!isError && !Object.keys(errors).length) {
       const derivationPath = isNotEmptyString(derivationPathParam)
         ? derivationPathParam
-        : derivationPathByNetworkType[networkType](totalAccounts);
+        : derivationPathByNetworkType[networkType](accounts.length);
 
       const hdAccount = await generateHdAccount(
         mnemonic.filter(word => isNotEmptyString(word)).join(' '),
@@ -184,7 +183,7 @@ export const SeedPhrase: FC = () => {
               field={field}
               label="Derivation Path"
               prompt="Enter your Derivation Path"
-              placeholder={defaultValue}
+              placeholder="0/0/0/1"
               error={errors?.derivationPath?.message}
               required={false}
               containerStyle={styles.inputDerivationPathContainer}
@@ -195,12 +194,16 @@ export const SeedPhrase: FC = () => {
         <Announcement>
           <Column style={styles.warningList}>
             <Row style={styles.listItem}>
-              <Text style={styles.listDote} />
-              <Text style={styles.listText}>We don't save your derivation path and Mnemonic</Text>
+              <Text style={styles.listDote}>●</Text>
+              <Text numberOfLines={2} style={styles.listText}>
+                We don't save your derivation path and Mnemonic
+              </Text>
             </Row>
             <Row style={styles.listItem}>
-              <Text style={styles.listDote} />
-              <Text style={styles.listText}>The account will only be active for the current network</Text>
+              <Text style={styles.listDote}>●</Text>
+              <Text numberOfLines={2} style={styles.listText}>
+                The account will only be active for the current network
+              </Text>
             </Row>
           </Column>
         </Announcement>

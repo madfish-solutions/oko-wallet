@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
   root: {
     width: '100%',
     flex: 1,
+    paddingBottom: getCustomSize(2),
     paddingHorizontal: getCustomSize(2)
   },
   inputNameContainer: {
@@ -25,13 +26,12 @@ export const styles = StyleSheet.create({
   wordsSelector: {
     justifyContent: 'space-between',
     paddingVertical: getCustomSize(1.125),
-    paddingLeft: getCustomSize(2.25),
-    paddingRight: getCustomSize(1.75),
+    paddingHorizontal: getCustomSize(1.5),
     borderRadius: getCustomSize(2.5),
     backgroundColor: colors.bgGrey4
   },
   amountWords: {
-    marginRight: getCustomSize(2.625),
+    marginRight: getCustomSize(2),
     ...typography.captionInterSemiBold13
   },
   mnemonicContainer: {
@@ -132,13 +132,9 @@ export const styles = StyleSheet.create({
   },
   listDote: {
     position: 'relative',
-    top: getCustomSize(0.85),
+    top: getCustomSize(0.25),
     marginRight: getCustomSize(),
-    width: getCustomSize(0.6),
-    height: getCustomSize(0.6),
-    borderRadius: getCustomSize(0.7),
-    backgroundColor: colors.textGrey1,
-    ...typography.captionInterSemiBold13
+    ...typography.numbersIBMPlexSansBold8
   },
   listText: {
     ...typography.captionInterSemiBold13
