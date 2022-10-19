@@ -21,14 +21,14 @@ export const styles = StyleSheet.create({
     marginTop: getCustomSize(2),
     marginBottom: getCustomSize(3)
   },
-  flatList: {
-    borderTopWidth: getCustomSize(0.0625),
-    borderColor: colors.border2
-  },
   item: {
     paddingVertical: getCustomSize(),
     borderColor: colors.border2,
     borderBottomWidth: getCustomSize(0.0625)
+  },
+  itemBorderTop: {
+    borderTopWidth: getCustomSize(0.0625),
+    borderColor: colors.border2
   },
   upperContainer: {
     marginBottom: getCustomSize(2.5)

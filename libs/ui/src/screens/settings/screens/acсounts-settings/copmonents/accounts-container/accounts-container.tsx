@@ -77,7 +77,7 @@ export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
     const { name, isVisible, accountIndex } = account;
 
     return (
-      <View style={styles.item}>
+      <View style={[styles.item, index === 0 && styles.itemBorderTop]}>
         <Row style={[styles.upperContainer, styles.spaceBetween]}>
           <Row style={styles.nameContainer}>
             <IconWithBorder type={IconWithBorderEnum.Quinary} style={styles.robotIcon}>
@@ -139,14 +139,12 @@ export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
         style={styles.searchPanel}
       />
 
-      <View style={styles.flatList}>
-        <FlatList
-          data={filteredAccounts}
-          keyExtractor={keyExtractor}
-          renderItem={renderItem}
-          showsVerticalScrollIndicator={false}
-        />
-      </View>
+      <FlatList
+        data={filteredAccounts}
+        keyExtractor={keyExtractor}
+        renderItem={renderItem}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
   );
 };
