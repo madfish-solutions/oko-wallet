@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Pressable, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, View } from 'react-native';
 
 import { Button } from '../../components/button/button';
 import { ButtonThemesEnum } from '../../components/button/enums';
@@ -56,7 +56,7 @@ export const UnlockApp: FC = () => {
   const isSubmitDisabled = (Object.keys(errors).length > 0 && isSubmitted) || unlockError !== '';
 
   return (
-    <View style={styles.root}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.root}>
       <View style={styles.logoContainer}>
         <IconWithBorder style={styles.logo}>
           <Icon name={IconNameEnum.WalletLogoPlaceholderSquare} size={getCustomSize(9)} iconStyle={styles.icon} />
@@ -121,6 +121,6 @@ export const UnlockApp: FC = () => {
         </Row>
         <MadFishLogo style={styles.madLogo} color={colors.logoDark} />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
