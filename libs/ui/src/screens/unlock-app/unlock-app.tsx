@@ -14,9 +14,11 @@ import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useUnlock } from '../../hooks/use-unlock.hook';
+import { useBiometricEnabledSelector } from '../../store/settings/settings.selectors';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { isMobile } from '../../utils/platform.utils';
+import { useValidateForm } from '../almost-done/hooks/use-validate-form.hook';
 import { MadFishLogo } from '../settings/components/mad-fish-logo/mad-fish-logo';
 
 import { styles } from './unlock.styles';
@@ -28,20 +30,30 @@ interface Password {
 const defaultValues = { password: '' };
 
 export const UnlockApp: FC = () => {
+  const isBiometricEnabled = useBiometricEnabledSelector();
   const [isSecurePassword, setIsSecurePassword] = useState(true);
   const handleTogglePasswordVisibility = () => setIsSecurePassword(prev => !prev);
   const { unlock, unlockError, setUnlockError } = useUnlock();
   const { navigate } = useNavigation();
 
-  const { control, watch } = useForm<Password>({
+  const {
+    control,
+    watch,
+    handleSubmit,
+    formState: { errors, isSubmitted }
+  } = useForm<Password>({
     mode: 'onChange',
     defaultValues
   });
 
   const password = watch('password');
 
+  const { commonRules } = useValidateForm(password);
+
   const onUnlock = () => unlock(password);
   const onResetWallet = () => navigate(ScreensEnum.SettingsResetWalletConfirm);
+
+  const isSubmitDisabled = (Object.keys(errors).length > 0 && isSubmitted) || unlockError !== '';
 
   return (
     <View style={styles.root}>
@@ -55,6 +67,7 @@ export const UnlockApp: FC = () => {
           <Controller
             control={control}
             name="password"
+            rules={commonRules}
             render={({ field }) => (
               <Row style={styles.inputContainer}>
                 <TextInput
@@ -66,8 +79,16 @@ export const UnlockApp: FC = () => {
                   containerStyle={styles.input}
                   clearIconStyles={styles.clearIcon}
                   labelStyle={styles.label}
-                  error={unlockError ? unlockError : undefined}
-                  onFocus={() => setUnlockError('')}
+                  error={
+                    errors.password?.message !== undefined
+                      ? errors.password?.message
+                      : unlockError
+                      ? unlockError
+                      : undefined
+                  }
+                  onChange={() => {
+                    setUnlockError('');
+                  }}
                 />
                 <TouchableIcon
                   name={isSecurePassword ? IconNameEnum.EyeOpen : IconNameEnum.EyeClosed}
@@ -77,13 +98,19 @@ export const UnlockApp: FC = () => {
               </Row>
             )}
           />
-          {isMobile && (
+          {isMobile && isBiometricEnabled && (
             <Pressable style={styles.iconContainer}>
               <Icon name={IconNameEnum.FaceId} iconStyle={styles.icon} size={getCustomSize(4)} />
             </Pressable>
           )}
         </Row>
-        <Button title="UNLOCK WALLET" theme={ButtonThemesEnum.Secondary} style={styles.button} onPress={onUnlock} />
+        <Button
+          title="UNLOCK WALLET"
+          theme={ButtonThemesEnum.Secondary}
+          style={styles.button}
+          onPress={handleSubmit(onUnlock)}
+          disabled={isSubmitDisabled}
+        />
         <Row style={styles.textContainer}>
           <Text style={styles.commonText}>
             Having troubles?{' '}
