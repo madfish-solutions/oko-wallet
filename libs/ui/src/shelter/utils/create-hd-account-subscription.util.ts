@@ -30,7 +30,7 @@ export const createHdAccountForNewNetworkTypeSubscription = ({
   createHdAccountForNewNetworkType$
     .pipe(
       switchMap(({ account, accountIndex, networkType, successCallback, switchToNewAccount }) =>
-        Shelter.createHdAccount$(networkType, account.accountIndex, accountIndex, account.name).pipe(
+        Shelter.createHdAccount$(networkType, account.accountId, accountIndex, account.name).pipe(
           map(newAccount => ({
             updatedAccount: {
               ...account,

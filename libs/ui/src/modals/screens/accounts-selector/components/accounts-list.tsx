@@ -45,7 +45,7 @@ export const AccountsList: FC<Props> = ({
   const filteredList = useListSearch(searchValue, accounts);
 
   const selectedIndex = useMemo(
-    () => filteredList.findIndex(account => account.accountIndex === selectedAccount.accountIndex),
+    () => filteredList.findIndex(account => account.accountId === selectedAccount.accountId),
     [filteredList, selectedAccount]
   );
 

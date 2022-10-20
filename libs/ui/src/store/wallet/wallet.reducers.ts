@@ -49,7 +49,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
   builder
     .addCase(createHdAccountAction, (state, { payload: newAccount }) => ({
       ...state,
-      accounts: [...state.accounts, newAccount].sort((a, b) => a.accountIndex - b.accountIndex),
+      accounts: [...state.accounts, newAccount].sort((a, b) => a.accountId - b.accountId),
       selectedAccountPublicKeyHash: getPublicKeyHash(newAccount, getSelectedNetworkType(state)),
       accountsTokens: updateAccountsTokensState(state, newAccount)
     }))
@@ -60,7 +60,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
 
         return {
           ...state,
-          accounts: [...accountsWithoutCurrent, newAccount].sort((a, b) => a.accountIndex - b.accountIndex),
+          accounts: [...accountsWithoutCurrent, newAccount].sort((a, b) => a.accountId - b.accountId),
           accountsTokens: updateAccountsTokensState(state, newAccount),
           ...(switchToNewAccount && {
             selectedAccountPublicKeyHash: getPublicKeyHash(newAccount, getSelectedNetworkType(state))
@@ -75,7 +75,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     .addCase(editAccountNameAction, (state, { payload: account }) => ({
       ...state,
       accounts: state.accounts.map(currentAccount => {
-        if (currentAccount.accountIndex === account.accountIndex) {
+        if (currentAccount.accountId === account.accountId) {
           return { ...currentAccount, name: account.name };
         }
 

@@ -23,9 +23,7 @@ export const AccountsSelector: FC = () => {
   const selectedNetworkType = useSelectedNetworkTypeSelector();
   const allAccounts = useAllAccountsSelector();
   const currentSelectedAccount = useSelectedAccountSelector();
-  const accountsWithoutCurrent = allAccounts.filter(
-    account => account.accountIndex !== currentSelectedAccount.accountIndex
-  );
+  const accountsWithoutCurrent = allAccounts.filter(account => account.accountId !== currentSelectedAccount.accountId);
 
   const navigateToSend = (account: AccountInterface) => navigate(ScreensEnum.Send, { account });
 

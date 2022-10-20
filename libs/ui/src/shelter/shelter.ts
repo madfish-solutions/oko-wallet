@@ -115,10 +115,10 @@ export class Shelter {
         Shelter.setPasswordHash(passwordHash);
 
         return forkJoin(
-          [...Array(hdAccountsLength).keys()].map(hdAccountIndex =>
-            from(generateHdAccount(seedPhrase, getEtherDerivationPath(hdAccountIndex))).pipe(
+          [...Array(hdAccountsLength).keys()].map(hdAccountId =>
+            from(generateHdAccount(seedPhrase, getEtherDerivationPath(hdAccountId))).pipe(
               map(({ privateKey, publicKey, address }) => {
-                const name = accountName ?? `Account ${hdAccountIndex + 1}`;
+                const name = accountName ?? `Account ${hdAccountId + 1}`;
 
                 return {
                   privateData: {
@@ -127,7 +127,7 @@ export class Shelter {
                   publicData: {
                     name,
                     type: AccountTypeEnum.HD_ACCOUNT,
-                    accountIndex: hdAccountIndex + 1,
+                    accountId: hdAccountId + 1,
                     networksKeys: {
                       [NetworkTypeEnum.EVM]: {
                         publicKey,
@@ -169,7 +169,7 @@ export class Shelter {
             Shelter.savePrivateKey$(publicKeyHash, privateKey).pipe(
               map(() => ({
                 name,
-                accountIndex: accountId,
+                accountId,
                 networksKeys: {
                   [networkType]: {
                     publicKey,
@@ -198,7 +198,7 @@ export class Shelter {
           map(() => ({
             name,
             type: AccountTypeEnum.IMPORTED_ACCOUNT,
-            accountIndex: accountId,
+            accountId,
             networksKeys: {
               [networkType]: {
                 publicKey,
