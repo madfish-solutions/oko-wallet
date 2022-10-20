@@ -1,21 +1,21 @@
 import React, { FC, useState } from 'react';
 import { FlatList, Linking, Pressable, View } from 'react-native';
 
-import { IconWithBorder } from '../../components/icon-with-border/icon-with-border';
-import { Icon } from '../../components/icon/icon';
-import { IconNameEnum } from '../../components/icon/icon-name.enum';
-import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
-import { Row } from '../../components/row/row';
-import { ScreenTitle } from '../../components/screen-components/header-container/components/screen-title/screen-title';
-import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
-import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
-import { SearchPanel } from '../../components/search-panel/search-panel';
-import { Text } from '../../components/text/text';
-import { EMPTY_STRING } from '../../constants/defaults';
-import { ScreensEnum } from '../../enums/sreens.enum';
-import { useNavigation } from '../../hooks/use-navigation.hook';
-import { useAuthorizedDappsByPublicKey } from '../../store/wallet/wallet.selectors';
-import { eraseProtocol } from '../../utils/string.util';
+import { IconWithBorder } from '../../../../components/icon-with-border/icon-with-border';
+import { Icon } from '../../../../components/icon/icon';
+import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
+import { NavigationBar } from '../../../../components/navigation-bar/navigation-bar';
+import { Row } from '../../../../components/row/row';
+import { ScreenTitle } from '../../../../components/screen-components/header-container/components/screen-title/screen-title';
+import { HeaderContainer } from '../../../../components/screen-components/header-container/header-container';
+import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
+import { SearchPanel } from '../../../../components/search-panel/search-panel';
+import { Text } from '../../../../components/text/text';
+import { EMPTY_STRING } from '../../../../constants/defaults';
+import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
+import { useAuthorizedDappsByPublicKey } from '../../../../store/wallet/wallet.selectors';
+import { eraseProtocol } from '../../../../utils/string.util';
 
 import { styles } from './authorized-dapps.style';
 import { Permission } from './components/permission';

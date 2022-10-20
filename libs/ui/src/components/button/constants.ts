@@ -20,5 +20,6 @@ export const sizeClasses = {
   [ButtonSizeEnum.Large]: styles.large,
   [ButtonSizeEnum.Medium]: styles.medium,
   [ButtonSizeEnum.Small]: styles.small,
-  [ButtonSizeEnum.Fluid]: styles.fluid
+  [ButtonSizeEnum.Fluid]: styles.fluid,
+  [ButtonSizeEnum.Auto]: styles.auto
 };

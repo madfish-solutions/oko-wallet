@@ -12,7 +12,7 @@ export interface AccountInterface {
   type: AccountTypeEnum;
   accountId: number;
   networksKeys: Partial<{ [key in NetworkTypeEnum]: AccountByNetworkType }>;
-  isVisible?: boolean;
+  isVisible: boolean;
 }
 
 export interface Transaction {
