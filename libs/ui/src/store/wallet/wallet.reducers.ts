@@ -83,10 +83,10 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         return currentAccount;
       })
     }))
-    .addCase(changeAccountVisibilityAction, (state, { payload: accountIndex }) => ({
+    .addCase(changeAccountVisibilityAction, (state, { payload: accountId }) => ({
       ...state,
       accounts: state.accounts.map(currentAccount => {
-        if (currentAccount.accountIndex === accountIndex) {
+        if (currentAccount.accountId === accountId) {
           return { ...currentAccount, isVisible: !currentAccount.isVisible };
         }
 

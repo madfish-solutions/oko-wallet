@@ -34,7 +34,7 @@ interface Props {
   accounts: AccountInterface[];
 }
 
-const keyExtractor = (account: AccountInterface) => account.accountIndex.toString();
+const keyExtractor = (account: AccountInterface) => account.accountId.toString();
 
 export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
   const dispatch = useDispatch();
@@ -74,7 +74,7 @@ export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
     const isAccountSelected = selectedAccountIndex === index;
     const publicKeyHash = getPublicKeyHash(account, selectedNetworkType);
     const isPublicKeyHashNotGenerated = isEmptyString(publicKeyHash);
-    const { name, isVisible, accountIndex } = account;
+    const { name, isVisible, accountId } = account;
 
     return (
       <View style={[styles.item, index === 0 && styles.itemBorderTop]}>
@@ -98,7 +98,7 @@ export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
             <Switch
               isActive={isVisible}
               disabled={isAccountSelected}
-              onPress={() => changeAccountVisibility(accountIndex)}
+              onPress={() => changeAccountVisibility(accountId)}
             />
           </Row>
         </Row>
