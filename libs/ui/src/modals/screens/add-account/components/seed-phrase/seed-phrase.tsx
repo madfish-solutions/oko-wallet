@@ -81,6 +81,19 @@ export const SeedPhrase: FC = () => {
     setFocus('name');
   }, [errors.name]);
 
+  useEffect(() => {
+    if (isNotEmptyString(errors.derivationPath?.message)) {
+      console.log('here', errors.derivationPath);
+
+      console.log(errors.derivationPath);
+      setTimeout(() => {
+        if (scrollViewRef?.current !== null) {
+          scrollViewRef.current.scrollTo({ y: 500 });
+        }
+      }, 0);
+    }
+  }, [errors.derivationPath?.message]);
+
   const onSubmit = async ({ name, derivationPath: derivationPathParam }: { name: string; derivationPath: string }) => {
     setIsSubmitted(true);
 

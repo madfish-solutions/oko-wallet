@@ -1,4 +1,5 @@
 import Clipboard from '@react-native-clipboard/clipboard';
+import { isNotEmptyString } from '@rnw-community/shared';
 import React, { FC, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ScrollView, View } from 'react-native';
@@ -56,11 +57,20 @@ export const PrivateKey: FC = () => {
   const handlePaste = async () => {
     const value = await Clipboard.getString();
     setValue('privateKey', value);
+    clearErrors('privateKey');
   };
 
   const onSubmit = async ({ name, privateKey }: { name: string; privateKey: string }) => {
     if (!Object.keys(errors).length) {
-      const hdAccount = await generateHdAccountFromPrivateKey(privateKey, networkType);
+      const hdAccount = await generateHdAccountFromPrivateKey(privateKey, networkType).catch(() => ({
+        publicKey: '',
+        address: '',
+        privateKey: ''
+      }));
+
+      if (!isNotEmptyString(hdAccount.address)) {
+        return setError('privateKey', { message: 'Wrong type of private key' });
+      }
 
       for (const account of accounts) {
         if (account.networksKeys[networkType]?.publicKey === hdAccount.publicKey) {
