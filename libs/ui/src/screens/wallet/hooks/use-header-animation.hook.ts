@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
-import { isWeb } from '../../../utils/platform.utils';
+import { isMaximiseScreen, isWeb } from '../../../utils/platform.utils';
 import { HIDE_QR_CODE, MIDDLE_VALUE, SHOW_QR_CODE } from '../constants/dimensions';
 
 export const useHeaderAnimation = () => {
@@ -16,14 +16,6 @@ export const useHeaderAnimation = () => {
     const offsetY = e.nativeEvent.contentOffset.y;
     setContentOffsetY(offsetY);
   };
-
-  useEffect(() => {
-    if (isWeb) {
-      hideQrCode(false);
-    } else {
-      showQrCode(false);
-    }
-  }, [routeIndex]);
 
   const onTouchEnd = () => {
     bringTheElementToTheExtremePoint();
@@ -50,6 +42,12 @@ export const useHeaderAnimation = () => {
       showQrCode();
     }
   };
+
+  useEffect(() => {
+    if (contentOffsetY === HIDE_QR_CODE) {
+      hideQrCode(false);
+    }
+  }, [contentOffsetY, isMaximiseScreen, routeIndex]);
 
   const scrollToTop = () => {
     if (contentOffsetY > HIDE_QR_CODE) {
