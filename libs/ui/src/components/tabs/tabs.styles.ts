@@ -6,7 +6,8 @@ import { typography } from '../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
-    height: '100%'
+    height: '100%',
+    flex: 1
   },
   tabs: {
     position: 'relative',
