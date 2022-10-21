@@ -11,9 +11,5 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: getCustomSize(0.5),
     backgroundColor: colors.bgGrey1
-  },
-  tabs: {
-    marginTop: getCustomSize(1.375),
-    marginLeft: getCustomSize(2)
   }
 });

@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { View } from 'react-native';
 
-import { Icon } from '../../../components/icon/icon';
-import { IconNameEnum } from '../../../components/icon/icon-name.enum';
-import { Text } from '../../../components/text/text';
+import { Icon } from '../../../../../components/icon/icon';
+import { IconNameEnum } from '../../../../../components/icon/icon-name.enum';
+import { Text } from '../../../../../components/text/text';
 
 import { styles } from './permission.style';
 

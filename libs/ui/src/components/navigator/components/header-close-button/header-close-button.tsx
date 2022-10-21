@@ -18,7 +18,8 @@ const goBackRoutes = [
   ScreensEnum.SettingsCurrencySelector,
   ScreensEnum.SettingsAppearanceSelector,
   ScreensEnum.SettingsResetWalletConfirm,
-  ScreensEnum.SettingsLockTimeSelector
+  ScreensEnum.SettingsLockTimeSelector,
+  ScreensEnum.EditAccount
 ];
 
 export const HeaderCloseButton: FC = () => {
