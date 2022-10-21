@@ -21,3 +21,5 @@ export const DEBANK_HEADERS = {
 };
 
 export const EXTENSION_WIDTH = 360;
+
+export const HIDE_SPLASH_SCREEN_TIMEOUT = 100;

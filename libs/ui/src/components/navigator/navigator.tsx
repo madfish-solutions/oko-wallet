@@ -1,6 +1,5 @@
 import { NavigationContainer, NavigationContainerRef, DarkTheme } from '@react-navigation/native';
 import React, { FC, createRef, useEffect } from 'react';
-import { View, Text } from 'react-native';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useDappConnection } from '../../hooks/use-dapp-connection.hook';
@@ -48,6 +47,7 @@ import { LockTimeSelector as SettingsLockTimeSelector } from '../../screens/sett
 import { ResetWalletConfirm as SettingsResetWalletConfirm } from '../../screens/settings/screens/reset-wallet-confirm/reset-wallet-confirm';
 import { Security as SettingsSecurity } from '../../screens/settings/screens/security/security';
 import { Settings } from '../../screens/settings/settings';
+import { SplashScreen } from '../../screens/splash-screen/splash-screen';
 import { Token } from '../../screens/token/token';
 import { Tokens } from '../../screens/tokens/tokens';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
@@ -91,11 +91,7 @@ export const Navigator: FC = () => {
   }, [initialState, isReady]);
 
   if (!isReady) {
-    return (
-      <View>
-        <Text>Loading....</Text>
-      </View>
-    );
+    return <SplashScreen />;
   }
 
   return (
