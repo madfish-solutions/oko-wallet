@@ -8,7 +8,7 @@ import { AccountInterface } from '../../../../interfaces/account.interface';
 import { ModalContainer } from '../../../../modals/components/modal-container/modal-container';
 import { AccountsList } from '../../../../modals/screens/accounts-selector/components/accounts-list';
 import {
-  useAllAccountsSelector,
+  useAllVisibleAccountsSelector,
   useSelectedAccountSelector,
   useSelectedNetworkTypeSelector
 } from '../../../../store/wallet/wallet.selectors';
@@ -21,11 +21,9 @@ export const AccountsSelector: FC = () => {
     params: { account }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendAccountsSelector>>();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
-  const allAccounts = useAllAccountsSelector();
+  const allAccounts = useAllVisibleAccountsSelector();
   const currentSelectedAccount = useSelectedAccountSelector();
-  const accountsWithoutCurrent = allAccounts.filter(
-    account => account.accountIndex !== currentSelectedAccount.accountIndex
-  );
+  const accountsWithoutCurrent = allAccounts.filter(account => account.accountId !== currentSelectedAccount.accountId);
 
   const navigateToSend = (account: AccountInterface) => navigate(ScreensEnum.Send, { account });
 

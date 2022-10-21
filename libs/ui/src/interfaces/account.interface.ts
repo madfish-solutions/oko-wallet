@@ -10,9 +10,9 @@ type AccountByNetworkType = {
 export interface AccountInterface {
   name: string;
   type: AccountTypeEnum;
-  accountIndex: number;
+  accountId: number;
   networksKeys: Partial<{ [key in NetworkTypeEnum]: AccountByNetworkType }>;
-  isVisible?: boolean;
+  isVisible: boolean;
 }
 
 export interface Transaction {

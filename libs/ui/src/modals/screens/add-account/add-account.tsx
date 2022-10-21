@@ -1,6 +1,9 @@
+import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 
 import { Tabs } from '../../../components/tabs/tabs';
+import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { ModalTabContainer } from '../../components/modal-tab-container/modal-tab-container';
 
 import { styles } from './add-account.styles';
@@ -26,8 +29,15 @@ const tabs = [
   }
 ];
 
-export const AddAccount: FC = () => (
-  <ModalTabContainer screenTitle="Add new account">
-    <Tabs values={tabs} tabsStyle={styles.tabs} />
-  </ModalTabContainer>
-);
+export const AddAccount: FC = () => {
+  const { params: routeParams } = useRoute<RouteProp<ScreensParamList, ScreensEnum.AddAccount>>();
+  const { navigate } = useNavigation();
+
+  const setParams = (id: number) => navigate(ScreensEnum.AddAccount, { activeId: id });
+
+  return (
+    <ModalTabContainer screenTitle="Add new account">
+      <Tabs values={tabs} activeItemId={routeParams?.activeId} activeItemCallback={setParams} tabsStyle={styles.tabs} />
+    </ModalTabContainer>
+  );
+};

@@ -37,7 +37,7 @@ export const Settings: FC = () => {
   const { navigate } = useNavigation();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
-  const navigateToSettingsAccount = () => navigate(ScreensEnum.SettingsAccount);
+  const navigateToAccountsSettings = () => navigate(ScreensEnum.AccountsSettings);
   const navigateToSettingsGeneral = () => navigate(ScreensEnum.SettingsGeneral);
   const navigateToSettingsSecurity = () => navigate(ScreensEnum.SettingsSecurity);
   const navigateToSettingsAboutUs = () => navigate(ScreensEnum.SettingsAboutUs);
@@ -77,7 +77,7 @@ export const Settings: FC = () => {
                   </IconWithBorder>
                 }
                 title="Accounts Settings"
-                onPress={navigateToSettingsAccount}
+                onPress={navigateToAccountsSettings}
               />
             </ItemContainer>
 

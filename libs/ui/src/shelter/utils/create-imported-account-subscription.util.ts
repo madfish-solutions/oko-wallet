@@ -14,8 +14,8 @@ export const createImportAccountSubscription = (
 ) =>
   createImportedAccount$
     .pipe(
-      switchMap(({ name, hdAccount, networkType, accountIndex }) =>
-        Shelter.createImportedAccount$(hdAccount, networkType, accountIndex, name)
+      switchMap(({ name, hdAccount, networkType, accountId }) =>
+        Shelter.createImportedAccount$(hdAccount, networkType, accountId, name)
       ),
       catchError(() => {
         showErrorToast('Failed to import account. This may happen because provided Key is invalid.');

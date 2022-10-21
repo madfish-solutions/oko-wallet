@@ -1,15 +1,17 @@
 import { isNotEmptyString } from '@rnw-community/shared';
 
 import { onlySpacesError, requiredFieldError } from '../../constants/form-errors';
-import { useAllAccountsNameSelector } from '../../store/wallet/wallet.selectors';
+import { useAllVisibleAccountsSelector } from '../../store/wallet/wallet.selectors';
 
 export const useAccountFieldRules = (accountName = '') => {
-  const allAccountsName = useAllAccountsNameSelector();
+  const visibleAccounts = useAllVisibleAccountsSelector();
+
+  const accountsName = visibleAccounts.map(({ name }) => name);
 
   const checkIfAccountNameUnique = (currentValue: string) => {
     const correctedCurrentValue = currentValue.trim().toLowerCase();
 
-    if (accountName.toLowerCase() === correctedCurrentValue || !allAccountsName.includes(correctedCurrentValue)) {
+    if (accountName.toLowerCase() === correctedCurrentValue || !accountsName.includes(correctedCurrentValue)) {
       return true;
     }
 
@@ -28,12 +30,14 @@ export const useAccountFieldRules = (accountName = '') => {
     }
 
     const parts = currentValue.replace('m', '').split('/').filter(Boolean);
+
     if (
       !parts.every(itemPart => {
         const pNum = +(itemPart.includes("'") ? itemPart.replace("'", '') : itemPart);
 
         return Number.isSafeInteger(pNum) && pNum >= 0;
-      })
+      }) ||
+      currentValue.slice(-1) === '/'
     ) {
       return 'Invalid path';
     }

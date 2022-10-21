@@ -1,4 +1,5 @@
-import React, { FC, Fragment, useCallback, useRef, useState } from 'react';
+import { isDefined, OnEventFn } from '@rnw-community/shared';
+import React, { FC, Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { Animated, Easing, GestureResponderEvent, LayoutChangeEvent, Pressable, View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
@@ -13,16 +14,37 @@ import { styles } from './tabs.styles';
 interface Props {
   values: { id: number; title: string; Component: FC }[];
   tabsStyle?: ViewStyleProps;
+  activeItemId?: number;
+  activeItemCallback?: OnEventFn<number>;
 }
 
-export const Tabs: FC<Props> = ({ values, tabsStyle }) => {
-  const [activeElementId, setActiveElementId] = useState(values[0].id);
-
-  const firstElement = useRef<View | null>(null);
-
-  const offsetXElement = useRef(new Animated.Value(0)).current;
+export const Tabs: FC<Props> = ({ values, tabsStyle, activeItemId, activeItemCallback }) => {
+  const [activeElementId, setActiveElementId] = useState(isDefined(activeItemId) ? activeItemId : values[0].id);
 
   const [tabsXOffsetForAndroid, setTabsXOffsetForAndroid] = useState<number[]>([]);
+  const tabRef = useRef<View | null>(null);
+
+  useEffect(() => {
+    if (isDefined(activeItemId)) {
+      setActiveElementId(activeItemId);
+    }
+  }, [activeItemId]);
+
+  const setAnimatedOffset = (offsetXParam: number, duration?: number) => {
+    let offsetX = offsetXParam;
+
+    if (isAndroid) {
+      offsetX = tabsXOffsetForAndroid[activeElementId - 1];
+    }
+
+    animatedOffset(offsetX, duration);
+  };
+
+  useEffect(() => {
+    isDefined(tabRef.current) && tabRef.current.measure((...props: number[]) => setAnimatedOffset(props[0], 0));
+  }, [tabRef, isAndroid, tabsXOffsetForAndroid]);
+
+  const offsetXElement = useRef(new Animated.Value(0)).current;
 
   const onTabLayout = (props: LayoutChangeEvent) => {
     const layout = props.nativeEvent.layout;
@@ -32,28 +54,19 @@ export const Tabs: FC<Props> = ({ values, tabsStyle }) => {
   const handleActiveItem = useCallback(
     (id: number, el: GestureResponderEvent) => {
       setActiveElementId(id);
+      activeItemCallback?.(id);
       // @ts-ignore
-      el.currentTarget.measure((...props: number[]) => {
-        let offsetX;
-
-        if (isAndroid) {
-          offsetX = tabsXOffsetForAndroid[id - 1];
-        } else {
-          offsetX = props[0];
-        }
-
-        animatedOffset(offsetX);
-      });
+      el.currentTarget.measure((...props: number[]) => setAnimatedOffset(props[0], 200));
     },
-    [activeElementId, tabsXOffsetForAndroid]
+    [tabsXOffsetForAndroid]
   );
 
-  const animatedOffset = (toValue: number) => animated(offsetXElement, toValue);
+  const animatedOffset = (toValue: number, duration?: number) => animated(offsetXElement, toValue, duration);
 
-  const animated = (animatedValue: Animated.Value, toValue: number) =>
+  const animated = (animatedValue: Animated.Value, toValue: number, duration = 200) =>
     Animated.timing(animatedValue, {
       toValue,
-      duration: 200,
+      duration,
       useNativeDriver: false,
       easing: Easing.linear
     }).start();
@@ -66,7 +79,7 @@ export const Tabs: FC<Props> = ({ values, tabsStyle }) => {
         {values.map(({ id, title }, index) => (
           <Fragment key={id}>
             <Pressable
-              ref={el => (index === 0 ? (firstElement.current = el) : null)}
+              ref={el => (index === (activeElementId - 1 ?? 0) ? (tabRef.current = el) : null)}
               onLayout={onTabLayout}
               onPress={el => handleActiveItem(id, el)}
               style={styles.element}

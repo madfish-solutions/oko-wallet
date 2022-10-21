@@ -67,7 +67,7 @@ export const SeedPhrase: FC = () => {
     mode: 'onChange',
     defaultValues: {
       name: defaultValue,
-      derivationPath: derivationPathByNetworkType[networkType](accounts.length)
+      derivationPath: derivationPathByNetworkType[networkType](0)
     }
   });
 
@@ -183,7 +183,7 @@ export const SeedPhrase: FC = () => {
               field={field}
               label="Derivation Path"
               prompt="Enter your Derivation Path"
-              placeholder={defaultValue}
+              placeholder="0/0/0/1"
               error={errors?.derivationPath?.message}
               required={false}
               containerStyle={styles.inputDerivationPathContainer}
@@ -191,20 +191,22 @@ export const SeedPhrase: FC = () => {
           )}
         />
 
-        <Announcement
-          component={
-            <Column style={styles.warningList}>
-              <Row style={styles.listItem}>
-                <Text style={styles.listDote} />
-                <Text style={styles.listText}>We dont save your derivation path and Mnemonic</Text>
-              </Row>
-              <Row style={styles.listItem}>
-                <Text style={styles.listDote} />
-                <Text style={styles.listText}>The account will only be active for the current network</Text>
-              </Row>
-            </Column>
-          }
-        />
+        <Announcement>
+          <Column style={styles.warningList}>
+            <Row style={styles.listItem}>
+              <Text style={styles.listDote}>●</Text>
+              <Text numberOfLines={2} style={styles.listText}>
+                We don't save your derivation path and Mnemonic
+              </Text>
+            </Row>
+            <Row style={styles.listItem}>
+              <Text style={styles.listDote}>●</Text>
+              <Text numberOfLines={2} style={styles.listText}>
+                The account will only be active for the current network
+              </Text>
+            </Row>
+          </Column>
+        </Announcement>
       </ScrollView>
 
       <ModalFooterButtons

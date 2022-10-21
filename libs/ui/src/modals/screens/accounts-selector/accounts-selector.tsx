@@ -17,7 +17,7 @@ import { useShelter } from '../../../hooks/use-shelter.hook';
 import { AccountInterface } from '../../../interfaces/account.interface';
 import { changeAccountAction } from '../../../store/wallet/wallet.actions';
 import {
-  useAllAccountsSelector,
+  useAllVisibleAccountsSelector,
   useSelectedAccountPublicKeyHashSelector,
   useSelectedAccountSelector,
   useSelectedNetworkTypeSelector
@@ -37,7 +37,7 @@ export const AccountsSelector: FC = () => {
   const dispatch = useDispatch();
   const selectedAccount = useSelectedAccountSelector();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
-  const accounts = useAllAccountsSelector();
+  const accounts = useAllVisibleAccountsSelector();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
   const { totalAccountsBalance, accountsBalanceInUsd } = useFiatTotalBalance();
 

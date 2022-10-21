@@ -1,4 +1,4 @@
-import { IconNameEnum } from '../../components/icon/icon-name.enum';
+import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 
 export const MOCK_PERMISSIONS = [
   { id: 1, iconName: IconNameEnum.LockOpen, text: 'See wallet balance and activity' },

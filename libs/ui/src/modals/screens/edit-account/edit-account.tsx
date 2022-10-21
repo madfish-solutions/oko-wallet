@@ -46,7 +46,7 @@ export const EditAccount: FC = () => {
     const editedName = name.trim();
 
     if (account.name !== editedName) {
-      dispatch(editAccountNameAction({ accountIndex: account.accountIndex, name: editedName }));
+      dispatch(editAccountNameAction({ accountId: account.accountId, name: editedName }));
     }
 
     goBack();

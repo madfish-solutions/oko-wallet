@@ -25,7 +25,11 @@ import { revealPrivateKeySubscription } from '../shelter/utils/reveal-private-ke
 import { revealSeedPhraseSubscription } from '../shelter/utils/reveal-seed-phrase-subscription.util';
 import { sendEvmTransactionSubscription } from '../shelter/utils/send-evm-transaction-subscription.util';
 import { sendTezosTransactionSubscription } from '../shelter/utils/send-tezos-transaction-subscription.util';
-import { useAllAccountsSelector, useSelectedNetworkTypeSelector } from '../store/wallet/wallet.selectors';
+import {
+  useAllAccountsSelector,
+  useAllHdAccountsSelector,
+  useSelectedNetworkTypeSelector
+} from '../store/wallet/wallet.selectors';
 
 import { useNavigation } from './use-navigation.hook';
 import { useToast } from './use-toast.hook';
@@ -34,6 +38,7 @@ export const useShelter = () => {
   const dispatch = useDispatch();
   const networkType = useSelectedNetworkTypeSelector();
   const accounts = useAllAccountsSelector();
+  const allHdAccounts = useAllHdAccountsSelector();
   const { goBack } = useNavigation();
   const { showErrorToast } = useToast();
 
@@ -77,7 +82,13 @@ export const useShelter = () => {
   const importWallet = useCallback((params: ImportWalletParams) => importWallet$.next(params), [importWallet$]);
   const createHdAccount = useCallback(
     (accountName: string, successCallback?: OnEventFn<void>) =>
-      createHdAccount$.next({ accountIndex: accounts.length, networkType, accountName, successCallback }),
+      createHdAccount$.next({
+        accountId: accounts.length + 1,
+        accountIndex: allHdAccounts.length,
+        networkType,
+        accountName,
+        successCallback
+      }),
     [createHdAccount$, accounts.length, networkType]
   );
   const createHdAccountForNewNetworkType = useCallback(
@@ -86,7 +97,14 @@ export const useShelter = () => {
       networkType: NetworkTypeEnum,
       successCallback?: OnEventFn<AccountInterface>,
       switchToNewAccount?: boolean
-    ) => createHdAccountForNewNetworkType$.next({ account, networkType, successCallback, switchToNewAccount }),
+    ) =>
+      createHdAccountForNewNetworkType$.next({
+        account,
+        accountIndex: allHdAccounts.indexOf(account),
+        networkType,
+        successCallback,
+        switchToNewAccount
+      }),
     [createHdAccount$]
   );
   const sendEvmTransaction = useCallback(
@@ -105,8 +123,8 @@ export const useShelter = () => {
     (param: RevealPrivateKeyParams) => revealPrivateKey$.next(param),
     [revealPrivateKey$]
   );
-  const createImportedAccount = (params: Omit<CreateImportedAccountParams, 'accountIndex'>) =>
-    createImportedAccount$.next({ ...params, accountIndex: accounts.length });
+  const createImportedAccount = (params: Omit<CreateImportedAccountParams, 'accountId'>) =>
+    createImportedAccount$.next({ ...params, accountId: accounts.length + 1 });
 
   return {
     importWallet,
