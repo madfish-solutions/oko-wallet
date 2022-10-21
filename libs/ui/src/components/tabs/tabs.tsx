@@ -23,6 +23,7 @@ export const Tabs: FC<Props> = ({ values, tabsStyle, activeItemId, activeItemCal
 
   const [tabsXOffsetForAndroid, setTabsXOffsetForAndroid] = useState<number[]>([]);
   const tabRef = useRef<View | null>(null);
+  const offsetXElement = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     if (isDefined(activeItemId)) {
@@ -30,21 +31,21 @@ export const Tabs: FC<Props> = ({ values, tabsStyle, activeItemId, activeItemCal
     }
   }, [activeItemId]);
 
-  const setAnimatedOffset = (offsetXParam: number, duration?: number) => {
-    let offsetX = offsetXParam;
-
-    if (isAndroid) {
-      offsetX = tabsXOffsetForAndroid[activeElementId - 1];
-    }
-
-    animatedOffset(offsetX, duration);
-  };
-
   useEffect(() => {
-    isDefined(tabRef.current) && tabRef.current.measure((...props: number[]) => setAnimatedOffset(props[0], 0));
-  }, [tabRef, isAndroid, tabsXOffsetForAndroid]);
+    isDefined(tabRef.current)
+      ? tabRef.current.measure((...props: number[]) => {
+          let offsetX = props[0];
 
-  const offsetXElement = useRef(new Animated.Value(0)).current;
+          if (isAndroid) {
+            offsetX = tabsXOffsetForAndroid[activeElementId - 1];
+          }
+
+          if (isDefined(offsetX)) {
+            animatedOffset(offsetX, 0);
+          }
+        })
+      : null;
+  }, [tabRef, isAndroid, tabsXOffsetForAndroid]);
 
   const onTabLayout = (props: LayoutChangeEvent) => {
     const layout = props.nativeEvent.layout;
@@ -55,8 +56,17 @@ export const Tabs: FC<Props> = ({ values, tabsStyle, activeItemId, activeItemCal
     (id: number, el: GestureResponderEvent) => {
       setActiveElementId(id);
       activeItemCallback?.(id);
+
       // @ts-ignore
-      el.currentTarget.measure((...props: number[]) => setAnimatedOffset(props[0], 200));
+      el.currentTarget.measure((...props: number[]) => {
+        let offsetX = props[0];
+
+        if (isAndroid) {
+          offsetX = tabsXOffsetForAndroid[id - 1];
+        }
+
+        animatedOffset(offsetX);
+      });
     },
     [tabsXOffsetForAndroid]
   );

@@ -89,7 +89,7 @@ export const SeedPhrase: FC = () => {
     if (!isError && !Object.keys(errors).length) {
       const derivationPath = isNotEmptyString(derivationPathParam)
         ? derivationPathParam
-        : derivationPathByNetworkType[networkType](accounts.length);
+        : derivationPathByNetworkType[networkType](0);
 
       const hdAccount = await generateHdAccount(
         mnemonic.filter(word => isNotEmptyString(word)).join(' '),
