@@ -6,6 +6,7 @@ import { Shelter } from '../shelter/shelter';
 
 export const useUnlock = () => {
   const [isLocked, setIsLocked] = useState(() => Shelter.getIsLocked());
+  const [unlockError, setUnlockError] = useState('');
 
   const unlock$ = useMemo(() => new Subject<string>(), []);
 
@@ -17,9 +18,7 @@ export const useUnlock = () => {
     const subscriptions = [
       Shelter.isLocked$.subscribe(value => setIsLocked(value)),
       unlock$.pipe(switchMap(password => Shelter.unlockApp$(password))).subscribe(result => {
-        if (result) {
-          setIsLocked(false);
-        }
+        result ? setIsLocked(false) : setUnlockError('Wrong password. Try again');
       })
     ];
 
@@ -29,6 +28,8 @@ export const useUnlock = () => {
   return {
     isLocked,
     unlock,
-    lock
+    lock,
+    unlockError,
+    setUnlockError
   };
 };

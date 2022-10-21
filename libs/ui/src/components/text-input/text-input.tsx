@@ -10,7 +10,8 @@ import {
   View,
   KeyboardTypeOptions,
   NativeSyntheticEvent,
-  TextInputFocusEventData
+  TextInputFocusEventData,
+  TextInputChangeEventData
 } from 'react-native';
 
 import { TextStyleProps, ViewStyleProps } from '../../interfaces/style.interface';
@@ -67,6 +68,7 @@ export const TextInput = <
   children,
   clearIconStyles,
   onFocus: onFocusProps,
+  onChange: onChangeProps,
   labelStyle
 }: Props<TFieldValues, TName>) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -91,6 +93,8 @@ export const TextInput = <
 
     onChange(correctedValue);
   };
+
+  const onChangeNative = (e: NativeSyntheticEvent<TextInputChangeEventData>) => onChangeProps?.(e);
 
   const onBlur = () => {
     let correctedValue: string = value;
@@ -144,6 +148,7 @@ export const TextInput = <
             multiline={multiline}
             keyboardType={keyboardType}
             secureTextEntry={secureTextEntry}
+            onChange={onChangeNative}
           />
           {isNotEmptyString(value) && editable && (
             <TouchableIcon name={IconNameEnum.Clear} onPress={handleInputClear} style={clearIconStyles} />

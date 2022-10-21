@@ -28,6 +28,7 @@ import EmptySquareCheckbox from './assets/empty-square-checkbox.svg';
 import Error from './assets/error.svg';
 import EyeClosedIcon from './assets/eye-closed.svg';
 import EyeOpenIcon from './assets/eye-open.svg';
+import FaceId from './assets/face-id.svg';
 import GasIcon from './assets/gas.svg';
 import GridSettings from './assets/grid-settings.svg';
 import IconDisconnect from './assets/icon-disconnect.svg';
@@ -168,5 +169,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.See]: See,
   [IconNameEnum.WalletLogoPlaceholder]: WalletLogoPlaceholder,
   [IconNameEnum.IconWarning]: IconWarning,
-  [IconNameEnum.WalletLogoPlaceholderSquare]: WalletLogoPlaceholderSquare
+  [IconNameEnum.WalletLogoPlaceholderSquare]: WalletLogoPlaceholderSquare,
+  [IconNameEnum.FaceId]: FaceId
 };
