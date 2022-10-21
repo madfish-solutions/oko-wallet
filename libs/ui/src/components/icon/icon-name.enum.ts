@@ -10,6 +10,7 @@ export enum IconNameEnum {
   Copy = 'Copy',
   Dropdown = 'Dropdown',
   Dropup = 'Dropup',
+  SplashScreen = 'SplashScreen',
   Edit = 'Edit',
   Paste = 'Paste',
   EyeClosed = 'EyeClosed',
@@ -79,5 +80,6 @@ export enum IconNameEnum {
   See = 'See',
   WalletLogoPlaceholder = 'WalletLogoPlaceholder',
   IconWarning = 'IconWarning',
-  WalletLogoPlaceholderSquare = 'WalletLogoPlaceholderSquare'
+  WalletLogoPlaceholderSquare = 'WalletLogoPlaceholderSquare',
+  FaceId = 'FaceId'
 }
