@@ -49,6 +49,8 @@ export const useAccountFieldRules = (accountName = '') => {
     if (isNotEmptyString(currentValue) && !currentValue.trim()) {
       return onlySpacesError;
     }
+
+    return 'Should be unique';
   };
 
   const nameRules = {

@@ -84,9 +84,6 @@ export const SeedPhrase: FC = () => {
 
   useEffect(() => {
     if (isNotEmptyString(errors.derivationPath?.message)) {
-      console.log('here', errors.derivationPath);
-
-      console.log(errors.derivationPath);
       setTimeout(() => {
         if (scrollViewRef?.current !== null) {
           scrollViewRef.current.scrollTo({ y: 500 });
