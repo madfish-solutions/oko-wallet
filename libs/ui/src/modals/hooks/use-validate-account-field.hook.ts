@@ -61,7 +61,7 @@ export const useAccountFieldRules = (accountName = '') => {
   };
 
   const derivationPathRules = {
-    required: false,
+    required: requiredFieldError,
     validate: { validateDerivationPath }
   };
 

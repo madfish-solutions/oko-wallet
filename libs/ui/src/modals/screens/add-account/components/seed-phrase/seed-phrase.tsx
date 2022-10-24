@@ -13,6 +13,7 @@ import { Pressable } from '../../../../../components/pressable/pressable';
 import { Row } from '../../../../../components/row/row';
 import { TextInput as CustomTextInput } from '../../../../../components/text-input/text-input';
 import { Text } from '../../../../../components/text/text';
+import { NetworkTypeEnum } from '../../../../../enums/network-type.enum';
 import { ScreensEnum, ScreensParamList } from '../../../../../enums/sreens.enum';
 import { useImportSeedPhrase } from '../../../../../hooks/use-import-seed-phrase.hook';
 import { useNavigation } from '../../../../../hooks/use-navigation.hook';
@@ -94,16 +95,12 @@ export const SeedPhrase: FC = () => {
     }
   }, [errors.derivationPath?.message]);
 
-  const onSubmit = async ({ name, derivationPath: derivationPathParam }: { name: string; derivationPath: string }) => {
+  const onSubmit = async ({ name, derivationPath }: { name: string; derivationPath: string }) => {
     setIsSubmitted(true);
 
     const isError = checkErrors();
 
     if (!isError && !Object.keys(errors).length) {
-      const derivationPath = isNotEmptyString(derivationPathParam)
-        ? derivationPathParam
-        : derivationPathByNetworkType[networkType](0);
-
       const hdAccount = await generateHdAccount(
         mnemonic.filter(word => isNotEmptyString(word)).join(' '),
         derivationPath
@@ -196,9 +193,8 @@ export const SeedPhrase: FC = () => {
               field={field}
               label="Derivation Path"
               prompt="Enter your Derivation Path"
-              placeholder="0/0/0/1"
+              placeholder={networkType === NetworkTypeEnum.EVM ? "m/44'/60'/0'/0/0" : "m/44'/1729'/0'/0'"}
               error={errors?.derivationPath?.message}
-              required={false}
               containerStyle={styles.inputDerivationPathContainer}
             />
           )}

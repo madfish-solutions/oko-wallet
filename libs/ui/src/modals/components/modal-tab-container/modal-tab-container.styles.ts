@@ -10,6 +10,6 @@ export const styles = StyleSheet.create({
   content: {
     flex: 1,
     height: '100%',
-    paddingVertical: isWeb ? getCustomSize(2) : getCustomSize(4)
+    paddingBottom: isWeb ? getCustomSize(2) : getCustomSize(4)
   }
 });
