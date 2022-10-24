@@ -50,7 +50,7 @@ export const useAccountFieldRules = (accountName = '') => {
       return onlySpacesError;
     }
 
-    return 'Should be unique';
+    return true;
   };
 
   const nameRules = {
