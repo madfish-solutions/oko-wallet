@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
 import { typography } from '../../../../styles/typography';
+import { COLLECTIBLE_SIZE } from '../../constants';
 
 export const styles = StyleSheet.create({
   layoutContainer: {
@@ -14,8 +15,8 @@ export const styles = StyleSheet.create({
   },
   imageContainer: {
     position: 'absolute',
-    maxHeight: getCustomSize(37.5),
-    maxWidth: getCustomSize(37.5),
+    maxHeight: COLLECTIBLE_SIZE,
+    maxWidth: COLLECTIBLE_SIZE,
     padding: '5.5%',
     width: '100%',
     height: '100%'
