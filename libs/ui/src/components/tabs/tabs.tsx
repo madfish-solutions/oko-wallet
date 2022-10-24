@@ -1,8 +1,9 @@
-import { isDefined } from '@rnw-community/shared';
+import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React, { FC, Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { Animated, Easing, GestureResponderEvent, LayoutChangeEvent, Pressable, View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
+import { getCustomSize } from '../../styles/format-size';
 import { isAndroid } from '../../utils/platform.utils';
 import { Divider } from '../divider/divider';
 import { Row } from '../row/row';
@@ -12,28 +13,39 @@ import { styles } from './tabs.styles';
 
 interface Props {
   values: { id: number; title: string; Component: FC }[];
-  style?: ViewStyleProps;
+  tabsStyle?: ViewStyleProps;
+  activeItemId?: number;
+  activeItemCallback?: OnEventFn<number>;
 }
 
-export const Tabs: FC<Props> = ({ values, style }) => {
-  const [activeElementId, setActiveElementId] = useState(values[0].id);
-
-  const firstElement = useRef<View | null>(null);
-
-  const widthElement = useRef(new Animated.Value(0)).current;
-  const offsetXElement = useRef(new Animated.Value(0)).current;
+export const Tabs: FC<Props> = ({ values, tabsStyle, activeItemId, activeItemCallback }) => {
+  const [activeElementId, setActiveElementId] = useState(isDefined(activeItemId) ? activeItemId : values[0].id);
 
   const [tabsXOffsetForAndroid, setTabsXOffsetForAndroid] = useState<number[]>([]);
+  const tabRef = useRef<View | null>(null);
+  const offsetXElement = useRef(new Animated.Value(0)).current;
 
-  // get first item width when component mount and add to border width
   useEffect(() => {
-    if (isDefined(firstElement) && firstElement.current) {
-      firstElement.current.measure((...params: number[]) => {
-        const width = params[2];
-        widthElement.setValue(width ?? 0);
-      });
+    if (isDefined(activeItemId)) {
+      setActiveElementId(activeItemId);
     }
-  }, []);
+  }, [activeItemId]);
+
+  useEffect(() => {
+    isDefined(tabRef.current)
+      ? tabRef.current.measure((...props: number[]) => {
+          let offsetX = props[0];
+
+          if (isAndroid) {
+            offsetX = tabsXOffsetForAndroid[activeElementId - 1];
+          }
+
+          if (isDefined(offsetX)) {
+            animatedOffset(offsetX, 0);
+          }
+        })
+      : null;
+  }, [tabRef, isAndroid, tabsXOffsetForAndroid]);
 
   const onTabLayout = (props: LayoutChangeEvent) => {
     const layout = props.nativeEvent.layout;
@@ -43,32 +55,28 @@ export const Tabs: FC<Props> = ({ values, style }) => {
   const handleActiveItem = useCallback(
     (id: number, el: GestureResponderEvent) => {
       setActiveElementId(id);
+      activeItemCallback?.(id);
+
       // @ts-ignore
       el.currentTarget.measure((...props: number[]) => {
-        let offsetX;
-        const width = props[2];
+        let offsetX = props[0];
 
         if (isAndroid) {
           offsetX = tabsXOffsetForAndroid[id - 1];
-        } else {
-          offsetX = props[0];
         }
 
         animatedOffset(offsetX);
-        animatedWidth(width);
       });
     },
-    [activeElementId, tabsXOffsetForAndroid]
+    [tabsXOffsetForAndroid]
   );
 
-  const animatedWidth = (toValue: number) => animated(widthElement, toValue);
+  const animatedOffset = (toValue: number, duration?: number) => animated(offsetXElement, toValue, duration);
 
-  const animatedOffset = (toValue: number) => animated(offsetXElement, toValue);
-
-  const animated = (animatedValue: Animated.Value, toValue: number) =>
+  const animated = (animatedValue: Animated.Value, toValue: number, duration = 200) =>
     Animated.timing(animatedValue, {
       toValue,
-      duration: 200,
+      duration,
       useNativeDriver: false,
       easing: Easing.linear
     }).start();
@@ -76,12 +84,12 @@ export const Tabs: FC<Props> = ({ values, style }) => {
   const ActiveComponent = values[activeElementId - 1].Component;
 
   return (
-    <>
-      <Row style={[styles.root, style]}>
+    <View style={styles.root}>
+      <Row style={[styles.tabs, tabsStyle]}>
         {values.map(({ id, title }, index) => (
           <Fragment key={id}>
             <Pressable
-              ref={el => (index === 0 ? (firstElement.current = el) : null)}
+              ref={el => (index === (activeElementId - 1 ?? 0) ? (tabRef.current = el) : null)}
               onLayout={onTabLayout}
               onPress={el => handleActiveItem(id, el)}
               style={styles.element}
@@ -91,11 +99,13 @@ export const Tabs: FC<Props> = ({ values, style }) => {
             {values.length - 1 !== index && <Divider style={styles.divider} />}
           </Fragment>
         ))}
-        <Animated.View style={[styles.border, { width: widthElement, transform: [{ translateX: offsetXElement }] }]} />
+        <Animated.View
+          style={[styles.border, { width: getCustomSize(4), transform: [{ translateX: offsetXElement }] }]}
+        />
       </Row>
       <View style={styles.component}>
         <ActiveComponent />
       </View>
-    </>
+    </View>
   );
 };

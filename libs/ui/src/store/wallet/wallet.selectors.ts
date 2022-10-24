@@ -4,6 +4,7 @@ import { TokenMetadata } from 'src/interfaces/token-metadata.interface';
 
 import { GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
+import { AccountTypeEnum } from '../../enums/account-type.enum';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
@@ -55,6 +56,12 @@ export const useSelectedAccountSelector = () =>
 
 export const useAllAccountsSelector = () =>
   useSelector<WalletRootState, WalletState['accounts']>(({ wallet }) => wallet.accounts);
+
+export const useAllHdAccountsSelector = () => {
+  const accounts = useAllAccountsSelector();
+
+  return useMemo(() => accounts.filter(({ type }) => type === AccountTypeEnum.HD_ACCOUNT), [accounts]);
+};
 
 export const useAllVisibleAccountsSelector = () => {
   const accounts = useAllAccountsSelector();

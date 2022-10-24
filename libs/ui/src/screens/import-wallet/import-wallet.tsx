@@ -1,11 +1,8 @@
-import Clipboard from '@react-native-clipboard/clipboard';
 import { useRoute } from '@react-navigation/core';
 import { RouteProp } from '@react-navigation/native';
-import { isDefined, isNotEmptyString } from '@rnw-community/shared';
-import { validateMnemonic } from 'bip39';
-import React, { FC, useCallback, useEffect, useMemo, useState, useRef } from 'react';
-import { NativeSyntheticEvent, Pressable, TextInput, TextInputFocusEventData, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { isNotEmptyString } from '@rnw-community/shared';
+import React, { FC } from 'react';
+import { Pressable, TextInput, View } from 'react-native';
 
 import { Column } from '../../components/column/column';
 import { Icon } from '../../components/icon/icon';
@@ -14,163 +11,48 @@ import { Paste } from '../../components/paste/paste';
 import { Row } from '../../components/row/row';
 import { Text } from '../../components/text/text';
 import { WalletCreationContainer } from '../../components/wallet-creation-container/wallet-creation-container';
-import { SECURITY_TIME } from '../../constants/defaults';
-import { allMnemonicLengthValue, words } from '../../constants/seed-words-amount';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
+import { useImportSeedPhrase } from '../../hooks/use-import-seed-phrase.hook';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { getCustomSize } from '../../styles/format-size';
-import { formatMnemonic } from '../../utils/format-mnemonic.util';
 
 import { styles } from './import-wallet.styles';
-
-const maxWordsLength = Array(words.slice(-1)[0].value).fill('');
 
 export const ImportWallet: FC = () => {
   const { params: routeParams } = useRoute<RouteProp<ScreensParamList, ScreensEnum.ImportWallet>>();
   const { navigate } = useNavigation();
 
-  const wordsAmountState = routeParams?.wordsAmount ?? words[0];
-
-  const [wordsAmount, setWordsAmount] = useState(wordsAmountState.value);
-  const [mnemonic, setMnemonic] = useState<string[]>(maxWordsLength);
-  const [isShowProtectLayout, setIsShowProtectLayout] = useState(true);
-  const [selectedInputIndex, setSelectedInputIndex] = useState<number | null>(null);
-  const [error, setError] = useState('');
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const scrollViewRef = useRef<ScrollView>(null);
-  const focusInputRef = useRef<TextInput | null>(null);
-  const inputValueRef = useRef<string>('');
-
-  useEffect(() => {
-    let timeout: NodeJS.Timeout;
-
-    if (!isShowProtectLayout) {
-      timeout = setTimeout(() => {
-        focusInputRef.current?.blur();
-        setIsShowProtectLayout(true);
-      }, SECURITY_TIME);
-    }
-
-    return () => clearTimeout(timeout);
-  }, [isShowProtectLayout, mnemonic, focusInputRef]);
-
-  useEffect(() => {
-    setError('');
-  }, [mnemonic]);
-
-  useEffect(() => {
-    inputValueRef.current = mnemonic[selectedInputIndex ?? 0];
-  }, [selectedInputIndex]);
-
-  useEffect(() => {
-    if (isDefined(routeParams)) {
-      setWordsAmount(routeParams.wordsAmount.value);
-      setMnemonic(prev => prev.map((emptyField, index) => mnemonic[index] ?? emptyField));
-    }
-  }, [routeParams]);
-
-  const predictMnemonicLength = (mnemonicLength: number) => {
-    const isCurrentLengthExist = allMnemonicLengthValue.includes(mnemonicLength);
-
-    if (isCurrentLengthExist) {
-      return mnemonicLength;
-    }
-
-    let finalValue = allMnemonicLengthValue[0];
-    let i = 0;
-
-    while (i < allMnemonicLengthValue.length) {
-      if (allMnemonicLengthValue[i] > mnemonicLength) {
-        return (finalValue = allMnemonicLengthValue[i]);
-      }
-      i++;
-    }
-
-    return finalValue;
-  };
-
-  const handlePasteMnemonicFromClipboard = useCallback(() => {
-    Clipboard.getString().then(clipboardValue => {
-      const clipboardMnemonicTrim = clipboardValue
-        .split(' ')
-        .filter(word => isNotEmptyString(word.trim()))
-        .join(' ');
-
-      if (isNotEmptyString(clipboardMnemonicTrim) && isDefined(clipboardMnemonicTrim)) {
-        const clipboardMnemonic = clipboardMnemonicTrim.split(' ');
-        const calculatedLength = predictMnemonicLength(clipboardMnemonic.length);
-        const filledMnemonic = maxWordsLength.map((emptyString, index) => clipboardMnemonic[index] ?? emptyString);
-
-        inputValueRef.current = filledMnemonic[selectedInputIndex ?? 0];
-        setWordsAmount(calculatedLength);
-        setSelectedInputIndex(null);
-        setMnemonic(filledMnemonic);
-      }
-    });
-  }, [selectedInputIndex]);
-
-  const handleInputChange = useCallback(
-    (value: string, index: number) => {
-      if (value.length === inputValueRef.current.length + 1 || value.length < inputValueRef.current.length) {
-        const newMnemonic = [...mnemonic];
-        newMnemonic[index] = value;
-
-        setMnemonic(newMnemonic);
-        inputValueRef.current = value;
-      } else {
-        handlePasteMnemonicFromClipboard();
-      }
-    },
-    [handlePasteMnemonicFromClipboard, mnemonic]
-  );
-
-  const navigateToWordsAmountSelector = () =>
-    navigate(ScreensEnum.WordsAmountSelector, {
-      wordsAmount: words.find(({ value }) => value === wordsAmount) ?? words[0]
-    });
-
-  const handleShowLayout = (index: number) => {
-    setIsShowProtectLayout(false);
-    setSelectedInputIndex(index);
-  };
-
-  const handleInputFocus = (index: number, el: NativeSyntheticEvent<TextInputFocusEventData>) => {
-    setSelectedInputIndex(index);
-    // @ts-ignore
-    focusInputRef.current = el.target;
-  };
-
-  const handleInputBlur = () => {
-    setIsShowProtectLayout(true);
-    setSelectedInputIndex(null);
-  };
-
-  const isEmptyFieldsExist = useMemo(
-    () => mnemonic.slice(0, wordsAmount).some(field => !isNotEmptyString(field)),
-    [mnemonic]
-  );
-
-  useEffect(() => {
-    if (isNotEmptyString(error)) {
-      setTimeout(() => {
-        if (scrollViewRef?.current !== null) {
-          scrollViewRef.current.scrollTo({ y: 500 });
-        }
-      }, 0);
-    }
-  }, [error]);
+  const {
+    mnemonic,
+    isEmptyFieldsExist,
+    error,
+    scrollViewRef,
+    wordsAmount,
+    selectedInputIndex,
+    isShowProtectLayout,
+    isSubmitted,
+    checkErrors,
+    navigateToWordsAmountSelector,
+    handleInputFocus,
+    handleInputBlur,
+    handleInputChange,
+    handleShowLayout,
+    handlePasteMnemonicFromClipboard,
+    setIsSubmitted
+  } = useImportSeedPhrase(routeParams?.wordsAmount);
 
   const navigateToAlmostDoneScreen = () => {
     setIsSubmitted(true);
 
-    if (isEmptyFieldsExist) {
-      return setError('Please, enter all the words.');
-    } else if (!validateMnemonic(formatMnemonic(mnemonic.map(word => word.trim()).join(' ')))) {
-      return setError('Wrong mnemonic type of words.');
-    }
+    const isError = checkErrors();
 
-    navigate(ScreensEnum.AlmostDone, { mnemonic: mnemonic.join(' '), currentStep: 2, stepsAmount: 2 });
+    if (!isError) {
+      navigate(ScreensEnum.AlmostDone, {
+        mnemonic: mnemonic.filter(word => isNotEmptyString(word)).join(' '),
+        currentStep: 2,
+        stepsAmount: 2
+      });
+    }
   };
 
   return (

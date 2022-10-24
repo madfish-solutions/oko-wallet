@@ -9,6 +9,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { AccountTypeEnum } from '../enums/account-type.enum';
 import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { AccountInterface } from '../interfaces/account.interface';
+import { HdAccount } from '../interfaces/create-hd-account.interface';
 import { BackgroundMessager } from '../messagers/background-messager';
 import { decrypt } from '../themis/decrypt';
 import { encrypt } from '../themis/encrypt';
@@ -114,10 +115,10 @@ export class Shelter {
         Shelter.setPasswordHash(passwordHash);
 
         return forkJoin(
-          [...Array(hdAccountsLength).keys()].map(hdAccountIndex =>
-            from(generateHdAccount(seedPhrase, getEtherDerivationPath(hdAccountIndex))).pipe(
+          [...Array(hdAccountsLength).keys()].map(hdAccountId =>
+            from(generateHdAccount(seedPhrase, getEtherDerivationPath(hdAccountId))).pipe(
               map(({ privateKey, publicKey, address }) => {
-                const name = accountName ?? `Account ${hdAccountIndex + 1}`;
+                const name = accountName ?? `Account ${hdAccountId + 1}`;
 
                 return {
                   privateData: {
@@ -126,7 +127,7 @@ export class Shelter {
                   publicData: {
                     name,
                     type: AccountTypeEnum.HD_ACCOUNT,
-                    accountIndex: hdAccountIndex,
+                    accountId: hdAccountId + 1,
                     networksKeys: {
                       [NetworkTypeEnum.EVM]: {
                         publicKey,
@@ -156,6 +157,7 @@ export class Shelter {
 
   static createHdAccount$ = (
     networkType: NetworkTypeEnum,
+    accountId: number,
     accountIndex: number,
     name: string
   ): Observable<AccountInterface | undefined> => {
@@ -168,7 +170,7 @@ export class Shelter {
             Shelter.savePrivateKey$(publicKeyHash, privateKey).pipe(
               map(() => ({
                 name,
-                accountIndex,
+                accountId,
                 networksKeys: {
                   [networkType]: {
                     publicKey,
@@ -184,6 +186,31 @@ export class Shelter {
       )
     );
   };
+
+  static createImportedAccount$ = (
+    hdAccount: HdAccount,
+    networkType: NetworkTypeEnum,
+    accountId: number,
+    name: string
+  ) =>
+    of(hdAccount).pipe(
+      switchMap(({ privateKey, publicKey, address: publicKeyHash }) =>
+        Shelter.savePrivateKey$(publicKeyHash, privateKey).pipe(
+          map(() => ({
+            name,
+            type: AccountTypeEnum.IMPORTED_ACCOUNT,
+            accountId,
+            networksKeys: {
+              [networkType]: {
+                publicKey,
+                publicKeyHash
+              }
+            },
+            isVisible: true
+          }))
+        )
+      )
+    );
 
   static revealPrivateKey$ = (publicKeyHash: string) =>
     Shelter.decryptSensitiveData$(publicKeyHash, Shelter._passwordHash$.getValue());

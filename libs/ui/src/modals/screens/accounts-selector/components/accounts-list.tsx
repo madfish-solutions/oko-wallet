@@ -26,7 +26,7 @@ interface Props {
   isSearchInitiallyOpened?: boolean;
 }
 
-const keyExtractor = (item: AccountInterface) => item.accountIndex.toString();
+const keyExtractor = (item: AccountInterface) => item.accountId.toString();
 
 export const AccountsList: FC<Props> = ({
   accounts,

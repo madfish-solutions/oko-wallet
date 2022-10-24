@@ -186,6 +186,11 @@ export const Navigator: FC = () => {
                 options={{ title: 'Confirm disconnection' }}
                 component={DeleteDapp}
               />
+              <Stack.Screen
+                name={ScreensEnum.WordsAmountSelector}
+                options={{ title: 'Amount Words' }}
+                component={WordsAmountSelector}
+              />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptionsWithBackButton}>

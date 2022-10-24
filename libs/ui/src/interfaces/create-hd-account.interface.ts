@@ -7,6 +7,7 @@ import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { AccountInterface } from './account.interface';
 
 export interface CreateHdAccountParams {
+  accountId: number;
   accountIndex: number;
   networkType: NetworkTypeEnum;
   accountName: string;
@@ -20,6 +21,7 @@ export type CreateHdAccountType = {
 
 export interface CreateHdAccountForNewNetworkParams {
   account: AccountInterface;
+  accountIndex: number;
   networkType: NetworkTypeEnum;
   switchToNewAccount?: boolean;
   successCallback?: OnEventFn<AccountInterface>;
@@ -37,4 +39,13 @@ export type RevealSeedPhraseParams = {
 export type RevealPrivateKeyParams = {
   publicKeyHash: string;
   successCallback: OnEventFn<string>;
+};
+
+export type HdAccount = { publicKey: string; address: string; privateKey: string };
+
+export type CreateImportedAccountParams = {
+  name: string;
+  hdAccount: HdAccount;
+  networkType: NetworkTypeEnum;
+  accountId: number;
 };

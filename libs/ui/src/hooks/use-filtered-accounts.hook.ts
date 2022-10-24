@@ -21,7 +21,7 @@ export const useFilteredAccounts = (accounts: AccountInterface[], selectedAccoun
   }, [searchValue, accounts, networkType]);
 
   const selectedAccountIndex = useMemo(
-    () => filteredAccounts.findIndex(account => account.accountIndex === selectedAccount.accountIndex),
+    () => filteredAccounts.findIndex(account => account.accountId === selectedAccount.accountId),
     [filteredAccounts, selectedAccount]
   );
 

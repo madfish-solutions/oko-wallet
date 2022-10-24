@@ -5,7 +5,7 @@ import { AccountInterface } from '../interfaces/account.interface';
 export const initialAccount: AccountInterface = {
   name: '',
   type: AccountTypeEnum.HD_ACCOUNT,
-  accountIndex: 0,
+  accountId: 0,
   networksKeys: {
     [NetworkTypeEnum.EVM]: {
       publicKey: '',

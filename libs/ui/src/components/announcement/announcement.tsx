@@ -1,3 +1,4 @@
+import { isDefined } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { View } from 'react-native';
 
@@ -11,19 +12,23 @@ import { messageTypes } from './contants';
 import { MessageType } from './enum';
 
 interface Props {
-  text: string;
+  text?: string;
   numberOfLines?: number;
   type?: MessageType;
   style?: ViewStyleProps;
 }
 
-export const Announcement: FC<Props> = ({ text, type = MessageType.Warning, numberOfLines, style }) => (
+export const Announcement: FC<Props> = ({ text, type = MessageType.Warning, numberOfLines, style, children }) => (
   <Row style={[styles.root, messageTypes[type].style, style]}>
     <Icon name={messageTypes[type].icon} iconStyle={styles.icon} />
     <View style={styles.textWrapper}>
-      <Text style={styles.text} numberOfLines={numberOfLines}>
-        {text}
-      </Text>
+      {isDefined(text) ? (
+        <Text style={styles.text} numberOfLines={numberOfLines}>
+          {text}
+        </Text>
+      ) : (
+        children
+      )}
     </View>
   </Row>
 );

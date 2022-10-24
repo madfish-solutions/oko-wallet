@@ -80,7 +80,7 @@ export type ScreensParamList = {
   [ScreensEnum.AccountsSelector]: undefined;
   [ScreensEnum.NetworksSelector]: undefined;
   [ScreensEnum.EditAccount]: { account: AccountInterface };
-  [ScreensEnum.AddAccount]: undefined;
+  [ScreensEnum.AddAccount]?: { wordsAmount?: SeedWordsAmount; activeId?: number };
   [ScreensEnum.AddNetwork]: undefined;
   [ScreensEnum.AddNewToken]: undefined;
   [ScreensEnum.EditToken]: { token: Token };
