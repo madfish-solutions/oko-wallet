@@ -35,6 +35,10 @@ export const formatBalances = (amount: number | string): string => {
     return correctedAmount.toFixed(2);
   }
 
+  if (new BigNumber(correctedAmount).lt(0.000001)) {
+    return '< 0.000001';
+  }
+
   return correctedAmount.toFixed(6);
 };
 
