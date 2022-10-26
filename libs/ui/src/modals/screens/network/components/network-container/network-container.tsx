@@ -1,11 +1,12 @@
 import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { Control, Controller, FieldErrors, UseControllerProps, UseFormSetValue } from 'react-hook-form';
-import { GestureResponderEvent, Text } from 'react-native';
+import { GestureResponderEvent } from 'react-native';
 
 import { IconNameEnum } from '../../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../../components/row/row';
 import { TextInput } from '../../../../../components/text-input/text-input';
+import { Text } from '../../../../../components/text/text';
 import { TouchableIcon } from '../../../../../components/touchable-icon/touchable-icon';
 import { useNavigation } from '../../../../../hooks/use-navigation.hook';
 import { ModalActionContainer } from '../../../../components/modal-action-container/modal-action-container';

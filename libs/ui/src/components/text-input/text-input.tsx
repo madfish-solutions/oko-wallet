@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { ControllerRenderProps, FieldPath, FieldValues } from 'react-hook-form';
 import {
   GestureResponderEvent,
-  Text,
   TextInput as TextInputBase,
   TextInputProps,
   View,
@@ -18,6 +17,7 @@ import { TextStyleProps, ViewStyleProps } from '../../interfaces/style.interface
 import { colors } from '../../styles/colors';
 import { IconNameEnum } from '../icon/icon-name.enum';
 import { Row } from '../row/row';
+import { Text } from '../text/text';
 import { TouchableIcon } from '../touchable-icon/touchable-icon';
 
 import { Label } from './components/label/label';
@@ -148,6 +148,7 @@ export const TextInput = <
             multiline={multiline}
             keyboardType={keyboardType}
             secureTextEntry={secureTextEntry}
+            allowFontScaling={false}
             onChange={onChangeNative}
           />
           {isNotEmptyString(value) && editable && (
