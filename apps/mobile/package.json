@@ -10,6 +10,7 @@
     "android:build:apk": "cd android && ./gradlew assembleRelease",
     "ios": "react-native run-ios",
     "ios:pods": "cd ios && pod install",
+    "clear:android": "cd android && ./gradlew clean",
     "clear:metro": "rm -rf $TMPDIR/haste-map-* || true && rm -rf $TMPDIR/metro-* || true"
   },
   "dependencies": {
