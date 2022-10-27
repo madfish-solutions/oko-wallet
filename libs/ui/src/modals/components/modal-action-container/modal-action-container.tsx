@@ -10,6 +10,7 @@ import { styles } from './modal-action-container.styles';
 
 interface Props extends FooterButtons {
   screenTitle: string;
+  isBackButton?: boolean;
   style?: ViewStyleProps;
 }
 
@@ -18,12 +19,14 @@ export const ModalActionContainer: FC<Props> = ({
   submitTitle,
   cancelTitle,
   isSubmitDisabled,
+  isCancelDisabled,
   onSubmitPress,
   onCancelPress,
+  isBackButton = true,
   style,
   children
 }) => (
-  <ModalContainer screenTitle={screenTitle} isBackButton>
+  <ModalContainer screenTitle={screenTitle} isBackButton={isBackButton}>
     <View style={[styles.root, style]}>
       <ScrollView style={styles.content}>{children}</ScrollView>
 
@@ -32,6 +35,7 @@ export const ModalActionContainer: FC<Props> = ({
         onCancelPress={onCancelPress}
         onSubmitPress={onSubmitPress}
         isSubmitDisabled={isSubmitDisabled}
+        isCancelDisabled={isCancelDisabled}
         cancelTitle={cancelTitle}
       />
     </View>

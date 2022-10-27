@@ -1,6 +1,6 @@
+import { isDefined } from '@rnw-community/shared';
 import React, { FC, useCallback } from 'react';
 
-import { Text } from '../../../../components/text/text';
 import { AssetTypeEnum } from '../../../../enums/asset-type.enum';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { TransactionParams } from '../../../../shelter/interfaces/get-evm-signer-params.interface';
@@ -9,9 +9,9 @@ import {
   useSelectedNetworkSelector
 } from '../../../../store/wallet/wallet.selectors';
 import { getAssetType } from '../../../../utils/get-asset-type.util';
-import { formatUnitsToString } from '../../../../utils/units.utils';
+import { formatUnits } from '../../../../utils/units.utils';
 import { useTransactionHook } from '../../hooks/use-transaction.hook';
-import { EvmTransferParams } from '../../types';
+import { EvmTransferParams, OnSend } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
 
 import { useEvmEstimations } from './hooks/use-evm-estimations.hook';
@@ -25,9 +25,10 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPu
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const network = useSelectedNetworkSelector();
   const { sendEvmTransaction } = useShelter();
-  const { transactionHash, isTransactionLoading, setIsTransactionLoading, successCallback } = useTransactionHook();
+  const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } =
+    useTransactionHook(receiverPublicKeyHash);
 
-  const { tokenAddress, tokenId, decimals } = asset;
+  const { tokenAddress, tokenId, decimals, symbol } = asset;
   const assetType = getAssetType(asset);
 
   const { estimations, isLoading } = useEvmEstimations({
@@ -43,50 +44,48 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPu
     rpcUrl,
     gasTokenMetadata: { decimals: gasTokenDecimals }
   } = network;
-  const gasPrice = estimations?.gasPrice && formatUnitsToString(estimations.gasPrice, gasTokenDecimals);
-  const transactionFee =
-    estimations?.gasPrice &&
-    formatUnitsToString((Number(estimations.gasPrice) * Number(estimations.gasLimit)).toFixed(0), gasTokenDecimals);
+  const transactionFee = isDefined(estimations?.gasPrice)
+    ? formatUnits(Number(estimations?.gasPrice) * Number(estimations?.gasLimit), gasTokenDecimals).toNumber()
+    : 0;
 
-  const onSend = useCallback(() => {
-    if (estimations?.gasPrice) {
-      setIsTransactionLoading(true);
+  const onSend: OnSend = useCallback(
+    gasPriceCoefficient => {
+      if (isDefined(estimations?.gasPrice) && typeof gasPriceCoefficient === 'number') {
+        setIsTransactionLoading(true);
 
-      const transactionParams: TransactionParams = {
-        gasPrice: estimations.gasPrice,
-        gasLimit: Number(estimations.gasLimit),
-        receiverPublicKeyHash,
-        tokenAddress,
-        tokenId,
-        ...(assetType !== AssetTypeEnum.Collectible && {
-          value: getAmount(value, decimals)
-        })
-      };
+        const transactionParams: TransactionParams = {
+          gasPrice: Math.trunc(Number(estimations?.gasPrice) * gasPriceCoefficient),
+          gasLimit: Number(estimations?.gasLimit),
+          receiverPublicKeyHash,
+          tokenAddress,
+          tokenId,
+          ...(assetType !== AssetTypeEnum.Collectible && {
+            value: getAmount(value, decimals)
+          })
+        };
 
-      sendEvmTransaction({
-        rpcUrl,
-        transactionParams,
-        publicKeyHash,
-        assetType,
-        successCallback
-      });
-    }
-  }, [estimations]);
+        sendEvmTransaction({
+          rpcUrl,
+          transactionParams,
+          publicKeyHash,
+          assetType,
+          successCallback,
+          errorCallback
+        });
+      }
+    },
+    [estimations]
+  );
 
   return (
     <Confirmation
-      isLoading={isLoading}
-      transactionHash={transactionHash}
-      network={network}
+      isFeeLoading={isLoading}
       onSend={onSend}
       isTransactionLoading={isTransactionLoading}
-    >
-      <>
-        <Text>To: {receiverPublicKeyHash}</Text>
-        <Text>Amount: {value}</Text>
-        <Text>Gas Price: {gasPrice}</Text>
-        <Text>TX Fee: {transactionFee}</Text>
-      </>
-    </Confirmation>
+      receiverPublicKeyHash={receiverPublicKeyHash}
+      amount={value}
+      symbol={symbol}
+      transactionFee={transactionFee}
+    />
   );
 };

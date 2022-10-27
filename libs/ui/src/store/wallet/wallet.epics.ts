@@ -69,7 +69,8 @@ const sendAssetEpic: Epic = (action$: Observable<Action>, state$: Observable<Roo
     switchMap(([[sendAssetPayload, selectedNetwork], sender]) => {
       if (selectedNetwork.networkType === NetworkTypeEnum.Tezos) {
         return getTezosTransferParams$(sendAssetPayload, selectedNetwork, sender).pipe(
-          map(transferParams => parseTezosTransferParams(transferParams))
+          map(transferParams => parseTezosTransferParams(transferParams)),
+          map(transferParams => ({ transferParams, asset: sendAssetPayload.asset }))
         );
       }
 

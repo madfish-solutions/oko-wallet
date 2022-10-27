@@ -129,7 +129,6 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.Send} component={Send} />
               <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
               <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
-              <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
               <Stack.Screen name={ScreensEnum.Tokens} component={Tokens} />
               <Stack.Screen name={ScreensEnum.ScanQrCode} component={ScanQrCode} />
               <Stack.Screen name={ScreensEnum.Token} component={Token} />
@@ -190,6 +189,11 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.WordsAmountSelector}
                 options={{ title: 'Amount Words' }}
                 component={WordsAmountSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SendConfirmation}
+                options={{ title: 'Confirm Operation' }}
+                component={SendConfirmation}
               />
             </Stack.Group>
 

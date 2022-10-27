@@ -35,6 +35,7 @@ import { sendAssetAction } from '../../store/wallet/wallet.actions';
 import {
   useAllAccountsWithoutSelectedSelector,
   useGasTokenSelector,
+  useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector,
   useSelectedNetworkTypeSelector
 } from '../../store/wallet/wallet.selectors';
@@ -66,6 +67,7 @@ export const Send: FC = () => {
   const gasToken = useGasTokenSelector();
   const networkType = useSelectedNetworkTypeSelector();
   const allAccountsWithoutSelected = useAllAccountsWithoutSelectedSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { amountRules, receiverPublicKeyHashRules } = useValidateSendFields(networkType);
 
   const isTransferBetweenAccountsDisabled = allAccountsWithoutSelected.length === 0;
@@ -129,7 +131,8 @@ export const Send: FC = () => {
     const assetToSend: Asset = {
       decimals,
       tokenAddress: tokenAddress === GAS_TOKEN_ADDRESS ? '' : tokenAddress,
-      tokenId: tokenId ?? ''
+      tokenId: tokenId ?? '',
+      symbol: token.symbol
     };
 
     dispatch(
@@ -190,6 +193,12 @@ export const Send: FC = () => {
       trigger('receiverPublicKeyHash');
     }
   }, [params]);
+
+  useEffect(() => {
+    if (isDefined(account) && publicKeyHash === getPublicKeyHash(account, networkType)) {
+      setValue('account', allAccountsWithoutSelected[0]);
+    }
+  }, [publicKeyHash, account, allAccountsWithoutSelected]);
 
   return (
     <ScreenContainer>
