@@ -17,6 +17,8 @@ let isLockApp = true;
 
 let isFullpageOpen = false;
 
+const channel = new BroadcastChannel('Klaytn_Background');
+
 browser.scripting.registerContentScripts([
   {
     id: 'inpage',
@@ -51,9 +53,21 @@ browser.runtime.onConnect.addListener(port => {
       return (lastUserActivityTimestamp = Date.now());
     });
   }
-
+  let metamaskData: any[] = [];
   // listen content script messages
   port.onMessage.addListener(async msg => {
+    if (msg.data?.target === 'metamask-contentscript') {
+      metamaskData.push(msg.data);
+    }
+
+    channel.onmessage = msg => {
+      console.log(msg, 'channel on message');
+      if (msg.data.msg === 'background') {
+        channel.postMessage({ data: metamaskData });
+        metamaskData = [];
+      }
+    };
+
     if (msg.data?.target === 'metamask-contentscript' && msg.data?.data?.data?.method === 'eth_requestAccounts') {
       const id = msg.data?.data?.data?.id;
       const origin = msg.origin;

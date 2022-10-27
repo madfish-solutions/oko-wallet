@@ -5,27 +5,20 @@ import { runtime } from 'webextension-polyfill';
 
 const myPort = runtime.connect({ name: 'port-from-cs' });
 
+const channel = new BroadcastChannel('Klaytn_Background');
+
 // listen Dapp messages and send info to background script
 window.addEventListener('message', async evt => {
-  if (evt.data.target === 'metamask-contentscript' && evt.data?.data?.data?.method === 'eth_requestAccounts') {
+  console.log(evt.data, 'content');
+  if (evt.data.target === 'metamask-contentscript') {
     myPort.postMessage({ data: evt.data, origin: evt.origin });
-  }
-
-  if (evt.data.target === 'metamask-contentscript' && evt.data?.data?.data?.method === 'eth_chainId') {
-    const ethResponse = {
-      data: {
-        data: { id: evt.data?.data?.data?.id, jsonrpc: '2.0', method: 'eth_chainId', result: '0x2019' },
-        name: 'metamask-provider'
-      },
-      target: 'metamask-inpage'
-    };
-
-    window.postMessage(ethResponse, '*');
+    channel.postMessage({ msg: 'background' });
   }
 });
 
 // send post message to Dapp
 runtime.onMessage.addListener(async (request: unknown) => {
+  console.log(request, 'request from ui!!');
   window.postMessage(request, '*');
 
   return Promise.resolve();

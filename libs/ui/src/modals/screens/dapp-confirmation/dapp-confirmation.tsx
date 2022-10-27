@@ -4,11 +4,11 @@ import { View, Linking, TouchableOpacity, ScrollView, Pressable } from 'react-na
 import { useDispatch } from 'react-redux';
 import { browser } from 'webextension-polyfill-ts';
 
+import { AllowsBlock } from '../../../components/allows-block/allows-block';
 import { Button } from '../../../components/button/button';
 import { ButtonThemesEnum } from '../../../components/button/enums';
 import { Column } from '../../../components/column/column';
 import { CopyText } from '../../../components/copy-text/copy-text';
-import { Divider } from '../../../components/divider/divider';
 import { IconWithBorder } from '../../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
@@ -17,6 +17,7 @@ import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
+import { AllowsRules } from '../../../interfaces/dapp-connection.interface';
 import { setConfirmedDappAction } from '../../../store/wallet/wallet.actions';
 import {
   useSelectedAccountPublicKeyHashSelector,
@@ -36,6 +37,12 @@ interface MessageToDapp {
   data: unknown;
   target: string;
 }
+
+const rules: AllowsRules[] = [
+  { text: 'See wallet balance and activity', isAllowed: true },
+  { text: 'Send request for transactions', isAllowed: true },
+  { text: 'Move funds without permissions', isAllowed: false }
+];
 
 export const DappConfirmation: FC = () => {
   const dispatch = useDispatch();
@@ -120,33 +127,7 @@ export const DappConfirmation: FC = () => {
               </Row>
             </Row>
           </View>
-          <View style={styles.allowsBlock}>
-            <Text style={styles.greyLabel}>Allows</Text>
-            <Row style={styles.allowsText}>
-              <Text style={styles.greyText}>See wallet balance and activity</Text>
-              <Row>
-                <Text style={styles.allowStatus}>ALLOWED</Text>
-                <Icon name={IconNameEnum.LockOpen} />
-              </Row>
-            </Row>
-            <Divider style={styles.divider} />
-            <Row style={styles.allowsText}>
-              <Text style={styles.greyText}>Send request for transactions</Text>
-              <Row>
-                <Text style={styles.allowStatus}>ALLOWED</Text>
-                <Icon name={IconNameEnum.LockOpen} />
-              </Row>
-            </Row>
-            <Divider style={styles.divider} />
-            <Row style={styles.allowsText}>
-              <Text style={styles.greyText}>Move funds without permissions</Text>
-              <Row>
-                <Text style={styles.allowStatus}>BLOCKED</Text>
-                <Icon name={IconNameEnum.LockClosed} />
-              </Row>
-            </Row>
-            <Divider style={styles.divider} />
-          </View>
+          <AllowsBlock rules={rules} />
         </View>
       </ScrollView>
       <Row style={styles.buttonPanel}>

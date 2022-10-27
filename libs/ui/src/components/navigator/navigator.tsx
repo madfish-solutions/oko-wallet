@@ -3,11 +3,12 @@ import React, { FC, createRef, useEffect } from 'react';
 import { View, Text } from 'react-native';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
-import { useDappConnection } from '../../hooks/use-dapp-connection.hook';
+import { useDappConnection, useDappMessenger } from '../../hooks/use-dapp-connection.hook';
 import { PERSISTENCE_KEY, usePersistedNavigationState } from '../../hooks/use-persisted-navigation-state.hook';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
 import { AddAccount } from '../../modals/screens/add-account/add-account';
+import { ChangeNetwork } from '../../modals/screens/change-network/change-network';
 import { DappConfirmation } from '../../modals/screens/dapp-confirmation/dapp-confirmation';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
@@ -53,6 +54,7 @@ export const Navigator: FC = () => {
   const { isLocked } = useUnlock();
 
   useDappConnection();
+  useDappMessenger();
 
   const { isPopupOpened } = checkActiveApplicationSession();
 
@@ -129,6 +131,11 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.DappConfirmation}
                 options={{ title: 'Connect' }}
                 component={DappConfirmation}
+              />
+              <Stack.Screen
+                name={ScreensEnum.ChangeNetworkConfirmation}
+                options={{ title: 'Confirm change network' }}
+                component={ChangeNetwork}
               />
             </Stack.Group>
 
