@@ -553,6 +553,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D653UWS37K;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = D653UWS37K;
 				INFOPLIST_FILE = KlaytnWallet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -566,6 +567,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.madfish.klaytn-wallet";
 				PRODUCT_NAME = KlaytnWallet;
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.madfish.klaytn-wallet";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AppStore com. madfish.klaytn-wallet";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
