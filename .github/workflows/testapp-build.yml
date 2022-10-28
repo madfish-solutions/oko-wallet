@@ -73,6 +73,12 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+      - name: Setup Xcode
+        if: ${{ github.event.inputs.ios == 'true' }}
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: 13
+
       - name: Update iOS version
         if: ${{ github.event.inputs.ios == 'true' }}
         uses: damienaicheh/update-ios-version-info-plist-action@v1.0.0
