@@ -17,8 +17,8 @@ interface Props {
 export const AllowsBlock: FC<Props> = ({ rules }) => (
   <View style={styles.allowsBlock}>
     <Text style={styles.greyLabel}>Allows</Text>
-    {rules.map(({ text, isAllowed }) => (
-      <>
+    {rules.map(({ text, isAllowed }, index) => (
+      <React.Fragment key={`${index}+${text}`}>
         <Row style={styles.allowsText}>
           <Text style={styles.greyText}>{text}</Text>
           <Row>
@@ -27,7 +27,7 @@ export const AllowsBlock: FC<Props> = ({ rules }) => (
           </Row>
         </Row>
         <Divider style={styles.divider} />
-      </>
+      </React.Fragment>
     ))}
   </View>
 );
