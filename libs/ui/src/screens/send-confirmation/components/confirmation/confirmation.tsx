@@ -1,7 +1,8 @@
 import isEmpty from 'lodash/isEmpty';
-import React, { FC, Fragment, useState } from 'react';
+import React, { FC, Fragment, useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 import { Button } from '../../../../components/button/button';
 import { CopyText } from '../../../../components/copy-text/copy-text';
@@ -75,6 +76,7 @@ export const Confirmation: FC<Props> = ({
     mode: 'onChange',
     defaultValues
   });
+  const scrollViewRef = useRef<ScrollView>(null);
 
   const isConfirmButtonDisabled = !isEmpty(errors) || isTransactionLoading;
   const isOwnSpeedSelected = speed.value === SpeedEnum.Own;
@@ -88,12 +90,20 @@ export const Confirmation: FC<Props> = ({
   const isTezosNetwork = networkType === NetworkTypeEnum.Tezos;
   const isEvmNetwork = networkType === NetworkTypeEnum.EVM;
 
+  const progressStatus = isOwnSpeedSelected ? getProgressStatus(transactionFee, correctedTransactionFee) : speed.title;
+
+  useEffect(() => {
+    if (isOwnSpeedSelected) {
+      setTimeout(() => {
+        scrollViewRef?.current?.scrollTo({ y: 500 });
+      }, 0);
+    }
+  }, [isOwnSpeedSelected]);
+
   const handleSpeedChange = (speedOption: SpeedOption) => {
     setSpeed(speedOption);
     clearErrors();
   };
-
-  const progressStatus = isOwnSpeedSelected ? getProgressStatus(transactionFee, correctedTransactionFee) : speed.title;
 
   const onConfirmPress = () => {
     if (isTezosNetwork) {
@@ -115,6 +125,7 @@ export const Confirmation: FC<Props> = ({
       isSubmitDisabled={isConfirmButtonDisabled}
       isCancelDisabled={isTransactionLoading}
       isBackButton={false}
+      scrollViewRef={scrollViewRef}
     >
       <View>
         <View style={styles.container}>

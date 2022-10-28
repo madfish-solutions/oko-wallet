@@ -9,8 +9,8 @@ export interface SpeedOption {
 
 export const speedOptions = [
   { title: SpeedEnum.Slow, value: '1' },
-  { title: SpeedEnum.Middle, value: '1.2' },
-  { title: SpeedEnum.Fast, value: '1.25' },
+  { title: SpeedEnum.Middle, value: '1.25' },
+  { title: SpeedEnum.Fast, value: '1.5' },
   { title: SpeedEnum.Own, value: SpeedEnum.Own }
 ];
 

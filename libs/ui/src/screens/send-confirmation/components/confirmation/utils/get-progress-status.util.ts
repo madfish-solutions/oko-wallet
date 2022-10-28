@@ -1,8 +1,9 @@
 import { speedOptions } from '../constants';
+import { SpeedEnum } from '../enums';
 
 export const getProgressStatus = (initialTransactionFee: number, currentTransactionFee: number) => {
   if (!currentTransactionFee || !initialTransactionFee) {
-    return 'unknown';
+    return SpeedEnum.Own;
   }
 
   const currentSpeedOptions = speedOptions

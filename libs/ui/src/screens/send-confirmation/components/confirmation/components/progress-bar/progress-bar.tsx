@@ -9,7 +9,7 @@ import { SpeedEnum } from '../../enums';
 import { styles } from './progress-bar.styles';
 
 interface Props {
-  status: string;
+  status: SpeedEnum;
 }
 
 export const ProgressBar: FC<Props> = ({ status }) => {
