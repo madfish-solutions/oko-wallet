@@ -7,6 +7,7 @@ import { Column } from '../../../../column/column';
 import { IconNameEnum } from '../../../../icon/icon-name.enum';
 import { Text } from '../../../../text/text';
 import { TouchableIcon } from '../../../../touchable-icon/touchable-icon';
+import { ScreenTitleTestIDs } from './screen-title.testID';
 
 import { styles } from './screen-title.styles';
 
@@ -20,7 +21,7 @@ interface Props {
 export const ScreenTitle: FC<Props> = ({ title = 'Page', onBackButtonPress, numberOfLines = 1, titleStyle }) => (
   <Column style={styles.root}>
     {isDefined(onBackButtonPress) && (
-      <TouchableIcon name={IconNameEnum.ArrowLeft} onPress={onBackButtonPress} style={styles.icon} />
+      <TouchableIcon name={IconNameEnum.ArrowLeft} onPress={onBackButtonPress} style={styles.icon} testID={ScreenTitleTestIDs.backButton} />
     )}
     <Text style={[styles.title, titleStyle]} numberOfLines={numberOfLines} ellipsizeMode="tail">
       {title}

@@ -13,12 +13,13 @@ interface Props {
   mnemonic: string[];
   isShowProtectLayout: boolean;
   handleHideLayout: OnEventFn<GestureResponderEvent>;
+  testID?: string;
 }
 
-export const Mnemonic: FC<Props> = ({ mnemonic, isShowProtectLayout, handleHideLayout, children }) => (
+export const Mnemonic: FC<Props> = ({ mnemonic, isShowProtectLayout, handleHideLayout, children, testID }) => (
   <Column style={styles.mnemonicContainer}>
     <Row style={styles.wordsWrapper}>
-      {isShowProtectLayout && <ProtectLayout handleHideLayout={handleHideLayout} />}
+      {isShowProtectLayout && <ProtectLayout handleHideLayout={handleHideLayout} testID={testID} />}
 
       <Row style={styles.content}>
         {mnemonic.map((word, index) => (

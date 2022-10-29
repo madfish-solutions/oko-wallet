@@ -14,10 +14,11 @@ interface Props {
   iconName: IconNameEnum;
   text: string;
   style?: ViewStyleProps;
+  testID?: string;
 }
 
-export const MnemonicActionButton: FC<Props> = ({ onPress, iconName, text, style }) => (
-  <TouchableOpacity onPress={onPress} style={[styles.button, style]}>
+export const MnemonicActionButton: FC<Props> = ({ onPress, iconName, text, style, testID }) => (
+  <TouchableOpacity onPress={onPress} style={[styles.button, style]} testID={testID}>
     <Icon name={iconName} iconStyle={styles.buttonIcon} />
     <Text style={styles.buttonText}>{text}</Text>
   </TouchableOpacity>

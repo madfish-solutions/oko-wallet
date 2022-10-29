@@ -12,10 +12,11 @@ import { styles } from './dropdown-selected-item.styles';
 
 interface Props extends Pick<PressableProps, 'onPress'> {
   title: string;
+ testID?: string;
 }
 
-export const DropdownSelectedItem: FC<Props> = ({ title, onPress }) => (
-  <Pressable onPress={onPress} style={styles.root}>
+export const DropdownSelectedItem: FC<Props> = ({ title, onPress, testID }) => (
+  <Pressable onPress={onPress} style={styles.root} testID={testID}>
     <Row>
       <Text style={styles.title}>{title}</Text>
       <Icon name={IconNameEnum.DropdownSelector} size={getCustomSize(2)} />

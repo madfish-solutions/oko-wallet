@@ -11,6 +11,7 @@ interface Props extends IconProps {
   onPress?: OnEventFn<GestureResponderEvent>;
   disabled?: boolean;
   style?: ViewStyleProps;
+  testID?: string;
 }
 
 export const TouchableIcon: FC<Props> = ({
@@ -22,9 +23,10 @@ export const TouchableIcon: FC<Props> = ({
   height,
   size,
   color,
-  iconStyle
+  iconStyle,
+  testID
 }) => (
-  <TouchableOpacity onPress={onPress} disabled={disabled} style={style}>
+  <TouchableOpacity onPress={onPress} disabled={disabled} style={style}  testID={testID}>
     <Icon
       name={name}
       width={width}

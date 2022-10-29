@@ -15,6 +15,7 @@ interface Props extends PressableProps {
   style?: ViewStyleProps;
   styleText?: TextStyleProps;
   disabled?: boolean;
+  testID?: string;
 }
 
 export const Button: FC<Props> = ({
@@ -24,12 +25,14 @@ export const Button: FC<Props> = ({
   style,
   disabled = false,
   styleText,
+  testID,
   ...restProps
 }) => (
   <Pressable
     {...restProps}
     disabled={disabled}
     style={[styles.root, themeClasses[theme].button, sizeClasses[size], disabled && styles.disabledButton, style]}
+    testID={testID}
   >
     <View style={styles.wrapper}>
       <Text style={[styles.text, themeClasses[theme].text, disabled && styles.disabledText, styleText]}>{title}</Text>

@@ -11,6 +11,7 @@ import { styles } from './header-title.styles';
 interface Props {
   name: string;
   isBackButton?: boolean;
+  testID?: string;
 }
 
 export const HeaderTitle: FC<Props> = ({ name, isBackButton = false }) => {
@@ -25,7 +26,7 @@ export const HeaderTitle: FC<Props> = ({ name, isBackButton = false }) => {
           {name}
         </Text>
         <View style={styles.closeButton}>
-          <HeaderCloseButton />
+          <HeaderCloseButton/>
         </View>
       </Row>
     </View>

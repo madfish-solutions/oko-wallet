@@ -12,9 +12,10 @@ import { styles } from './warning-message-dropdown.styles';
 interface Props {
   checkIsOpenDropdownState?: (arg: boolean) => void;
   style?: ViewStyleProps;
+  testID?: string;
 }
 
-export const WarningMessageDropdown: FC<Props> = ({ checkIsOpenDropdownState, style }) => {
+export const WarningMessageDropdown: FC<Props> = ({ checkIsOpenDropdownState, style, testID }) => {
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const animationController = useRef(new Animated.Value(0)).current;
 
@@ -37,7 +38,7 @@ export const WarningMessageDropdown: FC<Props> = ({ checkIsOpenDropdownState, st
   });
 
   return (
-    <Pressable onPress={toggleContent}>
+    <Pressable onPress={toggleContent} testID={testID}>
       <Animated.View style={[styles.root, style]}>
         <Row style={styles.header}>
           <Row>

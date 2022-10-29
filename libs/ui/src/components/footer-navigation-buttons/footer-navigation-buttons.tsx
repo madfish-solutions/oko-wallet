@@ -7,6 +7,7 @@ import { ButtonSizeEnum, ButtonThemesEnum } from '../button/enums';
 import { Row } from '../row/row';
 
 import { styles } from './footer-navigation-buttons.styles';
+import { FooterNavigationTestIDs } from './footer-navigation-testids';
 
 export interface FooterButtonsInterface {
   submitTitle: string;
@@ -28,6 +29,7 @@ export const FooterNavigationButtons: FC<FooterButtonsInterface> = ({
       size={ButtonSizeEnum.Large}
       title="Cancel"
       onPress={onCancelPress}
+      testID={FooterNavigationTestIDs.cancelButton}
     />
     <Button
       style={styles.button}
@@ -36,6 +38,7 @@ export const FooterNavigationButtons: FC<FooterButtonsInterface> = ({
       size={ButtonSizeEnum.Large}
       title={submitTitle}
       onPress={onSubmitPress}
+      testID={FooterNavigationTestIDs.nextButton}
     />
   </Row>
 );
