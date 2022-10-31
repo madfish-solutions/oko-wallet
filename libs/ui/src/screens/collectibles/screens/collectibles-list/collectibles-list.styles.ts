@@ -23,8 +23,8 @@ export const styles = StyleSheet.create({
   },
   collectionSize: {
     position: 'absolute',
-    top: getCustomSize(1.5),
-    right: getCustomSize(1.5),
+    top: '7.5%',
+    right: '7.5%',
     alignItems: 'center',
     justifyContent: 'center',
     height: getCustomSize(2),
