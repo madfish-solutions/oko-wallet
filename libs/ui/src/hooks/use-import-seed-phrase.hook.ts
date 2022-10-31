@@ -155,8 +155,6 @@ export const useImportSeedPhrase = (wordsAmountParam: SeedWordsAmount | undefine
 
     const currentMnemonic = mnemonic.map(word => word.trim()).filter(word => isNotEmptyString(word));
 
-    console.log('currentMnemonic', currentMnemonic);
-
     if (!validateMnemonic(currentMnemonic.join(' '))) {
       setError('Wrong combination. Try again.');
 

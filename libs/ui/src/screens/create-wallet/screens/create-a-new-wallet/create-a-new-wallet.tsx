@@ -15,7 +15,7 @@ import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 import { WalletCreationContainer } from '../../../../components/wallet-creation-container/wallet-creation-container';
 import { SECURITY_TIME } from '../../../../constants/defaults';
-import { words } from '../../../../constants/seed-words-amount';
+import { MnemonicLengthEnum, words } from '../../../../constants/seed-words-amount';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { handleCopyToClipboard } from '../../../../utils/copy-to-clipboard.util';
@@ -29,7 +29,13 @@ export const CreateANewWallet: FC = () => {
 
   const wordsState = routeParams?.wordsAmount ?? words[0];
 
-  const generateMnemonic = () => generateMnemonicLib(256).split(' ').slice(0, wordsState.value);
+  const generateMnemonic = () => {
+    if (wordsState.value === MnemonicLengthEnum.Twelve) {
+      return generateMnemonicLib(128).split(' ');
+    }
+
+    return generateMnemonicLib(256).split(' ');
+  };
 
   const [wordsAmount, setWordsAmount] = useState(wordsState);
   const [mnemonic, setMnemonic] = useState<string[]>(generateMnemonic());
@@ -78,7 +84,8 @@ export const CreateANewWallet: FC = () => {
     navigate(ScreensEnum.VerifyMnemonic, { mnemonic });
   };
 
-  const navigateToWordsAmountSelector = () => navigate(ScreensEnum.WordsAmountSelector, { wordsAmount });
+  const navigateToWordsAmountSelector = () =>
+    navigate(ScreensEnum.WordsAmountSelector, { wordsAmount, createANewWallet: true });
 
   const generateNewMnemonic = () => {
     setMnemonic(generateMnemonic);
