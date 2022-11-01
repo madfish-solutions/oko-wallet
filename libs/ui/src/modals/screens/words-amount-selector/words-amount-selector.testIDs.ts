@@ -1,3 +1,3 @@
-export enum WordsAmountSelectorTestIDs{
-    cancelButton = 'WordsAmountSelector/CancelButton'
+export enum WordsAmountSelectorTestIDs {
+  cancelButton = 'WordsAmountSelector/CancelButton'
 }

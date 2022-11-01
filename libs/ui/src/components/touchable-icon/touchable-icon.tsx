@@ -26,7 +26,7 @@ export const TouchableIcon: FC<Props> = ({
   iconStyle,
   testID
 }) => (
-  <TouchableOpacity onPress={onPress} disabled={disabled} style={style}  testID={testID}>
+  <TouchableOpacity onPress={onPress} disabled={disabled} style={style} testID={testID}>
     <Icon
       name={name}
       width={width}

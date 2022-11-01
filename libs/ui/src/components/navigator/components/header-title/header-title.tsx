@@ -26,7 +26,7 @@ export const HeaderTitle: FC<Props> = ({ name, isBackButton = false }) => {
           {name}
         </Text>
         <View style={styles.closeButton}>
-          <HeaderCloseButton/>
+          <HeaderCloseButton />
         </View>
       </Row>
     </View>

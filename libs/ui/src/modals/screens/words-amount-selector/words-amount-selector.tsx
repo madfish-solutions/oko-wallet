@@ -6,6 +6,7 @@ import { SeedWordsAmount, words } from '../../../constants/seed-words-amount';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { ModalContainer } from '../../components/modal-container/modal-container';
+
 import { WordsAmountSelectorTestIDs } from './words-amount-selector.testIDs';
 
 export const WordsAmountSelector: FC = () => {
@@ -28,10 +29,10 @@ export const WordsAmountSelector: FC = () => {
     } else {
       goBack();
     }
-  };//Modal Container - X Button
+  }; //Modal Container - X Button
 
   return (
-    <ModalContainer screenTitle="Amount Words"> 
+    <ModalContainer screenTitle="Amount Words">
       <Dropdown
         description="Choose the length of the seed phrase (number of words)"
         options={words}

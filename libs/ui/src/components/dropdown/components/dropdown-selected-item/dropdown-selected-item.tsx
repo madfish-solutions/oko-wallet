@@ -12,7 +12,7 @@ import { styles } from './dropdown-selected-item.styles';
 
 interface Props extends Pick<PressableProps, 'onPress'> {
   title: string;
- testID?: string;
+  testID?: string;
 }
 
 export const DropdownSelectedItem: FC<Props> = ({ title, onPress, testID }) => (

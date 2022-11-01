@@ -35,5 +35,12 @@ export const HeaderCloseButton: FC = () => {
     }
   };
 
-  return <TouchableIcon style={styles.root} onPress={onClosePress} name={IconNameEnum.X} testID={HeaderTitleTestIDs.closeButton}/>;
+  return (
+    <TouchableIcon
+      style={styles.root}
+      onPress={onClosePress}
+      name={IconNameEnum.X}
+      testID={HeaderTitleTestIDs.closeButton}
+    />
+  );
 };

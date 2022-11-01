@@ -1,3 +1,3 @@
-export enum ScreenTitleTestIDs{
-    backButton = 'ScreenTitle/BackButton'
+export enum ScreenTitleTestIDs {
+  backButton = 'ScreenTitle/BackButton'
 }

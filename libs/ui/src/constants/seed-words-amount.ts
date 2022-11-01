@@ -1,4 +1,5 @@
 import { Option } from '../components/dropdown/option.interface';
+
 import { SeedWordsAmountSelectorTestIDs } from './seed-words-amount.testIDs';
 
 export type SeedWordsAmount = Option<number>;
