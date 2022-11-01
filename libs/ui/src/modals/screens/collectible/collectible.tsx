@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import React, { FC, useEffect } from 'react';
-import { View, ScrollView } from 'react-native';
+import React, { FC, useEffect, useState } from 'react';
+import { View, ScrollView, LayoutChangeEvent } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { Button } from '../../../components/button/button';
@@ -36,6 +36,8 @@ export const Collectible: FC = () => {
   const selectedCollectible = useSelectedCollectibleSelector(
     getTokenSlug(collectible.tokenAddress, collectible.tokenId)
   );
+
+  const [layoutWidth, setLayoutWidth] = useState(COLLECTIBLE_SIZE);
 
   useEffect(() => {
     dispatch(loadAccountTokenBalanceAction.submit({ token: collectible }));
@@ -74,19 +76,23 @@ export const Collectible: FC = () => {
     }
   };
 
+  const handleLayout = (e: LayoutChangeEvent) => {
+    setLayoutWidth(e.nativeEvent.layout.width);
+  };
+
   return (
     <ModalContainer screenTitle={collectible.name}>
       <View style={styles.root}>
         <ScrollView style={styles.content} contentContainerStyle={styles.contentContainerStyle}>
-          <Column style={styles.collectibleWrapper}>
-            <Icon name={IconNameEnum.NftLayout} size={COLLECTIBLE_SIZE} />
+          <View onLayout={handleLayout} style={styles.collectibleWrapper}>
+            <Icon name={IconNameEnum.NftLayout} size={layoutWidth} />
             <CollectibleImage
               artifactUri={collectible.artifactUri}
-              size="100%"
+              size={layoutWidth}
               pixelShitSize={getCustomSize(5)}
               style={styles.imageContainer}
             />
-          </Column>
+          </View>
 
           <Column style={styles.list}>
             {Object.values(tokenMetadata).map(({ name, value, prompt }) => (

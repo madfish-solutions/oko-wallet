@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 import { getCustomSize } from '../../../styles/format-size';
+import { isWeb } from '../../../utils/platform.utils';
 import { COLLECTIBLE_SIZE } from '../add-new-collectible/constants';
 
 export const styles = StyleSheet.create({
@@ -30,6 +31,7 @@ export const styles = StyleSheet.create({
     width: '100%'
   },
   buttonContainer: {
+    marginBottom: isWeb ? getCustomSize(2) : getCustomSize(4),
     paddingHorizontal: getCustomSize(2),
     height: getCustomSize(5)
   }
