@@ -7,15 +7,15 @@ import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { ModalTabContainer } from '../../components/modal-tab-container/modal-tab-container';
 
 import { styles } from './add-account.styles';
-import { CreateNew } from './components/create-new/create-new';
+import { CreateHD } from './components/create-hd/create-hd';
 import { PrivateKey } from './components/private-key/private-key';
 import { SeedPhrase } from './components/seed-phrase/seed-phrase';
 
 const tabs = [
   {
     id: 1,
-    title: 'Create New',
-    Component: CreateNew
+    title: 'Create HD',
+    Component: CreateHD
   },
   {
     id: 2,
