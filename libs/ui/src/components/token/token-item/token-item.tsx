@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { Image, ImageSourcePropType, View } from 'react-native';
 
 import { getCustomSize } from '../../../styles/format-size';
+import { Amount } from '../../amount/amount';
 import { Icon } from '../../icon/icon';
 import { IconNameEnum } from '../../icon/icon-name.enum';
 import { Row } from '../../row/row';
@@ -55,9 +56,7 @@ export const TokenItem: FC<Props> = ({
         children
       ) : (
         <View style={styles.text}>
-          <Text style={themeClasses[theme].text} numberOfLines={1}>
-            {balance}
-          </Text>
+          <Amount value={balance} style={themeClasses[theme].text} />
           <Text style={styles.usdBalance}>
             {usdBalance} <Text style={styles.usdSymbol}>$</Text>
           </Text>

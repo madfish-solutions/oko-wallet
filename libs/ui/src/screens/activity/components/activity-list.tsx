@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { Linking, TouchableOpacity, View } from 'react-native';
 
+import { Amount } from '../../../components/amount/amount';
 import { Column } from '../../../components/column/column';
 import { CopyText } from '../../../components/copy-text/copy-text';
 import { Icon } from '../../../components/icon/icon';
@@ -63,9 +64,11 @@ export const ActivityList: FC<Props> = ({
               </TouchableOpacity>
             </Row>
             <Row style={styles.amountContainer}>
-              <Text style={styles.amount}>
-                {Number(formatBalances(amount))} {symbol ? symbol.toUpperCase() : tokenSymbol.toUpperCase()}
-              </Text>
+              <Amount
+                value={formatBalances(amount)}
+                symbol={symbol ? symbol.toUpperCase() : tokenSymbol.toUpperCase()}
+                style={styles.amount}
+              />
             </Row>
           </Column>
         </Row>
