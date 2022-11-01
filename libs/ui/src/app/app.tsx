@@ -1,14 +1,14 @@
 import React from 'react';
-import {Provider} from 'react-redux';
-import {PersistGate} from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
-import {Navigator} from '../components/navigator/navigator';
-import {ToastProvider} from '../components/toast-provider/toast-provider';
-import {HIDE_SPLASH_SCREEN_TIMEOUT} from '../constants/defaults';
-import {useDelayedEffect} from '../hooks/use-delayed-effect.hook';
-import {useBackgroundMessager} from '../messagers/hooks/use-background-messager.hook';
-import {persistor, store} from '../store/store';
-import {hideSplashScreen} from '../utils/hide-splash-screen.util';
+import { Navigator } from '../components/navigator/navigator';
+import { ToastProvider } from '../components/toast-provider/toast-provider';
+import { HIDE_SPLASH_SCREEN_TIMEOUT } from '../constants/defaults';
+import { useDelayedEffect } from '../hooks/use-delayed-effect.hook';
+import { useBackgroundMessager } from '../messagers/hooks/use-background-messager.hook';
+import { persistor, store } from '../store/store';
+import { hideSplashScreen } from '../utils/hide-splash-screen.util';
 
 export const App = () => {
   useBackgroundMessager();
