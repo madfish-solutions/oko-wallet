@@ -1,3 +1,6 @@
+import { isNotEmptyString } from '@rnw-community/shared';
+
+import { onlySpacesError, requiredFieldError } from '../../constants/form-errors';
 import { useAllVisibleAccountsSelector } from '../../store/wallet/wallet.selectors';
 
 export const useAccountFieldRules = (accountName = '') => {
@@ -42,6 +45,14 @@ export const useAccountFieldRules = (accountName = '') => {
     return true;
   };
 
+  const checkIfOnlySpaces = (currentValue?: string) => {
+    if (isNotEmptyString(currentValue) && !currentValue.trim()) {
+      return onlySpacesError;
+    }
+
+    return true;
+  };
+
   const nameRules = {
     maxLength: {
       value: 21,
@@ -52,12 +63,18 @@ export const useAccountFieldRules = (accountName = '') => {
   };
 
   const derivationPathRules = {
-    required: false,
+    required: requiredFieldError,
     validate: { validateDerivationPath }
+  };
+
+  const privateKeyRules = {
+    required: requiredFieldError,
+    validate: { checkIfOnlySpaces }
   };
 
   return {
     nameRules,
-    derivationPathRules
+    derivationPathRules,
+    privateKeyRules
   };
 };

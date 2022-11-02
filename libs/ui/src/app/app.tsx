@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { Platform } from 'react-native';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
@@ -15,11 +14,6 @@ export const App = () => {
   useBackgroundMessager();
 
   useDelayedEffect(() => void hideSplashScreen(), [], HIDE_SPLASH_SCREEN_TIMEOUT);
-
-  useEffect(() => {
-    console.log('Shared App component rendering');
-    console.log('OS:', Platform.OS);
-  }, []);
 
   return (
     <Provider store={store}>

@@ -8,9 +8,9 @@ import { useShelter } from '../../../../../hooks/use-shelter.hook';
 import { ModalFooterButtons } from '../../../../components/modal-footer-buttons/modal-footer-buttons';
 import { useAccountNameControl } from '../../hooks/use-account-name-control.hook';
 
-import { styles } from './create-new.styles';
+import { styles } from './create-hd.styles';
 
-export const CreateNew: FC = () => {
+export const CreateHD: FC = () => {
   const { createHdAccount } = useShelter();
   const { goBack } = useNavigation();
   const { control, nameRules, defaultValue, handleSubmit, errors, isSubmitSuccessful } = useAccountNameControl();
