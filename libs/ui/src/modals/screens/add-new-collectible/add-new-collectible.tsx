@@ -187,6 +187,10 @@ export const AddNewCollectible: FC = () => {
     setLayoutWidth(e.nativeEvent.layout.width);
   };
 
+  const handleContainer = (w: number) => {
+    console.log('container width', w);
+  };
+
   return (
     <ModalActionContainer
       screenTitle="Add new Collectible"
@@ -195,7 +199,7 @@ export const AddNewCollectible: FC = () => {
       onSubmitPress={handleSubmit(onSubmit)}
       onCancelPress={goBack}
     >
-      <ScrollView style={styles.root}>
+      <ScrollView onContentSizeChange={handleContainer} onLayout={handleLayout} style={styles.root}>
         <Announcement
           text="If Collectible is part of a collection - it will be displayed inside the collection"
           style={styles.warning}
@@ -232,7 +236,7 @@ export const AddNewCollectible: FC = () => {
             />
           )}
         />
-        <View onLayout={handleLayout} style={{ width: layoutWidth }}>
+        <View style={{ width: layoutWidth }}>
           <Text style={styles.collectibleName}>{collectibleMetadata.name || 'Collectible name'}</Text>
           <Text style={styles.collectibleDescription}>Preview</Text>
           <View style={styles.imageSection}>
