@@ -1,6 +1,5 @@
 import { isDefined } from '@rnw-community/shared';
 import React, { FC } from 'react';
-import { Text } from 'react-native';
 
 import { Column } from '../../../../components/column/column';
 import { Dynamics } from '../../../../components/dynamics/dynamics';
@@ -10,6 +9,7 @@ import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Image } from '../../../../components/image/image';
 import { Row } from '../../../../components/row/row';
+import { Text } from '../../../../components/text/text';
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
 import { getCustomSize } from '../../../../styles/format-size';
 

@@ -1,8 +1,9 @@
 import { isNotEmptyString } from '@rnw-community/shared';
 import React from 'react';
-import { TextInput, TextInputProps, View, Text } from 'react-native';
+import { TextInput, TextInputProps, View } from 'react-native';
 
 import { TextStyleProps } from '../../interfaces/style.interface';
+import { Text } from '../text/text';
 
 import { InputStyles } from './input.styles';
 

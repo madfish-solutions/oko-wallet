@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { Text } from 'react-native';
 
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
 import { Row } from '../../../row/row';
+import { Text } from '../../../text/text';
 
 import { styles } from './label.styles';
 

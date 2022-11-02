@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { Text } from 'react-native';
+
+import { Text } from '../../../components/text/text';
 
 import { styles } from './modal-account-balance.styles';
 
