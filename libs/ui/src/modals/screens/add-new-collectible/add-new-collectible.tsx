@@ -182,13 +182,7 @@ export const AddNewCollectible: FC = () => {
   const handlePromptNavigate = () => null;
 
   const handleLayout = (e: LayoutChangeEvent) => {
-    console.log('Layout width', e.nativeEvent.layout.width);
-
     setLayoutWidth(e.nativeEvent.layout.width);
-  };
-
-  const handleContainer = (w: number) => {
-    console.log('container width', w);
   };
 
   return (
@@ -199,7 +193,7 @@ export const AddNewCollectible: FC = () => {
       onSubmitPress={handleSubmit(onSubmit)}
       onCancelPress={goBack}
     >
-      <ScrollView onContentSizeChange={handleContainer} onLayout={handleLayout} style={styles.root}>
+      <ScrollView onLayout={handleLayout} style={styles.root}>
         <Announcement
           text="If Collectible is part of a collection - it will be displayed inside the collection"
           style={styles.warning}
@@ -236,7 +230,7 @@ export const AddNewCollectible: FC = () => {
             />
           )}
         />
-        <View style={{ width: layoutWidth }}>
+        <View>
           <Text style={styles.collectibleName}>{collectibleMetadata.name || 'Collectible name'}</Text>
           <Text style={styles.collectibleDescription}>Preview</Text>
           <View style={styles.imageSection}>
