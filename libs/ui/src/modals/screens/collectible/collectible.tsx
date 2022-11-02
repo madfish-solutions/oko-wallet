@@ -77,14 +77,14 @@ export const Collectible: FC = () => {
   };
 
   const handleLayout = (e: LayoutChangeEvent) => {
-    setLayoutWidth(e.nativeEvent.layout.width - 32);
+    setLayoutWidth(e.nativeEvent.layout.width);
   };
 
   return (
     <ModalContainer screenTitle={collectible.name}>
       <View style={styles.root}>
-        <ScrollView onLayout={handleLayout} style={styles.content} contentContainerStyle={styles.contentContainerStyle}>
-          <View style={styles.collectibleWrapper}>
+        <ScrollView style={styles.content} contentContainerStyle={styles.contentContainerStyle}>
+          <View onLayout={handleLayout} style={styles.collectibleWrapper}>
             <Icon name={IconNameEnum.NftLayout} size={layoutWidth} />
             <CollectibleImage
               artifactUri={collectible.artifactUri}
