@@ -1,11 +1,11 @@
-import { isDefined, isNotEmptyString } from '@rnw-community/shared';
+import { isNotEmptyString } from '@rnw-community/shared';
 import React, { FC } from 'react';
 
 import { TextStyleProps } from '../../interfaces/style.interface';
 import { Row } from '../row/row';
 import { Text } from '../text/text';
 
-import { styles } from './amount.styles';
+import { styles } from './token-amount.styles';
 
 interface Props {
   value: string;
@@ -13,7 +13,7 @@ interface Props {
   style?: TextStyleProps;
 }
 
-export const Amount: FC<Props> = ({ value, symbol, style }) => {
+export const TokenAmount: FC<Props> = ({ value, symbol, style }) => {
   const isSmallValue = value.includes('<');
 
   const textStyle = [styles.text, style];
@@ -22,7 +22,7 @@ export const Amount: FC<Props> = ({ value, symbol, style }) => {
     <Row>
       {isSmallValue && <Text style={[textStyle, styles.lessSign]}>{'<'}</Text>}
       <Text style={textStyle}>{isSmallValue ? value.replace('<', '').trim() : value}</Text>
-      {isDefined(symbol) && isNotEmptyString(symbol) && <Text style={[textStyle, styles.symbol]}>{symbol}</Text>}
+      {isNotEmptyString(symbol) && <Text style={[textStyle, styles.symbol]}>{symbol}</Text>}
     </Row>
   );
 };
