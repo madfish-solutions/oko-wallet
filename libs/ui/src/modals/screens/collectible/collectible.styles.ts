@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 
 import { getCustomSize } from '../../../styles/format-size';
 import { isWeb } from '../../../utils/platform.utils';
-import { COLLECTIBLE_SIZE } from '../add-new-collectible/constants';
 
 export const styles = StyleSheet.create({
   root: {
@@ -19,8 +18,6 @@ export const styles = StyleSheet.create({
   },
   collectibleWrapper: {
     position: 'relative',
-    height: COLLECTIBLE_SIZE,
-    width: COLLECTIBLE_SIZE,
     marginBottom: getCustomSize(2)
   },
   imageContainer: {

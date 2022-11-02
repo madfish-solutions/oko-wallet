@@ -10,7 +10,6 @@ import { filter, debounceTime, tap } from 'rxjs/operators';
 
 import { Announcement } from '../../../components/announcement/announcement';
 import { CollectibleImage } from '../../../components/collectible-image/collectible-image';
-import { Column } from '../../../components/column/column';
 import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { TextInput } from '../../../components/text-input/text-input';
@@ -183,6 +182,8 @@ export const AddNewCollectible: FC = () => {
   const handlePromptNavigate = () => null;
 
   const handleLayout = (e: LayoutChangeEvent) => {
+    console.log('Layout width', e.nativeEvent.layout.width);
+
     setLayoutWidth(e.nativeEvent.layout.width);
   };
 
@@ -231,10 +232,10 @@ export const AddNewCollectible: FC = () => {
             />
           )}
         />
-        <Column>
+        <View onLayout={handleLayout} style={{ width: layoutWidth }}>
           <Text style={styles.collectibleName}>{collectibleMetadata.name || 'Collectible name'}</Text>
           <Text style={styles.collectibleDescription}>Preview</Text>
-          <View onLayout={handleLayout} style={styles.imageSection}>
+          <View style={styles.imageSection}>
             <Icon name={IconNameEnum.NftLayout} size={layoutWidth} iconStyle={styles.layoutIcon} />
             <CollectibleImage
               artifactUri={formatUri(collectibleMetadata.artifactUri)}
@@ -243,7 +244,7 @@ export const AddNewCollectible: FC = () => {
               style={styles.imageContainer}
             />
           </View>
-        </Column>
+        </View>
       </ScrollView>
     </ModalActionContainer>
   );

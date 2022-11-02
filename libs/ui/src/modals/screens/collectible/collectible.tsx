@@ -84,7 +84,7 @@ export const Collectible: FC = () => {
     <ModalContainer screenTitle={collectible.name}>
       <View style={styles.root}>
         <ScrollView style={styles.content} contentContainerStyle={styles.contentContainerStyle}>
-          <View onLayout={handleLayout} style={styles.collectibleWrapper}>
+          <View onLayout={handleLayout} style={[styles.collectibleWrapper]}>
             <Icon name={IconNameEnum.NftLayout} size={layoutWidth} />
             <CollectibleImage
               artifactUri={collectible.artifactUri}
