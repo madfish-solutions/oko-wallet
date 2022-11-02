@@ -18,7 +18,6 @@ export const styles = StyleSheet.create({
   },
   collectibleWrapper: {
     position: 'relative',
-    width: '100%',
     marginBottom: getCustomSize(2)
   },
   imageContainer: {

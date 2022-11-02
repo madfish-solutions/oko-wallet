@@ -77,7 +77,7 @@ export const Collectible: FC = () => {
   };
 
   const handleLayout = (e: LayoutChangeEvent) => {
-    setLayoutWidth(e.nativeEvent.layout.width);
+    setLayoutWidth(e.nativeEvent.layout.width - 32);
   };
 
   return (

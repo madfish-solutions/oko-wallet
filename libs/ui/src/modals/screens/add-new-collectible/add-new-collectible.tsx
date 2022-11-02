@@ -3,7 +3,7 @@ import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import { ethers } from 'ethers';
 import React, { FC, useEffect, useState, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { LayoutChangeEvent, ScrollView, View } from 'react-native';
+import { LayoutChangeEvent, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Subject, switchMap } from 'rxjs';
 import { filter, debounceTime, tap } from 'rxjs/operators';
@@ -193,7 +193,7 @@ export const AddNewCollectible: FC = () => {
       onSubmitPress={handleSubmit(onSubmit)}
       onCancelPress={goBack}
     >
-      <ScrollView onLayout={handleLayout} style={styles.root}>
+      <View onLayout={handleLayout} style={styles.root}>
         <Announcement
           text="If Collectible is part of a collection - it will be displayed inside the collection"
           style={styles.warning}
@@ -243,7 +243,7 @@ export const AddNewCollectible: FC = () => {
             />
           </View>
         </View>
-      </ScrollView>
+      </View>
     </ModalActionContainer>
   );
 };
