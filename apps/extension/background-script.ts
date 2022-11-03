@@ -6,7 +6,6 @@ import { BackgroundMessageType } from '../../libs/ui/src/messagers/enums/backgro
 import { BackgroundMessage } from '../../libs/ui/src/messagers/types/background-message.types';
 import { updateDappInfo } from '../../libs/ui/src/store/background-script/dapps.actions';
 import { createStore2 } from '../../libs/ui/src/store/store';
-import { WalletState } from '../../libs/ui/src/store/wallet/wallet.state';
 
 console.log('back is working...');
 
@@ -35,18 +34,10 @@ browser.scripting.registerContentScripts([
   }
 ]);
 
-// should delete later, use store.getState() in future
-const getReduxStore = async (): Promise<WalletState> =>
-  browser.storage.local.get('persist:root').then(result => {
-    const wallet = JSON.parse(result['persist:root']);
-
-    return JSON.parse(wallet.wallet);
-  });
-
 const getExtensionPopup = (windows: Windows.Window[], id: number) =>
   windows.find(win => win.type === 'popup' && win.id === id);
 
-const openConnectPopup = async (origin: string, id: string, port: Runtime.Port, chainId?: string) => {
+const openConnectPopup = async (origin: string, id: string, chainId?: string) => {
   const allWindows = await browser.windows.getAll().then(windows => windows);
   const activePopup = getExtensionPopup(allWindows, openExtensionId);
   if (activePopup && activePopup.id !== undefined) {
@@ -110,42 +101,39 @@ browser.runtime.onConnect.addListener(port => {
     if (msg.data?.target === 'metamask-contentscript') {
       const id = msg.data?.data?.data?.id;
       const origin = msg.origin;
-      const reduxStore = await getReduxStore();
-      const savedRequest = reduxStore.confirmedEVMDappConnection[origin];
-      const dappInfo = store.getState().dapps[origin];
-      console.log(dappInfo);
-      console.log(savedRequest, 'saved request');
-      const chainId = msg.data?.data?.data?.params?.[0].chainId;
+      const dappInfo = store.getState().dapps?.[origin];
+      const chainId = msg.data?.data?.data?.params?.[0]?.chainId;
 
       switch (msg.data?.data?.data?.method) {
         case 'eth_requestAccounts': {
-          if (savedRequest !== undefined) {
+          if (dappInfo !== undefined) {
             await connectToDappInBackground(dappInfo, origin, id, port);
           }
 
-          await openConnectPopup(origin, id, port);
+          await openConnectPopup(origin, id);
 
           return Promise.resolve();
         }
 
         case 'wallet_switchEthereumChain': {
-          await openConnectPopup(origin, id, port, chainId);
+          await openConnectPopup(origin, id, chainId);
 
           return Promise.resolve();
         }
         case 'metamask_getProviderState': {
-          if (savedRequest !== undefined) {
-            await connectToDappInBackground(savedRequest.dappName, origin, id, port);
+          if (dappInfo !== undefined) {
+            await connectToDappInBackground(dappInfo, origin, id, port);
           }
 
           return Promise.resolve();
         }
         case 'metamask_sendDomainMetadata': {
-          const currentDappLogo = msg.data?.data?.data?.params.logo;
+          console.log('send domain data is working');
+          const currentDappLogo = msg.data?.data?.data?.params.icon;
+          console.log(msg.data, 'METADATA');
 
           const newDapp = {
             logoUrl: currentDappLogo,
-            chainId,
             name: origin
           };
 
