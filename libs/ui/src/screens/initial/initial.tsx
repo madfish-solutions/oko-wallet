@@ -11,7 +11,8 @@ import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useShelter } from '../../hooks/use-shelter.hook';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
-import { isMobile } from '../../utils/platform.utils';
+import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
+import { isMaximiseScreen, isMobile } from '../../utils/platform.utils';
 import { MadFishLogo } from '../settings/components/mad-fish-logo/mad-fish-logo';
 
 import { styles } from './initial.styles';
@@ -19,8 +20,18 @@ import { styles } from './initial.styles';
 export const Initial: FC = () => {
   const { navigate } = useNavigation();
   const { importWallet } = useShelter();
-  const navigateToCreateWallet = () => navigate(ScreensEnum.CreateANewWallet);
-  const navigateToImportAccount = () => navigate(ScreensEnum.ImportWallet);
+  const navigateToCreateWallet = () => {
+    if (!isMaximiseScreen) {
+      openMaximiseScreen();
+    }
+    navigate(ScreensEnum.CreateANewWallet);
+  };
+  const navigateToImportAccount = () => {
+    if (!isMaximiseScreen) {
+      openMaximiseScreen();
+    }
+    navigate(ScreensEnum.ImportWallet);
+  };
 
   // TODO: Remove later - Svyatoslav: I can import wallet on Android only like this
   const handleImportWallet = () => {
