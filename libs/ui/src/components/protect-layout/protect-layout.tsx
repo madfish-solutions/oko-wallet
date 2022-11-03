@@ -2,14 +2,14 @@ import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { GestureResponderEvent, View } from 'react-native';
 
+import { TestIDProps } from '../../interfaces/test-id.props';
 import { Pressable } from '../pressable/pressable';
 import { Text } from '../text/text';
 
 import { styles } from './protect-layout.styles';
 
-interface Props {
+interface Props extends TestIDProps {
   handleHideLayout: OnEventFn<GestureResponderEvent>;
-  testID?: string;
 }
 
 export const ProtectLayout: FC<Props> = ({ handleHideLayout, testID }) => (

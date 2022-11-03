@@ -2,6 +2,7 @@ import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { View, GestureResponderEvent } from 'react-native';
 
+import { TestIDProps } from '../../interfaces/test-id.props';
 import { Column } from '../column/column';
 import { ProtectLayout } from '../protect-layout/protect-layout';
 import { Row } from '../row/row';
@@ -9,11 +10,10 @@ import { Text } from '../text/text';
 
 import { styles } from './mnemonic.styles';
 
-interface Props {
+interface Props extends TestIDProps {
   mnemonic: string[];
   isShowProtectLayout: boolean;
   handleHideLayout: OnEventFn<GestureResponderEvent>;
-  testID?: string;
 }
 
 export const Mnemonic: FC<Props> = ({ mnemonic, isShowProtectLayout, handleHideLayout, children, testID }) => (

@@ -1,4 +1,4 @@
-export enum SeedWordsAmountSelectorTestIDs {
+export enum SeedWordsAmountTestIDs {
   WordsAmount12 = 'WordsAmountSelector/Ihave12WordsSeed',
   WordsAmount15 = 'WordsAmountSelector/Ihave15WordsSeed',
   WordsAmount18 = 'WordsAmountSelector/Ihave18WordsSeed',

@@ -1,6 +1,7 @@
 import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { GestureResponderEvent, TouchableOpacity } from 'react-native';
+import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { Icon } from '../icon/icon';
@@ -9,12 +10,11 @@ import { Text } from '../text/text';
 
 import { styles } from './mnemonic-action-button.styles';
 
-interface Props {
+interface Props extends TestIDProps {
   onPress: OnEventFn<GestureResponderEvent>;
   iconName: IconNameEnum;
   text: string;
   style?: ViewStyleProps;
-  testID?: string;
 }
 
 export const MnemonicActionButton: FC<Props> = ({ onPress, iconName, text, style, testID }) => (

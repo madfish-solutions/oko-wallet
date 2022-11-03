@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { PressableProps } from 'react-native';
+import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { getCustomSize } from '../../../../styles/format-size';
 import { Icon } from '../../../icon/icon';
@@ -10,9 +11,8 @@ import { Text } from '../../../text/text';
 
 import { styles } from './dropdown-selected-item.styles';
 
-interface Props extends Pick<PressableProps, 'onPress'> {
+interface Props extends TestIDProps, Pick<PressableProps, 'onPress'> {
   title: string;
-  testID?: string;
 }
 
 export const DropdownSelectedItem: FC<Props> = ({ title, onPress, testID }) => (

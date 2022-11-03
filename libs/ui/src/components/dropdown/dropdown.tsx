@@ -1,6 +1,7 @@
 import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React from 'react';
 import { Pressable, View } from 'react-native';
+import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { Button } from '../button/button';
@@ -13,12 +14,11 @@ import { Text } from '../text/text';
 import { styles } from './dropdown.styles';
 import { Option } from './option.interface';
 
-interface Props<OptionType> {
+interface Props<OptionType> extends TestIDProps {
   description?: string;
   onSelect: OnEventFn<Option<OptionType>>;
   selectedId?: number;
   options: Option<OptionType>[];
-  testID?: string;
 }
 
 export const Dropdown = <OptionType,>({ description, selectedId, onSelect, options, testID }: Props<OptionType>) => {

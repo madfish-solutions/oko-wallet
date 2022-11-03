@@ -9,7 +9,7 @@ import { Text } from '../../../../text/text';
 import { TouchableIcon } from '../../../../touchable-icon/touchable-icon';
 
 import { styles } from './screen-title.styles';
-import { ScreenTitleTestIDs } from './screen-title.testID';
+import { ScreenTitleTestIDs } from './screen-title.test-ids';
 
 interface Props {
   title?: string;
@@ -25,7 +25,7 @@ export const ScreenTitle: FC<Props> = ({ title = 'Page', onBackButtonPress, numb
         name={IconNameEnum.ArrowLeft}
         onPress={onBackButtonPress}
         style={styles.icon}
-        testID={ScreenTitleTestIDs.backButton}
+        testID={ScreenTitleTestIDs.BackButton}
       />
     )}
     <Text style={[styles.title, titleStyle]} numberOfLines={numberOfLines} ellipsizeMode="tail">

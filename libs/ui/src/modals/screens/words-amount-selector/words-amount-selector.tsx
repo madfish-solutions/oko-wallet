@@ -7,7 +7,7 @@ import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
-import { WordsAmountSelectorTestIDs } from './words-amount-selector.testIDs';
+import { WordsAmountSelectorTestIDs } from './words-amount-selector.test-ids';
 
 export const WordsAmountSelector: FC = () => {
   const { params: routeParams } = useRoute<RouteProp<ScreensParamList, ScreensEnum.WordsAmountSelector>>();
@@ -29,7 +29,7 @@ export const WordsAmountSelector: FC = () => {
     } else {
       goBack();
     }
-  }; //Modal Container - X Button
+  };
 
   return (
     <ModalContainer screenTitle="Amount Words">
@@ -38,7 +38,7 @@ export const WordsAmountSelector: FC = () => {
         options={words}
         onSelect={handleSetWordsAmount}
         selectedId={routeParams?.wordsAmount.id}
-        testID={WordsAmountSelectorTestIDs.cancelButton}
+        testID={WordsAmountSelectorTestIDs.CancelButton}
       />
     </ModalContainer>
   );
