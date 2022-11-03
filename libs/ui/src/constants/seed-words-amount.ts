@@ -57,7 +57,8 @@ export const createANewWalletWords: SeedWordsAmount[] = [
   {
     id: 1,
     title: 'I  have  a 12 word phrase',
-    value: MnemonicLengthEnum.Twelve
+    value: MnemonicLengthEnum.Twelve,
+    testID: SeedWordsAmountTestIDs.WordsAmount12
   },
   {
     id: 5,
