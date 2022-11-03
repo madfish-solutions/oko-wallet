@@ -3,14 +3,13 @@ import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import { ethers } from 'ethers';
 import React, { FC, useEffect, useState, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { ScrollView, View } from 'react-native';
+import { LayoutChangeEvent, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Subject, switchMap } from 'rxjs';
 import { filter, debounceTime, tap } from 'rxjs/operators';
 
 import { Announcement } from '../../../components/announcement/announcement';
 import { CollectibleImage } from '../../../components/collectible-image/collectible-image';
-import { Column } from '../../../components/column/column';
 import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { TextInput } from '../../../components/text-input/text-input';
@@ -55,6 +54,7 @@ export const AddNewCollectible: FC = () => {
 
   const [collectibleMetadata, setCollectibleMetadata] = useState<AccountTokenInput>(collectibleInitialMetadata);
   const [isLoadingMetadata, setIsLoadingMetadata] = useState(false);
+  const [layoutWidth, setLayoutWidth] = useState(COLLECTIBLE_SIZE);
 
   const {
     control,
@@ -181,6 +181,10 @@ export const AddNewCollectible: FC = () => {
 
   const handlePromptNavigate = () => null;
 
+  const handleLayout = (e: LayoutChangeEvent) => {
+    setLayoutWidth(e.nativeEvent.layout.width);
+  };
+
   return (
     <ModalActionContainer
       screenTitle="Add new Collectible"
@@ -189,7 +193,7 @@ export const AddNewCollectible: FC = () => {
       onSubmitPress={handleSubmit(onSubmit)}
       onCancelPress={goBack}
     >
-      <ScrollView style={styles.root}>
+      <View onLayout={handleLayout} style={styles.root}>
         <Announcement
           text="If Collectible is part of a collection - it will be displayed inside the collection"
           style={styles.warning}
@@ -226,20 +230,20 @@ export const AddNewCollectible: FC = () => {
             />
           )}
         />
-        <Column>
+        <View>
           <Text style={styles.collectibleName}>{collectibleMetadata.name || 'Collectible name'}</Text>
           <Text style={styles.collectibleDescription}>Preview</Text>
           <View style={styles.imageSection}>
-            <Icon name={IconNameEnum.NftLayout} size={COLLECTIBLE_SIZE} iconStyle={styles.layoutIcon} />
+            <Icon name={IconNameEnum.NftLayout} size={layoutWidth} iconStyle={styles.layoutIcon} />
             <CollectibleImage
               artifactUri={formatUri(collectibleMetadata.artifactUri)}
-              size="100%"
+              size={layoutWidth}
               pixelShitSize={getCustomSize(5)}
               style={styles.imageContainer}
             />
           </View>
-        </Column>
-      </ScrollView>
+        </View>
+      </View>
     </ModalActionContainer>
   );
 };
