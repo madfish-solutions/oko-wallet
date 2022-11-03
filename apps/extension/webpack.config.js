@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const packageJSON = require('./package.json');
 
 const appDirectory = path.resolve(__dirname);
 
@@ -91,7 +92,8 @@ module.exports = {
 
     plugins: [
         new webpack.DefinePlugin({
-            __DEV__: JSON.stringify(process.env.NODE_ENV === 'development')
+            __DEV__: JSON.stringify(process.env.NODE_ENV === 'development'),
+            'process.env.VERSION': JSON.stringify(packageJSON.version),
         }),
         new webpack.ProvidePlugin({
             process: "process/browser"

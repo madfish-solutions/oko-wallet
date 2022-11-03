@@ -1,7 +1,14 @@
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 
-export const tokenNavigationBar = [
+export interface TokenNavigationBarOption {
+  id: number;
+  iconName: IconNameEnum;
+  routeName: ScreensEnum.Send | ScreensEnum.Receive;
+  disabled?: boolean;
+}
+
+export const tokenNavigationBar: TokenNavigationBarOption[] = [
   {
     id: 1,
     iconName: IconNameEnum.Swap,
@@ -19,7 +26,7 @@ export const tokenNavigationBar = [
   },
   {
     id: 4,
-    iconName: IconNameEnum.Deposit,
+    iconName: IconNameEnum.Topup,
     routeName: ScreensEnum.Send,
     disabled: true
   }

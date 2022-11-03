@@ -26,6 +26,7 @@ interface Props {
   onSearchClose?: () => void;
   isSearchInitiallyOpened?: boolean;
   style?: ViewStyleProps;
+  emptyIconStyle?: ViewStyleProps;
 }
 
 const renderTextInput = <
@@ -44,7 +45,8 @@ export const SearchPanel: React.FC<Props> = ({
   onPressAddIcon,
   onPressEditIcon,
   onPressActivityIcon,
-  style
+  style,
+  emptyIconStyle
 }) => {
   const [isShowSearchField, setIsShowSearchField] = useState(isSearchInitiallyOpened);
   const initialSelectedItemName = useRef(selectedItemName);
@@ -99,7 +101,7 @@ export const SearchPanel: React.FC<Props> = ({
           <Row style={styles.iconsWrapper}>
             <TouchableIcon name={IconNameEnum.Search} onPress={showSearchField} />
             <Row>
-              <TouchableIcon name={IconNameEnum.Add} onPress={onPressAddIcon} />
+              {onPressAddIcon && <TouchableIcon name={IconNameEnum.Add} onPress={onPressAddIcon} />}
               {onPressEditIcon && (
                 <TouchableIcon style={styles.extraIcon} name={IconNameEnum.Edit} onPress={onPressEditIcon} />
               )}
@@ -110,7 +112,7 @@ export const SearchPanel: React.FC<Props> = ({
           </Row>
         )}
       </Row>
-      {isEmptyList && <EmptySearchIcon style={styles.emtySearchIcon} />}
+      {isEmptyList && <EmptySearchIcon style={[styles.emptySearchIcon, emptyIconStyle]} />}
     </Column>
   );
 };

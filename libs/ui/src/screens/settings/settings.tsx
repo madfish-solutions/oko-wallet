@@ -1,52 +1,126 @@
 import React, { FC } from 'react';
-import { Button } from 'react-native';
+import { View } from 'react-native';
 
+import { Divider } from '../../components/divider/divider';
+import { IconWithBorderEnum } from '../../components/icon-with-border/enums';
+import { IconWithBorder } from '../../components/icon-with-border/icon-with-border';
+import { Icon } from '../../components/icon/icon';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
-import { MaximiseScreenButton } from '../../components/maximise-screen-button/maximise-screen-button';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
-import { ResetWallet } from '../../components/reset-wallet/reset-wallet';
+import { Pressable } from '../../components/pressable/pressable';
+import { RobotIcon } from '../../components/robot-icon/robot-icon';
+import { Row } from '../../components/row/row';
 import { ScreenTitle } from '../../components/screen-components/header-container/components/screen-title/screen-title';
 import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { ScreenScrollView } from '../../components/screen-components/screen-scroll-view/screen-scroll-view';
+import { Text } from '../../components/text/text';
+import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
-import { useToast } from '../../hooks/use-toast.hook';
-import { useUnlock } from '../../hooks/use-unlock.hook';
+import { useSelectedAccountPublicKeyHashSelector } from '../../store/wallet/wallet.selectors';
+import { getCustomSize } from '../../styles/format-size';
+import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
+import { isIOS, isMaximiseScreen, isWeb } from '../../utils/platform.utils';
 
-import { Activity } from './components/activity/activity';
-import { HeaderSideIcons } from './components/header-side-icons/header-side-icons';
+import EasterEgg from './assets/easter-egg.svg';
+import { ItemContainer } from './components/item-container/item-container';
+import { Item } from './components/item/item';
+import { MadFishLogo } from './components/mad-fish-logo/mad-fish-logo';
+import { Separator } from './components/separator/separator';
+import { styles } from './settings.styles';
+
+const dividerSize = getCustomSize(2);
+const socialIconSize = getCustomSize(4);
 
 export const Settings: FC = () => {
-  const { showSuccessToast, showErrorToast, showWarningToast } = useToast();
   const { navigate } = useNavigation();
-  const { lock } = useUnlock();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
-  const navigateToAddNetwork = () => navigate(ScreensEnum.AddNetwork);
-  const navigateToConnectToDapps = () => navigate(ScreensEnum.ConnectToDapps);
-  const navigateToWallet = () => navigate(ScreensEnum.Wallet);
+  const navigateToAccountsSettings = () => navigate(ScreensEnum.AccountsSettings);
+  const navigateToSettingsGeneral = () => navigate(ScreensEnum.SettingsGeneral);
+  const navigateToSettingsSecurity = () => navigate(ScreensEnum.SettingsSecurity);
+  const navigateToSettingsAboutUs = () => navigate(ScreensEnum.SettingsAboutUs);
+  const navigateToSettingsResetWalletConfirm = () => navigate(ScreensEnum.SettingsResetWalletConfirm);
 
-  const onShowSuccessToastClick = () => showSuccessToast('This is Success!');
-  const onShowWarningToastClick = () => showWarningToast('This is a Warning!');
-  const onShowErrorToastClick = () => showErrorToast('This is an Error!');
+  const navigateToAuthorizedDapps = () => navigate(ScreensEnum.AuthorizedDapps);
 
   return (
     <ScreenContainer>
       <HeaderContainer isSelectors>
-        <ScreenTitle title="Settings" onBackButtonPress={navigateToWallet} />
-        <HeaderSideIcons icons={[IconNameEnum.Search, IconNameEnum.AddChain, IconNameEnum.Edit]} />
+        <ScreenTitle title="Settings" />
+        {isWeb && (
+          <TouchableIcon
+            name={isMaximiseScreen ? IconNameEnum.NewTab : IconNameEnum.Maximize}
+            onPress={openMaximiseScreen}
+          />
+        )}
       </HeaderContainer>
 
-      <ScreenScrollView>
-        <Button title="Add network" onPress={navigateToAddNetwork} />
-        <Button title="Connect to Dapps" onPress={navigateToConnectToDapps} />
-        <Button title="Show success toast" onPress={onShowSuccessToastClick} />
-        <Button title="Show warning toast" onPress={onShowWarningToastClick} />
-        <Button title="Show error toast" onPress={onShowErrorToastClick} />
-        <ResetWallet />
-        <Button onPress={lock} title="lock app" color="#841584" />
-        <MaximiseScreenButton />
-        <Activity />
+      <ScreenScrollView style={styles.root} contentContainerStyle={styles.rootContentContainer}>
+        {isIOS && (
+          <EasterEgg
+            style={styles.easterEgg}
+            width="100%"
+            height={getCustomSize(23)}
+            preserveAspectRatio="xMaxYMax slice"
+          />
+        )}
+
+        <View style={styles.content}>
+          <View>
+            <ItemContainer>
+              <Item
+                iconComponent={
+                  <IconWithBorder type={IconWithBorderEnum.Ternary} style={styles.robot}>
+                    <RobotIcon seed={publicKeyHash} size={getCustomSize(1.8)} />
+                  </IconWithBorder>
+                }
+                title="Accounts Settings"
+                onPress={navigateToAccountsSettings}
+              />
+            </ItemContainer>
+
+            <Divider size={dividerSize} />
+
+            <ItemContainer>
+              <Item title="General" icon={IconNameEnum.Slider} onPress={navigateToSettingsGeneral} />
+              <Separator />
+              <Item title="Security" icon={IconNameEnum.Security} onPress={navigateToSettingsSecurity} />
+            </ItemContainer>
+
+            <Divider size={dividerSize} />
+
+            <ItemContainer>
+              <Item title="Authorized DApps" icon={IconNameEnum.DappConnect} onPress={navigateToAuthorizedDapps} />
+            </ItemContainer>
+
+            <Divider size={dividerSize} />
+
+            <ItemContainer>
+              <Item title="About us" icon={IconNameEnum.InfoRed} onPress={navigateToSettingsAboutUs} />
+              <Separator />
+              <Row style={styles.socialMedia}>
+                <TouchableIcon size={socialIconSize} name={IconNameEnum.Telegram} />
+                <TouchableIcon size={socialIconSize} name={IconNameEnum.Twitter} />
+                <TouchableIcon size={socialIconSize} name={IconNameEnum.Discord} />
+                <TouchableIcon size={socialIconSize} name={IconNameEnum.Reddit} />
+                <TouchableIcon size={socialIconSize} name={IconNameEnum.Youtube} />
+              </Row>
+            </ItemContainer>
+
+            <View style={styles.resetContainer}>
+              <Pressable onPress={navigateToSettingsResetWalletConfirm}>
+                <Row>
+                  <Text style={styles.resetText}>Reset wallet</Text>
+                  <Icon name={IconNameEnum.Out} iconStyle={styles.outIcon} />
+                </Row>
+              </Pressable>
+            </View>
+          </View>
+
+          <MadFishLogo style={styles.logo} />
+        </View>
       </ScreenScrollView>
 
       <NavigationBar />

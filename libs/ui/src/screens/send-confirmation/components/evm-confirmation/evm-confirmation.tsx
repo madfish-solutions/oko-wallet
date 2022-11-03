@@ -9,7 +9,7 @@ import {
   useSelectedNetworkSelector
 } from '../../../../store/wallet/wallet.selectors';
 import { getAssetType } from '../../../../utils/get-asset-type.util';
-import { formatUnits } from '../../../../utils/units.utils';
+import { formatUnitsToString } from '../../../../utils/units.utils';
 import { useTransactionHook } from '../../hooks/use-transaction.hook';
 import { EvmTransferParams } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
@@ -43,10 +43,10 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPu
     rpcUrl,
     gasTokenMetadata: { decimals: gasTokenDecimals }
   } = network;
-  const gasPrice = estimations?.gasPrice && formatUnits(estimations.gasPrice, gasTokenDecimals);
+  const gasPrice = estimations?.gasPrice && formatUnitsToString(estimations.gasPrice, gasTokenDecimals);
   const transactionFee =
     estimations?.gasPrice &&
-    formatUnits((Number(estimations.gasPrice) * Number(estimations.gasLimit)).toFixed(0), gasTokenDecimals);
+    formatUnitsToString((Number(estimations.gasPrice) * Number(estimations.gasLimit)).toFixed(0), gasTokenDecimals);
 
   const onSend = useCallback(() => {
     if (estimations?.gasPrice) {
@@ -54,7 +54,7 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPu
 
       const transactionParams: TransactionParams = {
         gasPrice: estimations.gasPrice,
-        gasLimit: estimations.gasLimit,
+        gasLimit: Number(estimations.gasLimit),
         receiverPublicKeyHash,
         tokenAddress,
         tokenId,

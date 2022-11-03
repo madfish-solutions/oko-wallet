@@ -18,8 +18,11 @@ export const createHdAccountForNewNetworkTypeAction = createAction<{
 }>('wallet/CREATE_HD_ACCOUNT_WITH_OTHER_NETWORK_TYPE');
 export const changeAccountAction = createAction<AccountInterface>('wallet/CHANGE_ACCOUNT');
 export const setSelectedAccountAction = createAction<string>('wallet/SET_SELECTED_ACCOUNT');
-export const editAccountNameAction = createAction<{ accountIndex: AccountInterface['accountIndex']; name: string }>(
+export const editAccountNameAction = createAction<{ accountId: AccountInterface['accountId']; name: string }>(
   'wallet/EDIT_ACCOUNT_NAME'
+);
+export const changeAccountVisibilityAction = createAction<AccountInterface['accountId']>(
+  'wallet/CHANGE_ACCOUNT_VISIBILITY'
 );
 
 export const loadGasTokenBalanceAction = createActions<void, string, string>('wallet/LOAD_GAS_TOKEN_BALANCE');
@@ -53,6 +56,7 @@ export const getAllUserNftAction = createActions<
   { debankId: string; publicKeyHash: string; is_all?: boolean },
   { nftList: NftListResponse[] }
 >('wallet/GET_ALL_USER_NFT');
+export const addNewCollectibleAction = createAction<AccountTokenInput>('wallet/ADD_NEW_COLLECTIBLE');
 
 export const sendAssetAction = createActions<SendAssetPayload>('wallet/SEND_ASSET');
 
@@ -60,4 +64,5 @@ export const addTransactionAction = createAction<PendingTransaction>('wallet/ADD
 export const updateTransactionAction = createAction<Transaction>('wallet/CHANGE_TRANSACTION_STATUS');
 
 export const setConfirmedDappAction = createAction<DappConnectionInfo>('wallet/SET_CONFIRMED_DAPP');
+export const deleteConfirmedDappAction = createAction<string>('wallet/DELETE_CONFIRMED_DAPP');
 export const loadTokenMetadataAction = createAction<NewTokenMetadataRequest>('wallet/LOAD_NEW_TOKEN_METADATA');

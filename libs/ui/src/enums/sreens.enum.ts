@@ -5,7 +5,7 @@ import { Token } from '../interfaces/token.interface';
 import { TransferParams } from '../interfaces/transfer-params.interface';
 
 export enum ScreensEnum {
-  ImportAccount = 'ImportAccount',
+  ImportWallet = 'ImportWallet',
   ManageTokens = 'ManageTokens',
   Receive = 'Receive',
   Send = 'Send',
@@ -13,6 +13,16 @@ export enum ScreensEnum {
   SendAccountsSelector = 'SendAccountsSelector',
   SendConfirmation = 'SendConfirmation',
   Settings = 'Settings',
+  AccountsSettings = 'AccountsSettings',
+  RevealPrivateKey = 'RevealPrivateKey',
+  RevealSeedPhrase = 'RevealSeedPhrase',
+  SettingsGeneral = 'SettingsGeneral',
+  SettingsCurrencySelector = 'SettingsCurrencySelector',
+  SettingsAppearanceSelector = 'SettingsAppearanceSelector',
+  SettingsSecurity = 'SettingsSecurity',
+  SettingsLockTimeSelector = 'SettingsLockTimeSelector',
+  SettingsAboutUs = 'SettingsAboutUs',
+  SettingsResetWalletConfirm = 'SettingsResetWalletConfirm',
   Wallet = 'Wallet',
   ConnectToDapps = 'ConnectToDapps',
   Unlock = 'unlock',
@@ -36,11 +46,17 @@ export enum ScreensEnum {
   CollectiblesList = 'CollectiblesList',
   SpecificCollectiblesList = 'SpecificCollectiblesList',
   NFT = 'NFT',
-  ChangeNetworkConfirmation = 'ChangeNetworkConfirmation'
+  ChangeNetworkConfirmation = 'ChangeNetworkConfirmation',
+  ChangePassword = 'ChangePassword',
+  AuthorizedDapps = 'AuthorizedDapps',
+  DeleteDapp = 'DeleteDapp',
+  AddNewCollectible = 'AddNewCollectible',
+  Collectible = 'Collectible',
+  Initial = 'Initial'
 }
 
 export type ScreensParamList = {
-  [ScreensEnum.ImportAccount]: undefined;
+  [ScreensEnum.ImportWallet]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.ManageTokens]: undefined;
   [ScreensEnum.Receive]: undefined;
   [ScreensEnum.Send]?: { account?: AccountInterface; token?: Token; receiverPublicKeyHash?: string };
@@ -50,13 +66,23 @@ export type ScreensParamList = {
     transferParams: TransferParams;
   };
   [ScreensEnum.Settings]: undefined;
+  [ScreensEnum.AccountsSettings]: undefined;
+  [ScreensEnum.RevealPrivateKey]: { publicKeyHash: string };
+  [ScreensEnum.RevealSeedPhrase]: undefined;
+  [ScreensEnum.SettingsGeneral]: undefined;
+  [ScreensEnum.SettingsCurrencySelector]: undefined;
+  [ScreensEnum.SettingsAppearanceSelector]: undefined;
+  [ScreensEnum.SettingsSecurity]: undefined;
+  [ScreensEnum.SettingsLockTimeSelector]: undefined;
+  [ScreensEnum.SettingsAboutUs]: undefined;
+  [ScreensEnum.SettingsResetWalletConfirm]: undefined;
   [ScreensEnum.Wallet]: undefined;
   [ScreensEnum.ConnectToDapps]: undefined;
   [ScreensEnum.Unlock]: undefined;
   [ScreensEnum.AccountsSelector]: undefined;
   [ScreensEnum.NetworksSelector]: undefined;
   [ScreensEnum.EditAccount]: { account: AccountInterface };
-  [ScreensEnum.AddAccount]: undefined;
+  [ScreensEnum.AddAccount]?: { wordsAmount?: SeedWordsAmount; activeId?: number };
   [ScreensEnum.AddNetwork]: undefined;
   [ScreensEnum.AddNewToken]: undefined;
   [ScreensEnum.EditToken]: { token: Token };
@@ -65,14 +91,20 @@ export type ScreensParamList = {
   [ScreensEnum.DappConfirmation]: { dappName: string; id: string };
   [ScreensEnum.ScanQrCode]: undefined;
   [ScreensEnum.CreateANewWallet]?: { wordsAmount: SeedWordsAmount };
-  [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };
+  [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount; createANewWallet?: boolean };
   [ScreensEnum.VerifyMnemonic]: { mnemonic: string[] };
-  [ScreensEnum.AlmostDone]: { mnemonic: string };
+  [ScreensEnum.AlmostDone]: { mnemonic: string; currentStep: number; stepsAmount: number };
   [ScreensEnum.Activity]: undefined;
   [ScreensEnum.Token]: { token: Token };
   [ScreensEnum.CollectiblesList]: undefined;
   [ScreensEnum.CollectiblesList]: undefined;
-  [ScreensEnum.SpecificCollectiblesList]: { collectibles: Token[] };
   [ScreensEnum.NFT]: { nft: Token };
   [ScreensEnum.ChangeNetworkConfirmation]: { dappName: string; id: string; chainId: string };
+  [ScreensEnum.SpecificCollectiblesList]: { collectionName: string };
+  [ScreensEnum.AddNewCollectible]: undefined;
+  [ScreensEnum.Collectible]: { collectible: Token };
+  [ScreensEnum.ChangePassword]: undefined;
+  [ScreensEnum.AuthorizedDapps]: undefined;
+  [ScreensEnum.DeleteDapp]: { dappName: string };
+  [ScreensEnum.Initial]: undefined;
 };

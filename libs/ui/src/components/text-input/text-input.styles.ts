@@ -21,6 +21,7 @@ export const styles = StyleSheet.create({
     borderColor: colors.border2
   },
   innerContainer: {
+    position: 'relative',
     justifyContent: 'space-between'
   },
   input: {

@@ -8,7 +8,7 @@ import {
   useSelectedNetworkSelector,
   useSelectedAccountPublicKeyHashSelector
 } from '../../../../store/wallet/wallet.selectors';
-import { formatUnits } from '../../../../utils/units.utils';
+import { formatUnitsToString } from '../../../../utils/units.utils';
 import { useTransactionHook } from '../../hooks/use-transaction.hook';
 import { Confirmation } from '../confirmation/confirmation';
 
@@ -37,8 +37,8 @@ export const TezosConfirmation: FC<Props> = ({ transferParams }) => {
     gasTokenMetadata: { decimals }
   } = network;
 
-  const storageFee = storageLimitSum && formatUnits(storageLimitSum * minimalFeePerStorageByteMutez, decimals);
-  const formattedFee = gasFeeSum && formatUnits(gasFeeSum, decimals);
+  const storageFee = storageLimitSum && formatUnitsToString(storageLimitSum * minimalFeePerStorageByteMutez, decimals);
+  const formattedFee = gasFeeSum && formatUnitsToString(gasFeeSum, decimals);
 
   const onSend = useCallback(() => {
     setIsTransactionLoading(true);

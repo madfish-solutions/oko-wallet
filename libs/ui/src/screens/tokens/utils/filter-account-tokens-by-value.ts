@@ -1,5 +1,5 @@
-import { GAS_TOKEN_ADDRESS } from '../../../constants/defaults';
 import { Token } from '../../../interfaces/token.interface';
+import { checkIsGasToken } from '../../../utils/check-is-gas-token.util';
 
 export const filterAccountTokensByValue = (tokens: Token[], searchValue: string) =>
   tokens.filter(token => {
@@ -7,7 +7,7 @@ export const filterAccountTokensByValue = (tokens: Token[], searchValue: string)
       token.name.toLowerCase().includes(searchValue.toLowerCase()) ||
       token.symbol.toLowerCase().includes(searchValue.toLowerCase());
 
-    const isGasToken = token.tokenAddress === GAS_TOKEN_ADDRESS;
+    const isGasToken = checkIsGasToken(token.tokenAddress);
 
     if (isGasToken) {
       return commonCondition;

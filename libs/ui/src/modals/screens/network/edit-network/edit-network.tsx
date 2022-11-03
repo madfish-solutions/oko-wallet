@@ -75,7 +75,6 @@ export const EditNetwork: FC = () => {
         ...selectedNetwork.gasTokenMetadata,
         symbol: data.tokenSymbol.trim()
       },
-      gasTokenBalance: selectedNetwork.gasTokenBalance,
       explorerUrl: data.blockExplorerUrl?.trim(),
       networkType,
       ...(selectedNetwork.iconName && { iconName: selectedNetwork.iconName })
@@ -123,7 +122,7 @@ export const EditNetwork: FC = () => {
       <ButtonWithIcon
         title="Delete network"
         size={ButtonWithIconSizeEnum.Small}
-        leftIcon={IconNameEnum.Trash}
+        leftIcon={IconNameEnum.Delete}
         iconSize={getCustomSize(2)}
         onPress={handleConfirmRemoveAction}
         disabled={networks.length === 1 || selectedNetwork.rpcUrl === MainnetRpcEnum.Klaytn}

@@ -1,7 +1,6 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { TextInput } from '../../../components/text-input/text-input';
@@ -17,7 +16,7 @@ export const EditAccount: FC = () => {
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.EditAccount>>();
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
-  const rules = useAccountFieldRules(account.name);
+  const { nameRules } = useAccountFieldRules(account.name);
 
   const {
     control,
@@ -47,7 +46,7 @@ export const EditAccount: FC = () => {
     const editedName = name.trim();
 
     if (account.name !== editedName) {
-      dispatch(editAccountNameAction({ accountIndex: account.accountIndex, name: editedName }));
+      dispatch(editAccountNameAction({ accountId: account.accountId, name: editedName }));
     }
 
     goBack();
@@ -61,16 +60,14 @@ export const EditAccount: FC = () => {
       onSubmitPress={handleSubmit(onSubmit)}
       onCancelPress={goBack}
     >
-      <View>
-        <Controller
-          control={control}
-          name="name"
-          rules={rules}
-          render={({ field }) => (
-            <TextInput field={field} label="Account name" placeholder={account.name} error={errors?.name?.message} />
-          )}
-        />
-      </View>
+      <Controller
+        control={control}
+        name="name"
+        rules={nameRules}
+        render={({ field }) => (
+          <TextInput field={field} label="Account name" placeholder={account.name} error={errors?.name?.message} />
+        )}
+      />
     </ModalActionContainer>
   );
 };

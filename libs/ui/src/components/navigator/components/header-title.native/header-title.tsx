@@ -1,6 +1,8 @@
 import type { HeaderTitleProps } from '@react-navigation/elements';
 import React, { FC } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+
+import { Text } from '../../../text/text';
 
 import { styles } from './header-title.styles';
 

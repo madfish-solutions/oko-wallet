@@ -32,11 +32,11 @@ export const Receive: FC = () => {
   const { navigate } = useNavigation();
   const [isCopied, setIsCopied] = useState(false);
   const network = useSelectedNetworkSelector();
-  const address = useSelectedAccountPublicKeyHashSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
   const navigateToWallet = () => navigate(ScreensEnum.Wallet);
-  const copyAddress = () => handleCopyToClipboard(address);
-  const shareAddress = () => share({ message: address });
+  const copyAddress = () => handleCopyToClipboard(publicKeyHash);
+  const shareAddress = () => share({ message: publicKeyHash });
   const promptNavigate = () => null;
 
   useDelayedEffect(() => setIsCopied(false), [isCopied]);
@@ -58,7 +58,7 @@ export const Receive: FC = () => {
         <Column style={styles.container}>
           <View style={styles.qrCodeWrapper}>
             <QRCode
-              value={address !== '' ? address : 'Not generated'}
+              value={publicKeyHash !== '' ? publicKeyHash : 'Not generated'}
               size={getCustomSize(20)}
               backgroundColor="transparent"
               color={colors.textGrey1}
@@ -68,7 +68,7 @@ export const Receive: FC = () => {
           <Text style={styles.text}>{`Wallet Address on the ${network.name} Network`}</Text>
           <TouchableOpacity onPress={copyAddress} style={styles.addressWrapper}>
             <Text numberOfLines={2} style={styles.address}>
-              {address}
+              {publicKeyHash}
             </Text>
           </TouchableOpacity>
         </Column>

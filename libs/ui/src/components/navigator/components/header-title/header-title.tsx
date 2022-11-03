@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
-import { Text, View, Pressable } from 'react-native';
+import { View, Pressable } from 'react-native';
 
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Row } from '../../../row/row';
+import { Text } from '../../../text/text';
 import { HeaderBackButton } from '../header-back-button/header-back-button';
 import { HeaderCloseButton } from '../header-close-button/header-close-button';
 
@@ -21,7 +22,9 @@ export const HeaderTitle: FC<Props> = ({ name, isBackButton = false }) => {
       <Pressable onPress={goBack} style={styles.backgroundSpace} />
       <Row style={styles.container}>
         {isBackButton && <HeaderBackButton />}
-        <Text style={styles.title}>{name}</Text>
+        <Text style={styles.title} numberOfLines={1} lineBreakMode="tail">
+          {name}
+        </Text>
         <View style={styles.closeButton}>
           <HeaderCloseButton />
         </View>

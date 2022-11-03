@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { ButtonWithIcon } from '../../../components/button-with-icon/button-with-icon';
@@ -10,13 +9,15 @@ import { Dynamics } from '../../../components/dynamics/dynamics';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { RobotIcon } from '../../../components/robot-icon/robot-icon';
 import { Row } from '../../../components/row/row';
+import { Text } from '../../../components/text/text';
 import { ScreensEnum } from '../../../enums/sreens.enum';
+import { useFiatTotalBalance } from '../../../hooks/use-fiat-total-balance.hook';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../hooks/use-shelter.hook';
 import { AccountInterface } from '../../../interfaces/account.interface';
 import { changeAccountAction } from '../../../store/wallet/wallet.actions';
 import {
-  useAllAccountsSelector,
+  useAllVisibleAccountsSelector,
   useSelectedAccountPublicKeyHashSelector,
   useSelectedAccountSelector,
   useSelectedNetworkTypeSelector
@@ -36,8 +37,11 @@ export const AccountsSelector: FC = () => {
   const dispatch = useDispatch();
   const selectedAccount = useSelectedAccountSelector();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
-  const accounts = useAllAccountsSelector();
+  const accounts = useAllVisibleAccountsSelector();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
+  const { totalAccountsBalance, accountsBalanceInUsd } = useFiatTotalBalance();
+
+  const totalBalanceOfSelectedAccount = accountsBalanceInUsd[selectedAccount.name];
 
   const handleChangeAccount = (account: AccountInterface) => {
     if (checkIsNetworkTypeKeyExist(account, selectedNetworkType)) {
@@ -61,7 +65,7 @@ export const AccountsSelector: FC = () => {
           name={selectedAccount.name}
           balanceTitle="Total balance"
           icon={<RobotIcon seed={publicKeyHash} size={getCustomSize(6)} />}
-          balance={<ModalAccountBalance />}
+          balance={<ModalAccountBalance balance={totalBalanceOfSelectedAccount} />}
           style={styles.header}
         />
         <Row style={styles.buttonsContainer}>
@@ -70,7 +74,7 @@ export const AccountsSelector: FC = () => {
             theme={ButtonWithIconThemesEnum.Secondary}
             size={ButtonWithIconSizeEnum.Medium}
             onPress={onWidgetSettings}
-            rightIcon={IconNameEnum.WidgetSettings}
+            rightIcon={IconNameEnum.GridSettings}
             style={styles.button}
           />
           <ButtonWithIcon
@@ -88,9 +92,9 @@ export const AccountsSelector: FC = () => {
       <Column style={styles.accountsBalanceContainer}>
         <Text style={styles.accountsBalanceTitle}>All accounts balance</Text>
         <Row>
-          <Text style={styles.accountsBalance}>401 987.01</Text>
+          <Text style={styles.accountsBalance}>{totalAccountsBalance}</Text>
           <Text style={styles.accountsBalanceCurrency}>$</Text>
-          <Dynamics value="10.2" style={styles.dynamics} />
+          <Dynamics value={10.2} style={styles.dynamics} />
         </Row>
       </Column>
       <Divider size={getCustomSize(0.5)} style={styles.divider} />

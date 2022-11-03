@@ -2,7 +2,7 @@ import { AccountTypeEnum } from '../enums/account-type.enum';
 import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { TransactionStatusEnum } from '../enums/transactions.enum';
 
-export type AccountByNetworkType = {
+type AccountByNetworkType = {
   publicKey: string;
   publicKeyHash: string;
 };
@@ -10,9 +10,9 @@ export type AccountByNetworkType = {
 export interface AccountInterface {
   name: string;
   type: AccountTypeEnum;
-  accountIndex: number;
+  accountId: number;
   networksKeys: Partial<{ [key in NetworkTypeEnum]: AccountByNetworkType }>;
-  isVisible?: boolean;
+  isVisible: boolean;
 }
 
 export interface Transaction {

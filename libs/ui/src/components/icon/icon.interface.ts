@@ -4,7 +4,7 @@ import { IconNameEnum } from './icon-name.enum';
 
 export interface IconProps {
   name: IconNameEnum;
-  size?: number;
+  size?: number | string;
   width?: number;
   height?: number;
   color?: string;

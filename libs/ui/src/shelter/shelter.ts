@@ -9,6 +9,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { AccountTypeEnum } from '../enums/account-type.enum';
 import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { AccountInterface } from '../interfaces/account.interface';
+import { HdAccount } from '../interfaces/create-hd-account.interface';
 import { BackgroundMessager } from '../messagers/background-messager';
 import { decrypt } from '../themis/decrypt';
 import { encrypt } from '../themis/encrypt';
@@ -18,7 +19,8 @@ import { generateHash$ } from '../utils/hash.utils';
 import { isWeb } from '../utils/platform.utils';
 import { setStoredValue } from '../utils/store.util';
 
-const PASSWORD_CHECK_KEY = 'app-password';
+export const PASSWORD_CHECK_KEY = 'app-password';
+export const SEED_PHRASE_KEY = 'seedPhrase';
 const INITIAL_PASSWORD_HASH = '';
 
 export class Shelter {
@@ -70,7 +72,34 @@ export class Shelter {
       )
     );
 
-  static revealSeedPhrase$ = () => Shelter.decryptSensitiveData$('seedPhrase', Shelter._passwordHash$.getValue());
+  static changePassword$ = (oldPassword: string, newPassword: string, sensitiveDataKeys: string[]) =>
+    Shelter.unlockApp$(oldPassword).pipe(
+      switchMap(result => {
+        if (result) {
+          return forkJoin([generateHash$(oldPassword), generateHash$(newPassword)]).pipe(
+            switchMap(([oldPasswordHash, newPasswordHash]) => {
+              Shelter.setPasswordHash(newPasswordHash);
+
+              return forkJoin(sensitiveDataKeys.map(key => Shelter.decryptSensitiveData$(key, oldPasswordHash))).pipe(
+                switchMap(rawDataArray => {
+                  const sensitiveData = sensitiveDataKeys.reduce(
+                    (obj, key, keyIndex) => ({ ...obj, [key]: rawDataArray[keyIndex] }),
+                    {}
+                  );
+
+                  return Shelter.saveSensitiveData$(sensitiveData);
+                }),
+                map(() => true)
+              );
+            })
+          );
+        }
+
+        return of(false);
+      })
+    );
+
+  static revealSeedPhrase$ = () => Shelter.decryptSensitiveData$(SEED_PHRASE_KEY, Shelter._passwordHash$.getValue());
 
   private static savePrivateKey$ = (publicKeyHash: string, privateKey: string) =>
     Shelter.saveSensitiveData$({ [publicKeyHash]: privateKey });
@@ -86,10 +115,10 @@ export class Shelter {
         Shelter.setPasswordHash(passwordHash);
 
         return forkJoin(
-          [...Array(hdAccountsLength).keys()].map(hdAccountIndex =>
-            from(generateHdAccount(seedPhrase, getEtherDerivationPath(hdAccountIndex))).pipe(
+          [...Array(hdAccountsLength).keys()].map(hdAccountId =>
+            from(generateHdAccount(seedPhrase, getEtherDerivationPath(hdAccountId))).pipe(
               map(({ privateKey, publicKey, address }) => {
-                const name = accountName ?? `Account ${hdAccountIndex + 1}`;
+                const name = accountName ?? `Account ${hdAccountId + 1}`;
 
                 return {
                   privateData: {
@@ -98,13 +127,14 @@ export class Shelter {
                   publicData: {
                     name,
                     type: AccountTypeEnum.HD_ACCOUNT,
-                    accountIndex: hdAccountIndex,
+                    accountId: hdAccountId + 1,
                     networksKeys: {
                       [NetworkTypeEnum.EVM]: {
                         publicKey,
                         publicKeyHash: address
                       }
-                    }
+                    },
+                    isVisible: true
                   }
                 };
               })
@@ -116,7 +146,7 @@ export class Shelter {
             const publicData = accountsData.map(({ publicData }) => publicData);
 
             return Shelter.saveSensitiveData$({
-              seedPhrase,
+              [SEED_PHRASE_KEY]: seedPhrase,
               [PASSWORD_CHECK_KEY]: generateMnemonic(),
               ...privateData
             }).pipe(map(() => publicData));
@@ -127,6 +157,7 @@ export class Shelter {
 
   static createHdAccount$ = (
     networkType: NetworkTypeEnum,
+    accountId: number,
     accountIndex: number,
     name: string
   ): Observable<AccountInterface | undefined> => {
@@ -139,7 +170,7 @@ export class Shelter {
             Shelter.savePrivateKey$(publicKeyHash, privateKey).pipe(
               map(() => ({
                 name,
-                accountIndex,
+                accountId,
                 networksKeys: {
                   [networkType]: {
                     publicKey,
@@ -156,7 +187,32 @@ export class Shelter {
     );
   };
 
-  private static revealPrivateKey$ = (publicKeyHash: string) =>
+  static createImportedAccount$ = (
+    hdAccount: HdAccount,
+    networkType: NetworkTypeEnum,
+    accountId: number,
+    name: string
+  ) =>
+    of(hdAccount).pipe(
+      switchMap(({ privateKey, publicKey, address: publicKeyHash }) =>
+        Shelter.savePrivateKey$(publicKeyHash, privateKey).pipe(
+          map(() => ({
+            name,
+            type: AccountTypeEnum.IMPORTED_ACCOUNT,
+            accountId,
+            networksKeys: {
+              [networkType]: {
+                publicKey,
+                publicKeyHash
+              }
+            },
+            isVisible: true
+          }))
+        )
+      )
+    );
+
+  static revealPrivateKey$ = (publicKeyHash: string) =>
     Shelter.decryptSensitiveData$(publicKeyHash, Shelter._passwordHash$.getValue());
 
   static getEvmSigner$ = (publicKeyHash: string, provider: Provider) =>

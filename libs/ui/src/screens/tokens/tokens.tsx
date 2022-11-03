@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { FlatList, ListRenderItemInfo, Text, View } from 'react-native';
+import { FlatList, ListRenderItemInfo, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { Icon } from '../../components/icon/icon';
@@ -11,19 +11,23 @@ import { ScreenTitle } from '../../components/screen-components/header-container
 import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { SearchPanel } from '../../components/search-panel/search-panel';
+import { Text } from '../../components/text/text';
 import { AccountToken } from '../../components/token/account-token/account-token';
-import { GasToken } from '../../components/token/gas-token/gas-token';
 import { TokenItemThemesEnum } from '../../components/token/token-item/enums';
-import { EMPTY_STRING, GAS_TOKEN_ADDRESS } from '../../constants/defaults';
+import { EMPTY_STRING } from '../../constants/defaults';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { Token } from '../../interfaces/token.interface';
+import { useTokensMarketInfoSelector } from '../../store/tokens-market-info/token-market-info.selectors';
 import { sortAccountTokensByVisibility } from '../../store/wallet/wallet.actions';
 import {
   useAccountTokensSelector,
   useSelectedNetworkSelector,
-  useVisibleAccountTokensSelector
+  useVisibleAccountTokensSelector,
+  useAccountTokensAndGasTokenSelector,
+  useVisibleAccountTokensAndGasTokenSelector
 } from '../../store/wallet/wallet.selectors';
+import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { getTokenSlug } from '../../utils/token.utils';
 
 import { styles } from './tokens.styles';
@@ -33,21 +37,15 @@ import { getListOfTokensAddresses } from './utils/get-list-of-tokens-adresses.ut
 const keyExtractor = ({ tokenAddress, tokenId }: Token) => getTokenSlug(tokenAddress, tokenId);
 
 export const Tokens: FC = () => {
-  const { gasTokenMetadata, gasTokenBalance, rpcUrl } = useSelectedNetworkSelector();
+  const { chainId } = useSelectedNetworkSelector();
   const dispatch = useDispatch();
   const { navigate, goBack } = useNavigation();
   const allAccountTokens = useAccountTokensSelector();
   const visibleAccountTokens = useVisibleAccountTokensSelector();
+  const allTokensMarketInfo = useTokensMarketInfoSelector();
 
-  const gasToken = useMemo(() => ({ ...gasTokenMetadata, balance: gasTokenBalance }), [rpcUrl]);
-  const allAccountTokensWithGasToken: Token[] = useMemo(
-    () => [{ ...gasToken, tokenAddress: GAS_TOKEN_ADDRESS, isVisible: true }, ...allAccountTokens],
-    [allAccountTokens, gasToken]
-  );
-  const visibleAccountTokensWithGasToken: Token[] = useMemo(
-    () => [{ ...gasToken, tokenAddress: GAS_TOKEN_ADDRESS, isVisible: true }, ...visibleAccountTokens],
-    [visibleAccountTokens, gasToken]
-  );
+  const allAccountTokensWithGasToken = useAccountTokensAndGasTokenSelector();
+  const visibleAccountTokensWithGasToken = useVisibleAccountTokensAndGasTokenSelector();
 
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
   const [tokensAddresses, setTokensAddresses] = useState<string[]>([]);
@@ -64,7 +62,7 @@ export const Tokens: FC = () => {
     }
 
     return visibleAccountTokensWithGasToken;
-  }, [searchValue, allAccountTokens]);
+  }, [searchValue, allAccountTokens, visibleAccountTokensWithGasToken]);
 
   const navigateToAddNewToken = () => navigate(ScreensEnum.AddNewToken);
   const navigateToManageTokens = () => navigate(ScreensEnum.ManageTokens);
@@ -86,11 +84,7 @@ export const Tokens: FC = () => {
 
   const renderItem = useCallback(
     ({ item: token }: ListRenderItemInfo<Token>) => {
-      const isGasToken = token.tokenAddress === GAS_TOKEN_ADDRESS;
-
-      if (isGasToken) {
-        return <GasToken searchValue={searchValue} theme={TokenItemThemesEnum.Secondary} loadBalance={!searchValue} />;
-      }
+      const tokenMetadataSlug = getTokenMetadataSlug(chainId, token.tokenAddress);
 
       const showButton = !token.isVisible || !tokensAddresses.includes(token.tokenAddress);
 
@@ -100,6 +94,7 @@ export const Tokens: FC = () => {
           loadBalance={!searchValue}
           showButton={showButton}
           theme={TokenItemThemesEnum.Secondary}
+          marketInfo={allTokensMarketInfo[tokenMetadataSlug]}
         />
       );
     },

@@ -19,8 +19,8 @@ export const CopyText: FC<Props> = ({ text, isShortize = true, numberOfLines, st
   const copy = () => handleCopyToClipboard(text);
 
   return (
-    <TouchableOpacity onPress={copy}>
-      <Text style={[styles.root, style]} numberOfLines={numberOfLines}>
+    <TouchableOpacity onPress={copy} style={[styles.root, style]}>
+      <Text style={styles.text} numberOfLines={numberOfLines}>
         {isShortize ? shortize(text) : text}
       </Text>
     </TouchableOpacity>

@@ -7,8 +7,8 @@ import { Shelter } from '../shelter';
 export const createHdAccountSubscription = ({ createHdAccount$, dispatch }: CreateHdAccountType) =>
   createHdAccount$
     .pipe(
-      switchMap(({ accountIndex, networkType, accountName, successCallback }) =>
-        Shelter.createHdAccount$(networkType, accountIndex, accountName).pipe(
+      switchMap(({ accountId, accountIndex, networkType, accountName, successCallback }) =>
+        Shelter.createHdAccount$(networkType, accountId, accountIndex, accountName).pipe(
           map(account => ({
             account,
             successCallback
@@ -29,12 +29,12 @@ export const createHdAccountForNewNetworkTypeSubscription = ({
 }: CreateHdAccountForNewNetworkType) =>
   createHdAccountForNewNetworkType$
     .pipe(
-      switchMap(({ account, networkType, successCallback, switchToNewAccount }) =>
-        Shelter.createHdAccount$(networkType, account.accountIndex, account.name).pipe(
+      switchMap(({ account, accountIndex, networkType, successCallback, switchToNewAccount }) =>
+        Shelter.createHdAccount$(networkType, account.accountId, accountIndex, account.name).pipe(
           map(newAccount => ({
             updatedAccount: {
-              ...newAccount,
               ...account,
+              ...newAccount,
               networksKeys: {
                 ...account.networksKeys,
                 ...newAccount?.networksKeys

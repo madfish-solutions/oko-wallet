@@ -4,17 +4,20 @@ import React, { useState } from 'react';
 import { ControllerRenderProps, FieldPath, FieldValues } from 'react-hook-form';
 import {
   GestureResponderEvent,
-  Text,
   TextInput as TextInputBase,
   TextInputProps,
   View,
-  KeyboardTypeOptions
+  KeyboardTypeOptions,
+  NativeSyntheticEvent,
+  TextInputFocusEventData,
+  TextInputChangeEventData
 } from 'react-native';
 
 import { TextStyleProps, ViewStyleProps } from '../../interfaces/style.interface';
 import { colors } from '../../styles/colors';
 import { IconNameEnum } from '../icon/icon-name.enum';
 import { Row } from '../row/row';
+import { Text } from '../text/text';
 import { TouchableIcon } from '../touchable-icon/touchable-icon';
 
 import { Label } from './components/label/label';
@@ -39,6 +42,7 @@ interface Props<
   inputContainerStyle?: ViewStyleProps;
   decimals?: number;
   keyboardType?: KeyboardTypeOptions;
+  labelStyle?: ViewStyleProps;
 }
 
 export const TextInput = <
@@ -62,7 +66,10 @@ export const TextInput = <
   inputStyle,
   inputContainerStyle,
   children,
-  clearIconStyles
+  clearIconStyles,
+  onFocus: onFocusProps,
+  onChange: onChangeProps,
+  labelStyle
 }: Props<TFieldValues, TName>) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -87,11 +94,13 @@ export const TextInput = <
     onChange(correctedValue);
   };
 
+  const onChangeNative = (e: NativeSyntheticEvent<TextInputChangeEventData>) => onChangeProps?.(e);
+
   const onBlur = () => {
     let correctedValue: string = value;
 
     if (keyboardType === 'numeric' && isNotEmptyString(correctedValue) && !isNaN(+correctedValue)) {
-      correctedValue = new BigNumber(correctedValue).toString();
+      correctedValue = new BigNumber(correctedValue).toString(10);
     }
 
     if (correctedValue !== value) {
@@ -102,13 +111,16 @@ export const TextInput = <
     onBlurField();
   };
 
-  const onFocus = () => setIsFocused(true);
+  const onFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+    setIsFocused(true);
+    onFocusProps?.(e);
+  };
 
   const handleInputClear = () => onChange?.('');
 
   return (
     <View style={containerStyle}>
-      {isLabel && <Label title={label} isOptional={!required} />}
+      {isLabel && <Label title={label} isOptional={!required} style={labelStyle} />}
       {isPrompt && <Prompt title={prompt} handlePrompt={handlePrompt} />}
       <View
         style={[
@@ -130,11 +142,14 @@ export const TextInput = <
             editable={editable}
             accessibilityElementsHidden
             autoCapitalize="none"
+            autoCorrect={false}
             value={value}
             onFocus={onFocus}
             multiline={multiline}
             keyboardType={keyboardType}
             secureTextEntry={secureTextEntry}
+            allowFontScaling={false}
+            onChange={onChangeNative}
           />
           {isNotEmptyString(value) && editable && (
             <TouchableIcon name={IconNameEnum.Clear} onPress={handleInputClear} style={clearIconStyles} />
