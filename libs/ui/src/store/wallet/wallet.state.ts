@@ -5,12 +5,17 @@ import { AccountInterface, Transaction } from '../../interfaces/account.interfac
 import { DappConnectionInfo } from '../../interfaces/dapp-connection.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { TokenMetadata } from '../../interfaces/token-metadata.interface';
+import { DappState } from '../background-script/dapps.state';
 
 type NetworkRpcUrlWithTokenAddress = string;
 type NetworkRpcUrWithPublicKeyHash = string;
 
 export interface WalletRootState {
   wallet: WalletState;
+}
+
+export interface DappsRootState {
+  dapps: DappState;
 }
 
 export interface WalletState {

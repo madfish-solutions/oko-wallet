@@ -3,7 +3,7 @@ import React, { FC, createRef, useEffect } from 'react';
 import { View, Text } from 'react-native';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
-import { useDappConnection, useDappMessenger } from '../../hooks/use-dapp-connection.hook';
+import { useDappConnection } from '../../hooks/use-dapp-connection.hook';
 import { PERSISTENCE_KEY, usePersistedNavigationState } from '../../hooks/use-persisted-navigation-state.hook';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
@@ -54,7 +54,6 @@ export const Navigator: FC = () => {
   const { isLocked } = useUnlock();
 
   useDappConnection();
-  useDappMessenger();
 
   const { isPopupOpened } = checkActiveApplicationSession();
 

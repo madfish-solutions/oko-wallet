@@ -1,10 +1,16 @@
 import './shim.js';
+import { Windows } from 'webextension-polyfill';
 import { browser, Runtime } from 'webextension-polyfill-ts';
 
 import { BackgroundMessageType } from '../../libs/ui/src/messagers/enums/background-message-types.enum';
 import { BackgroundMessage } from '../../libs/ui/src/messagers/types/background-message.types';
+import { updateDappInfo } from '../../libs/ui/src/store/background-script/dapps.actions';
+import { createStore2 } from '../../libs/ui/src/store/store';
+import { WalletState } from '../../libs/ui/src/store/wallet/wallet.state';
 
 console.log('back is working...');
+
+const { store } = createStore2();
 
 const INITIAL_PASSWORD_HASH = '';
 // Locks when background-script dies!
@@ -17,7 +23,7 @@ let isLockApp = true;
 
 let isFullpageOpen = false;
 
-const channel = new BroadcastChannel('Klaytn_Background');
+let openExtensionId = 0;
 
 browser.scripting.registerContentScripts([
   {
@@ -28,6 +34,51 @@ browser.scripting.registerContentScripts([
     world: 'MAIN'
   }
 ]);
+
+// should delete later, use store.getState() in future
+const getReduxStore = async (): Promise<WalletState> =>
+  browser.storage.local.get('persist:root').then(result => {
+    const wallet = JSON.parse(result['persist:root']);
+
+    return JSON.parse(wallet.wallet);
+  });
+
+const getExtensionPopup = (windows: Windows.Window[], id: number) =>
+  windows.find(win => win.type === 'popup' && win.id === id);
+
+const openConnectPopup = async (origin: string, id: string, port: Runtime.Port, chainId?: string) => {
+  const allWindows = await browser.windows.getAll().then(windows => windows);
+  const activePopup = getExtensionPopup(allWindows, openExtensionId);
+  if (activePopup && activePopup.id !== undefined) {
+    browser.windows.update(activePopup.id, { focused: true });
+  } else {
+    const newWindow = await browser.windows.create({
+      type: 'popup',
+      url: browser.runtime.getURL(`popup.html?&origin=${origin}&id=${id}&chainId=${chainId}`),
+      width: 360,
+      height: 600,
+      top: 20,
+      left: 20
+    });
+
+    if (newWindow.id !== undefined) {
+      openExtensionId = newWindow.id;
+    }
+  }
+};
+
+const connectToDappInBackground = (dappInfo: any, origin: string, id: number, port: Runtime.Port) => {
+  if (Object.keys(dappInfo).length > 0) {
+    const message = {
+      result: [dappInfo.address],
+      target: 'requestAccounts',
+      id
+    };
+    port.postMessage(message);
+  }
+
+  return Promise.resolve();
+};
 
 browser.runtime.onConnect.addListener(port => {
   // check for time expired and max-view no opened then extension need to lock
@@ -53,35 +104,56 @@ browser.runtime.onConnect.addListener(port => {
       return (lastUserActivityTimestamp = Date.now());
     });
   }
-  let metamaskData: any[] = [];
+
   // listen content script messages
   port.onMessage.addListener(async msg => {
     if (msg.data?.target === 'metamask-contentscript') {
-      metamaskData.push(msg.data);
-    }
-
-    channel.onmessage = msg => {
-      console.log(msg, 'channel on message');
-      if (msg.data.msg === 'background') {
-        channel.postMessage({ data: metamaskData });
-        metamaskData = [];
-      }
-    };
-
-    if (msg.data?.target === 'metamask-contentscript' && msg.data?.data?.data?.method === 'eth_requestAccounts') {
       const id = msg.data?.data?.data?.id;
       const origin = msg.origin;
+      const reduxStore = await getReduxStore();
+      const savedRequest = reduxStore.confirmedEVMDappConnection[origin];
+      const dappInfo = store.getState().dapps[origin];
+      console.log(dappInfo);
+      console.log(savedRequest, 'saved request');
+      const chainId = msg.data?.data?.data?.params?.[0].chainId;
 
-      await browser.windows.create({
-        type: 'popup',
-        url: browser.runtime.getURL(`popup.html?confirmation=true&origin=${origin}&id=${id}`),
-        width: 360,
-        height: 600,
-        top: 20,
-        left: 20
-      });
+      switch (msg.data?.data?.data?.method) {
+        case 'eth_requestAccounts': {
+          if (savedRequest !== undefined) {
+            await connectToDappInBackground(dappInfo, origin, id, port);
+          }
 
-      return Promise.resolve();
+          await openConnectPopup(origin, id, port);
+
+          return Promise.resolve();
+        }
+
+        case 'wallet_switchEthereumChain': {
+          await openConnectPopup(origin, id, port, chainId);
+
+          return Promise.resolve();
+        }
+        case 'metamask_getProviderState': {
+          if (savedRequest !== undefined) {
+            await connectToDappInBackground(savedRequest.dappName, origin, id, port);
+          }
+
+          return Promise.resolve();
+        }
+        case 'metamask_sendDomainMetadata': {
+          const currentDappLogo = msg.data?.data?.data?.params.logo;
+
+          const newDapp = {
+            logoUrl: currentDappLogo,
+            chainId,
+            name: origin
+          };
+
+          store.dispatch(updateDappInfo(newDapp));
+
+          return Promise.resolve();
+        }
+      }
     }
   });
 });

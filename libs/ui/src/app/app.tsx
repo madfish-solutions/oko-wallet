@@ -6,7 +6,9 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Navigator } from '../components/navigator/navigator';
 import { ToastProvider } from '../components/toast-provider/toast-provider';
 import { useBackgroundMessager } from '../messagers/hooks/use-background-messager.hook';
-import { persistor, store } from '../store/store';
+import { createStore2 } from '../store/store';
+
+const { store, persistor } = createStore2();
 
 export const App = () => {
   useBackgroundMessager();

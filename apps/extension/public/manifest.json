@@ -12,7 +12,7 @@
   },
   "content_scripts": [
     {
-      "js": ["scripts/content-script.js", "scripts/inpage.js"],
+      "js": ["scripts/content-script.js"],
       "matches": ["<all_urls>"]
     }
   ],
@@ -20,7 +20,8 @@
     "tabs",
     "bookmarks",
     "unlimitedStorage",
-    "scripting"
+    "scripting",
+    "storage"
   ],
   "optional_permissions": [
     "unlimitedStorage"
