@@ -1,7 +1,6 @@
 import { Option } from '../components/dropdown/option.interface';
 
 import { SeedWordsAmountTestIDs } from './seed-words-amount.test-ids';
-//import { TestIDProps } from '../interfaces/test-id.interface'
 
 export type SeedWordsAmount = Option<number>;
 

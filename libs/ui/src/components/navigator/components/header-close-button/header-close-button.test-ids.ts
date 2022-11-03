@@ -1,3 +1,3 @@
 export enum HeaderCloseButtonTestIDs {
-  CloseButton = 'HeaderTitle_CloseButton'
+  CloseButton = 'HeaderTitle/CloseButton'
 }

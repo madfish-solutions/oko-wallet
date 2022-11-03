@@ -11,9 +11,9 @@ interface Props extends TestIDProps, Pick<PressableProps, 'onPress'> {
 
 export const Pressable: FC<Props> = ({ onPress, opacity = true, style, children, testID }) => (
   <PressableBase
-    testID={testID}
     onPress={onPress}
     style={({ pressed }: PressableStateCallbackType) => [opacity && { opacity: pressed ? 0.5 : 1.0 }, style]}
+    testID={testID}
   >
     {children}
   </PressableBase>

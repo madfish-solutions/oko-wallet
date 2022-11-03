@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { View, Pressable } from 'react-native';
 
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { TestIDProps } from '../../../../interfaces/test-id.props';
 import { Row } from '../../../row/row';
 import { Text } from '../../../text/text';
 import { HeaderBackButton } from '../header-back-button/header-back-button';
@@ -10,7 +9,7 @@ import { HeaderCloseButton } from '../header-close-button/header-close-button';
 
 import { styles } from './header-title.styles';
 
-interface Props extends TestIDProps {
+interface Props {
   name: string;
   isBackButton?: boolean;
 }
