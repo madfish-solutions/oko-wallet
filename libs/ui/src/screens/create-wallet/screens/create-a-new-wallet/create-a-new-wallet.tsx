@@ -22,6 +22,7 @@ import { handleCopyToClipboard } from '../../../../utils/copy-to-clipboard.util'
 import { WarningMessageDropdown } from '../../components/warning-message-dropdown/warning-message-dropdown';
 
 import { styles } from './create-a-new-wallet.styles';
+import { CreateANewWalletTestIDs } from './create-a-new-wallet.test-ids';
 
 export const CreateANewWallet: FC = () => {
   const { params: routeParams } = useRoute<RouteProp<ScreensParamList, ScreensEnum.CreateANewWallet>>();
@@ -127,26 +128,49 @@ export const CreateANewWallet: FC = () => {
       isSubmitDisabled={isError}
       scrollViewRef={scrollViewRef}
     >
-      <WarningMessageDropdown checkIsOpenDropdownState={setIsOpenWarningDropdown} style={styles.warning} />
+      <WarningMessageDropdown
+        checkIsOpenDropdownState={setIsOpenWarningDropdown}
+        style={styles.warning}
+        testID={CreateANewWalletTestIDs.WarningMessageDropdown}
+      />
 
       <Row style={styles.wordsAmount}>
         <Text style={styles.amountWordsText}>Mnemonic Length</Text>
 
-        <DropdownSelectedItem title={wordsAmount.value.toString()} onPress={navigateToWordsAmountSelector} />
+        <DropdownSelectedItem
+          title={wordsAmount.value.toString()}
+          onPress={navigateToWordsAmountSelector}
+          testID={CreateANewWalletTestIDs.WordsAmountDropdown}
+        />
       </Row>
 
-      <Mnemonic mnemonic={mnemonic} isShowProtectLayout={isShowProtectLayout} handleHideLayout={handleHideLayout}>
+      <Mnemonic
+        mnemonic={mnemonic}
+        isShowProtectLayout={isShowProtectLayout}
+        handleHideLayout={handleHideLayout}
+        testID={CreateANewWalletTestIDs.HandleHideLayout}
+      >
         <MnemonicActionButton
           onPress={generateNewMnemonic}
           iconName={IconNameEnum.Refresh}
           text="Generate New"
           style={styles.marginRight}
+          testID={CreateANewWalletTestIDs.GenerateNewMnemonic}
         />
-        <MnemonicActionButton onPress={handleCopyMnemonic} iconName={IconNameEnum.Copy} text="Copy" />
+        <MnemonicActionButton
+          onPress={handleCopyMnemonic}
+          iconName={IconNameEnum.Copy}
+          text="Copy"
+          testID={CreateANewWalletTestIDs.CopySeedButton}
+        />
       </Mnemonic>
 
       <Column style={styles.confirmation}>
-        <Pressable onPress={handleToggleCheckbox} style={styles.confirmationWrapper}>
+        <Pressable
+          onPress={handleToggleCheckbox}
+          style={styles.confirmationWrapper}
+          testID={CreateANewWalletTestIDs.SavedMnemonicCheckbox}
+        >
           {isSelectedCheckbox ? (
             <Icon name={IconNameEnum.SelectedSquareCheckbox} iconStyle={styles.checkbox} />
           ) : (

@@ -8,6 +8,8 @@ import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
+import { WordsAmountSelectorTestIDs } from './words-amount-selector.test-ids';
+
 export const WordsAmountSelector: FC = () => {
   const { params: routeParams } = useRoute<RouteProp<ScreensParamList, ScreensEnum.WordsAmountSelector>>();
   const { navigate, goBack, getState } = useNavigation();
@@ -40,6 +42,7 @@ export const WordsAmountSelector: FC = () => {
         options={wordsOptions}
         onSelect={handleSetWordsAmount}
         selectedId={routeParams?.wordsAmount.id}
+        testID={WordsAmountSelectorTestIDs.CancelButton}
       />
     </ModalContainer>
   );

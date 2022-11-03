@@ -1,6 +1,7 @@
 import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React from 'react';
 import { Pressable, View } from 'react-native';
+import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { Button } from '../button/button';
@@ -13,14 +14,14 @@ import { Text } from '../text/text';
 import { styles } from './dropdown.styles';
 import { Option } from './option.interface';
 
-interface Props<OptionType> {
+interface Props<OptionType> extends TestIDProps {
   description?: string;
   onSelect: OnEventFn<Option<OptionType>>;
   selectedId?: number;
   options: Option<OptionType>[];
 }
 
-export const Dropdown = <OptionType,>({ description, selectedId, onSelect, options }: Props<OptionType>) => {
+export const Dropdown = <OptionType,>({ description, selectedId, onSelect, options, testID }: Props<OptionType>) => {
   const { goBack } = useNavigation();
 
   return (
@@ -29,8 +30,8 @@ export const Dropdown = <OptionType,>({ description, selectedId, onSelect, optio
         {isDefined(description) && <Text style={styles.description}>{description}</Text>}
 
         <Column style={styles.wrapper}>
-          {options.map(({ id, title, value }) => (
-            <Pressable key={id} onPress={() => onSelect({ id, title, value })} style={styles.item}>
+          {options.map(({ id, title, value, testID }) => (
+            <Pressable key={id} onPress={() => onSelect({ id, title, value })} style={styles.item} testID={testID}>
               <Text style={styles.title}>{title}</Text>
 
               <Icon
@@ -48,6 +49,7 @@ export const Dropdown = <OptionType,>({ description, selectedId, onSelect, optio
           size={ButtonSizeEnum.Large}
           onPress={goBack}
           style={styles.cancelButton}
+          testID={testID}
         />
       </View>
     </View>
