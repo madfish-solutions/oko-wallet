@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { FlatList, ListRenderItemInfo, Text, View } from 'react-native';
+import { FlatList, ListRenderItemInfo, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { Icon } from '../../components/icon/icon';
@@ -11,6 +11,7 @@ import { ScreenTitle } from '../../components/screen-components/header-container
 import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { SearchPanel } from '../../components/search-panel/search-panel';
+import { Text } from '../../components/text/text';
 import { AccountToken } from '../../components/token/account-token/account-token';
 import { TokenItemThemesEnum } from '../../components/token/token-item/enums';
 import { EMPTY_STRING } from '../../constants/defaults';

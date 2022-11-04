@@ -8,7 +8,6 @@ import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { SECURITY_TIME } from '../constants/defaults';
 import { allMnemonicLengthValue, maxWordsLength, SeedWordsAmount, words } from '../constants/seed-words-amount';
 import { ScreensEnum } from '../enums/sreens.enum';
-import { formatMnemonic } from '../utils/format-mnemonic.util';
 
 import { useNavigation } from './use-navigation.hook';
 
@@ -153,7 +152,10 @@ export const useImportSeedPhrase = (wordsAmountParam: SeedWordsAmount | undefine
 
       return true;
     }
-    if (!validateMnemonic(formatMnemonic(mnemonic.map(word => word.trim()).join(' ')))) {
+
+    const currentMnemonic = mnemonic.map(word => word.trim()).filter(word => isNotEmptyString(word));
+
+    if (!validateMnemonic(currentMnemonic.join(' '))) {
       setError('Wrong combination. Try again.');
 
       return true;
