@@ -10,7 +10,7 @@ interface Props extends TextProps {
 }
 
 export const Text: FC<Props> = ({ children, style, ...restProps }) => (
-  <TextBase style={[styles.color, style]} {...restProps}>
+  <TextBase allowFontScaling={false} style={[styles.color, style]} {...restProps}>
     {children}
   </TextBase>
 );

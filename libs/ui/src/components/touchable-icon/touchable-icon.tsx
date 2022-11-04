@@ -1,13 +1,14 @@
 import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { GestureResponderEvent, TouchableOpacity } from 'react-native';
+import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { colors } from '../../styles/colors';
 import { Icon } from '../icon/icon';
 import { IconProps } from '../icon/icon.interface';
 
-interface Props extends IconProps {
+interface Props extends IconProps, TestIDProps {
   onPress?: OnEventFn<GestureResponderEvent>;
   disabled?: boolean;
   style?: ViewStyleProps;
@@ -22,9 +23,10 @@ export const TouchableIcon: FC<Props> = ({
   height,
   size,
   color,
-  iconStyle
+  iconStyle,
+  testID
 }) => (
-  <TouchableOpacity onPress={onPress} disabled={disabled} style={style}>
+  <TouchableOpacity onPress={onPress} disabled={disabled} style={style} testID={testID}>
     <Icon
       name={name}
       width={width}

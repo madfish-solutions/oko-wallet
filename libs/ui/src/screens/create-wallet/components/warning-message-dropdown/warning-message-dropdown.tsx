@@ -6,15 +6,16 @@ import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
+import { TestIDProps } from '../../../../interfaces/test-id.props';
 
 import { styles } from './warning-message-dropdown.styles';
 
-interface Props {
+interface Props extends TestIDProps {
   checkIsOpenDropdownState?: (arg: boolean) => void;
   style?: ViewStyleProps;
 }
 
-export const WarningMessageDropdown: FC<Props> = ({ checkIsOpenDropdownState, style }) => {
+export const WarningMessageDropdown: FC<Props> = ({ checkIsOpenDropdownState, style, testID }) => {
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const animationController = useRef(new Animated.Value(0)).current;
 
@@ -37,7 +38,7 @@ export const WarningMessageDropdown: FC<Props> = ({ checkIsOpenDropdownState, st
   });
 
   return (
-    <Pressable onPress={toggleContent}>
+    <Pressable onPress={toggleContent} testID={testID}>
       <Animated.View style={[styles.root, style]}>
         <Row style={styles.header}>
           <Row>

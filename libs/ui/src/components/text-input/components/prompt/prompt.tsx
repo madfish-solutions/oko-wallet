@@ -1,11 +1,12 @@
 import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
-import { GestureResponderEvent, Text } from 'react-native';
+import { GestureResponderEvent } from 'react-native';
 
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
 import { getCustomSize } from '../../../../styles/format-size';
 import { IconNameEnum } from '../../../icon/icon-name.enum';
 import { Row } from '../../../row/row';
+import { Text } from '../../../text/text';
 import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
 
 import { styles } from './prompt.styles';

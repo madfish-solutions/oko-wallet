@@ -32,7 +32,8 @@ export const styles = StyleSheet.create({
   imageSection: {
     position: 'relative',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    width: '100%'
   },
   layoutIcon: {
     alignItems: 'center',

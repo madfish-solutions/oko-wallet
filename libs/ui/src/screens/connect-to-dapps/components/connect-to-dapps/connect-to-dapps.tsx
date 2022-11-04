@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, View } from 'react-native';
 
 import { Input } from '../../../../components/input/input';
+import { Text } from '../../../../components/text/text';
 import { useConnectToDapp } from '../../../../hooks/connect-to-dapp.hook';
 
 /** @deprecated */

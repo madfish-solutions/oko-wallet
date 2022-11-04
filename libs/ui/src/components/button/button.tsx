@@ -2,13 +2,14 @@ import React, { FC } from 'react';
 import { Pressable, PressableProps, View } from 'react-native';
 
 import { ViewStyleProps, TextStyleProps } from '../../interfaces/style.interface';
+import { TestIDProps } from '../../interfaces/test-id.props';
 import { Text } from '../text/text';
 
 import { styles } from './button.styles';
 import { sizeClasses, themeClasses } from './constants';
 import { ButtonSizeEnum, ButtonThemesEnum } from './enums';
 
-interface Props extends PressableProps {
+interface Props extends PressableProps, TestIDProps {
   title: string;
   theme?: ButtonThemesEnum;
   size?: ButtonSizeEnum;
@@ -24,12 +25,14 @@ export const Button: FC<Props> = ({
   style,
   disabled = false,
   styleText,
+  testID,
   ...restProps
 }) => (
   <Pressable
     {...restProps}
     disabled={disabled}
     style={[styles.root, themeClasses[theme].button, sizeClasses[size], disabled && styles.disabledButton, style]}
+    testID={testID}
   >
     <View style={styles.wrapper}>
       <Text style={[styles.text, themeClasses[theme].text, disabled && styles.disabledText, styleText]}>{title}</Text>

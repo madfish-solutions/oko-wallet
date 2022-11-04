@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { IconWithBorderEnum } from '../../../components/icon-with-border/enums';
 import { IconWithBorder } from '../../../components/icon-with-border/icon-with-border';
 import { Row } from '../../../components/row/row';
+import { Text } from '../../../components/text/text';
 import { ViewStyleProps } from '../../../interfaces/style.interface';
 import { ModalHeaderInterface } from '../../interfaces/modal-header.interface';
 

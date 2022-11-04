@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { ButtonWithIcon } from '../../../components/button-with-icon/button-with-icon';
@@ -10,6 +9,7 @@ import { Dynamics } from '../../../components/dynamics/dynamics';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { RobotIcon } from '../../../components/robot-icon/robot-icon';
 import { Row } from '../../../components/row/row';
+import { Text } from '../../../components/text/text';
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useFiatTotalBalance } from '../../../hooks/use-fiat-total-balance.hook';
 import { useNavigation } from '../../../hooks/use-navigation.hook';

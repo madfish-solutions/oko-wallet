@@ -4,7 +4,7 @@ import { mnemonicToSeedSync } from 'bip39';
 import { Buffer } from 'buffer';
 import { derivePath } from 'ed25519-hd-key';
 
-const getKeys = (privateKey: string) =>
+export const getKeys = (privateKey: string) =>
   InMemorySigner.fromSecretKey(privateKey).then(signer =>
     Promise.all([signer.publicKey(), signer.publicKeyHash(), signer.secretKey()])
   );
