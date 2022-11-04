@@ -31,11 +31,18 @@ export const CreateANewWallet: FC = () => {
   const wordsState = routeParams?.wordsAmount ?? words[0];
 
   const generateMnemonic = () => {
-    if (wordsState.value === MnemonicLengthEnum.Twelve) {
-      return generateMnemonicLib(128).split(' ');
+    switch (wordsState.value) {
+      case MnemonicLengthEnum.Twelve:
+        return generateMnemonicLib(128).split(' ');
+      case MnemonicLengthEnum.Fifteen:
+        return generateMnemonicLib(160).split(' ');
+      case MnemonicLengthEnum.Eighteen:
+        return generateMnemonicLib(192).split(' ');
+      case MnemonicLengthEnum.TwentyOne:
+        return generateMnemonicLib(224).split(' ');
+      default:
+        return generateMnemonicLib(256).split(' ');
     }
-
-    return generateMnemonicLib(256).split(' ');
   };
 
   const [wordsAmount, setWordsAmount] = useState(wordsState);
@@ -85,8 +92,7 @@ export const CreateANewWallet: FC = () => {
     navigate(ScreensEnum.VerifyMnemonic, { mnemonic });
   };
 
-  const navigateToWordsAmountSelector = () =>
-    navigate(ScreensEnum.WordsAmountSelector, { wordsAmount, createANewWallet: true });
+  const navigateToWordsAmountSelector = () => navigate(ScreensEnum.WordsAmountSelector, { wordsAmount });
 
   const generateNewMnemonic = () => {
     setMnemonic(generateMnemonic);
