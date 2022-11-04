@@ -21,6 +21,7 @@ import {
   useSelectedNetworkSelector,
   useSelectedNetworkTypeSelector
 } from '../../../../store/wallet/wallet.selectors';
+import { formatUnits, parseUnits } from '../../../../utils/units.utils';
 import { SelectedAccount } from '../../../send/components/selected-account/selected-account';
 import { OnSend } from '../../types';
 
@@ -38,7 +39,7 @@ interface Props {
   receiverPublicKeyHash: string;
   amount: string;
   symbol: string;
-  transactionFee: number;
+  initialTransactionFee: number;
   storageFee?: number;
 }
 
@@ -54,7 +55,7 @@ export const Confirmation: FC<Props> = ({
   receiverPublicKeyHash,
   symbol,
   amount,
-  transactionFee,
+  initialTransactionFee,
   storageFee = 0
 }) => {
   const { goBack } = useNavigation();
@@ -84,13 +85,19 @@ export const Confirmation: FC<Props> = ({
   const ownGasFee = watch('ownGasFee');
   const ownsStorageFee = watch('ownStorageFee');
 
-  const correctedTransactionFee = isOwnSpeedSelected ? Number(ownGasFee) : transactionFee * Number(speed.value);
+  const initialTransactionFeeWithDecimals = formatUnits(initialTransactionFee, gasTokenDecimals).toNumber();
+
+  const correctedTransactionFee = isOwnSpeedSelected
+    ? Number(ownGasFee)
+    : formatUnits(initialTransactionFee * Number(speed.value), gasTokenDecimals).toNumber();
   const correctedStorageFee = isOwnSpeedSelected ? Number(ownsStorageFee) : storageFee;
 
   const isTezosNetwork = networkType === NetworkTypeEnum.Tezos;
   const isEvmNetwork = networkType === NetworkTypeEnum.EVM;
 
-  const progressStatus = isOwnSpeedSelected ? getProgressStatus(transactionFee, correctedTransactionFee) : speed.title;
+  const progressStatus = isOwnSpeedSelected
+    ? getProgressStatus(initialTransactionFeeWithDecimals, Number(ownGasFee))
+    : speed.title;
 
   useEffect(() => {
     if (isOwnSpeedSelected) {
@@ -107,9 +114,13 @@ export const Confirmation: FC<Props> = ({
 
   const onConfirmPress = () => {
     if (isTezosNetwork) {
-      onSend({ storageFee: correctedStorageFee, gasFee: correctedTransactionFee });
+      const gasFeeToSend = parseUnits(correctedTransactionFee, gasTokenDecimals).toNumber();
+
+      onSend({ storageFee: correctedStorageFee, gasFee: gasFeeToSend });
     } else {
-      const gasPriceCoefficient = isOwnSpeedSelected ? Number(ownGasFee) / transactionFee : Number(speed.value);
+      const gasPriceCoefficient = isOwnSpeedSelected
+        ? Number(ownGasFee) / initialTransactionFeeWithDecimals
+        : Number(speed.value);
 
       onSend(gasPriceCoefficient);
     }
@@ -194,7 +205,7 @@ export const Confirmation: FC<Props> = ({
               render={({ field }) => (
                 <TextInput
                   field={field}
-                  placeholder={`${transactionFee ?? 0}`}
+                  placeholder={`${initialTransactionFeeWithDecimals ?? 0}`}
                   keyboardType="numeric"
                   error={errors?.ownGasFee?.message}
                   decimals={gasTokenDecimals}

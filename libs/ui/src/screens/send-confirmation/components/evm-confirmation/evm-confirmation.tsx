@@ -9,7 +9,6 @@ import {
   useSelectedNetworkSelector
 } from '../../../../store/wallet/wallet.selectors';
 import { getAssetType } from '../../../../utils/get-asset-type.util';
-import { formatUnits } from '../../../../utils/units.utils';
 import { useTransactionHook } from '../../hooks/use-transaction.hook';
 import { EvmTransferParams, OnSend } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
@@ -40,12 +39,9 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPu
     assetType
   });
 
-  const {
-    rpcUrl,
-    gasTokenMetadata: { decimals: gasTokenDecimals }
-  } = network;
+  const { rpcUrl } = network;
   const transactionFee = isDefined(estimations?.gasPrice)
-    ? formatUnits(Number(estimations?.gasPrice) * Number(estimations?.gasLimit), gasTokenDecimals).toNumber()
+    ? Number(estimations?.gasPrice) * Number(estimations?.gasLimit)
     : 0;
 
   const onSend: OnSend = useCallback(
@@ -85,7 +81,7 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPu
       receiverPublicKeyHash={receiverPublicKeyHash}
       amount={value}
       symbol={symbol}
-      transactionFee={transactionFee}
+      initialTransactionFee={transactionFee}
     />
   );
 };

@@ -44,17 +44,15 @@ export const TezosConfirmation: FC<Props> = ({ transferParams: { transferParams,
 
   const storageFee =
     storageLimitSum && formatUnits(storageLimitSum * minimalFeePerStorageByteMutez, decimals).toNumber();
-  const formattedFee = gasFeeSum && formatUnits(gasFeeSum, decimals).toNumber();
 
   const onSend: OnSend = useCallback(
     arg => {
       setIsTransactionLoading(true);
 
       const { storageFee, gasFee } = arg as OnSendTezosArg;
-      const gasFeeSum = parseUnits(gasFee, decimals).toNumber();
 
       // Tezos Taquito will add revealGasGee by himself
-      const feeToSend = gasFeeSum - revealGasFee;
+      const feeToSend = gasFee - revealGasFee;
       const transactionParams = transferParamsWithFees.map((transferParam, index) => {
         const isLastOpParam = index === transferParams.length - 1;
 
@@ -98,7 +96,7 @@ export const TezosConfirmation: FC<Props> = ({ transferParams: { transferParams,
       receiverPublicKeyHash={to}
       amount={amount}
       symbol={symbol}
-      transactionFee={formattedFee}
+      initialTransactionFee={gasFeeSum}
     />
   );
 };

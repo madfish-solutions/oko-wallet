@@ -25,12 +25,11 @@ export const styles = StyleSheet.create({
   operationContainer: {
     backgroundColor: colors.bgGrey4,
     borderRadius: getCustomSize(),
-    paddingTop: getCustomSize(1.625),
-    paddingHorizontal: getCustomSize(1.5),
-    paddingBottom: getCustomSize(1.5)
+    paddingVertical: getCustomSize(1.5),
+    paddingHorizontal: getCustomSize(1.5)
   },
   sendBlock: {
-    marginBottom: getCustomSize(1.375),
+    marginBottom: getCustomSize(1.125),
     justifyContent: 'space-between'
   },
   operationText: {
