@@ -25,6 +25,7 @@ export const ResetWalletConfirm: FC = () => {
       cancelTitle="No"
       onSubmitPress={onReset}
       onCancelPress={goBack}
+      isBackButton={false}
       style={styles.root}
     >
       <View style={styles.iconContainer}>
