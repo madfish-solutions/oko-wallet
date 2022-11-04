@@ -191,6 +191,11 @@ export const Navigator: FC = () => {
                 options={{ title: 'Amount Words' }}
                 component={WordsAmountSelector}
               />
+              <Stack.Screen
+                name={ScreensEnum.SettingsResetWalletConfirm}
+                options={{ title: 'Reset Wallet' }}
+                component={SettingsResetWalletConfirm}
+              />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptionsWithBackButton}>
@@ -239,11 +244,6 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.SettingsLockTimeSelector}
                 options={{ title: 'Lock time' }}
                 component={SettingsLockTimeSelector}
-              />
-              <Stack.Screen
-                name={ScreensEnum.SettingsResetWalletConfirm}
-                options={{ title: 'Reset Wallet' }}
-                component={SettingsResetWalletConfirm}
               />
             </Stack.Group>
           </>
