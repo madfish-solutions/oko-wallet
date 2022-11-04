@@ -7,6 +7,7 @@ import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
+import { TokenAmount } from '../../../components/token-amount/token-amount';
 import { useTokenInfo } from '../../../hooks/use-activity.hook';
 import { ActivityData, TransactionLabelEnum } from '../../../interfaces/activity.interface';
 import { useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
@@ -63,9 +64,11 @@ export const ActivityList: FC<Props> = ({
               </TouchableOpacity>
             </Row>
             <Row style={styles.amountContainer}>
-              <Text style={styles.amount}>
-                {Number(formatBalances(amount))} {symbol ? symbol.toUpperCase() : tokenSymbol.toUpperCase()}
-              </Text>
+              <TokenAmount
+                value={formatBalances(amount)}
+                symbol={symbol ? symbol.toUpperCase() : tokenSymbol.toUpperCase()}
+                style={styles.amount}
+              />
             </Row>
           </Column>
         </Row>
