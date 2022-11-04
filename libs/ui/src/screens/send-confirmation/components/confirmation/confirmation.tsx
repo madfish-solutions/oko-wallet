@@ -72,7 +72,8 @@ export const Confirmation: FC<Props> = ({
     watch,
     formState: { errors },
     handleSubmit,
-    clearErrors
+    clearErrors,
+    setValue
   } = useForm({
     mode: 'onChange',
     defaultValues
@@ -106,6 +107,14 @@ export const Confirmation: FC<Props> = ({
       }, 0);
     }
   }, [isOwnSpeedSelected]);
+
+  useEffect(() => {
+    setValue('ownGasFee', formatUnits(initialTransactionFee, gasTokenDecimals).toString());
+
+    if (isTezosNetwork) {
+      setValue('ownStorageFee', storageFee.toString());
+    }
+  }, [initialTransactionFee, storageFee, isTezosNetwork, gasTokenDecimals]);
 
   const handleSpeedChange = (speedOption: SpeedOption) => {
     setSpeed(speedOption);
