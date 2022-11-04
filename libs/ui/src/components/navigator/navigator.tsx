@@ -191,6 +191,11 @@ export const Navigator: FC = () => {
                 component={WordsAmountSelector}
               />
               <Stack.Screen
+                name={ScreensEnum.SettingsResetWalletConfirm}
+                options={{ title: 'Reset Wallet' }}
+                component={SettingsResetWalletConfirm}
+              />
+              <Stack.Screen
                 name={ScreensEnum.SendConfirmation}
                 options={{ title: 'Confirm Operation' }}
                 component={SendConfirmation}
@@ -243,11 +248,6 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.SettingsLockTimeSelector}
                 options={{ title: 'Lock time' }}
                 component={SettingsLockTimeSelector}
-              />
-              <Stack.Screen
-                name={ScreensEnum.SettingsResetWalletConfirm}
-                options={{ title: 'Reset Wallet' }}
-                component={SettingsResetWalletConfirm}
               />
             </Stack.Group>
           </>
