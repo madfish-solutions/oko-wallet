@@ -1,4 +1,5 @@
 import { NavigationContainer, NavigationContainerRef, DarkTheme } from '@react-navigation/native';
+import { isDefined } from '@rnw-community/shared';
 import React, { FC, createRef, useEffect } from 'react';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
@@ -54,7 +55,7 @@ import { Tokens } from '../../screens/tokens/tokens';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
-import { checkActiveApplicationSession } from '../../utils/check-active-application-session.util';
+import { isPopupOpened } from '../../utils/check-active-application-session.util';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 import { setStoredValue } from '../../utils/store.util';
 import { substring } from '../../utils/substring.util';
@@ -75,8 +76,6 @@ export const Navigator: FC = () => {
   useActiveTokenList();
   useTokensPriceInfo();
 
-  const { isPopupOpened } = checkActiveApplicationSession();
-
   useEffect(() => {
     // TODO: Add check for ScreenEnum.AlmostDone screen later
     const isCreateWalletScreensOpened =
@@ -91,6 +90,14 @@ export const Navigator: FC = () => {
     }
   }, [initialState, isReady]);
 
+  useEffect(() => {
+    if (isDefined(globalNavigationRef.current) && isAuthorised) {
+      if (isLocked) {
+        globalNavigationRef.current.navigate(ScreensEnum.Unlock);
+      }
+    }
+  }, [isLocked, globalNavigationRef.current, isAuthorised]);
+
   if (!isReady) {
     return <SplashScreen />;
   }
@@ -103,21 +110,7 @@ export const Navigator: FC = () => {
       theme={DarkTheme}
     >
       <Stack.Navigator>
-        {isLocked && isAuthorised && (
-          <>
-            <Stack.Group screenOptions={{ headerShown: false }}>
-              <Stack.Screen name={ScreensEnum.Unlock} component={UnlockApp} />
-            </Stack.Group>
-            <Stack.Group screenOptions={modalScreenOptions}>
-              <Stack.Screen
-                name={ScreensEnum.SettingsResetWalletConfirm}
-                options={{ title: 'Reset Wallet' }}
-                component={SettingsResetWalletConfirm}
-              />
-            </Stack.Group>
-          </>
-        )}
-        {isAuthorised && !isLocked ? (
+        {isAuthorised ? (
           <>
             <Stack.Group screenOptions={{ headerShown: false }}>
               <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
@@ -139,6 +132,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.Activity} component={Activity} />
               <Stack.Screen name={ScreensEnum.ChangePassword} component={ChangePassword} />
               <Stack.Screen name={ScreensEnum.AuthorizedDapps} component={AuthorizedDapps} />
+              <Stack.Screen name={ScreensEnum.Unlock} component={UnlockApp} />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptions}>
@@ -197,6 +191,11 @@ export const Navigator: FC = () => {
                 options={{ title: 'Amount Words' }}
                 component={WordsAmountSelector}
               />
+              {/* <Stack.Screen
+                name={ScreensEnum.SettingsResetWalletConfirm}
+                options={{ title: 'Reset Wallet' }}
+                component={SettingsResetWalletConfirm}
+              /> */}
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptionsWithBackButton}>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import SafeEventEmitter from '@metamask/safe-event-emitter';
 import { ethErrors, EthereumRpcError } from 'eth-rpc-errors';
 import dequal from 'fast-deep-equal';

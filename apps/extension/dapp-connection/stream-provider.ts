@@ -125,6 +125,7 @@ export abstract class AbstractStreamProvider extends BaseProvider {
    */
   private _handleStreamDisconnect(streamName: string, error: Error) {
     let warningMsg = `MetaMask: Lost connection to "${streamName}".`;
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (error?.stack) {
       warningMsg += `\n${error.stack}`;
     }
@@ -134,6 +135,7 @@ export abstract class AbstractStreamProvider extends BaseProvider {
       this.emit('error', warningMsg);
     }
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     this._handleDisconnect(false, error ? error.message : undefined);
   }
 

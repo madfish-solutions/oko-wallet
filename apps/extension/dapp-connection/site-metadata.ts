@@ -70,6 +70,7 @@ async function getSiteIcon(windowObject: typeof window): Promise<string | null> 
 
   const icons: NodeListOf<HTMLLinkElement> = document.querySelectorAll('head > link[rel~="icon"]');
   for (const icon of icons) {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (icon && (await imgExists(icon.href))) {
       return icon.href;
     }

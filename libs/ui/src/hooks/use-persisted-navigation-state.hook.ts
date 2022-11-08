@@ -12,20 +12,20 @@ export const usePersistedNavigationState = () => {
   const [initialState, setInitialState] = useState<InitialState>();
 
   useEffect(() => {
-    const restoreState = async () => {
-      try {
-        const savedStateString: InitialState = await getStoredValue(PERSISTENCE_KEY);
-        const state = isDefined(savedStateString) ? savedStateString : undefined;
-        if (state !== undefined) {
-          setInitialState(state);
-        }
-      } finally {
+    if (!isReady) {
+      if (isWeb) {
+        getStoredValue<InitialState>(PERSISTENCE_KEY)
+          .then(savedStateString => {
+            const state = isDefined(savedStateString) ? savedStateString : undefined;
+
+            if (state !== undefined) {
+              setInitialState(state);
+            }
+          })
+          .finally(() => setIsReady(true));
+      } else {
         setIsReady(true);
       }
-    };
-
-    if (!isReady && isWeb) {
-      restoreState();
     }
   }, [isReady]);
 

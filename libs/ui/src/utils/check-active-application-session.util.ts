@@ -1,8 +1,2 @@
-export const checkActiveApplicationSession = () => {
-  const { pathname } = window.location;
-
-  const isPopupOpened = pathname.includes('popup.html');
-  const isMaximiseScreenOpened = pathname.includes('fullpage.html');
-
-  return { isPopupOpened, isMaximiseScreenOpened };
-};
+export const isPopupOpened = window.location.pathname.includes('popup.html');
+export const isMaximiseScreen = window.location.pathname.includes('fullpage.html');

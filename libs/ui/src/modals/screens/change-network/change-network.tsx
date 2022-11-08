@@ -1,6 +1,8 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 import { ScrollView, Pressable, Linking, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { browser } from 'webextension-polyfill-ts';
 
 import { AllowsBlock } from '../../../components/allows-block/allows-block';
 import { Button } from '../../../components/button/button';
@@ -12,6 +14,7 @@ import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { AllowsRules } from '../../../interfaces/dapp-connection.interface';
+import { changeNetworkAction } from '../../../store/wallet/wallet.actions';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { eraseProtocol } from '../../../utils/string.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
@@ -26,12 +29,32 @@ const changeNetworkRules: AllowsRules[] = [
 
 export const ChangeNetwork: FC = () => {
   const { navigate } = useNavigation();
+  const dispatch = useDispatch();
   const {
-    params: { dappName, chainId }
+    params: { dappName, chainId, id }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.ChangeNetworkConfirmation>>();
 
   const navigateToWalletScreen = () => navigate(ScreensEnum.Wallet);
   const copy = () => handleCopyToClipboard(dappName);
+  const responseToDapp = {
+    data: {
+      data: { id: Number(id), jsonrpc: '2.0', result: null },
+      name: 'metamask-provider'
+    },
+    target: 'metamask-inpage'
+  };
+
+  console.log(responseToDapp, 'response to dapp');
+  const acceptChangeNetwork = () => {
+    dispatch(changeNetworkAction(chainId.substring(2)));
+    browser.tabs.query({ active: true }).then(tabs => {
+      if (tabs[0].id !== undefined) {
+        browser.tabs.sendMessage(tabs[0].id, responseToDapp);
+
+        setTimeout(() => window.close(), 1000);
+      }
+    });
+  };
 
   return (
     <ModalContainer screenTitle="Confirm change network">
@@ -74,7 +97,7 @@ export const ChangeNetwork: FC = () => {
       </ScrollView>
       <Row style={styles.buttonPanel}>
         <Button onPress={navigateToWalletScreen} theme={ButtonThemesEnum.Primary} title="Decline" />
-        <Button theme={ButtonThemesEnum.Secondary} title="Confirm" />
+        <Button theme={ButtonThemesEnum.Secondary} title="Confirm" onPress={acceptChangeNetwork} />
       </Row>
     </ModalContainer>
   );

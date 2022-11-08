@@ -3,7 +3,8 @@ import { StyleSheet } from 'react-native';
 import { extensionHeight, maximiseViewStyles } from '../../components/navigator/utils/maximise-view-options';
 import { colors } from '../../styles/colors';
 import { EXTENSION_FULL_SIZE, getCustomSize } from '../../styles/format-size';
-import { isMaximiseScreen, isMobile } from '../../utils/platform.utils';
+import { isMaximiseScreen } from '../../utils/check-active-application-session.util';
+import { isMobile } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {

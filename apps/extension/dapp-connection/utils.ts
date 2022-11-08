@@ -60,7 +60,9 @@ function createErrorMiddleware(log: ConsoleLike): JsonRpcMiddleware<unknown, unk
 export const getRpcPromiseCallback =
   (resolve: (value?: any) => void, reject: (error?: Error) => void, unwrapResult = true) =>
   (error: Error, response: PendingJsonRpcResponse<unknown>): void => {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (error || response.error) {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       reject(error || response.error);
     } else {
       !unwrapResult || Array.isArray(response) ? resolve(response) : resolve(response.result);

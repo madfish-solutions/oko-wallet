@@ -2,8 +2,9 @@ import { OnEventFn } from '@rnw-community/shared';
 import React, { FC, useEffect } from 'react';
 import { GestureResponderEvent, TouchableOpacity } from 'react-native';
 
+import { isMaximiseScreen } from '../../utils/check-active-application-session.util';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
-import { isMaximiseScreen, isMobile } from '../../utils/platform.utils';
+import { isMobile } from '../../utils/platform.utils';
 import { Icon } from '../icon/icon';
 import { IconNameEnum } from '../icon/icon-name.enum';
 import { Text } from '../text/text';

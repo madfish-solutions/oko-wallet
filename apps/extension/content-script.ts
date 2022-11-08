@@ -5,9 +5,9 @@ import { runtime } from 'webextension-polyfill';
 
 const myPort = runtime.connect({ name: 'port-from-cs' });
 
-const prepareResponse = (result: unknown, id: number, method: string) => ({
+const prepareResponse = (result: unknown, id: number) => ({
   data: {
-    data: { id: Number(id), jsonrpc: '2.0', method, result },
+    data: { id: Number(id), jsonrpc: '2.0', result },
     name: 'metamask-provider'
   },
   target: 'metamask-inpage'
@@ -23,44 +23,55 @@ const pageStream = new WindowPostMessageStream({
 });
 
 myPort.onMessage.addListener(async msg => {
-  if (msg.target === 'requestAccounts') {
-    const request = prepareResponse(msg.result, msg.id, 'eth_requestAccounts');
-
-    window.postMessage(request, '*');
-
-    return Promise.resolve();
+  let request;
+  if (msg.target === 'request') {
+    request = prepareResponse([msg.result.address], msg.id);
+    console.log('MY PORT ON MESSAGE', request);
   }
+  if (msg.target === 'providerState') {
+    const result = { accounts: [msg.result.address], chainId: '0x1', isUnlocked: true, networkVersion: '56' };
+    request = prepareResponse(result, msg.id);
+  }
+  if (msg.target === 'chainId') {
+    console.log('chain ID IN CONTENT', msg.result.chainId);
+    request = prepareResponse(msg.result.chainId ?? '0x2019', msg.id);
+  }
+  window.postMessage(request, '*');
+
+  return Promise.resolve();
 });
 
 window.addEventListener('message', async evt => {
-  console.log('content-script', evt.data.data.data?.id, evt);
-  if (evt.data.target === 'metamask-contentscript' && evt.data?.data?.data?.method === 'eth_requestAccounts') {
+  console.log('content', evt.data);
+  if (evt.data?.target === 'metamask-contentscript') {
+    console.log('sended from cs script to request acc', evt.data?.data?.data);
     myPort.postMessage({ data: evt.data, origin: evt.origin });
 
     return Promise.resolve();
   }
-  if (evt.data.target === 'metamask-contentscript' && evt.data?.data?.data?.method === 'wallet_switchEthereumChain') {
+  if (evt.data?.target === 'metamask-contentscript' && evt.data?.data?.data?.method === 'wallet_switchEthereumChain') {
     myPort.postMessage({ data: evt.data, origin: evt.origin });
 
     return Promise.resolve();
   }
 
-  if (evt.data.target === 'metamask-contentscript' && evt.data?.data?.data?.method === 'eth_chainId') {
-    const ethResponse = {
-      data: {
-        data: { id: evt.data?.data?.data?.id, jsonrpc: '2.0', method: 'eth_chainId', result: '0x2019' },
-        name: 'metamask-provider'
-      },
-      target: 'metamask-inpage'
-    };
+  // if (evt.data?.target === 'metamask-contentscript' && evt.data?.data?.data?.method === 'eth_chainId') {
+  //   const ethResponse = {
+  //     data: {
+  //       data: { id: evt.data?.data?.data?.id, jsonrpc: '2.0', method: 'eth_chainId', result: '0x2019' },
+  //       name: 'metamask-provider'
+  //     },
+  //     target: 'metamask-inpage'
+  //   };
 
-    window.postMessage(ethResponse, '*');
+  //   window.postMessage(ethResponse, '*');
 
-    return Promise.resolve();
-  }
+  //   return Promise.resolve();
+  // }
 });
 
-runtime.onMessage.addListener(async (request: any) => {
+runtime.onMessage.addListener(async (request: unknown) => {
+  console.log('RUNTIME ONMESSAGE', request);
   window.postMessage(request, '*');
 
   return Promise.resolve();

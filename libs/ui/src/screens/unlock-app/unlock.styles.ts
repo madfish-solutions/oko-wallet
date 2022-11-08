@@ -4,7 +4,8 @@ import { extensionHeight, maximiseViewStyles } from '../../components/navigator/
 import { colors } from '../../styles/colors';
 import { EXTENSION_FULL_SIZE, getCustomSize } from '../../styles/format-size';
 import { typography } from '../../styles/typography';
-import { isMaximiseScreen, isMobile } from '../../utils/platform.utils';
+import { isMaximiseScreen } from '../../utils/check-active-application-session.util';
+import { isMobile } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {

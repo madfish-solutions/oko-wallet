@@ -11,8 +11,9 @@ import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useShelter } from '../../hooks/use-shelter.hook';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
+import { isMaximiseScreen } from '../../utils/check-active-application-session.util';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
-import { isMaximiseScreen, isMobile } from '../../utils/platform.utils';
+import { isMobile } from '../../utils/platform.utils';
 import { MadFishLogo } from '../settings/components/mad-fish-logo/mad-fish-logo';
 
 import { styles } from './initial.styles';

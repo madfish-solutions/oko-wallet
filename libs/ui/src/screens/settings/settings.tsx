@@ -20,8 +20,9 @@ import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useSelectedAccountPublicKeyHashSelector } from '../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../styles/format-size';
+import { isMaximiseScreen } from '../../utils/check-active-application-session.util';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
-import { isIOS, isMaximiseScreen, isWeb } from '../../utils/platform.utils';
+import { isIOS, isWeb } from '../../utils/platform.utils';
 
 import EasterEgg from './assets/easter-egg.svg';
 import { ItemContainer } from './components/item-container/item-container';

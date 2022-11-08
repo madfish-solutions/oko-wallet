@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { ethErrors } from 'eth-rpc-errors';
 import { JsonRpcRequest, JsonRpcResponse, PendingJsonRpcResponse } from 'json-rpc-engine';
 import type { Duplex } from 'stream';

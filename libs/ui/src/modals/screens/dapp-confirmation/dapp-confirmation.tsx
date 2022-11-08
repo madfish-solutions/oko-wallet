@@ -18,8 +18,8 @@ import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { AllowsRules } from '../../../interfaces/dapp-connection.interface';
-import { updateDappInfo } from '../../../store/background-script/dapps.actions';
-import { setConfirmedDappAction } from '../../../store/wallet/wallet.actions';
+import { updateDappInfo } from '../../../store/dapps/dapps.actions';
+import { useAllDapps } from '../../../store/dapps/dapps.selectors';
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedAccountSelector,
@@ -35,7 +35,7 @@ import { ModalContainer } from '../../components/modal-container/modal-container
 import { DappImage } from './components/dapp-image';
 import { styles } from './dapp-confirmation.styles';
 
-const CLOSE_DELAY = 100000;
+const CLOSE_DELAY = 50000;
 
 interface MessageToDapp {
   data: unknown;
@@ -50,6 +50,7 @@ const rules: AllowsRules[] = [
 
 export const DappConfirmation: FC = () => {
   const dispatch = useDispatch();
+  const dapps = useAllDapps();
   const selectedAddress = useSelectedAccountPublicKeyHashSelector();
   const { chainId } = useSelectedNetworkSelector();
   const { name } = useSelectedAccountSelector();
@@ -71,12 +72,10 @@ export const DappConfirmation: FC = () => {
     browser.tabs.query({ active: true }).then(tabs => {
       if (tabs[0].id !== undefined) {
         browser.tabs.sendMessage(tabs[0].id, responseToDapp);
+        dispatch(updateDappInfo({ name: dappName, chainId: Number(chainId).toString(16), address: selectedAddress }));
         setTimeout(() => {
           window.close();
         }, CLOSE_DELAY);
-        // should delete later, after refactor "authorized dapps" page
-        dispatch(setConfirmedDappAction({ dappName, id }));
-        dispatch(updateDappInfo({ name: dappName, logoUrl: '', chainId, address: selectedAddress }));
       }
     });
   };
@@ -106,13 +105,16 @@ export const DappConfirmation: FC = () => {
             </Row>
           </Row>
           <View style={styles.divider} />
+          <View>
+            <Text>{JSON.stringify(dapps)}</Text>
+          </View>
           <Text style={[styles.smallText, styles.from]}>From</Text>
           <View style={styles.accountSelector}>
             <Row style={styles.selectorRow}>
               <Row>
                 <TouchableOpacity onPress={navigateToAccountsSelector} style={styles.button}>
                   <IconWithBorder>
-                    <RobotIcon seed={publicKeyHash} />
+                    <RobotIcon seed={selectedAddress} />
                   </IconWithBorder>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={navigateToAccountsSelector}>
@@ -132,7 +134,7 @@ export const DappConfirmation: FC = () => {
                     <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />
                   </Row>
                 </Column>
-                <CopyText style={styles.address} text={publicKeyHash} isShortize />
+                <CopyText style={styles.address} text={selectedAddress} isShortize />
               </Row>
             </Row>
           </View>

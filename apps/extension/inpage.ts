@@ -2,7 +2,6 @@
 // and that we dont affect the app with our namespace
 // mostly a fix for web3's BigNumber if AMD's "define" is defined...
 
-/* eslint-disable import/first */
 import { WindowPostMessageStream } from '@metamask/post-message-stream';
 
 import { initializeProvider } from './dapp-connection/initialize-provider';

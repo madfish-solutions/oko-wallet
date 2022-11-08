@@ -30,7 +30,7 @@ const WebStorage: Storage = {
   removeItem: key => browser.storage.local.remove(key)
 };
 
-export const createStore = <S, A extends Action = AnyAction>({
+export const createStore = <S extends object, A extends Action = AnyAction>({
   reducers,
   epics
 }: {
@@ -39,7 +39,6 @@ export const createStore = <S, A extends Action = AnyAction>({
 }) => {
   const epicMiddleware = createEpicMiddleware();
   const middlewares: Array<Middleware<string, S>> = addFlipperDebugger<S>([epicMiddleware]);
-
   const persistConfig: PersistConfig<S> = {
     key: 'root',
     version: 1,

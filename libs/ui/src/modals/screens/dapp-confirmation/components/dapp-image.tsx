@@ -8,7 +8,7 @@ import { getCustomSize } from '../../../../styles/format-size';
 
 import { styles } from './dapp-image.styles';
 
-type DappImageSizeEnum = Exclude<ButtonSizeEnum, ButtonSizeEnum.Fluid | ButtonSizeEnum.Medium>;
+type DappImageSizeEnum = Exclude<ButtonSizeEnum, ButtonSizeEnum.Fluid | ButtonSizeEnum.Medium | ButtonSizeEnum.Auto>;
 interface Props {
   imageUri?: string;
   size?: DappImageSizeEnum;

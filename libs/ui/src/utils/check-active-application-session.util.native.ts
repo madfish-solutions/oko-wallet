@@ -1,6 +1,6 @@
 export const checkActiveApplicationSession = () => {
   const isPopupOpened = false;
-  const isMaximiseScreenOpened = false;
+  const isMaximiseScreen = false;
 
-  return { isPopupOpened, isMaximiseScreenOpened };
+  return { isPopupOpened, isMaximiseScreen };
 };

@@ -3,7 +3,8 @@ import { StyleSheet } from 'react-native';
 import { maximiseViewStyles } from '../../../components/navigator/utils/maximise-view-options';
 import { colors } from '../../../styles/colors';
 import { getCustomSize } from '../../../styles/format-size';
-import { isWeb, isMobile, isMaximiseScreen } from '../../../utils/platform.utils';
+import { isMaximiseScreen } from '../../../utils/check-active-application-session.util';
+import { isWeb, isMobile } from '../../../utils/platform.utils';
 
 const childrenHeight = `calc(100vh - ${getCustomSize(10)}px)`;
 const modalHeaderTitleHeight = getCustomSize(10);

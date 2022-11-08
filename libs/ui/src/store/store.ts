@@ -1,4 +1,5 @@
-import { DappsReducers } from './background-script/dapps.reducers';
+import { DappsReducers } from './dapps/dapps.reducers';
+import { DappsRootState } from './dapps/dapps.state';
 import { rootStateEpics } from './root-state.epics';
 import { settingsReducers } from './settings/settings.reducers';
 import { SettingsRootState } from './settings/settings.state';
@@ -8,11 +9,11 @@ import { TokensMarketInfoRootState } from './tokens-market-info/tokens-market-in
 import { createStore } from './utils/create-store';
 import { walletEpics } from './wallet/wallet.epics';
 import { walletReducers } from './wallet/wallet.reducers';
-import { DappsRootState, WalletRootState } from './wallet/wallet.state';
+import { WalletRootState } from './wallet/wallet.state';
 
 export type RootState = WalletRootState & DappsRootState & TokensMarketInfoRootState & SettingsRootState;
 
-export const createStore2 = () =>
+export const createAppStore = () =>
   createStore<RootState>({
     reducers: {
       wallet: walletReducers,
