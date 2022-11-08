@@ -22,6 +22,8 @@ let isFullpageOpen = false;
 
 let openExtensionId = 0;
 
+let storeInBG = {};
+
 interface DappMessages {
   [id: string]: {
     method: string;
@@ -94,7 +96,8 @@ const connectToDappInBackground = (
 
   return Promise.resolve();
 };
-let storeInBG = {};
+
+
 browser.runtime.onConnect.addListener(port => {
   // check for time expired and max-view no opened then extension need to lock
   const savedSessionTimeExpired = Date.now() > lastUserActivityTimestamp + LOCK_PERIOD;
@@ -131,7 +134,6 @@ browser.runtime.onConnect.addListener(port => {
       const unsubscribe = store.subscribe(async () => {
         storeInBG = { ...store.getState() };
         const dappInfo = storeInBG?.dapps?.[origin];
-        console.log('dapp info in state', storeInBG);
         if (
           dappInfo !== undefined &&
           dappInfo.address !== undefined &&
@@ -142,21 +144,17 @@ browser.runtime.onConnect.addListener(port => {
         }
       });
 
-      unsubscribe();
+      ///unsubscribe();
 
       const dappInfo = storeInBG?.dapps?.[origin];
       const chainId = msg.data?.data?.data?.params?.[0]?.chainId;
-      console.log('dapp info outside', storeInBG);
       switch (msg.data?.data?.data?.method) {
         case 'eth_requestAccounts': {
           if (dappInfo !== undefined && dappInfo.address !== undefined) {
-            console.log('connect to bg');
             connectToDappInBackground(dappInfo, id, port, 'request');
             delete messagesObject[id];
           } else {
-            console.log('open popup');
             messagesObject[id] = { method, address: [], chainId };
-            console.log('messages OBJ', messagesObject);
             await openConnectPopup(origin, id);
           }
 
@@ -164,13 +162,11 @@ browser.runtime.onConnect.addListener(port => {
         }
         case 'wallet_addEthereumChain':
         case 'wallet_switchEthereumChain': {
-          console.log('switch msg', msg.data);
           await openSwitchChainPopup(origin, id, msg.data.data.data.params[0].chainId);
 
           return Promise.resolve();
         }
         case 'metamask_getProviderState': {
-          console.log('get provider state is working...');
           if (dappInfo !== undefined && dappInfo.address !== undefined && dappInfo.address !== '') {
             await connectToDappInBackground(dappInfo, id, port, 'providerState');
           }
@@ -178,23 +174,18 @@ browser.runtime.onConnect.addListener(port => {
           return Promise.resolve();
         }
         case 'metamask_sendDomainMetadata': {
-          console.log('send domain data is working');
           const currentDappLogo = msg.data?.data?.data?.params.icon;
-          console.log(msg.data, 'METADATA');
 
           const newDapp = {
             logoUrl: currentDappLogo,
             name: origin
           };
-          console.log(newDapp);
           store.dispatch(updateDappInfo(newDapp));
 
           return Promise.resolve();
         }
 
         case 'eth_chainId': {
-          console.log(msg.data, 'chain ID case');
-          console.log('chain id in this moment', dappInfo);
           const mockChainObj = { chainId: '0x2019', address: '', name: origin };
           if (dappInfo !== undefined) {
             connectToDappInBackground(dappInfo, id, port, 'chainId');

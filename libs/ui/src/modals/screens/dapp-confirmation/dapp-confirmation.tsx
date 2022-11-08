@@ -35,7 +35,7 @@ import { ModalContainer } from '../../components/modal-container/modal-container
 import { DappImage } from './components/dapp-image';
 import { styles } from './dapp-confirmation.styles';
 
-const CLOSE_DELAY = 50000;
+const CLOSE_DELAY = 1000;
 
 interface MessageToDapp {
   data: unknown;
@@ -72,7 +72,8 @@ export const DappConfirmation: FC = () => {
     browser.tabs.query({ active: true }).then(tabs => {
       if (tabs[0].id !== undefined) {
         browser.tabs.sendMessage(tabs[0].id, responseToDapp);
-        dispatch(updateDappInfo({ name: dappName, chainId: Number(chainId).toString(16), address: selectedAddress }));
+        const hexChainId = `0x${Number(chainId).toString(16)}`;
+        dispatch(updateDappInfo({ name: dappName, chainId: hexChainId, address: selectedAddress }));
         setTimeout(() => {
           window.close();
         }, CLOSE_DELAY);
@@ -83,6 +84,8 @@ export const DappConfirmation: FC = () => {
   const navigateToAccountsSelector = () => navigate(ScreensEnum.AccountsSelector);
   const navigateToWalletScreen = () => navigate(ScreensEnum.Wallet);
   const copy = () => handleCopyToClipboard(dappName);
+
+  console.log(Number(chainId).toString(16));
 
   return (
     <ModalContainer screenTitle="Confirm operation">

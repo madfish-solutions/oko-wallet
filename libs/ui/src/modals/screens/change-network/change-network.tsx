@@ -44,7 +44,6 @@ export const ChangeNetwork: FC = () => {
     target: 'metamask-inpage'
   };
 
-  console.log(responseToDapp, 'response to dapp');
   const acceptChangeNetwork = () => {
     dispatch(changeNetworkAction(chainId.substring(2)));
     browser.tabs.query({ active: true }).then(tabs => {

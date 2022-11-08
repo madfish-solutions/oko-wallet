@@ -10,5 +10,4 @@ export const DappsInitialState: DappState = {};
 
 export interface DappsRootState {
   dapps: DappState;
-  wallet: any;
 }

@@ -22,29 +22,31 @@ const pageStream = new WindowPostMessageStream({
   target: INPAGE
 });
 
+// listen background-script and send message to dapps
 myPort.onMessage.addListener(async msg => {
   let request;
   if (msg.target === 'request') {
     request = prepareResponse([msg.result.address], msg.id);
-    console.log('MY PORT ON MESSAGE', request);
   }
   if (msg.target === 'providerState') {
     const result = { accounts: [msg.result.address], chainId: '0x1', isUnlocked: true, networkVersion: '56' };
     request = prepareResponse(result, msg.id);
   }
   if (msg.target === 'chainId') {
-    console.log('chain ID IN CONTENT', msg.result.chainId);
+    console.log('CHAIN ID', msg.result.chainId);
     request = prepareResponse(msg.result.chainId ?? '0x2019', msg.id);
   }
+
+  console.log('SEND TO DAPPS AFT BG', request);
   window.postMessage(request, '*');
 
   return Promise.resolve();
 });
 
+// listen dapps and send message to backgorund-script
 window.addEventListener('message', async evt => {
-  console.log('content', evt.data);
   if (evt.data?.target === 'metamask-contentscript') {
-    console.log('sended from cs script to request acc', evt.data?.data?.data);
+    console.log(evt.data, 'messages from dapps');
     myPort.postMessage({ data: evt.data, origin: evt.origin });
 
     return Promise.resolve();
@@ -54,24 +56,10 @@ window.addEventListener('message', async evt => {
 
     return Promise.resolve();
   }
-
-  // if (evt.data?.target === 'metamask-contentscript' && evt.data?.data?.data?.method === 'eth_chainId') {
-  //   const ethResponse = {
-  //     data: {
-  //       data: { id: evt.data?.data?.data?.id, jsonrpc: '2.0', method: 'eth_chainId', result: '0x2019' },
-  //       name: 'metamask-provider'
-  //     },
-  //     target: 'metamask-inpage'
-  //   };
-
-  //   window.postMessage(ethResponse, '*');
-
-  //   return Promise.resolve();
-  // }
 });
 
 runtime.onMessage.addListener(async (request: unknown) => {
-  console.log('RUNTIME ONMESSAGE', request);
+  console.log('SEND TO DAPPS DIRECTLY', request);
   window.postMessage(request, '*');
 
   return Promise.resolve();
