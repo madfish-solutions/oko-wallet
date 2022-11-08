@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
     marginTop: getCustomSize(),
     borderRadius: getCustomSize(),
     minWidth: getCustomSize(22.25),
+    maxWidth: '90%',
     justifyContent: 'center'
   },
   success: {

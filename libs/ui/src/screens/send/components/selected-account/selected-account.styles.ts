@@ -15,7 +15,10 @@ export const styles = StyleSheet.create({
   },
   wrapper: {
     justifyContent: 'space-between',
-    marginBottom: getCustomSize(1.625)
+    marginBottom: getCustomSize(2.625)
+  },
+  icon: {
+    borderRadius: getCustomSize(1.03125)
   },
   nameContainer: {
     maxWidth: getCustomSize(19),

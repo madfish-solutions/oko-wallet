@@ -6,5 +6,6 @@ export interface GetTezosSignerParams {
   publicKeyHash: string;
   rpcUrl: string;
   successCallback: OnEventFn<BatchOperation>;
+  errorCallback: OnEventFn<void>;
   transactionParams: ParamsWithKind[];
 }

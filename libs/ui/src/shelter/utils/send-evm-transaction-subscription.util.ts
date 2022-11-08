@@ -1,6 +1,7 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider';
-import { Subject } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { isNotEmptyString } from '@rnw-community/shared';
+import { of, Subject } from 'rxjs';
+import { map, switchMap, catchError } from 'rxjs/operators';
 
 import { Erc20Abi__factory, Erc721abi__factory } from '../../contract-types';
 import { AssetTypeEnum } from '../../enums/asset-type.enum';
@@ -11,7 +12,7 @@ import { Shelter } from '../shelter';
 export const sendEvmTransactionSubscription = (sendEvmTransaction$: Subject<GetEvmSignerParams>) =>
   sendEvmTransaction$
     .pipe(
-      switchMap(({ publicKeyHash, rpcUrl, successCallback, transactionParams, assetType }) => {
+      switchMap(({ publicKeyHash, rpcUrl, successCallback, transactionParams, errorCallback, assetType }) => {
         const provider = getDefaultEvmProvider(rpcUrl);
 
         return Shelter.getEvmSigner$(publicKeyHash, provider).pipe(
@@ -39,8 +40,18 @@ export const sendEvmTransactionSubscription = (sendEvmTransaction$: Subject<GetE
           map((transactionResponse): [TransactionResponse, GetEvmSignerParams['successCallback']] => [
             transactionResponse,
             successCallback
-          ])
+          ]),
+          catchError(error => {
+            console.log(error);
+            errorCallback();
+
+            return of([]);
+          })
         );
       })
     )
-    .subscribe(([transactionResponse, successCallback]) => successCallback(transactionResponse));
+    .subscribe(([transactionResponse, successCallback]) => {
+      if (isNotEmptyString(transactionResponse?.hash)) {
+        successCallback(transactionResponse);
+      }
+    });

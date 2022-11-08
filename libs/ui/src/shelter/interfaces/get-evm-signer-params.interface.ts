@@ -13,6 +13,7 @@ export interface GetEvmSignerParams {
   publicKeyHash: string;
   rpcUrl: string;
   successCallback: OnEventFn<TransactionResponse>;
+  errorCallback: OnEventFn<void>;
   transactionParams: TransactionParams;
   assetType: AssetTypeEnum;
 }

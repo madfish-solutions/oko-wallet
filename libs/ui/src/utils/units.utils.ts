@@ -12,7 +12,7 @@ export const formatUnits = (value: BigNumberish, decimals: number) => {
   return bigNum.integerValue().div(new BigNumber(10).pow(decimals));
 };
 
-export const formatUnitsToString = (value: BigNumberish, decimals: number) => formatUnits(value, decimals).toString(10);
+const formatUnitsToString = (value: BigNumberish, decimals: number) => formatUnits(value, decimals).toString(10);
 
 export const parseUnits = (value: BigNumberish, decimals: number) => {
   const bigNum = new BigNumber(value.toString());
