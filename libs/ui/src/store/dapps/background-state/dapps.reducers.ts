@@ -4,8 +4,8 @@ import { updateDappInfo } from '../dapps.actions';
 import { DappState, DappsInitialState } from '../dapps.state';
 
 export const backgroundDappsReducers = createReducer<DappState>(DappsInitialState, builder =>
-  builder.addCase(updateDappInfo, (state, { payload: { chainId, name, logoUrl, address } }) => ({
+  builder.addCase(updateDappInfo, (state, { payload }) => ({
     ...state,
-    [name]: { logoUrl, chainId, address }
+    [payload.name]: { ...state[payload.name], ...payload }
   }))
 );

@@ -1,4 +1,4 @@
-export type DappState = Record<string, Omit<DappPayloadState, 'name'>>;
+export type DappState = Record<string, DappPayloadState>;
 export interface DappPayloadState {
   name: string;
   logoUrl?: string;

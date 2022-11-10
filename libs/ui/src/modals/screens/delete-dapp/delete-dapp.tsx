@@ -9,7 +9,7 @@ import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { ModalActionContainer } from '../../../modals/components/modal-action-container/modal-action-container';
-import { deleteConfirmedDappAction } from '../../../store/wallet/wallet.actions';
+import { deleteDapp } from '../../../store/dapps/dapps.actions';
 import { getCustomSize } from '../../../styles/format-size';
 import { eraseProtocol } from '../../../utils/string.util';
 
@@ -23,7 +23,7 @@ export const DeleteDapp: FC = () => {
   const { goBack } = useNavigation();
 
   const confirmDeleteDapp = () => {
-    dispatch(deleteConfirmedDappAction(dappName));
+    dispatch(deleteDapp(dappName));
     goBack();
   };
 

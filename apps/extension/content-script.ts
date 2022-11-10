@@ -5,6 +5,13 @@ import { runtime } from 'webextension-polyfill';
 
 const myPort = runtime.connect({ name: 'port-from-cs' });
 
+interface DappInfo {
+  address: string;
+  newChainId?: string;
+}
+
+const authorizedDapps: Record<string, DappInfo> = {};
+
 const prepareResponse = (result: unknown, id: number) => ({
   data: {
     data: { id: Number(id), jsonrpc: '2.0', result },
@@ -33,11 +40,9 @@ myPort.onMessage.addListener(async msg => {
     request = prepareResponse(result, msg.id);
   }
   if (msg.target === 'chainId') {
-    console.log('CHAIN ID', msg.result.chainId);
-    request = prepareResponse(msg.result.chainId ?? '0x2019', msg.id);
+    request = prepareResponse(msg.result.chainId, msg.id);
   }
 
-  console.log('SEND TO DAPPS AFT BG', request);
   window.postMessage(request, '*');
 
   return Promise.resolve();
@@ -46,20 +51,44 @@ myPort.onMessage.addListener(async msg => {
 // listen dapps and send message to backgorund-script
 window.addEventListener('message', async evt => {
   if (evt.data?.target === 'metamask-contentscript') {
-    console.log(evt.data, 'messages from dapps');
-    myPort.postMessage({ data: evt.data, origin: evt.origin });
+    const method = evt.data?.data?.data?.method;
+    const id = evt.data?.data?.data?.id;
+    const dappName = evt.origin;
 
-    return Promise.resolve();
-  }
-  if (evt.data?.target === 'metamask-contentscript' && evt.data?.data?.data?.method === 'wallet_switchEthereumChain') {
-    myPort.postMessage({ data: evt.data, origin: evt.origin });
+    if (method === 'eth_chainId' && authorizedDapps[dappName]?.newChainId !== undefined) {
+      const response = prepareResponse(authorizedDapps[dappName].newChainId, id);
 
-    return Promise.resolve();
+      window.postMessage(response, '*');
+      authorizedDapps[dappName].newChainId = undefined;
+
+      return Promise.resolve();
+    }
+    if (authorizedDapps[dappName]?.address === undefined || method !== 'eth_requestAccounts') {
+      myPort.postMessage({ data: evt.data, origin: dappName });
+
+      return Promise.resolve();
+    }
+
+    if (method === 'eth_requestAccounts' && authorizedDapps[dappName]?.address !== undefined) {
+      const response = prepareResponse(authorizedDapps[dappName]?.address, id);
+      window.postMessage(response, '*');
+
+      return Promise.resolve();
+    }
   }
 });
 
-runtime.onMessage.addListener(async (request: unknown) => {
-  console.log('SEND TO DAPPS DIRECTLY', request);
+runtime.onMessage.addListener(async request => {
+  const method = request?.data?.data?.method;
+  const result = request?.data?.data?.result;
+  const dappName = request?.dappName;
+  const newChainId = request?.newChain;
+  if (method === 'eth_requestAccounts' && result.length > 0) {
+    authorizedDapps[dappName] = { address: result };
+  }
+  if (method === 'wallet_switchEthereumChain') {
+    authorizedDapps[dappName] = { ...authorizedDapps[dappName], newChainId };
+  }
   window.postMessage(request, '*');
 
   return Promise.resolve();

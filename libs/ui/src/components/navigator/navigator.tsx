@@ -1,11 +1,9 @@
 import { NavigationContainer, NavigationContainerRef, DarkTheme } from '@react-navigation/native';
-import { isDefined } from '@rnw-community/shared';
 import React, { FC, createRef, useEffect } from 'react';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useDappConnection } from '../../hooks/use-dapp-connection.hook';
 import { PERSISTENCE_KEY, usePersistedNavigationState } from '../../hooks/use-persisted-navigation-state.hook';
-import { useUnlock } from '../../hooks/use-unlock.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
 import { AddAccount } from '../../modals/screens/add-account/add-account';
 import { AddNewCollectible } from '../../modals/screens/add-new-collectible/add-new-collectible';
@@ -70,7 +68,6 @@ export const globalNavigationRef = createRef<NavigationContainerRef<ScreensParam
 export const Navigator: FC = () => {
   const { initialState, isReady, handleStateChange } = usePersistedNavigationState();
   const isAuthorised = useIsAuthorisedSelector();
-  const { isLocked } = useUnlock();
 
   useDappConnection();
   useActiveTokenList();
@@ -89,14 +86,6 @@ export const Navigator: FC = () => {
       openMaximiseScreen();
     }
   }, [initialState, isReady]);
-
-  useEffect(() => {
-    if (isDefined(globalNavigationRef.current) && isAuthorised) {
-      if (isLocked) {
-        globalNavigationRef.current.navigate(ScreensEnum.Unlock);
-      }
-    }
-  }, [isLocked, globalNavigationRef.current, isAuthorised]);
 
   if (!isReady) {
     return <SplashScreen />;

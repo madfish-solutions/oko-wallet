@@ -19,7 +19,6 @@ import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { AllowsRules } from '../../../interfaces/dapp-connection.interface';
 import { updateDappInfo } from '../../../store/dapps/dapps.actions';
-import { useAllDapps } from '../../../store/dapps/dapps.selectors';
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedAccountSelector,
@@ -40,6 +39,7 @@ const CLOSE_DELAY = 1000;
 interface MessageToDapp {
   data: unknown;
   target: string;
+  dappName: string;
 }
 
 const rules: AllowsRules[] = [
@@ -50,21 +50,21 @@ const rules: AllowsRules[] = [
 
 export const DappConfirmation: FC = () => {
   const dispatch = useDispatch();
-  const dapps = useAllDapps();
   const selectedAddress = useSelectedAccountPublicKeyHashSelector();
   const { chainId } = useSelectedNetworkSelector();
   const { name } = useSelectedAccountSelector();
   const { decimals, symbol, balance } = useGasTokenSelector();
   const { navigate } = useNavigation();
   const {
-    params: { dappName, id }
+    params: { dappName, id, logo }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DappConfirmation>>();
   const responseToDapp: MessageToDapp = {
     data: {
       data: { id: Number(id), method: 'eth_requestAccounts', jsonrpc: '2.0', result: [selectedAddress] },
       name: 'metamask-provider'
     },
-    target: 'metamask-inpage'
+    target: 'metamask-inpage',
+    dappName
   };
   const gasBalance = getFormattedBalance(balance.data, decimals);
 
@@ -73,7 +73,7 @@ export const DappConfirmation: FC = () => {
       if (tabs[0].id !== undefined) {
         browser.tabs.sendMessage(tabs[0].id, responseToDapp);
         const hexChainId = `0x${Number(chainId).toString(16)}`;
-        dispatch(updateDappInfo({ name: dappName, chainId: hexChainId, address: selectedAddress }));
+        dispatch(updateDappInfo({ name: dappName, chainId: hexChainId, address: selectedAddress, logoUrl: logo }));
         setTimeout(() => {
           window.close();
         }, CLOSE_DELAY);
@@ -85,14 +85,12 @@ export const DappConfirmation: FC = () => {
   const navigateToWalletScreen = () => navigate(ScreensEnum.Wallet);
   const copy = () => handleCopyToClipboard(dappName);
 
-  console.log(Number(chainId).toString(16));
-
   return (
     <ModalContainer screenTitle="Confirm operation">
       <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
         <View style={styles.viewRoot}>
           <Row style={styles.container}>
-            <DappImage />
+            <DappImage imageUri={logo} />
             <Icon name={IconNameEnum.SwapItems} size={getCustomSize(9)} />
             <DappImage />
           </Row>
@@ -108,9 +106,6 @@ export const DappConfirmation: FC = () => {
             </Row>
           </Row>
           <View style={styles.divider} />
-          <View>
-            <Text>{JSON.stringify(dapps)}</Text>
-          </View>
           <Text style={[styles.smallText, styles.from]}>From</Text>
           <View style={styles.accountSelector}>
             <Row style={styles.selectorRow}>

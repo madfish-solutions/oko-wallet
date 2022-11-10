@@ -14,6 +14,7 @@ import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { AllowsRules } from '../../../interfaces/dapp-connection.interface';
+import { useAllDapps } from '../../../store/dapps/dapps.selectors';
 import { changeNetworkAction } from '../../../store/wallet/wallet.actions';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { eraseProtocol } from '../../../utils/string.util';
@@ -33,19 +34,23 @@ export const ChangeNetwork: FC = () => {
   const {
     params: { dappName, chainId, id }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.ChangeNetworkConfirmation>>();
+  const allDapps = useAllDapps();
 
   const navigateToWalletScreen = () => navigate(ScreensEnum.Wallet);
   const copy = () => handleCopyToClipboard(dappName);
   const responseToDapp = {
     data: {
-      data: { id: Number(id), jsonrpc: '2.0', result: null },
+      data: { id: Number(id), jsonrpc: '2.0', result: null, method: 'wallet_switchEthereumChain' },
       name: 'metamask-provider'
     },
-    target: 'metamask-inpage'
+    target: 'metamask-inpage',
+    newChain: chainId,
+    dappName
   };
 
   const acceptChangeNetwork = () => {
-    dispatch(changeNetworkAction(chainId.substring(2)));
+    const decimalChainId = parseInt(chainId.substring(2), 10);
+    dispatch(changeNetworkAction(decimalChainId.toString()));
     browser.tabs.query({ active: true }).then(tabs => {
       if (tabs[0].id !== undefined) {
         browser.tabs.sendMessage(tabs[0].id, responseToDapp);
@@ -59,7 +64,7 @@ export const ChangeNetwork: FC = () => {
     <ModalContainer screenTitle="Confirm change network">
       <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
         <Row style={styles.dappLogo}>
-          <DappImage />
+          <DappImage imageUri={allDapps[dappName].logoUrl} />
         </Row>
         <Row style={styles.addressRow}>
           <Text style={styles.smallText}>Address</Text>

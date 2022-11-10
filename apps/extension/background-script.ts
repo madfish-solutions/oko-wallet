@@ -4,8 +4,7 @@ import { browser, Runtime } from 'webextension-polyfill-ts';
 
 import { BackgroundMessageType } from '../../libs/ui/src/messagers/enums/background-message-types.enum';
 import { BackgroundMessage } from '../../libs/ui/src/messagers/types/background-message.types';
-import { createBackgroundStore } from '../../libs/ui/src/store/background-store';
-import { updateDappInfo } from '../../libs/ui/src/store/dapps/dapps.actions';
+import { BackgroundRootState, createBackgroundStore } from '../../libs/ui/src/store/background-store';
 import { DappPayloadState } from '../../libs/ui/src/store/dapps/dapps.state';
 
 console.log('background is working...');
@@ -22,17 +21,7 @@ let isFullpageOpen = false;
 
 let openExtensionId = 0;
 
-let storeInBG = {};
-
-interface DappMessages {
-  [id: string]: {
-    method: string;
-    address: string[];
-    chainId: string;
-  };
-}
-
-const messagesObject: DappMessages = {};
+let currentLogo = '';
 
 browser.scripting.registerContentScripts([
   {
@@ -47,7 +36,7 @@ browser.scripting.registerContentScripts([
 const getExtensionPopup = (windows: Windows.Window[], id: number) =>
   windows.find(win => win.type === 'popup' && win.id === id);
 
-const openConnectPopup = async (origin: string, id: string) => {
+const openConnectPopup = async (origin: string, id: string, logo: string) => {
   const allWindows = await browser.windows.getAll().then(windows => windows);
   const activePopup = getExtensionPopup(allWindows, openExtensionId);
   if (activePopup && activePopup.id !== undefined) {
@@ -55,7 +44,7 @@ const openConnectPopup = async (origin: string, id: string) => {
   } else {
     const newWindow = await browser.windows.create({
       type: 'popup',
-      url: browser.runtime.getURL(`popup.html?&origin=${origin}&id=${id}`),
+      url: browser.runtime.getURL(`popup.html?&origin=${origin}&id=${id}&logo=${logo}`),
       width: 360,
       height: 600,
       top: 20,
@@ -97,7 +86,6 @@ const connectToDappInBackground = (
   return Promise.resolve();
 };
 
-
 browser.runtime.onConnect.addListener(port => {
   // check for time expired and max-view no opened then extension need to lock
   const savedSessionTimeExpired = Date.now() > lastUserActivityTimestamp + LOCK_PERIOD;
@@ -122,76 +110,56 @@ browser.runtime.onConnect.addListener(port => {
       return (lastUserActivityTimestamp = Date.now());
     });
   }
+  let storeInBG: Partial<BackgroundRootState> = {};
 
   // listen content script messages
   port.onMessage.addListener(async msg => {
     if (msg.data?.target === 'metamask-contentscript') {
-      const { store } = createBackgroundStore();
-      const id = msg.data?.data?.data?.id;
+      const data = msg.data?.data?.data;
+      const id = data?.id;
       const origin = msg.origin;
-      const method = msg.data?.data?.data?.method;
+      const method = data?.method;
 
-      const unsubscribe = store.subscribe(async () => {
+      const { store } = createBackgroundStore();
+      store.subscribe(() => {
         storeInBG = { ...store.getState() };
-        const dappInfo = storeInBG?.dapps?.[origin];
-        if (
-          dappInfo !== undefined &&
-          dappInfo.address !== undefined &&
-          method === 'eth_requestAccounts' &&
-          messagesObject[id] !== undefined
-        ) {
-          await connectToDappInBackground(dappInfo, id, port, 'request');
-        }
       });
 
-      ///unsubscribe();
-
       const dappInfo = storeInBG?.dapps?.[origin];
-      const chainId = msg.data?.data?.data?.params?.[0]?.chainId;
-      switch (msg.data?.data?.data?.method) {
+
+      const selectedChainId = storeInBG?.wallet?.selectedNetworkChainId;
+
+      switch (method) {
         case 'eth_requestAccounts': {
           if (dappInfo !== undefined && dappInfo.address !== undefined) {
             connectToDappInBackground(dappInfo, id, port, 'request');
-            delete messagesObject[id];
           } else {
-            messagesObject[id] = { method, address: [], chainId };
-            await openConnectPopup(origin, id);
+            await openConnectPopup(origin, id, currentLogo);
           }
 
           return Promise.resolve();
         }
         case 'wallet_addEthereumChain':
         case 'wallet_switchEthereumChain': {
-          await openSwitchChainPopup(origin, id, msg.data.data.data.params[0].chainId);
+          await openSwitchChainPopup(origin, id, data.params[0].chainId);
 
           return Promise.resolve();
         }
         case 'metamask_getProviderState': {
-          if (dappInfo !== undefined && dappInfo.address !== undefined && dappInfo.address !== '') {
+          if (dappInfo !== undefined && dappInfo.address !== undefined) {
             await connectToDappInBackground(dappInfo, id, port, 'providerState');
           }
 
           return Promise.resolve();
         }
         case 'metamask_sendDomainMetadata': {
-          const currentDappLogo = msg.data?.data?.data?.params.icon;
-
-          const newDapp = {
-            logoUrl: currentDappLogo,
-            name: origin
-          };
-          store.dispatch(updateDappInfo(newDapp));
+          currentLogo = data?.params.icon;
 
           return Promise.resolve();
         }
 
         case 'eth_chainId': {
-          const mockChainObj = { chainId: '0x2019', address: '', name: origin };
-          if (dappInfo !== undefined) {
-            connectToDappInBackground(dappInfo, id, port, 'chainId');
-          } else {
-            connectToDappInBackground(mockChainObj, id, port, 'chainId');
-          }
+          connectToDappInBackground({ chainId: `0x${Number(selectedChainId).toString(16)}` }, id, port, 'chainId');
 
           return Promise.resolve();
         }

@@ -18,5 +18,10 @@ export const styles = StyleSheet.create({
   large: {
     height: getCustomSize(8),
     width: getCustomSize(8)
+  },
+  image: {
+    width: getCustomSize(6),
+    height: getCustomSize(6),
+    borderRadius: getCustomSize()
   }
 });

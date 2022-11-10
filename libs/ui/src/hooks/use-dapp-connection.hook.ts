@@ -1,20 +1,35 @@
+import { isDefined } from '@rnw-community/shared';
 import { parse } from 'query-string';
 import { useEffect } from 'react';
 
 import { globalNavigationRef } from '../components/navigator/navigator';
 import { ScreensEnum } from '../enums/sreens.enum';
+import { useIsAuthorisedSelector } from '../store/wallet/wallet.selectors';
 import { isWeb } from '../utils/platform.utils';
 
+import { useUnlock } from './use-unlock.hook';
+
 export const useDappConnection = () => {
+  const isAuthorised = useIsAuthorisedSelector();
+  const { isLocked } = useUnlock();
+
   useEffect(() => {
-    setTimeout(() => {
+    if (isDefined(globalNavigationRef.current) && isAuthorised) {
+      if (isLocked) {
+        globalNavigationRef.current.navigate(ScreensEnum.Unlock);
+      }
+      const query = parse(location.search);
       if (isWeb) {
-        const query = parse(location.search);
-        console.log(query, 'query');
-        if (typeof query.origin === 'string' && typeof query.id === 'string' && globalNavigationRef.current !== null) {
+        if (
+          typeof query.origin === 'string' &&
+          typeof query.id === 'string' &&
+          typeof query.logo === 'string' &&
+          globalNavigationRef.current !== null
+        ) {
           globalNavigationRef.current.navigate(ScreensEnum.DappConfirmation, {
             dappName: query.origin,
-            id: query.id
+            id: query.id,
+            logo: query.logo
           });
         }
         if (
@@ -31,6 +46,6 @@ export const useDappConnection = () => {
           });
         }
       }
-    }, 500);
-  }, [globalNavigationRef.current]);
+    }
+  }, [isLocked, globalNavigationRef.current, isAuthorised]);
 };
