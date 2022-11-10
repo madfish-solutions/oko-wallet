@@ -47,8 +47,8 @@ export const NetworksList = () => {
   );
 
   const handleChangeNetwork = useCallback(
-    ({ networkType, chainId }: NetworkInterface) => {
-      dispatch(changeNetworkAction(chainId));
+    ({ networkType, rpcUrl }: NetworkInterface) => {
+      dispatch(changeNetworkAction(rpcUrl));
 
       if (!checkIsNetworkTypeKeyExist(selectedAccount, networkType)) {
         createHdAccountForNewNetworkType(selectedAccount, networkType);
@@ -64,7 +64,7 @@ export const NetworksList = () => {
   const renderItem = ({ item, index }: ListRenderItemInfo<NetworkInterface>) => {
     const isNetworkSelected = selectedIndex === index;
     const selectedAccountPublicKeyHash = getPublicKeyHash(selectedAccount, item.networkType);
-    const accountGasTokenSlug = getAccountTokensSlug(item.chainId, selectedAccountPublicKeyHash);
+    const accountGasTokenSlug = getAccountTokensSlug(item.rpcUrl, selectedAccountPublicKeyHash);
 
     return (
       <ModalRenderItem

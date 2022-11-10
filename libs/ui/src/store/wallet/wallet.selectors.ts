@@ -26,7 +26,7 @@ export const useSelectedAccountPublicKeyHashSelector = () =>
 export const useSelectedNetworkSelector = () =>
   useSelector<WalletRootState, NetworkInterface>(
     ({ wallet }) =>
-      wallet.networks.find(network => network.chainId === wallet.selectedNetworkChainId) ?? NETWORKS_DEFAULT_LIST[0],
+      wallet.networks.find(network => network.rpcUrl === wallet.selectedNetworkRpcUrl) ?? NETWORKS_DEFAULT_LIST[0],
     checkEquality
   );
 
@@ -87,13 +87,13 @@ export const useAllAccountsTokensAndTokensMetadataSelector = () =>
 
 export const useAccountAssetsSelector = () =>
   useSelector<WalletRootState, Token[]>(
-    ({ wallet: { accountsTokens, selectedAccountPublicKeyHash, tokensMetadata, selectedNetworkChainId } }) => {
-      const accountTokensSlug = getAccountTokensSlug(selectedNetworkChainId, selectedAccountPublicKeyHash);
+    ({ wallet: { accountsTokens, selectedAccountPublicKeyHash, tokensMetadata, selectedNetworkRpcUrl } }) => {
+      const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
 
       return (
         accountsTokens[accountTokensSlug]?.map(accountToken => {
           const tokenMetadataSlug = getTokenMetadataSlug(
-            selectedNetworkChainId,
+            selectedNetworkRpcUrl,
             accountToken.tokenAddress,
             accountToken.tokenId
           );
@@ -111,8 +111,8 @@ export const useAccountAssetsSelector = () =>
 export const useGasTokenSelector = () => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const accountsGasTokens = useAccountsGasTokensSelector();
-  const { gasTokenMetadata, rpcUrl, chainId } = useSelectedNetworkSelector();
-  const accountGasTokenSlug = getAccountTokensSlug(chainId, publicKeyHash);
+  const { gasTokenMetadata, rpcUrl } = useSelectedNetworkSelector();
+  const accountGasTokenSlug = getAccountTokensSlug(rpcUrl, publicKeyHash);
 
   return useMemo(
     () => ({
@@ -184,7 +184,7 @@ export const useTokenBalanceSelector = (tokenSlug: string): string => {
   const network = useSelectedNetworkSelector();
   const accountTokens = useAccountTokensSelector();
   const accountsGasTokens = useAccountsGasTokensSelector();
-  const accountGasTokenSlug = getAccountTokensSlug(network.chainId, publicKeyHash);
+  const accountGasTokenSlug = getAccountTokensSlug(network.rpcUrl, publicKeyHash);
 
   const tokenBalance =
     tokenSlug === getTokenSlug(GAS_TOKEN_ADDRESS)

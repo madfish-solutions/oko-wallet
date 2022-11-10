@@ -35,7 +35,7 @@ export const TokensSelector: FC = () => {
     params: { token }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendTokensSelector>>();
   const { navigate } = useNavigation();
-  const { chainId } = useSelectedNetworkSelector();
+  const { rpcUrl } = useSelectedNetworkSelector();
   const visibleAccountTokens = useVisibleAccountTokensSelector();
   const accountTokensWithBalance = useMemo(
     () => visibleAccountTokens.filter(visibleAccountToken => Number(visibleAccountToken.balance.data) > 0),
@@ -70,7 +70,7 @@ export const TokensSelector: FC = () => {
 
     const isGasToken = checkIsGasToken(tokenAddress);
     const balance = getFormattedBalance(amount, decimals);
-    const tokenMetadataSlug = getTokenMetadataSlug(chainId, tokenAddress, tokenId);
+    const tokenMetadataSlug = getTokenMetadataSlug(rpcUrl, tokenAddress, tokenId);
     const { price } = allTokensMarketInfoSelector[tokenMetadataSlug] ?? {};
     const amountInDollar = getDollarValue({ amount, price, decimals });
 

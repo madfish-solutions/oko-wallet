@@ -31,10 +31,10 @@ export const useFiatTotalBalance = () => {
     const evmPublicKeyHash = isDefined(EVM) && isDefined(EVM.publicKeyHash) ? EVM.publicKeyHash : '';
     const tezosPublicKeyHash = isDefined(Tezos) && isDefined(Tezos.publicKeyHash) ? Tezos.publicKeyHash : '';
 
-    const gasTokenBalance = networks.reduce((sum, { chainId, networkType, gasTokenMetadata: { decimals } }) => {
-      const tokenMetadataSlug = getTokenMetadataSlug(chainId, GAS_TOKEN_ADDRESS);
+    const gasTokenBalance = networks.reduce((sum, { rpcUrl, networkType, gasTokenMetadata: { decimals } }) => {
+      const tokenMetadataSlug = getTokenMetadataSlug(rpcUrl, GAS_TOKEN_ADDRESS);
       const publicKeyHash = networkType === NetworkTypeEnum.Tezos ? tezosPublicKeyHash : evmPublicKeyHash;
-      const accountGasTokenSlug = getAccountTokensSlug(chainId, publicKeyHash);
+      const accountGasTokenSlug = getAccountTokensSlug(rpcUrl, publicKeyHash);
       const { price } = allTokensMarketInfoSelector[tokenMetadataSlug] ?? {};
       const amount = accountsGasTokens[accountGasTokenSlug]?.data;
 
@@ -50,12 +50,12 @@ export const useFiatTotalBalance = () => {
     }, new BigNumber(0));
 
     const tokensBalance = Object.entries(accountsTokens).reduce((sum, [accountTokensSlug, accountTokens]) => {
-      const [networkChainId, accountPublicKeyHash] = accountTokensSlug.split('_');
+      const [networkRpcUrl, accountPublicKeyHash] = accountTokensSlug.split('_');
 
       if (accountPublicKeyHash === evmPublicKeyHash || accountPublicKeyHash === tezosPublicKeyHash) {
         const accountTokensSum = accountTokens.reduce((sum, accountToken) => {
           const tokenMetadataSlug = getTokenMetadataSlug(
-            networkChainId,
+            networkRpcUrl,
             accountToken.tokenAddress,
             accountToken.tokenId
           );

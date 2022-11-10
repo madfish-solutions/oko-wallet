@@ -63,7 +63,7 @@ export const Send: FC = () => {
 
   const dispatch = useDispatch();
   const allTokensMarketInfoSelector = useTokensMarketInfoSelector();
-  const { chainId } = useSelectedNetworkSelector();
+  const { rpcUrl } = useSelectedNetworkSelector();
   const gasToken = useGasTokenSelector();
   const networkType = useSelectedNetworkTypeSelector();
   const allAccountsWithoutSelected = useAllAccountsWithoutSelectedSelector();
@@ -99,7 +99,7 @@ export const Send: FC = () => {
   const isSendButtonDisabled = !isEmpty(errors);
 
   const addressPlaceholder = networkType === NetworkTypeEnum.EVM ? '0x0000...' : 'tz...';
-  const { price } = allTokensMarketInfoSelector[getTokenMetadataSlug(chainId, token.tokenAddress, token.tokenId)] ?? {};
+  const { price } = allTokensMarketInfoSelector[getTokenMetadataSlug(rpcUrl, token.tokenAddress, token.tokenId)] ?? {};
   const availableBalance = getFormattedBalance(token.balance.data, token.decimals);
   const availableUsdBalance = getDollarValue({
     amount: availableBalance,

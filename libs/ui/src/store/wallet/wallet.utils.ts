@@ -19,9 +19,9 @@ export const updateAccountsGasTokensState = (
   state: WalletState,
   { balance, isLoading = false, error }: { balance?: string; isLoading?: boolean; error?: string }
 ): WalletState => {
-  const { selectedNetworkChainId, selectedAccountPublicKeyHash, accountsGasTokens } = state;
+  const { selectedNetworkRpcUrl, selectedAccountPublicKeyHash, accountsGasTokens } = state;
 
-  const accountGasTokenSlug = getAccountTokensSlug(selectedNetworkChainId, selectedAccountPublicKeyHash);
+  const accountGasTokenSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
   const gasTokenBalance = isDefined(balance) ? balance : accountsGasTokens[accountGasTokenSlug]?.data;
 
   return {
@@ -43,14 +43,14 @@ export const updateAccountsTokensState = (state: WalletState, account: AccountIn
 };
 
 const getDefaultAccountTokens = (state: WalletState, account: AccountInterface) => {
-  const { networks, selectedNetworkChainId } = state;
+  const { networks, selectedNetworkRpcUrl } = state;
 
   const accountTokensSlug = getAccountTokensSlug(
-    selectedNetworkChainId,
+    selectedNetworkRpcUrl,
     getPublicKeyHash(account, getSelectedNetworkType(state))
   );
 
-  const currentNetwork = networks.find(network => network.chainId === selectedNetworkChainId);
+  const currentNetwork = networks.find(network => network.rpcUrl === selectedNetworkRpcUrl);
 
   if (currentNetwork && currentNetwork.chainId && TOKENS_DEFAULT_LIST.hasOwnProperty(currentNetwork.chainId)) {
     return {
@@ -70,8 +70,8 @@ export const updateAccountTokenState = (
   token: Token,
   updateFunc: (token: AccountToken) => Partial<AccountToken>
 ): WalletState => {
-  const { selectedAccountPublicKeyHash, accountsTokens, selectedNetworkChainId } = state;
-  const accountTokensSlug = getAccountTokensSlug(selectedNetworkChainId, selectedAccountPublicKeyHash);
+  const { selectedAccountPublicKeyHash, accountsTokens, selectedNetworkRpcUrl } = state;
+  const accountTokensSlug = getAccountTokensSlug(selectedNetworkRpcUrl, selectedAccountPublicKeyHash);
   const tokenSlug = getTokenSlug(token.tokenAddress, token.tokenId);
   const targetAccountTokens = accountsTokens[accountTokensSlug];
 
@@ -96,7 +96,7 @@ export const updateAccountTokenState = (
 };
 
 export const getSelectedNetworkType = (state: WalletState): NetworkTypeEnum =>
-  state.networks.find(network => network.chainId === state.selectedNetworkChainId)?.networkType ?? NetworkTypeEnum.EVM;
+  state.networks.find(network => network.rpcUrl === state.selectedNetworkRpcUrl)?.networkType ?? NetworkTypeEnum.EVM;
 
 export const getPublicKeyHash = (account: AccountInterface, networkType: NetworkTypeEnum): string =>
   checkIsNetworkTypeKeyExist(account, networkType) ? getString(account.networksKeys[networkType]?.publicKeyHash) : '';

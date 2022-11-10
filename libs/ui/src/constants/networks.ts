@@ -63,7 +63,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
   },
   {
     chainId: '3',
-    rpcUrl: 'https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
+    rpcUrl: TestnetRpcEnum.EthereumRopsten,
     name: 'Ethereum Ropsten Testnet',
     gasTokenMetadata: {
       name: 'Ether Token',

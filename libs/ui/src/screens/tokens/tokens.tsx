@@ -37,7 +37,7 @@ import { getListOfTokensAddresses } from './utils/get-list-of-tokens-adresses.ut
 const keyExtractor = ({ tokenAddress, tokenId }: Token) => getTokenSlug(tokenAddress, tokenId);
 
 export const Tokens: FC = () => {
-  const { chainId } = useSelectedNetworkSelector();
+  const { rpcUrl } = useSelectedNetworkSelector();
   const dispatch = useDispatch();
   const { navigate, goBack } = useNavigation();
   const allAccountTokens = useAccountTokensSelector();
@@ -84,7 +84,7 @@ export const Tokens: FC = () => {
 
   const renderItem = useCallback(
     ({ item: token }: ListRenderItemInfo<Token>) => {
-      const tokenMetadataSlug = getTokenMetadataSlug(chainId, token.tokenAddress);
+      const tokenMetadataSlug = getTokenMetadataSlug(rpcUrl, token.tokenAddress);
 
       const showButton = !token.isVisible || !tokensAddresses.includes(token.tokenAddress);
 

@@ -11,7 +11,7 @@ import {
 
 export const useTokensPriceInfo = () => {
   const dispatch = useDispatch();
-  const { chainId } = useSelectedNetworkSelector();
+  const { chainId, rpcUrl } = useSelectedNetworkSelector();
   const visibleAccountTokens = useVisibleAccountTokensSelector();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
@@ -19,7 +19,7 @@ export const useTokensPriceInfo = () => {
     if (isNotEmptyString(publicKeyHash)) {
       const tokenAddressesList = visibleAccountTokens.map(visibleAccountToken => visibleAccountToken.tokenAddress);
 
-      dispatch(loadTokensPriceInfo.submit({ tokenAddressesList, chainId }));
+      dispatch(loadTokensPriceInfo.submit({ tokenAddressesList, chainId, rpcUrl }));
     }
-  }, [chainId, visibleAccountTokens.length, publicKeyHash]);
+  }, [chainId, rpcUrl, visibleAccountTokens.length, publicKeyHash]);
 };

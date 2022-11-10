@@ -12,10 +12,10 @@ const receiveTokensPriceInfoEpic: Epic = (action$: Observable<Action>) =>
   action$.pipe(
     ofType(loadTokensPriceInfo.submit),
     toPayload(),
-    concatMap(({ tokenAddressesList, chainId }) =>
+    concatMap(({ tokenAddressesList, chainId, rpcUrl }) =>
       forkJoin([from(getTokensPriceInfo(chainId, tokenAddressesList)), from(getGasTokenPriceInfo(chainId))]).pipe(
         map(([tokensPriceInfo, gasTokenPriceInfo]) =>
-          loadTokensPriceInfo.success({ tokensPriceInfo, gasTokenPriceInfo, chainId })
+          loadTokensPriceInfo.success({ tokensPriceInfo, gasTokenPriceInfo, rpcUrl })
         )
       )
     )
