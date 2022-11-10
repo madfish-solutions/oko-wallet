@@ -27,8 +27,7 @@ import {
   useAccountTokensAndGasTokenSelector,
   useVisibleAccountTokensAndGasTokenSelector
 } from '../../store/wallet/wallet.selectors';
-import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
-import { isMaximiseScreen, isWeb } from '../../utils/platform.utils';
+import { redirectToMamixiseView } from '../../utils/redirecit-to-maximise-view.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { getTokenSlug } from '../../utils/token.utils';
 
@@ -67,9 +66,7 @@ export const Tokens: FC = () => {
   }, [searchValue, allAccountTokens, visibleAccountTokensWithGasToken]);
 
   const navigateToAddNewToken = () => {
-    if (isWeb && !isMaximiseScreen) {
-      openMaximiseScreen();
-    }
+    redirectToMamixiseView();
 
     return navigate(ScreensEnum.AddNewToken);
   };
