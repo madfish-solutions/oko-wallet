@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { ViewStyleProps } from '../../../../interfaces/style.interface';
+import { TextStyleProps, ViewStyleProps } from '../../../../interfaces/style.interface';
 import { Row } from '../../../row/row';
 import { Text } from '../../../text/text';
 
@@ -10,11 +10,12 @@ interface Props {
   isOptional?: boolean;
   title: string;
   style?: ViewStyleProps;
+  textStyle?: TextStyleProps;
 }
 
-export const Label: FC<Props> = ({ isOptional = false, title, style }) => (
+export const Label: FC<Props> = ({ isOptional = false, title, style, textStyle }) => (
   <Row style={[styles.root, style]}>
-    <Text style={styles.label}>{title}</Text>
+    <Text style={[styles.label, textStyle]}>{title}</Text>
     {isOptional && <Text style={styles.optionalText}>Optional</Text>}
   </Row>
 );

@@ -7,6 +7,7 @@ import { Icon } from '../../icon/icon';
 import { IconNameEnum } from '../../icon/icon-name.enum';
 import { Row } from '../../row/row';
 import { Text } from '../../text/text';
+import { TokenAmount } from '../../token-amount/token-amount';
 
 import { themeClasses } from './constants';
 import { TokenItemThemesEnum } from './enums';
@@ -55,9 +56,7 @@ export const TokenItem: FC<Props> = ({
         children
       ) : (
         <View style={styles.text}>
-          <Text style={themeClasses[theme].text} numberOfLines={1}>
-            {balance}
-          </Text>
+          <TokenAmount value={balance} style={themeClasses[theme].text} />
           <Text style={styles.usdBalance}>
             {usdBalance} <Text style={styles.usdSymbol}>$</Text>
           </Text>

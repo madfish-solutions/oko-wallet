@@ -7,6 +7,7 @@ import { IconNameEnum } from '../../../icon/icon-name.enum';
 import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
 
 import { styles } from './header-close-button.styles';
+import { HeaderCloseButtonTestIDs } from './header-close-button.test-ids';
 
 const goBackRoutes = [
   ScreensEnum.SendAccountsSelector,
@@ -34,5 +35,12 @@ export const HeaderCloseButton: FC = () => {
     }
   };
 
-  return <TouchableIcon style={styles.root} onPress={onClosePress} name={IconNameEnum.X} />;
+  return (
+    <TouchableIcon
+      style={styles.root}
+      onPress={onClosePress}
+      name={IconNameEnum.X}
+      testID={HeaderCloseButtonTestIDs.CloseButton}
+    />
+  );
 };

@@ -1,4 +1,3 @@
-import { FeeData, TransactionRequest } from '@ethersproject/abstract-provider';
 import { useEffect, useMemo, useState } from 'react';
 
 import { Erc20Abi__factory, Erc721abi__factory } from '../../../../../contract-types';
@@ -18,8 +17,6 @@ interface UseEvmEstimationsArgs {
   assetType: AssetTypeEnum;
 }
 
-type Estimations = Pick<FeeData, 'gasPrice'> & Pick<TransactionRequest, 'gasLimit'>;
-
 export const useEvmEstimations = ({
   network: { rpcUrl },
   asset: { tokenAddress, decimals, tokenId },
@@ -28,7 +25,7 @@ export const useEvmEstimations = ({
   publicKeyHash,
   assetType
 }: UseEvmEstimationsArgs) => {
-  const [estimations, setEstimations] = useState<Estimations | null>(null);
+  const [estimations, setEstimations] = useState<{ gasLimit: number; gasPrice: number } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -59,7 +56,7 @@ export const useEvmEstimations = ({
 
       const fee = await provider.getFeeData();
 
-      setEstimations({ gasLimit: modifyGasLimit(gasLimit), gasPrice: fee.gasPrice });
+      setEstimations({ gasLimit: modifyGasLimit(gasLimit), gasPrice: fee.gasPrice?.toNumber() ?? 0 });
       setIsLoading(false);
     };
 

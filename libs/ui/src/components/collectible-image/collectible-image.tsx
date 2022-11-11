@@ -1,11 +1,13 @@
 import { isDefined, isNotEmptyString, OnEventFn } from '@rnw-community/shared';
-import React, { FC, useEffect, useRef, useState } from 'react';
-import { View, Image, Animated, Easing, Pressable, GestureResponderEvent, ImageStyle } from 'react-native';
+import React, { FC, useState } from 'react';
+import { GestureResponderEvent, Image, ImageStyle, Pressable, View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { getCustomSize } from '../../styles/format-size';
 import { Icon } from '../icon/icon';
 import { IconNameEnum } from '../icon/icon-name.enum';
+import { LoaderSizeEnum } from '../loader/enums';
+import { Loader } from '../loader/loader';
 
 import { styles } from './collectible-image.styles';
 
@@ -30,32 +32,7 @@ export const CollectibleImage: FC<Props> = ({
   style,
   containerStyle
 }) => {
-  const [imageIsLoaded, setImageIsLoaded] = useState(isNotEmptyString(artifactUri) ? false : true);
-  const spinAnimation = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    Animated.loop(
-      Animated.timing(spinAnimation, {
-        toValue: 1,
-        duration: 1500,
-        useNativeDriver: false,
-        easing: Easing.linear
-      })
-    ).start();
-  }, [spinAnimation]);
-
-  const interpolated = spinAnimation.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg']
-  });
-
-  const animatedStyle = {
-    transform: [
-      {
-        rotate: interpolated
-      }
-    ]
-  };
+  const [imageIsLoaded, setImageIsLoaded] = useState(!isNotEmptyString(artifactUri));
 
   return (
     <View style={[styles.root, { width, height }, style]}>
@@ -73,9 +50,7 @@ export const CollectibleImage: FC<Props> = ({
       </Pressable>
       {!imageIsLoaded && (
         <View style={[styles.layout, containerStyle]}>
-          <Animated.View style={animatedStyle}>
-            <Icon name={IconNameEnum.Loaders} size={getCustomSize(4)} />
-          </Animated.View>
+          <Loader size={LoaderSizeEnum.Large} />
         </View>
       )}
     </View>

@@ -14,6 +14,7 @@ interface Props extends FooterButtons {
 
 export const ModalFooterButtons: FC<Props> = ({
   isSubmitDisabled,
+  isCancelDisabled,
   submitTitle,
   cancelTitle = 'Cancel',
   onSubmitPress,
@@ -22,6 +23,7 @@ export const ModalFooterButtons: FC<Props> = ({
 }) => (
   <Row style={[styles.root, style]}>
     <Button
+      disabled={isCancelDisabled}
       theme={ButtonThemesEnum.Primary}
       size={ButtonSizeEnum.Large}
       title={cancelTitle}

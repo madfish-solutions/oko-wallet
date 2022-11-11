@@ -12,7 +12,7 @@ export const formatUnits = (value: BigNumberish, decimals: number) => {
   return bigNum.integerValue().div(new BigNumber(10).pow(decimals));
 };
 
-export const formatUnitsToString = (value: BigNumberish, decimals: number) => formatUnits(value, decimals).toString(10);
+const formatUnitsToString = (value: BigNumberish, decimals: number) => formatUnits(value, decimals).toString(10);
 
 export const parseUnits = (value: BigNumberish, decimals: number) => {
   const bigNum = new BigNumber(value.toString());
@@ -25,17 +25,21 @@ export const parseUnits = (value: BigNumberish, decimals: number) => {
 };
 
 export const formatBalances = (amount: number | string): string => {
-  const correctedAmount = typeof amount === 'string' ? Number(amount) : amount;
+  const correctedAmount = new BigNumber(amount);
 
-  if (Number.isInteger(correctedAmount)) {
+  if (correctedAmount.isInteger()) {
     return amount.toString();
   }
 
-  if (correctedAmount > 1000) {
+  if (correctedAmount.gt(1000)) {
     return correctedAmount.toFixed(2);
   }
 
-  return correctedAmount.toFixed(6);
+  if (correctedAmount.lt(0.000001)) {
+    return '< 0.000001';
+  }
+
+  return correctedAmount.decimalPlaces(6).toFixed();
 };
 
 export const getFormattedBalance = (amount: BigNumberish, decimals: number) =>

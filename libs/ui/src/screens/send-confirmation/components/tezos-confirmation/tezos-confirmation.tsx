@@ -1,25 +1,25 @@
-import { ParamsWithKind, OpKind } from '@taquito/taquito';
+import { OpKind } from '@taquito/taquito';
 import React, { FC, useCallback } from 'react';
 
-import { Text } from '../../../../components/text/text';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import {
   useSelectedAccountSelector,
   useSelectedNetworkSelector,
   useSelectedAccountPublicKeyHashSelector
 } from '../../../../store/wallet/wallet.selectors';
-import { formatUnitsToString } from '../../../../utils/units.utils';
+import { formatUnits, parseUnits } from '../../../../utils/units.utils';
 import { useTransactionHook } from '../../hooks/use-transaction.hook';
+import { OnSend, OnSendTezosArg, TezosTransferParams } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
 
 import { useTezosEstimations } from './hooks/use-tezos-estimations.hook';
 import { useTezosFees } from './hooks/use-tezos-fees.hook';
 
 interface Props {
-  transferParams: ParamsWithKind[];
+  transferParams: TezosTransferParams;
 }
 
-export const TezosConfirmation: FC<Props> = ({ transferParams }) => {
+export const TezosConfirmation: FC<Props> = ({ transferParams: { transferParams, asset } }) => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const sender = useSelectedAccountSelector();
   const network = useSelectedNetworkSelector();
@@ -29,7 +29,12 @@ export const TezosConfirmation: FC<Props> = ({ transferParams }) => {
     transferParams,
     estimations
   );
-  const { transactionHash, isTransactionLoading, setIsTransactionLoading, successCallback } = useTransactionHook();
+
+  // @ts-ignore
+  const [{ to, amount }] = transferParams;
+
+  const { symbol } = asset;
+  const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } = useTransactionHook(to);
 
   const minimalFeePerStorageByteMutez = estimations[0]?.minimalFeePerStorageByteMutez ?? 0;
   const {
@@ -37,56 +42,61 @@ export const TezosConfirmation: FC<Props> = ({ transferParams }) => {
     gasTokenMetadata: { decimals }
   } = network;
 
-  const storageFee = storageLimitSum && formatUnitsToString(storageLimitSum * minimalFeePerStorageByteMutez, decimals);
-  const formattedFee = gasFeeSum && formatUnitsToString(gasFeeSum, decimals);
+  const storageFee =
+    storageLimitSum && formatUnits(storageLimitSum * minimalFeePerStorageByteMutez, decimals).toNumber();
 
-  const onSend = useCallback(() => {
-    setIsTransactionLoading(true);
+  const onSend: OnSend = useCallback(
+    arg => {
+      setIsTransactionLoading(true);
 
-    // Tezos Taquito will add revealGasGee by himself
-    const feeToSend = gasFeeSum - revealGasFee;
+      const { storageFee, gasFee } = arg as OnSendTezosArg;
 
-    const transactionParams = transferParamsWithFees.map((transferParam, index) => {
-      const isLastOpParam = index === transferParams.length - 1;
+      // Tezos Taquito will add revealGasGee by himself
+      const feeToSend = gasFee - revealGasFee;
+      const transactionParams = transferParamsWithFees.map((transferParam, index) => {
+        const isLastOpParam = index === transferParams.length - 1;
 
-      if (transferParam.kind !== OpKind.ACTIVATION) {
-        const correctTransferParam = { ...transferParam };
+        if (transferParam.kind !== OpKind.ACTIVATION) {
+          const correctTransferParam = { ...transferParam };
 
-        if (feeToSend) {
-          correctTransferParam.fee = isLastOpParam ? feeToSend : 0;
+          if (feeToSend) {
+            correctTransferParam.fee = isLastOpParam ? feeToSend : 0;
+          }
+
+          if (storageFee && isOneOperation) {
+            correctTransferParam.storageLimit = parseUnits(
+              storageFee / minimalFeePerStorageByteMutez,
+              decimals
+            ).toNumber();
+          }
+
+          return correctTransferParam;
         }
 
-        if (storageLimitSum && isOneOperation) {
-          correctTransferParam.storageLimit = storageLimitSum;
-        }
+        return transferParam;
+      });
 
-        return correctTransferParam;
-      }
-
-      return transferParam;
-    });
-
-    sendTezosTransaction({
-      transactionParams,
-      rpcUrl,
-      publicKeyHash,
-      successCallback
-    });
-  }, [estimations]);
+      sendTezosTransaction({
+        transactionParams,
+        rpcUrl,
+        publicKeyHash,
+        successCallback,
+        errorCallback
+      });
+    },
+    [estimations]
+  );
 
   return (
     <Confirmation
-      isLoading={isLoading}
-      transactionHash={transactionHash}
-      network={network}
+      isFeeLoading={isLoading}
       onSend={onSend}
       isTransactionLoading={isTransactionLoading}
-    >
-      <>
-        <Text>Storage limit: {storageLimitSum}</Text>
-        {storageLimitSum > 0 && <Text>Storage Fee: {storageFee}</Text>}
-        <Text>TX Fee: {formattedFee}</Text>
-      </>
-    </Confirmation>
+      storageFee={storageFee}
+      receiverPublicKeyHash={to}
+      amount={amount}
+      symbol={symbol}
+      initialTransactionFee={gasFeeSum}
+    />
   );
 };

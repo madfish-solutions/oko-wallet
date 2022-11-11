@@ -22,6 +22,7 @@ import { handleCopyToClipboard } from '../../../../utils/copy-to-clipboard.util'
 import { WarningMessageDropdown } from '../../components/warning-message-dropdown/warning-message-dropdown';
 
 import { styles } from './create-a-new-wallet.styles';
+import { CreateANewWalletTestIDs } from './create-a-new-wallet.test-ids';
 
 export const CreateANewWallet: FC = () => {
   const { params: routeParams } = useRoute<RouteProp<ScreensParamList, ScreensEnum.CreateANewWallet>>();
@@ -30,11 +31,18 @@ export const CreateANewWallet: FC = () => {
   const wordsState = routeParams?.wordsAmount ?? words[0];
 
   const generateMnemonic = () => {
-    if (wordsState.value === MnemonicLengthEnum.Twelve) {
-      return generateMnemonicLib(128).split(' ');
+    switch (wordsState.value) {
+      case MnemonicLengthEnum.Twelve:
+        return generateMnemonicLib(128).split(' ');
+      case MnemonicLengthEnum.Fifteen:
+        return generateMnemonicLib(160).split(' ');
+      case MnemonicLengthEnum.Eighteen:
+        return generateMnemonicLib(192).split(' ');
+      case MnemonicLengthEnum.TwentyOne:
+        return generateMnemonicLib(224).split(' ');
+      default:
+        return generateMnemonicLib(256).split(' ');
     }
-
-    return generateMnemonicLib(256).split(' ');
   };
 
   const [wordsAmount, setWordsAmount] = useState(wordsState);
@@ -84,8 +92,7 @@ export const CreateANewWallet: FC = () => {
     navigate(ScreensEnum.VerifyMnemonic, { mnemonic });
   };
 
-  const navigateToWordsAmountSelector = () =>
-    navigate(ScreensEnum.WordsAmountSelector, { wordsAmount, createANewWallet: true });
+  const navigateToWordsAmountSelector = () => navigate(ScreensEnum.WordsAmountSelector, { wordsAmount });
 
   const generateNewMnemonic = () => {
     setMnemonic(generateMnemonic);
@@ -127,26 +134,49 @@ export const CreateANewWallet: FC = () => {
       isSubmitDisabled={isError}
       scrollViewRef={scrollViewRef}
     >
-      <WarningMessageDropdown checkIsOpenDropdownState={setIsOpenWarningDropdown} style={styles.warning} />
+      <WarningMessageDropdown
+        checkIsOpenDropdownState={setIsOpenWarningDropdown}
+        style={styles.warning}
+        testID={CreateANewWalletTestIDs.WarningMessageDropdown}
+      />
 
       <Row style={styles.wordsAmount}>
         <Text style={styles.amountWordsText}>Mnemonic Length</Text>
 
-        <DropdownSelectedItem title={wordsAmount.value.toString()} onPress={navigateToWordsAmountSelector} />
+        <DropdownSelectedItem
+          title={wordsAmount.value.toString()}
+          onPress={navigateToWordsAmountSelector}
+          testID={CreateANewWalletTestIDs.WordsAmountDropdown}
+        />
       </Row>
 
-      <Mnemonic mnemonic={mnemonic} isShowProtectLayout={isShowProtectLayout} handleHideLayout={handleHideLayout}>
+      <Mnemonic
+        mnemonic={mnemonic}
+        isShowProtectLayout={isShowProtectLayout}
+        handleHideLayout={handleHideLayout}
+        testID={CreateANewWalletTestIDs.HandleHideLayout}
+      >
         <MnemonicActionButton
           onPress={generateNewMnemonic}
           iconName={IconNameEnum.Refresh}
           text="Generate New"
           style={styles.marginRight}
+          testID={CreateANewWalletTestIDs.GenerateNewMnemonic}
         />
-        <MnemonicActionButton onPress={handleCopyMnemonic} iconName={IconNameEnum.Copy} text="Copy" />
+        <MnemonicActionButton
+          onPress={handleCopyMnemonic}
+          iconName={IconNameEnum.Copy}
+          text="Copy"
+          testID={CreateANewWalletTestIDs.CopySeedButton}
+        />
       </Mnemonic>
 
       <Column style={styles.confirmation}>
-        <Pressable onPress={handleToggleCheckbox} style={styles.confirmationWrapper}>
+        <Pressable
+          onPress={handleToggleCheckbox}
+          style={styles.confirmationWrapper}
+          testID={CreateANewWalletTestIDs.SavedMnemonicCheckbox}
+        >
           {isSelectedCheckbox ? (
             <Icon name={IconNameEnum.SelectedSquareCheckbox} iconStyle={styles.checkbox} />
           ) : (

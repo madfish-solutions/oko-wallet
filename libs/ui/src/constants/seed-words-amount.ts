@@ -1,5 +1,7 @@
 import { Option } from '../components/dropdown/option.interface';
 
+import { SeedWordsAmountTestIDs } from './seed-words-amount.test-ids';
+
 export type SeedWordsAmount = Option<number>;
 
 export enum MnemonicLengthEnum {
@@ -22,40 +24,32 @@ export const words: SeedWordsAmount[] = [
   {
     id: 1,
     title: 'I  have  a 12 word phrase',
-    value: MnemonicLengthEnum.Twelve
+    value: MnemonicLengthEnum.Twelve,
+    testID: SeedWordsAmountTestIDs.WordsAmount12
   },
   {
     id: 2,
     title: 'I  have  a 15 word phrase',
-    value: MnemonicLengthEnum.Fifteen
+    value: MnemonicLengthEnum.Fifteen,
+    testID: SeedWordsAmountTestIDs.WordsAmount15
   },
   {
     id: 3,
     title: 'I  have  a 18 word phrase',
-    value: MnemonicLengthEnum.Eighteen
+    value: MnemonicLengthEnum.Eighteen,
+    testID: SeedWordsAmountTestIDs.WordsAmount18
   },
   {
     id: 4,
     title: 'I  have  a 21 word phrase',
-    value: MnemonicLengthEnum.TwentyOne
+    value: MnemonicLengthEnum.TwentyOne,
+    testID: SeedWordsAmountTestIDs.WordsAmount21
   },
   {
     id: 5,
     title: 'I  have  a 24 word phrase',
-    value: MnemonicLengthEnum.TwentyFour
-  }
-];
-
-export const createANewWalletWords: SeedWordsAmount[] = [
-  {
-    id: 1,
-    title: 'I  have  a 12 word phrase',
-    value: MnemonicLengthEnum.Twelve
-  },
-  {
-    id: 5,
-    title: 'I  have  a 24 word phrase',
-    value: MnemonicLengthEnum.TwentyFour
+    value: MnemonicLengthEnum.TwentyFour,
+    testID: SeedWordsAmountTestIDs.WordsAmount24
   }
 ];
 

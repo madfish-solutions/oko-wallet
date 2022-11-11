@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { CopyText } from '../../../../components/copy-text/copy-text';
+import { IconWithBorderEnum } from '../../../../components/icon-with-border/enums';
 import { IconWithBorder } from '../../../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
@@ -14,6 +15,7 @@ import { Text } from '../../../../components/text/text';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { AccountInterface } from '../../../../interfaces/account.interface';
+import { ViewStyleProps } from '../../../../interfaces/style.interface';
 import { ModalGasToken } from '../../../../modals/components/modal-gas-token/modal-gas-token';
 import { useSelectedNetworkSelector, useSelectedNetworkTypeSelector } from '../../../../store/wallet/wallet.selectors';
 import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
@@ -24,9 +26,11 @@ import { styles } from './selected-account.styles';
 
 interface Props {
   account: AccountInterface;
+  isDisabled?: boolean;
+  style?: ViewStyleProps;
 }
 
-export const SelectedAccount: FC<Props> = ({ account }) => {
+export const SelectedAccount: FC<Props> = ({ account, isDisabled = false, style }) => {
   const { navigate } = useNavigation();
   const [balance, setBalance] = useState('0');
   const network = useSelectedNetworkSelector();
@@ -58,19 +62,19 @@ export const SelectedAccount: FC<Props> = ({ account }) => {
   };
 
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, style]}>
       <Row style={styles.wrapper}>
-        <Pressable onPress={onChangeAccountPress}>
+        <Pressable onPress={onChangeAccountPress} disabled={isDisabled}>
           <Row>
-            <IconWithBorder>
-              <RobotIcon seed={publicKeyHash} />
+            <IconWithBorder type={IconWithBorderEnum.Ternary} style={styles.icon}>
+              <RobotIcon seed={publicKeyHash} size={getCustomSize(2.25)} />
             </IconWithBorder>
             <View style={styles.nameContainer}>
               <Text style={styles.name} numberOfLines={1}>
                 {account.name}
               </Text>
             </View>
-            <Icon name={IconNameEnum.Dropdown} size={getCustomSize(2)} />
+            {!isDisabled && <Icon name={IconNameEnum.Dropdown} size={getCustomSize(2)} />}
           </Row>
         </Pressable>
       </Row>

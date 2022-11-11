@@ -91,7 +91,7 @@ export type ScreensParamList = {
   [ScreensEnum.DappConfirmation]: { dappName: string; id: string; logo: string };
   [ScreensEnum.ScanQrCode]: undefined;
   [ScreensEnum.CreateANewWallet]?: { wordsAmount: SeedWordsAmount };
-  [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount; createANewWallet?: boolean };
+  [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.VerifyMnemonic]: { mnemonic: string[] };
   [ScreensEnum.AlmostDone]: { mnemonic: string; currentStep: number; stepsAmount: number };
   [ScreensEnum.Activity]: undefined;

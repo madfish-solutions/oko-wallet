@@ -112,7 +112,6 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.Send} component={Send} />
               <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
               <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
-              <Stack.Screen name={ScreensEnum.SendConfirmation} component={SendConfirmation} />
               <Stack.Screen name={ScreensEnum.Tokens} component={Tokens} />
               <Stack.Screen name={ScreensEnum.ScanQrCode} component={ScanQrCode} />
               <Stack.Screen name={ScreensEnum.Token} component={Token} />
@@ -180,11 +179,16 @@ export const Navigator: FC = () => {
                 options={{ title: 'Amount Words' }}
                 component={WordsAmountSelector}
               />
-              {/* <Stack.Screen
+              <Stack.Screen
                 name={ScreensEnum.SettingsResetWalletConfirm}
                 options={{ title: 'Reset Wallet' }}
                 component={SettingsResetWalletConfirm}
-              /> */}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SendConfirmation}
+                options={{ title: 'Confirm Operation' }}
+                component={SendConfirmation}
+              />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptionsWithBackButton}>
@@ -233,11 +237,6 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.SettingsLockTimeSelector}
                 options={{ title: 'Lock time' }}
                 component={SettingsLockTimeSelector}
-              />
-              <Stack.Screen
-                name={ScreensEnum.SettingsResetWalletConfirm}
-                options={{ title: 'Reset Wallet' }}
-                component={SettingsResetWalletConfirm}
               />
             </Stack.Group>
           </>
