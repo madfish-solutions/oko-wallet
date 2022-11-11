@@ -139,6 +139,13 @@ browser.runtime.onConnect.addListener(port => {
 
           return Promise.resolve();
         }
+        case 'eth_accounts': {
+          if (dappInfo !== undefined && dappInfo.address !== undefined) {
+            connectToDappInBackground(dappInfo, id, port, 'request');
+          }
+
+          return Promise.resolve();
+        }
         case 'wallet_addEthereumChain':
         case 'wallet_switchEthereumChain': {
           await openSwitchChainPopup(origin, id, data.params[0].chainId);

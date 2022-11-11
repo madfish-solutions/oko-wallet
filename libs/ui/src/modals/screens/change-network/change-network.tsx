@@ -16,6 +16,7 @@ import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { AllowsRules } from '../../../interfaces/dapp-connection.interface';
 import { useAllDapps } from '../../../store/dapps/dapps.selectors';
 import { changeNetworkAction } from '../../../store/wallet/wallet.actions';
+import { useAllNetworksSelector, useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { eraseProtocol } from '../../../utils/string.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
@@ -30,6 +31,8 @@ const changeNetworkRules: AllowsRules[] = [
 
 export const ChangeNetwork: FC = () => {
   const { navigate } = useNavigation();
+  const { name: selectedNetworkName } = useSelectedNetworkSelector();
+  const networks = useAllNetworksSelector();
   const dispatch = useDispatch();
   const {
     params: { dappName, chainId, id }
@@ -38,6 +41,8 @@ export const ChangeNetwork: FC = () => {
 
   const navigateToWalletScreen = () => navigate(ScreensEnum.Wallet);
   const copy = () => handleCopyToClipboard(dappName);
+  const dappsNetwork = networks.find(network => network.chainId === parseInt(chainId.substring(2), 10).toString());
+
   const responseToDapp = {
     data: {
       data: { id: Number(id), jsonrpc: '2.0', result: null, method: 'wallet_switchEthereumChain' },
@@ -87,14 +92,14 @@ export const ChangeNetwork: FC = () => {
           <Text style={styles.grayText}>From</Text>
           <Row style={styles.chainSelector}>
             <DappImage size={ButtonSizeEnum.Small} />
-            <Text style={styles.chainName}>PooChain</Text>
+            <Text style={styles.chainName}>{selectedNetworkName}</Text>
           </Row>
         </View>
         <View style={styles.addressTo}>
           <Text style={styles.grayText}>To</Text>
           <Row style={styles.chainSelector}>
             <DappImage size={ButtonSizeEnum.Small} />
-            <Text style={styles.chainName}>{chainId}</Text>
+            <Text style={styles.chainName}>{dappsNetwork?.name}</Text>
           </Row>
         </View>
         <AllowsBlock rules={changeNetworkRules} />
