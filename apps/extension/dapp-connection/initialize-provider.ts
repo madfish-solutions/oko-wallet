@@ -1,9 +1,8 @@
 import { Duplex } from 'stream';
 
-import { MetaMaskInpageProvider, MetaMaskInpageProviderOptions } from './inpage-provider';
-import { shimWeb3 } from './shim-web3';
+import { InpageProvider, InpageProviderOptions } from './inpage-provider';
 
-interface InitializeProviderOptions extends MetaMaskInpageProviderOptions {
+interface InitializeProviderOptions extends InpageProviderOptions {
   /**
    * The stream used to connect to the wallet.
    */
@@ -21,7 +20,7 @@ interface InitializeProviderOptions extends MetaMaskInpageProviderOptions {
 }
 
 /**
- * Initializes a MetaMaskInpageProvider and (optionally) assigns it as window.ethereum.
+ * Initializes a InpageProvider and (optionally) assigns it as window.ethereum.
  *
  * @param options - An options bag.
  * @param options.connectionStream - A Node.js stream.
@@ -29,7 +28,6 @@ interface InitializeProviderOptions extends MetaMaskInpageProviderOptions {
  * @param options.maxEventListeners - The maximum number of event listeners.
  * @param options.shouldSendMetadata - Whether the provider should send page metadata.
  * @param options.shouldSetOnWindow - Whether the provider should be set as window.ethereum.
- * @param options.shouldShimWeb3 - Whether a window.web3 shim should be injected.
  * @returns The initialized provider (whether set or not).
  */
 export function initializeProvider({
@@ -38,11 +36,10 @@ export function initializeProvider({
   logger = console,
   maxEventListeners = 100,
   shouldSendMetadata = true,
-  shouldSetOnWindow = true,
-  shouldShimWeb3 = false
-}: InitializeProviderOptions): MetaMaskInpageProvider {
+  shouldSetOnWindow = true
+}: InitializeProviderOptions): InpageProvider {
   console.log('injected...');
-  const provider = new MetaMaskInpageProvider(connectionStream, {
+  const provider = new InpageProvider(connectionStream, {
     jsonRpcStreamName,
     logger,
     maxEventListeners,
@@ -58,10 +55,6 @@ export function initializeProvider({
     setGlobalProvider(proxiedProvider);
   }
 
-  if (shouldShimWeb3) {
-    shimWeb3(proxiedProvider, logger);
-  }
-
   return proxiedProvider;
 }
 
@@ -71,7 +64,7 @@ export function initializeProvider({
  *
  * @param providerInstance - The provider instance.
  */
-export function setGlobalProvider(providerInstance: MetaMaskInpageProvider): void {
+export function setGlobalProvider(providerInstance: InpageProvider): void {
   (window as Record<string, any>).ethereum = providerInstance;
   window.dispatchEvent(new Event('ethereum#initialized'));
 }

@@ -7,12 +7,6 @@ export type Maybe<T> = Partial<T> | null | undefined;
 
 export type ConsoleLike = Pick<Console, 'log' | 'warn' | 'error' | 'debug' | 'info' | 'trace'>;
 
-// Constants
-
-export const EMITTED_NOTIFICATIONS = Object.freeze([
-  'eth_subscription' // per eth-json-rpc-filters/subscriptionManager
-]);
-
 // Utility functions
 
 /**
@@ -49,7 +43,7 @@ function createErrorMiddleware(log: ConsoleLike): JsonRpcMiddleware<unknown, unk
       if (!error) {
         return done();
       }
-      log.error(`MetaMask - RPC Error: ${error.message}`, error);
+      log.error(`RPC Error: ${error.message}`, error);
 
       return done();
     });

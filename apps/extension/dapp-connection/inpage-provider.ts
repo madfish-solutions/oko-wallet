@@ -24,7 +24,7 @@ export interface SendSyncJsonRpcRequest extends JsonRpcRequest<unknown> {
 
 type WarningEventName = keyof SentWarningsState['events'];
 
-export interface MetaMaskInpageProviderOptions extends Partial<Omit<StreamProviderOptions, 'rpcMiddleware'>> {
+export interface InpageProviderOptions extends Partial<Omit<StreamProviderOptions, 'rpcMiddleware'>> {
   /**
    * Whether the provider should send page metadata.
    */
@@ -46,11 +46,11 @@ interface SentWarningsState {
 }
 
 /**
- * The name of the stream consumed by {@link MetaMaskInpageProvider}.
+ * The name of the stream consumed by {@link InpageProvider}.
  */
-export const MetaMaskInpageProviderStreamName = 'metamask-provider';
+export const InpageProviderStreamName = 'oko-provider';
 
-export class MetaMaskInpageProvider extends AbstractStreamProvider {
+export class InpageProvider extends AbstractStreamProvider {
   protected _sentWarnings: SentWarningsState = {
     // methods
     enable: false,
@@ -68,7 +68,7 @@ export class MetaMaskInpageProvider extends AbstractStreamProvider {
   /**
    * Experimental methods can be found here.
    */
-  public readonly _metamask: ReturnType<MetaMaskInpageProvider['_getExperimentalApi']>;
+  public readonly _metamask: ReturnType<InpageProvider['_getExperimentalApi']>;
 
   public networkVersion: string | null;
 
@@ -81,7 +81,6 @@ export class MetaMaskInpageProvider extends AbstractStreamProvider {
    * @param connectionStream - A Node.js duplex stream
    * @param options - An options bag
    * @param options.jsonRpcStreamName - The name of the internal JSON-RPC stream.
-   * Default: metamask-provider
    * @param options.logger - The logging API to use. Default: console
    * @param options.maxEventListeners - The maximum number of event
    * listeners. Default: 100
@@ -91,11 +90,11 @@ export class MetaMaskInpageProvider extends AbstractStreamProvider {
   constructor(
     connectionStream: Duplex,
     {
-      jsonRpcStreamName = MetaMaskInpageProviderStreamName,
+      jsonRpcStreamName = InpageProviderStreamName,
       logger = console,
       maxEventListeners,
       shouldSendMetadata
-    }: MetaMaskInpageProviderOptions = {}
+    }: InpageProviderOptions = {}
   ) {
     super(connectionStream, {
       jsonRpcStreamName,
@@ -357,9 +356,9 @@ export class MetaMaskInpageProvider extends AbstractStreamProvider {
     return new Proxy(
       {
         /**
-         * Determines if MetaMask is unlocked by the user.
+         * Determines if wallet is unlocked by the user.
          *
-         * @returns Promise resolving to true if MetaMask is currently unlocked
+         * @returns Promise resolving to true if wallet is currently unlocked
          */
         isUnlocked: async () => {
           if (!this._state.initialized) {
@@ -404,7 +403,7 @@ export class MetaMaskInpageProvider extends AbstractStreamProvider {
    * events and sets relevant public state. Does nothing if neither the chainId
    * nor the networkVersion are different from existing values.
    *
-   * @emits MetamaskInpageProvider#networkChanged
+   * @emits InpageProvider#networkChanged
    * @param networkInfo - An object with network info.
    * @param networkInfo.chainId - The latest chain ID.
    * @param networkInfo.networkVersion - The latest network ID.

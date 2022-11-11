@@ -7,7 +7,7 @@ import pump from 'pump';
 import type { Duplex } from 'stream';
 
 import { BaseProvider, BaseProviderOptions } from './base-provider';
-import { EMITTED_NOTIFICATIONS, isValidChainId, isValidNetworkVersion } from './utils';
+import { isValidChainId, isValidNetworkVersion } from './utils';
 
 export interface StreamProviderOptions extends BaseProviderOptions {
   /**
@@ -54,12 +54,7 @@ export abstract class AbstractStreamProvider extends BaseProvider {
 
     // Set up connectionStream multiplexing
     const mux = new ObjectMultiplex();
-    pump(
-      connectionStream,
-      mux as unknown as Duplex,
-      connectionStream,
-      this._handleStreamDisconnect.bind(this, 'MetaMask')
-    );
+    pump(connectionStream, mux as unknown as Duplex, connectionStream, this._handleStreamDisconnect.bind(this, 'Oko'));
 
     // Set up RPC connection
     this._jsonRpcConnection = createStreamMiddleware();
@@ -67,30 +62,11 @@ export abstract class AbstractStreamProvider extends BaseProvider {
       this._jsonRpcConnection.stream,
       mux.createStream(jsonRpcStreamName) as unknown as Duplex,
       this._jsonRpcConnection.stream,
-      this._handleStreamDisconnect.bind(this, 'MetaMask RpcProvider')
+      this._handleStreamDisconnect.bind(this, 'RpcProvider')
     );
 
     // Wire up the JsonRpcEngine to the JSON-RPC connection stream
     this._rpcEngine.push(this._jsonRpcConnection.middleware);
-
-    // Handle JSON-RPC notifications
-    this._jsonRpcConnection.events.on('notification', payload => {
-      const { method, params } = payload;
-      if (method === 'metamask_accountsChanged') {
-        this._handleAccountsChanged(params);
-      } else if (method === 'metamask_unlockStateChanged') {
-        this._handleUnlockStateChanged(params);
-      } else if (method === 'metamask_chainChanged') {
-        this._handleChainChanged(params);
-      } else if (EMITTED_NOTIFICATIONS.includes(method)) {
-        this.emit('message', {
-          type: method,
-          data: params
-        });
-      } else if (method === 'METAMASK_STREAM_FAILURE') {
-        connectionStream.destroy(new Error('permanently disconnected'));
-      }
-    });
   }
 
   //====================
@@ -100,7 +76,7 @@ export abstract class AbstractStreamProvider extends BaseProvider {
   /**
    * **MUST** be called by child classes.
    *
-   * Calls `metamask_getProviderState` and passes the result to
+   * Calls `oko_getProviderState` and passes the result to
    * {@link BaseProvider._initializeState}. Logs an error if getting initial state
    * fails. Throws if called after initialization has completed.
    */
@@ -109,10 +85,10 @@ export abstract class AbstractStreamProvider extends BaseProvider {
 
     try {
       initialState = (await this.request({
-        method: 'metamask_getProviderState'
+        method: 'oko_getProviderState'
       })) as Parameters<BaseProvider['_initializeState']>[0];
     } catch (error) {
-      this._log.error('MetaMask: Failed to get initial state. Please report this bug.', error);
+      this._log.error('Failed to get initial state. Please report this bug.', error);
     }
     this._initializeState(initialState);
   }
@@ -124,7 +100,7 @@ export abstract class AbstractStreamProvider extends BaseProvider {
    * @emits BaseProvider#disconnect
    */
   private _handleStreamDisconnect(streamName: string, error: Error) {
-    let warningMsg = `MetaMask: Lost connection to "${streamName}".`;
+    let warningMsg = `Lost connection to "${streamName}".`;
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (error?.stack) {
       warningMsg += `\n${error.stack}`;
@@ -176,7 +152,7 @@ export class StreamProvider extends AbstractStreamProvider {
   /**
    * **MUST** be called after instantiation to complete initialization.
    *
-   * Calls `metamask_getProviderState` and passes the result to
+   * Calls `oko_getProviderState` and passes the result to
    * {@link BaseProvider._initializeState}. Logs an error if getting initial state
    * fails. Throws if called after initialization has completed.
    */

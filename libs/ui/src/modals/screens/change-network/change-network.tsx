@@ -30,7 +30,7 @@ const changeNetworkRules: AllowsRules[] = [
 ];
 
 export const ChangeNetwork: FC = () => {
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
   const { name: selectedNetworkName } = useSelectedNetworkSelector();
   const networks = useAllNetworksSelector();
   const dispatch = useDispatch();
@@ -46,9 +46,9 @@ export const ChangeNetwork: FC = () => {
   const responseToDapp = {
     data: {
       data: { id: Number(id), jsonrpc: '2.0', result: null, method: 'wallet_switchEthereumChain' },
-      name: 'metamask-provider'
+      name: 'oko-provider'
     },
-    target: 'metamask-inpage',
+    target: 'oko-inpage',
     newChain: chainId,
     dappName
   };
@@ -60,7 +60,10 @@ export const ChangeNetwork: FC = () => {
       if (tabs[0].id !== undefined) {
         browser.tabs.sendMessage(tabs[0].id, responseToDapp);
 
-        setTimeout(() => window.close(), 1000);
+        setTimeout(() => {
+          goBack();
+          window.close();
+        }, 1000);
       }
     });
   };

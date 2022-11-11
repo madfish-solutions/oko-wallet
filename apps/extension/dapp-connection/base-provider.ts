@@ -85,11 +85,6 @@ export abstract class BaseProvider extends SafeEventEmitter {
    */
   public chainId: string | null;
 
-  /**
-   * The user's currently selected Ethereum address.
-   * If null, MetaMask is either locked or the user has not permitted any
-   * addresses to be viewed.
-   */
   public selectedAddress: string | null;
 
   /**
@@ -262,7 +257,7 @@ export abstract class BaseProvider extends SafeEventEmitter {
    * required events. Idempotent.
    *
    * @param chainId - The ID of the newly connected chain.
-   * @emits MetaMaskInpageProvider#connect
+   * @emits InpageProvider#connect
    */
   protected _handleConnect(chainId: string) {
     if (!this._state.isConnected) {
@@ -350,13 +345,13 @@ export abstract class BaseProvider extends SafeEventEmitter {
     let _accounts = accounts;
 
     if (!Array.isArray(accounts)) {
-      this._log.error('MetaMask: Received invalid accounts parameter. Please report this bug.', accounts);
+      this._log.error('Received invalid accounts parameter. Please report this bug.', accounts);
       _accounts = [];
     }
 
     for (const account of accounts) {
       if (typeof account !== 'string') {
-        this._log.error('MetaMask: Received non-string account. Please report this bug.', accounts);
+        this._log.error('Received non-string account. Please report this bug.', accounts);
         _accounts = [];
         break;
       }
@@ -367,7 +362,7 @@ export abstract class BaseProvider extends SafeEventEmitter {
       // we should always have the correct accounts even before eth_accounts
       // returns
       if (isEthAccounts && this._state.accounts !== null) {
-        this._log.error("MetaMask: 'eth_accounts' unexpectedly updated accounts. Please report this bug.", _accounts);
+        this._log.error("'eth_accounts' unexpectedly updated accounts. Please report this bug.", _accounts);
       }
 
       this._state.accounts = _accounts as string[];
@@ -398,7 +393,7 @@ export abstract class BaseProvider extends SafeEventEmitter {
    */
   protected _handleUnlockStateChanged({ accounts, isUnlocked }: { accounts?: string[]; isUnlocked?: boolean } = {}) {
     if (typeof isUnlocked !== 'boolean') {
-      this._log.error('MetaMask: Received invalid isUnlocked parameter. Please report this bug.');
+      this._log.error('Received invalid isUnlocked parameter. Please report this bug.');
 
       return;
     }

@@ -7,20 +7,19 @@ import { WindowPostMessageStream } from '@metamask/post-message-stream';
 import { initializeProvider } from './dapp-connection/initialize-provider';
 
 // contexts
-const CONTENT_SCRIPT = 'metamask-contentscript';
-const INPAGE = 'metamask-inpage';
+const CONTENT_SCRIPT = 'oko-contentscript';
+const INPAGE = 'oko-inpage';
 
 //
 // setup plugin communication
 //
 
 // setup background connection
-const metamaskStream = new WindowPostMessageStream({
+const stream = new WindowPostMessageStream({
   name: INPAGE,
   target: CONTENT_SCRIPT
 });
 
 initializeProvider({
-  connectionStream: metamaskStream,
-  shouldShimWeb3: true
+  connectionStream: stream
 });

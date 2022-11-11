@@ -14,7 +14,7 @@ export async function sendSiteMetadata(engine: JsonRpcEngine, log: any): Promise
       {
         jsonrpc: '2.0',
         id: 1,
-        method: 'metamask_sendDomainMetadata',
+        method: 'sendDomainMetadata',
         params: domainMetadata
       },
       () => undefined

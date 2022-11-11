@@ -1,11 +1,11 @@
 import './shim.js';
-import { Windows } from 'webextension-polyfill';
 import { browser, Runtime } from 'webextension-polyfill-ts';
 
 import { BackgroundMessageType } from '../../libs/ui/src/messagers/enums/background-message-types.enum';
 import { BackgroundMessage } from '../../libs/ui/src/messagers/types/background-message.types';
 import { BackgroundRootState, createBackgroundStore } from '../../libs/ui/src/store/background-store';
-import { DappPayloadState } from '../../libs/ui/src/store/dapps/dapps.state';
+
+import { connectToDappInBackground, openConnectPopup, openSwitchChainPopup } from './background-script.utils';
 
 console.log('background is working...');
 const INITIAL_PASSWORD_HASH = '';
@@ -19,8 +19,6 @@ let isLockApp = true;
 
 let isFullpageOpen = false;
 
-let openExtensionId = 0;
-
 let currentLogo = '';
 
 browser.scripting.registerContentScripts([
@@ -32,59 +30,6 @@ browser.scripting.registerContentScripts([
     world: 'MAIN'
   }
 ]);
-
-const getExtensionPopup = (windows: Windows.Window[], id: number) =>
-  windows.find(win => win.type === 'popup' && win.id === id);
-
-const openConnectPopup = async (origin: string, id: string, logo: string) => {
-  const allWindows = await browser.windows.getAll().then(windows => windows);
-  const activePopup = getExtensionPopup(allWindows, openExtensionId);
-  if (activePopup && activePopup.id !== undefined) {
-    browser.windows.update(activePopup.id, { focused: true });
-  } else {
-    const newWindow = await browser.windows.create({
-      type: 'popup',
-      url: browser.runtime.getURL(`popup.html?&origin=${origin}&id=${id}&logo=${logo}`),
-      width: 360,
-      height: 600,
-      top: 20,
-      left: 20
-    });
-
-    if (newWindow.id !== undefined) {
-      openExtensionId = newWindow.id;
-    }
-  }
-};
-
-const openSwitchChainPopup = async (origin: string, id: string, chainId: string) => {
-  await browser.windows.create({
-    type: 'popup',
-    url: browser.runtime.getURL(`popup.html?&origin=${origin}&id=${id}&chainId=${chainId}`),
-    width: 360,
-    height: 600,
-    top: 20,
-    left: 20
-  });
-};
-
-const connectToDappInBackground = (
-  dappInfo: Omit<DappPayloadState, 'name'>,
-  id: number,
-  port: Runtime.Port,
-  target: string
-) => {
-  if (Object.keys(dappInfo).length > 0) {
-    const message = {
-      result: dappInfo,
-      target,
-      id
-    };
-    port.postMessage(message);
-  }
-
-  return Promise.resolve();
-};
 
 browser.runtime.onConnect.addListener(port => {
   // check for time expired and max-view no opened then extension need to lock
@@ -114,7 +59,7 @@ browser.runtime.onConnect.addListener(port => {
 
   // listen content script messages
   port.onMessage.addListener(async msg => {
-    if (msg.data?.target === 'metamask-contentscript') {
+    if (msg.data?.target === 'oko-contentscript') {
       const data = msg.data?.data?.data;
       const id = data?.id;
       const origin = msg.origin;
@@ -152,14 +97,15 @@ browser.runtime.onConnect.addListener(port => {
 
           return Promise.resolve();
         }
-        case 'metamask_getProviderState': {
+        // @TODO : improve response
+        case 'oko_getProviderState': {
           if (dappInfo !== undefined && dappInfo.address !== undefined) {
             await connectToDappInBackground(dappInfo, id, port, 'providerState');
           }
 
           return Promise.resolve();
         }
-        case 'metamask_sendDomainMetadata': {
+        case 'sendDomainMetadata': {
           currentLogo = data?.params.icon;
 
           return Promise.resolve();

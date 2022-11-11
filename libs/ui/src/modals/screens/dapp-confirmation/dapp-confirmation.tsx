@@ -54,16 +54,16 @@ export const DappConfirmation: FC = () => {
   const { chainId } = useSelectedNetworkSelector();
   const { name } = useSelectedAccountSelector();
   const { decimals, symbol, balance } = useGasTokenSelector();
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
   const {
     params: { dappName, id, logo }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DappConfirmation>>();
   const responseToDapp: MessageToDapp = {
     data: {
       data: { id: Number(id), method: 'eth_requestAccounts', jsonrpc: '2.0', result: [selectedAddress] },
-      name: 'metamask-provider'
+      name: 'oko-provider'
     },
-    target: 'metamask-inpage',
+    target: 'oko-inpage',
     dappName
   };
   const gasBalance = getFormattedBalance(balance.data, decimals);
@@ -75,6 +75,7 @@ export const DappConfirmation: FC = () => {
         const hexChainId = `0x${Number(chainId).toString(16)}`;
         dispatch(updateDappInfo({ name: dappName, chainId: hexChainId, address: selectedAddress, logoUrl: logo }));
         setTimeout(() => {
+          goBack();
           window.close();
         }, CLOSE_DELAY);
       }

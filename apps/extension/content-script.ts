@@ -3,6 +3,8 @@ import { WindowPostMessageStream } from '@metamask/post-message-stream';
 import pump from 'pump';
 import { runtime } from 'webextension-polyfill';
 
+import { prepareResponse } from './background-script.utils';
+
 const myPort = runtime.connect({ name: 'port-from-cs' });
 
 interface DappInfo {
@@ -10,19 +12,12 @@ interface DappInfo {
   newChainId?: string;
 }
 
+// temporary save already authorized dapps to avoid  updating store time gap
 const authorizedDapps: Record<string, DappInfo> = {};
 
-const prepareResponse = (result: unknown, id: number) => ({
-  data: {
-    data: { id: Number(id), jsonrpc: '2.0', result },
-    name: 'metamask-provider'
-  },
-  target: 'metamask-inpage'
-});
-
-const CONTENT_SCRIPT = 'metamask-contentscript';
-const INPAGE = 'metamask-inpage';
-const PROVIDER = 'metamask-provider';
+const CONTENT_SCRIPT = 'oko-contentscript';
+const INPAGE = 'oko-inpage';
+const PROVIDER = 'oko-provider';
 
 const pageStream = new WindowPostMessageStream({
   name: CONTENT_SCRIPT,
@@ -36,7 +31,7 @@ myPort.onMessage.addListener(async msg => {
     request = prepareResponse([msg.result.address], msg.id);
   }
   if (msg.target === 'providerState') {
-    const result = { accounts: [msg.result.address], chainId: '0x1', isUnlocked: true, networkVersion: '56' };
+    const result = { accounts: [msg.result.address], chainId: '0x2019', isUnlocked: true, networkVersion: '56' };
     request = prepareResponse(result, msg.id);
   }
   if (msg.target === 'chainId') {
@@ -48,9 +43,9 @@ myPort.onMessage.addListener(async msg => {
   return Promise.resolve();
 });
 
-// listen dapps and send message to backgorund-script
+// listen dapps and send message to background-script or answer to dapp directly
 window.addEventListener('message', async evt => {
-  if (evt.data?.target === 'metamask-contentscript') {
+  if (evt.data?.target === 'oko-contentscript') {
     const method = evt.data?.data?.data?.method;
     const id = evt.data?.data?.data?.id;
     const dappName = evt.origin;
