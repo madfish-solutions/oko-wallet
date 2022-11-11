@@ -1,9 +1,9 @@
-import {WelcomePage} from "./pages/welcome.page";
-import {ImportExistingWalletPage} from "./pages/import-existing-wallet.page";
-import {CreateNewWalletPage} from "./pages/create-new-wallet.page";
+import { CreateNewWalletPage } from './create-new-wallet.page';
+import { ImportExistingWalletPage } from './import-existing-wallet.page';
+import { WelcomePage } from './welcome.page';
 
 export const Pages = {
-    Welcome: new WelcomePage(),
-    CreateNewWallet: new CreateNewWalletPage(),
-    ImportExistingWallet: new ImportExistingWalletPage()
+  Welcome: new WelcomePage(),
+  CreateNewWallet: new CreateNewWalletPage(),
+  ImportExistingWallet: new ImportExistingWalletPage()
 };

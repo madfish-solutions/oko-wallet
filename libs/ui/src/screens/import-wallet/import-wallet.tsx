@@ -17,6 +17,7 @@ import { useNavigation } from '../../hooks/use-navigation.hook';
 import { getCustomSize } from '../../styles/format-size';
 
 import { styles } from './import-wallet.styles';
+import { ImportWalletTestIDs } from './import-wallet.test-ids';
 
 export const ImportWallet: FC = () => {
   const { params: routeParams } = useRoute<RouteProp<ScreensParamList, ScreensEnum.ImportWallet>>();
@@ -63,6 +64,7 @@ export const ImportWallet: FC = () => {
       onSubmitPress={navigateToAlmostDoneScreen}
       isSubmitDisabled={(isEmptyFieldsExist && isSubmitted) || !!error}
       scrollViewRef={scrollViewRef}
+      submitButtonTestID={ImportWalletTestIDs.NextButton}
     >
       <Row style={styles.wordsAmount}>
         <Text style={styles.amountWordsText}>Mnemonic Length</Text>

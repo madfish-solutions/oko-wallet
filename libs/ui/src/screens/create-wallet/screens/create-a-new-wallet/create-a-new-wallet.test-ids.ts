@@ -1,8 +1,9 @@
 export enum CreateANewWalletTestIDs {
   WordsAmountDropdown = 'CreateNewWallet/WordsAmountDropdown',
-  GenerateNewMnemonic = 'CreateNewWallet/GenerateNewMnemonic',
-  CopySeedButton = 'CreateNewWallet/CopySeedButton',
-  SavedMnemonicCheckbox = 'CreateNewWallet/SavedMnemonicCheckbox',
+  GenerateNewButton = 'CreateNewWallet/GenerateNewMnemonic',
+  CopyButton = 'CreateNewWallet/CopySeedButton',
+  MnemonicSavedCheckbox = 'Mnemonic Saved checkbox on the Create a New Wallet page',
   WarningMessageDropdown = 'CreateNewWallet/WarningMessageDropdown',
-  HandleHideLayout = 'CreateNewWallet/handleHideLayout'
+  TapToRevealLayout = 'Tap To Reveal layout on the Create a New Wallet page',
+  NextButton = 'Next button on the Create a New Wallet page'
 }

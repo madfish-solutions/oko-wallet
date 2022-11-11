@@ -1,14 +1,25 @@
-const createElementMock = (selector: string) => ({
-    waitForDisplayed: () => {
-        console.log(selector, 'displayed');
+import { isDefined } from '@rnw-community/shared';
 
-        return Promise.resolve(true);
-    },
-    click: () => {
-        console.log(selector, 'click');
+import { BrowserContext } from '../classes/browser-context.class';
 
-        return Promise.resolve(true);
-    }
+const getSelector = (testID: string) => `[data-testid="${testID}"]`;
+
+const findElement = async (testID: string) => {
+  const selector = getSelector(testID);
+
+  const element = await BrowserContext.page.waitForSelector(selector, { visible: true, timeout: 3000 });
+
+  if (isDefined(element)) {
+    return element;
+  }
+
+  throw new Error(`"${testID}" not found`);
+};
+
+export const createPageElement = (testID: string) => ({
+  waitForDisplayed: async () => findElement(testID),
+  click: async () => {
+    const element = await findElement(testID);
+    await element.click();
+  }
 });
-
-export const findElement = (selector: string) => createElementMock(selector);
