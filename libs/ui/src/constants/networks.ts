@@ -202,5 +202,5 @@ export const NETWORK_CHAIN_IDS_BY_NETWORK_TYPE: NetworkChainIdsByNetworkType = {
 
 export const tezosBlockExplorers = {
   [TezosChainId.Mainnet]: 'https://tzkt.io',
-  [TezosChainId.Ghostnet]: 'https://ghostnet.tzkt.io/'
+  [TezosChainId.Ghostnet]: 'https://ghostnet.tzkt.io'
 };
