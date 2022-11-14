@@ -19,6 +19,7 @@ import { NetworkInterface } from '../../../../interfaces/network.interface';
 import { addNewNetworkAction } from '../../../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedAccountSelector } from '../../../../store/wallet/wallet.selectors';
 import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
+import { removeTrailingSlash } from '../../../../utils/remove-trailing-slash.util';
 import { createTezosToolkit } from '../../../../utils/tezos-toolkit.utils';
 import { useNetworkFieldsRules } from '../../../hooks/use-validate-network-fields.hook';
 import { NetworkContainer } from '../components/network-container/network-container';
@@ -81,7 +82,7 @@ export const AddNetwork: FC = () => {
       if (isNotEmptyString(newRpcUrl.trim())) {
         let currentChainId = null;
 
-        if (TEZOS_NETWORKS_LIST.includes(newRpcUrl.trim())) {
+        if (TEZOS_NETWORKS_LIST.includes(removeTrailingSlash(newRpcUrl.trim()))) {
           createTezosToolkit(newRpcUrl)
             .rpc.getChainId()
             .then(chainId => {
@@ -183,7 +184,7 @@ export const AddNetwork: FC = () => {
 
     const network: NetworkInterface = {
       name: name.trim(),
-      rpcUrl: rpcUrl.trim(),
+      rpcUrl: removeTrailingSlash(rpcUrl.trim()),
       chainId: chainId.trim(),
       gasTokenMetadata: {
         name: nativeTokenInfo.tokenName,

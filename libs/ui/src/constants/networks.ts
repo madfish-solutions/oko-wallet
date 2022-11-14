@@ -169,13 +169,13 @@ export const TEZOS_NETWORKS_LIST = [
   'https://mainnet-node.madfish.solutions',
   'https://mainnet.smartpy.io',
   'https://mainnet.api.tez.ie',
-  'https://rpc.ghostnet.teztnets.xyz/',
-  'https://rpc.kathmandunet.teztnets.xyz/',
+  'https://rpc.ghostnet.teztnets.xyz',
+  'https://rpc.kathmandunet.teztnets.xyz',
   'https://ithacanet.smartpy.io',
   'https://rpczero.tzbeta.net',
   'https://kathmandunet.ecadinfra.com',
-  'https://rpc.tzbeta.net/',
-  'https://ghostnet.tezos.marigold.dev/'
+  'https://rpc.tzbeta.net',
+  'https://ghostnet.tezos.marigold.dev'
 ];
 
 export const TEZOS_MAINNET_RPC_LIST = [
