@@ -72,7 +72,7 @@ export const ChangeNetwork: FC = () => {
     <ModalContainer screenTitle="Confirm change network">
       <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
         <Row style={styles.dappLogo}>
-          <DappImage imageUri={allDapps[dappName].logoUrl} />
+          <DappImage imageUri={allDapps[dappName]?.logoUrl} />
         </Row>
         <Row style={styles.addressRow}>
           <Text style={styles.smallText}>Address</Text>
