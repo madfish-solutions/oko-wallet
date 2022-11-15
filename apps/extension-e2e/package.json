@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "./node_modules/.bin/cucumber-js --tags \"not @ignore\"",
+    "start": "./node_modules/.bin/cucumber-js",
     "start:dev": "npm start -- --tags @dev",
     "ts": "tsc --pretty"
   },
