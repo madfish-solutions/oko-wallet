@@ -155,7 +155,8 @@ export const CreateANewWallet: FC = () => {
         mnemonic={mnemonic}
         isShowProtectLayout={isShowProtectLayout}
         handleHideLayout={handleHideLayout}
-        testID={CreateANewWalletTestIDs.TapToRevealLayout}
+        protectLayoutTestID={CreateANewWalletTestIDs.TapToRevealLayout}
+        wordTextTestID={CreateANewWalletTestIDs.MnemonicWordText}
       >
         <MnemonicActionButton
           onPress={generateNewMnemonic}

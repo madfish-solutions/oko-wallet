@@ -16,10 +16,26 @@ const findElement = async (testID: string) => {
   throw new Error(`"${testID}" not found`);
 };
 
+export const findElements = async (testID: string) => {
+  const selector = getSelector(testID);
+
+  const elements = await BrowserContext.page.$$(selector);
+
+  if (elements.length !== 0) {
+    return elements;
+  }
+
+  throw new Error(`None of "${testID}" elements where found found`);
+};
+
 export const createPageElement = (testID: string) => ({
   waitForDisplayed: async () => findElement(testID),
   click: async () => {
     const element = await findElement(testID);
     await element.click();
+  },
+  type: async (text: string) => {
+    const element = await findElement(testID);
+    await element.type(text);
   }
 });
