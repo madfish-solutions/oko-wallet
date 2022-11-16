@@ -6,7 +6,6 @@ import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
-    // alignItems: 'stretch',
     height: '100%',
     paddingHorizontal: getCustomSize(2)
   },

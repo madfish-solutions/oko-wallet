@@ -21,10 +21,10 @@ export const DappImage: FC<Props> = ({ imageUri = '', size = ButtonSizeEnum.Larg
 
   return (
     <View style={[styles[size], styles.root]}>
-      {!isShowPlaceholder ? (
-        <Image source={{ uri: imageUri }} onError={handleError} style={styles.image} />
-      ) : (
+      {isShowPlaceholder ? (
         <Icon name={IconNameEnum.IconPlaceholder} size={getCustomSize(2.5)} />
+      ) : (
+        <Image source={{ uri: imageUri }} onError={handleError} style={styles.image} />
       )}
     </View>
   );

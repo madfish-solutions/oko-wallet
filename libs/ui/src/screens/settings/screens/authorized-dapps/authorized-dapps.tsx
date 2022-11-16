@@ -14,7 +14,7 @@ import { Text } from '../../../../components/text/text';
 import { EMPTY_STRING } from '../../../../constants/defaults';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { useDappsByAddress } from '../../../../store/dapps/dapps.selectors';
+import { useDappsByAddressSelector } from '../../../../store/dapps/dapps.selectors';
 import { eraseProtocol } from '../../../../utils/string.util';
 
 import { styles } from './authorized-dapps.style';
@@ -22,12 +22,9 @@ import { Permission } from './components/permission';
 import { MOCK_PERMISSIONS } from './constants';
 
 export const AuthorizedDapps: FC = () => {
-  //const authorizedDapps = useAuthorizedDappsByPublicKey();
-  const authorizedDapps = useDappsByAddress();
+  const authorizedDapps = useDappsByAddressSelector();
   const { goBack, navigate } = useNavigation();
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
-
-  console.log(authorizedDapps);
 
   const dapps = Object.values(authorizedDapps).filter(dapp => dapp.name?.includes(searchValue));
 

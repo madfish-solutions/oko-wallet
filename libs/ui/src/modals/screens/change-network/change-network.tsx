@@ -14,7 +14,7 @@ import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { AllowsRules } from '../../../interfaces/dapp-connection.interface';
-import { useAllDapps } from '../../../store/dapps/dapps.selectors';
+import { useAllDappsSelector } from '../../../store/dapps/dapps.selectors';
 import { changeNetworkAction } from '../../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
@@ -37,11 +37,11 @@ export const ChangeNetwork: FC = () => {
   const {
     params: { dappName, chainId, id }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.ChangeNetworkConfirmation>>();
-  const allDapps = useAllDapps();
+  const allDapps = useAllDappsSelector();
 
   const navigateToWalletScreen = () => navigate(ScreensEnum.Wallet);
   const copy = () => handleCopyToClipboard(dappName);
-  const dappsNetwork = networks.find(network => network.chainId === parseInt(chainId.substring(2), 10).toString());
+  const dappsNetwork = networks.find(network => network.chainId === parseInt(chainId.substring(2), 16).toString());
 
   const responseToDapp = {
     data: {
@@ -54,7 +54,7 @@ export const ChangeNetwork: FC = () => {
   };
 
   const acceptChangeNetwork = () => {
-    const decimalChainId = parseInt(chainId.substring(2), 10);
+    const decimalChainId = parseInt(chainId.substring(2), 16);
     dispatch(changeNetworkAction(decimalChainId.toString()));
     browser.tabs.query({ active: true }).then(tabs => {
       if (tabs[0].id !== undefined) {
