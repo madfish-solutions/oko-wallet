@@ -108,8 +108,8 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
     }
   };
 
-  const fetchData = async () => {
-    fetchActivity(lastTimestamp);
+  const fetchData = (startTime?: number) => {
+    fetchActivity(isDefined(startTime) ? startTime : lastTimestamp);
   };
 
   return { activity, fetchData };

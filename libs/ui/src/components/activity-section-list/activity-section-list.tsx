@@ -1,8 +1,9 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { SectionList, SectionListData, SectionListRenderItem } from 'react-native';
 
 import { getDebankId } from '../../api/utils/get-debank-id.util';
 import { useAllActivity } from '../../hooks/use-activity.hook';
+import { useFetchDataWithUpdate } from '../../hooks/use-fetch-data-with-update.hook';
 import { ActivityData, SectionListActivityData } from '../../interfaces/activity.interface';
 import { ActivityList } from '../../screens/activity/components/activity-list';
 import { EmptySearchIcon } from '../icon/components/empty-search-icon/empty-search-icon';
@@ -22,9 +23,7 @@ const keyExtractor = ({ hash }: ActivityData) => hash;
 export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, tokenAddress = '' }) => {
   const { activity, fetchData } = useAllActivity(publicKeyHash, getDebankId(chainId), tokenAddress);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  useFetchDataWithUpdate(fetchData, tokenAddress);
 
   const renderItem: SectionListRenderItem<ActivityData, SectionListActivityData> = ({ item: activityItems }) => (
     <ActivityList transaction={activityItems} address={publicKeyHash} chainName={getDebankId(chainId)} />
@@ -44,7 +43,7 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, tokenAd
       keyExtractor={keyExtractor}
       ListEmptyComponent={<EmptySearchIcon />}
       onEndReachedThreshold={0.1}
-      onEndReached={fetchData}
+      onEndReached={() => fetchData()}
       stickySectionHeadersEnabled
     />
   );
