@@ -48,7 +48,7 @@ jobs:
         run: yarn build:extension
 
       - name: Run E2E tests
-        uses: mujo-code/puppeteer-headful@16.6.0
+        uses: mujo-code/puppeteer-headful@18.9.0
         env:
           CI: "true"
         with:
