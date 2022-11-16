@@ -47,6 +47,9 @@ jobs:
       - name: Create extension build
         run: yarn build:extension
 
+      - name: Run E2E tests
+        run: yarn e2e
+
       - name: Upload extension artifact
         uses: actions/upload-artifact@v2
         with:
