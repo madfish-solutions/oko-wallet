@@ -1,3 +1,4 @@
 export enum ImportWalletTestIDs {
-  NextButton = 'Next button on the Import Existing Wallet page'
+  WordInput = 'ImportExistingWallet/Word input',
+  NextButton = 'ImportExistingWallet/Next button'
 }

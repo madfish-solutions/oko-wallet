@@ -89,10 +89,11 @@ export const ImportWallet: FC = () => {
                   <TextInput
                     ref={el => (index === selectedInputIndex ? el?.focus() : null)}
                     value={value}
-                    onFocus={el => handleInputFocus(index, el)}
-                    onBlur={handleInputBlur}
-                    onChangeText={value => handleInputChange(value, index)}
                     style={[styles.mnemonicInput, isSubmitted && !isNotEmptyString(value) && styles.error]}
+                    onBlur={handleInputBlur}
+                    onFocus={el => handleInputFocus(index, el)}
+                    onChangeText={value => handleInputChange(value, index)}
+                    testID={ImportWalletTestIDs.WordInput}
                   />
                   <Text selectable={false} style={styles.wordIndex}>{`${index + 1}.`}</Text>
                   {isNotEmptyString(value) && isShowProtectLayout && !isSelectedInput && (

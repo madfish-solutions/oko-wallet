@@ -6,9 +6,13 @@ import { getExtensionId, initBrowser } from '../utils/browser.utils';
 
 BeforeAll(async () => {
   const browser = await initBrowser();
+
   const extensionId = await getExtensionId(browser);
+  const extensionUrl = `chrome-extension://${extensionId}/fullpage.html`;
 
   await initBrowserContext(browser);
 
-  await BrowserContext.page.goto(`chrome-extension://${extensionId}/fullpage.html`);
+  await BrowserContext.browser.defaultBrowserContext().overridePermissions(extensionUrl, ['clipboard-read']);
+
+  await BrowserContext.page.goto(extensionUrl);
 });
