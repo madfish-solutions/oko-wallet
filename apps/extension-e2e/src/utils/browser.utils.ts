@@ -5,6 +5,7 @@ const EXTENSION_PATH = '../extension/dist';
 export const initBrowser = () =>
   launch({
     headless: false,
+    executablePath: process.env.PUPPETEER_EXEC_PATH,
     args: [`--disable-extensions-except=${EXTENSION_PATH}`, `--load-extension=${EXTENSION_PATH}`]
   });
 
