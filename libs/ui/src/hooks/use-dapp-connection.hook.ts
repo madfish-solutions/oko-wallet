@@ -20,16 +20,10 @@ export const useDappConnection = () => {
       }
       const query = parse(location.search);
       if (isWeb) {
-        if (
-          typeof query.origin === 'string' &&
-          typeof query.id === 'string' &&
-          typeof query.logo === 'string' &&
-          globalNavigationRef.current !== null
-        ) {
+        if (typeof query.origin === 'string' && typeof query.id === 'string' && globalNavigationRef.current !== null) {
           globalNavigationRef.current.navigate(ScreensEnum.DappConfirmation, {
-            dappName: query.origin,
-            id: query.id,
-            logo: query.logo
+            origin: query.origin,
+            id: query.id
           });
         }
         if (
@@ -40,9 +34,9 @@ export const useDappConnection = () => {
           globalNavigationRef.current !== null
         ) {
           globalNavigationRef.current.navigate(ScreensEnum.ChangeNetworkConfirmation, {
-            dappName: query.origin,
-            id: query.id,
-            chainId: query.chainId
+            dAppOrigin: query.origin,
+            messageId: query.id,
+            requestedChainId: query.chainId
           });
         }
       }

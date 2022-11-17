@@ -88,7 +88,7 @@ export type ScreensParamList = {
   [ScreensEnum.EditToken]: { token: Token };
   [ScreensEnum.EditNetwork]: { network: NetworkInterface; isNetworkSelected: boolean };
   [ScreensEnum.Tokens]: undefined;
-  [ScreensEnum.DappConfirmation]: { dappName: string; id: string; logo: string };
+  [ScreensEnum.DappConfirmation]: { origin: string; id: string; };
   [ScreensEnum.ScanQrCode]: undefined;
   [ScreensEnum.CreateANewWallet]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };
@@ -99,12 +99,12 @@ export type ScreensParamList = {
   [ScreensEnum.CollectiblesList]: undefined;
   [ScreensEnum.CollectiblesList]: undefined;
   [ScreensEnum.NFT]: { nft: Token };
-  [ScreensEnum.ChangeNetworkConfirmation]: { dappName: string; id: string; chainId: string };
+  [ScreensEnum.ChangeNetworkConfirmation]: { dAppOrigin: string; messageId: string; requestedChainId: string };
   [ScreensEnum.SpecificCollectiblesList]: { collectionName: string };
   [ScreensEnum.AddNewCollectible]: undefined;
   [ScreensEnum.Collectible]: { collectible: Token };
   [ScreensEnum.ChangePassword]: undefined;
   [ScreensEnum.AuthorizedDapps]: undefined;
-  [ScreensEnum.DeleteDapp]: { dappName: string };
+  [ScreensEnum.DeleteDapp]: { origin: string };
   [ScreensEnum.Initial]: undefined;
 };

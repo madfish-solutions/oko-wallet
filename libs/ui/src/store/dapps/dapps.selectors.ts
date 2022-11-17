@@ -2,21 +2,21 @@ import { useSelector } from 'react-redux';
 
 import { useSelectedAccountPublicKeyHashSelector } from '../wallet/wallet.selectors';
 
-import { DappPayloadState, DappsRootState } from './dapps.state';
+import { DAppState, DAppsRootState, emptyDAppState } from './dapps.state';
 
-export const useAllDappsSelector = () =>
-  useSelector<DappsRootState, Record<string, DappPayloadState>>(({ dapps }) => dapps);
+export const useDAppSelector = (origin: string) =>
+  useSelector<DAppsRootState, DAppState>(({ dApps }) => {
+    console.log('UI DAPPS', dApps);
 
-export const useDappsByAddressSelector = (): Record<string, DappPayloadState> => {
-  const selectedAddress = useSelectedAccountPublicKeyHashSelector();
+    return dApps[origin] ?? emptyDAppState;
+  });
 
-  const allDapps = useAllDappsSelector();
+export const useSelectedAccountDAppsListSelector = () => {
+  const selectedAccountPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
-  return Object.keys(allDapps).reduce((acc, dapp) => {
-    if (allDapps[dapp].address === selectedAddress) {
-      acc = { ...acc, [dapp]: allDapps[dapp] };
-    }
+  return useSelector<DAppsRootState, DAppState[]>(({ dApps }) => {
+    const dAppsList = Object.values(dApps);
 
-    return acc;
-  }, {});
+    return dAppsList.filter(dApp => dApp.allowedAccounts.includes(selectedAccountPublicKeyHash));
+  });
 };

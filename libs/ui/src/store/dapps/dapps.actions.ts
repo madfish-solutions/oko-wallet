@@ -1,7 +1,9 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import { DappPayloadState } from './dapps.state';
+interface DAppConnectionPayload {
+  dAppOrigin: string;
+  accountPublicKeyHash: string;
+}
 
-export const updateDappInfo = createAction<DappPayloadState>('background-script/UPDATE_DAPP_INFO');
-
-export const deleteDapp = createAction<string>('background-script/DELETE_DAPP');
+export const connectDAppAction = createAction<DAppConnectionPayload>('dApps/CONNECT_DAPP');
+export const removeDAppConnectionAction = createAction<DAppConnectionPayload>('dApps/REMOVE_DAPP_CONNECTION');

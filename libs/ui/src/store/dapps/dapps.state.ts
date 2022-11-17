@@ -1,13 +1,23 @@
-export type DappState = Record<string, DappPayloadState>;
-export interface DappPayloadState {
+export type DAppsState = Record<string, DAppState>;
+
+export interface DAppInfo {
   name: string;
-  logoUrl?: string;
-  chainId?: string;
-  address?: string;
+  favicon: string;
+  origin: string;
 }
 
-export const DappsInitialState: DappState = {};
+export interface DAppState extends DAppInfo {
+  allowedAccounts: string[];
+}
+export const emptyDAppState: DAppState = {
+  name: 'Unknown DApp',
+  favicon: '',
+  origin: 'https://unknown.dapp',
+  allowedAccounts: []
+};
 
-export interface DappsRootState {
-  dapps: DappState;
+export const dAppsInitialState: DAppsState = {};
+
+export interface DAppsRootState {
+  dApps: DAppsState;
 }

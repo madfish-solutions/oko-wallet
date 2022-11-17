@@ -1,6 +1,6 @@
 import { browser, Runtime, Windows } from 'webextension-polyfill-ts';
 
-import { DappPayloadState } from '../../libs/ui/src/store/dapps/dapps.state';
+import { DAppState } from '../../libs/ui/src/store/dapps/dapps.state';
 
 export let openExtensionId = 0;
 
@@ -15,7 +15,7 @@ export const prepareResponse = (result: unknown, id: number) => ({
 export const getExtensionPopup = (windows: Windows.Window[], id: number) =>
   windows.find(win => win.type === 'popup' && win.id === id);
 
-export const openConnectPopup = async (origin: string, id: string, logo: string) => {
+export const openConnectPopup = async (origin: string, id: string) => {
   const allWindows = await browser.windows.getAll().then(windows => windows);
   const activePopup = getExtensionPopup(allWindows, openExtensionId);
   if (activePopup && activePopup.id !== undefined) {
@@ -23,7 +23,7 @@ export const openConnectPopup = async (origin: string, id: string, logo: string)
   } else {
     const newWindow = await browser.windows.create({
       type: 'popup',
-      url: browser.runtime.getURL(`popup.html?&origin=${origin}&id=${id}&logo=${logo}`),
+      url: browser.runtime.getURL(`popup.html?&origin=${origin}&id=${id}`),
       width: 360,
       height: 600,
       top: 20,
@@ -48,7 +48,7 @@ export const openSwitchChainPopup = async (origin: string, id: string, chainId: 
 };
 
 export const connectToDappInBackground = (
-  dappInfo: Omit<DappPayloadState, 'name'>,
+  dappInfo: Omit<DAppState, 'name'>,
   id: number,
   port: Runtime.Port,
   target: string

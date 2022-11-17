@@ -4,6 +4,8 @@ import { browser, Runtime } from 'webextension-polyfill-ts';
 import { BackgroundMessageType } from '../../libs/ui/src/messagers/enums/background-message-types.enum';
 import { BackgroundMessage } from '../../libs/ui/src/messagers/types/background-message.types';
 import { BackgroundRootState, createBackgroundStore } from '../../libs/ui/src/store/background-store';
+import { updateDAppInfoAction } from '../../libs/ui/src/store/dapps/background-state/dapps.actions';
+import { emptyDAppState } from '../../libs/ui/src/store/dapps/dapps.state';
 
 import { connectToDappInBackground, openConnectPopup, openSwitchChainPopup } from './background-script.utils';
 
@@ -18,8 +20,6 @@ let lastUserActivityTimestamp = 0;
 let isLockApp = true;
 
 let isFullpageOpen = false;
-
-let currentLogo = '';
 
 browser.scripting.registerContentScripts([
   {
@@ -70,6 +70,8 @@ browser.runtime.onConnect.addListener(port => {
         storeInBG = { ...store.getState() };
       });
 
+      console.log(method, 'onMessage', store.getState());
+
       const dappInfo = storeInBG?.dapps?.[origin];
 
       const selectedChainId = storeInBG?.wallet?.selectedNetworkChainId;
@@ -79,7 +81,7 @@ browser.runtime.onConnect.addListener(port => {
           if (dappInfo !== undefined && dappInfo.address !== undefined) {
             connectToDappInBackground(dappInfo, id, port, 'request');
           } else {
-            await openConnectPopup(origin, id, currentLogo);
+            await openConnectPopup(origin, id);
           }
 
           return Promise.resolve();
@@ -106,7 +108,16 @@ browser.runtime.onConnect.addListener(port => {
           return Promise.resolve();
         }
         case 'sendDomainMetadata': {
-          currentLogo = data?.params.icon;
+          console.log('updateDAppInfoAction', data?.params);
+          store.dispatch(
+            updateDAppInfoAction({
+              name: data?.params?.name ?? emptyDAppState.name,
+              favicon: data?.params?.icon ?? emptyDAppState.favicon,
+              origin
+            })
+          );
+
+          console.log(method, 'on sendDomainMetadata', store.getState());
 
           return Promise.resolve();
         }

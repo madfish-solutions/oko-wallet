@@ -14,7 +14,7 @@ import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { AllowsRules } from '../../../interfaces/dapp-connection.interface';
-import { useAllDappsSelector } from '../../../store/dapps/dapps.selectors';
+import { useDAppSelector } from '../../../store/dapps/dapps.selectors';
 import { changeNetworkAction } from '../../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
@@ -34,27 +34,27 @@ export const ChangeNetwork: FC = () => {
   const { name: selectedNetworkName } = useSelectedNetworkSelector();
   const networks = useAllNetworksSelector();
   const dispatch = useDispatch();
-  const {
-    params: { dappName, chainId, id }
-  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.ChangeNetworkConfirmation>>();
-  const allDapps = useAllDappsSelector();
+  const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.ChangeNetworkConfirmation>>();
+  const dAppState = useDAppSelector(params.dAppOrigin);
 
   const navigateToWalletScreen = () => navigate(ScreensEnum.Wallet);
-  const copy = () => handleCopyToClipboard(dappName);
-  const dappsNetwork = networks.find(network => network.chainId === parseInt(chainId.substring(2), 16).toString());
+  const copy = () => handleCopyToClipboard(dAppState.origin);
+  const dappsNetwork = networks.find(
+    network => network.chainId === parseInt(params.requestedChainId.substring(2), 16).toString()
+  );
 
   const responseToDapp = {
     data: {
-      data: { id: Number(id), jsonrpc: '2.0', result: null, method: 'wallet_switchEthereumChain' },
+      data: { id: Number(params.messageId), jsonrpc: '2.0', result: null, method: 'wallet_switchEthereumChain' },
       name: 'oko-provider'
     },
     target: 'oko-inpage',
-    newChain: chainId,
-    dappName
+    newChain: params.requestedChainId,
+    dappName: dAppState.origin
   };
 
   const acceptChangeNetwork = () => {
-    const decimalChainId = parseInt(chainId.substring(2), 16);
+    const decimalChainId = parseInt(params.requestedChainId.substring(2), 16);
     dispatch(changeNetworkAction(decimalChainId.toString()));
     browser.tabs.query({ active: true }).then(tabs => {
       if (tabs[0].id !== undefined) {
@@ -72,13 +72,13 @@ export const ChangeNetwork: FC = () => {
     <ModalContainer screenTitle="Confirm change network">
       <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
         <Row style={styles.dappLogo}>
-          <DappImage imageUri={allDapps[dappName]?.logoUrl} />
+          <DappImage imageUri={dAppState.favicon} />
         </Row>
         <Row style={styles.addressRow}>
           <Text style={styles.smallText}>Address</Text>
           <Row>
-            <Text style={styles.explorerLink} onPress={() => Linking.openURL(dappName)} numberOfLines={1}>
-              {eraseProtocol(dappName)}
+            <Text style={styles.explorerLink} onPress={() => Linking.openURL(dAppState.origin)} numberOfLines={1}>
+              {eraseProtocol(dAppState.origin)}
             </Text>
             <Pressable onPress={copy}>
               <Icon name={IconNameEnum.Copy} />

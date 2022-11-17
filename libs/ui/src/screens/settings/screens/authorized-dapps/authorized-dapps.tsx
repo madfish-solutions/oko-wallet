@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { FlatList, Linking, Pressable, View } from 'react-native';
+import { FlatList, Linking, ListRenderItem, Pressable, View } from 'react-native';
 
 import { IconWithBorder } from '../../../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../../../components/icon/icon';
@@ -14,7 +14,8 @@ import { Text } from '../../../../components/text/text';
 import { EMPTY_STRING } from '../../../../constants/defaults';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { useDappsByAddressSelector } from '../../../../store/dapps/dapps.selectors';
+import { useSelectedAccountDAppsListSelector } from '../../../../store/dapps/dapps.selectors';
+import { DAppState } from '../../../../store/dapps/dapps.state';
 import { eraseProtocol } from '../../../../utils/string.util';
 
 import { styles } from './authorized-dapps.style';
@@ -22,28 +23,26 @@ import { Permission } from './components/permission';
 import { MOCK_PERMISSIONS } from './constants';
 
 export const AuthorizedDapps: FC = () => {
-  const authorizedDapps = useDappsByAddressSelector();
+  const selectedAccountDAppsList = useSelectedAccountDAppsListSelector();
   const { goBack, navigate } = useNavigation();
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
 
-  const dapps = Object.values(authorizedDapps).filter(dapp => dapp.name?.includes(searchValue));
+  const filteredDAppsList = selectedAccountDAppsList.filter(dApp => dApp.name.includes(searchValue));
 
-  const dappNames = dapps.map(dapp => dapp.name);
+  const navigateToConfirm = (origin: string) => navigate(ScreensEnum.DeleteDapp, { origin });
 
-  const navigateToConfirm = (dappName: string) => navigate(ScreensEnum.DeleteDapp, { dappName });
-
-  const renderItem = ({ item }: { item: string }) => (
+  const renderItem: ListRenderItem<DAppState> = ({ item }) => (
     <View style={styles.container}>
       <Row style={styles.topRow}>
         <Row>
           <IconWithBorder style={styles.icon}>
             <Icon name={IconNameEnum.IconPlaceholder} />
           </IconWithBorder>
-          <Text style={styles.explorerLink} onPress={() => Linking.openURL(item)} numberOfLines={1}>
-            {eraseProtocol(item)}
+          <Text style={styles.explorerLink} onPress={() => Linking.openURL(item.origin)} numberOfLines={1}>
+            {eraseProtocol(item.origin)}
           </Text>
         </Row>
-        <Pressable onPress={() => navigateToConfirm(item)}>
+        <Pressable onPress={() => navigateToConfirm(item.origin)}>
           <Icon name={IconNameEnum.Delete} iconStyle={styles.deleteIcon} />
         </Pressable>
       </Row>
@@ -59,17 +58,17 @@ export const AuthorizedDapps: FC = () => {
     <ScreenContainer>
       <HeaderContainer isSelectors>
         <ScreenTitle title="Authorized DApps" onBackButtonPress={goBack} />
-        <Text style={styles.amount}>{Object.keys(authorizedDapps).length}</Text>
+        <Text style={styles.amount}>{Object.keys(selectedAccountDAppsList).length}</Text>
       </HeaderContainer>
       <SearchPanel
         setSearchValue={setSearchValue}
-        isEmptyList={!dapps.length}
+        isEmptyList={!filteredDAppsList.length}
         style={styles.root}
         emptyIconStyle={styles.emptyIcon}
       />
 
-      <FlatList data={dappNames} renderItem={renderItem} keyExtractor={dapps => dapps} />
-      {!dapps.length && !searchValue && (
+      <FlatList data={filteredDAppsList} renderItem={renderItem} keyExtractor={dApp => dApp.origin} />
+      {!filteredDAppsList.length && !searchValue && (
         <View style={styles.exploreDapps}>
           <Text style={styles.exploreText} numberOfLines={1} onPress={() => null}>
             EXPLORE DAPPS

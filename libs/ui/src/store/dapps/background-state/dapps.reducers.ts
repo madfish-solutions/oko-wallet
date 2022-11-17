@@ -1,11 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { updateDappInfo } from '../dapps.actions';
-import { DappState, DappsInitialState } from '../dapps.state';
+import { DAppsState, dAppsInitialState } from '../dapps.state';
 
-export const backgroundDappsReducers = createReducer<DappState>(DappsInitialState, builder =>
-  builder.addCase(updateDappInfo, (state, { payload }) => ({
+import { updateDAppInfoAction } from './dapps.actions';
+
+export const backgroundDappsReducers = createReducer<DAppsState>(dAppsInitialState, builder =>
+  builder.addCase(updateDAppInfoAction, (state, { payload: dAppInfo }) => ({
     ...state,
-    [payload.name]: { ...state[payload.name], ...payload }
+    [dAppInfo.origin]: { ...state[dAppInfo.origin], ...dAppInfo }
   }))
 );

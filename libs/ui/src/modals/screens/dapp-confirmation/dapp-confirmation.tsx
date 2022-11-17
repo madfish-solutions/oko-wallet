@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
-import { View, Linking, TouchableOpacity, ScrollView, Pressable } from 'react-native';
+import { Linking, Pressable, ScrollView, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { browser } from 'webextension-polyfill-ts';
 
@@ -18,12 +18,12 @@ import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { AllowsRules } from '../../../interfaces/dapp-connection.interface';
-import { updateDappInfo } from '../../../store/dapps/dapps.actions';
+import { connectDAppAction } from '../../../store/dapps/dapps.actions';
+import { useDAppSelector } from '../../../store/dapps/dapps.selectors';
 import {
+  useGasTokenSelector,
   useSelectedAccountPublicKeyHashSelector,
-  useSelectedAccountSelector,
-  useSelectedNetworkSelector,
-  useGasTokenSelector
+  useSelectedAccountSelector
 } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
@@ -51,20 +51,20 @@ const rules: AllowsRules[] = [
 export const DappConfirmation: FC = () => {
   const dispatch = useDispatch();
   const selectedAddress = useSelectedAccountPublicKeyHashSelector();
-  const { chainId } = useSelectedNetworkSelector();
   const { name } = useSelectedAccountSelector();
   const { decimals, symbol, balance } = useGasTokenSelector();
   const { navigate, goBack } = useNavigation();
-  const {
-    params: { dappName, id, logo }
-  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DappConfirmation>>();
+
+  const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DappConfirmation>>();
+  const dAppState = useDAppSelector(params.origin);
+
   const responseToDapp: MessageToDapp = {
     data: {
-      data: { id: Number(id), method: 'eth_requestAccounts', jsonrpc: '2.0', result: [selectedAddress] },
+      data: { id: Number(params.id), method: 'eth_requestAccounts', jsonrpc: '2.0', result: [selectedAddress] },
       name: 'oko-provider'
     },
     target: 'oko-inpage',
-    dappName
+    dappName: dAppState.origin
   };
   const gasBalance = getFormattedBalance(balance.data, decimals);
 
@@ -72,8 +72,7 @@ export const DappConfirmation: FC = () => {
     browser.tabs.query({ active: true }).then(tabs => {
       if (tabs[0].id !== undefined) {
         browser.tabs.sendMessage(tabs[0].id, responseToDapp);
-        const hexChainId = `0x${Number(chainId).toString(16)}`;
-        dispatch(updateDappInfo({ name: dappName, chainId: hexChainId, address: selectedAddress, logoUrl: logo }));
+        dispatch(connectDAppAction({ dAppOrigin: dAppState.origin, accountPublicKeyHash: selectedAddress }));
         setTimeout(() => {
           goBack();
           window.close();
@@ -84,22 +83,22 @@ export const DappConfirmation: FC = () => {
 
   const navigateToAccountsSelector = () => navigate(ScreensEnum.AccountsSelector);
   const navigateToWalletScreen = () => navigate(ScreensEnum.Wallet);
-  const copy = () => handleCopyToClipboard(dappName);
+  const copy = () => handleCopyToClipboard(params.origin);
 
   return (
     <ModalContainer screenTitle="Confirm operation">
       <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
         <View style={styles.viewRoot}>
           <Row style={styles.container}>
-            <DappImage imageUri={logo} />
+            <DappImage imageUri={dAppState.favicon} />
             <Icon name={IconNameEnum.SwapItems} size={getCustomSize(9)} />
             <DappImage />
           </Row>
           <Row style={styles.addressRow}>
             <Text style={styles.smallText}>Address</Text>
             <Row>
-              <Text style={styles.explorerLink} onPress={() => Linking.openURL(dappName)} numberOfLines={1}>
-                {eraseProtocol(dappName)}
+              <Text style={styles.explorerLink} onPress={() => Linking.openURL(dAppState.origin)} numberOfLines={1}>
+                {eraseProtocol(dAppState.origin)}
               </Text>
               <Pressable onPress={copy}>
                 <Icon name={IconNameEnum.Copy} />

@@ -1,20 +1,24 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { deleteDapp, updateDappInfo } from './dapps.actions';
-import { DappState, DappsInitialState } from './dapps.state';
+import { connectDAppAction, removeDAppConnectionAction } from './dapps.actions';
+import { dAppsInitialState, DAppsState } from './dapps.state';
 
-export const DappsReducers = createReducer<DappState>(DappsInitialState, builder =>
+export const dAppsReducers = createReducer<DAppsState>(dAppsInitialState, builder =>
   builder
-    .addCase(updateDappInfo, (state, { payload }) => ({
+    .addCase(connectDAppAction, (state, { payload }) => ({
       ...state,
-      [payload.name]: { ...state[payload.name], ...payload }
+      [payload.dAppOrigin]: {
+        ...state[payload.dAppOrigin],
+        allowedAccounts: [...state[payload.dAppOrigin]?.allowedAccounts, payload.accountPublicKeyHash]
+      }
     }))
-    .addCase(deleteDapp, (state, { payload: dappName }) => {
-      const newAllDapps = { ...state };
-      delete newAllDapps[dappName];
-
-      return {
-        ...newAllDapps
-      };
-    })
+    .addCase(removeDAppConnectionAction, (state, { payload }) => ({
+      ...state,
+      [payload.dAppOrigin]: {
+        ...state[payload.dAppOrigin],
+        allowedAccounts: state[payload.dAppOrigin].allowedAccounts.filter(
+          account => account !== payload.accountPublicKeyHash
+        )
+      }
+    }))
 );
