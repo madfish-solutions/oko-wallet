@@ -10,6 +10,7 @@ import { Row } from '../../../../components/row/row';
 import { WidgetContainer } from '../../../../components/widget-container/widget-container';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
+import { TestIDProps } from '../../../../interfaces/test-id.props';
 import { Token } from '../../../../interfaces/token.interface';
 import { isEmptyArray } from '../../../../utils/array.utils';
 import { getTokenSlug } from '../../../../utils/token.utils';
@@ -22,7 +23,7 @@ const COLLECTIBLES = 'Collectibles';
 const RECEIVE = 'RECEIVE';
 const VIEW_ALL = 'VIEW ALL';
 
-export const CollectiblesWidget: FC = () => {
+export const CollectiblesWidget: FC<TestIDProps> = ({ testID }) => {
   const { navigate } = useNavigation();
   const { collectionList } = useGroupedCollectibles();
 
@@ -31,7 +32,7 @@ export const CollectiblesWidget: FC = () => {
   const handleItemPress = (collectible: Token) => navigate(ScreensEnum.Collectible, { collectible });
 
   return (
-    <WidgetContainer title={COLLECTIBLES} iconName={IconNameEnum.Nft}>
+    <WidgetContainer title={COLLECTIBLES} iconName={IconNameEnum.Nft} testID={testID}>
       {isEmptyArray(collectionList) ? (
         <ButtonWithIcon
           title={EMPTY_NFT}

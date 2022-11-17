@@ -15,6 +15,7 @@ import { shuffledInitialState, wordsInitialState } from './state';
 import { SelectedContainer, ShuffleWord, Word } from './types';
 import { getRandomMnemonicWords } from './utils';
 import { styles } from './verify-mnemonic.styles';
+import { VerifyMnemonicTestIDs } from './verify-mnemonic.test-ids';
 
 export const VerifyMnemonic: FC = () => {
   const {
@@ -174,6 +175,7 @@ export const VerifyMnemonic: FC = () => {
       currentStep={2}
       isSubmitDisabled={!!error}
       onSubmitPress={navigateToAlmostDoneScreen}
+      submitButtonTestID={VerifyMnemonicTestIDs.NextButton}
     >
       <Text style={styles.title}>Confirm you saved mnemonic</Text>
       <Text style={styles.description}>
@@ -193,7 +195,11 @@ export const VerifyMnemonic: FC = () => {
                   arrayIndex % 2 === 0 && styles.marginRight
                 ]}
               >
-                <Text selectable={false} style={styles.wordIndex}>{`${index}.`}</Text>
+                <Text
+                  selectable={false}
+                  style={styles.wordIndex}
+                  testID={VerifyMnemonicTestIDs.WordIndexText}
+                >{`${index}.`}</Text>
                 <Text selectable={false} style={styles.word}>
                   {word}
                 </Text>
@@ -214,6 +220,7 @@ export const VerifyMnemonic: FC = () => {
                 selected && styles.selectedWord
               ]}
               disabled={selected}
+              testID={VerifyMnemonicTestIDs.WordButton}
             >
               <Text style={styles.wordButtonText}>{word}</Text>
             </Pressable>
