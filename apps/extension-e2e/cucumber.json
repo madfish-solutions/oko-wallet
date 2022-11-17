@@ -1,0 +1,8 @@
+{
+  "default": {
+    "paths": ["src/features/**/*.feature"],
+    "require": ["src/**/*.ts"],
+    "requireModule": ["ts-node/register"],
+    "tags": "not @ignore"
+  }
+}

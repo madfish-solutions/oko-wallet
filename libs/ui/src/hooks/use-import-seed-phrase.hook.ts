@@ -25,7 +25,6 @@ export const useImportSeedPhrase = (wordsAmountParam: SeedWordsAmount | undefine
 
   const scrollViewRef = useRef<ScrollView>(null);
   const focusInputRef = useRef<TextInput | null>(null);
-  const inputValueRef = useRef<string>('');
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
@@ -43,10 +42,6 @@ export const useImportSeedPhrase = (wordsAmountParam: SeedWordsAmount | undefine
   useEffect(() => {
     setError('');
   }, [mnemonic]);
-
-  useEffect(() => {
-    inputValueRef.current = mnemonic[selectedInputIndex ?? 0];
-  }, [selectedInputIndex]);
 
   useEffect(() => {
     if (isDefined(wordsAmountParam)) {
@@ -87,7 +82,6 @@ export const useImportSeedPhrase = (wordsAmountParam: SeedWordsAmount | undefine
         const calculatedLength = predictMnemonicLength(clipboardMnemonic.length);
         const filledMnemonic = maxWordsLength.map((emptyString, index) => clipboardMnemonic[index] ?? emptyString);
 
-        inputValueRef.current = filledMnemonic[selectedInputIndex ?? 0];
         setWordsAmount(calculatedLength);
         setSelectedInputIndex(null);
         setMnemonic(filledMnemonic);
@@ -97,12 +91,13 @@ export const useImportSeedPhrase = (wordsAmountParam: SeedWordsAmount | undefine
 
   const handleInputChange = useCallback(
     (value: string, index: number) => {
-      if (value.length === inputValueRef.current.length + 1 || value.length < inputValueRef.current.length) {
+      const oldValue = mnemonic[index];
+
+      if (value.length === oldValue.length + 1 || value.length < oldValue.length) {
         const newMnemonic = [...mnemonic];
         newMnemonic[index] = value;
 
         setMnemonic(newMnemonic);
-        inputValueRef.current = value;
       } else {
         handlePasteMnemonicFromClipboard();
       }

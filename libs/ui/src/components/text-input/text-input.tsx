@@ -69,7 +69,8 @@ export const TextInput = <
   clearIconStyles,
   onFocus: onFocusProps,
   onChange: onChangeProps,
-  labelStyle
+  labelStyle,
+  testID
 }: Props<TFieldValues, TName>) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -150,6 +151,7 @@ export const TextInput = <
             secureTextEntry={secureTextEntry}
             allowFontScaling={false}
             onChange={onChangeNative}
+            testID={testID}
           />
           {isNotEmptyString(value) && editable && (
             <TouchableIcon name={IconNameEnum.Clear} onPress={handleInputClear} style={clearIconStyles} />
