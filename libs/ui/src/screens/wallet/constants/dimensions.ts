@@ -6,7 +6,7 @@ export const SHOW_QR_CODE = 0;
 export const HIDE_QR_CODE = getCustomSize(20);
 export const MIDDLE_VALUE = getCustomSize(9);
 
-const headerHeight = isWeb ? getCustomSize(15.25) : getCustomSize(11.75);
+const headerHeight = isWeb ? getCustomSize(15.25) : getCustomSize(10.75);
 const navBarHeight = getCustomSize(11.5);
 const extraElements = headerHeight + navBarHeight;
 const qrCodeHeight = getCustomSize(20);
