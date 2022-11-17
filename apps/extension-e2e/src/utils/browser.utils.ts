@@ -1,6 +1,7 @@
+import * as path from 'path';
 import { Browser, launch } from 'puppeteer';
 
-const EXTENSION_PATH = '../extension/dist';
+const EXTENSION_PATH = path.resolve(__dirname, '../../../extension/dist');
 
 export const initBrowser = () =>
   launch({
