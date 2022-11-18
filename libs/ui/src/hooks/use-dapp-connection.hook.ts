@@ -9,21 +9,27 @@ import { isWeb } from '../utils/platform.utils';
 
 import { useUnlock } from './use-unlock.hook';
 
-export const useDappConnection = () => {
+export const useDAppConnection = () => {
   const isAuthorised = useIsAuthorisedSelector();
   const { isLocked } = useUnlock();
 
   useEffect(() => {
+    console.log('useDAppConnection', isDefined(globalNavigationRef.current), isAuthorised);
+
     if (isDefined(globalNavigationRef.current) && isAuthorised) {
       if (isLocked) {
         globalNavigationRef.current.navigate(ScreensEnum.Unlock);
       }
       const query = parse(location.search);
       if (isWeb) {
-        if (typeof query.origin === 'string' && typeof query.id === 'string' && globalNavigationRef.current !== null) {
-          globalNavigationRef.current.navigate(ScreensEnum.DappConfirmation, {
-            origin: query.origin,
-            id: query.id
+        if (
+          typeof query.dAppInfo === 'string' &&
+          typeof query.id === 'string' &&
+          globalNavigationRef.current !== null
+        ) {
+          globalNavigationRef.current.navigate(ScreensEnum.DAppConfirmation, {
+            id: query.id,
+            dAppInfo: JSON.parse(query.dAppInfo)
           });
         }
         if (

@@ -3,17 +3,10 @@ import { WindowPostMessageStream } from '@metamask/post-message-stream';
 import pump from 'pump';
 import { runtime } from 'webextension-polyfill';
 
-import { prepareResponse } from './background-script.utils';
+import { DAppMessage } from './dapp-connection/dapp-message.interface';
+import { getWindowMetadata } from './dapp-connection/site-metadata';
 
 const myPort = runtime.connect({ name: 'port-from-cs' });
-
-interface DappInfo {
-  address: string;
-  newChainId?: string;
-}
-
-// temporary save already authorized dapps to avoid  updating store time gap
-const authorizedDapps: Record<string, DappInfo> = {};
 
 const CONTENT_SCRIPT = 'oko-contentscript';
 const INPAGE = 'oko-inpage';
@@ -24,67 +17,50 @@ const pageStream = new WindowPostMessageStream({
   target: INPAGE
 });
 
-// listen background-script and send message to dapps
-myPort.onMessage.addListener(async msg => {
-  let request;
-  if (msg.target === 'request') {
-    request = prepareResponse([msg.result.address], msg.id);
-  }
-  if (msg.target === 'providerState') {
-    const result = { accounts: [msg.result.address], chainId: '0x2019', isUnlocked: true, networkVersion: '56' };
-    request = prepareResponse(result, msg.id);
-  }
-  if (msg.target === 'chainId') {
-    request = prepareResponse(msg.result.chainId, msg.id);
-  }
+// listen background-script message and send message to dApps
+myPort.onMessage.addListener(async message => {
+  // let request;
+  // if (message.target === 'request') {
+  //   request = prepareResponse([message.result.address], message.id);
+  // }
+  // if (message.target === 'providerState') {
+  //   const result = { accounts: [message.result.address], chainId: '0x2019', isUnlocked: true, networkVersion: '56' };
+  //   request = prepareResponse(result, message.id);
+  // }
+  // if (message.target === 'chainId') {
+  //   request = prepareResponse(message.result.chainId, message.id);
+  // }
 
-  window.postMessage(request, '*');
+  window.postMessage(message, '*');
 
   return Promise.resolve();
 });
 
-// listen dapps and send message to background-script or answer to dapp directly
-window.addEventListener('message', async evt => {
-  if (evt.data?.target === 'oko-contentscript') {
-    const method = evt.data?.data?.data?.method;
-    const id = evt.data?.data?.data?.id;
-    const dappName = evt.origin;
+// listen dApps and send message to background-script
+window.addEventListener('message', async message => {
+  if (message.data?.target === 'oko-contentscript') {
+    const windowMetadata = await getWindowMetadata();
 
-    if (method === 'eth_chainId' && authorizedDapps[dappName]?.newChainId !== undefined) {
-      const response = prepareResponse(authorizedDapps[dappName].newChainId, id);
+    const dAppMessage: DAppMessage = {
+      data: message.data,
+      sender: {
+        origin: message.origin,
+        name: windowMetadata.name,
+        favicon: windowMetadata.favicon
+      }
+    };
 
-      window.postMessage(response, '*');
-      authorizedDapps[dappName].newChainId = undefined;
+    console.log('CONTENT SCRIPT:', dAppMessage);
 
-      return Promise.resolve();
-    }
-    if (authorizedDapps[dappName]?.address === undefined || method !== 'eth_requestAccounts') {
-      myPort.postMessage({ data: evt.data, origin: dappName });
+    myPort.postMessage(dAppMessage);
 
-      return Promise.resolve();
-    }
-
-    if (method === 'eth_requestAccounts' && authorizedDapps[dappName]?.address !== undefined) {
-      const response = prepareResponse(authorizedDapps[dappName]?.address, id);
-      window.postMessage(response, '*');
-
-      return Promise.resolve();
-    }
+    return Promise.resolve();
   }
 });
 
-runtime.onMessage.addListener(async request => {
-  const method = request?.data?.data?.method;
-  const result = request?.data?.data?.result;
-  const dappName = request?.dappName;
-  const newChainId = request?.newChain;
-  if (method === 'eth_requestAccounts' && result.length > 0) {
-    authorizedDapps[dappName] = { address: result };
-  }
-  if (method === 'wallet_switchEthereumChain') {
-    authorizedDapps[dappName] = { ...authorizedDapps[dappName], newChainId };
-  }
-  window.postMessage(request, '*');
+// listen UI and send message to dApps
+runtime.onMessage.addListener(async message => {
+  window.postMessage(message, '*');
 
   return Promise.resolve();
 });

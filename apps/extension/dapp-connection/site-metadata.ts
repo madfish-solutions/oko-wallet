@@ -1,47 +1,9 @@
-import { JsonRpcEngine } from 'json-rpc-engine';
+export const getWindowMetadata = async () => ({
+  name: getSiteName(window),
+  favicon: await getSiteFavicon(window)
+});
 
-/**
- * Sends site metadata over an RPC request.
- *
- * @param engine - The JSON RPC Engine to send metadata over.
- * @param log - The logging API to use.
- */
-export async function sendSiteMetadata(engine: JsonRpcEngine, log: any): Promise<void> {
-  try {
-    const domainMetadata = await getSiteMetadata();
-    // call engine.handle directly to avoid normal RPC request handling
-    engine.handle(
-      {
-        jsonrpc: '2.0',
-        id: 1,
-        method: 'sendDomainMetadata',
-        params: domainMetadata
-      },
-      () => undefined
-    );
-  } catch (error) {
-    log.error({
-      message: 'error',
-      originalError: error
-    });
-  }
-}
-
-/**
- * Gets site metadata and returns it
- *
- */
-async function getSiteMetadata() {
-  return {
-    name: getSiteName(window),
-    icon: await getSiteIcon(window)
-  };
-}
-
-/**
- * Extracts a name for the site from the DOM
- */
-function getSiteName(windowObject: typeof window): string {
+const getSiteName = (windowObject: typeof window): string => {
   const { document } = windowObject;
 
   const siteName: HTMLMetaElement | null = document.querySelector('head > meta[property="og:site_name"]');
@@ -59,13 +21,9 @@ function getSiteName(windowObject: typeof window): string {
   }
 
   return window.location.hostname;
-}
+};
 
-/**
- * Extracts an icon for the site from the DOM
- * @returns an icon URL
- */
-async function getSiteIcon(windowObject: typeof window): Promise<string | null> {
+const getSiteFavicon = async (windowObject: typeof window): Promise<string> => {
   const { document } = windowObject;
 
   const icons: NodeListOf<HTMLLinkElement> = document.querySelectorAll('head > link[rel~="icon"]');
@@ -76,16 +34,11 @@ async function getSiteIcon(windowObject: typeof window): Promise<string | null> 
     }
   }
 
-  return null;
-}
+  return '';
+};
 
-/**
- * Returns whether the given image URL exists
- * @param url - the url of the image
- * @returns Whether the image exists.
- */
-function imgExists(url: string): Promise<boolean> {
-  return new Promise((resolve, reject) => {
+const imgExists = (url: string): Promise<boolean> =>
+  new Promise((resolve, reject) => {
     try {
       const img = document.createElement('img');
       img.onload = () => resolve(true);
@@ -95,4 +48,3 @@ function imgExists(url: string): Promise<boolean> {
       reject(e);
     }
   });
-}

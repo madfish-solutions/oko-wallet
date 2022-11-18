@@ -3,13 +3,16 @@ import { browser, Runtime } from 'webextension-polyfill-ts';
 
 import { BackgroundMessageType } from '../../libs/ui/src/messagers/enums/background-message-types.enum';
 import { BackgroundMessage } from '../../libs/ui/src/messagers/types/background-message.types';
-import { BackgroundRootState, createBackgroundStore } from '../../libs/ui/src/store/background-store';
-import { updateDAppInfoAction } from '../../libs/ui/src/store/dapps/background-state/dapps.actions';
-import { emptyDAppState } from '../../libs/ui/src/store/dapps/dapps.state';
+import { createBackgroundStore } from '../../libs/ui/src/store/background-store';
 
-import { connectToDappInBackground, openConnectPopup, openSwitchChainPopup } from './background-script.utils';
+import {
+  createDAppResponse,
+  getHexChanId,
+  openConnectPopup,
+  openSwitchChainPopup
+} from './background-script.utils';
+import { DAppMessage } from './dapp-connection/dapp-message.interface';
 
-console.log('background is working...');
 const INITIAL_PASSWORD_HASH = '';
 // Locks when background-script dies!
 const LOCK_PERIOD = 5 * 60 * 1000;
@@ -20,6 +23,8 @@ let lastUserActivityTimestamp = 0;
 let isLockApp = true;
 
 let isFullpageOpen = false;
+
+const { store } = createBackgroundStore();
 
 browser.scripting.registerContentScripts([
   {
@@ -55,75 +60,76 @@ browser.runtime.onConnect.addListener(port => {
       return (lastUserActivityTimestamp = Date.now());
     });
   }
-  let storeInBG: Partial<BackgroundRootState> = {};
 
   // listen content script messages
-  port.onMessage.addListener(async msg => {
-    if (msg.data?.target === 'oko-contentscript') {
-      const data = msg.data?.data?.data;
-      const id = data?.id;
-      const origin = msg.origin;
-      const method = data?.method;
+  port.onMessage.addListener(async (message: DAppMessage) => {
+    console.log('BACK', message);
+    if (message.data.target === 'oko-contentscript') {
+      const data = message.data.data.data;
+      const id = data.id;
+      const method = data.method;
 
-      const { store } = createBackgroundStore();
-      store.subscribe(() => {
-        storeInBG = { ...store.getState() };
-      });
+      const dAppInfo = message.sender;
 
-      console.log(method, 'onMessage', store.getState());
+      const dAppState = store.getState().dApps[dAppInfo.origin];
+      const selectedNetworkChainId = store.getState().wallet.selectedNetworkChainId;
+      const selectedAccountPublicKeyHash = store.getState().wallet.selectedAccountPublicKeyHash;
 
-      const dappInfo = storeInBG?.dapps?.[origin];
+      console.log('method', method, store.getState());
+      console.log(dAppInfo.origin, dAppState);
 
-      const selectedChainId = storeInBG?.wallet?.selectedNetworkChainId;
+      const isPermissionGranted = dAppState?.allowedAccounts.includes(selectedAccountPublicKeyHash);
 
       switch (method) {
         case 'eth_requestAccounts': {
-          if (dappInfo !== undefined && dappInfo.address !== undefined) {
-            connectToDappInBackground(dappInfo, id, port, 'request');
+          if (isPermissionGranted) {
+            const result = [selectedAccountPublicKeyHash];
+            const message = createDAppResponse(id, result);
+
+            port.postMessage(message);
           } else {
-            await openConnectPopup(origin, id);
+            await openConnectPopup(id, dAppInfo);
           }
 
           return Promise.resolve();
         }
         case 'eth_accounts': {
-          if (dappInfo !== undefined && dappInfo.address !== undefined) {
-            connectToDappInBackground(dappInfo, id, port, 'request');
+          if (isPermissionGranted) {
+            const result = [selectedAccountPublicKeyHash];
+            const message = createDAppResponse(id, result);
+
+            port.postMessage(message);
           }
 
           return Promise.resolve();
         }
         case 'wallet_addEthereumChain':
         case 'wallet_switchEthereumChain': {
-          await openSwitchChainPopup(origin, id, data.params[0].chainId);
+          await openSwitchChainPopup(dAppInfo.origin, id, data.params?.[0]?.chainId);
 
           return Promise.resolve();
         }
-        // @TODO : improve response
+        // TODO : improve response
         case 'oko_getProviderState': {
-          if (dappInfo !== undefined && dappInfo.address !== undefined) {
-            await connectToDappInBackground(dappInfo, id, port, 'providerState');
+          if (isPermissionGranted) {
+            const result = {
+              accounts: [selectedAccountPublicKeyHash],
+              chainId: getHexChanId(selectedNetworkChainId),
+              isUnlocked: true,
+              networkVersion: '56'
+            };
+            const message = createDAppResponse(id, result);
+
+            port.postMessage(message);
           }
 
           return Promise.resolve();
         }
-        case 'sendDomainMetadata': {
-          console.log('updateDAppInfoAction', data?.params);
-          store.dispatch(
-            updateDAppInfoAction({
-              name: data?.params?.name ?? emptyDAppState.name,
-              favicon: data?.params?.icon ?? emptyDAppState.favicon,
-              origin
-            })
-          );
-
-          console.log(method, 'on sendDomainMetadata', store.getState());
-
-          return Promise.resolve();
-        }
-
         case 'eth_chainId': {
-          connectToDappInBackground({ chainId: `0x${Number(selectedChainId).toString(16)}` }, id, port, 'chainId');
+          const result = getHexChanId(selectedNetworkChainId);
+          const message = createDAppResponse(id, result);
+
+          port.postMessage(message);
 
           return Promise.resolve();
         }

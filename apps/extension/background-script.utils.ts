@@ -1,29 +1,38 @@
-import { browser, Runtime, Windows } from 'webextension-polyfill-ts';
+import { browser } from 'webextension-polyfill-ts';
 
-import { DAppState } from '../../libs/ui/src/store/dapps/dapps.state';
+import { DAppInfo } from '../../libs/ui/src/store/dapps/dapps.state';
 
-export let openExtensionId = 0;
+let openedExtensionId = 0;
 
-export const prepareResponse = (result: unknown, id: number) => ({
+export const getHexChanId = (chainId: string) => `0x${Number(chainId).toString(16)}`;
+
+export const createDAppResponse = (id: string, result: any) => ({
   data: {
-    data: { id: Number(id), jsonrpc: '2.0', result },
+    data: {
+      id: Number(id),
+      jsonrpc: '2.0',
+      result
+    },
     name: 'oko-provider'
   },
   target: 'oko-inpage'
 });
 
-export const getExtensionPopup = (windows: Windows.Window[], id: number) =>
-  windows.find(win => win.type === 'popup' && win.id === id);
-
-export const openConnectPopup = async (origin: string, id: string) => {
+const getExtensionPopup = async (extensionId: number) => {
   const allWindows = await browser.windows.getAll().then(windows => windows);
-  const activePopup = getExtensionPopup(allWindows, openExtensionId);
-  if (activePopup && activePopup.id !== undefined) {
-    browser.windows.update(activePopup.id, { focused: true });
+
+  return allWindows.find(win => win.type === 'popup' && win.id === extensionId);
+};
+
+export const openConnectPopup = async (id: string, dAppInfo: DAppInfo) => {
+  const extensionPopup = await getExtensionPopup(openedExtensionId);
+
+  if (extensionPopup && extensionPopup.id !== undefined) {
+    browser.windows.update(extensionPopup.id, { focused: true });
   } else {
     const newWindow = await browser.windows.create({
       type: 'popup',
-      url: browser.runtime.getURL(`popup.html?&origin=${origin}&id=${id}`),
+      url: browser.runtime.getURL(`popup.html?id=${id}&dAppInfo=${JSON.stringify(dAppInfo)}`),
       width: 360,
       height: 600,
       top: 20,
@@ -31,13 +40,13 @@ export const openConnectPopup = async (origin: string, id: string) => {
     });
 
     if (newWindow.id !== undefined) {
-      openExtensionId = newWindow.id;
+      openedExtensionId = newWindow.id;
     }
   }
 };
 
-export const openSwitchChainPopup = async (origin: string, id: string, chainId: string) => {
-  await browser.windows.create({
+export const openSwitchChainPopup = async (origin: string, id: string, chainId: string) =>
+  browser.windows.create({
     type: 'popup',
     url: browser.runtime.getURL(`popup.html?&origin=${origin}&id=${id}&chainId=${chainId}`),
     width: 360,
@@ -45,22 +54,3 @@ export const openSwitchChainPopup = async (origin: string, id: string, chainId: 
     top: 20,
     left: 20
   });
-};
-
-export const connectToDappInBackground = (
-  dappInfo: Omit<DAppState, 'name'>,
-  id: number,
-  port: Runtime.Port,
-  target: string
-) => {
-  if (Object.keys(dappInfo).length > 0) {
-    const message = {
-      result: dappInfo,
-      target,
-      id
-    };
-    port.postMessage(message);
-  }
-
-  return Promise.resolve();
-};

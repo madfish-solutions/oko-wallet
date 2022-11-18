@@ -1,5 +1,6 @@
 import { SeedWordsAmount } from '../constants/seed-words-amount';
 import { AccountInterface } from '../interfaces/account.interface';
+import { DAppInfo } from '../interfaces/dapp-info.interface';
 import { NetworkInterface } from '../interfaces/network.interface';
 import { Token } from '../interfaces/token.interface';
 import { TransferParams } from '../interfaces/transfer-params.interface';
@@ -32,7 +33,7 @@ export enum ScreensEnum {
   AddAccount = 'AddAccount',
   AddNetwork = 'AddNetwork',
   EditNetwork = 'EditNetwork',
-  DappConfirmation = 'DappConfirmation',
+  DAppConfirmation = 'DAppConfirmation',
   AddNewToken = 'AddNewToken',
   EditToken = 'EditToken',
   Tokens = 'Tokens',
@@ -88,7 +89,7 @@ export type ScreensParamList = {
   [ScreensEnum.EditToken]: { token: Token };
   [ScreensEnum.EditNetwork]: { network: NetworkInterface; isNetworkSelected: boolean };
   [ScreensEnum.Tokens]: undefined;
-  [ScreensEnum.DappConfirmation]: { origin: string; id: string; };
+  [ScreensEnum.DAppConfirmation]: { id: string; dAppInfo: DAppInfo };
   [ScreensEnum.ScanQrCode]: undefined;
   [ScreensEnum.CreateANewWallet]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };

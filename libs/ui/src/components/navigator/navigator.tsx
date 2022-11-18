@@ -2,7 +2,7 @@ import { NavigationContainer, NavigationContainerRef, DarkTheme } from '@react-n
 import React, { FC, createRef, useEffect } from 'react';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
-import { useDappConnection } from '../../hooks/use-dapp-connection.hook';
+import { useDAppConnection } from '../../hooks/use-dapp-connection.hook';
 import { PERSISTENCE_KEY, usePersistedNavigationState } from '../../hooks/use-persisted-navigation-state.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
 import { AddAccount } from '../../modals/screens/add-account/add-account';
@@ -69,7 +69,7 @@ export const Navigator: FC = () => {
   const { initialState, isReady, handleStateChange } = usePersistedNavigationState();
   const isAuthorised = useIsAuthorisedSelector();
 
-  useDappConnection();
+  useDAppConnection();
   useActiveTokenList();
   useTokensPriceInfo();
 
@@ -160,7 +160,7 @@ export const Navigator: FC = () => {
                 component={RevealPrivateKey}
               />
               <Stack.Screen
-                name={ScreensEnum.DappConfirmation}
+                name={ScreensEnum.DAppConfirmation}
                 options={{ title: 'Connect' }}
                 component={DappConfirmation}
               />

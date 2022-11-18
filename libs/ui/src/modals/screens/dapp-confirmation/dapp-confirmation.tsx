@@ -55,7 +55,7 @@ export const DappConfirmation: FC = () => {
   const { decimals, symbol, balance } = useGasTokenSelector();
   const { navigate, goBack } = useNavigation();
 
-  const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DappConfirmation>>();
+  const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DAppConfirmation>>();
   const dAppState = useDAppSelector(params.origin);
 
   const responseToDapp: MessageToDapp = {

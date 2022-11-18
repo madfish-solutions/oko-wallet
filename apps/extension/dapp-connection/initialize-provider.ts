@@ -26,7 +26,6 @@ interface InitializeProviderOptions extends InpageProviderOptions {
  * @param options.connectionStream - A Node.js stream.
  * @param options.jsonRpcStreamName - The name of the internal JSON-RPC stream.
  * @param options.maxEventListeners - The maximum number of event listeners.
- * @param options.shouldSendMetadata - Whether the provider should send page metadata.
  * @param options.shouldSetOnWindow - Whether the provider should be set as window.ethereum.
  * @returns The initialized provider (whether set or not).
  */
@@ -35,15 +34,13 @@ export function initializeProvider({
   jsonRpcStreamName,
   logger = console,
   maxEventListeners = 100,
-  shouldSendMetadata = true,
   shouldSetOnWindow = true
 }: InitializeProviderOptions): InpageProvider {
   console.log('injected...');
   const provider = new InpageProvider(connectionStream, {
     jsonRpcStreamName,
     logger,
-    maxEventListeners,
-    shouldSendMetadata
+    maxEventListeners
   });
 
   const proxiedProvider = new Proxy(provider, {

@@ -4,7 +4,6 @@ import { JsonRpcRequest, JsonRpcResponse, PendingJsonRpcResponse } from 'json-rp
 import type { Duplex } from 'stream';
 
 import type { UnvalidatedJsonRpcRequest } from './base-provider';
-import { sendSiteMetadata } from './site-metadata';
 import { AbstractStreamProvider, StreamProviderOptions } from './stream-provider';
 import { getDefaultExternalMiddleware } from './utils';
 
@@ -24,12 +23,7 @@ export interface SendSyncJsonRpcRequest extends JsonRpcRequest<unknown> {
 
 type WarningEventName = keyof SentWarningsState['events'];
 
-export interface InpageProviderOptions extends Partial<Omit<StreamProviderOptions, 'rpcMiddleware'>> {
-  /**
-   * Whether the provider should send page metadata.
-   */
-  shouldSendMetadata?: boolean;
-}
+export type InpageProviderOptions = Partial<Omit<StreamProviderOptions, 'rpcMiddleware'>>;
 
 interface SentWarningsState {
   // methods
@@ -84,17 +78,10 @@ export class InpageProvider extends AbstractStreamProvider {
    * @param options.logger - The logging API to use. Default: console
    * @param options.maxEventListeners - The maximum number of event
    * listeners. Default: 100
-   * @param options.shouldSendMetadata - Whether the provider should
-   * send page metadata. Default: true
    */
   constructor(
     connectionStream: Duplex,
-    {
-      jsonRpcStreamName = InpageProviderStreamName,
-      logger = console,
-      maxEventListeners,
-      shouldSendMetadata
-    }: InpageProviderOptions = {}
+    { jsonRpcStreamName = InpageProviderStreamName, logger = console, maxEventListeners }: InpageProviderOptions = {}
   ) {
     super(connectionStream, {
       jsonRpcStreamName,
@@ -130,19 +117,6 @@ export class InpageProvider extends AbstractStreamProvider {
         this.emit('notification', payload.params.result);
       }
     });
-
-    // send website metadata
-    if (shouldSendMetadata) {
-      if (document.readyState === 'complete') {
-        sendSiteMetadata(this._rpcEngine, this._log);
-      } else {
-        const domContentLoadedHandler = () => {
-          sendSiteMetadata(this._rpcEngine, this._log);
-          window.removeEventListener('DOMContentLoaded', domContentLoadedHandler);
-        };
-        window.addEventListener('DOMContentLoaded', domContentLoadedHandler);
-      }
-    }
   }
 
   //====================
