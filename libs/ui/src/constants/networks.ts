@@ -178,12 +178,6 @@ export const TEZOS_NETWORKS_LIST = [
   'https://ghostnet.tezos.marigold.dev'
 ];
 
-export const TEZOS_MAINNET_RPC_LIST = [
-  'https://mainnet-node.madfish.solutions',
-  'https://mainnet.smartpy.io',
-  'https://mainnet.api.tez.ie'
-];
-
 export const NETWORK_CHAIN_IDS_BY_NETWORK_TYPE: NetworkChainIdsByNetworkType = {
   [NetworkTypeEnum.Tezos]: [
     TezosChainId.Mainnet,
