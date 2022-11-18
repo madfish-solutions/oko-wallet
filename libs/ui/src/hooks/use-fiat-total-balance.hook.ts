@@ -31,10 +31,10 @@ export const useFiatTotalBalance = () => {
     const evmPublicKeyHash = isDefined(EVM) && isDefined(EVM.publicKeyHash) ? EVM.publicKeyHash : '';
     const tezosPublicKeyHash = isDefined(Tezos) && isDefined(Tezos.publicKeyHash) ? Tezos.publicKeyHash : '';
 
-    const gasTokenBalance = networks.reduce((sum, { rpcUrl, networkType, gasTokenMetadata: { decimals } }) => {
-      const tokenMetadataSlug = getTokenMetadataSlug(rpcUrl, GAS_TOKEN_ADDRESS);
+    const gasTokenBalance = networks.reduce((sum, { chainId, networkType, gasTokenMetadata: { decimals } }) => {
+      const tokenMetadataSlug = getTokenMetadataSlug(chainId, GAS_TOKEN_ADDRESS);
       const publicKeyHash = networkType === NetworkTypeEnum.Tezos ? tezosPublicKeyHash : evmPublicKeyHash;
-      const accountGasTokenSlug = getAccountTokensSlug(rpcUrl, publicKeyHash);
+      const accountGasTokenSlug = getAccountTokensSlug(chainId, publicKeyHash);
       const { price } = allTokensMarketInfoSelector[tokenMetadataSlug] ?? {};
       const amount = accountsGasTokens[accountGasTokenSlug]?.data;
 
@@ -50,15 +50,11 @@ export const useFiatTotalBalance = () => {
     }, new BigNumber(0));
 
     const tokensBalance = Object.entries(accountsTokens).reduce((sum, [accountTokensSlug, accountTokens]) => {
-      const [networkRpcUrl, accountPublicKeyHash] = accountTokensSlug.split('_');
+      const [chainId, accountPublicKeyHash] = accountTokensSlug.split('_');
 
       if (accountPublicKeyHash === evmPublicKeyHash || accountPublicKeyHash === tezosPublicKeyHash) {
         const accountTokensSum = accountTokens.reduce((sum, accountToken) => {
-          const tokenMetadataSlug = getTokenMetadataSlug(
-            networkRpcUrl,
-            accountToken.tokenAddress,
-            accountToken.tokenId
-          );
+          const tokenMetadataSlug = getTokenMetadataSlug(chainId, accountToken.tokenAddress, accountToken.tokenId);
           const { price } = allTokensMarketInfoSelector[tokenMetadataSlug] ?? {};
 
           const dollarValue = getDollarValue({

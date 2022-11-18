@@ -19,7 +19,7 @@ export const useTokensPriceInfo = () => {
     if (isNotEmptyString(publicKeyHash)) {
       const tokenAddressesList = visibleAccountTokens.map(visibleAccountToken => visibleAccountToken.tokenAddress);
 
-      dispatch(loadTokensPriceInfo.submit({ tokenAddressesList, chainId, rpcUrl }));
+      dispatch(loadTokensPriceInfo.submit({ tokenAddressesList, chainId }));
     }
   }, [chainId, rpcUrl, visibleAccountTokens.length, publicKeyHash]);
 };

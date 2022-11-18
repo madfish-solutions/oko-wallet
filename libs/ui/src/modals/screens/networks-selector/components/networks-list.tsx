@@ -64,7 +64,7 @@ export const NetworksList = () => {
   const renderItem = ({ item, index }: ListRenderItemInfo<NetworkInterface>) => {
     const isNetworkSelected = selectedIndex === index;
     const selectedAccountPublicKeyHash = getPublicKeyHash(selectedAccount, item.networkType);
-    const accountGasTokenSlug = getAccountTokensSlug(item.rpcUrl, selectedAccountPublicKeyHash);
+    const accountGasTokenSlug = getAccountTokensSlug(item.chainId, selectedAccountPublicKeyHash);
 
     return (
       <ModalRenderItem

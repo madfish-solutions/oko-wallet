@@ -10,7 +10,7 @@ import { getDollarValue } from '../utils/get-dollar-amount.util';
 import { getTokenMetadataSlug } from '../utils/token-metadata.util';
 
 export const useFiatBalance = () => {
-  const { rpcUrl } = useSelectedNetworkSelector();
+  const { chainId } = useSelectedNetworkSelector();
   const allTokensMarketInfoSelector = useTokensMarketInfoSelector();
   const visibleAccountTokensAndGasToken = useVisibleAccountTokensAndGasTokenSelector();
 
@@ -18,7 +18,7 @@ export const useFiatBalance = () => {
     () =>
       visibleAccountTokensAndGasToken
         .reduce((sum, accountToken) => {
-          const tokenMetadataSlug = getTokenMetadataSlug(rpcUrl, accountToken.tokenAddress);
+          const tokenMetadataSlug = getTokenMetadataSlug(chainId, accountToken.tokenAddress);
           const { price } = allTokensMarketInfoSelector[tokenMetadataSlug] ?? {};
 
           const dollarValue = getDollarValue({
@@ -32,6 +32,6 @@ export const useFiatBalance = () => {
           return dollarValue.plus(sum);
         }, new BigNumber(0))
         .toFixed(2),
-    [visibleAccountTokensAndGasToken, rpcUrl]
+    [visibleAccountTokensAndGasToken, chainId]
   );
 };

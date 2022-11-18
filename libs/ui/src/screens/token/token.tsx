@@ -45,10 +45,10 @@ export const Token: FC<Props> = ({ style }) => {
   const {
     params: { token }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Token>>();
-  const { rpcUrl } = useSelectedNetworkSelector();
+  const { chainId } = useSelectedNetworkSelector();
 
   const { name, symbol, tokenAddress, decimals, tokenId, thumbnailUri, balance } = token;
-  const { price, usdPriceChange24h } = useTokenMarketInfoSelector(tokenAddress, rpcUrl);
+  const { price, usdPriceChange24h } = useTokenMarketInfoSelector(tokenAddress, chainId);
 
   const balanceFromStore = useTokenBalanceSelector(getTokenSlug(tokenAddress, tokenId));
   const formattedBalance = getFormattedBalance(balanceFromStore ?? balance.data, decimals);

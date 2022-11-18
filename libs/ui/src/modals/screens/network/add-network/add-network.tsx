@@ -195,6 +195,8 @@ export const AddNetwork: FC = () => {
       networkType
     };
 
+    console.log(network);
+
     if (!checkIsNetworkTypeKeyExist(selectedAccount, networkType)) {
       createHdAccountForNewNetworkType(selectedAccount, networkType, () => {
         dispatch(addNewNetworkAction(network));
