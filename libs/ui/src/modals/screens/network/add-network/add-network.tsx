@@ -45,6 +45,7 @@ export const AddNetwork: FC = () => {
   const [chainId, setChainId] = useState<string>('');
   const [nativeTokenInfo, setNativeTokenInfo] = useState<NativeCurrencyType>({
     tokenName: '',
+    thumbnailUri: '',
     decimals: 18
   });
 
@@ -123,7 +124,11 @@ export const AddNetwork: FC = () => {
   ).current;
 
   const getTezosNetworkData = useCallback(async (networkChainId: string) => {
-    setNativeTokenInfo({ tokenName: 'Tezos', decimals: 6 });
+    setNativeTokenInfo({
+      tokenName: 'Tezos',
+      decimals: 6,
+      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/2011.png'
+    });
     setValue('tokenSymbol', 'Tezos');
     setValue('blockExplorerUrl', tezosBlockExplorers[networkChainId as TezosChainId] ?? '');
     setValue('chainId', networkChainId);
@@ -189,7 +194,8 @@ export const AddNetwork: FC = () => {
       gasTokenMetadata: {
         name: nativeTokenInfo.tokenName,
         symbol: tokenSymbol.trim(),
-        decimals: nativeTokenInfo.decimals
+        decimals: nativeTokenInfo.decimals,
+        thumbnailUri: nativeTokenInfo.thumbnailUri
       },
       explorerUrl: blockExplorerUrl?.trim(),
       networkType
