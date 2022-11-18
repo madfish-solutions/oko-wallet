@@ -18,6 +18,7 @@ import { useDAppSelector } from '../../../store/dapps/dapps.selectors';
 import { changeNetworkAction } from '../../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
+import { createDAppResponse } from '../../../utils/dapp.utils';
 import { eraseProtocol } from '../../../utils/string.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 import { DappImage } from '../dapp-confirmation/components/dapp-image';
@@ -30,7 +31,7 @@ const changeNetworkRules: AllowsRules[] = [
 ];
 
 export const ChangeNetwork: FC = () => {
-  const { navigate, goBack } = useNavigation();
+  const { navigate } = useNavigation();
   const { name: selectedNetworkName } = useSelectedNetworkSelector();
   const networks = useAllNetworksSelector();
   const dispatch = useDispatch();
@@ -43,27 +44,15 @@ export const ChangeNetwork: FC = () => {
     network => network.chainId === parseInt(params.requestedChainId.substring(2), 16).toString()
   );
 
-  const responseToDapp = {
-    data: {
-      data: { id: Number(params.messageId), jsonrpc: '2.0', result: null, method: 'wallet_switchEthereumChain' },
-      name: 'oko-provider'
-    },
-    target: 'oko-inpage',
-    newChain: params.requestedChainId,
-    dappName: dAppState.origin
-  };
-
   const acceptChangeNetwork = () => {
     const decimalChainId = parseInt(params.requestedChainId.substring(2), 16);
     dispatch(changeNetworkAction(decimalChainId.toString()));
     browser.tabs.query({ active: true }).then(tabs => {
       if (tabs[0].id !== undefined) {
-        browser.tabs.sendMessage(tabs[0].id, responseToDapp);
+        const message = createDAppResponse(params.messageId, null);
+        browser.tabs.sendMessage(tabs[0].id, message);
 
-        setTimeout(() => {
-          goBack();
-          window.close();
-        }, 1000);
+        setTimeout(window.close, 1000);
       }
     });
   };
