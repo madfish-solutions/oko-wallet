@@ -1,7 +1,9 @@
 import { createAction } from '@reduxjs/toolkit';
 
+import { DAppInfo } from '../../interfaces/dapp-info.interface';
+
 interface DAppConnectionPayload {
-  dAppOrigin: string;
+  dAppInfo: DAppInfo;
   accountPublicKeyHash: string;
 }
 

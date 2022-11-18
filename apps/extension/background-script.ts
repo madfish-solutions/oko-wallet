@@ -3,14 +3,11 @@ import { browser, Runtime } from 'webextension-polyfill-ts';
 
 import { BackgroundMessageType } from '../../libs/ui/src/messagers/enums/background-message-types.enum';
 import { BackgroundMessage } from '../../libs/ui/src/messagers/types/background-message.types';
-import { createBackgroundStore } from '../../libs/ui/src/store/background-store';
+import { RootState } from '../../libs/ui/src/store/store';
+import { createDAppResponse } from '../../libs/ui/src/utils/dapp.utils';
+import { LocalStorage } from '../../libs/ui/src/utils/local-storage.util';
 
-import {
-  createDAppResponse,
-  getHexChanId,
-  openConnectPopup,
-  openSwitchChainPopup
-} from './background-script.utils';
+import { getHexChanId, openConnectPopup, openSwitchChainPopup } from './background-script.utils';
 import { DAppMessage } from './dapp-connection/dapp-message.interface';
 
 const INITIAL_PASSWORD_HASH = '';
@@ -20,11 +17,10 @@ const URL_BASE = 'extension://';
 
 let passwordHash = INITIAL_PASSWORD_HASH;
 let lastUserActivityTimestamp = 0;
+// TODO: contact Sviat wtf is this
 let isLockApp = true;
 
 let isFullpageOpen = false;
-
-const { store } = createBackgroundStore();
 
 browser.scripting.registerContentScripts([
   {
@@ -35,6 +31,19 @@ browser.scripting.registerContentScripts([
     world: 'MAIN'
   }
 ]);
+
+const getState = async (): Promise<RootState> => {
+  const state: Record<string, any> = {};
+
+  const serializedState: string = await LocalStorage.getItem('persist:root');
+  const rawState: Record<string, string> = JSON.parse(serializedState);
+
+  Object.keys(rawState).forEach(key => {
+    state[key] = JSON.parse(rawState[key]);
+  });
+
+  return state as RootState;
+};
 
 browser.runtime.onConnect.addListener(port => {
   // check for time expired and max-view no opened then extension need to lock
@@ -63,21 +72,18 @@ browser.runtime.onConnect.addListener(port => {
 
   // listen content script messages
   port.onMessage.addListener(async (message: DAppMessage) => {
-    console.log('BACK', message);
-    if (message.data.target === 'oko-contentscript') {
-      const data = message.data.data.data;
+    const data = message.data.data.data;
+
+    if (message.data.target === 'oko-contentscript' && data !== undefined) {
       const id = data.id;
       const method = data.method;
-
       const dAppInfo = message.sender;
 
-      const dAppState = store.getState().dApps[dAppInfo.origin];
-      const selectedNetworkChainId = store.getState().wallet.selectedNetworkChainId;
-      const selectedAccountPublicKeyHash = store.getState().wallet.selectedAccountPublicKeyHash;
+      const state = await getState();
 
-      console.log('method', method, store.getState());
-      console.log(dAppInfo.origin, dAppState);
-
+      const dAppState = state.dApps[dAppInfo.origin];
+      const selectedNetworkChainId = state.wallet.selectedNetworkChainId;
+      const selectedAccountPublicKeyHash = state.wallet.selectedAccountPublicKeyHash;
       const isPermissionGranted = dAppState?.allowedAccounts.includes(selectedAccountPublicKeyHash);
 
       switch (method) {
@@ -105,7 +111,7 @@ browser.runtime.onConnect.addListener(port => {
         }
         case 'wallet_addEthereumChain':
         case 'wallet_switchEthereumChain': {
-          await openSwitchChainPopup(dAppInfo.origin, id, data.params?.[0]?.chainId);
+          await openSwitchChainPopup(id, dAppInfo.origin, data.params?.[0]?.chainId);
 
           return Promise.resolve();
         }

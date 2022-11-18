@@ -19,18 +19,6 @@ const pageStream = new WindowPostMessageStream({
 
 // listen background-script message and send message to dApps
 myPort.onMessage.addListener(async message => {
-  // let request;
-  // if (message.target === 'request') {
-  //   request = prepareResponse([message.result.address], message.id);
-  // }
-  // if (message.target === 'providerState') {
-  //   const result = { accounts: [message.result.address], chainId: '0x2019', isUnlocked: true, networkVersion: '56' };
-  //   request = prepareResponse(result, message.id);
-  // }
-  // if (message.target === 'chainId') {
-  //   request = prepareResponse(message.result.chainId, message.id);
-  // }
-
   window.postMessage(message, '*');
 
   return Promise.resolve();
@@ -49,8 +37,6 @@ window.addEventListener('message', async message => {
         favicon: windowMetadata.favicon
       }
     };
-
-    console.log('CONTENT SCRIPT:', dAppMessage);
 
     myPort.postMessage(dAppMessage);
 

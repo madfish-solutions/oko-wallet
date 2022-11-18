@@ -1,5 +1,7 @@
+import { isDefined } from '@rnw-community/shared';
 import { SymmetricKey } from 'wasm-themis';
-import { browser } from 'webextension-polyfill-ts';
+
+import { LocalStorage } from './local-storage.util';
 
 export interface StoredSensitiveData {
   symmetricKey: SymmetricKey;
@@ -7,13 +9,13 @@ export interface StoredSensitiveData {
 }
 
 export const getStoredValue = async <StoredSensitiveData>(key: string): Promise<StoredSensitiveData> => {
-  const encryptedData = await browser.storage.local.get(key);
+  const encryptedData = await LocalStorage.getItem(key);
 
-  if (encryptedData !== null) {
-    return JSON.parse(encryptedData[key]);
+  if (isDefined(encryptedData)) {
+    return JSON.parse(encryptedData);
   }
 
   throw Error(`No record in Keychain [${key}]`);
 };
 
-export const setStoredValue = (key: string, value: string) => browser.storage.local.set({ [key]: value });
+export const setStoredValue = (key: string, value: string) => LocalStorage.setItem(key, value);

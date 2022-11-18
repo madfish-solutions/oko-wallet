@@ -5,11 +5,7 @@ import { useSelectedAccountPublicKeyHashSelector } from '../wallet/wallet.select
 import { DAppState, DAppsRootState, emptyDAppState } from './dapps.state';
 
 export const useDAppSelector = (origin: string) =>
-  useSelector<DAppsRootState, DAppState>(({ dApps }) => {
-    console.log('UI DAPPS', dApps);
-
-    return dApps[origin] ?? emptyDAppState;
-  });
+  useSelector<DAppsRootState, DAppState>(({ dApps }) => dApps[origin] ?? emptyDAppState);
 
 export const useSelectedAccountDAppsListSelector = () => {
   const selectedAccountPublicKeyHash = useSelectedAccountPublicKeyHashSelector();

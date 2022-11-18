@@ -5,18 +5,23 @@ import { dAppsInitialState, DAppsState } from './dapps.state';
 
 export const dAppsReducers = createReducer<DAppsState>(dAppsInitialState, builder =>
   builder
-    .addCase(connectDAppAction, (state, { payload }) => ({
-      ...state,
-      [payload.dAppOrigin]: {
-        ...state[payload.dAppOrigin],
-        allowedAccounts: [...state[payload.dAppOrigin]?.allowedAccounts, payload.accountPublicKeyHash]
-      }
-    }))
+    .addCase(connectDAppAction, (state, { payload }) => {
+      const dAppState = state[payload.dAppInfo.origin];
+
+      return {
+        ...state,
+        [payload.dAppInfo.origin]: {
+          ...dAppState,
+          ...payload.dAppInfo,
+          allowedAccounts: [...(dAppState?.allowedAccounts ?? []), payload.accountPublicKeyHash]
+        }
+      };
+    })
     .addCase(removeDAppConnectionAction, (state, { payload }) => ({
       ...state,
-      [payload.dAppOrigin]: {
-        ...state[payload.dAppOrigin],
-        allowedAccounts: state[payload.dAppOrigin].allowedAccounts.filter(
+      [payload.dAppInfo.origin]: {
+        ...state[payload.dAppInfo.origin],
+        allowedAccounts: state[payload.dAppInfo.origin].allowedAccounts.filter(
           account => account !== payload.accountPublicKeyHash
         )
       }

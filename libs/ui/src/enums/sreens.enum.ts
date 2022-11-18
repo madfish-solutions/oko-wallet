@@ -89,7 +89,7 @@ export type ScreensParamList = {
   [ScreensEnum.EditToken]: { token: Token };
   [ScreensEnum.EditNetwork]: { network: NetworkInterface; isNetworkSelected: boolean };
   [ScreensEnum.Tokens]: undefined;
-  [ScreensEnum.DAppConfirmation]: { id: string; dAppInfo: DAppInfo };
+  [ScreensEnum.DAppConfirmation]: { messageId: string; dAppInfo: DAppInfo };
   [ScreensEnum.ScanQrCode]: undefined;
   [ScreensEnum.CreateANewWallet]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };

@@ -2,15 +2,15 @@ import { NavigationContainer, NavigationContainerRef, DarkTheme } from '@react-n
 import React, { FC, createRef, useEffect } from 'react';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
-import { useDAppConnection } from '../../hooks/use-dapp-connection.hook';
+import { useLockApp } from '../../hooks/use-lock-app.hook';
 import { PERSISTENCE_KEY, usePersistedNavigationState } from '../../hooks/use-persisted-navigation-state.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
 import { AddAccount } from '../../modals/screens/add-account/add-account';
 import { AddNewCollectible } from '../../modals/screens/add-new-collectible/add-new-collectible';
 import { ChangeNetwork } from '../../modals/screens/change-network/change-network';
 import { Collectible } from '../../modals/screens/collectible/collectible';
-import { DappConfirmation } from '../../modals/screens/dapp-confirmation/dapp-confirmation';
-import { DeleteDapp } from '../../modals/screens/delete-dapp/delete-dapp';
+import { DAppConfirmation } from '../../modals/screens/dapp-confirmation/dapp-confirmation';
+import { DeleteDApp } from '../../modals/screens/delete-dapp/delete-dapp';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
 import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
@@ -69,7 +69,7 @@ export const Navigator: FC = () => {
   const { initialState, isReady, handleStateChange } = usePersistedNavigationState();
   const isAuthorised = useIsAuthorisedSelector();
 
-  useDAppConnection();
+  useLockApp(isReady);
   useActiveTokenList();
   useTokensPriceInfo();
 
@@ -162,7 +162,7 @@ export const Navigator: FC = () => {
               <Stack.Screen
                 name={ScreensEnum.DAppConfirmation}
                 options={{ title: 'Connect' }}
-                component={DappConfirmation}
+                component={DAppConfirmation}
               />
               <Stack.Screen
                 name={ScreensEnum.ChangeNetworkConfirmation}
@@ -172,7 +172,7 @@ export const Navigator: FC = () => {
               <Stack.Screen
                 name={ScreensEnum.DeleteDapp}
                 options={{ title: 'Confirm disconnection' }}
-                component={DeleteDapp}
+                component={DeleteDApp}
               />
               <Stack.Screen
                 name={ScreensEnum.WordsAmountSelector}

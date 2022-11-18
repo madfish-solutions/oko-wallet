@@ -1,34 +1,16 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { configureStore } from '@reduxjs/toolkit';
 import { Action, AnyAction, Middleware, ReducersMapObject } from 'redux';
 import { combineEpics, createEpicMiddleware, Epic, StateObservable } from 'redux-observable';
-import {
-  Storage,
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  persistReducer,
-  persistStore,
-  PURGE,
-  REGISTER,
-  REHYDRATE
-} from 'redux-persist';
+import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import { PersistConfig } from 'redux-persist/lib/types';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { browser } from 'webextension-polyfill-ts';
 
-import { isWeb } from '../../utils/platform.utils';
+import { LocalStorage } from '../../utils/local-storage.util';
 import { rootStateReducer } from '../root-state.reducers';
 
 import { addFlipperDebugger } from './filpper.util';
-
-const WebStorage: Storage = {
-  getItem: key => browser.storage.local.get(key).then(value => value[key]),
-  setItem: (key, value) => browser.storage.local.set({ [key]: value }),
-  removeItem: key => browser.storage.local.remove(key)
-};
 
 export const createStore = <S extends object, A extends Action = AnyAction>({
   reducers,
@@ -42,7 +24,7 @@ export const createStore = <S extends object, A extends Action = AnyAction>({
   const persistConfig: PersistConfig<S> = {
     key: 'root',
     version: 1,
-    storage: isWeb ? WebStorage : AsyncStorage,
+    storage: LocalStorage,
     stateReconciler: autoMergeLevel2
   };
 

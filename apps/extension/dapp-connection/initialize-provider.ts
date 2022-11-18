@@ -36,7 +36,6 @@ export function initializeProvider({
   maxEventListeners = 100,
   shouldSetOnWindow = true
 }: InitializeProviderOptions): InpageProvider {
-  console.log('injected...');
   const provider = new InpageProvider(connectionStream, {
     jsonRpcStreamName,
     logger,
