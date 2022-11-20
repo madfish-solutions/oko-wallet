@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 import { ScrollView, Pressable, Linking, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { browser } from 'webextension-polyfill-ts';
+import { tabs } from 'webextension-polyfill';
 
 import { AllowsBlock } from '../../../components/allows-block/allows-block';
 import { Button } from '../../../components/button/button';
@@ -35,7 +35,7 @@ export const ChangeNetwork: FC = () => {
   const { name: selectedNetworkName } = useSelectedNetworkSelector();
   const networks = useAllNetworksSelector();
   const dispatch = useDispatch();
-  const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.ChangeNetworkConfirmation>>();
+  const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.NetworkChangeConfirmation>>();
   const dAppState = useDAppSelector(params.dAppOrigin);
 
   const navigateToWalletScreen = () => navigate(ScreensEnum.Wallet);
@@ -47,10 +47,10 @@ export const ChangeNetwork: FC = () => {
   const acceptChangeNetwork = () => {
     const decimalChainId = parseInt(params.requestedChainId.substring(2), 16);
     dispatch(changeNetworkAction(decimalChainId.toString()));
-    browser.tabs.query({ active: true }).then(tabs => {
-      if (tabs[0].id !== undefined) {
+    tabs.query({ active: true }).then(queryTabs => {
+      if (queryTabs[0].id !== undefined) {
         const message = createDAppResponse(params.messageId, null);
-        browser.tabs.sendMessage(tabs[0].id, message);
+        tabs.sendMessage(queryTabs[0].id, message);
 
         setTimeout(window.close, 1000);
       }

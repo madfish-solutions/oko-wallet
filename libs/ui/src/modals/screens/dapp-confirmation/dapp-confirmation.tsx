@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 import { Linking, Pressable, ScrollView, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { browser } from 'webextension-polyfill-ts';
+import { tabs } from 'webextension-polyfill';
 
 import { AllowsBlock } from '../../../components/allows-block/allows-block';
 import { Button } from '../../../components/button/button';
@@ -47,17 +47,17 @@ export const DAppConfirmation: FC = () => {
   const { decimals, symbol, balance } = useGasTokenSelector();
   const { navigate } = useNavigation();
 
-  const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DAppConfirmation>>();
+  const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DAppConnectionConfirmation>>();
 
   const gasBalance = getFormattedBalance(balance.data, decimals);
 
   const sendMessage = () => {
-    browser.tabs.query({ active: true }).then(tabs => {
-      if (tabs[0].id !== undefined) {
+    tabs.query({ active: true }).then(queryTabs => {
+      if (queryTabs[0].id !== undefined) {
         dispatch(connectDAppAction({ dAppInfo: params.dAppInfo, accountPublicKeyHash: selectedAccountPublicKeyHash }));
 
         const message = createDAppResponse(params.messageId, [selectedAccountPublicKeyHash]);
-        browser.tabs.sendMessage(tabs[0].id, message);
+        tabs.sendMessage(queryTabs[0].id, message);
 
         setTimeout(window.close, 1000);
       }

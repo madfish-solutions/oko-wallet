@@ -1,4 +1,4 @@
-import { DAppInfo } from '../../../libs/ui/src/store/dapps/dapps.state';
+import { DAppInfo } from 'ui/background-script';
 
 import { DAppMessageData } from './dapp-message-data.interface';
 

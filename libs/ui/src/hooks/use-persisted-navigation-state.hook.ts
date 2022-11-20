@@ -10,7 +10,7 @@ import { getStoredValue, setStoredValue } from '../utils/store.util';
 
 export const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
-const ROUTES_TO_IGNORE: string[] = [ScreensEnum.DAppConfirmation, ScreensEnum.ChangeNetworkConfirmation];
+const ROUTES_TO_IGNORE: string[] = [ScreensEnum.DAppConnectionConfirmation, ScreensEnum.NetworkChangeConfirmation];
 
 const createNavigationRoute = <T extends ScreensEnum>(name: T, params: ScreensParamList[T]): Omit<Route<T>, 'key'> => ({
   name,
@@ -33,7 +33,7 @@ export const usePersistedNavigationState = () => {
 
           // DAppConfirmation
           if (typeof query.id === 'string' && typeof query.dAppInfo === 'string') {
-            const route = createNavigationRoute(ScreensEnum.DAppConfirmation, {
+            const route = createNavigationRoute(ScreensEnum.DAppConnectionConfirmation, {
               messageId: query.id,
               dAppInfo: JSON.parse(query.dAppInfo)
             });
@@ -47,7 +47,7 @@ export const usePersistedNavigationState = () => {
             typeof query.origin === 'string' &&
             typeof query.requestedChainId === 'string'
           ) {
-            const route = createNavigationRoute(ScreensEnum.ChangeNetworkConfirmation, {
+            const route = createNavigationRoute(ScreensEnum.NetworkChangeConfirmation, {
               messageId: query.id,
               dAppOrigin: query.origin,
               requestedChainId: query.requestedChainId

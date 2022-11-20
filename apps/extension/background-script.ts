@@ -1,14 +1,12 @@
 import './shim.js';
-import { browser, Runtime } from 'webextension-polyfill-ts';
 
-import { BackgroundMessageType } from '../../libs/ui/src/messagers/enums/background-message-types.enum';
-import { BackgroundMessage } from '../../libs/ui/src/messagers/types/background-message.types';
-import { RootState } from '../../libs/ui/src/store/store';
-import { createDAppResponse } from '../../libs/ui/src/utils/dapp.utils';
-import { LocalStorage } from '../../libs/ui/src/utils/local-storage.util';
+import { BackgroundMessageType, BackgroundMessage, createDAppResponse } from 'ui/background-script';
+import { Runtime, scripting, runtime } from 'webextension-polyfill';
 
-import { getHexChanId, openConnectPopup, openSwitchChainPopup } from './background-script.utils';
-import { DAppMessage } from './dapp-connection/dapp-message.interface';
+import { DAppMessage } from './src/interfaces/dapp-message.interface';
+import { openDAppConnectionConfirmationPopup, openNetworkChangeConfirmationPopup } from './src/utils/browser.utils';
+import { getHexChanId } from './src/utils/network.utils';
+import { getState } from './src/utils/state.utils';
 
 const INITIAL_PASSWORD_HASH = '';
 // Locks when background-script dies!
@@ -22,30 +20,18 @@ let isLockApp = true;
 
 let isFullpageOpen = false;
 
-browser.scripting.registerContentScripts([
+scripting.registerContentScripts([
   {
     id: 'inpage-script',
     matches: ['file://*/*', 'http://*/*', 'https://*/*'],
     js: ['scripts/inpage.js'],
     runAt: 'document_start',
+    // @ts-ignore
     world: 'MAIN'
   }
 ]);
 
-const getState = async (): Promise<RootState> => {
-  const state: Record<string, any> = {};
-
-  const serializedState: string = await LocalStorage.getItem('persist:root');
-  const rawState: Record<string, string> = JSON.parse(serializedState);
-
-  Object.keys(rawState).forEach(key => {
-    state[key] = JSON.parse(rawState[key]);
-  });
-
-  return state as RootState;
-};
-
-browser.runtime.onConnect.addListener(port => {
+runtime.onConnect.addListener(port => {
   // check for time expired and max-view no opened then extension need to lock
   const savedSessionTimeExpired = Date.now() > lastUserActivityTimestamp + LOCK_PERIOD;
 
@@ -94,7 +80,7 @@ browser.runtime.onConnect.addListener(port => {
 
             port.postMessage(message);
           } else {
-            await openConnectPopup(id, dAppInfo);
+            await openDAppConnectionConfirmationPopup(id, dAppInfo);
           }
 
           return Promise.resolve();
@@ -111,7 +97,7 @@ browser.runtime.onConnect.addListener(port => {
         }
         case 'wallet_addEthereumChain':
         case 'wallet_switchEthereumChain': {
-          await openSwitchChainPopup(id, dAppInfo.origin, data.params?.[0]?.chainId);
+          await openNetworkChangeConfirmationPopup(id, dAppInfo.origin, data.params?.[0]?.chainId);
 
           return Promise.resolve();
         }
@@ -149,7 +135,7 @@ browser.runtime.onConnect.addListener(port => {
 });
 
 // listen messages from UI
-browser.runtime.onMessage.addListener((message: BackgroundMessage) => {
+runtime.onMessage.addListener((message: BackgroundMessage) => {
   switch (message.type) {
     case BackgroundMessageType.SetPasswordHash: {
       passwordHash = message.data.passwordHash;
@@ -170,4 +156,4 @@ browser.runtime.onMessage.addListener((message: BackgroundMessage) => {
 });
 
 const isFullpagePort = (port: Runtime.Port) =>
-  port.sender?.url?.includes(`${URL_BASE}${browser.runtime.id}/fullpage.html`) ?? false;
+  port.sender?.url?.includes(`${URL_BASE}${runtime.id}/fullpage.html`) ?? false;

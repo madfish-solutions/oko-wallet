@@ -3,8 +3,8 @@ import { WindowPostMessageStream } from '@metamask/post-message-stream';
 import pump from 'pump';
 import { runtime } from 'webextension-polyfill';
 
-import { DAppMessage } from './dapp-connection/dapp-message.interface';
-import { getWindowMetadata } from './dapp-connection/site-metadata';
+import { DAppMessage } from './src/interfaces/dapp-message.interface';
+import { getWindowMetadata } from './src/utils/window.utils';
 
 const myPort = runtime.connect({ name: 'port-from-cs' });
 

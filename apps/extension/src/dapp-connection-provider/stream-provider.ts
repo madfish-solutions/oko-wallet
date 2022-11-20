@@ -7,7 +7,7 @@ import pump from 'pump';
 import type { Duplex } from 'stream';
 
 import { BaseProvider, BaseProviderOptions } from './base-provider';
-import { isValidChainId, isValidNetworkVersion } from './utils';
+import { isValidChainId, isValidNetworkVersion } from './utils/validation.utils';
 
 export interface StreamProviderOptions extends BaseProviderOptions {
   /**
@@ -99,9 +99,8 @@ export abstract class AbstractStreamProvider extends BaseProvider {
    *
    * @emits BaseProvider#disconnect
    */
-  private _handleStreamDisconnect(streamName: string, error: Error) {
+  private _handleStreamDisconnect(streamName: string, error: Error | undefined) {
     let warningMsg = `Lost connection to "${streamName}".`;
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (error?.stack) {
       warningMsg += `\n${error.stack}`;
     }
@@ -111,7 +110,6 @@ export abstract class AbstractStreamProvider extends BaseProvider {
       this.emit('error', warningMsg);
     }
 
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     this._handleDisconnect(false, error ? error.message : undefined);
   }
 
@@ -139,24 +137,5 @@ export abstract class AbstractStreamProvider extends BaseProvider {
     } else {
       super._handleChainChanged({ chainId });
     }
-  }
-}
-
-/**
- * An EIP-1193 provider wired to some duplex stream via a
- * `json-rpc-middleware-stream` JSON-RPC stream middleware. Consumers must
- * call {@link StreamProvider.initialize} after instantiation to complete
- * initialization.
- */
-export class StreamProvider extends AbstractStreamProvider {
-  /**
-   * **MUST** be called after instantiation to complete initialization.
-   *
-   * Calls `oko_getProviderState` and passes the result to
-   * {@link BaseProvider._initializeState}. Logs an error if getting initial state
-   * fails. Throws if called after initialization has completed.
-   */
-  async initialize() {
-    return this._initializeStateAsync();
   }
 }

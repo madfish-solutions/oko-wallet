@@ -33,7 +33,7 @@ export enum ScreensEnum {
   AddAccount = 'AddAccount',
   AddNetwork = 'AddNetwork',
   EditNetwork = 'EditNetwork',
-  DAppConfirmation = 'DAppConfirmation',
+  DAppConnectionConfirmation = 'DAppConnectionConfirmation',
   AddNewToken = 'AddNewToken',
   EditToken = 'EditToken',
   Tokens = 'Tokens',
@@ -47,7 +47,7 @@ export enum ScreensEnum {
   CollectiblesList = 'CollectiblesList',
   SpecificCollectiblesList = 'SpecificCollectiblesList',
   NFT = 'NFT',
-  ChangeNetworkConfirmation = 'ChangeNetworkConfirmation',
+  NetworkChangeConfirmation = 'NetworkChangeConfirmation',
   ChangePassword = 'ChangePassword',
   AuthorizedDapps = 'AuthorizedDapps',
   DeleteDapp = 'DeleteDapp',
@@ -89,7 +89,7 @@ export type ScreensParamList = {
   [ScreensEnum.EditToken]: { token: Token };
   [ScreensEnum.EditNetwork]: { network: NetworkInterface; isNetworkSelected: boolean };
   [ScreensEnum.Tokens]: undefined;
-  [ScreensEnum.DAppConfirmation]: { messageId: string; dAppInfo: DAppInfo };
+  [ScreensEnum.DAppConnectionConfirmation]: { messageId: string; dAppInfo: DAppInfo };
   [ScreensEnum.ScanQrCode]: undefined;
   [ScreensEnum.CreateANewWallet]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };
@@ -100,7 +100,7 @@ export type ScreensParamList = {
   [ScreensEnum.CollectiblesList]: undefined;
   [ScreensEnum.CollectiblesList]: undefined;
   [ScreensEnum.NFT]: { nft: Token };
-  [ScreensEnum.ChangeNetworkConfirmation]: { dAppOrigin: string; messageId: string; requestedChainId: string };
+  [ScreensEnum.NetworkChangeConfirmation]: { dAppOrigin: string; messageId: string; requestedChainId: string };
   [ScreensEnum.SpecificCollectiblesList]: { collectionName: string };
   [ScreensEnum.AddNewCollectible]: undefined;
   [ScreensEnum.Collectible]: { collectible: Token };

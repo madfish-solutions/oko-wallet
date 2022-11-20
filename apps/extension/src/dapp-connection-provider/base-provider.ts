@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import SafeEventEmitter from '@metamask/safe-event-emitter';
 import { ethErrors, EthereumRpcError } from 'eth-rpc-errors';
 import dequal from 'fast-deep-equal';
@@ -11,7 +10,10 @@ import {
   JsonRpcMiddleware
 } from 'json-rpc-engine';
 
-import { getRpcPromiseCallback, ConsoleLike, Maybe, isValidChainId } from './utils';
+import { ConsoleLike } from './types/console-like.type';
+import { Maybe } from './types/maybe.type';
+import { getRpcPromiseCallback } from './utils/rpc.utils';
+import { isValidChainId } from './utils/validation.utils';
 
 export interface UnvalidatedJsonRpcRequest {
   id?: JsonRpcId;

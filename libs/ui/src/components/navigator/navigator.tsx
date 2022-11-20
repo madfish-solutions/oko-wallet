@@ -160,12 +160,12 @@ export const Navigator: FC = () => {
                 component={RevealPrivateKey}
               />
               <Stack.Screen
-                name={ScreensEnum.DAppConfirmation}
+                name={ScreensEnum.DAppConnectionConfirmation}
                 options={{ title: 'Connect' }}
                 component={DAppConfirmation}
               />
               <Stack.Screen
-                name={ScreensEnum.ChangeNetworkConfirmation}
+                name={ScreensEnum.NetworkChangeConfirmation}
                 options={{ title: 'Confirm change network' }}
                 component={ChangeNetwork}
               />

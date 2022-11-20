@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { ethErrors } from 'eth-rpc-errors';
 import { JsonRpcRequest, JsonRpcResponse, PendingJsonRpcResponse } from 'json-rpc-engine';
 import type { Duplex } from 'stream';
 
 import type { UnvalidatedJsonRpcRequest } from './base-provider';
 import { AbstractStreamProvider, StreamProviderOptions } from './stream-provider';
-import { getDefaultExternalMiddleware } from './utils';
+import { getDefaultExternalMiddleware } from './utils/middleware.utils';
 
 const getRpcPromiseCallback =
   (resolve: (value?: any) => void, reject: (error?: Error) => void, unwrapResult = true) =>
