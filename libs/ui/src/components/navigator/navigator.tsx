@@ -53,7 +53,7 @@ import { Tokens } from '../../screens/tokens/tokens';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
-import { isPopupOpened } from '../../utils/check-active-application-session.util';
+import { isPopup } from '../../utils/location.utils';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 import { setStoredValue } from '../../utils/store.util';
 import { substring } from '../../utils/substring.util';
@@ -80,7 +80,7 @@ export const Navigator: FC = () => {
         route => route.name === ScreensEnum.CreateANewWallet || route.name === ScreensEnum.VerifyMnemonic
       ) ?? false;
 
-    if (isPopupOpened && isCreateWalletScreensOpened && isReady) {
+    if (isPopup && isCreateWalletScreensOpened && isReady) {
       // clear previous navigation state and leave only ScreenEnum.ImportAccount route when click by extension icon
       setStoredValue(PERSISTENCE_KEY, JSON.stringify({ ...initialState, routes: initialState?.routes.slice(0, 1) }));
       openMaximiseScreen();

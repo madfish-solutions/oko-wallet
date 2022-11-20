@@ -20,7 +20,7 @@ import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useSelectedAccountPublicKeyHashSelector } from '../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../styles/format-size';
-import { isMaximiseScreen } from '../../utils/check-active-application-session.util';
+import { isFullpage } from '../../utils/location.utils';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 import { isIOS, isWeb } from '../../utils/platform.utils';
 
@@ -52,7 +52,7 @@ export const Settings: FC = () => {
         <ScreenTitle title="Settings" />
         {isWeb && (
           <TouchableIcon
-            name={isMaximiseScreen ? IconNameEnum.NewTab : IconNameEnum.Maximize}
+            name={isFullpage ? IconNameEnum.NewTab : IconNameEnum.Maximize}
             onPress={openMaximiseScreen}
           />
         )}

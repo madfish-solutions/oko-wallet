@@ -3,13 +3,13 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
 import { typography } from '../../../../styles/typography';
-import { isMaximiseScreen } from '../../../../utils/check-active-application-session.util';
+import { isFullpage } from '../../../../utils/location.utils';
 import { maximiseViewStyles } from '../../utils/maximise-view-options';
 
 export const styles = StyleSheet.create({
   root: {
     backgroundColor: colors.bgGrey2,
-    ...(isMaximiseScreen && {
+    ...(isFullpage && {
       marginTop: maximiseViewStyles.marginTop,
       borderRadius: maximiseViewStyles.borderRadius
     })

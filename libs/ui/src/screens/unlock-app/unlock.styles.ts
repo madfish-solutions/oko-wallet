@@ -4,15 +4,15 @@ import { extensionHeight, maximiseViewStyles } from '../../components/navigator/
 import { colors } from '../../styles/colors';
 import { EXTENSION_FULL_SIZE, getCustomSize } from '../../styles/format-size';
 import { typography } from '../../styles/typography';
-import { isMaximiseScreen } from '../../utils/check-active-application-session.util';
+import { isFullpage } from '../../utils/location.utils';
 import { isMobile } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {
-    height: isMobile ? '100%' : isMaximiseScreen ? extensionHeight : EXTENSION_FULL_SIZE,
+    height: isMobile ? '100%' : isFullpage ? extensionHeight : EXTENSION_FULL_SIZE,
     justifyContent: 'space-between',
     backgroundColor: colors.bgGrey1,
-    ...(isMaximiseScreen && {
+    ...(isFullpage && {
       marginTop: maximiseViewStyles.marginTop
     })
   },

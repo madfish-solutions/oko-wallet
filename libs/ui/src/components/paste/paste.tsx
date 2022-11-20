@@ -2,7 +2,7 @@ import { OnEventFn } from '@rnw-community/shared';
 import React, { FC, useEffect } from 'react';
 import { GestureResponderEvent, TouchableOpacity } from 'react-native';
 
-import { isMaximiseScreen } from '../../utils/check-active-application-session.util';
+import { isFullpage } from '../../utils/location.utils';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 import { isMobile } from '../../utils/platform.utils';
 import { Icon } from '../icon/icon';
@@ -17,7 +17,7 @@ interface Props {
 
 export const Paste: FC<Props> = ({ handlePaste }) => {
   useEffect(() => {
-    if (!isMobile && !isMaximiseScreen) {
+    if (!isMobile && !isFullpage) {
       navigator.permissions.query({ name: 'clipboard-read' as PermissionName }).then(status => {
         if (status.state === 'prompt') {
           openMaximiseScreen();

@@ -11,7 +11,7 @@ import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useShelter } from '../../hooks/use-shelter.hook';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
-import { isMaximiseScreen } from '../../utils/check-active-application-session.util';
+import { isFullpage } from '../../utils/location.utils';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 import { isMobile } from '../../utils/platform.utils';
 import { MadFishLogo } from '../settings/components/mad-fish-logo/mad-fish-logo';
@@ -23,13 +23,13 @@ export const Initial: FC = () => {
   const { navigate } = useNavigation();
   const { importWallet } = useShelter();
   const navigateToCreateWallet = () => {
-    if (!isMaximiseScreen) {
+    if (!isFullpage) {
       openMaximiseScreen();
     }
     navigate(ScreensEnum.CreateANewWallet);
   };
   const navigateToImportAccount = () => {
-    if (!isMaximiseScreen) {
+    if (!isFullpage) {
       openMaximiseScreen();
     }
     navigate(ScreensEnum.ImportWallet);
