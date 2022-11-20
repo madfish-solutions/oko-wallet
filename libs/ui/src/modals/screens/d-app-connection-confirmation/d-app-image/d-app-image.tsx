@@ -6,7 +6,7 @@ import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { getCustomSize } from '../../../../styles/format-size';
 
-import { styles } from './dapp-image.styles';
+import { styles } from './d-app-image.styles';
 
 type DappImageSizeEnum = Exclude<ButtonSizeEnum, ButtonSizeEnum.Fluid | ButtonSizeEnum.Medium | ButtonSizeEnum.Auto>;
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
   size?: DappImageSizeEnum;
 }
 
-export const DappImage: FC<Props> = ({ imageUri = '', size = ButtonSizeEnum.Large }) => {
+export const DAppImage: FC<Props> = ({ imageUri = '', size = ButtonSizeEnum.Large }) => {
   const [isShowPlaceholder, setIsShowPlaceholder] = useState(false);
 
   const handleError = () => setIsShowPlaceholder(true);

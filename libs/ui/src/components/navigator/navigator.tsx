@@ -7,11 +7,11 @@ import { PERSISTENCE_KEY, usePersistedNavigationState } from '../../hooks/use-pe
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
 import { AddAccount } from '../../modals/screens/add-account/add-account';
 import { AddNewCollectible } from '../../modals/screens/add-new-collectible/add-new-collectible';
-import { ChangeNetwork } from '../../modals/screens/change-network/change-network';
 import { Collectible } from '../../modals/screens/collectible/collectible';
-import { DAppConfirmation } from '../../modals/screens/dapp-confirmation/dapp-confirmation';
-import { DeleteDApp } from '../../modals/screens/delete-dapp/delete-dapp';
+import { DAppConnectionConfirmation } from '../../modals/screens/d-app-connection-confirmation/d-app-connection-confirmation';
+import { DeleteDApp } from '../../modals/screens/delete-d-app/delete-d-app';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
+import { NetworkChangeConfirmation } from '../../modals/screens/network-change-confirmation/network-change-confirmation';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
 import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
 import { NetworksSelector } from '../../modals/screens/networks-selector/networks-selector';
@@ -39,7 +39,7 @@ import { Send } from '../../screens/send/send';
 import { AboutUs as SettingsAboutUs } from '../../screens/settings/screens/about-us/about-us';
 import { AccountsSettings } from '../../screens/settings/screens/acсounts-settings/acсounts-settings';
 import { AppearanceSelector as SettingsAppearanceSelector } from '../../screens/settings/screens/appearance-selector/appearance-selector';
-import { AuthorizedDapps } from '../../screens/settings/screens/authorized-dapps/authorized-dapps';
+import { AuthorizedDApps } from '../../screens/settings/screens/authorized-d-apps/authorized-d-apps';
 import { ChangePassword } from '../../screens/settings/screens/change-password/change-password';
 import { CurrencySelector as SettingsCurrencySelector } from '../../screens/settings/screens/currency-selector/currency-selector';
 import { General as SettingsGeneral } from '../../screens/settings/screens/general/general';
@@ -119,7 +119,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.SpecificCollectiblesList} component={SpecificCollectiblesList} />
               <Stack.Screen name={ScreensEnum.Activity} component={Activity} />
               <Stack.Screen name={ScreensEnum.ChangePassword} component={ChangePassword} />
-              <Stack.Screen name={ScreensEnum.AuthorizedDapps} component={AuthorizedDapps} />
+              <Stack.Screen name={ScreensEnum.AuthorizedDApps} component={AuthorizedDApps} />
               <Stack.Screen name={ScreensEnum.Unlock} component={UnlockApp} />
             </Stack.Group>
 
@@ -162,15 +162,15 @@ export const Navigator: FC = () => {
               <Stack.Screen
                 name={ScreensEnum.DAppConnectionConfirmation}
                 options={{ title: 'Connect' }}
-                component={DAppConfirmation}
+                component={DAppConnectionConfirmation}
               />
               <Stack.Screen
                 name={ScreensEnum.NetworkChangeConfirmation}
                 options={{ title: 'Confirm change network' }}
-                component={ChangeNetwork}
+                component={NetworkChangeConfirmation}
               />
               <Stack.Screen
-                name={ScreensEnum.DeleteDapp}
+                name={ScreensEnum.DeleteDApp}
                 options={{ title: 'Confirm disconnection' }}
                 component={DeleteDApp}
               />

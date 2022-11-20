@@ -14,23 +14,23 @@ import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { AllowsRules } from '../../../interfaces/dapp-connection.interface';
-import { useDAppSelector } from '../../../store/dapps/dapps.selectors';
+import { useDAppSelector } from '../../../store/d-apps/d-apps.selectors';
 import { changeNetworkAction } from '../../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { createDAppResponse } from '../../../utils/dapp.utils';
 import { eraseProtocol } from '../../../utils/string.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
-import { DappImage } from '../dapp-confirmation/components/dapp-image';
+import { DAppImage } from '../d-app-connection-confirmation/d-app-image/d-app-image';
 
-import { styles } from './change-network.styles';
+import { styles } from './network-change-confirmation.styles';
 
 const changeNetworkRules: AllowsRules[] = [
   { text: 'Switch the Network', isAllowed: true },
   { text: 'Move funds without permissions', isAllowed: false }
 ];
 
-export const ChangeNetwork: FC = () => {
+export const NetworkChangeConfirmation: FC = () => {
   const { navigate } = useNavigation();
   const { name: selectedNetworkName } = useSelectedNetworkSelector();
   const networks = useAllNetworksSelector();
@@ -61,7 +61,7 @@ export const ChangeNetwork: FC = () => {
     <ModalContainer screenTitle="Confirm change network">
       <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
         <Row style={styles.dappLogo}>
-          <DappImage imageUri={dAppState.favicon} />
+          <DAppImage imageUri={dAppState.favicon} />
         </Row>
         <Row style={styles.addressRow}>
           <Text style={styles.smallText}>Address</Text>
@@ -76,21 +76,21 @@ export const ChangeNetwork: FC = () => {
         </Row>
         <View style={styles.divider} />
         <Row style={styles.chainChange}>
-          <DappImage />
+          <DAppImage />
           <Icon name={IconNameEnum.ArrowRight} />
-          <DappImage />
+          <DAppImage />
         </Row>
         <View>
           <Text style={styles.grayText}>From</Text>
           <Row style={styles.chainSelector}>
-            <DappImage size={ButtonSizeEnum.Small} />
+            <DAppImage size={ButtonSizeEnum.Small} />
             <Text style={styles.chainName}>{selectedNetworkName}</Text>
           </Row>
         </View>
         <View style={styles.addressTo}>
           <Text style={styles.grayText}>To</Text>
           <Row style={styles.chainSelector}>
-            <DappImage size={ButtonSizeEnum.Small} />
+            <DAppImage size={ButtonSizeEnum.Small} />
             <Text style={styles.chainName}>{dappsNetwork?.name}</Text>
           </Row>
         </View>

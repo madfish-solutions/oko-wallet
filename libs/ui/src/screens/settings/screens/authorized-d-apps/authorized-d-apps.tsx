@@ -14,22 +14,22 @@ import { Text } from '../../../../components/text/text';
 import { EMPTY_STRING } from '../../../../constants/defaults';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { useSelectedAccountDAppsListSelector } from '../../../../store/dapps/dapps.selectors';
-import { DAppState } from '../../../../store/dapps/dapps.state';
+import { useSelectedAccountDAppsListSelector } from '../../../../store/d-apps/d-apps.selectors';
+import { DAppState } from '../../../../store/d-apps/d-apps.state';
 import { eraseProtocol } from '../../../../utils/string.util';
 
-import { styles } from './authorized-dapps.style';
-import { Permission } from './components/permission';
+import { styles } from './authorized-d-apps.style';
 import { MOCK_PERMISSIONS } from './constants';
+import { Permission } from './permission/permission';
 
-export const AuthorizedDapps: FC = () => {
+export const AuthorizedDApps: FC = () => {
   const selectedAccountDAppsList = useSelectedAccountDAppsListSelector();
   const { goBack, navigate } = useNavigation();
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
 
   const filteredDAppsList = selectedAccountDAppsList.filter(dApp => dApp.name.includes(searchValue));
 
-  const navigateToConfirm = (origin: string) => navigate(ScreensEnum.DeleteDapp, { origin });
+  const navigateToConfirm = (origin: string) => navigate(ScreensEnum.DeleteDApp, { origin });
 
   const renderItem: ListRenderItem<DAppState> = ({ item }) => (
     <View style={styles.container}>

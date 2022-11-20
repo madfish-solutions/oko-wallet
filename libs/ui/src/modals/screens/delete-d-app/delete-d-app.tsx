@@ -8,20 +8,20 @@ import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
-import { removeDAppConnectionAction } from '../../../store/dapps/dapps.actions';
-import { useDAppSelector } from '../../../store/dapps/dapps.selectors';
+import { removeDAppConnectionAction } from '../../../store/d-apps/d-apps.actions';
+import { useDAppSelector } from '../../../store/d-apps/d-apps.selectors';
 import { useSelectedAccountPublicKeyHashSelector } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
 import { eraseProtocol } from '../../../utils/string.util';
 import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';
 
-import { styles } from './delete-app.styles';
+import { styles } from './delete-d-app.styles';
 
 export const DeleteDApp: FC = () => {
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
-  const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DeleteDapp>>();
+  const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DeleteDApp>>();
   const dAppInfo = useDAppSelector(params.origin);
 
   const confirmDAppDelete = () => {

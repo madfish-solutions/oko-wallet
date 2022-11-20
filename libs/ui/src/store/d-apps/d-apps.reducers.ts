@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { connectDAppAction, removeDAppConnectionAction } from './dapps.actions';
-import { dAppsInitialState, DAppsState } from './dapps.state';
+import { connectDAppAction, removeDAppConnectionAction } from './d-apps.actions';
+import { dAppsInitialState, DAppsState } from './d-apps.state';
 
 export const dAppsReducers = createReducer<DAppsState>(dAppsInitialState, builder =>
   builder

@@ -44,7 +44,7 @@ export const Settings: FC = () => {
   const navigateToSettingsAboutUs = () => navigate(ScreensEnum.SettingsAboutUs);
   const navigateToSettingsResetWalletConfirm = () => navigate(ScreensEnum.SettingsResetWalletConfirm);
 
-  const navigateToAuthorizedDapps = () => navigate(ScreensEnum.AuthorizedDapps);
+  const navigateToAuthorizedDapps = () => navigate(ScreensEnum.AuthorizedDApps);
 
   return (
     <ScreenContainer>

@@ -18,7 +18,7 @@ import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { AllowsRules } from '../../../interfaces/dapp-connection.interface';
-import { connectDAppAction } from '../../../store/dapps/dapps.actions';
+import { connectDAppAction } from '../../../store/d-apps/d-apps.actions';
 import {
   useGasTokenSelector,
   useSelectedAccountPublicKeyHashSelector,
@@ -31,8 +31,8 @@ import { eraseProtocol } from '../../../utils/string.util';
 import { getFormattedBalance } from '../../../utils/units.utils';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
-import { DappImage } from './components/dapp-image';
-import { styles } from './dapp-confirmation.styles';
+import { DAppImage } from './d-app-image/d-app-image';
+import { styles } from './d-app-connection-confirmation.styles';
 
 const rules: AllowsRules[] = [
   { text: 'See wallet balance and activity', isAllowed: true },
@@ -40,7 +40,7 @@ const rules: AllowsRules[] = [
   { text: 'Move funds without permissions', isAllowed: false }
 ];
 
-export const DAppConfirmation: FC = () => {
+export const DAppConnectionConfirmation: FC = () => {
   const dispatch = useDispatch();
   const selectedAccountPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { name } = useSelectedAccountSelector();
@@ -73,9 +73,9 @@ export const DAppConfirmation: FC = () => {
       <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
         <View style={styles.viewRoot}>
           <Row style={styles.container}>
-            <DappImage imageUri={params.dAppInfo.favicon} />
+            <DAppImage imageUri={params.dAppInfo.favicon} />
             <Icon name={IconNameEnum.SwapItems} size={getCustomSize(9)} />
-            <DappImage />
+            <DAppImage />
           </Row>
           <Row style={styles.addressRow}>
             <Text style={styles.smallText}>Address</Text>

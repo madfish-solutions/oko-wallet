@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 
 import { useSelectedAccountPublicKeyHashSelector } from '../wallet/wallet.selectors';
 
-import { DAppState, DAppsRootState, emptyDAppState } from './dapps.state';
+import { DAppState, DAppsRootState, emptyDAppState } from './d-apps.state';
 
 export const useDAppSelector = (origin: string) =>
   useSelector<DAppsRootState, DAppState>(({ dApps }) => dApps[origin] ?? emptyDAppState);

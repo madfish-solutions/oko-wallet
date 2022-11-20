@@ -49,8 +49,8 @@ export enum ScreensEnum {
   NFT = 'NFT',
   NetworkChangeConfirmation = 'NetworkChangeConfirmation',
   ChangePassword = 'ChangePassword',
-  AuthorizedDapps = 'AuthorizedDapps',
-  DeleteDapp = 'DeleteDapp',
+  AuthorizedDApps = 'AuthorizedDApps',
+  DeleteDApp = 'DeleteDApp',
   AddNewCollectible = 'AddNewCollectible',
   Collectible = 'Collectible',
   Initial = 'Initial'
@@ -105,7 +105,7 @@ export type ScreensParamList = {
   [ScreensEnum.AddNewCollectible]: undefined;
   [ScreensEnum.Collectible]: { collectible: Token };
   [ScreensEnum.ChangePassword]: undefined;
-  [ScreensEnum.AuthorizedDapps]: undefined;
-  [ScreensEnum.DeleteDapp]: { origin: string };
+  [ScreensEnum.AuthorizedDApps]: undefined;
+  [ScreensEnum.DeleteDApp]: { origin: string };
   [ScreensEnum.Initial]: undefined;
 };

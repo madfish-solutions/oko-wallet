@@ -1,5 +1,5 @@
-import { dAppsReducers } from './dapps/dapps.reducers';
-import { DAppsRootState } from './dapps/dapps.state';
+import { dAppsReducers } from './d-apps/d-apps.reducers';
+import { DAppsRootState } from './d-apps/d-apps.state';
 import { rootStateEpics } from './root-state.epics';
 import { settingsReducers } from './settings/settings.reducers';
 import { SettingsRootState } from './settings/settings.state';
