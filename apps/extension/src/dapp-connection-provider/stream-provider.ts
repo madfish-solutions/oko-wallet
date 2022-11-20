@@ -22,6 +22,7 @@ export interface JsonRpcConnection {
   stream: Duplex;
 }
 
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /**
  * An abstract EIP-1193 provider wired to some duplex stream via a
  * `json-rpc-middleware-stream` JSON-RPC stream middleware. Implementers must

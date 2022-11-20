@@ -9,5 +9,6 @@ export type { DAppInfo } from './interfaces/dapp-info.interface';
 export type { RootState } from './store/store';
 
 export { BackgroundMessageType } from './messagers/enums/background-message-types.enum';
+export { INITIAL_PASSWORD_HASH } from './shelter/shelter';
 export { createDAppResponse } from './utils/dapp.utils';
 export { LocalStorage } from './utils/local-storage.util';

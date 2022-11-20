@@ -6,6 +6,8 @@ import type { UnvalidatedJsonRpcRequest } from './base-provider';
 import { AbstractStreamProvider, StreamProviderOptions } from './stream-provider';
 import { getDefaultExternalMiddleware } from './utils/middleware.utils';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 const getRpcPromiseCallback =
   (resolve: (value?: any) => void, reject: (error?: Error) => void, unwrapResult = true) =>
   (error: Error, response: PendingJsonRpcResponse<unknown>): void => {

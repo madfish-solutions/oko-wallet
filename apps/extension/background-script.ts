@@ -1,6 +1,11 @@
 import './shim.js';
 
-import { BackgroundMessageType, BackgroundMessage, createDAppResponse } from 'ui/background-script';
+import {
+  BackgroundMessageType,
+  BackgroundMessage,
+  createDAppResponse,
+  INITIAL_PASSWORD_HASH
+} from 'ui/background-script';
 import { Runtime, scripting, runtime } from 'webextension-polyfill';
 
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
@@ -8,10 +13,8 @@ import { openDAppConnectionConfirmationPopup, openNetworkChangeConfirmationPopup
 import { getHexChanId } from './src/utils/network.utils';
 import { getState } from './src/utils/state.utils';
 
-const INITIAL_PASSWORD_HASH = '';
 // Locks when background-script dies!
 const LOCK_PERIOD = 5 * 60 * 1000;
-const URL_BASE = 'extension://';
 
 let passwordHash = INITIAL_PASSWORD_HASH;
 let lastUserActivityTimestamp = 0;
@@ -156,4 +159,4 @@ runtime.onMessage.addListener((message: BackgroundMessage) => {
 });
 
 const isFullpagePort = (port: Runtime.Port) =>
-  port.sender?.url?.includes(`${URL_BASE}${runtime.id}/fullpage.html`) ?? false;
+  port.sender?.url?.includes(`extension://${runtime.id}/fullpage.html`) ?? false;

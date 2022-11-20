@@ -1,4 +1,4 @@
-export const createDAppResponse = (id: string, result: any) => ({
+export const createDAppResponse = <T>(id: string, result: T) => ({
   data: {
     data: {
       id: Number(id),

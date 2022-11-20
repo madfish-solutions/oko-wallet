@@ -26,7 +26,7 @@ const getSiteFavicon = async (): Promise<string> => {
   const icons: NodeListOf<HTMLLinkElement> = window.document.querySelectorAll('head > link[rel~="icon"]');
 
   for (const icon of icons) {
-    if (icon && (await imgExists(icon.href))) {
+    if (await imgExists(icon.href)) {
       return icon.href;
     }
   }

@@ -22,6 +22,8 @@ export interface UnvalidatedJsonRpcRequest {
   params?: unknown;
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 export interface BaseProviderOptions {
   /**
    * The logging API to use.
