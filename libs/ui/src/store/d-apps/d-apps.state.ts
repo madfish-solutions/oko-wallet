@@ -1,10 +1,6 @@
-export type DAppsState = Record<string, DAppState>;
+import { DAppInfo } from '../../interfaces/dapp-info.interface';
 
-export interface DAppInfo {
-  name: string;
-  favicon: string;
-  origin: string;
-}
+export type DAppsState = Record<string, DAppState>;
 
 export interface DAppState extends DAppInfo {
   allowedAccounts: string[];
