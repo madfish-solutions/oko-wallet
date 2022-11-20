@@ -1,12 +1,13 @@
 import './shim.js';
 
 import {
-  BackgroundMessageType,
   BackgroundMessage,
+  BackgroundMessageType,
   createDAppResponse,
+  E2eMessageType,
   INITIAL_PASSWORD_HASH
 } from 'ui/background-script';
-import { Runtime, scripting, runtime } from 'webextension-polyfill';
+import { Runtime, runtime, scripting, storage } from 'webextension-polyfill';
 
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
 import { openDAppConnectionConfirmationPopup, openNetworkChangeConfirmationPopup } from './src/utils/browser.utils';
@@ -151,6 +152,9 @@ runtime.onMessage.addListener((message: BackgroundMessage) => {
       }
 
       return Promise.resolve(passwordHash);
+    }
+    case E2eMessageType.ClearStorage: {
+      return storage.local.clear();
     }
     default:
       // @ts-ignore
