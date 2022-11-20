@@ -31,8 +31,8 @@ import { eraseProtocol } from '../../../utils/string.util';
 import { getFormattedBalance } from '../../../utils/units.utils';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
-import { DAppImage } from './d-app-image/d-app-image';
 import { styles } from './d-app-connection-confirmation.styles';
+import { DAppImage } from './d-app-image/d-app-image';
 
 const rules: AllowsRules[] = [
   { text: 'See wallet balance and activity', isAllowed: true },

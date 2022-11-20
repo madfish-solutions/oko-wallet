@@ -51,10 +51,7 @@ export const Settings: FC = () => {
       <HeaderContainer isSelectors>
         <ScreenTitle title="Settings" />
         {isWeb && (
-          <TouchableIcon
-            name={isFullpage ? IconNameEnum.NewTab : IconNameEnum.Maximize}
-            onPress={openMaximiseScreen}
-          />
+          <TouchableIcon name={isFullpage ? IconNameEnum.NewTab : IconNameEnum.Maximize} onPress={openMaximiseScreen} />
         )}
       </HeaderContainer>
 
