@@ -105,7 +105,6 @@ runtime.onConnect.addListener(port => {
 
           return Promise.resolve();
         }
-        // TODO : improve response
         case 'oko_getProviderState': {
           if (isPermissionGranted) {
             const result = {
@@ -131,7 +130,7 @@ runtime.onConnect.addListener(port => {
         }
 
         default: {
-          return Promise.resolve();
+          return Promise.reject();
         }
       }
     }

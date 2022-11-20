@@ -7,10 +7,8 @@ import { ToastProvider } from '../components/toast-provider/toast-provider';
 import { HIDE_SPLASH_SCREEN_TIMEOUT } from '../constants/defaults';
 import { useDelayedEffect } from '../hooks/use-delayed-effect.hook';
 import { useBackgroundMessager } from '../messagers/hooks/use-background-messager.hook';
-import { createAppStore } from '../store/store';
+import { persistor, store } from '../store/store';
 import { hideSplashScreen } from '../utils/hide-splash-screen.util';
-
-const { store, persistor } = createAppStore();
 
 export const App = () => {
   useBackgroundMessager();

@@ -13,13 +13,12 @@ import { WalletRootState } from './wallet/wallet.state';
 
 export type RootState = WalletRootState & DAppsRootState & TokensMarketInfoRootState & SettingsRootState;
 
-export const createAppStore = () =>
-  createStore<RootState>({
-    reducers: {
-      wallet: walletReducers,
-      dApps: dAppsReducers,
-      tokensMarketInfo: tokensMarketInfoReducers,
-      settings: settingsReducers
-    },
-    epics: [walletEpics, rootStateEpics, tokenMarketInfoEpics]
-  });
+export const { store, persistor } = createStore<RootState>({
+  reducers: {
+    wallet: walletReducers,
+    dApps: dAppsReducers,
+    tokensMarketInfo: tokensMarketInfoReducers,
+    settings: settingsReducers
+  },
+  epics: [walletEpics, rootStateEpics, tokenMarketInfoEpics]
+});
