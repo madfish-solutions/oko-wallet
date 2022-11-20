@@ -1,21 +1,17 @@
-import { InitialState, NavigationState, Route } from '@react-navigation/native';
+import { InitialState, NavigationState } from '@react-navigation/native';
 import { isDefined } from '@rnw-community/shared';
 import { parse } from 'query-string';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { ScreensEnum, ScreensParamList } from '../enums/sreens.enum';
+import { ScreensEnum } from '../enums/sreens.enum';
 import { Mutable } from '../types/mutable.type';
+import { createNavigationRoute } from '../utils/navigation.utils';
 import { isWeb } from '../utils/platform.utils';
 import { getStoredValue, setStoredValue } from '../utils/store.util';
 
 export const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
 const ROUTES_TO_IGNORE: string[] = [ScreensEnum.DAppConnectionConfirmation, ScreensEnum.NetworkChangeConfirmation];
-
-const createNavigationRoute = <T extends ScreensEnum>(name: T, params: ScreensParamList[T]): Omit<Route<T>, 'key'> => ({
-  name,
-  params
-});
 
 export const usePersistedNavigationState = () => {
   const [isReady, setIsReady] = useState(false);

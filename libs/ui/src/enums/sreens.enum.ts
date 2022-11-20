@@ -46,7 +46,6 @@ export enum ScreensEnum {
   Token = 'Token',
   CollectiblesList = 'CollectiblesList',
   SpecificCollectiblesList = 'SpecificCollectiblesList',
-  NFT = 'NFT',
   NetworkChangeConfirmation = 'NetworkChangeConfirmation',
   ChangePassword = 'ChangePassword',
   AuthorizedDApps = 'AuthorizedDApps',
@@ -99,7 +98,6 @@ export type ScreensParamList = {
   [ScreensEnum.Token]: { token: Token };
   [ScreensEnum.CollectiblesList]: undefined;
   [ScreensEnum.CollectiblesList]: undefined;
-  [ScreensEnum.NFT]: { nft: Token };
   [ScreensEnum.NetworkChangeConfirmation]: { dAppOrigin: string; messageId: string; requestedChainId: string };
   [ScreensEnum.SpecificCollectiblesList]: { collectionName: string };
   [ScreensEnum.AddNewCollectible]: undefined;

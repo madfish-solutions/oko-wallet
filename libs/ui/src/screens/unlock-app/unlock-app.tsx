@@ -46,11 +46,7 @@ export const UnlockApp: FC = () => {
     defaultValues
   });
 
-  useEffect(() => {
-    if (!isLocked) {
-      goBack();
-    }
-  }, [isLocked]);
+  useEffect(() => void (!isLocked && goBack()), [isLocked]);
 
   const password = watch('password');
 
