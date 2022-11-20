@@ -1,3 +1,3 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 export const NetworkChangeConfirmation: FC = () => null;
