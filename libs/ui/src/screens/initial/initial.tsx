@@ -16,6 +16,7 @@ import { isMaximiseScreen, isMobile } from '../../utils/platform.utils';
 import { MadFishLogo } from '../settings/components/mad-fish-logo/mad-fish-logo';
 
 import { styles } from './initial.styles';
+import { InitialTestIDs } from './initial.test-ids';
 
 export const Initial: FC = () => {
   const { navigate } = useNavigation();
@@ -56,8 +57,14 @@ export const Initial: FC = () => {
           theme={ButtonThemesEnum.Secondary}
           style={styles.button}
           onPress={navigateToCreateWallet}
+          testID={InitialTestIDs.CrateNewWalletButton}
         />
-        <Button title="IMPORT EXISTING WALLET" style={styles.button} onPress={navigateToImportAccount} />
+        <Button
+          title="IMPORT EXISTING WALLET"
+          style={styles.button}
+          onPress={navigateToImportAccount}
+          testID={InitialTestIDs.ImportExistingWalletButton}
+        />
         <Button title="IMPORT WALLET" style={styles.button} onPress={handleImportWallet} />
         {isMobile && <Button title="IMPORT FROM NAMEHERE EXTENSION" style={styles.button} />}
         <MadFishLogo style={styles.madLogo} color={colors.logoDark} />

@@ -4,6 +4,7 @@
   "parserOptions": {
     "project": [
       "./apps/extension/tsconfig.json",
+      "./apps/extension-e2e/tsconfig.json",
       "./apps/mobile/tsconfig.json",
       "./libs/ui/tsconfig.json"
     ]

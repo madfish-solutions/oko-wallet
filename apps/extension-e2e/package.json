@@ -1,0 +1,17 @@
+{
+  "name": "klaytn-wallet-extension-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "start": "./node_modules/.bin/cucumber-js",
+    "start:dev": "npm start -- --tags @dev",
+    "ts": "tsc --pretty"
+  },
+  "dependencies": {
+    "@cucumber/cucumber": "^8.7.0",
+    "@rnw-community/shared": "^0.48.0",
+    "puppeteer": "^19.2.2",
+    "ts-node": "^10.9.1"
+  }
+}

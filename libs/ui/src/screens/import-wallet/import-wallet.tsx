@@ -17,6 +17,7 @@ import { useNavigation } from '../../hooks/use-navigation.hook';
 import { getCustomSize } from '../../styles/format-size';
 
 import { styles } from './import-wallet.styles';
+import { ImportWalletTestIDs } from './import-wallet.test-ids';
 
 export const ImportWallet: FC = () => {
   const { params: routeParams } = useRoute<RouteProp<ScreensParamList, ScreensEnum.ImportWallet>>();
@@ -63,6 +64,7 @@ export const ImportWallet: FC = () => {
       onSubmitPress={navigateToAlmostDoneScreen}
       isSubmitDisabled={(isEmptyFieldsExist && isSubmitted) || !!error}
       scrollViewRef={scrollViewRef}
+      submitButtonTestID={ImportWalletTestIDs.NextButton}
     >
       <Row style={styles.wordsAmount}>
         <Text style={styles.amountWordsText}>Mnemonic Length</Text>
@@ -87,10 +89,11 @@ export const ImportWallet: FC = () => {
                   <TextInput
                     ref={el => (index === selectedInputIndex ? el?.focus() : null)}
                     value={value}
-                    onFocus={el => handleInputFocus(index, el)}
-                    onBlur={handleInputBlur}
-                    onChangeText={value => handleInputChange(value, index)}
                     style={[styles.mnemonicInput, isSubmitted && !isNotEmptyString(value) && styles.error]}
+                    onBlur={handleInputBlur}
+                    onFocus={el => handleInputFocus(index, el)}
+                    onChangeText={value => handleInputChange(value, index)}
+                    testID={ImportWalletTestIDs.WordInput}
                   />
                   <Text selectable={false} style={styles.wordIndex}>{`${index + 1}.`}</Text>
                   {isNotEmptyString(value) && isShowProtectLayout && !isSelectedInput && (
