@@ -1,4 +1,4 @@
-import { mobileHeight } from '../../../constants/mobile-dimensions';
+import { windowHeight } from '../../../constants/dimensions';
 import { getCustomSize } from '../../../styles/format-size';
 import { isWeb } from '../../../utils/platform.utils';
 
@@ -12,6 +12,6 @@ const extraElements = headerHeight + navBarHeight;
 const qrCodeHeight = getCustomSize(20);
 
 const webAvailableHeight = `calc(100vh - ${extraElements}px + ${qrCodeHeight}px)`;
-const mobileAvailableHeight = mobileHeight - extraElements + qrCodeHeight;
+const mobileAvailableHeight = windowHeight - extraElements + qrCodeHeight;
 
 export const contentHeight = isWeb ? webAvailableHeight : mobileAvailableHeight;
