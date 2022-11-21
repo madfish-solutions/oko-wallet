@@ -10,6 +10,7 @@ import { AccountToken } from '../../../../components/token/account-token/account
 import { WidgetContainer } from '../../../../components/widget-container/widget-container';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
+import { TestIDProps } from '../../../../interfaces/test-id.props';
 import { useTokensMarketInfoSelector } from '../../../../store/tokens-market-info/token-market-info.selectors';
 import {
   useVisibleAccountTokensAndGasTokenSelector,
@@ -21,7 +22,7 @@ import { getTokenSlug } from '../../../../utils/token.utils';
 import { styles } from './assets-widget.styles';
 import { VISIBLE_TOKENS_NUMBER } from './constants/assets-number';
 
-export const AssetsWidget: FC = () => {
+export const AssetsWidget: FC<TestIDProps> = ({ testID }) => {
   const { navigate } = useNavigation();
   const { chainId } = useSelectedNetworkSelector();
   const allTokensMarketInfo = useTokensMarketInfoSelector();
@@ -32,7 +33,7 @@ export const AssetsWidget: FC = () => {
   const navigateToActivity = () => navigate(ScreensEnum.Activity);
 
   return (
-    <WidgetContainer style={styles.widgetStyles} iconName={IconNameEnum.Assets} title="Tokens">
+    <WidgetContainer style={styles.widgetStyles} iconName={IconNameEnum.Assets} title="Tokens" testID={testID}>
       <View style={styles.root}>
         <Row style={styles.upperButtons}>
           <ButtonWithIcon

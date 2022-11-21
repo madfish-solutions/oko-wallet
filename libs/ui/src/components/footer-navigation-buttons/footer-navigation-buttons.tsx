@@ -7,20 +7,23 @@ import { ButtonSizeEnum, ButtonThemesEnum } from '../button/enums';
 import { Row } from '../row/row';
 
 import { styles } from './footer-navigation-buttons.styles';
-import { FooterNavigationButtonsTestIDs } from './footer-navigation-buttons.test-ids';
 
 export interface FooterButtonsInterface {
   submitTitle: string;
   isSubmitDisabled?: boolean;
   onSubmitPress: OnEventFn<GestureResponderEvent>;
   onCancelPress: OnEventFn<GestureResponderEvent>;
+  submitButtonTestID?: string;
+  cancelButtonTestID?: string;
 }
 
 export const FooterNavigationButtons: FC<FooterButtonsInterface> = ({
   isSubmitDisabled,
   submitTitle,
   onSubmitPress,
-  onCancelPress
+  onCancelPress,
+  submitButtonTestID,
+  cancelButtonTestID
 }) => (
   <Row style={styles.root}>
     <Button
@@ -29,7 +32,7 @@ export const FooterNavigationButtons: FC<FooterButtonsInterface> = ({
       size={ButtonSizeEnum.Large}
       title="Cancel"
       onPress={onCancelPress}
-      testID={FooterNavigationButtonsTestIDs.CancelButton}
+      testID={cancelButtonTestID}
     />
     <Button
       style={styles.button}
@@ -38,7 +41,7 @@ export const FooterNavigationButtons: FC<FooterButtonsInterface> = ({
       size={ButtonSizeEnum.Large}
       title={submitTitle}
       onPress={onSubmitPress}
-      testID={FooterNavigationButtonsTestIDs.NextButton}
+      testID={submitButtonTestID}
     />
   </Row>
 );

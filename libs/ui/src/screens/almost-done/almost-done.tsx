@@ -20,6 +20,7 @@ import { setIsAnalyticsEnabled, setIsBiometricEnabled } from '../../store/settin
 import { isMobile } from '../../utils/platform.utils';
 
 import { styles } from './almost-done.styles';
+import { AlmostDoneTestIDs } from './almost-done.test-ids';
 import { useValidateForm } from './hooks/use-validate-form.hook';
 import { CreateAccountType } from './types';
 
@@ -92,8 +93,9 @@ export const AlmostDone: FC = () => {
       currentStep={currentStep}
       stepsAmount={stepsAmount}
       submitTitle="Create"
-      onSubmitPress={handleSubmit(handleCreateAccount)}
       isSubmitDisabled={isValidationError}
+      onSubmitPress={handleSubmit(handleCreateAccount)}
+      submitButtonTestID={AlmostDoneTestIDs.CreateButton}
     >
       <Controller
         control={control}
@@ -129,6 +131,7 @@ export const AlmostDone: FC = () => {
                   ((isDefined(passwordIsNoValid) && passwordIsNoValid) || isDefined(errors.password?.message)) &&
                   styles.errorInput
                 }
+                testID={AlmostDoneTestIDs.PasswordInput}
               />
               {isSecurePassword ? (
                 <TouchableIcon
@@ -175,6 +178,7 @@ export const AlmostDone: FC = () => {
               error={errors.confirmPassword?.message}
               containerStyle={styles.input}
               clearIconStyles={styles.clearIcon}
+              testID={AlmostDoneTestIDs.PasswordConfirmInput}
             />
             {isSecureConfirmPassword ? (
               <TouchableIcon
@@ -195,7 +199,13 @@ export const AlmostDone: FC = () => {
       {isMobile && (
         <Checkbox text="Use Face ID" selected={isUseFaceId} onSelect={setIsUseFaceId} style={styles.checkbox} />
       )}
-      <Checkbox text="Accept terms" selected={isAcceptTerms} onSelect={setIsAcceptTerms} style={styles.checkbox}>
+      <Checkbox
+        text="Accept terms"
+        selected={isAcceptTerms}
+        onSelect={setIsAcceptTerms}
+        style={styles.checkbox}
+        testID={AlmostDoneTestIDs.AcceptTermsCheckbox}
+      >
         <Column>
           <Text style={styles.text}>I have read and agree to</Text>
           <Row>

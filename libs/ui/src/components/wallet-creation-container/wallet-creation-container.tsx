@@ -16,7 +16,7 @@ import { styles } from './wallet-creation-container.styles';
 
 const CREATE_WALLET_STEPS = 3;
 
-interface Props extends Pick<FooterButtonsInterface, 'isSubmitDisabled' | 'onSubmitPress'> {
+interface Props extends Omit<FooterButtonsInterface, 'submitTitle' | 'onCancelPress'> {
   title: string;
   currentStep: number;
   submitTitle?: string;
@@ -32,7 +32,9 @@ export const WalletCreationContainer: FC<Props> = ({
   submitTitle = 'Next',
   stepsAmount = CREATE_WALLET_STEPS,
   scrollViewRef,
-  children
+  children,
+  submitButtonTestID,
+  cancelButtonTestID
 }) => {
   const { navigate, goBack } = useNavigation();
 
@@ -55,6 +57,8 @@ export const WalletCreationContainer: FC<Props> = ({
         onCancelPress={closeCreateWalletSteps}
         isSubmitDisabled={isSubmitDisabled}
         onSubmitPress={onSubmitPress}
+        submitButtonTestID={submitButtonTestID}
+        cancelButtonTestID={cancelButtonTestID}
       />
     </ScreenContainer>
   );

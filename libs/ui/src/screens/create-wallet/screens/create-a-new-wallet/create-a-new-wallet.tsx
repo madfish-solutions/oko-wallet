@@ -133,6 +133,7 @@ export const CreateANewWallet: FC = () => {
       onSubmitPress={navigateToVerifyMnemonic}
       isSubmitDisabled={isError}
       scrollViewRef={scrollViewRef}
+      submitButtonTestID={CreateANewWalletTestIDs.NextButton}
     >
       <WarningMessageDropdown
         checkIsOpenDropdownState={setIsOpenWarningDropdown}
@@ -154,20 +155,21 @@ export const CreateANewWallet: FC = () => {
         mnemonic={mnemonic}
         isShowProtectLayout={isShowProtectLayout}
         handleHideLayout={handleHideLayout}
-        testID={CreateANewWalletTestIDs.HandleHideLayout}
+        protectLayoutTestID={CreateANewWalletTestIDs.TapToRevealLayout}
+        wordTextTestID={CreateANewWalletTestIDs.MnemonicWordText}
       >
         <MnemonicActionButton
           onPress={generateNewMnemonic}
           iconName={IconNameEnum.Refresh}
           text="Generate New"
           style={styles.marginRight}
-          testID={CreateANewWalletTestIDs.GenerateNewMnemonic}
+          testID={CreateANewWalletTestIDs.GenerateNewButton}
         />
         <MnemonicActionButton
           onPress={handleCopyMnemonic}
           iconName={IconNameEnum.Copy}
           text="Copy"
-          testID={CreateANewWalletTestIDs.CopySeedButton}
+          testID={CreateANewWalletTestIDs.CopyButton}
         />
       </Mnemonic>
 
@@ -175,7 +177,7 @@ export const CreateANewWallet: FC = () => {
         <Pressable
           onPress={handleToggleCheckbox}
           style={styles.confirmationWrapper}
-          testID={CreateANewWalletTestIDs.SavedMnemonicCheckbox}
+          testID={CreateANewWalletTestIDs.MnemonicSavedCheckbox}
         >
           {isSelectedCheckbox ? (
             <Icon name={IconNameEnum.SelectedSquareCheckbox} iconStyle={styles.checkbox} />
