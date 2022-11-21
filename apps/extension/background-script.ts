@@ -14,13 +14,10 @@ import { openDAppConnectionConfirmationPopup, openNetworkChangeConfirmationPopup
 import { getHexChanId } from './src/utils/network.utils';
 import { getState } from './src/utils/state.utils';
 
-// Locks when background-script dies!
-const LOCK_PERIOD = 5 * 60 * 1000;
+const APP_LOCK_PERIOD = 5 * 60 * 1000;
 
 let passwordHash = INITIAL_PASSWORD_HASH;
 let lastUserActivityTimestamp = 0;
-// TODO: contact Sviat wtf is this
-let isLockApp = true;
 
 let isFullpageOpen = false;
 
@@ -37,16 +34,14 @@ scripting.registerContentScripts([
 
 runtime.onConnect.addListener(port => {
   // check for time expired and max-view no opened then extension need to lock
-  const savedSessionTimeExpired = Date.now() > lastUserActivityTimestamp + LOCK_PERIOD;
+  const savedSessionTimeExpired = Date.now() > lastUserActivityTimestamp + APP_LOCK_PERIOD;
 
   if (isFullpagePort(port)) {
     isFullpageOpen = true;
   }
 
   if (savedSessionTimeExpired && !isFullpageOpen) {
-    isLockApp = true;
-  } else {
-    isLockApp = false;
+    passwordHash = INITIAL_PASSWORD_HASH;
   }
 
   // listen when UI is closed
@@ -146,10 +141,6 @@ runtime.onMessage.addListener((message: BackgroundMessage) => {
       return Promise.resolve();
     }
     case BackgroundMessageType.GetPasswordHash: {
-      if (isLockApp) {
-        passwordHash = INITIAL_PASSWORD_HASH;
-      }
-
       return Promise.resolve(passwordHash);
     }
     case E2eMessageType.ClearStorage: {
