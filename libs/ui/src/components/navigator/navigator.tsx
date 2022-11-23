@@ -2,16 +2,16 @@ import { NavigationContainer, NavigationContainerRef, DarkTheme } from '@react-n
 import React, { FC, createRef, useEffect } from 'react';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
-import { useDappConnection } from '../../hooks/use-dapp-connection.hook';
+import { useLockApp } from '../../hooks/use-lock-app.hook';
 import { PERSISTENCE_KEY, usePersistedNavigationState } from '../../hooks/use-persisted-navigation-state.hook';
-import { useUnlock } from '../../hooks/use-unlock.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
 import { AddAccount } from '../../modals/screens/add-account/add-account';
 import { AddNewCollectible } from '../../modals/screens/add-new-collectible/add-new-collectible';
 import { Collectible } from '../../modals/screens/collectible/collectible';
-import { DappConfirmation } from '../../modals/screens/dapp-confirmation/dapp-confirmation';
-import { DeleteDapp } from '../../modals/screens/delete-dapp/delete-dapp';
+import { DAppConnectionConfirmation } from '../../modals/screens/d-app-connection-confirmation/d-app-connection-confirmation';
+import { DeleteDApp } from '../../modals/screens/delete-d-app/delete-d-app';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
+import { NetworkChangeConfirmation } from '../../modals/screens/network-change-confirmation/network-change-confirmation';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
 import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
 import { NetworksSelector } from '../../modals/screens/networks-selector/networks-selector';
@@ -41,7 +41,7 @@ import { SendToken } from '../../screens/send/screens/send-token/send-token';
 import { AboutUs as SettingsAboutUs } from '../../screens/settings/screens/about-us/about-us';
 import { AccountsSettings } from '../../screens/settings/screens/acсounts-settings/acсounts-settings';
 import { AppearanceSelector as SettingsAppearanceSelector } from '../../screens/settings/screens/appearance-selector/appearance-selector';
-import { AuthorizedDapps } from '../../screens/settings/screens/authorized-dapps/authorized-dapps';
+import { AuthorizedDApps } from '../../screens/settings/screens/authorized-d-apps/authorized-d-apps';
 import { ChangePassword } from '../../screens/settings/screens/change-password/change-password';
 import { CurrencySelector as SettingsCurrencySelector } from '../../screens/settings/screens/currency-selector/currency-selector';
 import { General as SettingsGeneral } from '../../screens/settings/screens/general/general';
@@ -55,7 +55,7 @@ import { Tokens } from '../../screens/tokens/tokens';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
-import { checkActiveApplicationSession } from '../../utils/check-active-application-session.util';
+import { isPopup } from '../../utils/location.utils';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 import { setStoredValue } from '../../utils/store.util';
 import { substring } from '../../utils/substring.util';
@@ -70,13 +70,10 @@ export const globalNavigationRef = createRef<NavigationContainerRef<ScreensParam
 export const Navigator: FC = () => {
   const { initialState, isReady, handleStateChange } = usePersistedNavigationState();
   const isAuthorised = useIsAuthorisedSelector();
-  const { isLocked } = useUnlock();
 
-  useDappConnection();
+  useLockApp(isReady);
   useActiveTokenList();
   useTokensPriceInfo();
-
-  const { isPopupOpened } = checkActiveApplicationSession();
 
   useEffect(() => {
     // TODO: Add check for ScreenEnum.AlmostDone screen later
@@ -85,7 +82,7 @@ export const Navigator: FC = () => {
         route => route.name === ScreensEnum.CreateANewWallet || route.name === ScreensEnum.VerifyMnemonic
       ) ?? false;
 
-    if (isPopupOpened && isCreateWalletScreensOpened && isReady) {
+    if (isPopup && isCreateWalletScreensOpened && isReady) {
       // clear previous navigation state and leave only ScreenEnum.ImportAccount route when click by extension icon
       setStoredValue(PERSISTENCE_KEY, JSON.stringify({ ...initialState, routes: initialState?.routes.slice(0, 1) }));
       openMaximiseScreen();
@@ -104,21 +101,7 @@ export const Navigator: FC = () => {
       theme={DarkTheme}
     >
       <Stack.Navigator>
-        {isLocked && isAuthorised && (
-          <>
-            <Stack.Group screenOptions={{ headerShown: false }}>
-              <Stack.Screen name={ScreensEnum.Unlock} component={UnlockApp} />
-            </Stack.Group>
-            <Stack.Group screenOptions={modalScreenOptions}>
-              <Stack.Screen
-                name={ScreensEnum.SettingsResetWalletConfirm}
-                options={{ title: 'Reset Wallet' }}
-                component={SettingsResetWalletConfirm}
-              />
-            </Stack.Group>
-          </>
-        )}
-        {isAuthorised && !isLocked ? (
+        {isAuthorised ? (
           <>
             <Stack.Group screenOptions={{ headerShown: false }}>
               <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
@@ -139,7 +122,8 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.SpecificCollectiblesList} component={SpecificCollectiblesList} />
               <Stack.Screen name={ScreensEnum.Activity} component={Activity} />
               <Stack.Screen name={ScreensEnum.ChangePassword} component={ChangePassword} />
-              <Stack.Screen name={ScreensEnum.AuthorizedDapps} component={AuthorizedDapps} />
+              <Stack.Screen name={ScreensEnum.AuthorizedDApps} component={AuthorizedDApps} />
+              <Stack.Screen name={ScreensEnum.Unlock} component={UnlockApp} />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptions}>
@@ -184,14 +168,19 @@ export const Navigator: FC = () => {
                 component={RevealPrivateKey}
               />
               <Stack.Screen
-                name={ScreensEnum.DappConfirmation}
+                name={ScreensEnum.DAppConnectionConfirmation}
                 options={{ title: 'Connect' }}
-                component={DappConfirmation}
+                component={DAppConnectionConfirmation}
               />
               <Stack.Screen
-                name={ScreensEnum.DeleteDapp}
+                name={ScreensEnum.NetworkChangeConfirmation}
+                options={{ title: 'Confirm change network' }}
+                component={NetworkChangeConfirmation}
+              />
+              <Stack.Screen
+                name={ScreensEnum.DeleteDApp}
                 options={{ title: 'Confirm disconnection' }}
-                component={DeleteDapp}
+                component={DeleteDApp}
               />
               <Stack.Screen
                 name={ScreensEnum.WordsAmountSelector}

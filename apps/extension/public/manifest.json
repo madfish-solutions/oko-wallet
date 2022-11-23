@@ -16,6 +16,14 @@
       "matches": ["<all_urls>"]
     }
   ],
+  "permissions": [
+    "tabs",
+    "bookmarks",
+    "unlimitedStorage",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": ["<all_urls>"],
   "icons": {
     "16": "mics/logo192.png",
     "48": "mics/logo192.png",

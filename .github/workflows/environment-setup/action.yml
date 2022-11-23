@@ -8,6 +8,8 @@ runs:
 
     - name: Setup Node 16.x
       uses: actions/setup-node@v2
+      env:
+        PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "true"
       with:
         node-version: '16.x'
 

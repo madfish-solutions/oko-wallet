@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import { getDefaultProvider } from 'ethers';
 import React, { FC, useEffect, useMemo, useState } from 'react';
@@ -17,6 +16,7 @@ import { Text } from '../../../components/text/text';
 import { DEBOUNCE_TIME } from '../../../constants/defaults';
 import { Erc721Abi__factory, Erc1155Abi__factory } from '../../../contract-types';
 import { TokenStandardEnum } from '../../../enums/token-standard.enum';
+import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useToast } from '../../../hooks/use-toast.hook';
 import { AccountTokenInput } from '../../../interfaces/token-input.interface';
 import { addNewCollectibleAction } from '../../../store/wallet/wallet.actions';
