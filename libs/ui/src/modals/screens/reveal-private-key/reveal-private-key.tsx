@@ -14,6 +14,7 @@ import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
 import { styles } from './reveal-private-key.styles';
+import { RevealPrivateKeyTestIDs } from './reveal-private-key.test-ids';
 
 export const RevealPrivateKey: FC = () => {
   const [isShowProtectLayout, setIsShowProtectLayout] = useState(true);
@@ -54,15 +55,19 @@ export const RevealPrivateKey: FC = () => {
   }, [isShowProtectLayout]);
 
   return (
-    <ModalContainer screenTitle="Reveal Private Key">
+    <ModalContainer screenTitle="Reveal Private Key" testID={RevealPrivateKeyTestIDs.ScreenTitle}>
       <ScrollView style={styles.root}>
         <Announcement text="Never share private key with third persons" style={styles.warning} />
         <Text style={styles.title}>Private Key</Text>
         <Text style={styles.description}>Here you can reveal your Private Key</Text>
         <View style={styles.wrapper}>
-          {isShowProtectLayout && <ProtectLayout handleHideLayout={getPrivateKey} />}
-          <Text style={styles.privateKey}>{privateKey}</Text>
-          <Pressable onPress={handleCopy} style={styles.copy}>
+          {isShowProtectLayout && (
+            <ProtectLayout handleHideLayout={getPrivateKey} testID={RevealPrivateKeyTestIDs.TapToRevealOverlay} />
+          )}
+          <Text style={styles.privateKey} testID={RevealPrivateKeyTestIDs.PrivateKey}>
+            {privateKey}
+          </Text>
+          <Pressable onPress={handleCopy} style={styles.copy} testID={RevealPrivateKeyTestIDs.CopyButton}>
             <Text style={styles.copyText}>Copy</Text>
           </Pressable>
         </View>

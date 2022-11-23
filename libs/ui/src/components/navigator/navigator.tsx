@@ -37,7 +37,7 @@ import { AccountsSelector as SendAccountsSelector } from '../../screens/send/com
 import { TokensSelector as SendTokensSelector } from '../../screens/send/components/tokens-selector/tokens-selector';
 import { Send } from '../../screens/send/send';
 import { AboutUs as SettingsAboutUs } from '../../screens/settings/screens/about-us/about-us';
-import { AccountsSettings } from '../../screens/settings/screens/acсounts-settings/acсounts-settings';
+import { AccountsSettings } from '../../screens/settings/screens/accounts-settings/acсounts-settings';
 import { AppearanceSelector as SettingsAppearanceSelector } from '../../screens/settings/screens/appearance-selector/appearance-selector';
 import { AuthorizedDApps } from '../../screens/settings/screens/authorized-d-apps/authorized-d-apps';
 import { ChangePassword } from '../../screens/settings/screens/change-password/change-password';

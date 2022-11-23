@@ -30,6 +30,7 @@ import { Item } from './components/item/item';
 import { MadFishLogo } from './components/mad-fish-logo/mad-fish-logo';
 import { Separator } from './components/separator/separator';
 import { styles } from './settings.styles';
+import { SettingsTestIDs } from './settings.test-ids';
 
 const dividerSize = getCustomSize(2);
 const socialIconSize = getCustomSize(4);
@@ -76,6 +77,7 @@ export const Settings: FC = () => {
                 }
                 title="Accounts Settings"
                 onPress={navigateToAccountsSettings}
+                testID={SettingsTestIDs.AccountsSettings}
               />
             </ItemContainer>
 
