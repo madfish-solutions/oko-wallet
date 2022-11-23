@@ -6170,10 +6170,10 @@ react-native-svg@^12.3.0:
     css-select "^4.2.1"
     css-tree "^1.0.0-alpha.39"
 
-react-native-themis@^0.14.4:
-  version "0.14.4"
-  resolved "https://registry.yarnpkg.com/react-native-themis/-/react-native-themis-0.14.4.tgz#0138f8ebd7b6a9d65956cbc072f698640bf7d817"
-  integrity sha512-ZGi+aXbQ18MCSpZO90oUEgn2Toe9xu7TYSgQkUtEtoE8xSvL3SwWvcz9hpT4KQHJ5o2zXhk3j9EdxTxYF3I8SQ==
+react-native-themis@^0.14.7:
+  version "0.14.7"
+  resolved "https://registry.yarnpkg.com/react-native-themis/-/react-native-themis-0.14.7.tgz#e93c24103a53e648154bb24656a0d12df9ff5d2d"
+  integrity sha512-qmda1gNvA/YD9T85q2tunYt9b4Y8RrBlN6hegLjGmTcZ3c9rkcsTlzQH+voY2nnRCde5S1VtRXNSyl21QBIPTQ==
   dependencies:
     buffer "^6.0.3"
 
@@ -6187,10 +6187,10 @@ react-native-vision-camera@^2.14.1:
   resolved "https://registry.yarnpkg.com/react-native-vision-camera/-/react-native-vision-camera-2.14.1.tgz#6b9fecd5c5976167b8e8752455be24cd12c3d84f"
   integrity sha512-zs8HAuD3pL+T/ngaDUxbvhoqR90b85ab3nm4tO4OCSBDUFhzgDoDXDm+BDhsyQaF0p05Kaskf+rkqCVBI0WEgg==
 
-react-native@0.68.4:
-  version "0.68.4"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.68.4.tgz#c52c590f93e9d115010e458650957824c0b1406e"
-  integrity sha512-Hp5qwztQ1XNnV43QTz1kUx33iZHmJqbbe7L19V9psaWtX/h9j6SEtZ3UHBrigIPlppkIP1E5x3CDr9FdD4d6CA==
+react-native@0.68.5:
+  version "0.68.5"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.68.5.tgz#8ba7389e00b757c59b6ea23bf38303d52367d155"
+  integrity sha512-t3kiQ/gumFV+0r/NRSIGtYxanjY4da0utFqHgkMcRPJVwXFWC0Fr8YiOeRGYO1dp8EfrSsOjtfWic/inqVYlbQ==
   dependencies:
     "@jest/create-cache-key-function" "^27.0.1"
     "@react-native-community/cli" "^7.0.3"
