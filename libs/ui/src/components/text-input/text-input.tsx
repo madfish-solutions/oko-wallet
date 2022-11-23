@@ -17,9 +17,9 @@ import { TextStyleProps, ViewStyleProps } from '../../interfaces/style.interface
 import { colors } from '../../styles/colors';
 import { IconNameEnum } from '../icon/icon-name.enum';
 import { Row } from '../row/row';
-import { Text } from '../text/text';
 import { TouchableIcon } from '../touchable-icon/touchable-icon';
 
+import { ErrorField } from './components/error-field/error-field';
 import { Label } from './components/label/label';
 import { Prompt } from './components/prompt/prompt';
 import { styles } from './text-input.styles';
@@ -36,13 +36,15 @@ interface Props<
   required?: boolean;
   handlePrompt?: OnEventFn<GestureResponderEvent>;
   editable?: boolean;
+  showClearIcon?: boolean;
   containerStyle?: ViewStyleProps;
   inputStyle?: TextStyleProps;
   clearIconStyles?: ViewStyleProps;
   inputContainerStyle?: ViewStyleProps;
   decimals?: number;
   keyboardType?: KeyboardTypeOptions;
-  labelStyle?: ViewStyleProps;
+  labelContainerStyle?: ViewStyleProps;
+  labelTextStyle?: TextStyleProps;
 }
 
 export const TextInput = <
@@ -62,6 +64,7 @@ export const TextInput = <
   editable = true,
   multiline = false,
   secureTextEntry = false,
+  showClearIcon = true,
   containerStyle,
   inputStyle,
   inputContainerStyle,
@@ -69,18 +72,20 @@ export const TextInput = <
   clearIconStyles,
   onFocus: onFocusProps,
   onChange: onChangeProps,
-  labelStyle
+  labelContainerStyle,
+  labelTextStyle
 }: Props<TFieldValues, TName>) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const isLabel = isDefined(label);
   const isError = isDefined(error);
   const isPrompt = isDefined(prompt);
+  const isNumberKeyboardType = keyboardType === 'numeric' || keyboardType === 'number-pad';
 
   const onChangeText = (value: string) => {
     let correctedValue = value;
 
-    if (keyboardType === 'numeric') {
+    if (isNumberKeyboardType) {
       correctedValue = correctedValue
         .replace(/ /g, '')
         .replace(/,/g, '.')
@@ -99,7 +104,7 @@ export const TextInput = <
   const onBlur = () => {
     let correctedValue: string = value;
 
-    if (keyboardType === 'numeric' && isNotEmptyString(correctedValue) && !isNaN(+correctedValue)) {
+    if (isNumberKeyboardType && isNotEmptyString(correctedValue) && !isNaN(+correctedValue)) {
       correctedValue = new BigNumber(correctedValue).toString(10);
     }
 
@@ -120,7 +125,7 @@ export const TextInput = <
 
   return (
     <View style={containerStyle}>
-      {isLabel && <Label title={label} isOptional={!required} style={labelStyle} />}
+      {isLabel && <Label title={label} isOptional={!required} style={labelContainerStyle} textStyle={labelTextStyle} />}
       {isPrompt && <Prompt title={prompt} handlePrompt={handlePrompt} />}
       <View
         style={[
@@ -150,18 +155,15 @@ export const TextInput = <
             secureTextEntry={secureTextEntry}
             allowFontScaling={false}
             onChange={onChangeNative}
+            selectTextOnFocus={!editable}
           />
-          {isNotEmptyString(value) && editable && (
+          {isNotEmptyString(value) && editable && showClearIcon && (
             <TouchableIcon name={IconNameEnum.Clear} onPress={handleInputClear} style={clearIconStyles} />
           )}
         </Row>
         {children}
       </View>
-      {isError && (
-        <View style={styles.textErrorContainer}>
-          <Text style={styles.textError}>{error}</Text>
-        </View>
-      )}
+      {isError && <ErrorField name={error} />}
     </View>
   );
 };

@@ -33,13 +33,5 @@ export const styles = StyleSheet.create({
     ...(isWeb && { caretColor: colors.orange }),
     lineHeight: undefined,
     overflow: 'hidden'
-  },
-  textErrorContainer: {
-    position: 'absolute',
-    bottom: -getCustomSize(2.25)
-  },
-  textError: {
-    color: colors.red,
-    ...typography.captionInterRegular11
   }
 });

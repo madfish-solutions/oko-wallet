@@ -6,5 +6,8 @@ export const styles = StyleSheet.create({
   root: {
     flex: 1,
     paddingHorizontal: getCustomSize(2)
+  },
+  searchPanel: {
+    marginBottom: getCustomSize(3)
   }
 });

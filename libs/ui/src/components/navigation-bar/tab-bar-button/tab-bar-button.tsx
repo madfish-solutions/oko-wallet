@@ -9,7 +9,7 @@ import { IconProps } from '../../icon/icon.interface';
 
 import { styles } from './tab-bar-button.styles';
 
-type TabBarScreens = ScreensEnum.Wallet | ScreensEnum.Receive | ScreensEnum.Send | ScreensEnum.Settings;
+type TabBarScreens = ScreensEnum.Wallet | ScreensEnum.Receive | ScreensEnum.SendToken | ScreensEnum.Settings;
 
 interface Props extends IconProps {
   routeName: TabBarScreens;

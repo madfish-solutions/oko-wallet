@@ -8,3 +8,9 @@ export interface FormTypes {
   account?: AccountInterface;
   isTransferBetweenAccounts: boolean;
 }
+
+export interface SendParams {
+  account?: AccountInterface;
+  token?: Token;
+  receiverPublicKeyHash?: string;
+}

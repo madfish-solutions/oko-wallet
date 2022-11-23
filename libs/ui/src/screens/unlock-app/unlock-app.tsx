@@ -78,7 +78,7 @@ export const UnlockApp: FC = () => {
                   prompt="Enter your password to unlock wallet"
                   containerStyle={styles.input}
                   clearIconStyles={styles.clearIcon}
-                  labelStyle={styles.label}
+                  labelContainerStyle={styles.label}
                   error={
                     errors.password?.message !== undefined
                       ? errors.password?.message

@@ -63,7 +63,7 @@ export const useFiatTotalBalance = () => {
 
           const dollarValue = getDollarValue({
             amount: accountToken.balance.data,
-            decimals: tokensMetadata[tokenMetadataSlug].decimals,
+            decimals: tokensMetadata[tokenMetadataSlug]?.decimals,
             price,
             errorValue: new BigNumber(0),
             toFixed: false

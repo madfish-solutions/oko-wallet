@@ -30,7 +30,7 @@ export const NavigationBar = () => {
       />
       <Divider size={getCustomSize(3)} />
       <TabBarButton
-        routeName={ScreensEnum.Send}
+        routeName={ScreensEnum.SendToken}
         name={IconNameEnum.Send}
         focused={isStackFocused(walletStackScreens)}
       />

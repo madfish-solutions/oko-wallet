@@ -49,15 +49,17 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPu
       if (isDefined(estimations?.gasPrice) && typeof gasPriceCoefficient === 'number') {
         setIsTransactionLoading(true);
 
+        const valueToSend =
+          assetType === AssetTypeEnum.GasToken || assetType === AssetTypeEnum.Token
+            ? getAmount(value, decimals)
+            : value;
         const transactionParams: TransactionParams = {
           gasPrice: Math.trunc(Number(estimations?.gasPrice) * gasPriceCoefficient),
           gasLimit: Number(estimations?.gasLimit),
           receiverPublicKeyHash,
           tokenAddress,
           tokenId,
-          ...(assetType !== AssetTypeEnum.Collectible && {
-            value: getAmount(value, decimals)
-          })
+          value: valueToSend
         };
 
         sendEvmTransaction({

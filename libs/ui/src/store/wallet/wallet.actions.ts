@@ -57,6 +57,7 @@ export const getAllUserNftAction = createActions<
   { nftList: NftListResponse[] }
 >('wallet/GET_ALL_USER_NFT');
 export const addNewCollectibleAction = createAction<AccountTokenInput>('wallet/ADD_NEW_COLLECTIBLE');
+export const deleteZeroAmountCollectible = createAction<Token>('wallet/DELETE_ZERO_AMOUNT_COLLECTIBLE');
 
 export const sendAssetAction = createActions<SendAssetPayload>('wallet/SEND_ASSET');
 

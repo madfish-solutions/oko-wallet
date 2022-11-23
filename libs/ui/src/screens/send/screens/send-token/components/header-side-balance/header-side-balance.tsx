@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { View } from 'react-native';
 
-import { Row } from '../../../../components/row/row';
-import { Text } from '../../../../components/text/text';
+import { Row } from '../../../../../../components/row/row';
+import { Text } from '../../../../../../components/text/text';
 
 import { styles } from './header-side-balance.styles';
 

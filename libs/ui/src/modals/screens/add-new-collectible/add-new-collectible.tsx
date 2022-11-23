@@ -1,12 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
-import { ethers } from 'ethers';
-import React, { FC, useEffect, useState, useMemo } from 'react';
+import { getDefaultProvider } from 'ethers';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { LayoutChangeEvent, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { Subject, switchMap } from 'rxjs';
-import { filter, debounceTime, tap } from 'rxjs/operators';
+import { forkJoin, of, Subject, switchMap } from 'rxjs';
+import { debounceTime, filter, tap } from 'rxjs/operators';
 
 import { Announcement } from '../../../components/announcement/announcement';
 import { CollectibleImage } from '../../../components/collectible-image/collectible-image';
@@ -14,12 +14,19 @@ import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { TextInput } from '../../../components/text-input/text-input';
 import { Text } from '../../../components/text/text';
-import { EVM_COLLECTIBLES_METADATA_ABI } from '../../../constants/abi/evm-collectibles-metadata-abi copy';
 import { DEBOUNCE_TIME } from '../../../constants/defaults';
+import { Erc721Abi__factory, Erc1155Abi__factory } from '../../../contract-types';
+import { TokenStandardEnum } from '../../../enums/token-standard.enum';
+import { useToast } from '../../../hooks/use-toast.hook';
 import { AccountTokenInput } from '../../../interfaces/token-input.interface';
 import { addNewCollectibleAction } from '../../../store/wallet/wallet.actions';
-import { useSelectedNetworkSelector, useAccountAssetsSelector } from '../../../store/wallet/wallet.selectors';
+import {
+  useAccountAssetsSelector,
+  useSelectedAccountPublicKeyHashSelector,
+  useSelectedNetworkSelector
+} from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
+import { getCollectibleBalance } from '../../../utils/by-network-types/token.utils.evm';
 import { formatUri } from '../../../utils/formatUrl.util';
 import { getDefaultEvmProvider } from '../../../utils/get-default-evm-provider.utils';
 import { getTokenSlug } from '../../../utils/token.utils';
@@ -29,6 +36,7 @@ import { styles } from './add-new-collectible.styles';
 import { COLLECTIBLE_SIZE } from './constants';
 import { useValidateAddNewCollectibleFields } from './hooks/use-validate-add-new-collectible.hook';
 import { AddNewCollectibleFormTypes } from './types';
+import { getCollectibleErcStandard } from './utils/get-collectible-erc-standard.util';
 
 const defaultValues: AddNewCollectibleFormTypes = {
   tokenAddress: '',
@@ -48,7 +56,9 @@ const collectibleInitialMetadata: AccountTokenInput = {
 export const AddNewCollectible: FC = () => {
   const { goBack } = useNavigation();
   const { rpcUrl } = useSelectedNetworkSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const dispatch = useDispatch();
+  const { showWarningToast } = useToast();
 
   const accountTokens = useAccountAssetsSelector();
 
@@ -61,7 +71,7 @@ export const AddNewCollectible: FC = () => {
     handleSubmit,
     watch,
     setError,
-    formState: { errors }
+    formState: { errors, isSubmitting }
   } = useForm<AddNewCollectibleFormTypes>({
     mode: 'onChange',
     defaultValues
@@ -95,16 +105,21 @@ export const AddNewCollectible: FC = () => {
             isNotEmptyString(tokenAddress) && isNotEmptyString(tokenId) && !isErrors
         ),
         tap(() => setIsLoadingMetadata(true)),
-        switchMap(({ tokenAddress, tokenId }) => fetchDataFromProvider(tokenAddress, tokenId)),
-        filter(([, , contractName, symbol, collectibleMetadataUrl]) =>
-          isErrorsExist(contractName, symbol, collectibleMetadataUrl)
+        switchMap(args => forkJoin([getCollectibleErcStandard({ tokenAddress: args.tokenAddress, rpcUrl }), of(args)])),
+        switchMap(([collectibleErcStandard, { tokenAddress, tokenId }]) =>
+          forkJoin([
+            fetchDataFromProvider(tokenAddress, tokenId as string, collectibleErcStandard as TokenStandardEnum),
+            of(collectibleErcStandard)
+          ])
         ),
-        switchMap(([tokenAddress, tokenId, contractName, symbol, collectibleMetadataUrl]) => {
+        filter(([[collectibleMetadataUrl]]) => isErrorsExist(collectibleMetadataUrl)),
+        switchMap(([[collectibleMetadataUrl, contractName, symbol, tokenAddress, tokenId], collectibleErcStandard]) => {
           const baseMetadata = {
             tokenAddress,
             tokenId,
             symbol: symbol ?? 'Unnamed NFT',
-            contractName: contractName ?? 'Collection'
+            contractName: contractName ?? 'Collection',
+            standard: collectibleErcStandard
           };
 
           return fetch(formatUri(collectibleMetadataUrl))
@@ -122,36 +137,37 @@ export const AddNewCollectible: FC = () => {
         }),
         tap(() => setIsLoadingMetadata(false))
       )
-      .subscribe(metadata => {
+      .subscribe(metadata =>
         setCollectibleMetadata(prev => ({
           ...prev,
           ...metadata
-        }));
-      });
+        }))
+      );
 
     return () => subscription.unsubscribe();
   }, []);
 
-  const fetchDataFromProvider = (tokenAddress: string, tokenId?: string) => {
+  const fetchDataFromProvider = (tokenAddress: string, tokenId: string, collectibleErcStandard: TokenStandardEnum) => {
     const provider = getDefaultEvmProvider(rpcUrl);
-    const contract = new ethers.Contract(tokenAddress, EVM_COLLECTIBLES_METADATA_ABI, provider);
+    const isErc721 = collectibleErcStandard === TokenStandardEnum.ERC721;
+    const contract = isErc721
+      ? Erc721Abi__factory.connect(tokenAddress, provider)
+      : Erc1155Abi__factory.connect(tokenAddress, provider);
 
     return Promise.all([
+      // @ts-ignore
+      isErc721 ? contract?.tokenURI(tokenId).catch(() => undefined) : contract?.uri(tokenId).catch(() => undefined),
+      // @ts-ignore
+      isErc721 ? contract?.name().catch(() => undefined) : Promise.resolve(undefined),
+      // @ts-ignore
+      isErc721 ? contract?.symbol().catch(() => undefined) : Promise.resolve(undefined),
       Promise.resolve(tokenAddress),
-      Promise.resolve(tokenId),
-      contract.name().catch(() => undefined),
-      contract.symbol().catch(() => undefined),
-      contract.tokenURI(tokenId).catch(() => undefined)
+      Promise.resolve(tokenId)
     ]);
   };
 
-  const isErrorsExist = (contractName: string, symbol: string, collectibleMetadataUrl: string) => {
-    if (!isDefined(contractName) && !isDefined(symbol)) {
-      setError('tokenAddress', { message: 'Not correct address to selected network' });
-      setIsLoadingMetadata(false);
-
-      return false;
-    } else if (!isDefined(collectibleMetadataUrl)) {
+  const isErrorsExist = (collectibleMetadataUrl: string) => {
+    if (!isDefined(collectibleMetadataUrl)) {
       setError('tokenId', { message: 'Unable to load metadata for this Token Id' });
       setIsLoadingMetadata(false);
 
@@ -161,7 +177,7 @@ export const AddNewCollectible: FC = () => {
     return true;
   };
 
-  const onSubmit = (fields: AddNewCollectibleFormTypes) => {
+  const onSubmit = async (fields: AddNewCollectibleFormTypes) => {
     const currentToken = accountTokens.find(
       token => getTokenSlug(token.tokenAddress, token.tokenId) === getTokenSlug(fields.tokenAddress, fields.tokenId)
     );
@@ -174,7 +190,20 @@ export const AddNewCollectible: FC = () => {
       return setError('tokenAddress', { message: 'Token with this Address already exist' });
     }
 
-    dispatch(addNewCollectibleAction(collectibleMetadata));
+    const provider = getDefaultProvider(rpcUrl);
+    const collectibleBalance = await getCollectibleBalance({
+      tokenAddress: fields.tokenAddress,
+      tokenId: fields.tokenId as string,
+      standard: collectibleMetadata.standard,
+      provider,
+      publicKeyHash
+    });
+
+    if (Number(collectibleBalance) === 0) {
+      return showWarningToast('You are not the owner of this collectible');
+    }
+
+    dispatch(addNewCollectibleAction({ ...collectibleMetadata, balance: collectibleBalance }));
 
     goBack();
   };
@@ -189,7 +218,7 @@ export const AddNewCollectible: FC = () => {
     <ModalActionContainer
       screenTitle="Add new Collectible"
       submitTitle="Add"
-      isSubmitDisabled={Boolean(Object.keys(errors).length) || isLoadingMetadata}
+      isSubmitDisabled={Boolean(Object.keys(errors).length) || isLoadingMetadata || isSubmitting}
       onSubmitPress={handleSubmit(onSubmit)}
       onCancelPress={goBack}
     >

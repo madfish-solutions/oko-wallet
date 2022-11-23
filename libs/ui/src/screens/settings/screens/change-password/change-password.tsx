@@ -116,7 +116,7 @@ export const ChangePassword: FC = () => {
                   clearIconStyles={styles.clearIcon}
                   error={passwordMatchError}
                   onFocus={onFocusOldPassword}
-                  labelStyle={styles.label}
+                  labelContainerStyle={styles.label}
                 />
                 {isSecureOldPassword ? (
                   <TouchableIcon
@@ -155,7 +155,7 @@ export const ChangePassword: FC = () => {
                     ((isDefined(passwordIsNoValid) && passwordIsNoValid) || isDefined(errors.password?.message)) &&
                     styles.errorInput
                   }
-                  labelStyle={styles.label}
+                  labelContainerStyle={styles.label}
                 />
 
                 <TouchableIcon
@@ -195,7 +195,7 @@ export const ChangePassword: FC = () => {
                 error={errors.confirmPassword?.message}
                 containerStyle={styles.input}
                 clearIconStyles={styles.clearIcon}
-                labelStyle={styles.label}
+                labelContainerStyle={styles.label}
               />
 
               <TouchableIcon
