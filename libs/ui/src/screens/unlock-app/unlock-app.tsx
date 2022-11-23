@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, Platform, Pressable, View } from 'react-native';
 
@@ -33,8 +33,8 @@ export const UnlockApp: FC = () => {
   const isBiometricEnabled = useBiometricEnabledSelector();
   const [isSecurePassword, setIsSecurePassword] = useState(true);
   const handleTogglePasswordVisibility = () => setIsSecurePassword(prev => !prev);
-  const { unlock, unlockError, setUnlockError } = useUnlock();
-  const { navigate } = useNavigation();
+  const { unlock, unlockError, setUnlockError, isLocked } = useUnlock();
+  const { navigate, goBack } = useNavigation();
 
   const {
     control,
@@ -45,6 +45,8 @@ export const UnlockApp: FC = () => {
     mode: 'onChange',
     defaultValues
   });
+
+  useEffect(() => void (!isLocked && goBack()), [isLocked]);
 
   const password = watch('password');
 

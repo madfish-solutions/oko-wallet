@@ -1,32 +1,47 @@
 import './shim.js';
-import { browser, Runtime } from 'webextension-polyfill-ts';
 
-import { BackgroundMessageType } from '../../libs/ui/src/messagers/enums/background-message-types.enum';
-import { BackgroundMessage } from '../../libs/ui/src/messagers/types/background-message.types';
+import {
+  BackgroundMessage,
+  BackgroundMessageType,
+  createDAppResponse,
+  E2eMessageType,
+  INITIAL_PASSWORD_HASH
+} from 'ui/background-script';
+import { Runtime, runtime, scripting, storage } from 'webextension-polyfill';
 
-const INITIAL_PASSWORD_HASH = '';
-// Locks when background-script dies!
-const LOCK_PERIOD = 5 * 60 * 1000;
-const URL_BASE = 'extension://';
+import { DAppMessage } from './src/interfaces/dapp-message.interface';
+import { openDAppConnectionConfirmationPopup, openNetworkChangeConfirmationPopup } from './src/utils/browser.utils';
+import { getHexChanId } from './src/utils/network.utils';
+import { getState } from './src/utils/state.utils';
+
+const APP_LOCK_PERIOD = 5 * 60 * 1000;
 
 let passwordHash = INITIAL_PASSWORD_HASH;
 let lastUserActivityTimestamp = 0;
-let isLockApp = true;
 
 let isFullpageOpen = false;
 
-browser.runtime.onConnect.addListener(port => {
+scripting.registerContentScripts([
+  {
+    id: 'inpage-script',
+    matches: ['file://*/*', 'http://*/*', 'https://*/*'],
+    js: ['scripts/inpage.js'],
+    runAt: 'document_start',
+    // @ts-ignore
+    world: 'MAIN'
+  }
+]);
+
+runtime.onConnect.addListener(port => {
   // check for time expired and max-view no opened then extension need to lock
-  const savedSessionTimeExpired = Date.now() > lastUserActivityTimestamp + LOCK_PERIOD;
+  const savedSessionTimeExpired = Date.now() > lastUserActivityTimestamp + APP_LOCK_PERIOD;
 
   if (isFullpagePort(port)) {
     isFullpageOpen = true;
   }
 
   if (savedSessionTimeExpired && !isFullpageOpen) {
-    isLockApp = true;
-  } else {
-    isLockApp = false;
+    passwordHash = INITIAL_PASSWORD_HASH;
   }
 
   // listen when UI is closed
@@ -41,27 +56,84 @@ browser.runtime.onConnect.addListener(port => {
   }
 
   // listen content script messages
-  port.onMessage.addListener(async msg => {
-    if (msg.data?.target === 'metamask-contentscript' && msg.data?.data?.data?.method === 'eth_requestAccounts') {
-      const id = msg.data?.data?.data?.id;
-      const origin = msg.origin;
+  port.onMessage.addListener(async (message: DAppMessage) => {
+    const data = message.data.data.data;
 
-      await browser.windows.create({
-        type: 'popup',
-        url: browser.runtime.getURL(`popup.html?confirmation=true&origin=${origin}&id=${id}`),
-        width: 360,
-        height: 600,
-        top: 20,
-        left: 20
-      });
+    if (message.data.target === 'oko-contentscript' && data !== undefined) {
+      const id = data.id;
+      const method = data.method;
+      const dAppInfo = message.sender;
 
-      return Promise.resolve();
+      const state = await getState();
+
+      const dAppState = state.dApps[dAppInfo.origin];
+      const selectedNetworkChainId = state.wallet.selectedNetworkChainId;
+      const selectedAccountPublicKeyHash = state.wallet.selectedAccountPublicKeyHash;
+      const isPermissionGranted = dAppState?.allowedAccounts.includes(selectedAccountPublicKeyHash);
+
+      switch (method) {
+        case 'eth_requestAccounts': {
+          if (isPermissionGranted) {
+            const result = [selectedAccountPublicKeyHash];
+            const message = createDAppResponse(id, result);
+
+            port.postMessage(message);
+          } else {
+            await openDAppConnectionConfirmationPopup(id, dAppInfo);
+          }
+
+          return Promise.resolve();
+        }
+        case 'eth_accounts': {
+          if (isPermissionGranted) {
+            const result = [selectedAccountPublicKeyHash];
+            const message = createDAppResponse(id, result);
+
+            port.postMessage(message);
+          }
+
+          return Promise.resolve();
+        }
+        case 'wallet_addEthereumChain':
+        case 'wallet_switchEthereumChain': {
+          await openNetworkChangeConfirmationPopup(id, dAppInfo.origin, data.params?.[0]?.chainId);
+
+          return Promise.resolve();
+        }
+        case 'oko_getProviderState': {
+          if (isPermissionGranted) {
+            const result = {
+              accounts: [selectedAccountPublicKeyHash],
+              chainId: getHexChanId(selectedNetworkChainId),
+              isUnlocked: true,
+              networkVersion: '56'
+            };
+            const message = createDAppResponse(id, result);
+
+            port.postMessage(message);
+          }
+
+          return Promise.resolve();
+        }
+        case 'eth_chainId': {
+          const result = getHexChanId(selectedNetworkChainId);
+          const message = createDAppResponse(id, result);
+
+          port.postMessage(message);
+
+          return Promise.resolve();
+        }
+
+        default: {
+          return Promise.reject();
+        }
+      }
     }
   });
 });
 
 // listen messages from UI
-browser.runtime.onMessage.addListener((message: BackgroundMessage) => {
+runtime.onMessage.addListener((message: BackgroundMessage) => {
   switch (message.type) {
     case BackgroundMessageType.SetPasswordHash: {
       passwordHash = message.data.passwordHash;
@@ -69,11 +141,10 @@ browser.runtime.onMessage.addListener((message: BackgroundMessage) => {
       return Promise.resolve();
     }
     case BackgroundMessageType.GetPasswordHash: {
-      if (isLockApp) {
-        passwordHash = INITIAL_PASSWORD_HASH;
-      }
-
       return Promise.resolve(passwordHash);
+    }
+    case E2eMessageType.ClearStorage: {
+      return storage.local.clear();
     }
     default:
       // @ts-ignore
@@ -82,4 +153,4 @@ browser.runtime.onMessage.addListener((message: BackgroundMessage) => {
 });
 
 const isFullpagePort = (port: Runtime.Port) =>
-  port.sender?.url?.includes(`${URL_BASE}${browser.runtime.id}/fullpage.html`) ?? false;
+  port.sender?.url?.includes(`extension://${runtime.id}/fullpage.html`) ?? false;

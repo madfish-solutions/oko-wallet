@@ -9,7 +9,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: getCustomSize(1.75),
-    borderWidth: getCustomSize(0.25)
+    borderWidth: getCustomSize(0.25),
+    flexGrow: 1
   },
   wrapper: {
     flexDirection: 'row',

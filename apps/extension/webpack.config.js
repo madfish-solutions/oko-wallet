@@ -51,6 +51,7 @@ module.exports = {
     entry: {
         'background-script': path.resolve(appDirectory, 'background-script.ts'),
         'content-script': path.resolve(appDirectory, 'content-script.ts'),
+        'inpage': path.resolve(appDirectory, 'inpage.ts'),
         main: path.resolve(appDirectory, 'index.ts')
     },
 
@@ -93,6 +94,9 @@ module.exports = {
         new webpack.DefinePlugin({
             __DEV__: JSON.stringify(process.env.NODE_ENV === 'development'),
             'process.env.VERSION': JSON.stringify(packageJSON.version),
+        }),
+        new webpack.ProvidePlugin({
+            process: "process/browser"
         }),
         new CopyPlugin({
             patterns: [

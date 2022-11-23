@@ -1,14 +1,14 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
-import { View, Linking, TouchableOpacity, ScrollView, Pressable } from 'react-native';
+import { Linking, Pressable, ScrollView, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { browser } from 'webextension-polyfill-ts';
+import { tabs } from 'webextension-polyfill';
 
+import { AllowsBlock } from '../../../components/allows-block/allows-block';
 import { Button } from '../../../components/button/button';
 import { ButtonThemesEnum } from '../../../components/button/enums';
 import { Column } from '../../../components/column/column';
 import { CopyText } from '../../../components/copy-text/copy-text';
-import { Divider } from '../../../components/divider/divider';
 import { IconWithBorder } from '../../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
@@ -17,76 +17,75 @@ import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
-import { setConfirmedDappAction } from '../../../store/wallet/wallet.actions';
+import { AllowsRules } from '../../../interfaces/dapp-connection.interface';
+import { connectDAppAction } from '../../../store/d-apps/d-apps.actions';
 import {
+  useGasTokenSelector,
   useSelectedAccountPublicKeyHashSelector,
-  useSelectedAccountSelector,
-  useGasTokenSelector
+  useSelectedAccountSelector
 } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
+import { createDAppResponse } from '../../../utils/dapp.utils';
 import { eraseProtocol } from '../../../utils/string.util';
 import { getFormattedBalance } from '../../../utils/units.utils';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
-import { DappImage } from './components/dapp-image';
-import { styles } from './dapp-confirmation.styles';
+import { styles } from './d-app-connection-confirmation.styles';
+import { DAppImage } from './d-app-image/d-app-image';
 
-const CLOSE_DELAY = 1000;
+const rules: AllowsRules[] = [
+  { text: 'See wallet balance and activity', isAllowed: true },
+  { text: 'Send request for transactions', isAllowed: true },
+  { text: 'Move funds without permissions', isAllowed: false }
+];
 
-interface MessageToDapp {
-  data: unknown;
-  target: string;
-}
-
-export const DappConfirmation: FC = () => {
+export const DAppConnectionConfirmation: FC = () => {
   const dispatch = useDispatch();
-  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
+  const selectedAccountPublicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { name } = useSelectedAccountSelector();
   const { decimals, symbol, balance } = useGasTokenSelector();
   const { navigate } = useNavigation();
-  const {
-    params: { dappName, id }
-  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DappConfirmation>>();
-  const responseToDapp: MessageToDapp = {
-    data: {
-      data: { id, method: 'eth_requestAccounts', jsonrpc: '2.0', result: [publicKeyHash] },
-      name: 'metamask-provider'
-    },
-    target: 'metamask-inpage'
-  };
+
+  const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DAppConnectionConfirmation>>();
+
   const gasBalance = getFormattedBalance(balance.data, decimals);
 
   const sendMessage = () => {
-    browser.tabs.query({ active: true }).then(tabs => {
-      if (tabs[0].id !== undefined) {
-        browser.tabs.sendMessage(tabs[0].id, responseToDapp);
-        setTimeout(() => {
-          window.close();
-        }, CLOSE_DELAY);
-        dispatch(setConfirmedDappAction({ dappName, id }));
+    tabs.query({ active: true }).then(queryTabs => {
+      if (queryTabs[0].id !== undefined) {
+        dispatch(connectDAppAction({ dAppInfo: params.dAppInfo, accountPublicKeyHash: selectedAccountPublicKeyHash }));
+
+        const message = createDAppResponse(params.messageId, [selectedAccountPublicKeyHash]);
+        tabs.sendMessage(queryTabs[0].id, message);
+
+        setTimeout(window.close, 1000);
       }
     });
   };
 
   const navigateToAccountsSelector = () => navigate(ScreensEnum.AccountsSelector);
   const navigateToWalletScreen = () => navigate(ScreensEnum.Wallet);
-  const copy = () => handleCopyToClipboard(dappName);
+  const copy = () => handleCopyToClipboard(params.dAppInfo.origin);
 
   return (
     <ModalContainer screenTitle="Confirm operation">
       <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
         <View style={styles.viewRoot}>
           <Row style={styles.container}>
-            <DappImage />
+            <DAppImage imageUri={params.dAppInfo.favicon} />
             <Icon name={IconNameEnum.SwapItems} size={getCustomSize(9)} />
-            <DappImage />
+            <DAppImage />
           </Row>
           <Row style={styles.addressRow}>
             <Text style={styles.smallText}>Address</Text>
             <Row>
-              <Text style={styles.explorerLink} onPress={() => Linking.openURL(dappName)} numberOfLines={1}>
-                {eraseProtocol(dappName)}
+              <Text
+                style={styles.explorerLink}
+                onPress={() => Linking.openURL(params.dAppInfo.origin)}
+                numberOfLines={1}
+              >
+                {eraseProtocol(params.dAppInfo.origin)}
               </Text>
               <Pressable onPress={copy}>
                 <Icon name={IconNameEnum.Copy} />
@@ -100,7 +99,7 @@ export const DappConfirmation: FC = () => {
               <Row>
                 <TouchableOpacity onPress={navigateToAccountsSelector} style={styles.button}>
                   <IconWithBorder>
-                    <RobotIcon seed={publicKeyHash} />
+                    <RobotIcon seed={selectedAccountPublicKeyHash} />
                   </IconWithBorder>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={navigateToAccountsSelector}>
@@ -120,37 +119,11 @@ export const DappConfirmation: FC = () => {
                     <Icon name={IconNameEnum.Gas} size={getCustomSize(2)} />
                   </Row>
                 </Column>
-                <CopyText style={styles.address} text={publicKeyHash} isShortize />
+                <CopyText style={styles.address} text={selectedAccountPublicKeyHash} isShortize />
               </Row>
             </Row>
           </View>
-          <View style={styles.allowsBlock}>
-            <Text style={styles.greyLabel}>Allows</Text>
-            <Row style={styles.allowsText}>
-              <Text style={styles.greyText}>See wallet balance and activity</Text>
-              <Row>
-                <Text style={styles.allowStatus}>ALLOWED</Text>
-                <Icon name={IconNameEnum.LockOpen} />
-              </Row>
-            </Row>
-            <Divider style={styles.divider} />
-            <Row style={styles.allowsText}>
-              <Text style={styles.greyText}>Send request for transactions</Text>
-              <Row>
-                <Text style={styles.allowStatus}>ALLOWED</Text>
-                <Icon name={IconNameEnum.LockOpen} />
-              </Row>
-            </Row>
-            <Divider style={styles.divider} />
-            <Row style={styles.allowsText}>
-              <Text style={styles.greyText}>Move funds without permissions</Text>
-              <Row>
-                <Text style={styles.allowStatus}>BLOCKED</Text>
-                <Icon name={IconNameEnum.LockClosed} />
-              </Row>
-            </Row>
-            <Divider style={styles.divider} />
-          </View>
+          <AllowsBlock rules={rules} />
         </View>
       </ScrollView>
       <Row style={styles.buttonPanel}>

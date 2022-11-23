@@ -5,12 +5,15 @@
   "license": "MIT",
   "scripts": {
     "start": "./node_modules/.bin/webpack --mode development --watch --config ./webpack.config.js",
-    "build": "./node_modules/.bin/webpack --mode production --config ./webpack.config.js"
+    "build": "./node_modules/.bin/webpack --mode production --config ./webpack.config.js",
+    "ts": "tsc --pretty"
   },
   "dependencies": {
     "@dicebear/avatars": "^4.10.2",
     "@dicebear/avatars-bottts-sprites": "^4.10.2",
     "@dicebear/avatars-jdenticon-sprites": "^4.10.2",
+    "@metamask/object-multiplex": "^1.2.0",
+    "@metamask/post-message-stream": "^6.0.0",
     "@react-native-async-storage/async-storage": "^1.17.3",
     "@react-native-clipboard/clipboard": "^1.11.1",
     "@react-navigation/native": "^6.0.13",
@@ -29,7 +32,11 @@
     "ed25519-hd-key": "^1.2.0",
     "ethers": "^5.6.4",
     "fast-memoize": "^2.5.2",
+    "json-rpc-engine": "^6.1.0",
+    "json-rpc-middleware-stream": "^3.0.0",
     "lodash": "^4.17.21",
+    "process": "^0.11.10",
+    "pump": "^3.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-hook-form": "^7.33.1",
@@ -46,8 +53,7 @@
     "ts-action": "^11.0.0",
     "ts-action-operators": "^9.1.2",
     "wasm-themis": "^0.14.5",
-    "webextension-polyfill": "^0.9.0",
-    "webextension-polyfill-ts": "^0.26.0"
+    "webextension-polyfill": "^0.10.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
@@ -55,12 +61,14 @@
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
     "@types/lodash": "^4.14.182",
-    "@types/node": "^16.11.27",
+    "@types/node": "^18.7.18",
+    "@types/pump": "^1.1.1",
     "@types/react": "^18.0.5",
     "@types/react-dom": "^18.0.1",
     "@types/react-native": "^0.67.6",
+    "@types/readable-stream": "^2.3.14",
     "@types/redux-persist": "^4.3.1",
-    "@types/webextension-polyfill": "^0.9.0",
+    "@types/webextension-polyfill": "^0.9.1",
     "babel-plugin-react-native-web": "^0.17.7",
     "copy-webpack-plugin": "^10.2.4",
     "html-webpack-plugin": "^5.5.0",

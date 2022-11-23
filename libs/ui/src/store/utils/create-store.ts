@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { configureStore } from '@reduxjs/toolkit';
 import { Action, AnyAction, Middleware, ReducersMapObject } from 'redux';
 import { combineEpics, createEpicMiddleware, Epic, StateObservable } from 'redux-observable';
@@ -8,6 +7,7 @@ import { PersistConfig } from 'redux-persist/lib/types';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+import { LocalStorage } from '../../utils/local-storage.util';
 import { rootStateReducer } from '../root-state.reducers';
 
 import { addFlipperDebugger } from './filpper.util';
@@ -25,7 +25,7 @@ export const createStore = <S extends object, A extends Action = AnyAction>({
   const persistConfig: PersistConfig<S> = {
     key: 'root',
     version: 1,
-    storage: AsyncStorage,
+    storage: LocalStorage,
     stateReconciler: autoMergeLevel2
   };
 

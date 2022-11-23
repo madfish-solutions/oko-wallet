@@ -20,8 +20,9 @@ import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useSelectedAccountPublicKeyHashSelector } from '../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../styles/format-size';
+import { isFullpage } from '../../utils/location.utils';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
-import { isIOS, isMaximiseScreen, isWeb } from '../../utils/platform.utils';
+import { isIOS, isWeb } from '../../utils/platform.utils';
 
 import EasterEgg from './assets/easter-egg.svg';
 import { ItemContainer } from './components/item-container/item-container';
@@ -43,17 +44,14 @@ export const Settings: FC = () => {
   const navigateToSettingsAboutUs = () => navigate(ScreensEnum.SettingsAboutUs);
   const navigateToSettingsResetWalletConfirm = () => navigate(ScreensEnum.SettingsResetWalletConfirm);
 
-  const navigateToAuthorizedDapps = () => navigate(ScreensEnum.AuthorizedDapps);
+  const navigateToAuthorizedDapps = () => navigate(ScreensEnum.AuthorizedDApps);
 
   return (
     <ScreenContainer>
       <HeaderContainer isSelectors>
         <ScreenTitle title="Settings" />
         {isWeb && (
-          <TouchableIcon
-            name={isMaximiseScreen ? IconNameEnum.NewTab : IconNameEnum.Maximize}
-            onPress={openMaximiseScreen}
-          />
+          <TouchableIcon name={isFullpage ? IconNameEnum.NewTab : IconNameEnum.Maximize} onPress={openMaximiseScreen} />
         )}
       </HeaderContainer>
 

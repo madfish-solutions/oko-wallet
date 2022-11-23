@@ -1,5 +1,6 @@
 import { SeedWordsAmount } from '../constants/seed-words-amount';
 import { AccountInterface } from '../interfaces/account.interface';
+import { DAppInfo } from '../interfaces/dapp-info.interface';
 import { NetworkInterface } from '../interfaces/network.interface';
 import { Token } from '../interfaces/token.interface';
 import { TransferParams } from '../interfaces/transfer-params.interface';
@@ -32,7 +33,7 @@ export enum ScreensEnum {
   AddAccount = 'AddAccount',
   AddNetwork = 'AddNetwork',
   EditNetwork = 'EditNetwork',
-  DappConfirmation = 'DappConfirmation',
+  DAppConnectionConfirmation = 'DAppConnectionConfirmation',
   AddNewToken = 'AddNewToken',
   EditToken = 'EditToken',
   Tokens = 'Tokens',
@@ -45,9 +46,10 @@ export enum ScreensEnum {
   Token = 'Token',
   CollectiblesList = 'CollectiblesList',
   SpecificCollectiblesList = 'SpecificCollectiblesList',
+  NetworkChangeConfirmation = 'NetworkChangeConfirmation',
   ChangePassword = 'ChangePassword',
-  AuthorizedDapps = 'AuthorizedDapps',
-  DeleteDapp = 'DeleteDapp',
+  AuthorizedDApps = 'AuthorizedDApps',
+  DeleteDApp = 'DeleteDApp',
   AddNewCollectible = 'AddNewCollectible',
   Collectible = 'Collectible',
   Initial = 'Initial'
@@ -86,7 +88,7 @@ export type ScreensParamList = {
   [ScreensEnum.EditToken]: { token: Token };
   [ScreensEnum.EditNetwork]: { network: NetworkInterface; isNetworkSelected: boolean };
   [ScreensEnum.Tokens]: undefined;
-  [ScreensEnum.DappConfirmation]: { dappName: string; id: string };
+  [ScreensEnum.DAppConnectionConfirmation]: { messageId: string; dAppInfo: DAppInfo };
   [ScreensEnum.ScanQrCode]: undefined;
   [ScreensEnum.CreateANewWallet]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };
@@ -96,11 +98,12 @@ export type ScreensParamList = {
   [ScreensEnum.Token]: { token: Token };
   [ScreensEnum.CollectiblesList]: undefined;
   [ScreensEnum.CollectiblesList]: undefined;
+  [ScreensEnum.NetworkChangeConfirmation]: { dAppOrigin: string; messageId: string; requestedChainId: string };
   [ScreensEnum.SpecificCollectiblesList]: { collectionName: string };
   [ScreensEnum.AddNewCollectible]: undefined;
   [ScreensEnum.Collectible]: { collectible: Token };
   [ScreensEnum.ChangePassword]: undefined;
-  [ScreensEnum.AuthorizedDapps]: undefined;
-  [ScreensEnum.DeleteDapp]: { dappName: string };
+  [ScreensEnum.AuthorizedDApps]: undefined;
+  [ScreensEnum.DeleteDApp]: { origin: string };
   [ScreensEnum.Initial]: undefined;
 };
