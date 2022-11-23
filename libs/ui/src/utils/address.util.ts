@@ -1,2 +1,1 @@
-export const getAccountTokensSlug = (networkChainId: string, publicKeyHash: string) =>
-  `${networkChainId}_${publicKeyHash}`;
+export const getAccountTokensSlug = (chainId: string, publicKeyHash: string) => `${chainId}_${publicKeyHash}`;

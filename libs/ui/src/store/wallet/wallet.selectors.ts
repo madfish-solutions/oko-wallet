@@ -26,7 +26,7 @@ export const useSelectedAccountPublicKeyHashSelector = () =>
 export const useSelectedNetworkSelector = () =>
   useSelector<WalletRootState, NetworkInterface>(
     ({ wallet }) =>
-      wallet.networks.find(network => network.chainId === wallet.selectedNetworkChainId) ?? NETWORKS_DEFAULT_LIST[0],
+      wallet.networks.find(network => network.rpcUrl === wallet.selectedNetworkRpcUrl) ?? NETWORKS_DEFAULT_LIST[0],
     checkEquality
   );
 
@@ -87,16 +87,14 @@ export const useAllAccountsTokensAndTokensMetadataSelector = () =>
 
 export const useAccountAssetsSelector = () =>
   useSelector<WalletRootState, Token[]>(
-    ({ wallet: { accountsTokens, selectedAccountPublicKeyHash, tokensMetadata, selectedNetworkChainId } }) => {
-      const accountTokensSlug = getAccountTokensSlug(selectedNetworkChainId, selectedAccountPublicKeyHash);
+    ({ wallet: { accountsTokens, selectedAccountPublicKeyHash, tokensMetadata, selectedNetworkRpcUrl, networks } }) => {
+      const chainId =
+        networks.find(network => network.rpcUrl === selectedNetworkRpcUrl)?.chainId ?? NETWORKS_DEFAULT_LIST[0].chainId;
+      const accountTokensSlug = getAccountTokensSlug(chainId, selectedAccountPublicKeyHash);
 
       return (
         accountsTokens[accountTokensSlug]?.map(accountToken => {
-          const tokenMetadataSlug = getTokenMetadataSlug(
-            selectedNetworkChainId,
-            accountToken.tokenAddress,
-            accountToken.tokenId
-          );
+          const tokenMetadataSlug = getTokenMetadataSlug(chainId, accountToken.tokenAddress, accountToken.tokenId);
 
           return {
             ...accountToken,
@@ -111,7 +109,7 @@ export const useAccountAssetsSelector = () =>
 export const useGasTokenSelector = () => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const accountsGasTokens = useAccountsGasTokensSelector();
-  const { gasTokenMetadata, rpcUrl, chainId } = useSelectedNetworkSelector();
+  const { gasTokenMetadata, chainId } = useSelectedNetworkSelector();
   const accountGasTokenSlug = getAccountTokensSlug(chainId, publicKeyHash);
 
   return useMemo(
@@ -121,7 +119,7 @@ export const useGasTokenSelector = () => {
       tokenAddress: GAS_TOKEN_ADDRESS,
       isVisible: true
     }),
-    [rpcUrl, accountsGasTokens, accountGasTokenSlug]
+    [chainId, accountsGasTokens, accountGasTokenSlug]
   );
 };
 
