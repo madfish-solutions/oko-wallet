@@ -118,7 +118,7 @@ export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
             onPress={() => onRevealPrivateKeyPress(account, publicKeyHash, isPublicKeyHashNotGenerated)}
             theme={ButtonThemesEnum.Ternary}
             size={ButtonSizeEnum.Auto}
-            testID={AccoutsContainerTestIDs.RevealPrivateKey}
+            testID={AccoutsContainerTestIDs.RevealPrivateKeyText}
           />
         </Row>
       </View>

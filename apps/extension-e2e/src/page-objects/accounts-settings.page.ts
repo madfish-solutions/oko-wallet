@@ -5,10 +5,10 @@ import { createPageElement } from '../utils/search.utils';
 
 export class AccountsSettingsPage extends Page {
   accountsSettingsTitle = createPageElement(AccountsSettingsTestIDs.AccountsSettingsTitle);
-  revealPrivateKey = createPageElement(AccoutsContainerTestIDs.RevealPrivateKey);
+  revealPrivateKeyText = createPageElement(AccoutsContainerTestIDs.RevealPrivateKeyText);
 
   async isVisible() {
     await this.accountsSettingsTitle.waitForDisplayed();
-    await this.revealPrivateKey.waitForDisplayed();
+    await this.revealPrivateKeyText.waitForDisplayed();
   }
 }
