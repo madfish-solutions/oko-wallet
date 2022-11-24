@@ -1,8 +1,9 @@
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
-import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { getDebankId } from '../../../api/utils/get-debank-id.util';
+import { DATA_UPDATE_TIME } from '../../../constants/update-time';
+import { useTimerEffect } from '../../../hooks/use-timer-effect.hook';
 import { getAllUserNftAction } from '../../../store/wallet/wallet.actions';
 import {
   useSelectedAccountPublicKeyHashSelector,
@@ -14,11 +15,13 @@ export const useAllUserNft = () => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { chainId } = useSelectedNetworkSelector();
 
-  useEffect(() => {
+  const getAllUserNft = () => {
     const debankId = getDebankId(chainId);
 
     if (isDefined(debankId) && isNotEmptyString(publicKeyHash)) {
       dispatch(getAllUserNftAction.submit({ debankId, publicKeyHash }));
     }
-  }, [chainId, publicKeyHash]);
+  };
+
+  useTimerEffect(getAllUserNft, DATA_UPDATE_TIME, [chainId, publicKeyHash]);
 };
