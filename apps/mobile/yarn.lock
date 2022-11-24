@@ -6122,10 +6122,10 @@ react-native-randombytes@^3.0.0:
     buffer "^4.9.1"
     sjcl "^1.0.3"
 
-react-native-reanimated@^3.0.0-rc.5:
-  version "3.0.0-rc.5"
-  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-3.0.0-rc.5.tgz#16946153d7fc48947190b36eb58d04dd6c4399bb"
-  integrity sha512-QxjliwSv6Bn5QO1fV6sqLHVAXguMbc2yTGyYxPv/mgEe+6a+wIQPPXxLLPL6K5C4/u21m6PqjEPqNUHLT3vx4A==
+react-native-reanimated@^2.13.0:
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-2.13.0.tgz#d64c1386626822d4dc22094b4efe028ff2c49cc9"
+  integrity sha512-yUHyYVIegWWIza4+nVyS3CSmI/Mc8kLFVHw2c6gnSHaYhYA4LeEjH/jBkoMzHk9Xd0Ra3cwtjYKAMG8OTp6JVg==
   dependencies:
     "@babel/plugin-transform-object-assign" "^7.16.7"
     "@babel/preset-typescript" "^7.16.7"
@@ -6170,10 +6170,10 @@ react-native-svg@^12.3.0:
     css-select "^4.2.1"
     css-tree "^1.0.0-alpha.39"
 
-react-native-themis@^0.14.4:
-  version "0.14.4"
-  resolved "https://registry.yarnpkg.com/react-native-themis/-/react-native-themis-0.14.4.tgz#0138f8ebd7b6a9d65956cbc072f698640bf7d817"
-  integrity sha512-ZGi+aXbQ18MCSpZO90oUEgn2Toe9xu7TYSgQkUtEtoE8xSvL3SwWvcz9hpT4KQHJ5o2zXhk3j9EdxTxYF3I8SQ==
+react-native-themis@^0.14.7:
+  version "0.14.7"
+  resolved "https://registry.yarnpkg.com/react-native-themis/-/react-native-themis-0.14.7.tgz#e93c24103a53e648154bb24656a0d12df9ff5d2d"
+  integrity sha512-qmda1gNvA/YD9T85q2tunYt9b4Y8RrBlN6hegLjGmTcZ3c9rkcsTlzQH+voY2nnRCde5S1VtRXNSyl21QBIPTQ==
   dependencies:
     buffer "^6.0.3"
 
@@ -6187,10 +6187,10 @@ react-native-vision-camera@^2.15.2:
   resolved "https://registry.yarnpkg.com/react-native-vision-camera/-/react-native-vision-camera-2.15.2.tgz#96a17c8b4e557df317734897853a861e0cfbc3ed"
   integrity sha512-pkVj0r2nbZaj3+bB9CGPNistCUyoCgS2SmawzugrZs5oMlFWlgZYuJj+6s3Q98xTGgV/8/ST0njohB6soDi0VA==
 
-react-native@0.68.4:
-  version "0.68.4"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.68.4.tgz#c52c590f93e9d115010e458650957824c0b1406e"
-  integrity sha512-Hp5qwztQ1XNnV43QTz1kUx33iZHmJqbbe7L19V9psaWtX/h9j6SEtZ3UHBrigIPlppkIP1E5x3CDr9FdD4d6CA==
+react-native@0.68.5:
+  version "0.68.5"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.68.5.tgz#8ba7389e00b757c59b6ea23bf38303d52367d155"
+  integrity sha512-t3kiQ/gumFV+0r/NRSIGtYxanjY4da0utFqHgkMcRPJVwXFWC0Fr8YiOeRGYO1dp8EfrSsOjtfWic/inqVYlbQ==
   dependencies:
     "@jest/create-cache-key-function" "^27.0.1"
     "@react-native-community/cli" "^7.0.3"
