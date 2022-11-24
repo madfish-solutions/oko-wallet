@@ -27,13 +27,3 @@ Feature: Reveal Privat Key
     And I am on the RevealPrivateKey page
     And I press Tap To Reveal overlay on the RevealPrivateKey page
     And I verify private key
-    And I press Copy button on the RevealPrivateKey page
-
-
-
-
-
-
-
-
-
