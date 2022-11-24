@@ -56,7 +56,7 @@ export const AccountsSelector: FC = () => {
   const onEditAccount = (account: AccountInterface) => navigate(ScreensEnum.EditAccount, { account });
 
   const onWidgetSettings = () => null;
-  const onAccountSettings = () => null;
+  const onAccountSettings = () => navigate(ScreensEnum.AccountsSettings);
 
   return (
     <ModalContainer screenTitle="Accounts">
@@ -78,7 +78,7 @@ export const AccountsSelector: FC = () => {
             style={styles.button}
           />
           <ButtonWithIcon
-            title="Account settings"
+            title="Accounts settings"
             theme={ButtonWithIconThemesEnum.Secondary}
             size={ButtonWithIconSizeEnum.Medium}
             onPress={onAccountSettings}
