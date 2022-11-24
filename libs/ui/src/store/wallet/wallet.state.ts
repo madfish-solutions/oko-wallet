@@ -18,7 +18,7 @@ export interface WalletState {
   accounts: AccountInterface[];
   selectedAccountPublicKeyHash: string;
   networks: NetworkInterface[];
-  selectedNetworkChainId: string;
+  selectedNetworkRpcUrl: string;
   tokensMetadata: Record<NetworkChainIdWithTokenAddress, TokenMetadata>;
   accountsTokens: Record<NetworkChainIdWithPublicKeyHash, AccountToken[]>;
   accountsGasTokens: Record<NetworkChainIdWithPublicKeyHash, LoadableEntityState<string>>;
@@ -30,7 +30,7 @@ export const walletInitialState: WalletState = {
   accounts: [],
   selectedAccountPublicKeyHash: '',
   networks: NETWORKS_DEFAULT_LIST,
-  selectedNetworkChainId: NETWORKS_DEFAULT_LIST[0].chainId,
+  selectedNetworkRpcUrl: NETWORKS_DEFAULT_LIST[0].rpcUrl,
   tokensMetadata: defaultTokensMetadata,
   accountsTokens: {},
   accountsGasTokens: {},

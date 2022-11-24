@@ -11,7 +11,7 @@ import {
 
 export const useTokensPriceInfo = () => {
   const dispatch = useDispatch();
-  const { chainId } = useSelectedNetworkSelector();
+  const { chainId, rpcUrl } = useSelectedNetworkSelector();
   const visibleAccountTokens = useVisibleAccountTokensSelector();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
@@ -21,5 +21,5 @@ export const useTokensPriceInfo = () => {
 
       dispatch(loadTokensPriceInfo.submit({ tokenAddressesList, chainId }));
     }
-  }, [chainId, visibleAccountTokens.length, publicKeyHash]);
+  }, [chainId, rpcUrl, visibleAccountTokens.length, publicKeyHash]);
 };

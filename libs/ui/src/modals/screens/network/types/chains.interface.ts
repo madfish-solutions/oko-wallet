@@ -13,6 +13,7 @@ interface NativeCurrency {
 export type NativeCurrencyType = {
   tokenName: string;
   decimals: number;
+  thumbnailUri?: string;
 };
 
 export interface ChainInterface {
