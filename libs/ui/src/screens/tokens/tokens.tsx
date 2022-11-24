@@ -134,14 +134,14 @@ export const Tokens: FC = () => {
           onSearchClose={onSearchClose}
           isEmptyList={!accountTokens.length}
         />
-        {accountTokens.length > 0 && (
-          <Pressable onPress={onPressHideZeroBalances} style={styles.checkboxContainer}>
-            <Row>
-              <Icon name={isHideZeroBalance ? IconNameEnum.SelectedSquareCheckbox : IconNameEnum.EmptySquareCheckbox} />
-              <Text style={styles.checkboxText}>Hide 0 balances</Text>
-            </Row>
-          </Pressable>
-        )}
+
+        <Pressable onPress={onPressHideZeroBalances} style={styles.checkboxContainer}>
+          <Row>
+            <Icon name={isHideZeroBalance ? IconNameEnum.SelectedSquareCheckbox : IconNameEnum.EmptySquareCheckbox} />
+            <Text style={styles.checkboxText}>Hide 0 balances</Text>
+          </Row>
+        </Pressable>
+
         <FlatList
           data={accountTokens}
           showsVerticalScrollIndicator={false}
