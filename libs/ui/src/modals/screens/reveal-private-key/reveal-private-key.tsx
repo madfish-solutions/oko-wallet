@@ -64,7 +64,7 @@ export const RevealPrivateKey: FC = () => {
           {isShowProtectLayout && (
             <ProtectLayout handleHideLayout={getPrivateKey} testID={RevealPrivateKeyTestIDs.TapToRevealOverlay} />
           )}
-          <Text style={styles.privateKey} testID={RevealPrivateKeyTestIDs.PrivateKey}>
+          <Text style={styles.privateKey} testID={RevealPrivateKeyTestIDs.PrivateKeyText}>
             {privateKey}
           </Text>
           <Pressable onPress={handleCopy} style={styles.copy} testID={RevealPrivateKeyTestIDs.CopyButton}>

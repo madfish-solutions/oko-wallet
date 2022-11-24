@@ -3,9 +3,9 @@ import { Page } from '../classes/page.class';
 import { createPageElement } from '../utils/search.utils';
 
 export class SettingsPage extends Page {
-  accountsSettings = createPageElement(SettingsTestIDs.AccountsSettings);
+  accountsSettingsButton = createPageElement(SettingsTestIDs.AccountsSettingsButton);
 
   async isVisible() {
-    await this.accountsSettings.waitForDisplayed();
+    await this.accountsSettingsButton.waitForDisplayed();
   }
 }

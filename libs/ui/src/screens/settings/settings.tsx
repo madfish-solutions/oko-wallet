@@ -77,7 +77,7 @@ export const Settings: FC = () => {
                 }
                 title="Accounts Settings"
                 onPress={navigateToAccountsSettings}
-                testID={SettingsTestIDs.AccountsSettings}
+                testID={SettingsTestIDs.AccountsSettingsButton}
               />
             </ItemContainer>
 

@@ -4,7 +4,7 @@ import { createPageElement } from '../utils/search.utils';
 
 export class RevealPrivateKeyPage extends Page {
   screenTitle = createPageElement(RevealPrivateKeyTestIDs.ScreenTitle);
-  privateKey = createPageElement(RevealPrivateKeyTestIDs.PrivateKey);
+  privateKeyText = createPageElement(RevealPrivateKeyTestIDs.PrivateKeyText);
 
   async isVisible() {
     await this.screenTitle.waitForDisplayed();

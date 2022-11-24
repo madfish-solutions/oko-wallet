@@ -1,3 +1,3 @@
 export enum SettingsTestIDs {
-  AccountsSettings = 'Settings/Accounts Settings button'
+  AccountsSettingsButton = 'Settings/Accounts Settings button'
 }
