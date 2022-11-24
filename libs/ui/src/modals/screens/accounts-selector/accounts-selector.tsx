@@ -5,7 +5,6 @@ import { ButtonWithIcon } from '../../../components/button-with-icon/button-with
 import { ButtonWithIconSizeEnum, ButtonWithIconThemesEnum } from '../../../components/button-with-icon/enums';
 import { Column } from '../../../components/column/column';
 import { Divider } from '../../../components/divider/divider';
-import { Dynamics } from '../../../components/dynamics/dynamics';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { RobotIcon } from '../../../components/robot-icon/robot-icon';
 import { Row } from '../../../components/row/row';
@@ -94,7 +93,6 @@ export const AccountsSelector: FC = () => {
         <Row>
           <Text style={styles.accountsBalance}>{totalAccountsBalance}</Text>
           <Text style={styles.accountsBalanceCurrency}>$</Text>
-          <Dynamics value={10.2} style={styles.dynamics} />
         </Row>
       </Column>
       <Divider size={getCustomSize(0.5)} style={styles.divider} />
