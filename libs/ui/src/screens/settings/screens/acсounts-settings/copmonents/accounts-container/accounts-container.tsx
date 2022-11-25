@@ -111,12 +111,15 @@ export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
           ) : (
             <CopyText text={publicKeyHash} />
           )}
-          <Button
-            title="Reveal Private Key"
-            onPress={() => onRevealPrivateKeyPress(account, publicKeyHash, isPublicKeyHashNotGenerated)}
-            theme={ButtonThemesEnum.Ternary}
-            size={ButtonSizeEnum.Auto}
-          />
+
+          <View style={styles.revealPrivateKeyContainer}>
+            <Button
+              title="Reveal Private Key"
+              onPress={() => onRevealPrivateKeyPress(account, publicKeyHash, isPublicKeyHashNotGenerated)}
+              theme={ButtonThemesEnum.Ternary}
+              size={ButtonSizeEnum.Auto}
+            />
+          </View>
         </Row>
       </View>
     );

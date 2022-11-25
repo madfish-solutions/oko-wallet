@@ -26,8 +26,9 @@ export const useChangePassword = () => {
       .subscribe(result => {
         if (result) {
           setIsPasswordMatch(true);
+        } else {
+          setPasswordAttempts(prev => prev + 1);
         }
-        setPasswordAttempts(prev => prev + 1);
       });
 
     return () => changePasswordSubscription.unsubscribe();
@@ -36,6 +37,7 @@ export const useChangePassword = () => {
   return {
     isPasswordMatch,
     passwordAttempts,
-    changePassword
+    changePassword,
+    setIsPasswordMatch
   };
 };

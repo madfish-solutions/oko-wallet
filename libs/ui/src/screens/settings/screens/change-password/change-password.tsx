@@ -17,8 +17,8 @@ import { TouchableIcon } from '../../../../components/touchable-icon/touchable-i
 import { useChangePassword } from '../../../../hooks/use-change-password-hook';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useToast } from '../../../../hooks/use-toast.hook';
+import { useValidatePasswordForm } from '../../../../hooks/use-validate-password-form.hook';
 import { usePasswordValidation } from '../../../../hooks/use-validation-messages.hook';
-import { useValidateForm } from '../../../almost-done/hooks/use-validate-form.hook';
 
 import { styles } from './change-password.styles';
 
@@ -28,34 +28,40 @@ interface ChangePasswordType {
   confirmPassword: string;
 }
 
+const defaultValues = {
+  password: '',
+  confirmPassword: '',
+  oldPassword: ''
+};
+
 export const ChangePassword: FC = () => {
   const { goBack } = useNavigation();
   const [isSecurePassword, setIsSecurePassword] = useState(true);
   const [isSecureOldPassword, setIsSecureOldPassword] = useState(true);
   const [isSecureConfirmPassword, setIsSecureConfirmPassword] = useState(true);
   const [passwordMatchError, setPasswordMatchError] = useState<string>();
-  const { isPasswordMatch, changePassword, passwordAttempts } = useChangePassword();
-  const { showSuccessToast } = useToast();
+  const { isPasswordMatch, changePassword, passwordAttempts, setIsPasswordMatch } = useChangePassword();
+  const { showSuccessToast, showErrorToast } = useToast();
 
   const handleTogglePasswordVisibility = () => setIsSecurePassword(prev => !prev);
   const handleToggleOldPasswordVisibility = () => setIsSecureOldPassword(prev => !prev);
   const handleToggleConfirmPasswordVisibility = () => setIsSecureConfirmPassword(prev => !prev);
-  const defaultValues = {
-    password: '',
-    confirmPassword: '',
-    oldPassword: ''
-  };
+
   const {
     control,
     handleSubmit,
     watch,
+    trigger,
+    setFocus,
     formState: { errors, dirtyFields, isDirty, isSubmitted }
-  } = useForm<ChangePasswordType>({
+  } = useForm({
     mode: 'onChange',
     defaultValues
   });
 
+  const oldPassword = watch('oldPassword');
   const password = watch('password');
+  const confirmPassword = watch('confirmPassword');
 
   const { passwordValidationMessages } = usePasswordValidation(password, dirtyFields);
 
@@ -67,7 +73,12 @@ export const ChangePassword: FC = () => {
     [passwordValidationMessages, dirtyFields.password]
   );
 
-  const { commonRules, changePasswordRules } = useValidateForm(password);
+  const { commonRules, changePasswordRules } = useValidatePasswordForm({
+    password,
+    confirmPassword,
+    trigger,
+    confirmPasswordError: errors.confirmPassword?.message
+  });
 
   const handleChangePassword = ({ password, oldPassword }: ChangePasswordType) => {
     if (!passwordIsNoValid) {
@@ -76,7 +87,12 @@ export const ChangePassword: FC = () => {
   };
 
   useEffect(() => {
-    if (isPasswordMatch) {
+    if (isPasswordMatch && password === oldPassword) {
+      showErrorToast('Old password cannot match the new one');
+
+      setFocus('password');
+      setIsPasswordMatch(false);
+    } else if (isPasswordMatch) {
       showSuccessToast('Password was successfully changed');
       goBack();
     }

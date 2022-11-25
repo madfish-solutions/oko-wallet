@@ -15,13 +15,13 @@ import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
 import { WalletCreationContainer } from '../../components/wallet-creation-container/wallet-creation-container';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useShelter } from '../../hooks/use-shelter.hook';
+import { useValidatePasswordForm } from '../../hooks/use-validate-password-form.hook';
 import { usePasswordValidation } from '../../hooks/use-validation-messages.hook';
 import { setIsAnalyticsEnabled, setIsBiometricEnabled } from '../../store/settings/settings.actions';
 import { isMobile } from '../../utils/platform.utils';
 
 import { styles } from './almost-done.styles';
 import { AlmostDoneTestIDs } from './almost-done.test-ids';
-import { useValidateForm } from './hooks/use-validate-form.hook';
 import { CreateAccountType } from './types';
 
 const defaultValues = {
@@ -48,6 +48,7 @@ export const AlmostDone: FC = () => {
     control,
     handleSubmit,
     watch,
+    trigger,
     formState: { errors, dirtyFields, isSubmitted }
   } = useForm<CreateAccountType>({
     mode: 'onChange',
@@ -55,6 +56,7 @@ export const AlmostDone: FC = () => {
   });
 
   const password = watch('password');
+  const confirmPassword = watch('confirmPassword');
 
   const { passwordValidationMessages } = usePasswordValidation(password, dirtyFields);
 
@@ -66,7 +68,12 @@ export const AlmostDone: FC = () => {
     [passwordValidationMessages, dirtyFields.password]
   );
 
-  const { commonRules, nameRules, confirmPasswordRules } = useValidateForm(password);
+  const { commonRules, nameRules, confirmPasswordRules } = useValidatePasswordForm({
+    password,
+    confirmPassword,
+    confirmPasswordError: errors.confirmPassword?.message,
+    trigger
+  });
 
   const handleCreateAccount = ({ name, password }: CreateAccountType) => {
     if (!passwordIsNoValid && isAcceptTerms) {
