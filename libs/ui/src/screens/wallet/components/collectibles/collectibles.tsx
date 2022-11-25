@@ -18,8 +18,8 @@ import { useGroupedCollectibles } from '../../../collectibles/hooks/use-grouped-
 
 import { styles } from './collectibles.styles';
 
-const RECEIVE_NFT = 'Receive NFT';
-const ADD_NFT = 'Add NFT';
+const RECEIVE_СOLLECTIBLE = 'Receive NFT';
+const ADD_COLLECTIBLE = 'Add NFT';
 const COLLECTIBLES = 'Collectibles';
 const RECEIVE = 'RECEIVE';
 const VIEW_ALL = 'VIEW ALL';
@@ -39,7 +39,7 @@ export const CollectiblesWidget: FC<TestIDProps> = ({ testID }) => {
       {isEmptyArray(collectionList) ? (
         <Row>
           <ButtonWithIcon
-            title={RECEIVE_NFT}
+            title={RECEIVE_СOLLECTIBLE}
             onPress={navigateToReceive}
             size={ButtonWithIconSizeEnum.Medium}
             theme={ButtonWithIconThemesEnum.Tertiary}
@@ -48,7 +48,7 @@ export const CollectiblesWidget: FC<TestIDProps> = ({ testID }) => {
           />
           <Divider />
           <ButtonWithIcon
-            title={ADD_NFT}
+            title={ADD_COLLECTIBLE}
             onPress={navigateToAddNewCollectible}
             size={ButtonWithIconSizeEnum.Medium}
             theme={ButtonWithIconThemesEnum.Tertiary}
