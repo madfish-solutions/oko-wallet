@@ -40,7 +40,6 @@ export const Selector = <T extends object>({
         selectedItemName={selectedItemName}
         isSearchInitiallyOpened={isSearchInitiallyOpened}
         isEmptyList={isEmptyList}
-        style={styles.searchPanel}
       />
 
       <FlatList

@@ -39,7 +39,9 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   nftImage: {
-    marginRight: getCustomSize()
+    marginRight: getCustomSize(),
+    borderRadius: getCustomSize(1.5),
+    overflow: 'hidden'
   },
   nftWrapper: {
     flex: 1,
@@ -66,7 +68,7 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.border2,
     marginHorizontal: getCustomSize(1.5),
     height: getCustomSize(4.125),
-    width: getCustomSize(0.125)
+    width: getCustomSize(0.0625)
   },
   emptySearchIcon: {
     width: '100%',
@@ -78,7 +80,7 @@ export const styles = StyleSheet.create({
   warning: {
     marginTop: getCustomSize(2),
     marginHorizontal: getCustomSize(2),
-    marginBottom: getCustomSize(1),
+    marginBottom: getCustomSize(2),
     backgroundColor: colors.bgGrey6
   }
 });

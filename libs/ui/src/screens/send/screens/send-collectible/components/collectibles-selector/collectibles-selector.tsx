@@ -99,7 +99,7 @@ export const CollectiblesSelector: FC = () => {
           <EmptySearchIcon style={styles.emptySearchIcon} />
         </View>
       )}
-      <Announcement text={`Collectibles only related to the current network: \n ${name}`} style={styles.warning} />
+      <Announcement text={`Collectibles only related to the current network: ${name}`} style={styles.warning} />
       <Selector
         data={accountCollectibles}
         renderItem={renderItem}
