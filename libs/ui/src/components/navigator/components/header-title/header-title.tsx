@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { View, Pressable } from 'react-native';
+import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Row } from '../../../row/row';
@@ -9,12 +10,12 @@ import { HeaderCloseButton } from '../header-close-button/header-close-button';
 
 import { styles } from './header-title.styles';
 
-interface Props {
+interface Props extends TestIDProps {
   name: string;
   isBackButton?: boolean;
 }
 
-export const HeaderTitle: FC<Props> = ({ name, isBackButton = false }) => {
+export const HeaderTitle: FC<Props> = ({ name, isBackButton = false, testID }) => {
   const { goBack } = useNavigation();
 
   return (
@@ -22,7 +23,7 @@ export const HeaderTitle: FC<Props> = ({ name, isBackButton = false }) => {
       <Pressable onPress={goBack} style={styles.backgroundSpace} />
       <Row style={styles.container}>
         {isBackButton && <HeaderBackButton />}
-        <Text style={styles.title} numberOfLines={1} lineBreakMode="tail">
+        <Text style={styles.title} numberOfLines={1} lineBreakMode="tail" testID={testID}>
           {name}
         </Text>
         <View style={styles.closeButton}>
