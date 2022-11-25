@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import { ethers } from 'ethers';
 import React, { FC, useEffect, useState, useMemo } from 'react';
@@ -16,6 +15,7 @@ import { TextInput } from '../../../components/text-input/text-input';
 import { Text } from '../../../components/text/text';
 import { EVM_COLLECTIBLES_METADATA_ABI } from '../../../constants/abi/evm-collectibles-metadata-abi copy';
 import { DEBOUNCE_TIME } from '../../../constants/defaults';
+import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { AccountTokenInput } from '../../../interfaces/token-input.interface';
 import { addNewCollectibleAction } from '../../../store/wallet/wallet.actions';
 import { useSelectedNetworkSelector, useAccountAssetsSelector } from '../../../store/wallet/wallet.selectors';

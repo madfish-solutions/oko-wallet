@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
-import { isMaximiseScreen, isWeb } from '../../../utils/platform.utils';
+import { isFullpage } from '../../../utils/location.utils';
+import { isWeb } from '../../../utils/platform.utils';
 import { HIDE_QR_CODE, MIDDLE_VALUE, SHOW_QR_CODE } from '../constants/dimensions';
 
 export const useHeaderAnimation = () => {
@@ -47,7 +48,7 @@ export const useHeaderAnimation = () => {
     if (contentOffsetY === HIDE_QR_CODE) {
       hideQrCode(false);
     }
-  }, [contentOffsetY, isMaximiseScreen, routeIndex]);
+  }, [contentOffsetY, isFullpage, routeIndex]);
 
   const scrollToTop = () => {
     if (contentOffsetY > HIDE_QR_CODE) {

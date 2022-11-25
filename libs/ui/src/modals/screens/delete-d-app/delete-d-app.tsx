@@ -8,22 +8,24 @@ import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
-import { ModalActionContainer } from '../../../modals/components/modal-action-container/modal-action-container';
-import { deleteConfirmedDappAction } from '../../../store/wallet/wallet.actions';
+import { removeDAppConnectionAction } from '../../../store/d-apps/d-apps.actions';
+import { useDAppSelector } from '../../../store/d-apps/d-apps.selectors';
+import { useSelectedAccountPublicKeyHashSelector } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
 import { eraseProtocol } from '../../../utils/string.util';
+import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';
 
-import { styles } from './delete-app.styles';
+import { styles } from './delete-d-app.styles';
 
-export const DeleteDapp: FC = () => {
-  const {
-    params: { dappName }
-  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DappConfirmation>>();
+export const DeleteDApp: FC = () => {
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
+  const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DeleteDApp>>();
+  const dAppInfo = useDAppSelector(params.origin);
 
-  const confirmDeleteDapp = () => {
-    dispatch(deleteConfirmedDappAction(dappName));
+  const confirmDAppDelete = () => {
+    dispatch(removeDAppConnectionAction({ dAppInfo, accountPublicKeyHash: publicKeyHash }));
     goBack();
   };
 
@@ -32,13 +34,13 @@ export const DeleteDapp: FC = () => {
       screenTitle="Confirm disconnection"
       submitTitle="YES"
       cancelTitle="NO"
-      onSubmitPress={confirmDeleteDapp}
+      onSubmitPress={confirmDAppDelete}
       onCancelPress={goBack}
     >
       <View style={styles.container}>
         <Icon name={IconNameEnum.IconDisconnect} size={getCustomSize(12)} iconStyle={styles.icon} />
-        <Text style={styles.link} onPress={() => Linking.openURL(dappName)} numberOfLines={1}>
-          {eraseProtocol(dappName)}
+        <Text style={styles.link} onPress={() => Linking.openURL(params.origin)} numberOfLines={1}>
+          {eraseProtocol(params.origin)}
         </Text>
         <Text style={styles.label}>Are you sure?</Text>
         <Text style={styles.text}>You wanna remove connection with this DApp, Confirm it?</Text>

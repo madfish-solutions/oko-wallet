@@ -50,15 +50,11 @@ export const useFiatTotalBalance = () => {
     }, new BigNumber(0));
 
     const tokensBalance = Object.entries(accountsTokens).reduce((sum, [accountTokensSlug, accountTokens]) => {
-      const [networkChainId, accountPublicKeyHash] = accountTokensSlug.split('_');
+      const [chainId, accountPublicKeyHash] = accountTokensSlug.split('_');
 
       if (accountPublicKeyHash === evmPublicKeyHash || accountPublicKeyHash === tezosPublicKeyHash) {
         const accountTokensSum = accountTokens.reduce((sum, accountToken) => {
-          const tokenMetadataSlug = getTokenMetadataSlug(
-            networkChainId,
-            accountToken.tokenAddress,
-            accountToken.tokenId
-          );
+          const tokenMetadataSlug = getTokenMetadataSlug(chainId, accountToken.tokenAddress, accountToken.tokenId);
           const { price } = allTokensMarketInfoSelector[tokenMetadataSlug] ?? {};
 
           const dollarValue = getDollarValue({

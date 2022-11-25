@@ -1,9 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { FC } from 'react';
 import { Controller } from 'react-hook-form';
 
 import { Column } from '../../../../../components/column/column';
 import { TextInput } from '../../../../../components/text-input/text-input';
+import { useNavigation } from '../../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../../hooks/use-shelter.hook';
 import { ModalFooterButtons } from '../../../../components/modal-footer-buttons/modal-footer-buttons';
 import { useAccountNameControl } from '../../hooks/use-account-name-control.hook';

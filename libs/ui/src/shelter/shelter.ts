@@ -21,7 +21,7 @@ import { setStoredValue } from '../utils/store.util';
 
 export const PASSWORD_CHECK_KEY = 'app-password';
 export const SEED_PHRASE_KEY = 'seedPhrase';
-const INITIAL_PASSWORD_HASH = '';
+export const INITIAL_PASSWORD_HASH = '';
 
 export class Shelter {
   static _passwordHash$ = new BehaviorSubject(INITIAL_PASSWORD_HASH);

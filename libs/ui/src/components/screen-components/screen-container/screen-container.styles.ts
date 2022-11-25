@@ -2,7 +2,8 @@ import { StyleSheet } from 'react-native';
 
 import { colors } from '../../../styles/colors';
 import { EXTENSION_FULL_SIZE } from '../../../styles/format-size';
-import { isMaximiseScreen, isMobile } from '../../../utils/platform.utils';
+import { isFullpage } from '../../../utils/location.utils';
+import { isMobile } from '../../../utils/platform.utils';
 import { extensionHeight, maximiseViewStyles } from '../../navigator/utils/maximise-view-options';
 
 export const styles = StyleSheet.create({
@@ -10,9 +11,9 @@ export const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'stretch',
     justifyContent: 'flex-start',
-    height: isMobile ? '100%' : isMaximiseScreen ? extensionHeight : EXTENSION_FULL_SIZE,
+    height: isMobile ? '100%' : isFullpage ? extensionHeight : EXTENSION_FULL_SIZE,
     backgroundColor: colors.navGrey1,
-    ...(isMaximiseScreen && {
+    ...(isFullpage && {
       marginTop: maximiseViewStyles.marginTop,
       borderRadius: maximiseViewStyles.borderRadius,
       overflow: maximiseViewStyles.overflow

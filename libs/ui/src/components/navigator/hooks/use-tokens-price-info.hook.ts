@@ -12,7 +12,7 @@ import {
 
 export const useTokensPriceInfo = () => {
   const dispatch = useDispatch();
-  const { chainId } = useSelectedNetworkSelector();
+  const { chainId, rpcUrl } = useSelectedNetworkSelector();
   const visibleAccountTokens = useVisibleAccountTokensSelector();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
@@ -24,5 +24,5 @@ export const useTokensPriceInfo = () => {
     }
   };
 
-  useTimerEffect(getTokensPriceInfo, DATA_UPDATE_TIME, [chainId]);
+  useTimerEffect(getTokensPriceInfo, DATA_UPDATE_TIME, [chainId, rpcUrl]);
 };
