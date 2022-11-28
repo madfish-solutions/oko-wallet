@@ -71,7 +71,7 @@ export const Tokens: FC = () => {
     return navigate(ScreensEnum.AddNewToken);
   };
   const navigateToManageTokens = () => navigate(ScreensEnum.ManageTokens);
-  const onPressActivityIcon = () => null;
+  const onPressActivityIcon = () => navigate(ScreensEnum.Activity);
 
   const onSearchClose = useCallback(() => {
     const isSomeAccountTokensWasChangedToVisible = visibleAccountTokens.length !== tokensAddresses.length;
