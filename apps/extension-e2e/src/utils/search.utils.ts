@@ -37,5 +37,10 @@ export const createPageElement = (testID: string) => ({
   type: async (text: string) => {
     const element = await findElement(testID);
     await element.type(text);
+  },
+  getText: async () => {
+    const element = await findElement(testID);
+
+    return element.evaluate(innerElement => innerElement.textContent);
   }
 });
