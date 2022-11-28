@@ -9,6 +9,8 @@ import { colors } from '../../../../styles/colors';
 import { Icon } from '../../../icon/icon';
 import { IconProps } from '../../../icon/icon.interface';
 
+import { styles } from './tab-bar-button.styles';
+
 type TabBarScreens = ScreensEnum.Wallet | ScreensEnum.Receive | ScreensEnum.Send | ScreensEnum.Settings;
 
 interface Props extends IconProps, TestIDProps {
@@ -27,7 +29,7 @@ export const TabBarButton: FC<Props> = ({ routeName, disabled = false, name, tes
   };
 
   return (
-    <TouchableOpacity disabled={disabled} onPress={navigateToScreen} testID={testID}>
+    <TouchableOpacity disabled={disabled} onPress={navigateToScreen} style={styles.root} testID={testID}>
       <Icon name={name} color={focused ? colors.orange : colors.textGrey3} />
     </TouchableOpacity>
   );
