@@ -75,11 +75,12 @@ export class Shelter {
   static changePassword$ = (oldPassword: string, newPassword: string, sensitiveDataKeys: string[]) =>
     Shelter.unlockApp$(oldPassword).pipe(
       switchMap(result => {
-        if (result && oldPassword === newPassword) {
-          return of(true);
-        }
-
         if (result) {
+          // skip changing password, if new password is the same as old one
+          if (oldPassword === newPassword) {
+            return of(true);
+          }
+
           return forkJoin([generateHash$(oldPassword), generateHash$(newPassword)]).pipe(
             switchMap(([oldPasswordHash, newPasswordHash]) => {
               Shelter.setPasswordHash(newPasswordHash);
