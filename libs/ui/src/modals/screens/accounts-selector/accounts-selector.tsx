@@ -55,7 +55,6 @@ export const AccountsSelector: FC = () => {
   const onAddAccount = () => navigate(ScreensEnum.AddAccount);
   const onEditAccount = (account: AccountInterface) => navigate(ScreensEnum.EditAccount, { account });
 
-  const onWidgetSettings = () => null;
   const onAccountSettings = () => null;
 
   return (
@@ -69,14 +68,6 @@ export const AccountsSelector: FC = () => {
           style={styles.header}
         />
         <Row style={styles.buttonsContainer}>
-          <ButtonWithIcon
-            title="Widget settings"
-            theme={ButtonWithIconThemesEnum.Secondary}
-            size={ButtonWithIconSizeEnum.Medium}
-            onPress={onWidgetSettings}
-            rightIcon={IconNameEnum.GridSettings}
-            style={styles.button}
-          />
           <ButtonWithIcon
             title="Account settings"
             theme={ButtonWithIconThemesEnum.Secondary}
