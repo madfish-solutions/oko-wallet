@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { ScreenContainerThemesEnum } from '../../components/screen-components/screen-container/enums';
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { useUnlock } from '../../hooks/use-unlock.hook';
 
@@ -21,7 +22,7 @@ export const Wallet: FC = () => {
   useAllUserNft();
 
   return (
-    <ScreenContainer>
+    <ScreenContainer theme={ScreenContainerThemesEnum.Secondary}>
       <Header changeQrCodeVisibility={changeQrCodeVisibility} />
 
       <ScrollView
