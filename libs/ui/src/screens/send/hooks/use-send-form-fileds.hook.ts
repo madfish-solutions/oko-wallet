@@ -18,7 +18,7 @@ interface UseSendArgs {
   trigger: UseFormTrigger<FormTypes>;
 }
 
-export const useSend = ({ params, account, setValue, trigger }: UseSendArgs) => {
+export const useSendFormFields = ({ params, account, setValue, trigger }: UseSendArgs) => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const networkType = useSelectedNetworkTypeSelector();
   const allAccountsWithoutSelected = useAllAccountsWithoutSelectedSelector();

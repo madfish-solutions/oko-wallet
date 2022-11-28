@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     padding: getCustomSize(1.5),
     justifyContent: 'space-between',
     height: getCustomSize(14.75),
-    borderWidth: 1,
+    borderWidth: getCustomSize(0.125),
     borderColor: colors.bgGrey4
   },
   focusedContainer: {

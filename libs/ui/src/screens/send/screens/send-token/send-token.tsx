@@ -36,7 +36,7 @@ import { getFormattedBalance } from '../../../../utils/units.utils';
 import { GasTokenWarning } from '../../components/gas-token-warning/gas-token-warning';
 import { SendButton } from '../../components/send-button/send-button';
 import { TransferBetweenMyAccounts } from '../../components/transfer-between-my-accounts/transfer-between-my-accounts';
-import { useSend } from '../../hooks/use-send.hook';
+import { useSendFormFields } from '../../hooks/use-send-form-fileds.hook';
 import { useValidateAmountField } from '../../hooks/use-validate-amount-field.hook';
 import { FormTypes } from '../../types';
 
@@ -79,7 +79,7 @@ export const SendToken: FC = () => {
   const account = watch('account');
   const amount = watch('amount');
 
-  useSend({ params, account, setValue, trigger });
+  useSendFormFields({ params, account, setValue, trigger });
 
   const isSendButtonDisabled = !isEmpty(errors);
 

@@ -8,7 +8,7 @@ import { isWeb } from '../../utils/platform.utils';
 export const styles = StyleSheet.create({
   inputContainer: {
     backgroundColor: colors.bgGrey4,
-    borderWidth: 1,
+    borderWidth: getCustomSize(0.125),
     borderColor: colors.bgGrey4,
     borderRadius: getCustomSize(),
     paddingLeft: getCustomSize(1.5),

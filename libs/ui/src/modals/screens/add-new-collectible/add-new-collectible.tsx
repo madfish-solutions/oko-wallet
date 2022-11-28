@@ -150,23 +150,31 @@ export const AddNewCollectible: FC = () => {
   const fetchDataFromProvider = (tokenAddress: string, tokenId: string, collectibleErcStandard: TokenStandardEnum) => {
     const provider = getDefaultEvmProvider(rpcUrl);
     const isErc721 = collectibleErcStandard === TokenStandardEnum.ERC721;
-    const contract = isErc721
-      ? Erc721Abi__factory.connect(tokenAddress, provider)
-      : Erc1155Abi__factory.connect(tokenAddress, provider);
+
+    if (isErc721) {
+      const contract721 = Erc721Abi__factory.connect(tokenAddress, provider);
+
+      return Promise.all([
+        contract721.tokenURI(tokenId).catch(() => undefined),
+        contract721.name().catch(() => undefined),
+        contract721.symbol().catch(() => undefined),
+        Promise.resolve(tokenAddress),
+        Promise.resolve(tokenId)
+      ]);
+    }
+
+    const contract1155 = Erc1155Abi__factory.connect(tokenAddress, provider);
 
     return Promise.all([
-      // @ts-ignore
-      isErc721 ? contract?.tokenURI(tokenId).catch(() => undefined) : contract?.uri(tokenId).catch(() => undefined),
-      // @ts-ignore
-      isErc721 ? contract?.name().catch(() => undefined) : Promise.resolve(undefined),
-      // @ts-ignore
-      isErc721 ? contract?.symbol().catch(() => undefined) : Promise.resolve(undefined),
+      contract1155.uri(tokenId).catch(() => undefined),
+      Promise.resolve(undefined),
+      Promise.resolve(undefined),
       Promise.resolve(tokenAddress),
       Promise.resolve(tokenId)
     ]);
   };
 
-  const isErrorsExist = (collectibleMetadataUrl: string) => {
+  const isErrorsExist = (collectibleMetadataUrl?: string) => {
     if (!isDefined(collectibleMetadataUrl)) {
       setError('tokenId', { message: 'Unable to load metadata for this Token Id' });
       setIsLoadingMetadata(false);

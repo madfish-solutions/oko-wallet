@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     marginBottom: getCustomSize(2),
     alignItems: 'stretch',
     justifyContent: 'space-between',
-    borderWidth: 1,
+    borderWidth: getCustomSize(0.125),
     borderColor: colors.bgGrey2,
     borderRadius: getCustomSize(2),
     backgroundColor: colors.bgGrey2

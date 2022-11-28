@@ -36,7 +36,7 @@ import { checkIsErc721Collectible } from '../../../../utils/check-is-erc721-coll
 import { GasTokenWarning } from '../../components/gas-token-warning/gas-token-warning';
 import { SendButton } from '../../components/send-button/send-button';
 import { TransferBetweenMyAccounts } from '../../components/transfer-between-my-accounts/transfer-between-my-accounts';
-import { useSend } from '../../hooks/use-send.hook';
+import { useSendFormFields } from '../../hooks/use-send-form-fileds.hook';
 import { useValidateAmountField } from '../../hooks/use-validate-amount-field.hook';
 import { FormTypes } from '../../types';
 
@@ -85,7 +85,7 @@ export const SendCollectible: FC = () => {
   const isSendButtonDisabled = !isEmpty(errors);
   const isAmountInputError = isNotEmptyString(errors?.amount?.message);
 
-  useSend({ params, account, setValue, trigger });
+  useSendFormFields({ params, account, setValue, trigger });
 
   useEffect(() => setValue('amount', '1'), [token.tokenAddress, token.tokenId]);
 
