@@ -2,6 +2,7 @@ import { isEmptyString } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { FlatList, ListRenderItemInfo, View } from 'react-native';
 import { useDispatch } from 'react-redux';
+import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { Button } from '../../../../../../components/button/button';
 import { ButtonSizeEnum, ButtonThemesEnum } from '../../../../../../components/button/enums';
@@ -29,8 +30,9 @@ import {
 import { getPublicKeyHash } from '../../../../../../store/wallet/wallet.utils';
 
 import { styles } from './accounts-container.styles';
+import { AccountsContainerTestIDs } from './accounts-container.test-ids';
 
-interface Props {
+interface Props extends TestIDProps {
   accounts: AccountInterface[];
 }
 
@@ -118,6 +120,7 @@ export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
               onPress={() => onRevealPrivateKeyPress(account, publicKeyHash, isPublicKeyHashNotGenerated)}
               theme={ButtonThemesEnum.Ternary}
               size={ButtonSizeEnum.Auto}
+              testID={AccountsContainerTestIDs.RevealPrivateKeyText}
             />
           </View>
         </Row>

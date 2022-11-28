@@ -52,8 +52,5 @@ export const styles = StyleSheet.create({
   accountsBalanceCurrency: {
     ...typography.numbersIBMPlexSansMedium28,
     color: colors.textGrey2
-  },
-  dynamics: {
-    marginLeft: getCustomSize()
   }
 });

@@ -163,13 +163,13 @@ export const CreateANewWallet: FC = () => {
           iconName={IconNameEnum.Refresh}
           text="Generate New"
           style={styles.marginRight}
-          testID={CreateANewWalletTestIDs.GenerateNewButton}
+          testID={CreateANewWalletTestIDs.GenerateNewMnemonic}
         />
         <MnemonicActionButton
           onPress={handleCopyMnemonic}
           iconName={IconNameEnum.Copy}
           text="Copy"
-          testID={CreateANewWalletTestIDs.CopyButton}
+          testID={CreateANewWalletTestIDs.CopySeedButton}
         />
       </Mnemonic>
 
@@ -188,7 +188,9 @@ export const CreateANewWallet: FC = () => {
         </Pressable>
 
         {isError && (
-          <Text style={styles.error}>To continue, you need to confirm that you have saved your mnemonic</Text>
+          <Text style={styles.error} testID={CreateANewWalletTestIDs.SavedSeedError}>
+            To continue, you need to confirm that you have saved your mnemonic
+          </Text>
         )}
       </Column>
     </WalletCreationContainer>

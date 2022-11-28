@@ -5,7 +5,6 @@ import { ButtonWithIcon } from '../../../components/button-with-icon/button-with
 import { ButtonWithIconSizeEnum, ButtonWithIconThemesEnum } from '../../../components/button-with-icon/enums';
 import { Column } from '../../../components/column/column';
 import { Divider } from '../../../components/divider/divider';
-import { Dynamics } from '../../../components/dynamics/dynamics';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { RobotIcon } from '../../../components/robot-icon/robot-icon';
 import { Row } from '../../../components/row/row';
@@ -55,7 +54,6 @@ export const AccountsSelector: FC = () => {
   const onAddAccount = () => navigate(ScreensEnum.AddAccount);
   const onEditAccount = (account: AccountInterface) => navigate(ScreensEnum.EditAccount, { account });
 
-  const onWidgetSettings = () => null;
   const onAccountSettings = () => null;
 
   return (
@@ -69,14 +67,6 @@ export const AccountsSelector: FC = () => {
           style={styles.header}
         />
         <Row style={styles.buttonsContainer}>
-          <ButtonWithIcon
-            title="Widget settings"
-            theme={ButtonWithIconThemesEnum.Secondary}
-            size={ButtonWithIconSizeEnum.Medium}
-            onPress={onWidgetSettings}
-            rightIcon={IconNameEnum.GridSettings}
-            style={styles.button}
-          />
           <ButtonWithIcon
             title="Account settings"
             theme={ButtonWithIconThemesEnum.Secondary}
@@ -94,7 +84,6 @@ export const AccountsSelector: FC = () => {
         <Row>
           <Text style={styles.accountsBalance}>{totalAccountsBalance}</Text>
           <Text style={styles.accountsBalanceCurrency}>$</Text>
-          <Dynamics value={10.2} style={styles.dynamics} />
         </Row>
       </Column>
       <Divider size={getCustomSize(0.5)} style={styles.divider} />
