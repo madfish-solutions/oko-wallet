@@ -13,13 +13,6 @@ const BNB_CHAIN_ID = '56';
 export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = {
   [KLAYTN_CHAIN_ID]: [
     {
-      tokenAddress: '0x55d398326f99059fF775485246999027B3197955',
-      name: 'Tezor USD',
-      symbol: 'USDT',
-      decimals: 18,
-      thumbnailUri: ''
-    },
-    {
       tokenAddress: '0x02cbe46fb8a1f579254a9b485788f2d86cad51aa',
       name: 'BORA',
       symbol: 'BORA',

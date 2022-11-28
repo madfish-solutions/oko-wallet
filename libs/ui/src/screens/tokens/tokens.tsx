@@ -82,7 +82,7 @@ export const Tokens: FC = () => {
     return navigate(ScreensEnum.AddNewToken);
   };
   const navigateToManageTokens = () => navigate(ScreensEnum.ManageTokens);
-  const onPressActivityIcon = () => null;
+  const onPressActivityIcon = () => navigate(ScreensEnum.Activity);
   const onPressHideZeroBalances = () => setIsHideZeroBalance(!isHideZeroBalance);
 
   const onSearchClose = useCallback(() => {

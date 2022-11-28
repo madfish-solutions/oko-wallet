@@ -11,6 +11,8 @@
   "dependencies": {
     "@cucumber/cucumber": "^8.7.0",
     "@rnw-community/shared": "^0.48.0",
+    "@types/chai": "^4.3.4",
+    "chai": "^4.3.7",
     "puppeteer": "^19.2.2",
     "ts-node": "^10.9.1"
   }

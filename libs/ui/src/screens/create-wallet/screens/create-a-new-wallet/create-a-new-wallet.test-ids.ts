@@ -4,7 +4,10 @@ export enum CreateANewWalletTestIDs {
   MnemonicSavedCheckbox = 'CreateNewWallet/Mnemonic Saved checkbox',
   NextButton = 'CreateNewWallet/Next button',
   WordsAmountDropdown = 'CreateNewWallet/WordsAmountDropdown',
-  GenerateNewButton = 'CreateNewWallet/GenerateNewMnemonic',
-  CopyButton = 'CreateNewWallet/CopySeedButton',
-  WarningMessageDropdown = 'CreateNewWallet/WarningMessageDropdown'
+  GenerateNewMnemonic = 'CreateNewWallet/GenerateNewMnemonic',
+  CopySeedButton = 'CreateNewWallet/CopySeedButton',
+  SavedMnemonicCheckbox = 'CreateNewWallet/SavedMnemonicCheckbox',
+  WarningMessageDropdown = 'CreateNewWallet/WarningMessageDropdown',
+  HandleHideLayout = 'CreateNewWallet/handleHideLayout',
+  SavedSeedError = 'CreateNewWallet/SavedSeedError'
 }
