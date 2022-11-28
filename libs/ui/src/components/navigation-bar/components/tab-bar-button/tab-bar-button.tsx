@@ -17,7 +17,7 @@ interface Props extends IconProps, TestIDProps {
   disabled?: boolean;
 }
 
-export const TabBarButton: FC<Props> = ({ routeName, disabled = false, name, color, testID, focused }) => {
+export const TabBarButton: FC<Props> = ({ routeName, disabled = false, name, testID, focused }) => {
   const { navigate } = useNavigation();
 
   const navigateToScreen = () => {
