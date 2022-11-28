@@ -40,9 +40,25 @@ export const ChangePassword: FC = () => {
   const [isSecureOldPassword, setIsSecureOldPassword] = useState(true);
   const [isSecureConfirmPassword, setIsSecureConfirmPassword] = useState(true);
   const [passwordMatchError, setPasswordMatchError] = useState<string>();
-  const { isPasswordMatch, changePassword, passwordAttempts, setIsPasswordMatch } = useChangePassword();
   const { showSuccessToast, showErrorToast } = useToast();
+  const { changePassword } = useChangePassword({
+    onSuccess: () => {
+      if (password === oldPassword) {
+        showErrorToast('Old password cannot match the new one');
 
+        setFocus('password');
+      } else {
+        showSuccessToast('Password was successfully changed');
+        goBack();
+      }
+    },
+    onFail: () => {
+      if (isDirty && !passwordIsNoValid) {
+        setPasswordMatchError('Wrong password');
+      }
+    }
+  });
+  console.log('here1');
   const handleTogglePasswordVisibility = () => setIsSecurePassword(prev => !prev);
   const handleToggleOldPasswordVisibility = () => setIsSecureOldPassword(prev => !prev);
   const handleToggleConfirmPasswordVisibility = () => setIsSecureConfirmPassword(prev => !prev);
@@ -85,24 +101,6 @@ export const ChangePassword: FC = () => {
       changePassword(password, oldPassword);
     }
   };
-
-  useEffect(() => {
-    if (isPasswordMatch && password === oldPassword) {
-      showErrorToast('Old password cannot match the new one');
-
-      setFocus('password');
-      setIsPasswordMatch(false);
-    } else if (isPasswordMatch) {
-      showSuccessToast('Password was successfully changed');
-      goBack();
-    }
-  }, [isPasswordMatch]);
-
-  useEffect(() => {
-    if (isDirty && !passwordIsNoValid && !isPasswordMatch) {
-      setPasswordMatchError('Wrong password');
-    }
-  }, [passwordAttempts]);
 
   const isValidationError = (Object.keys(errors).length > 0 || Boolean(passwordMatchError)) && isSubmitted;
 

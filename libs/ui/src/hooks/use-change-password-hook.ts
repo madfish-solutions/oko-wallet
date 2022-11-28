@@ -1,3 +1,4 @@
+import { OnEventFn, isDefined } from '@rnw-community/shared';
 import { useEffect, useMemo, useState } from 'react';
 import { Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -6,11 +7,14 @@ import { Shelter } from '../shelter/shelter';
 import { useAllAccountsSelector } from '../store/wallet/wallet.selectors';
 import { getSensitiveDataKeys } from '../utils/sensitive-data.util';
 
-export const useChangePassword = () => {
-  const allAccounts = useAllAccountsSelector();
+interface UseChangePasswordArgs {
+  onSuccess: OnEventFn<void>;
+  onFail: OnEventFn<void>;
+}
 
-  const [isPasswordMatch, setIsPasswordMatch] = useState(false);
-  const [passwordAttempts, setPasswordAttempts] = useState(0);
+export const useChangePassword = ({ onSuccess, onFail }: UseChangePasswordArgs) => {
+  const allAccounts = useAllAccountsSelector();
+  const [isSuccessfulChange, setIsSuccessfulChange] = useState<boolean>();
 
   const changePassword$ = useMemo(() => new Subject<string[]>(), []);
 
@@ -23,21 +27,26 @@ export const useChangePassword = () => {
           Shelter.changePassword$(oldPassword, password, getSensitiveDataKeys(allAccounts))
         )
       )
-      .subscribe(result => {
-        if (result) {
-          setIsPasswordMatch(true);
-        } else {
-          setPasswordAttempts(prev => prev + 1);
-        }
-      });
+      .subscribe(result => setIsSuccessfulChange(result));
 
     return () => changePasswordSubscription.unsubscribe();
   }, [changePassword$]);
 
+  useEffect(() => {
+    if (!isDefined(isSuccessfulChange)) {
+      return;
+    }
+
+    if (isSuccessfulChange) {
+      onSuccess();
+    } else {
+      onFail();
+    }
+
+    setIsSuccessfulChange(undefined);
+  }, [isSuccessfulChange]);
+
   return {
-    isPasswordMatch,
-    passwordAttempts,
-    changePassword,
-    setIsPasswordMatch
+    changePassword
   };
 };
