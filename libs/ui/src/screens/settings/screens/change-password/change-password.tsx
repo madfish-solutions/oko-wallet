@@ -1,5 +1,5 @@
 import { isDefined } from '@rnw-community/shared';
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useMemo, useState, useCallback } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ScrollView, View } from 'react-native';
 
@@ -41,23 +41,6 @@ export const ChangePassword: FC = () => {
   const [isSecureConfirmPassword, setIsSecureConfirmPassword] = useState(true);
   const [passwordMatchError, setPasswordMatchError] = useState<string>();
   const { showSuccessToast, showErrorToast } = useToast();
-  const { changePassword } = useChangePassword({
-    onSuccess: () => {
-      if (password === oldPassword) {
-        showErrorToast('Old password cannot match the new one');
-
-        setFocus('password');
-      } else {
-        showSuccessToast('Password was successfully changed');
-        goBack();
-      }
-    },
-    onFail: () => {
-      if (isDirty && !passwordIsNoValid) {
-        setPasswordMatchError('Wrong password');
-      }
-    }
-  });
 
   const handleTogglePasswordVisibility = () => setIsSecurePassword(prev => !prev);
   const handleToggleOldPasswordVisibility = () => setIsSecureOldPassword(prev => !prev);
@@ -88,6 +71,25 @@ export const ChangePassword: FC = () => {
       false,
     [passwordValidationMessages, dirtyFields.password]
   );
+
+  const onSuccessFullPasswordChange = useCallback(() => {
+    if (password === oldPassword) {
+      showErrorToast('Old password cannot match the new one');
+
+      setFocus('password');
+    } else {
+      showSuccessToast('Password was successfully changed');
+      goBack();
+    }
+  }, [password, oldPassword]);
+
+  const onFailPasswordChange = useCallback(() => {
+    if (isDirty && !passwordIsNoValid) {
+      setPasswordMatchError('Wrong password');
+    }
+  }, [isDirty, passwordIsNoValid]);
+
+  const changePassword = useChangePassword(onSuccessFullPasswordChange, onFailPasswordChange);
 
   const { commonRules, changePasswordRules } = useValidatePasswordForm({
     password,
