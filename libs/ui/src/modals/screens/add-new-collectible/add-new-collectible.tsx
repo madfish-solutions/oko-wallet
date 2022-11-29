@@ -107,10 +107,7 @@ export const AddNewCollectible: FC = () => {
         tap(() => setIsLoadingMetadata(true)),
         switchMap(args => forkJoin([getCollectibleErcStandard({ tokenAddress: args.tokenAddress, rpcUrl }), of(args)])),
         switchMap(([collectibleErcStandard, { tokenAddress, tokenId }]) =>
-          forkJoin([
-            fetchDataFromProvider(tokenAddress, tokenId as string, collectibleErcStandard as TokenStandardEnum),
-            of(collectibleErcStandard)
-          ])
+          forkJoin([fetchDataFromProvider(tokenAddress, tokenId, collectibleErcStandard), of(collectibleErcStandard)])
         ),
         filter(([[collectibleMetadataUrl]]) => isErrorsExist(collectibleMetadataUrl)),
         switchMap(([[collectibleMetadataUrl, contractName, symbol, tokenAddress, tokenId], collectibleErcStandard]) => {
@@ -147,7 +144,7 @@ export const AddNewCollectible: FC = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const fetchDataFromProvider = (tokenAddress: string, tokenId: string, collectibleErcStandard: TokenStandardEnum) => {
+  const fetchDataFromProvider = (tokenAddress: string, tokenId = '0', collectibleErcStandard?: TokenStandardEnum) => {
     const provider = getDefaultEvmProvider(rpcUrl);
     const isErc721 = collectibleErcStandard === TokenStandardEnum.ERC721;
 
@@ -201,7 +198,7 @@ export const AddNewCollectible: FC = () => {
     const provider = getDefaultProvider(rpcUrl);
     const collectibleBalance = await getCollectibleBalance({
       tokenAddress: fields.tokenAddress,
-      tokenId: fields.tokenId as string,
+      tokenId: fields.tokenId,
       standard: collectibleMetadata.standard,
       provider,
       publicKeyHash

@@ -1,4 +1,5 @@
 import { RouteProp, useRoute, useIsFocused } from '@react-navigation/native';
+import { isDefined } from '@rnw-community/shared';
 import React, { FC, useEffect, useState } from 'react';
 import { LayoutChangeEvent, ScrollView, View } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -14,7 +15,6 @@ import { InfoItem } from '../../../components/info-item/info-item';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useToast } from '../../../hooks/use-toast.hook';
-import { Token } from '../../../interfaces/token.interface';
 import { loadAccountTokenBalanceAction, deleteZeroAmountCollectible } from '../../../store/wallet/wallet.actions';
 import { useSelectedCollectibleSelector, useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
 import { getString } from '../../../utils/get-string.utils';
@@ -40,12 +40,12 @@ export const Collectible: FC = () => {
   const { explorerUrl, networkType } = useSelectedNetworkSelector();
   const selectedCollectible = useSelectedCollectibleSelector(
     getTokenSlug(collectible.tokenAddress, collectible.tokenId)
-  ) as Token;
+  );
 
   const [layoutWidth, setLayoutWidth] = useState(COLLECTIBLE_SIZE);
 
   useEffect(() => {
-    if (Number(selectedCollectible?.balance.data) === 0 && isScreenFocused) {
+    if (Number(selectedCollectible?.balance.data) === 0 && isDefined(selectedCollectible) && isScreenFocused) {
       dispatch(deleteZeroAmountCollectible(selectedCollectible));
       showErrorToast('You are not the owner of this Collectible');
 

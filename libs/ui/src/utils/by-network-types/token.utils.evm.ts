@@ -11,7 +11,7 @@ import { Token } from '../../interfaces/token.interface';
 
 interface GetCollectibleBalanceArg {
   tokenAddress: string;
-  tokenId: string;
+  tokenId?: string;
   provider: Provider;
   publicKeyHash: string;
 }
@@ -31,12 +31,12 @@ export const loadEvmTokenBalance$ = (
 
   switch (standard) {
     case TokenStandardEnum.ERC721:
-      return from(
-        getErc721CollectibleBalance({ tokenAddress, tokenId: tokenId as string, provider, publicKeyHash })
-      ).pipe(map(balance => balance.toString()));
+      return from(getErc721CollectibleBalance({ tokenAddress, tokenId, provider, publicKeyHash })).pipe(
+        map(balance => balance.toString())
+      );
 
     case TokenStandardEnum.ERC1155:
-      return from(getErc1155CollectibleBalance({ tokenAddress, tokenId: tokenId as string, provider, publicKeyHash }));
+      return from(getErc1155CollectibleBalance({ tokenAddress, tokenId, provider, publicKeyHash }));
 
     default:
       const contract20 = Erc20Abi__factory.connect(tokenAddress, provider);
@@ -47,7 +47,7 @@ export const loadEvmTokenBalance$ = (
 
 const getErc721CollectibleBalance = async ({
   tokenAddress,
-  tokenId,
+  tokenId = '0',
   provider,
   publicKeyHash
 }: GetCollectibleBalanceArg) => {
@@ -60,7 +60,7 @@ const getErc721CollectibleBalance = async ({
 
 const getErc1155CollectibleBalance = async ({
   tokenAddress,
-  tokenId,
+  tokenId = '0',
   provider,
   publicKeyHash
 }: GetCollectibleBalanceArg) => {
@@ -72,7 +72,7 @@ const getErc1155CollectibleBalance = async ({
 
 export const getCollectibleBalance = ({
   tokenAddress,
-  tokenId,
+  tokenId = '0',
   provider,
   publicKeyHash,
   standard

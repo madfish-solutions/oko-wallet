@@ -17,7 +17,7 @@ export const sendEvmTransactionSubscription = (sendEvmTransaction$: Subject<GetE
 
         return Shelter.getEvmSigner$(publicKeyHash, provider).pipe(
           switchMap(signer => {
-            const { receiverPublicKeyHash, value, gasLimit, gasPrice, tokenAddress, tokenId } = transactionParams;
+            const { receiverPublicKeyHash, value, gasLimit, gasPrice, tokenAddress, tokenId = '0' } = transactionParams;
 
             switch (assetType) {
               case AssetTypeEnum.GasToken:
@@ -26,7 +26,7 @@ export const sendEvmTransactionSubscription = (sendEvmTransaction$: Subject<GetE
               case AssetTypeEnum.Collectible721:
                 const contract721 = Erc721Abi__factory.connect(tokenAddress, signer);
 
-                return contract721.transferFrom(publicKeyHash, receiverPublicKeyHash, tokenId as string, {
+                return contract721.transferFrom(publicKeyHash, receiverPublicKeyHash, tokenId, {
                   gasLimit,
                   gasPrice
                 });
@@ -34,17 +34,10 @@ export const sendEvmTransactionSubscription = (sendEvmTransaction$: Subject<GetE
               case AssetTypeEnum.Collectible1155:
                 const contract1155 = Erc1155Abi__factory.connect(tokenAddress, signer);
 
-                return contract1155.safeTransferFrom(
-                  publicKeyHash,
-                  receiverPublicKeyHash,
-                  tokenId as string,
-                  value,
-                  [],
-                  {
-                    gasLimit,
-                    gasPrice
-                  }
-                );
+                return contract1155.safeTransferFrom(publicKeyHash, receiverPublicKeyHash, tokenId, value, [], {
+                  gasLimit,
+                  gasPrice
+                });
 
               default:
                 const contract20 = Erc20Abi__factory.connect(tokenAddress, signer);

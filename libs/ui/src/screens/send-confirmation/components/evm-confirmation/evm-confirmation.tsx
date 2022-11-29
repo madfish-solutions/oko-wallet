@@ -51,7 +51,7 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPu
 
         const valueToSend =
           assetType === AssetTypeEnum.GasToken || assetType === AssetTypeEnum.Token
-            ? getAmount(value, decimals)
+            ? getAmount(value, decimals).toString()
             : value;
         const transactionParams: TransactionParams = {
           gasPrice: Math.trunc(Number(estimations?.gasPrice) * gasPriceCoefficient),
