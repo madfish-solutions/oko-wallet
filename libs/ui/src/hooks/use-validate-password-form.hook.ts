@@ -31,7 +31,7 @@ export const useValidatePasswordForm = <FormFields extends { confirmPassword: st
 
   const matchPassword = (currentValue: string) => {
     if (currentValue !== password) {
-      return 'Must be equal to password above';
+      return PASSWORD_DOES_NOT_MATCH;
     }
   };
 
