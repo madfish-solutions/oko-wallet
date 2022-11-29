@@ -3,7 +3,6 @@ import { from, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AssetTypeEnum } from '../../enums/asset-type.enum';
-import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
@@ -21,7 +20,7 @@ export const getTezosTransferParams$ = (
   const { rpcUrl, networkType } = selectedNetwork;
   const senderPublicKeyHash = getString(sender.networksKeys[networkType]?.publicKeyHash);
   const amountBN = parseUnits(amount, decimals);
-  const assetType = getAssetType(asset, NetworkTypeEnum.Tezos);
+  const assetType = getAssetType(asset);
 
   return assetType === AssetTypeEnum.GasToken
     ? of({
@@ -30,7 +29,7 @@ export const getTezosTransferParams$ = (
       })
     : from(createReadOnlyTezosToolkit(rpcUrl, sender).contract.at(tokenAddress)).pipe(
         map(contract =>
-          assetType === AssetTypeEnum.CollectibleFA2
+          assetType === AssetTypeEnum.Collectible
             ? contract.methods.transfer([
                 {
                   from_: senderPublicKeyHash,

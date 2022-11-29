@@ -2,6 +2,7 @@ import { TransactionRequest, TransactionResponse } from '@ethersproject/abstract
 import { OnEventFn } from '@rnw-community/shared';
 
 import { AssetTypeEnum } from '../../enums/asset-type.enum';
+import { TokenStandardEnum } from '../../enums/token-standard.enum';
 
 export interface TransactionParams extends Pick<TransactionRequest, 'gasLimit' | 'gasPrice'> {
   tokenAddress: string;
@@ -17,4 +18,5 @@ export interface GetEvmSignerParams {
   errorCallback: OnEventFn<void>;
   transactionParams: TransactionParams;
   assetType: AssetTypeEnum;
+  standard?: TokenStandardEnum;
 }

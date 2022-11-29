@@ -4,6 +4,7 @@ import { Erc20Abi__factory, Erc721Abi__factory, Erc1155Abi__factory } from '../.
 import { AssetTypeEnum } from '../../../../../enums/asset-type.enum';
 import { Asset } from '../../../../../interfaces/asset.interface';
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
+import { checkIsErc721Collectible } from '../../../../../utils/check-is-erc721-collectible.util';
 import { getDefaultEvmProvider } from '../../../../../utils/get-default-evm-provider.utils';
 import { getAmount } from '../utils/get-amount.util';
 import { modifyGasLimit } from '../utils/modify-gas-limit.util';
@@ -19,7 +20,7 @@ interface UseEvmEstimationsArgs {
 
 export const useEvmEstimations = ({
   network: { rpcUrl },
-  asset: { tokenAddress, decimals, tokenId },
+  asset: { tokenAddress, decimals, tokenId, standard },
   receiverPublicKeyHash,
   value,
   publicKeyHash,
@@ -43,21 +44,24 @@ export const useEvmEstimations = ({
             .catch(console.log);
           break;
 
-        case AssetTypeEnum.Collectible721:
-          const contract721 = Erc721Abi__factory.connect(tokenAddress, provider);
+        case AssetTypeEnum.Collectible:
+          const isErc721 = checkIsErc721Collectible({ standard });
 
-          gasLimit = await contract721.estimateGas
-            .transferFrom(publicKeyHash, receiverPublicKeyHash, tokenId)
-            .catch(console.log);
-          break;
+          if (isErc721) {
+            const contract721 = Erc721Abi__factory.connect(tokenAddress, provider);
 
-        case AssetTypeEnum.Collectible1155:
-          const contract1155 = Erc1155Abi__factory.connect(tokenAddress, provider);
+            gasLimit = await contract721.estimateGas
+              .transferFrom(publicKeyHash, receiverPublicKeyHash, tokenId)
+              .catch(console.log);
+            break;
+          } else {
+            const contract1155 = Erc1155Abi__factory.connect(tokenAddress, provider);
 
-          gasLimit = await contract1155.estimateGas
-            .safeTransferFrom(publicKeyHash, receiverPublicKeyHash, tokenId, value, [])
-            .catch(console.log);
-          break;
+            gasLimit = await contract1155.estimateGas
+              .safeTransferFrom(publicKeyHash, receiverPublicKeyHash, tokenId, value, [])
+              .catch(console.log);
+            break;
+          }
 
         default:
           const contract20 = Erc20Abi__factory.connect(tokenAddress, provider);

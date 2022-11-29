@@ -27,7 +27,7 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPu
   const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } =
     useTransactionHook(receiverPublicKeyHash);
 
-  const { tokenAddress, tokenId, decimals, symbol } = asset;
+  const { tokenAddress, tokenId, decimals, symbol, standard } = asset;
   const assetType = getAssetType(asset);
 
   const { estimations, isLoading } = useEvmEstimations({
@@ -67,6 +67,7 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPu
           transactionParams,
           publicKeyHash,
           assetType,
+          standard,
           successCallback,
           errorCallback
         });
