@@ -21,6 +21,7 @@ import {
 } from '../../../../../../store/wallet/wallet.selectors';
 import { checkIsGasToken } from '../../../../../../utils/check-is-gas-token.util';
 import { getDollarValue } from '../../../../../../utils/get-dollar-amount.util';
+import { getTokensWithBalance } from '../../../../../../utils/get-tokens-with-balance.util';
 import { getTokenMetadataSlug } from '../../../../../../utils/token-metadata.util';
 import { getTokenSlug } from '../../../../../../utils/token.utils';
 import { getFormattedBalance } from '../../../../../../utils/units.utils';
@@ -37,10 +38,7 @@ export const TokensSelector: FC = () => {
   const { navigate } = useNavigation();
   const { chainId } = useSelectedNetworkSelector();
   const visibleAccountTokens = useVisibleAccountTokensSelector();
-  const accountTokensWithBalance = useMemo(
-    () => visibleAccountTokens.filter(visibleAccountToken => Number(visibleAccountToken.balance.data) > 0),
-    [visibleAccountTokens]
-  );
+  const accountTokensWithBalance = useMemo(() => getTokensWithBalance(visibleAccountTokens), [visibleAccountTokens]);
 
   const gasToken = useGasTokenSelector();
   const accountTokensWithBalanceAndGasToken: TokenType[] = useMemo(
