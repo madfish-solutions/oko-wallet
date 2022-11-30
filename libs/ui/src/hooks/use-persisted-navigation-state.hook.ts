@@ -51,6 +51,21 @@ export const usePersistedNavigationState = () => {
 
             storedInitialState.routes.push(route);
           }
+
+          //Confirm send transaction
+          if (
+            typeof query.id === 'string' &&
+            typeof query.transactionInfo === 'string' &&
+            typeof query.dAppInfo === 'string'
+          ) {
+            const route = createNavigationRoute(ScreensEnum.DAppSendConfirmation, {
+              messageId: query.id,
+              transactionInfo: JSON.parse(query.transactionInfo),
+              dAppInfo: JSON.parse(query.dAppInfo)
+            });
+
+            storedInitialState.routes.push(route);
+          }
         }
 
         setInitialState(storedInitialState);

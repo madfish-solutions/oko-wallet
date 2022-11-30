@@ -56,7 +56,8 @@ export const Confirmation: FC<Props> = ({
   symbol,
   amount,
   initialTransactionFee,
-  storageFee = 0
+  storageFee = 0,
+  children
 }) => {
   const { goBack } = useNavigation();
   const account = useSelectedAccountSelector();
@@ -148,6 +149,7 @@ export const Confirmation: FC<Props> = ({
       scrollViewRef={scrollViewRef}
     >
       <View>
+        {children}
         <View style={styles.container}>
           <Text style={styles.title}>From</Text>
           <SelectedAccount account={account} isDisabled />

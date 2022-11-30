@@ -18,16 +18,21 @@ import { getAmount } from './utils/get-amount.util';
 
 interface Props {
   transferParams: EvmTransferParams;
+  messageID?: string;
 }
 
-export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPublicKeyHash, value } }) => {
+export const EvmConfirmation: FC<Props> = ({
+  transferParams: { asset, receiverPublicKeyHash, value },
+  messageID,
+  children
+}) => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const network = useSelectedNetworkSelector();
   const { sendEvmTransaction } = useShelter();
   const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } =
     useTransactionHook(receiverPublicKeyHash);
 
-  const { tokenAddress, tokenId, decimals, symbol } = asset;
+  const { tokenAddress, tokenId, decimals, symbol, data = '0x' } = asset;
   const assetType = getAssetType(asset);
 
   const { estimations, isLoading } = useEvmEstimations({
@@ -55,6 +60,7 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPu
           receiverPublicKeyHash,
           tokenAddress,
           tokenId,
+          data,
           ...(assetType !== AssetTypeEnum.Collectible && {
             value: getAmount(value, decimals)
           })
@@ -66,7 +72,8 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPu
           publicKeyHash,
           assetType,
           successCallback,
-          errorCallback
+          errorCallback,
+          messageID
         });
       }
     },
@@ -82,6 +89,7 @@ export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPu
       amount={value}
       symbol={symbol}
       initialTransactionFee={transactionFee}
+      children={children}
     />
   );
 };

@@ -9,6 +9,7 @@ import { AddAccount } from '../../modals/screens/add-account/add-account';
 import { AddNewCollectible } from '../../modals/screens/add-new-collectible/add-new-collectible';
 import { Collectible } from '../../modals/screens/collectible/collectible';
 import { DAppConnectionConfirmation } from '../../modals/screens/d-app-connection-confirmation/d-app-connection-confirmation';
+import { DAppSendConfirmation } from '../../modals/screens/d-app-send-confirmation/d-app-send-confirmation';
 import { DeleteDApp } from '../../modals/screens/delete-d-app/delete-d-app';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
 import { NetworkChangeConfirmation } from '../../modals/screens/network-change-confirmation/network-change-confirmation';
@@ -163,6 +164,11 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.DAppConnectionConfirmation}
                 options={{ title: 'Connect' }}
                 component={DAppConnectionConfirmation}
+              />
+              <Stack.Screen
+                name={ScreensEnum.DAppSendConfirmation}
+                options={{ title: 'Confirm operation' }}
+                component={DAppSendConfirmation}
               />
               <Stack.Screen
                 name={ScreensEnum.NetworkChangeConfirmation}

@@ -11,6 +11,7 @@ import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
+import { NETWORKS_DEFAULT_LIST } from '../../../constants/networks';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { AllowsRules } from '../../../interfaces/dapp-connection.interface';
@@ -40,13 +41,12 @@ export const NetworkChangeConfirmation: FC = () => {
 
   const navigateToWalletScreen = () => navigate(ScreensEnum.Wallet);
   const copy = () => handleCopyToClipboard(dAppState.origin);
-  const dappsNetwork = networks.find(
-    network => network.chainId === parseInt(params.requestedChainId.substring(2), 16).toString()
-  );
+  const dappsNetwork =
+    networks.find(network => network.chainId === parseInt(params.requestedChainId.substring(2), 16).toString()) ??
+    NETWORKS_DEFAULT_LIST[0];
 
   const acceptChangeNetwork = () => {
-    const decimalChainId = parseInt(params.requestedChainId.substring(2), 16);
-    dispatch(changeNetworkAction(decimalChainId.toString()));
+    dispatch(changeNetworkAction(dappsNetwork?.rpcUrl));
     tabs.query({ active: true }).then(queryTabs => {
       if (queryTabs[0].id !== undefined) {
         const message = createDAppResponse(params.messageId, null);

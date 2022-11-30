@@ -1,5 +1,6 @@
 import './shim.js';
 
+import { getDefaultProvider } from 'ethers';
 import {
   BackgroundMessage,
   BackgroundMessageType,
@@ -10,7 +11,11 @@ import {
 import { Runtime, runtime, scripting, storage } from 'webextension-polyfill';
 
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
-import { openDAppConnectionConfirmationPopup, openNetworkChangeConfirmationPopup } from './src/utils/browser.utils';
+import {
+  openDAppConnectionConfirmationPopup,
+  openNetworkChangeConfirmationPopup,
+  openConfirmSendTransactionPopup
+} from './src/utils/browser.utils';
 import { getHexChanId } from './src/utils/network.utils';
 import { getState } from './src/utils/state.utils';
 
@@ -67,7 +72,11 @@ runtime.onConnect.addListener(port => {
       const state = await getState();
 
       const dAppState = state.dApps[dAppInfo.origin];
-      const selectedNetworkChainId = state.wallet.selectedNetworkChainId;
+      const selectedRpcUrl = state.wallet.selectedNetworkRpcUrl;
+      const selectedNetwork = state.wallet.networks.find(
+        network => network.rpcUrl === state.wallet.selectedNetworkRpcUrl
+      );
+      const selectedNetworkChainId = selectedNetwork?.chainId ?? '1';
       const selectedAccountPublicKeyHash = state.wallet.selectedAccountPublicKeyHash;
       const isPermissionGranted = dAppState?.allowedAccounts.includes(selectedAccountPublicKeyHash);
 
@@ -118,6 +127,41 @@ runtime.onConnect.addListener(port => {
         case 'eth_chainId': {
           const result = getHexChanId(selectedNetworkChainId);
           const message = createDAppResponse(id, result);
+
+          port.postMessage(message);
+
+          return Promise.resolve();
+        }
+
+        case 'eth_estimateGas': {
+          const result = '0x5208'; // 21000
+          const message = createDAppResponse(id, result);
+
+          port.postMessage(message);
+
+          return Promise.resolve();
+        }
+
+        case 'eth_blockNumber': {
+          const result = '0x1610851';
+          const message = createDAppResponse(id, result);
+
+          port.postMessage(message);
+
+          return Promise.resolve();
+        }
+
+        case 'eth_sendTransaction': {
+          await openConfirmSendTransactionPopup(id, data.params?.[0], dAppInfo);
+
+          return Promise.resolve();
+        }
+
+        case 'eth_getTransactionByHash': {
+          const provider = getDefaultProvider(selectedRpcUrl);
+          const txReceipt = await provider.getTransaction(data.params?.[0]);
+
+          const message = createDAppResponse(id, txReceipt);
 
           port.postMessage(message);
 
