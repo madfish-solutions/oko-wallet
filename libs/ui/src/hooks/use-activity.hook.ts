@@ -1,19 +1,18 @@
 import { isDefined } from '@rnw-community/shared';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import debounce from 'lodash/debounce';
+import { useEffect, useState } from 'react';
 
 import { getHistoryList } from '../api/debank';
-import { GAS_TOKEN_ADDRESS } from '../constants/defaults';
+import { DEBOUNCE_TIME, GAS_TOKEN_ADDRESS } from '../constants/defaults';
 import { TransactionStatusEnum } from '../enums/transactions.enum';
 import {
   ActivityData,
   ActivityResponse,
   SectionListActivityData,
+  TokenInfo,
   TransactionLabelEnum
 } from '../interfaces/activity.interface';
 import { checkIsDayLabelNeeded, transformTimestampToDate } from '../screens/activity/components/activity-list.utils';
-import { loadTokenMetadataAction } from '../store/wallet/wallet.actions';
-import { useAllSavedTokensSelector } from '../store/wallet/wallet.selectors';
 import { capitalize } from '../utils/string.util';
 
 const filterGasTokenTransaction = (data: ActivityResponse) => ({
@@ -39,6 +38,8 @@ const transformApiData = (
 
   let sectionListItem: SectionListActivityData | undefined;
 
+  const userTokensMetadata = data.token_dict as Record<string, TokenInfo>;
+
   filteredTransactions.forEach(txData => {
     const activityData = {
       transactionStatus: TransactionStatusEnum.applied,
@@ -52,15 +53,25 @@ const transformApiData = (
       activityData.transactionStatus = TransactionStatusEnum.applied;
     }
 
+    const getTokenSymbol = (address: string) => {
+      if (userTokensMetadata[address].hasOwnProperty('optimized_symbol')) {
+        return userTokensMetadata[address].optimized_symbol;
+      }
+
+      return userTokensMetadata[address].name;
+    };
+
     if (txData.cate_id !== null) {
       activityData.transactionLabel = capitalize(txData.cate_id) as TransactionLabelEnum;
 
       if (activityData.transactionLabel === TransactionLabelEnum.Send) {
         activityData.amount = txData.sends[0]?.amount;
         activityData.tokenId = txData.sends[0]?.token_id;
+        activityData.symbol = getTokenSymbol(txData.sends[0]?.token_id);
       } else {
         activityData.tokenId = txData.receives[0]?.token_id;
         activityData.amount = txData.receives[0]?.amount;
+        activityData.symbol = getTokenSymbol(txData.receives[0]?.token_id);
         activityData.transactionLabel = TransactionLabelEnum.Received;
       }
     } else {
@@ -90,48 +101,42 @@ const transformApiData = (
 };
 
 export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAddress?: string) => {
-  const [lastTimestamp, setLastTimestamp] = useState(0);
+  const [lastTimestamp, setLastTimestamp] = useState<Record<string, number>>({});
   const [activity, setActivity] = useState<SectionListActivityData[]>([]);
   const tokenAddressRequest = tokenAddress === GAS_TOKEN_ADDRESS ? undefined : tokenAddress;
 
+  useEffect(() => {
+    setActivity([]);
+    setLastTimestamp({ [publicKeyHash]: 0 });
+  }, [publicKeyHash, chainName]);
+
   const fetchActivity = async (startTime: number) => {
     const response = await getHistoryList(publicKeyHash, chainName, startTime, tokenAddressRequest);
-
-    // TEST
-    console.log('response', publicKeyHash, response);
 
     if (response !== undefined) {
       const activityData =
         tokenAddress === GAS_TOKEN_ADDRESS
           ? transformApiData(filterGasTokenTransaction(response), publicKeyHash, chainName)
           : transformApiData(response, publicKeyHash, chainName);
-      if (response.history_list.length > 0) {
-        setLastTimestamp(response.history_list[response.history_list.length - 1].time_at);
+
+      if (startTime === 0) {
+        setActivity(activityData);
+      } else {
+        setActivity(prev => [...prev, ...activityData]);
       }
-      setActivity([...activity, ...activityData]);
+
+      if (response.history_list.length > 0) {
+        setLastTimestamp(prev => ({
+          ...prev,
+          [publicKeyHash]: response.history_list[response.history_list.length - 1].time_at
+        }));
+      }
     }
   };
 
-  const fetchData = () => {
-    fetchActivity(lastTimestamp);
-  };
+  const fetchData = debounce((startTime?: number) => {
+    fetchActivity(isDefined(startTime) ? startTime : lastTimestamp[publicKeyHash] ?? 0);
+  }, DEBOUNCE_TIME);
 
   return { activity, fetchData };
-};
-
-export const useTokenInfo = (tokenId: string | undefined, chainName: string) => {
-  const [symbol, setSymbol] = useState('???');
-  const tokenMetadata = useAllSavedTokensSelector();
-  const dispatch = useDispatch();
-
-  const fetchTokenSymbol = async () => {
-    const token = tokenMetadata.find(([address]) => address.toLowerCase() === tokenId?.toLowerCase());
-    if (isDefined(token)) {
-      setSymbol(token[1].symbol);
-    } else if (isDefined(tokenId)) {
-      dispatch(loadTokenMetadataAction({ tokenId, chainName }));
-    }
-  };
-
-  return { symbol, fetchTokenSymbol };
 };

@@ -3,6 +3,7 @@ import { isDefined } from '@rnw-community/shared';
 interface CacheItem<T> {
   createdAt: number;
   data: T;
+  prevArgs: any[];
 }
 
 type AnyType = any;
@@ -19,14 +20,19 @@ export const memoize =
     const key = keyFn(...args);
     const cacheValue = cache[key];
 
-    if (isDefined(cacheValue) && cacheValue.createdAt + experationTime > new Date().getTime()) {
+    if (
+      isDefined(cacheValue) &&
+      cacheValue.createdAt + experationTime > new Date().getTime() &&
+      JSON.stringify(cacheValue.prevArgs) === JSON.stringify([...args])
+    ) {
       return cacheValue.data;
     }
 
     const newValue = fetchFn(...args);
     cache[key] = {
       createdAt: new Date().getTime(),
-      data: newValue
+      data: newValue,
+      prevArgs: [...args]
     };
 
     return newValue;

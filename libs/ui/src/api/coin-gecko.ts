@@ -2,6 +2,7 @@ import { isDefined } from '@rnw-community/shared';
 import axios from 'axios';
 
 import { DATA_UPDATE_TIME } from '../constants/update-time';
+import { getSlug } from '../utils/getSlug.uitl';
 import { memoize } from '../utils/memoize.util';
 
 import { coinGeckoGasTokenId, coinGeckoId } from './constants/coin-gecko-id';
@@ -28,7 +29,7 @@ export const getTokensPriceInfo = memoize(
           .catch(() => ({}))
       : {};
   },
-  chainId => chainId,
+  chainId => getSlug(chainId, 'token-price-info'),
   DATA_UPDATE_TIME
 );
 
@@ -49,6 +50,6 @@ export const getGasTokenPriceInfo = memoize(
           .catch(() => ({}))
       : {};
   },
-  chainId => chainId,
+  chainId => getSlug(chainId, 'gas-token-price-info'),
   DATA_UPDATE_TIME
 );

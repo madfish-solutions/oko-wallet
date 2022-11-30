@@ -1,3 +1,4 @@
+import { isNotEmptyString } from '@rnw-community/shared';
 import axios from 'axios';
 
 import { BASE_DEBANK_URL, DEBANK_HEADERS } from '../constants/defaults';
@@ -32,7 +33,13 @@ export const getHistoryList = memoize(
       })
       .then(result => result.data)
       .catch(e => console.log(e)),
-  (publicKeyHash, chainName, _, tokenAddress) => getSlug(publicKeyHash, chainName, tokenAddress, 'history_list'),
+  (publicKeyHash, chainName, _, tokenAddress) =>
+    getSlug(
+      publicKeyHash,
+      chainName,
+      isNotEmptyString(tokenAddress) ? tokenAddress : '',
+      isNotEmptyString(tokenAddress) ? 'history-list' : 'all_history_list'
+    ),
   DATA_UPDATE_TIME
 );
 
@@ -42,7 +49,7 @@ export const getTokenInfo = memoize(
       .get('v1/token', { params: { id: tokenAddress, chain_id: chainId } })
       .then(result => result.data)
       .catch(() => ({} as TokenInfo)),
-  (tokenAddress, chainId) => getSlug(tokenAddress, chainId, 'token_info'),
+  (tokenAddress, chainId) => getSlug(tokenAddress, chainId, 'token-info'),
   DATA_UPDATE_TIME
 );
 
@@ -57,7 +64,7 @@ export const getTokenList = memoize(
       })
       .then(({ data }) => data)
       .catch(() => []),
-  (publicKeyHash, chainId) => getSlug(publicKeyHash, chainId, 'token_list'),
+  (publicKeyHash, chainId) => getSlug(publicKeyHash, chainId, 'token-list'),
   DATA_UPDATE_TIME
 );
 
@@ -67,6 +74,6 @@ export const getAllUserNftList = memoize(
       .get<NftListResponse[]>('v1/user/nft_list', { params: { id: publicKeyHash, chain_id: chainId } })
       .then(({ data }) => data)
       .catch(() => []),
-  (publicKeyHash, chainId) => getSlug(publicKeyHash, chainId, 'nft_list'),
+  (publicKeyHash, chainId) => getSlug(publicKeyHash, chainId, 'nft-list'),
   DATA_UPDATE_TIME
 );

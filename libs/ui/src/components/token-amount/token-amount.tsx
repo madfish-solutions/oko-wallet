@@ -22,7 +22,11 @@ export const TokenAmount: FC<Props> = ({ value, symbol, style }) => {
     <Row>
       {isSmallValue && <Text style={[textStyle, styles.lessSign]}>&#60;</Text>}
       <Text style={textStyle}>{isSmallValue ? value.replace('<', '').trim() : value}</Text>
-      {isNotEmptyString(symbol) && <Text style={[textStyle, styles.symbol]}>{symbol}</Text>}
+      {isNotEmptyString(symbol) && (
+        <Text numberOfLines={1} style={[textStyle, styles.symbol]}>
+          {symbol}
+        </Text>
+      )}
     </Row>
   );
 };
