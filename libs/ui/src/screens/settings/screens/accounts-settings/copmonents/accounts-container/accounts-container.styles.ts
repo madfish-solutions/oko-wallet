@@ -60,5 +60,8 @@ export const styles = StyleSheet.create({
   notGeneratedText: {
     color: colors.textGrey3,
     ...typography.numbersIBMPlexSansMediumUppercase13
+  },
+  revealPrivateKeyContainer: {
+    width: getCustomSize(15)
   }
 });

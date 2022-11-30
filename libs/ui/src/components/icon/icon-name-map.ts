@@ -31,6 +31,7 @@ import EyeOpenIcon from './assets/eye-open.svg';
 import FaceId from './assets/face-id.svg';
 import GasIcon from './assets/gas.svg';
 import GridSettings from './assets/grid-settings.svg';
+import Home from './assets/home.svg';
 import IconDisconnect from './assets/icon-disconnect.svg';
 import IconPlaceholder from './assets/icon-placeholder.svg';
 import IconWarning from './assets/icon-warning.svg';
@@ -170,5 +171,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.WalletLogoPlaceholder]: WalletLogoPlaceholder,
   [IconNameEnum.IconWarning]: IconWarning,
   [IconNameEnum.WalletLogoPlaceholderSquare]: WalletLogoPlaceholderSquare,
-  [IconNameEnum.FaceId]: FaceId
+  [IconNameEnum.FaceId]: FaceId,
+  [IconNameEnum.Home]: Home
 };

@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Icon } from '../../components/icon/icon';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
+import { Pressable } from '../../components/pressable/pressable';
 import { Row } from '../../components/row/row';
 import { HeaderAccountBalance } from '../../components/screen-components/header-container/components/header-account-balance/header-account-balance';
 import { ScreenTitle } from '../../components/screen-components/header-container/components/screen-title/screen-title';
@@ -27,6 +28,7 @@ import {
   useAccountTokensAndGasTokenSelector,
   useVisibleAccountTokensAndGasTokenSelector
 } from '../../store/wallet/wallet.selectors';
+import { getTokensWithBalance } from '../../utils/get-tokens-with-balance.util';
 import { redirectToMamixiseView } from '../../utils/redirecit-to-maximise-view.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { getTokenSlug } from '../../utils/token.utils';
@@ -50,6 +52,12 @@ export const Tokens: FC = () => {
 
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
   const [tokensAddresses, setTokensAddresses] = useState<string[]>([]);
+  const [isHideZeroBalance, setIsHideZeroBalance] = useState(false);
+
+  const allAccountTokensWithBalance = useMemo(
+    () => getTokensWithBalance(visibleAccountTokensWithGasToken),
+    [visibleAccountTokensWithGasToken]
+  );
 
   useEffect(() => {
     if (searchValue.length === 0) {
@@ -59,11 +67,14 @@ export const Tokens: FC = () => {
 
   const accountTokens = useMemo(() => {
     if (searchValue && visibleAccountTokensWithGasToken.length) {
-      return filterAccountTokensByValue(allAccountTokensWithGasToken, searchValue);
+      return filterAccountTokensByValue(
+        isHideZeroBalance ? allAccountTokensWithBalance : allAccountTokensWithGasToken,
+        searchValue
+      );
     }
 
-    return visibleAccountTokensWithGasToken;
-  }, [searchValue, allAccountTokens, visibleAccountTokensWithGasToken]);
+    return isHideZeroBalance ? allAccountTokensWithBalance : visibleAccountTokensWithGasToken;
+  }, [searchValue, allAccountTokens, visibleAccountTokensWithGasToken, isHideZeroBalance, allAccountTokensWithBalance]);
 
   const navigateToAddNewToken = () => {
     redirectToMamixiseView();
@@ -71,7 +82,8 @@ export const Tokens: FC = () => {
     return navigate(ScreensEnum.AddNewToken);
   };
   const navigateToManageTokens = () => navigate(ScreensEnum.ManageTokens);
-  const onPressActivityIcon = () => null;
+  const onPressActivityIcon = () => navigate(ScreensEnum.Activity);
+  const onPressHideZeroBalances = () => setIsHideZeroBalance(!isHideZeroBalance);
 
   const onSearchClose = useCallback(() => {
     const isSomeAccountTokensWasChangedToVisible = visibleAccountTokens.length !== tokensAddresses.length;
@@ -122,12 +134,14 @@ export const Tokens: FC = () => {
           onSearchClose={onSearchClose}
           isEmptyList={!accountTokens.length}
         />
-        {accountTokens.length > 0 && (
-          <Row style={styles.checkboxContainer}>
-            <Icon name={IconNameEnum.EmptySquareCheckbox} />
+
+        <Pressable onPress={onPressHideZeroBalances} style={styles.checkboxContainer}>
+          <Row>
+            <Icon name={isHideZeroBalance ? IconNameEnum.SelectedSquareCheckbox : IconNameEnum.EmptySquareCheckbox} />
             <Text style={styles.checkboxText}>Hide 0 balances</Text>
           </Row>
-        )}
+        </Pressable>
+
         <FlatList
           data={accountTokens}
           showsVerticalScrollIndicator={false}

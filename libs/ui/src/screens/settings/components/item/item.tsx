@@ -1,6 +1,7 @@
 import { isDefined } from '@rnw-community/shared';
 import React, { FC, ReactChild } from 'react';
 import { PressableProps } from 'react-native';
+import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
@@ -11,15 +12,15 @@ import { ViewStyleProps } from '../../../../interfaces/style.interface';
 
 import { styles } from './item.styles';
 
-interface Props extends Pick<PressableProps, 'onPress'> {
+interface Props extends TestIDProps, Pick<PressableProps, 'onPress'> {
   icon?: IconNameEnum;
   title: string;
   iconComponent?: ReactChild;
   style?: ViewStyleProps;
 }
 
-export const Item: FC<Props> = ({ icon, iconComponent, title, onPress, children, style }) => (
-  <Pressable onPress={onPress} style={[styles.root, style]}>
+export const Item: FC<Props> = ({ icon, iconComponent, title, onPress, children, style, testID }) => (
+  <Pressable onPress={onPress} style={[styles.root, style]} testID={testID}>
     <Row style={styles.content}>
       <Row>
         {isDefined(icon) && <Icon iconStyle={styles.icon} name={icon} />}

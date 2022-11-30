@@ -30,6 +30,7 @@ export const CreateHD: FC = () => {
             label="Account name"
             placeholder={defaultValue}
             error={errors?.name?.message}
+            required={false}
             containerStyle={styles.inputContainer}
           />
         )}
