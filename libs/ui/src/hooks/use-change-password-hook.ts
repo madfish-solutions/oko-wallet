@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
+import { OnEventFn } from '@rnw-community/shared';
+import { useEffect, useMemo } from 'react';
 import { Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -6,11 +7,8 @@ import { Shelter } from '../shelter/shelter';
 import { useAllAccountsSelector } from '../store/wallet/wallet.selectors';
 import { getSensitiveDataKeys } from '../utils/sensitive-data.util';
 
-export const useChangePassword = () => {
+export const useChangePassword = (onSuccess: OnEventFn<void>, onFail: OnEventFn<void>) => {
   const allAccounts = useAllAccountsSelector();
-
-  const [isPasswordMatch, setIsPasswordMatch] = useState(false);
-  const [passwordAttempts, setPasswordAttempts] = useState(0);
 
   const changePassword$ = useMemo(() => new Subject<string[]>(), []);
 
@@ -25,17 +23,14 @@ export const useChangePassword = () => {
       )
       .subscribe(result => {
         if (result) {
-          setIsPasswordMatch(true);
+          onSuccess();
+        } else {
+          onFail();
         }
-        setPasswordAttempts(prev => prev + 1);
       });
 
     return () => changePasswordSubscription.unsubscribe();
-  }, [changePassword$]);
+  }, [changePassword$, onSuccess, onFail]);
 
-  return {
-    isPasswordMatch,
-    passwordAttempts,
-    changePassword
-  };
+  return changePassword;
 };
