@@ -13,7 +13,7 @@ import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';
 import { TextInput } from '../../../../components/text-input/text-input';
 import { Text } from '../../../../components/text/text';
-import { MainnetRpcEnum } from '../../../../constants/rpc';
+import { MainnetRpcEnum, TestnetRpcEnum } from '../../../../constants/rpc';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { ModalActionContainer } from '../../../../modals/components/modal-action-container/modal-action-container';
@@ -68,8 +68,8 @@ export const Confirmation: FC<Props> = ({
     rpcUrl
   } = useSelectedNetworkSelector();
   const networkType = useSelectedNetworkTypeSelector();
-  const isKlaytnMainnet = rpcUrl === MainnetRpcEnum.Klaytn;
-  const [speed, setSpeed] = useState(speedOptions[isKlaytnMainnet ? 0 : 1]);
+  const isKlaytnNetwork = rpcUrl === MainnetRpcEnum.Klaytn || rpcUrl === TestnetRpcEnum.KlaytnBaobab;
+  const [speed, setSpeed] = useState(speedOptions[isKlaytnNetwork ? 0 : 1]);
   const {
     control,
     watch,
@@ -188,7 +188,7 @@ export const Confirmation: FC<Props> = ({
           {isEvmNetwork && (
             <FeeItem title="Gas" loading={isFeeLoading} fee={correctedTransactionFee} symbol={gasTokenSymbol} />
           )}
-          {!isKlaytnMainnet && (
+          {!isKlaytnNetwork && (
             <>
               <Row style={styles.speedBlock}>
                 <Text style={styles.speedOfTransactionText}>Speed of transaction</Text>
