@@ -13,6 +13,7 @@ import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';
 import { TextInput } from '../../../../components/text-input/text-input';
 import { Text } from '../../../../components/text/text';
+import { MainnetRpcEnum, TestnetRpcEnum } from '../../../../constants/rpc';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { ModalActionContainer } from '../../../../modals/components/modal-action-container/modal-action-container';
@@ -63,10 +64,12 @@ export const Confirmation: FC<Props> = ({
   const {
     iconName,
     name,
-    gasTokenMetadata: { symbol: gasTokenSymbol, decimals: gasTokenDecimals }
+    gasTokenMetadata: { symbol: gasTokenSymbol, decimals: gasTokenDecimals },
+    rpcUrl
   } = useSelectedNetworkSelector();
   const networkType = useSelectedNetworkTypeSelector();
-  const [speed, setSpeed] = useState(speedOptions[1]);
+  const isKlaytnNetwork = rpcUrl === MainnetRpcEnum.Klaytn || rpcUrl === TestnetRpcEnum.KlaytnBaobab;
+  const [speed, setSpeed] = useState(speedOptions[isKlaytnNetwork ? 0 : 1]);
   const {
     control,
     watch,
@@ -185,23 +188,27 @@ export const Confirmation: FC<Props> = ({
           {isEvmNetwork && (
             <FeeItem title="Gas" loading={isFeeLoading} fee={correctedTransactionFee} symbol={gasTokenSymbol} />
           )}
-          <Row style={styles.speedBlock}>
-            <Text style={styles.speedOfTransactionText}>Speed of transaction</Text>
-            <ProgressBar status={progressStatus} />
-          </Row>
-          <Row style={styles.speedContainer}>
-            {speedOptions.map(({ title, value }, index) => (
-              <Fragment key={title}>
-                <Button
-                  title={title}
-                  onPress={() => handleSpeedChange({ title, value })}
-                  style={[styles.speedItem, speed.value === value && styles.activeSpeedItem]}
-                  styleText={styles.speedItemText}
-                />
-                {speedOptions.length - 1 !== index && <Divider style={styles.borderRight} />}
-              </Fragment>
-            ))}
-          </Row>
+          {!isKlaytnNetwork && (
+            <>
+              <Row style={styles.speedBlock}>
+                <Text style={styles.speedOfTransactionText}>Speed of transaction</Text>
+                <ProgressBar status={progressStatus} />
+              </Row>
+              <Row style={styles.speedContainer}>
+                {speedOptions.map(({ title, value }, index) => (
+                  <Fragment key={title}>
+                    <Button
+                      title={title}
+                      onPress={() => handleSpeedChange({ title, value })}
+                      style={[styles.speedItem, speed.value === value && styles.activeSpeedItem]}
+                      styleText={styles.speedItemText}
+                    />
+                    {speedOptions.length - 1 !== index && <Divider style={styles.borderRight} />}
+                  </Fragment>
+                ))}
+              </Row>
+            </>
+          )}
           {isTezosNetwork && (
             <FeeItem title="Gas" loading={isFeeLoading} fee={correctedTransactionFee} symbol={symbol} />
           )}
