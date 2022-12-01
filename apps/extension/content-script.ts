@@ -19,6 +19,7 @@ const pageStream = new WindowPostMessageStream({
 
 // listen background-script message and send message to dApps
 myPort.onMessage.addListener(async message => {
+  console.log('from BG', message);
   window.postMessage(message, '*');
 
   return Promise.resolve();
@@ -27,6 +28,7 @@ myPort.onMessage.addListener(async message => {
 // listen dApps and send message to background-script
 window.addEventListener('message', async message => {
   if (message.data?.target === 'oko-contentscript') {
+    console.log('content', message.data);
     const windowMetadata = await getWindowMetadata();
 
     const dAppMessage: DAppMessage = {

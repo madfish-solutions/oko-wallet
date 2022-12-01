@@ -31,7 +31,11 @@ export const sendEvmTransactionSubscription = (sendEvmTransaction$: Subject<GetE
               } = transactionParams;
 
               if (assetType === AssetTypeEnum.GasToken) {
-                return signer.sendTransaction({ to: receiverPublicKeyHash, value, gasLimit, gasPrice, data });
+                if (value !== '0') {
+                  return signer.sendTransaction({ to: receiverPublicKeyHash, value, gasLimit, gasPrice, data });
+                }
+
+                return signer.sendTransaction({ gasLimit, gasPrice, data });
               } else if (assetType === AssetTypeEnum.Collectible) {
                 const contract = Erc721abi__factory.connect(tokenAddress, signer);
 

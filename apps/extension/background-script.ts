@@ -134,15 +134,20 @@ runtime.onConnect.addListener(port => {
         }
 
         case 'eth_estimateGas': {
-          const result = '0x5208'; // 21000
-          const message = createDAppResponse(id, result);
+          const provider = getDefaultProvider(selectedRpcUrl);
 
-          port.postMessage(message);
+          if (data.params !== undefined) {
+            const result = await provider.estimateGas(data.params[0].data);
+            const message = createDAppResponse(id, result);
+
+            port.postMessage(message);
+          }
 
           return Promise.resolve();
         }
 
         case 'eth_blockNumber': {
+          // temporary mock
           const result = '0x1610851';
           const message = createDAppResponse(id, result);
 
