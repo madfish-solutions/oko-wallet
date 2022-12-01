@@ -1,7 +1,7 @@
 import { isNotEmptyString } from '@rnw-community/shared';
 import axios from 'axios';
 
-import { BASE_DEBANK_URL, DEBANK_HEADERS } from '../constants/defaults';
+import { BASE_DEBANK_URL, DEBANK_HEADERS, GAS_TOKEN_ADDRESS } from '../constants/defaults';
 import { DATA_UPDATE_TIME } from '../constants/update-time';
 import { ActivityResponse, TokenInfo } from '../interfaces/activity.interface';
 import { getSlug } from '../utils/getSlug.uitl';
@@ -28,7 +28,7 @@ export const getHistoryList = memoize(
           id: publicKeyHash,
           page_count: 20,
           start_time: startTime,
-          token_id: tokenAddress
+          token_id: tokenAddress === GAS_TOKEN_ADDRESS ? undefined : tokenAddress
         }
       })
       .then(result => result.data)

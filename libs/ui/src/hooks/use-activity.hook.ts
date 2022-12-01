@@ -103,7 +103,6 @@ const transformApiData = (
 export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAddress?: string) => {
   const [lastTimestamp, setLastTimestamp] = useState<Record<string, number>>({});
   const [activity, setActivity] = useState<SectionListActivityData[]>([]);
-  const tokenAddressRequest = tokenAddress === GAS_TOKEN_ADDRESS ? undefined : tokenAddress;
 
   useEffect(() => {
     setActivity([]);
@@ -111,7 +110,7 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
   }, [publicKeyHash, chainName]);
 
   const fetchActivity = async (startTime: number) => {
-    const response = await getHistoryList(publicKeyHash, chainName, startTime, tokenAddressRequest);
+    const response = await getHistoryList(publicKeyHash, chainName, startTime, tokenAddress);
 
     if (response !== undefined) {
       const activityData =

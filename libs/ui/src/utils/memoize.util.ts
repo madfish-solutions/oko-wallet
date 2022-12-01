@@ -21,9 +21,10 @@ export const memoize =
     const cacheValue = cache[key];
 
     if (
-      isDefined(cacheValue) &&
-      cacheValue.createdAt + experationTime > new Date().getTime() &&
-      JSON.stringify(cacheValue.prevArgs) === JSON.stringify([...args])
+      (isDefined(cacheValue) && cacheValue.createdAt + experationTime > new Date().getTime()) ||
+      (isDefined(cacheValue) &&
+        isDefined(cacheValue.prevArgs) &&
+        JSON.stringify(cacheValue.prevArgs) === JSON.stringify([...args]))
     ) {
       return cacheValue.data;
     }
