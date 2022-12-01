@@ -8,6 +8,7 @@ import { useAllAccountsSelector } from '../../../../../../store/wallet/wallet.se
 import { AccountsContainer } from '../accounts-container/accounts-container';
 
 import { styles } from './hd-accounts.styles';
+import { HdAccountsTestIDs } from './hd-accounts.test-ids';
 
 export const HdAccounts: FC = () => {
   const { navigate } = useNavigation();
@@ -23,6 +24,7 @@ export const HdAccounts: FC = () => {
         size={ButtonSizeEnum.Medium}
         style={styles.button}
         styleText={styles.buttonText}
+        testID={HdAccountsTestIDs.RevealSeedPhraseButton}
       />
     </AccountsContainer>
   );
