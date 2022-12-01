@@ -16,5 +16,4 @@ export interface GetEvmSignerParams {
   errorCallback: OnEventFn<void>;
   transactionParams: TransactionParams;
   assetType: AssetTypeEnum;
-  messageID?: string;
 }

@@ -1,9 +1,6 @@
-import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { isDefined } from '@rnw-community/shared';
 import React, { FC, useCallback } from 'react';
-import { tabs } from 'webextension-polyfill';
 
-import { createDAppResponse } from '../../../..//utils/dapp.utils';
 import { AssetTypeEnum } from '../../../../enums/asset-type.enum';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { TransactionParams } from '../../../../shelter/interfaces/get-evm-signer-params.interface';
@@ -24,11 +21,7 @@ interface Props {
   messageID?: string;
 }
 
-export const EvmConfirmation: FC<Props> = ({
-  transferParams: { asset, receiverPublicKeyHash, value },
-  messageID,
-  children
-}) => {
+export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPublicKeyHash, value }, children }) => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const network = useSelectedNetworkSelector();
   const { sendEvmTransaction } = useShelter();
@@ -52,21 +45,6 @@ export const EvmConfirmation: FC<Props> = ({
     ? Number(estimations?.gasPrice) * Number(estimations?.gasLimit)
     : 0;
 
-  const customSuccessCallback = (transactionResponse: TransactionResponse) => {
-    successCallback(transactionResponse);
-
-    // if messageID defined, its dApp confirmation and we need to send message and close window after success confirm
-    if (isDefined(messageID)) {
-      tabs.query({ active: true }).then(queryTabs => {
-        if (queryTabs[0].id !== undefined) {
-          tabs.sendMessage(queryTabs[0].id, createDAppResponse(messageID, transactionResponse.hash));
-        }
-      });
-
-      setTimeout(() => close(), 1000);
-    }
-  };
-
   const onSend: OnSend = useCallback(
     gasPriceCoefficient => {
       if (isDefined(estimations?.gasPrice) && typeof gasPriceCoefficient === 'number') {
@@ -89,7 +67,7 @@ export const EvmConfirmation: FC<Props> = ({
           transactionParams,
           publicKeyHash,
           assetType,
-          successCallback: customSuccessCallback,
+          successCallback,
           errorCallback
         });
       }

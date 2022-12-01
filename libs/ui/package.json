@@ -72,8 +72,7 @@
     "ts-prune": "^0.10.3",
     "typechain": "^8.1.0",
     "vision-camera-code-scanner": "^0.2.0",
-    "wasm-themis": "^0.14.5",
-    "webextension-polyfill": "^0.10.0"
+    "wasm-themis": "^0.14.5"
   },
   "resolutions": {
     "@types/react": "^17"
