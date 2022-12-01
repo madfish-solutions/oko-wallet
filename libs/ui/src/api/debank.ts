@@ -43,16 +43,6 @@ export const getHistoryList = memoize(
   DATA_UPDATE_TIME
 );
 
-export const getTokenInfo = memoize(
-  async (tokenAddress: string, chainId: string): Promise<TokenInfo> =>
-    debankApiRequest
-      .get('v1/token', { params: { id: tokenAddress, chain_id: chainId } })
-      .then(result => result.data)
-      .catch(() => ({} as TokenInfo)),
-  (tokenAddress, chainId) => getSlug(tokenAddress, chainId, 'token-info'),
-  DATA_UPDATE_TIME
-);
-
 export const getTokenList = memoize(
   (publicKeyHash: string, chainId: string) =>
     debankApiRequest
