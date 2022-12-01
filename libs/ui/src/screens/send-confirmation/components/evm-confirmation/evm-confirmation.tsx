@@ -1,3 +1,4 @@
+import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { isDefined } from '@rnw-community/shared';
 import React, { FC, useCallback } from 'react';
 
@@ -49,6 +50,15 @@ export const EvmConfirmation: FC<Props> = ({
     ? Number(estimations?.gasPrice) * Number(estimations?.gasLimit)
     : 0;
 
+  const customSuccessCallback = (transactionResponse: TransactionResponse) => {
+    successCallback(transactionResponse);
+
+    // if messageID defined, its dApp confirmation and we need to close window after success confirm
+    if (isDefined(messageID)) {
+      setTimeout(() => close(), 1000);
+    }
+  };
+
   const onSend: OnSend = useCallback(
     gasPriceCoefficient => {
       if (isDefined(estimations?.gasPrice) && typeof gasPriceCoefficient === 'number') {
@@ -71,7 +81,7 @@ export const EvmConfirmation: FC<Props> = ({
           transactionParams,
           publicKeyHash,
           assetType,
-          successCallback,
+          successCallback: customSuccessCallback,
           errorCallback,
           messageID
         });

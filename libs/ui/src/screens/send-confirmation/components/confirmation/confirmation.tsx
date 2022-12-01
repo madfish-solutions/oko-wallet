@@ -171,8 +171,12 @@ export const Confirmation: FC<Props> = ({
             <Row style={styles.sendBlock}>
               <Text style={styles.operationText}>Send</Text>
               <Row>
-                <Text style={styles.amount}>{amount}</Text>
-                <Text style={[styles.symbol, styles.symbolColor]}>{symbol}</Text>
+                {amount !== '0' && (
+                  <>
+                    <Text style={styles.amount}>{amount}</Text>
+                    <Text style={[styles.symbol, styles.symbolColor]}>{symbol}</Text>
+                  </>
+                )}
               </Row>
             </Row>
             <Row style={styles.receiverBlock}>
