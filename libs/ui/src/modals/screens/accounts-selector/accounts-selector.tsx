@@ -54,7 +54,7 @@ export const AccountsSelector: FC = () => {
   const onAddAccount = () => navigate(ScreensEnum.AddAccount);
   const onEditAccount = (account: AccountInterface) => navigate(ScreensEnum.EditAccount, { account });
 
-  const onAccountSettings = () => null;
+  const onAccountSettings = () => navigate(ScreensEnum.AccountsSettings);
 
   return (
     <ModalContainer screenTitle="Accounts">

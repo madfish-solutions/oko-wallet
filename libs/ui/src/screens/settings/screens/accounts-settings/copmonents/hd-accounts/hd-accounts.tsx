@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { View } from 'react-native';
 
 import { Button } from '../../../../../../components/button/button';
 import { ButtonSizeEnum } from '../../../../../../components/button/enums';
@@ -17,13 +18,15 @@ export const HdAccounts: FC = () => {
 
   return (
     <AccountsContainer accounts={accounts}>
-      <Button
-        title="Reveal Seed Phrase"
-        onPress={navigateToRevealSeedPhrase}
-        size={ButtonSizeEnum.Medium}
-        style={styles.button}
-        styleText={styles.buttonText}
-      />
+      <View>
+        <Button
+          title="Reveal Seed Phrase"
+          onPress={navigateToRevealSeedPhrase}
+          size={ButtonSizeEnum.Medium}
+          style={styles.button}
+          styleText={styles.buttonText}
+        />
+      </View>
     </AccountsContainer>
   );
 };

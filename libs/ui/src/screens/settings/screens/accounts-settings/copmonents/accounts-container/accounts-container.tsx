@@ -30,7 +30,7 @@ import {
 import { getPublicKeyHash } from '../../../../../../store/wallet/wallet.utils';
 
 import { styles } from './accounts-container.styles';
-import { AccoutsContainerTestIDs } from './accounts-container.test-ids';
+import { AccountsContainerTestIDs } from './accounts-container.test-ids';
 
 interface Props extends TestIDProps {
   accounts: AccountInterface[];
@@ -113,13 +113,16 @@ export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
           ) : (
             <CopyText text={publicKeyHash} />
           )}
-          <Button
-            title="Reveal Private Key"
-            onPress={() => onRevealPrivateKeyPress(account, publicKeyHash, isPublicKeyHashNotGenerated)}
-            theme={ButtonThemesEnum.Ternary}
-            size={ButtonSizeEnum.Auto}
-            testID={AccoutsContainerTestIDs.RevealPrivateKeyText}
-          />
+
+          <View style={styles.revealPrivateKeyContainer}>
+            <Button
+              title="Reveal Private Key"
+              onPress={() => onRevealPrivateKeyPress(account, publicKeyHash, isPublicKeyHashNotGenerated)}
+              theme={ButtonThemesEnum.Ternary}
+              size={ButtonSizeEnum.Auto}
+              testID={AccountsContainerTestIDs.RevealPrivateKeyText}
+            />
+          </View>
         </Row>
       </View>
     );

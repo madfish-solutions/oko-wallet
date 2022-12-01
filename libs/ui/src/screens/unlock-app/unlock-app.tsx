@@ -14,11 +14,11 @@ import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useUnlock } from '../../hooks/use-unlock.hook';
+import { useValidateForm } from '../../hooks/use-validate-form.hook';
 import { useBiometricEnabledSelector } from '../../store/settings/settings.selectors';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { isMobile } from '../../utils/platform.utils';
-import { useValidateForm } from '../almost-done/hooks/use-validate-form.hook';
 import { MadFishLogo } from '../settings/components/mad-fish-logo/mad-fish-logo';
 
 import { styles } from './unlock.styles';
@@ -50,7 +50,7 @@ export const UnlockApp: FC = () => {
 
   const password = watch('password');
 
-  const { commonRules } = useValidateForm(password);
+  const { commonRules } = useValidateForm();
 
   const onUnlock = () => unlock(password);
   const onResetWallet = () => navigate(ScreensEnum.SettingsResetWalletConfirm);

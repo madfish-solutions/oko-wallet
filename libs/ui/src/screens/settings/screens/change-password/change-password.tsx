@@ -1,5 +1,5 @@
 import { isDefined } from '@rnw-community/shared';
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, useMemo, useState, useCallback } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ScrollView, View } from 'react-native';
 
@@ -17,8 +17,8 @@ import { TouchableIcon } from '../../../../components/touchable-icon/touchable-i
 import { useChangePassword } from '../../../../hooks/use-change-password-hook';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useToast } from '../../../../hooks/use-toast.hook';
+import { useValidatePasswordForm } from '../../../../hooks/use-validate-password-form.hook';
 import { usePasswordValidation } from '../../../../hooks/use-validation-messages.hook';
-import { useValidateForm } from '../../../almost-done/hooks/use-validate-form.hook';
 
 import { styles } from './change-password.styles';
 
@@ -28,34 +28,39 @@ interface ChangePasswordType {
   confirmPassword: string;
 }
 
+const defaultValues = {
+  password: '',
+  confirmPassword: '',
+  oldPassword: ''
+};
+
 export const ChangePassword: FC = () => {
   const { goBack } = useNavigation();
   const [isSecurePassword, setIsSecurePassword] = useState(true);
   const [isSecureOldPassword, setIsSecureOldPassword] = useState(true);
   const [isSecureConfirmPassword, setIsSecureConfirmPassword] = useState(true);
   const [passwordMatchError, setPasswordMatchError] = useState<string>();
-  const { isPasswordMatch, changePassword, passwordAttempts } = useChangePassword();
-  const { showSuccessToast } = useToast();
+  const { showSuccessToast, showErrorToast } = useToast();
 
   const handleTogglePasswordVisibility = () => setIsSecurePassword(prev => !prev);
   const handleToggleOldPasswordVisibility = () => setIsSecureOldPassword(prev => !prev);
   const handleToggleConfirmPasswordVisibility = () => setIsSecureConfirmPassword(prev => !prev);
-  const defaultValues = {
-    password: '',
-    confirmPassword: '',
-    oldPassword: ''
-  };
+
   const {
     control,
     handleSubmit,
     watch,
+    trigger,
+    setFocus,
     formState: { errors, dirtyFields, isDirty, isSubmitted }
-  } = useForm<ChangePasswordType>({
+  } = useForm({
     mode: 'onChange',
     defaultValues
   });
 
+  const oldPassword = watch('oldPassword');
   const password = watch('password');
+  const confirmPassword = watch('confirmPassword');
 
   const { passwordValidationMessages } = usePasswordValidation(password, dirtyFields);
 
@@ -67,26 +72,37 @@ export const ChangePassword: FC = () => {
     [passwordValidationMessages, dirtyFields.password]
   );
 
-  const { commonRules, changePasswordRules } = useValidateForm(password);
+  const onSuccessFullPasswordChange = useCallback(() => {
+    if (password === oldPassword) {
+      showErrorToast('Old password cannot match the new one');
+
+      setFocus('password');
+    } else {
+      showSuccessToast('Password was successfully changed');
+      goBack();
+    }
+  }, [password, oldPassword]);
+
+  const onFailPasswordChange = useCallback(() => {
+    if (isDirty && !passwordIsNoValid) {
+      setPasswordMatchError('Wrong password');
+    }
+  }, [isDirty, passwordIsNoValid]);
+
+  const changePassword = useChangePassword(onSuccessFullPasswordChange, onFailPasswordChange);
+
+  const { commonRules, changePasswordRules } = useValidatePasswordForm({
+    password,
+    confirmPassword,
+    trigger,
+    confirmPasswordError: errors.confirmPassword?.message
+  });
 
   const handleChangePassword = ({ password, oldPassword }: ChangePasswordType) => {
     if (!passwordIsNoValid) {
       changePassword(password, oldPassword);
     }
   };
-
-  useEffect(() => {
-    if (isPasswordMatch) {
-      showSuccessToast('Password was successfully changed');
-      goBack();
-    }
-  }, [isPasswordMatch]);
-
-  useEffect(() => {
-    if (isDirty && !passwordIsNoValid && !isPasswordMatch) {
-      setPasswordMatchError('Wrong password');
-    }
-  }, [passwordAttempts]);
 
   const isValidationError = (Object.keys(errors).length > 0 || Boolean(passwordMatchError)) && isSubmitted;
 

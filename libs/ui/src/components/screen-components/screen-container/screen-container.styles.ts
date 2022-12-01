@@ -12,11 +12,16 @@ export const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'flex-start',
     height: isMobile ? '100%' : isFullpage ? extensionHeight : EXTENSION_FULL_SIZE,
-    backgroundColor: colors.navGrey1,
     ...(isFullpage && {
       marginTop: maximiseViewStyles.marginTop,
       borderRadius: maximiseViewStyles.borderRadius,
       overflow: maximiseViewStyles.overflow
     })
+  },
+  primary: {
+    backgroundColor: colors.navGrey1
+  },
+  secondary: {
+    backgroundColor: colors.black
   }
 });

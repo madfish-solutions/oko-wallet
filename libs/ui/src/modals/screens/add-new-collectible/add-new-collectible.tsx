@@ -58,7 +58,7 @@ export const AddNewCollectible: FC = () => {
   const { rpcUrl } = useSelectedNetworkSelector();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const dispatch = useDispatch();
-  const { showWarningToast } = useToast();
+  const { showErrorToast } = useToast();
 
   const accountTokens = useAccountAssetsSelector();
 
@@ -205,7 +205,7 @@ export const AddNewCollectible: FC = () => {
     });
 
     if (Number(collectibleBalance) === 0) {
-      return showWarningToast('You are not the owner of this collectible');
+      return showErrorToast('You are not the owner of this Collectible');
     }
 
     dispatch(addNewCollectibleAction({ ...collectibleMetadata, balance: collectibleBalance }));

@@ -112,3 +112,31 @@ export type ScreensParamList = {
   [ScreensEnum.DeleteDApp]: { origin: string };
   [ScreensEnum.Initial]: undefined;
 };
+
+export const walletStackScreens = [
+  ScreensEnum.Wallet,
+  ScreensEnum.Activity,
+  ScreensEnum.Tokens,
+  ScreensEnum.ManageTokens
+];
+export const receiveStackScreens = [ScreensEnum.Receive];
+export const swapStackScreens = [];
+export const sendStackScreens = [
+  ScreensEnum.SendToken,
+  ScreensEnum.SendTokensSelector,
+  ScreensEnum.SendConfirmation,
+  ScreensEnum.AccountsSelector
+];
+export const settingsStackScreens = [
+  ScreensEnum.Settings,
+  ScreensEnum.SettingsGeneral,
+  ScreensEnum.SettingsSecurity,
+  ScreensEnum.Settings,
+  ScreensEnum.SettingsGeneral,
+  ScreensEnum.SettingsSecurity,
+  ScreensEnum.SettingsAboutUs,
+  ScreensEnum.AccountsSettings,
+  ScreensEnum.AuthorizedDApps,
+  ScreensEnum.RevealPrivateKey,
+  ScreensEnum.RevealSeedPhrase
+];
