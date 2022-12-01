@@ -7,6 +7,7 @@ import { ScreenContainer } from '../../../../components/screen-components/screen
 import { Tabs } from '../../../../components/tabs/tabs';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 
+import { AccountsSettingsTestIDs } from './accounts-settings.test-ids';
 import { HdAccounts } from './copmonents/hd-accounts/hd-accounts';
 import { ImportedAccounts } from './copmonents/imported-accounts/imported-accounts';
 
@@ -29,7 +30,11 @@ export const AccountsSettings: FC = () => {
   return (
     <ScreenContainer>
       <HeaderContainer isSelectors>
-        <ScreenTitle title="Accounts Settings" onBackButtonPress={goBack} />
+        <ScreenTitle
+          title="Accounts Settings"
+          onBackButtonPress={goBack}
+          testID={AccountsSettingsTestIDs.AccountsSettingsTitle}
+        />
       </HeaderContainer>
 
       <Tabs values={tabs} />

@@ -6,6 +6,7 @@ export class CreateNewWalletPage extends Page {
   tapToRevealLayout = createPageElement(CreateANewWalletTestIDs.TapToRevealLayout);
   mnemonicSavedCheckbox = createPageElement(CreateANewWalletTestIDs.MnemonicSavedCheckbox);
   nextButton = createPageElement(CreateANewWalletTestIDs.NextButton);
+  savedSeedError = createPageElement(CreateANewWalletTestIDs.SavedSeedError);
 
   async isVisible() {
     await this.tapToRevealLayout.waitForDisplayed();

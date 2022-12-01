@@ -18,7 +18,8 @@ import { useGroupedCollectibles } from '../../../collectibles/hooks/use-grouped-
 
 import { styles } from './collectibles.styles';
 
-const EMPTY_NFT = 'Receive your first NFT';
+const RECEIVE_СOLLECTIBLE = 'Receive NFT';
+const ADD_COLLECTIBLE = 'Add NFT';
 const COLLECTIBLES = 'Collectibles';
 const RECEIVE = 'RECEIVE';
 const VIEW_ALL = 'VIEW ALL';
@@ -28,18 +29,33 @@ export const CollectiblesWidget: FC<TestIDProps> = ({ testID }) => {
   const { collectionList } = useGroupedCollectibles();
 
   const navigateToNftList = () => navigate(ScreensEnum.CollectiblesList);
+  const navigateToReceive = () => navigate(ScreensEnum.Receive);
+  const navigateToAddNewCollectible = () => navigate(ScreensEnum.AddNewCollectible);
 
   const handleItemPress = (collectible: Token) => navigate(ScreensEnum.Collectible, { collectible });
 
   return (
     <WidgetContainer title={COLLECTIBLES} iconName={IconNameEnum.Nft} testID={testID}>
       {isEmptyArray(collectionList) ? (
-        <ButtonWithIcon
-          title={EMPTY_NFT}
-          size={ButtonWithIconSizeEnum.Medium}
-          theme={ButtonWithIconThemesEnum.Tertiary}
-          leftIcon={IconNameEnum.Receive}
-        />
+        <Row>
+          <ButtonWithIcon
+            title={RECEIVE_СOLLECTIBLE}
+            onPress={navigateToReceive}
+            size={ButtonWithIconSizeEnum.Medium}
+            theme={ButtonWithIconThemesEnum.Tertiary}
+            leftIcon={IconNameEnum.Receive}
+            style={styles.button}
+          />
+          <Divider />
+          <ButtonWithIcon
+            title={ADD_COLLECTIBLE}
+            onPress={navigateToAddNewCollectible}
+            size={ButtonWithIconSizeEnum.Medium}
+            theme={ButtonWithIconThemesEnum.Tertiary}
+            leftIcon={IconNameEnum.Add}
+            style={styles.button}
+          />
+        </Row>
       ) : (
         <Row>
           <Row>
@@ -57,6 +73,7 @@ export const CollectiblesWidget: FC<TestIDProps> = ({ testID }) => {
           <Column style={styles.buttons}>
             <ButtonWithIcon
               title={RECEIVE}
+              onPress={navigateToReceive}
               size={ButtonWithIconSizeEnum.Medium}
               theme={ButtonWithIconThemesEnum.Tertiary}
               rightIcon={IconNameEnum.Receive}
