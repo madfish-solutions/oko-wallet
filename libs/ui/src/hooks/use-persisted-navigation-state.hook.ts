@@ -11,7 +11,11 @@ import { getStoredValue, setStoredValue } from '../utils/store.util';
 
 export const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
-const ROUTES_TO_IGNORE: string[] = [ScreensEnum.DAppConnectionConfirmation, ScreensEnum.NetworkChangeConfirmation];
+const ROUTES_TO_IGNORE: string[] = [
+  ScreensEnum.DAppConnectionConfirmation,
+  ScreensEnum.NetworkChangeConfirmation,
+  ScreensEnum.DAppTransactionConfirmation
+];
 
 export const usePersistedNavigationState = () => {
   const [isReady, setIsReady] = useState(false);
@@ -52,13 +56,13 @@ export const usePersistedNavigationState = () => {
             storedInitialState.routes.push(route);
           }
 
-          //Confirm send transaction
+          //Confirm transaction from dApp
           if (
             typeof query.id === 'string' &&
             typeof query.transactionInfo === 'string' &&
             typeof query.dAppInfo === 'string'
           ) {
-            const route = createNavigationRoute(ScreensEnum.DAppSendConfirmation, {
+            const route = createNavigationRoute(ScreensEnum.DAppTransactionConfirmation, {
               messageId: query.id,
               transactionInfo: JSON.parse(query.transactionInfo),
               dAppInfo: JSON.parse(query.dAppInfo)

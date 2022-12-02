@@ -2,7 +2,6 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { tabs } from 'webextension-polyfill';
 
 import { AllowsBlock } from '../../../components/allows-block/allows-block';
 import { Button } from '../../../components/button/button';
@@ -25,7 +24,7 @@ import {
   useSelectedAccountSelector
 } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
-import { createDAppResponse } from '../../../utils/dapp.utils';
+import { sendResponseToDAppAndClosePopup } from '../../../utils/dapp.utils';
 import { getFormattedBalance } from '../../../utils/units.utils';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
@@ -50,16 +49,8 @@ export const DAppConnectionConfirmation: FC = () => {
   const gasBalance = getFormattedBalance(balance.data, decimals);
 
   const sendMessage = () => {
-    tabs.query({ active: true }).then(queryTabs => {
-      if (queryTabs[0].id !== undefined) {
-        dispatch(connectDAppAction({ dAppInfo: params.dAppInfo, accountPublicKeyHash: selectedAccountPublicKeyHash }));
-
-        const message = createDAppResponse(params.messageId, [selectedAccountPublicKeyHash]);
-        tabs.sendMessage(queryTabs[0].id, message);
-
-        setTimeout(window.close, 1000);
-      }
-    });
+    dispatch(connectDAppAction({ dAppInfo: params.dAppInfo, accountPublicKeyHash: selectedAccountPublicKeyHash }));
+    sendResponseToDAppAndClosePopup(params.messageId, [selectedAccountPublicKeyHash]);
   };
 
   const navigateToAccountsSelector = () => navigate(ScreensEnum.AccountsSelector);

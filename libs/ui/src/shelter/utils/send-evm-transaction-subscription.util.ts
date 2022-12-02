@@ -65,12 +65,5 @@ export const sendEvmTransactionSubscription = (sendEvmTransaction$: Subject<GetE
     .subscribe(([transactionResponse, successCallback]) => {
       if (isNotEmptyString(transactionResponse?.hash)) {
         successCallback(transactionResponse);
-        // if (isDefined(messageID)) {
-        //   tabs.query({ active: true }).then(queryTabs => {
-        //     if (queryTabs[0].id !== undefined) {
-        //       tabs.sendMessage(queryTabs[0].id, createDAppResponse(messageID, transactionResponse.hash));
-        //     }
-        //   });
-        // }
       }
     });

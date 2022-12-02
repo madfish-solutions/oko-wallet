@@ -80,6 +80,8 @@ runtime.onConnect.addListener(port => {
       const selectedAccountPublicKeyHash = state.wallet.selectedAccountPublicKeyHash;
       const isPermissionGranted = dAppState?.allowedAccounts.includes(selectedAccountPublicKeyHash);
 
+      const provider = getDefaultProvider(selectedRpcUrl);
+
       switch (method) {
         case 'eth_requestAccounts': {
           if (isPermissionGranted) {
@@ -134,8 +136,6 @@ runtime.onConnect.addListener(port => {
         }
 
         case 'eth_estimateGas': {
-          const provider = getDefaultProvider(selectedRpcUrl);
-
           if (data.params !== undefined) {
             const result = await provider.estimateGas(data.params[0].data);
             const message = createDAppResponse(id, result);
@@ -147,9 +147,8 @@ runtime.onConnect.addListener(port => {
         }
 
         case 'eth_blockNumber': {
-          // temporary mock
-          const result = '0x1610851';
-          const message = createDAppResponse(id, result);
+          const result = await provider.getBlockNumber();
+          const message = createDAppResponse(id, result.toString());
 
           port.postMessage(message);
 
@@ -163,7 +162,6 @@ runtime.onConnect.addListener(port => {
         }
 
         case 'eth_getTransactionByHash': {
-          const provider = getDefaultProvider(selectedRpcUrl);
           const txReceipt = await provider.getTransaction(data.params?.[0]);
 
           const message = createDAppResponse(id, txReceipt);

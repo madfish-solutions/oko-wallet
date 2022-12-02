@@ -1,6 +1,6 @@
 import { SeedWordsAmount } from '../constants/seed-words-amount';
 import { AccountInterface } from '../interfaces/account.interface';
-import { DAppInfo, DAppSendTransactionInfo } from '../interfaces/dapp-info.interface';
+import { DAppInfo, DAppTransactionInfo } from '../interfaces/dapp-info.interface';
 import { NetworkInterface } from '../interfaces/network.interface';
 import { Token } from '../interfaces/token.interface';
 import { TransferParams } from '../interfaces/transfer-params.interface';
@@ -53,7 +53,7 @@ export enum ScreensEnum {
   AddNewCollectible = 'AddNewCollectible',
   Collectible = 'Collectible',
   Initial = 'Initial',
-  DAppSendConfirmation = 'DAppSendConfirmation'
+  DAppTransactionConfirmation = 'DAppTransactionConfirmation'
 }
 
 export type ScreensParamList = {
@@ -107,9 +107,9 @@ export type ScreensParamList = {
   [ScreensEnum.AuthorizedDApps]: undefined;
   [ScreensEnum.DeleteDApp]: { origin: string };
   [ScreensEnum.Initial]: undefined;
-  [ScreensEnum.DAppSendConfirmation]: {
+  [ScreensEnum.DAppTransactionConfirmation]: {
     messageId: string;
-    transactionInfo: DAppSendTransactionInfo;
+    transactionInfo: DAppTransactionInfo;
     dAppInfo: DAppInfo;
   };
 };

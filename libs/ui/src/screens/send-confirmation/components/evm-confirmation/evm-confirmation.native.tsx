@@ -21,14 +21,17 @@ interface Props {
   messageID?: string;
 }
 
-export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPublicKeyHash, value }, children }) => {
+export const EvmConfirmation: FC<Props> = ({
+  transferParams: { asset, receiverPublicKeyHash, value, data = '0x' },
+  children
+}) => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const network = useSelectedNetworkSelector();
   const { sendEvmTransaction } = useShelter();
   const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } =
     useTransactionHook(receiverPublicKeyHash);
 
-  const { tokenAddress, tokenId, decimals, symbol, data = '0x' } = asset;
+  const { tokenAddress, tokenId, decimals, symbol } = asset;
   const assetType = getAssetType(asset);
 
   const { estimations, isLoading } = useEvmEstimations({

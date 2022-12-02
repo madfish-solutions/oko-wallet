@@ -9,7 +9,7 @@ import { AddAccount } from '../../modals/screens/add-account/add-account';
 import { AddNewCollectible } from '../../modals/screens/add-new-collectible/add-new-collectible';
 import { Collectible } from '../../modals/screens/collectible/collectible';
 import { DAppConnectionConfirmation } from '../../modals/screens/d-app-connection-confirmation/d-app-connection-confirmation';
-import { DAppSendConfirmation } from '../../modals/screens/d-app-send-confirmation/d-app-send-confirmation';
+import { DAppTransactionConfirmation } from '../../modals/screens/d-app-transaction-confirmation/d-app-transaction-confirmation';
 import { DeleteDApp } from '../../modals/screens/delete-d-app/delete-d-app';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
 import { NetworkChangeConfirmation } from '../../modals/screens/network-change-confirmation/network-change-confirmation';
@@ -166,9 +166,9 @@ export const Navigator: FC = () => {
                 component={DAppConnectionConfirmation}
               />
               <Stack.Screen
-                name={ScreensEnum.DAppSendConfirmation}
+                name={ScreensEnum.DAppTransactionConfirmation}
                 options={{ title: 'Confirm operation' }}
-                component={DAppSendConfirmation}
+                component={DAppTransactionConfirmation}
               />
               <Stack.Screen
                 name={ScreensEnum.NetworkChangeConfirmation}

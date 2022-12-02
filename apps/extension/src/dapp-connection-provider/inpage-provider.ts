@@ -342,7 +342,7 @@ export class InpageProvider extends AbstractStreamProvider {
             });
           }
 
-          return this._state.isUnlocked;
+          return true;
         },
 
         /**

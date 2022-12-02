@@ -1,9 +1,8 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { isDefined } from '@rnw-community/shared';
 import React, { FC, useCallback } from 'react';
-import { tabs } from 'webextension-polyfill';
 
-import { createDAppResponse } from '../../../..//utils/dapp.utils';
+import { sendResponseToDAppAndClosePopup } from '../../../..//utils/dapp.utils';
 import { AssetTypeEnum } from '../../../../enums/asset-type.enum';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { TransactionParams } from '../../../../shelter/interfaces/get-evm-signer-params.interface';
@@ -25,7 +24,7 @@ interface Props {
 }
 
 export const EvmConfirmation: FC<Props> = ({
-  transferParams: { asset, receiverPublicKeyHash, value },
+  transferParams: { asset, receiverPublicKeyHash, value, data = '0x' },
   messageID,
   children
 }) => {
@@ -35,7 +34,7 @@ export const EvmConfirmation: FC<Props> = ({
   const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } =
     useTransactionHook(receiverPublicKeyHash);
 
-  const { tokenAddress, tokenId, decimals, symbol, data = '0x' } = asset;
+  const { tokenAddress, tokenId, decimals, symbol } = asset;
   const assetType = getAssetType(asset);
 
   const { estimations, isLoading } = useEvmEstimations({
@@ -57,13 +56,7 @@ export const EvmConfirmation: FC<Props> = ({
 
     // if messageID defined, its dApp confirmation and we need to send message and close window after success confirm
     if (isDefined(messageID)) {
-      tabs.query({ active: true }).then(queryTabs => {
-        if (queryTabs[0].id !== undefined) {
-          tabs.sendMessage(queryTabs[0].id, createDAppResponse(messageID, transactionResponse.hash));
-        }
-      });
-
-      setTimeout(() => close(), 1000);
+      sendResponseToDAppAndClosePopup(messageID, transactionResponse.hash);
     }
   };
 

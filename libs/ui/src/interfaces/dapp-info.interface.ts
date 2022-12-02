@@ -4,7 +4,7 @@ export interface DAppInfo {
   favicon: string;
 }
 
-export interface DAppSendTransactionInfo {
+export interface DAppTransactionInfo {
   data: string;
   from: string;
   gas: string;

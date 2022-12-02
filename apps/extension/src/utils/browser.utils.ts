@@ -1,7 +1,7 @@
 import { DAppInfo } from 'ui/background-script';
 import { windows, runtime, Windows } from 'webextension-polyfill';
 
-import { DAppSendTransactionInfo } from '../../../../libs/ui/src/interfaces/dapp-info.interface';
+import { DAppTransactionInfo } from '../../../../libs/ui/src/interfaces/dapp-info.interface';
 
 const popupCreateData: Windows.CreateCreateDataType = {
   type: 'popup',
@@ -25,7 +25,7 @@ export const openNetworkChangeConfirmationPopup = async (id: string, origin: str
 
 export const openConfirmSendTransactionPopup = async (
   id: string,
-  transactionInfo: DAppSendTransactionInfo,
+  transactionInfo: DAppTransactionInfo,
   dappInfo: DAppInfo
 ) =>
   windows.create({
