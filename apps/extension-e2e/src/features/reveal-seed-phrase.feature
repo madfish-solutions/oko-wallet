@@ -1,4 +1,4 @@
-Feature: Reveal Privat Key
+Feature: Reveal Private Key
 
 @dev
   Scenario: As a user, I'd like to import account with existing seed phrase
