@@ -267,9 +267,9 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         }
       };
     })
-    .addCase(addNewCollectibleAction, (state, { payload: newCollectible }) => {
+    .addCase(addNewCollectibleAction, (state, { payload }) => {
       const { selectedAccountPublicKeyHash } = state;
-      const { tokenAddress, tokenId, balance, ...tokenMetadata } = newCollectible;
+      const { tokenAddress, tokenId, ...tokenMetadata } = payload.token;
       const chainId = getSelectedNetworkChainId(state);
       const tokenMetadataSlug = getTokenMetadataSlug(chainId, tokenAddress, tokenId);
       const accountTokensSlug = getAccountTokensSlug(chainId, selectedAccountPublicKeyHash);
@@ -292,7 +292,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
               tokenId,
               tokenAddress,
               isVisible: true,
-              balance: createEntity(balance ?? '0')
+              balance: createEntity(payload.balance)
             }
           ]
         }

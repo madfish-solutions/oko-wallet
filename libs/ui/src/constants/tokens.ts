@@ -1,4 +1,4 @@
-import { AccountTokenInput } from '../interfaces/token-input.interface';
+import { TokenExtendedMetadata } from '../interfaces/token-extended-metadata.interface';
 import { getTokenMetadataSlug } from '../utils/token-metadata.util';
 
 import { NETWORKS_DEFAULT_LIST } from './networks';
@@ -10,7 +10,7 @@ const TEZOS_CHAIN_ID = 'NetXdQprcVkpaWU';
 const ROPSTEN_CHAIN_ID = '3';
 const BNB_CHAIN_ID = '56';
 
-export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = {
+export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, TokenExtendedMetadata[]> = {
   [KLAYTN_CHAIN_ID]: [
     {
       tokenAddress: '0x02cbe46fb8a1f579254a9b485788f2d86cad51aa',

@@ -6,7 +6,7 @@ import { NewTokenMetadataRequest } from '../../interfaces/activity.interface';
 import { DappConnectionInfo } from '../../interfaces/dapp-connection.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
-import { AccountTokenInput } from '../../interfaces/token-input.interface';
+import { TokenExtendedMetadata } from '../../interfaces/token-extended-metadata.interface';
 import { Token } from '../../interfaces/token.interface';
 import { TokenFormTypes } from '../../modals/screens/token/types/form-types.interface';
 import { createActions } from '../utils/action.utils';
@@ -43,7 +43,7 @@ export const removeNetworkAction = createAction<{ network: NetworkInterface; isN
   'wallet/REMOVE_NETWORK'
 );
 
-export const addNewTokenAction = createAction<AccountTokenInput>('wallet/ADD_NEW_TOKEN');
+export const addNewTokenAction = createAction<TokenExtendedMetadata>('wallet/ADD_NEW_TOKEN');
 export const addNewTokensAction = createActions<
   { debankId: string; publicKeyHash: string },
   { tokenList: TokenListResponse; debankGasTokenName: string }
@@ -56,7 +56,9 @@ export const getAllUserNftAction = createActions<
   { debankId: string; publicKeyHash: string; is_all?: boolean },
   { nftList: NftListResponse[] }
 >('wallet/GET_ALL_USER_NFT');
-export const addNewCollectibleAction = createAction<AccountTokenInput>('wallet/ADD_NEW_COLLECTIBLE');
+export const addNewCollectibleAction = createAction<{ token: TokenExtendedMetadata; balance: string }>(
+  'wallet/ADD_NEW_COLLECTIBLE'
+);
 export const deleteZeroAmountCollectible = createAction<Token>('wallet/DELETE_ZERO_AMOUNT_COLLECTIBLE');
 
 export const sendAssetAction = createActions<SendAssetPayload>('wallet/SEND_ASSET');
