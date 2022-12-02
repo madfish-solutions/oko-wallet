@@ -1,6 +1,7 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
+import { isDefined } from '@rnw-community/shared';
 import isEmpty from 'lodash/isEmpty';
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { Controller, useForm, FormProvider } from 'react-hook-form';
 import { Pressable, View } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -36,7 +37,7 @@ import { getFormattedBalance } from '../../../../utils/units.utils';
 import { GasTokenWarning } from '../../components/gas-token-warning/gas-token-warning';
 import { SendButton } from '../../components/send-button/send-button';
 import { TransferBetweenMyAccounts } from '../../components/transfer-between-my-accounts/transfer-between-my-accounts';
-import { useSendFormFields } from '../../hooks/use-send-form-fileds.hook';
+import { useSendForm } from '../../hooks/use-send-form.hook';
 import { useValidateAmountField } from '../../hooks/use-validate-amount-field.hook';
 import { FormTypes } from '../../types';
 
@@ -45,7 +46,7 @@ import { styles } from './send-token.styles';
 
 export const SendToken: FC = () => {
   const { showErrorToast } = useToast();
-  const { navigate, goBack } = useNavigation();
+  const { navigate } = useNavigation();
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendToken>>();
 
   const dispatch = useDispatch();
@@ -73,51 +74,63 @@ export const SendToken: FC = () => {
     setValue,
     watch,
     formState: { errors },
-    trigger
+    trigger,
+    clearErrors
   } = methods;
   const token = watch('token');
   const account = watch('account');
   const amount = watch('amount');
 
-  useSendFormFields({ params, account, setValue, trigger });
+  const { onBackButtonPress } = useSendForm({ params, account, setValue, trigger, clearErrors, token });
 
+  const isTokenSelected = isDefined(token);
   const isSendButtonDisabled = !isEmpty(errors);
 
-  const { price } = allTokensMarketInfoSelector[getTokenMetadataSlug(chainId, token.tokenAddress, token.tokenId)] ?? {};
-  const availableBalance = getFormattedBalance(token.balance.data, token.decimals);
-  const availableUsdBalance = getDollarValue({
-    amount: availableBalance,
-    decimals: token.decimals,
-    price,
-    isNeedToFormat: false
-  });
-  const amountInDollar = getDollarValue({
-    amount,
-    decimals: token.decimals,
-    price,
-    errorValue: '0.00',
-    isNeedToFormat: false
-  });
+  const { availableBalance, availableUsdBalance, amountInDollar } = useMemo(() => {
+    const balance = {
+      availableBalance: '0',
+      availableUsdBalance: '0',
+      amountInDollar: '0'
+    };
+
+    if (isTokenSelected) {
+      const price =
+        allTokensMarketInfoSelector[getTokenMetadataSlug(chainId, token.tokenAddress, token.tokenId)].price ?? 0;
+      balance.availableBalance = getFormattedBalance(token.balance.data, token.decimals);
+      balance.availableUsdBalance = getDollarValue({
+        amount: balance.availableBalance,
+        decimals: token.decimals,
+        price,
+        isNeedToFormat: false
+      });
+      balance.amountInDollar = getDollarValue({
+        amount,
+        decimals: token.decimals,
+        price,
+        errorValue: '0.00',
+        isNeedToFormat: false
+      });
+    }
+
+    return balance;
+  }, [token, allTokensMarketInfoSelector, chainId, amount]);
 
   const amountRules = useValidateAmountField(availableBalance);
 
-  const onSubmit = ({
-    token: { decimals, tokenAddress, tokenId },
-    amount,
-    receiverPublicKeyHash,
-    isTransferBetweenAccounts,
-    account
-  }: FormTypes) => {
+  const onSubmit = ({ token, amount, receiverPublicKeyHash, isTransferBetweenAccounts, account }: FormTypes) => {
     const isGasTokenZeroBalance = Number(gasToken.balance.data) === 0;
 
     if (isGasTokenZeroBalance) {
-      showErrorToast('Not enough gas');
-    } else {
+      return showErrorToast('Not enough gas');
+    }
+
+    if (isDefined(token)) {
+      const { decimals, tokenAddress, tokenId, symbol } = token;
       const assetToSend: Asset = {
         decimals,
         tokenAddress: tokenAddress === GAS_TOKEN_ADDRESS ? '' : tokenAddress,
         tokenId: tokenId ?? '',
-        symbol: token.symbol
+        symbol
       };
 
       dispatch(
@@ -136,12 +149,15 @@ export const SendToken: FC = () => {
     <ScreenContainer>
       <HeaderContainer isSelectors>
         <ScreenTitle
-          title={`Send ${token.symbol}`}
-          onBackButtonPress={goBack}
+          title={`Send ${isTokenSelected ? token.symbol : ''}`}
+          onBackButtonPress={onBackButtonPress}
           numberOfLines={1}
           titleStyle={styles.screenTitle}
         />
-        <HeaderSideBalance symbol={token.symbol} balance={availableBalance} usdBalance={availableUsdBalance} />
+
+        {isTokenSelected && (
+          <HeaderSideBalance symbol={token.symbol} balance={availableBalance} usdBalance={availableUsdBalance} />
+        )}
       </HeaderContainer>
 
       <ScreenScrollView>
@@ -157,16 +173,23 @@ export const SendToken: FC = () => {
               placeholder="0.00"
               inputContainerStyle={styles.assetContainer}
               inputStyle={styles.amountInput}
-              decimals={token.decimals}
+              decimals={token?.decimals}
               error={errors?.amount?.message}
               keyboardType="numeric"
               showClearIcon={false}
+              editable={isTokenSelected}
             >
               <View>
                 <Row>
                   <Pressable onPress={navigateToTokensSelector}>
                     <Row>
-                      <Token symbol={token.symbol} uri={token.thumbnailUri} forceHideTokenName />
+                      <Token
+                        symbol={isTokenSelected ? token.symbol : 'Select Asset'}
+                        uri={token?.thumbnailUri}
+                        forceHideTokenName
+                        {...(!isTokenSelected && { symbolStyle: styles.selectAsset })}
+                      />
+
                       <Icon name={IconNameEnum.Dropdown} size={getCustomSize(2)} />
                     </Row>
                   </Pressable>

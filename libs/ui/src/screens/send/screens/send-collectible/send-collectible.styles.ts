@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
 import { typography } from '../../../../styles/typography';
-import { isWeb } from '../../../../utils/platform.utils';
+import { isWeb, isAndroid } from '../../../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   screenTitle: {
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     borderRadius: getCustomSize(),
     padding: getCustomSize(1.5),
     justifyContent: 'space-between',
-    height: getCustomSize(14.75),
+    height: getCustomSize(isAndroid ? 15.5 : 14.75),
     borderWidth: getCustomSize(0.125),
     borderColor: colors.bgGrey4
   },
@@ -41,12 +41,18 @@ export const styles = StyleSheet.create({
   flex1: {
     flex: 1
   },
-  nftNameContainer: {
+  availableAmountContainer: {
     alignItems: 'stretch',
     justifyContent: 'space-between'
   },
+  nftNameContainer: {
+    maxWidth: getCustomSize(isWeb ? 15 : isAndroid ? 19.5 : 18),
+    flexShrink: 1
+  },
+  noNftContainer: {
+    maxWidth: getCustomSize(20)
+  },
   nftName: {
-    maxWidth: getCustomSize(isWeb ? 15 : 18),
     ...typography.bodyInterSemiBold15
   },
   availableContainer: {
@@ -72,7 +78,8 @@ export const styles = StyleSheet.create({
   amountInput: {
     flex: 1,
     ...typography.numbersIBMPlexSansMedium20,
-    height: getCustomSize(3)
+    height: getCustomSize(isAndroid ? 5.25 : 3),
+    textAlignVertical: 'center'
   },
   amountLabelContainer: {
     marginBottom: getCustomSize(0.5)

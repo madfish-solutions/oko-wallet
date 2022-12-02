@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { isDefined, isNotEmptyString, isEmptyString } from '@rnw-community/shared';
+import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import isEmpty from 'lodash/isEmpty';
 import React, { FC, useEffect, useState } from 'react';
 import { FormProvider, useForm, Controller } from 'react-hook-form';
@@ -23,7 +23,6 @@ import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useToast } from '../../../../hooks/use-toast.hook';
 import { Asset } from '../../../../interfaces/asset.interface';
-import { Token } from '../../../../interfaces/token.interface';
 import { sendAssetAction } from '../../../../store/wallet/wallet.actions';
 import {
   useAllAccountsWithoutSelectedSelector,
@@ -36,7 +35,7 @@ import { checkIsErc721Collectible } from '../../../../utils/check-is-erc721-coll
 import { GasTokenWarning } from '../../components/gas-token-warning/gas-token-warning';
 import { SendButton } from '../../components/send-button/send-button';
 import { TransferBetweenMyAccounts } from '../../components/transfer-between-my-accounts/transfer-between-my-accounts';
-import { useSendFormFields } from '../../hooks/use-send-form-fileds.hook';
+import { useSendForm } from '../../hooks/use-send-form.hook';
 import { useValidateAmountField } from '../../hooks/use-validate-amount-field.hook';
 import { FormTypes } from '../../types';
 
@@ -47,7 +46,7 @@ const COLLECTIBLE_IMAGE_SIZE = getCustomSize(11.75);
 export const SendCollectible: FC = () => {
   const [isFocusedInput, setIsFocusedInput] = useState(false);
   const { showErrorToast } = useToast();
-  const { navigate, goBack } = useNavigation();
+  const { navigate } = useNavigation();
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendCollectible>>();
 
   const dispatch = useDispatch();
@@ -56,7 +55,7 @@ export const SendCollectible: FC = () => {
   const allAccountsWithoutSelected = useAllAccountsWithoutSelectedSelector();
 
   const defaultValues: FormTypes = {
-    token: params?.token as Token,
+    token: params?.token,
     amount: '1',
     receiverPublicKeyHash: '',
     account: allAccountsWithoutSelected[0],
@@ -79,58 +78,60 @@ export const SendCollectible: FC = () => {
   const token = watch('token');
   const account = watch('account');
 
-  const amountRules = useValidateAmountField(token.balance.data);
+  const amountRules = useValidateAmountField(token?.balance?.data ?? '0');
 
-  const isErc721 = checkIsErc721Collectible(token);
+  const isCollectibleSelected = isDefined(token);
+  const isErc721 = isCollectibleSelected ? checkIsErc721Collectible(token) : false;
   const isSendButtonDisabled = !isEmpty(errors);
   const isAmountInputError = isNotEmptyString(errors?.amount?.message);
 
-  useSendFormFields({ params, account, setValue, trigger });
+  const { onBackButtonPress } = useSendForm({ params, account, setValue, trigger, clearErrors, token });
 
-  useEffect(() => setValue('amount', '1'), [token.tokenAddress, token.tokenId]);
+  useEffect(() => {
+    if (isCollectibleSelected) {
+      setValue('amount', '1');
+    }
+  }, [token?.tokenAddress, token?.tokenId]);
 
   const navigateToNftSelectors = () => {
     clearErrors('amount');
     navigate(ScreensEnum.SendCollectiblesSelector, { token });
   };
 
-  const onSubmit = ({
-    token: { decimals, tokenAddress, tokenId },
-    amount,
-    receiverPublicKeyHash,
-    isTransferBetweenAccounts,
-    account
-  }: FormTypes) => {
+  const onSubmit = ({ token, amount, receiverPublicKeyHash, isTransferBetweenAccounts, account }: FormTypes) => {
     const isGasTokenZeroBalance = Number(gasToken.balance.data) === 0;
 
     if (isGasTokenZeroBalance) {
       return showErrorToast('Not enough gas');
     }
 
-    const assetToSend: Asset = {
-      decimals,
-      tokenAddress: tokenAddress === GAS_TOKEN_ADDRESS ? '' : tokenAddress,
-      tokenId: tokenId ?? '',
-      symbol: token.name,
-      standard: token.standard
-    };
+    if (isDefined(token)) {
+      const { decimals, tokenAddress, tokenId, name, standard } = token;
+      const assetToSend: Asset = {
+        decimals,
+        tokenAddress: tokenAddress === GAS_TOKEN_ADDRESS ? '' : tokenAddress,
+        tokenId: tokenId ?? '',
+        symbol: name,
+        standard
+      };
 
-    dispatch(
-      sendAssetAction.submit({
-        asset: assetToSend,
-        amount,
-        receiverPublicKeyHash:
-          isTransferBetweenAccounts && account ? getPublicKeyHash(account, networkType) : receiverPublicKeyHash
-      })
-    );
+      dispatch(
+        sendAssetAction.submit({
+          asset: assetToSend,
+          amount,
+          receiverPublicKeyHash:
+            isTransferBetweenAccounts && account ? getPublicKeyHash(account, networkType) : receiverPublicKeyHash
+        })
+      );
+    }
   };
 
   return (
     <ScreenContainer>
       <HeaderContainer isSelectors>
         <ScreenTitle
-          title={`Send ${token.name}`}
-          onBackButtonPress={goBack}
+          title={`Send ${isCollectibleSelected ? token.name : ''}`}
+          onBackButtonPress={onBackButtonPress}
           numberOfLines={1}
           titleStyle={styles.screenTitle}
         />
@@ -150,25 +151,27 @@ export const SendCollectible: FC = () => {
           >
             <Row style={styles.nftWrapper}>
               <CollectibleImage
-                artifactUri={token.artifactUri}
+                artifactUri={token?.artifactUri}
                 pixelShitSize={60}
                 size={COLLECTIBLE_IMAGE_SIZE}
-                style={[styles.nftImage, isEmptyString(token.artifactUri) && styles.shitIcon]}
+                style={[styles.nftImage, !isDefined(token?.artifactUri) && styles.shitIcon]}
               />
               <View style={styles.flex1}>
-                <Row style={styles.nftNameContainer}>
+                <Row style={styles.availableAmountContainer}>
                   <Pressable onPress={navigateToNftSelectors}>
-                    <Row>
+                    <Row style={[styles.nftNameContainer, !isCollectibleSelected && styles.noNftContainer]}>
                       <Text numberOfLines={1} style={styles.nftName}>
-                        {token.name}
+                        {isCollectibleSelected ? token.name : 'Select collectible'}
                       </Text>
                       <Icon name={IconNameEnum.Dropdown} size={getCustomSize(2)} />
                     </Row>
                   </Pressable>
-                  <View style={styles.availableContainer}>
-                    <Text style={styles.greyText}>Available</Text>
-                    <Text style={styles.availableNumber}>{token.balance.data}</Text>
-                  </View>
+                  {isCollectibleSelected && (
+                    <View style={styles.availableContainer}>
+                      <Text style={styles.greyText}>Available</Text>
+                      <Text style={styles.availableNumber}>{token.balance.data}</Text>
+                    </View>
+                  )}
                 </Row>
                 <View style={styles.amountContainer}>
                   <Controller
@@ -184,10 +187,10 @@ export const SendCollectible: FC = () => {
                         inputStyle={styles.amountInput}
                         labelContainerStyle={styles.amountLabelContainer}
                         labelTextStyle={styles.amountLabelText}
-                        decimals={token.decimals}
+                        decimals={token?.decimals}
                         keyboardType="number-pad"
                         showClearIcon={false}
-                        editable={!isErc721}
+                        editable={!isErc721 && isCollectibleSelected}
                         onFocus={() => setIsFocusedInput(true)}
                       />
                     )}

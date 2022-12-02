@@ -18,6 +18,9 @@ export const styles = StyleSheet.create({
     ...typography.numbersIBMPlexSansMedium20,
     ...(!isAndroid && { height: getCustomSize(3.125) })
   },
+  selectAsset: {
+    maxWidth: getCustomSize(14)
+  },
   dollarAmountContainer: {
     marginTop: getCustomSize(2),
     marginBottom: getCustomSize(0.5)
