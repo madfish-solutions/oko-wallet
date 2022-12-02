@@ -1,48 +1,59 @@
-import { isDefined } from '@rnw-community/shared';
+import { useNavigationState } from '@react-navigation/native';
 import React from 'react';
 
-import { ScreensEnum } from '../../enums/sreens.enum';
-import { getCustomSize } from '../../styles/format-size';
-import { Divider } from '../divider/divider';
+import {
+  receiveStackScreens,
+  ScreensEnum,
+  sendStackScreens,
+  settingsStackScreens,
+  swapStackScreens,
+  walletStackScreens
+} from '../../enums/sreens.enum';
 import { IconNameEnum } from '../icon/icon-name.enum';
 import { Row } from '../row/row';
 
+import { TabBarButton } from './components/tab-bar-button/tab-bar-button';
 import { styles } from './navigation-bar.styles';
 import { NavigationBarTestIDs } from './navigation-bar.test-ids';
-import { walletStackScreens } from './screen-stacks/wallet-screens.stack';
-import { TabBarButton } from './tab-bar-button/tab-bar-button';
 
 export const NavigationBar = () => {
-  const isStackFocused = (screensStack: ScreensEnum[]) =>
-    isDefined(ScreensEnum.Wallet) && screensStack.includes(ScreensEnum.Wallet);
+  const routes = useNavigationState(state => state.routes);
+  const currentRoute = routes[routes.length - 1].name as ScreensEnum;
+  const isStackFocused = (screensStack: ScreensEnum[]) => screensStack.includes(currentRoute);
 
   return (
     <Row style={styles.root}>
       <TabBarButton
         routeName={ScreensEnum.Wallet}
-        name={IconNameEnum.Swap}
+        name={IconNameEnum.Home}
         focused={isStackFocused(walletStackScreens)}
         testID={NavigationBarTestIDs.HomeButton}
       />
-      <Divider size={getCustomSize(3)} />
+
       <TabBarButton
         routeName={ScreensEnum.Receive}
         name={IconNameEnum.Receive}
-        focused={isStackFocused(walletStackScreens)}
+        focused={isStackFocused(receiveStackScreens)}
         testID={NavigationBarTestIDs.ReceiveButton}
       />
-      <Divider size={getCustomSize(3)} />
+
+      <TabBarButton
+        name={IconNameEnum.Swap}
+        focused={isStackFocused(swapStackScreens)}
+        testID={NavigationBarTestIDs.SwapButton}
+      />
+
       <TabBarButton
         routeName={ScreensEnum.Send}
         name={IconNameEnum.Send}
-        focused={isStackFocused(walletStackScreens)}
+        focused={isStackFocused(sendStackScreens)}
         testID={NavigationBarTestIDs.SendButton}
       />
-      <Divider size={getCustomSize(3)} />
+
       <TabBarButton
         routeName={ScreensEnum.Settings}
         name={IconNameEnum.Settings}
-        focused={isStackFocused(walletStackScreens)}
+        focused={isStackFocused(settingsStackScreens)}
         testID={NavigationBarTestIDs.SettingsButton}
       />
     </Row>
