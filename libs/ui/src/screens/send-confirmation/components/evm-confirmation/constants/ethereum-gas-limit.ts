@@ -1,1 +1,1 @@
-export const DEFAULT_GAS_LIMIT = 500000;
+export const DEFAULT_GAS_LIMIT = 700000;
