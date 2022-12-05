@@ -112,3 +112,14 @@ export const getSelectedAccount = (state: WalletState, networkType: NetworkTypeE
       ? account.networksKeys[networkType]?.publicKeyHash === state.selectedAccountPublicKeyHash
       : null
   ) ?? initialAccount;
+
+export const changeTokenVisibility = <T extends { tokenAddress: string; tokenId?: string }>(
+  accountsTokens: WalletState['accountsTokens'],
+  token: T,
+  accountTokensSlug: string
+) =>
+  accountsTokens[accountTokensSlug].map(accountToken =>
+    getTokenSlug(accountToken.tokenAddress, accountToken.tokenId) === getTokenSlug(token.tokenAddress, token.tokenId)
+      ? { ...accountToken, isVisible: !accountToken.isVisible }
+      : accountToken
+  );

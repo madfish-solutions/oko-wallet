@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { EVM_TOKEN_METADATA_ABI } from '../../../../constants/abi/evm-tokens-metadata-abi';
 import { DEBOUNCE_TIME } from '../../../../constants/defaults';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { addNewTokenAction } from '../../../../store/wallet/wallet.actions';
+import { addNewTokenAction, editTokenAction } from '../../../../store/wallet/wallet.actions';
 import { useAccountAssetsSelector, useSelectedNetworkSelector } from '../../../../store/wallet/wallet.selectors';
 import { getDefaultEvmProvider } from '../../../../utils/get-default-evm-provider.utils';
 import { isEvmAddressValid } from '../../../../utils/is-evm-address-valid.util';
@@ -114,12 +114,18 @@ export const AddNewToken: FC = () => {
       token => getTokenSlug(token.tokenAddress, token.tokenId) === getTokenSlug(fields.tokenAddress, fields.tokenId)
     );
 
-    if (isDefined(currentToken)) {
+    if (isDefined(currentToken) && currentToken.isVisible) {
       if (isNotEmptyString(fields.tokenId)) {
         return setError('tokenId', { message: 'Token with this Token ID already exist' });
       }
 
       return setError('tokenAddress', { message: 'Token with this Address already exist' });
+    }
+
+    if (isDefined(currentToken) && !currentToken.isVisible) {
+      dispatch(editTokenAction({ token: fields, changeVisibility: true }));
+
+      return goBack();
     }
 
     dispatch(

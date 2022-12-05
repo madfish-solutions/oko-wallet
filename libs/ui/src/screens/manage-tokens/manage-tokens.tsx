@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
@@ -16,7 +16,7 @@ import { ScreensEnum } from '../../enums/sreens.enum';
 import { useFilterAccountTokens } from '../../hooks/use-filter-tokens.hook';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { Token as TokenInterface } from '../../interfaces/token.interface';
-import { changeTokenVisibilityAction } from '../../store/wallet/wallet.actions';
+import { changeTokenVisibilityAction, sortAccountTokensByVisibility } from '../../store/wallet/wallet.actions';
 import { useAccountTokensAndGasTokenSelector } from '../../store/wallet/wallet.selectors';
 import { checkIsGasToken } from '../../utils/check-is-gas-token.util';
 import { getTokenSlug } from '../../utils/token.utils';
@@ -32,6 +32,10 @@ export const ManageTokens: FC = () => {
   const navigateToEditTokenScreen = (token: TokenInterface) => navigate(ScreensEnum.EditToken, { token });
 
   const handleTokenVisibility = (token: TokenInterface) => dispatch(changeTokenVisibilityAction(token));
+
+  useEffect(() => {
+    dispatch(sortAccountTokensByVisibility());
+  }, []);
 
   return (
     <ScreenContainer>

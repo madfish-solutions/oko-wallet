@@ -38,6 +38,7 @@ import {
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
+  changeTokenVisibility,
   getPublicKeyHash,
   getSelectedAccount,
   getSelectedNetworkChainId,
@@ -289,9 +290,10 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         }
       };
     })
-    .addCase(editTokenAction, (state, { payload }) => {
-      const { tokenAddress, tokenId, decimals, ...metadata } = payload;
+    .addCase(editTokenAction, (state, { payload: { token, changeVisibility } }) => {
+      const { tokenAddress, tokenId, decimals, ...metadata } = token;
       const chainId = getSelectedNetworkChainId(state);
+      const accountTokensSlug = getAccountTokensSlug(chainId, state.selectedAccountPublicKeyHash);
       const tokenMetadataSlug = getTokenMetadataSlug(chainId, tokenAddress, tokenId);
 
       return {
@@ -303,20 +305,26 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
             ...metadata,
             decimals: Number(decimals)
           }
-        }
+        },
+        ...(changeVisibility === true && {
+          accountsTokens: {
+            ...state.accountsTokens,
+            [accountTokensSlug]: changeTokenVisibility(state.accountsTokens, token, accountTokensSlug)
+          }
+        })
       };
     })
     .addCase(changeTokenVisibilityAction, (state, { payload: token }) => {
       const chainId = getSelectedNetworkChainId(state);
       const accountTokensSlug = getAccountTokensSlug(chainId, state.selectedAccountPublicKeyHash);
-      const updatedAccountTokens = state.accountsTokens[accountTokensSlug].map(accountToken =>
-        getTokenSlug(accountToken.tokenAddress, accountToken.tokenId) ===
-        getTokenSlug(token.tokenAddress, token.tokenId)
-          ? { ...accountToken, isVisible: !accountToken.isVisible }
-          : accountToken
-      );
 
-      return { ...state, accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: updatedAccountTokens } };
+      return {
+        ...state,
+        accountsTokens: {
+          ...state.accountsTokens,
+          [accountTokensSlug]: changeTokenVisibility(state.accountsTokens, token, accountTokensSlug)
+        }
+      };
     })
     .addCase(sortAccountTokensByVisibility, state => {
       const chainId = getSelectedNetworkChainId(state);
