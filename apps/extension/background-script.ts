@@ -16,7 +16,7 @@ import {
   openNetworkChangeConfirmationPopup,
   openConfirmSendTransactionPopup
 } from './src/utils/browser.utils';
-import { getHexChanId } from './src/utils/network.utils';
+import { createDAppNotificationResponse, getHexChanId } from './src/utils/network.utils';
 import { getState } from './src/utils/state.utils';
 
 const APP_LOCK_PERIOD = 5 * 60 * 1000;
@@ -112,25 +112,25 @@ runtime.onConnect.addListener(port => {
           return Promise.resolve();
         }
         case 'oko_getProviderState': {
-          if (isPermissionGranted) {
-            const result = {
-              accounts: [selectedAccountPublicKeyHash],
-              chainId: getHexChanId(selectedNetworkChainId),
-              isUnlocked: true,
-              networkVersion: '56'
-            };
-            const message = createDAppResponse(id, result);
+          const result = {
+            accounts: isPermissionGranted ? [selectedAccountPublicKeyHash] : [],
+            chainId: getHexChanId(selectedNetworkChainId),
+            isUnlocked: true,
+            networkVersion: selectedNetworkChainId
+          };
+          const message = createDAppResponse(id, result);
 
-            port.postMessage(message);
-          }
+          port.postMessage(message);
 
           return Promise.resolve();
         }
         case 'eth_chainId': {
           const result = getHexChanId(selectedNetworkChainId);
           const message = createDAppResponse(id, result);
+          const notification = createDAppNotificationResponse(selectedNetworkChainId);
 
           port.postMessage(message);
+          port.postMessage(notification);
 
           return Promise.resolve();
         }
@@ -165,6 +165,24 @@ runtime.onConnect.addListener(port => {
           const txReceipt = await provider.getTransaction(data.params?.[0]);
 
           const message = createDAppResponse(id, txReceipt);
+
+          port.postMessage(message);
+
+          return Promise.resolve();
+        }
+
+        case 'eth_getTransactionReceipt': {
+          const txReceipt = await provider.getTransactionReceipt(data.params?.[0]);
+
+          const message = createDAppResponse(id, txReceipt);
+
+          port.postMessage(message);
+
+          return Promise.resolve();
+        }
+
+        case 'net_version': {
+          const message = createDAppResponse(id, selectedNetworkChainId);
 
           port.postMessage(message);
 
