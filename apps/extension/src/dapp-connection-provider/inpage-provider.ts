@@ -327,7 +327,7 @@ export class InpageProvider extends AbstractStreamProvider {
    * Gets the experimental _metamask API as Proxy, so that we can warn consumers
    * about its experimental nature.
    */
-  protected _getExperimentalApi() {
+  _getExperimentalApi() {
     return new Proxy(
       {
         /**
