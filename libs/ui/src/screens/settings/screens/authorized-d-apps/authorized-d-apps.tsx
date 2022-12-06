@@ -68,13 +68,6 @@ export const AuthorizedDApps: FC = () => {
       />
 
       <FlatList data={filteredDAppsList} renderItem={renderItem} keyExtractor={dApp => dApp.origin} />
-      {!filteredDAppsList.length && !searchValue && (
-        <View style={styles.exploreDapps}>
-          <Text style={styles.exploreText} numberOfLines={1} onPress={() => null}>
-            EXPLORE DAPPS
-          </Text>
-        </View>
-      )}
 
       <NavigationBar />
     </ScreenContainer>

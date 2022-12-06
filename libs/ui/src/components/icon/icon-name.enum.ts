@@ -87,5 +87,6 @@ export enum IconNameEnum {
   Avalanche = 'Avalanche',
   Optimism = 'Optimism',
   Arbitrum = 'Arbitrum',
-  Polygon = 'Polygon'
+  Polygon = 'Polygon',
+  User = 'User'
 }
