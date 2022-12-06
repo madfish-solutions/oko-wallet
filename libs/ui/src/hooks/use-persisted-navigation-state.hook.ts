@@ -32,7 +32,11 @@ export const usePersistedNavigationState = () => {
           const query = parse(location.search);
 
           // DAppConfirmation
-          if (typeof query.id === 'string' && typeof query.dAppInfo === 'string') {
+          if (
+            typeof query.id === 'string' &&
+            typeof query.dAppInfo === 'string' &&
+            query.transactionInfo === undefined
+          ) {
             const route = createNavigationRoute(ScreensEnum.DAppConnectionConfirmation, {
               messageId: query.id,
               dAppInfo: JSON.parse(query.dAppInfo)
