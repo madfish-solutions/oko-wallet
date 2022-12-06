@@ -2,6 +2,7 @@ import { isDefined } from '@rnw-community/shared';
 import React, { FC, useCallback } from 'react';
 
 import { AssetTypeEnum } from '../../../../enums/asset-type.enum';
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { TransactionParams } from '../../../../shelter/interfaces/get-evm-signer-params.interface';
 import {
@@ -28,6 +29,7 @@ export const EvmConfirmation: FC<Props> = ({
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const network = useSelectedNetworkSelector();
   const { sendEvmTransaction } = useShelter();
+  const { goBack } = useNavigation();
   const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } =
     useTransactionHook(receiverPublicKeyHash);
 
@@ -82,6 +84,7 @@ export const EvmConfirmation: FC<Props> = ({
     <Confirmation
       isFeeLoading={isLoading}
       onSend={onSend}
+      onDecline={goBack}
       isTransactionLoading={isTransactionLoading}
       receiverPublicKeyHash={receiverPublicKeyHash}
       amount={value}
