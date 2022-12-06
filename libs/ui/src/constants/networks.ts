@@ -27,7 +27,6 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     gasTokenMetadata: {
       name: 'Binance Coin',
       symbol: 'BNB',
-      // TODO: Correct decimals are 8, but from RPC we get 18
       decimals: 18,
       thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png'
     },
