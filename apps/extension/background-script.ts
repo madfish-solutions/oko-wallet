@@ -146,6 +146,15 @@ runtime.onConnect.addListener(port => {
           return Promise.resolve();
         }
 
+        case 'eth_getBlockByNumber': {
+          const result = await provider.getBlock(data.params?.[0]);
+          const message = createDAppResponse(id, result);
+
+          port.postMessage(message);
+
+          return Promise.resolve();
+        }
+
         case 'eth_blockNumber': {
           const result = await provider.getBlockNumber();
           const message = createDAppResponse(id, result.toString());
