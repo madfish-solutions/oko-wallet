@@ -186,7 +186,7 @@ export const Confirmation: FC<Props> = ({
         <View>
           <Text style={styles.title}>Transactions Details</Text>
           {isEvmNetwork && (
-            <FeeItem title="Gas" loading={isFeeLoading} fee={correctedTransactionFee} symbol={gasTokenSymbol} />
+            <FeeItem title="Max Gas" loading={isFeeLoading} fee={correctedTransactionFee} symbol={gasTokenSymbol} />
           )}
           {!isKlaytnNetwork && (
             <>
