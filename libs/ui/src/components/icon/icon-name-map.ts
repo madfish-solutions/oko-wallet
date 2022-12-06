@@ -82,10 +82,15 @@ import WarningYellow from './assets/warning-yellow.svg';
 import XIcon from './assets/x.svg';
 import Youtube from './assets/youtube.svg';
 import { IconNameEnum } from './icon-name.enum';
+import Arbitrum from './networks/arbitrum.svg';
+import Avalanche from './networks/avalanche.svg';
 import BinanceSmartChain from './networks/bsc.svg';
 import Ethereum from './networks/ethereum.svg';
 import NetworkFallback from './networks/fallback.svg';
+import Fantom from './networks/fantom.svg';
 import Klaytn from './networks/klaytn.svg';
+import Optimism from './networks/optimism.svg';
+import Polygon from './networks/polygon.svg';
 
 export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Paste]: Paste,
@@ -172,5 +177,10 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.IconWarning]: IconWarning,
   [IconNameEnum.WalletLogoPlaceholderSquare]: WalletLogoPlaceholderSquare,
   [IconNameEnum.FaceId]: FaceId,
-  [IconNameEnum.Home]: Home
+  [IconNameEnum.Home]: Home,
+  [IconNameEnum.Fantom]: Fantom,
+  [IconNameEnum.Avalanche]: Avalanche,
+  [IconNameEnum.Arbitrum]: Arbitrum,
+  [IconNameEnum.Optimism]: Optimism,
+  [IconNameEnum.Polygon]: Polygon
 };

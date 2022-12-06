@@ -2,13 +2,14 @@ import { IconNameEnum } from '../components/icon/icon-name.enum';
 import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { NetworkChainIdsByNetworkType, NetworkInterface } from '../interfaces/network.interface';
 
-import { MainnetRpcEnum, TestnetRpcEnum } from './rpc';
+import { EvmChainId } from './chain-ids';
+import { MainnetRpcEnum } from './rpc';
 
 export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
   {
-    chainId: '8217',
+    chainId: EvmChainId.Klaytn,
     rpcUrl: MainnetRpcEnum.Klaytn,
-    name: 'Klaytn Mainnet',
+    name: 'Klaytn',
     gasTokenMetadata: {
       name: 'Klaytn Token',
       symbol: 'KLAY',
@@ -20,63 +21,7 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     iconName: IconNameEnum.Klaytn
   },
   {
-    chainId: '1001',
-    rpcUrl: TestnetRpcEnum.KlaytnBaobab,
-    name: 'Klaytn Baobab Testnet',
-    gasTokenMetadata: {
-      name: 'Klaytn Token',
-      symbol: 'KLAY',
-      decimals: 18,
-      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4256.png'
-    },
-    explorerUrl: 'https://baobab.scope.klaytn.com',
-    networkType: NetworkTypeEnum.EVM,
-    iconName: IconNameEnum.Klaytn
-  },
-  {
-    chainId: '1',
-    rpcUrl: MainnetRpcEnum.Ethereum,
-    name: 'Ethereum Mainnet',
-    gasTokenMetadata: {
-      name: 'Ether Token',
-      symbol: 'ETH',
-      decimals: 18,
-      thumbnailUri: ''
-    },
-    explorerUrl: 'https://etherscan.io',
-    networkType: NetworkTypeEnum.EVM,
-    iconName: IconNameEnum.Ethereum
-  },
-  {
-    chainId: '4',
-    rpcUrl: TestnetRpcEnum.EthereumRinkeby,
-    name: 'Ethereum Rinkeby Testnet',
-    gasTokenMetadata: {
-      name: 'Ether Token',
-      symbol: 'ETH',
-      decimals: 18,
-      thumbnailUri: ''
-    },
-    explorerUrl: 'https://rinkeby.etherscan.io',
-    networkType: NetworkTypeEnum.EVM,
-    iconName: IconNameEnum.Ethereum
-  },
-  {
-    chainId: '3',
-    rpcUrl: TestnetRpcEnum.EthereumRopsten,
-    name: 'Ethereum Ropsten Testnet',
-    gasTokenMetadata: {
-      name: 'Ether Token',
-      symbol: 'ETH',
-      decimals: 18,
-      thumbnailUri: ''
-    },
-    explorerUrl: 'https://ropsten.etherscan.io',
-    networkType: NetworkTypeEnum.EVM,
-    iconName: IconNameEnum.Ethereum
-  },
-  {
-    chainId: '56',
+    chainId: EvmChainId.BinanceSmartChain,
     rpcUrl: MainnetRpcEnum.BinanceSmartChain,
     name: 'Binance Smart Chain',
     gasTokenMetadata: {
@@ -84,77 +29,95 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
       symbol: 'BNB',
       // TODO: Correct decimals are 8, but from RPC we get 18
       decimals: 18,
-      thumbnailUri: ''
+      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png'
     },
     explorerUrl: 'https://bscscan.com',
     networkType: NetworkTypeEnum.EVM,
     iconName: IconNameEnum.BinanceSmartChain
   },
   {
-    chainId: '97',
-    rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545',
-    name: 'BSC Testnet',
+    chainId: EvmChainId.Polygon,
+    rpcUrl: MainnetRpcEnum.Polygon,
+    name: 'Polygon',
     gasTokenMetadata: {
-      name: 'Binance Coin',
-      symbol: 'BNB',
-      // TODO: Correct decimals are 8, but from RPC we get 18
+      name: 'MATIC',
+      symbol: 'MATIC',
       decimals: 18,
-      thumbnailUri: ''
+      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png'
     },
-    explorerUrl: 'https://testnet.bscscan.com',
-    networkType: NetworkTypeEnum.EVM
+    explorerUrl: 'https://polygonscan.com',
+    networkType: NetworkTypeEnum.EVM,
+    iconName: IconNameEnum.Polygon
   },
   {
-    chainId: '1284',
-    rpcUrl: MainnetRpcEnum.Moonbeam,
-    name: 'Moonbeam',
+    chainId: EvmChainId.Ethereum,
+    rpcUrl: MainnetRpcEnum.Ethereum,
+    name: 'Ethereum',
     gasTokenMetadata: {
-      name: 'Moonbeam Token',
-      symbol: 'GLMR',
-      decimals: 9,
-      thumbnailUri: ''
-    },
-    explorerUrl: 'https://moonbeam.moonscan.io',
-    networkType: NetworkTypeEnum.EVM
-  },
-  {
-    chainId: '1287',
-    rpcUrl: 'https://rpc.api.moonbase.moonbeam.network',
-    name: 'Moonbase Alpha Testnet',
-    gasTokenMetadata: {
-      name: 'Moonbeam Token Dev',
-      symbol: 'DEV',
+      name: 'Ether Token',
+      symbol: 'ETH',
       decimals: 18,
-      thumbnailUri: ''
+      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png'
     },
-    explorerUrl: 'https://moonbase.moonscan.io',
-    networkType: NetworkTypeEnum.EVM
+    explorerUrl: 'https://etherscan.io',
+    networkType: NetworkTypeEnum.EVM,
+    iconName: IconNameEnum.Ethereum
   },
   {
-    chainId: 'NetXdQprcVkpaWU',
-    rpcUrl: MainnetRpcEnum.Tezos,
-    name: 'Tezos Mainnet',
+    chainId: EvmChainId.Arbitrum,
+    rpcUrl: MainnetRpcEnum.Arbitrum,
+    name: 'Arbitrum',
     gasTokenMetadata: {
-      name: 'Tezos Token',
-      symbol: 'Tezos',
-      decimals: 6,
-      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/2011.png'
+      name: 'Ether Token',
+      symbol: 'ETH',
+      decimals: 18,
+      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png'
     },
-    explorerUrl: 'https://tzkt.io',
-    networkType: NetworkTypeEnum.Tezos
+    explorerUrl: 'https://arbiscan.io',
+    networkType: NetworkTypeEnum.EVM,
+    iconName: IconNameEnum.Arbitrum
   },
   {
-    chainId: 'NetXnHfVqm9iesp',
-    rpcUrl: TestnetRpcEnum.TezosIthacanet,
-    name: 'Tezos Ithacanet Testnet',
+    chainId: EvmChainId.Avalanche,
+    rpcUrl: MainnetRpcEnum.Avalanche,
+    name: 'Avalanche',
     gasTokenMetadata: {
-      name: 'Tezos Token',
-      symbol: 'Tezos',
-      decimals: 6,
-      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/2011.png'
+      name: 'Avalanche Token',
+      symbol: 'AVAX',
+      decimals: 18,
+      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png'
     },
-    explorerUrl: 'https://ithacanet.tzkt.io',
-    networkType: NetworkTypeEnum.Tezos
+    explorerUrl: 'https://snowtrace.io',
+    networkType: NetworkTypeEnum.EVM,
+    iconName: IconNameEnum.Avalanche
+  },
+  {
+    chainId: EvmChainId.Optimism,
+    rpcUrl: MainnetRpcEnum.Optimism,
+    name: 'Optimism',
+    gasTokenMetadata: {
+      name: 'Ether Token',
+      symbol: 'ETH',
+      decimals: 18,
+      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png'
+    },
+    explorerUrl: 'https://optimistic.etherscan.io',
+    networkType: NetworkTypeEnum.EVM,
+    iconName: IconNameEnum.Optimism
+  },
+  {
+    chainId: EvmChainId.Fantom,
+    rpcUrl: MainnetRpcEnum.Fantom,
+    name: 'Fantom',
+    gasTokenMetadata: {
+      name: 'Fantom Token',
+      symbol: 'FTM',
+      decimals: 18,
+      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3513.png'
+    },
+    explorerUrl: 'https://ftmscan.com',
+    networkType: NetworkTypeEnum.EVM,
+    iconName: IconNameEnum.Fantom
   }
 ];
 
