@@ -14,7 +14,6 @@ import { Row } from '../../../../components/row/row';
 import { TextInput } from '../../../../components/text-input/text-input';
 import { Text } from '../../../../components/text/text';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
-import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { ModalActionContainer } from '../../../../modals/components/modal-action-container/modal-action-container';
 import {
   useSelectedAccountSelector,
@@ -35,6 +34,7 @@ import { getProgressStatus } from './utils/get-progress-status.util';
 interface Props {
   isFeeLoading: boolean;
   onSend: OnSend;
+  onDecline: () => void;
   isTransactionLoading: boolean;
   receiverPublicKeyHash: string;
   amount: string;
@@ -51,6 +51,7 @@ const defaultValues = {
 export const Confirmation: FC<Props> = ({
   isFeeLoading,
   onSend,
+  onDecline,
   isTransactionLoading,
   receiverPublicKeyHash,
   symbol,
@@ -59,7 +60,6 @@ export const Confirmation: FC<Props> = ({
   storageFee = 0,
   children
 }) => {
-  const { goBack } = useNavigation();
   const account = useSelectedAccountSelector();
   const {
     iconName,
@@ -141,7 +141,7 @@ export const Confirmation: FC<Props> = ({
       screenTitle="Confirm Operation"
       submitTitle="Confirm"
       cancelTitle="Decline"
-      onCancelPress={goBack}
+      onCancelPress={onDecline}
       onSubmitPress={handleSubmit(onConfirmPress)}
       isSubmitDisabled={isConfirmButtonDisabled}
       isCancelDisabled={isTransactionLoading}

@@ -47,7 +47,7 @@ export const DAppTransactionConfirmation: FC = () => {
     <EvmConfirmation transferParams={transferParams} messageID={params.messageId}>
       <DAppHeader favicon={params.dAppInfo.favicon} origin={params.dAppInfo.origin} />
 
-      {permissionNeededToken && (
+      {permissionNeededToken && transferParams.value === '0' && (
         <View style={styles.allowanceBlock}>
           <Text style={styles.mainText}>Give permission to access your {permissionNeededToken.symbol}?</Text>
           <Text style={styles.text}>

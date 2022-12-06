@@ -2,8 +2,9 @@ import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { isDefined } from '@rnw-community/shared';
 import React, { FC, useCallback } from 'react';
 
-import { sendResponseToDAppAndClosePopup } from '../../../..//utils/dapp.utils';
+import { sendErrorToDAppAndClosePopup, sendResponseToDAppAndClosePopup } from '../../../..//utils/dapp.utils';
 import { AssetTypeEnum } from '../../../../enums/asset-type.enum';
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { TransactionParams } from '../../../../shelter/interfaces/get-evm-signer-params.interface';
 import {
@@ -31,6 +32,7 @@ export const EvmConfirmation: FC<Props> = ({
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const network = useSelectedNetworkSelector();
   const { sendEvmTransaction } = useShelter();
+  const { goBack } = useNavigation();
   const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } =
     useTransactionHook(receiverPublicKeyHash);
 
@@ -90,10 +92,19 @@ export const EvmConfirmation: FC<Props> = ({
     [estimations]
   );
 
+  const onDecline = () => {
+    if (isDefined(messageID)) {
+      sendErrorToDAppAndClosePopup(messageID);
+    }
+
+    goBack();
+  };
+
   return (
     <Confirmation
       isFeeLoading={isLoading}
       onSend={onSend}
+      onDecline={onDecline}
       isTransactionLoading={isTransactionLoading}
       receiverPublicKeyHash={receiverPublicKeyHash}
       amount={value}
