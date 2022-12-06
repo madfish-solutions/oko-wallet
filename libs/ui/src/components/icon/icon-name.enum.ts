@@ -82,5 +82,6 @@ export enum IconNameEnum {
   IconWarning = 'IconWarning',
   WalletLogoPlaceholderSquare = 'WalletLogoPlaceholderSquare',
   FaceId = 'FaceId',
-  Home = 'Home'
+  Home = 'Home',
+  User = 'User'
 }

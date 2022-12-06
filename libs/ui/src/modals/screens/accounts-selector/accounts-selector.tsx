@@ -68,11 +68,11 @@ export const AccountsSelector: FC = () => {
         />
         <Row style={styles.buttonsContainer}>
           <ButtonWithIcon
-            title="Account settings"
+            title="Accounts settings"
             theme={ButtonWithIconThemesEnum.Secondary}
             size={ButtonWithIconSizeEnum.Medium}
             onPress={onAccountSettings}
-            rightIcon={IconNameEnum.Settings}
+            rightIcon={IconNameEnum.User}
             style={styles.button}
           />
         </Row>
