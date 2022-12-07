@@ -1,21 +1,16 @@
-import { RefObject, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AppState } from 'react-native';
 
-import { ScreensEnum } from '../../../enums/sreens.enum';
 import { isAndroid, isIOS } from '../../../utils/platform.utils';
 
-export const useAppStateChange = (currentRouteRef: RefObject<ScreensEnum>) => {
+export const useAppStateChange = () => {
   const [showSecurityScreen, setShowSecurityScreen] = useState(false);
 
   useEffect(() => {
     if (isIOS) {
-      const changeListener = AppState.addEventListener('change', appState => {
-        if (['background', 'inactive'].includes(appState) && currentRouteRef.current !== ScreensEnum.Unlock) {
-          setShowSecurityScreen(true);
-        } else {
-          setShowSecurityScreen(false);
-        }
-      });
+      const changeListener = AppState.addEventListener('change', appState =>
+        setShowSecurityScreen(['background', 'inactive'].includes(appState))
+      );
 
       return () => changeListener.remove();
     }

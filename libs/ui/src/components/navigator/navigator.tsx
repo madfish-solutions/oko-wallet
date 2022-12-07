@@ -67,9 +67,9 @@ import { Stack } from './utils/get-stack-navigator';
 export const globalNavigationRef = createRef<NavigationContainerRef<ScreensParamList>>();
 
 export const Navigator: FC = () => {
-  const { initialState, isReady, handleStateChange, currentRouteRef } = usePersistedNavigationState();
+  const { initialState, isReady, handleStateChange } = usePersistedNavigationState();
   const isAuthorised = useIsAuthorisedSelector();
-  const { showSecurityScreen } = useAppStateChange(currentRouteRef);
+  const { showSecurityScreen } = useAppStateChange();
 
   useLockApp(isReady);
   useActiveTokenList();
