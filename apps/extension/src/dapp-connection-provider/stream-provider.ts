@@ -68,6 +68,18 @@ export abstract class AbstractStreamProvider extends BaseProvider {
 
     // Wire up the JsonRpcEngine to the JSON-RPC connection stream
     this._rpcEngine.push(this._jsonRpcConnection.middleware);
+
+    // Handle JSON-RPC notifications
+    this._jsonRpcConnection.events.on('notification', payload => {
+      const { method, params } = payload;
+      if (method === 'oko_accountsChanged') {
+        this._handleAccountsChanged(params);
+      } else if (method === 'oko_unlockStateChanged') {
+        this._handleUnlockStateChanged(params);
+      } else if (method === 'oko_chainChanged') {
+        this._handleChainChanged(params);
+      }
+    });
   }
 
   //====================
@@ -128,7 +140,7 @@ export abstract class AbstractStreamProvider extends BaseProvider {
    * @param networkInfo.chainId - The latest chain ID.
    * @param networkInfo.networkVersion - The latest network ID.
    */
-  protected _handleChainChanged({ chainId, networkVersion }: { chainId?: string; networkVersion?: string } = {}) {
+  _handleChainChanged({ chainId, networkVersion }: { chainId?: string; networkVersion?: string } = {}) {
     if (!isValidChainId(chainId) || !isValidNetworkVersion(networkVersion)) {
       return;
     }
