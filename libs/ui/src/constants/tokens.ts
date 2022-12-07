@@ -234,11 +234,11 @@ export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = 
       thumbnailUri: 'https://tokens.1inch.io/0x049d68029688eabf473097a2fc38ef61633a3c7a.png'
     },
     {
-      tokenAddress: '0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e',
-      name: 'Dai Stablecoin',
-      symbol: 'DAI',
-      decimals: 18,
-      thumbnailUri: 'https://tokens.1inch.io/0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e.png'
+      tokenAddress: '0x04068da6c83afcfa0e13ba15a6696662335d5b75',
+      name: 'USD Coin',
+      symbol: 'USDC',
+      decimals: 6,
+      thumbnailUri: 'https://tokens.1inch.io/0xddafbb505ad214d7b80b1f830fccc89b60fb7a83.png'
     },
     {
       tokenAddress: '0x321162cd933e2be498cd2267a90534a804051b11',
