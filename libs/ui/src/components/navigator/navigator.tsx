@@ -60,14 +60,16 @@ import { substring } from '../../utils/substring.util';
 
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
 import { useActiveTokenList } from './hooks/use-active-token-list.hook';
+import { useAppStateChange } from './hooks/use-app-state-change.hook';
 import { useTokensPriceInfo } from './hooks/use-tokens-price-info.hook';
 import { Stack } from './utils/get-stack-navigator';
 
 export const globalNavigationRef = createRef<NavigationContainerRef<ScreensParamList>>();
 
 export const Navigator: FC = () => {
-  const { initialState, isReady, handleStateChange } = usePersistedNavigationState();
+  const { initialState, isReady, handleStateChange, currentRouteRef } = usePersistedNavigationState();
   const isAuthorised = useIsAuthorisedSelector();
+  const { showSecurityScreen } = useAppStateChange(currentRouteRef);
 
   useLockApp(isReady);
   useActiveTokenList();
@@ -260,6 +262,8 @@ export const Navigator: FC = () => {
           </>
         )}
       </Stack.Navigator>
+
+      {showSecurityScreen && <SplashScreen />}
     </NavigationContainer>
   );
 };

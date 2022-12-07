@@ -1,7 +1,7 @@
 import { InitialState, NavigationState } from '@react-navigation/native';
 import { isDefined } from '@rnw-community/shared';
 import { parse } from 'query-string';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { ScreensEnum } from '../enums/sreens.enum';
 import { Mutable } from '../types/mutable.type';
@@ -16,6 +16,7 @@ const ROUTES_TO_IGNORE: string[] = [ScreensEnum.DAppConnectionConfirmation, Scre
 export const usePersistedNavigationState = () => {
   const [isReady, setIsReady] = useState(false);
   const [initialState, setInitialState] = useState<InitialState>();
+  const currentRouteRef = useRef(ScreensEnum.Wallet);
 
   useEffect(() => {
     (async () => {
@@ -60,17 +61,19 @@ export const usePersistedNavigationState = () => {
     })();
   }, []);
 
-  const handleStateChange = useCallback(
-    (state: NavigationState | undefined) => setStoredValue(PERSISTENCE_KEY, JSON.stringify(state)),
-    []
-  );
+  const handleStateChange = useCallback((state: NavigationState | undefined) => {
+    setStoredValue(PERSISTENCE_KEY, JSON.stringify(state));
+
+    currentRouteRef.current = state?.routes?.[state?.index]?.name as ScreensEnum;
+  }, []);
 
   return useMemo(
     () => ({
       isReady,
       initialState,
-      handleStateChange
+      handleStateChange,
+      currentRouteRef
     }),
-    [isReady, initialState, handleStateChange]
+    [isReady, initialState, handleStateChange, currentRouteRef]
   );
 };
