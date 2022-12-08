@@ -6,4 +6,5 @@ export interface Asset {
   tokenId: string;
   symbol: string;
   standard?: TokenStandardEnum;
+  data?: string;
 }

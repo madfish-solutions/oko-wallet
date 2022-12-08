@@ -7,6 +7,7 @@ export interface EvmTransferParams {
   receiverPublicKeyHash: string;
   asset: Asset;
   value: string;
+  data?: string;
 }
 
 export interface TezosTransferParams {

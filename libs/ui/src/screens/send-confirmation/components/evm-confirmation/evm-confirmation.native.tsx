@@ -1,4 +1,3 @@
-import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { isDefined } from '@rnw-community/shared';
 import React, { FC, useCallback } from 'react';
 
@@ -10,7 +9,6 @@ import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector
 } from '../../../../store/wallet/wallet.selectors';
-import { sendErrorToDAppAndClosePopup, sendResponseToDAppAndClosePopup } from '../../../../utils/dapp.utils';
 import { getAssetType } from '../../../../utils/get-asset-type.util';
 import { useTransactionHook } from '../../hooks/use-transaction.hook';
 import { EvmTransferParams, OnSend } from '../../types';
@@ -26,7 +24,6 @@ interface Props {
 
 export const EvmConfirmation: FC<Props> = ({
   transferParams: { asset, receiverPublicKeyHash, value, data = '0x' },
-  messageID,
   children
 }) => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
@@ -36,7 +33,7 @@ export const EvmConfirmation: FC<Props> = ({
   const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } =
     useTransactionHook(receiverPublicKeyHash);
 
-  const { tokenAddress, tokenId, decimals, symbol, standard } = asset;
+  const { tokenAddress, tokenId, decimals, symbol } = asset;
   const assetType = getAssetType(asset);
 
   const { estimations, isLoading } = useEvmEstimations({
@@ -53,24 +50,15 @@ export const EvmConfirmation: FC<Props> = ({
     ? Number(estimations?.gasPrice) * Number(estimations?.gasLimit)
     : 0;
 
-  const customSuccessCallback = (transactionResponse: TransactionResponse) => {
-    successCallback(transactionResponse);
-
-    // if messageID defined, its dApp confirmation and we need to send message and close window after success confirm
-    if (isDefined(messageID)) {
-      sendResponseToDAppAndClosePopup(messageID, transactionResponse.hash);
-    }
-  };
-
   const onSend: OnSend = useCallback(
     gasPriceCoefficient => {
       if (isDefined(estimations?.gasPrice) && typeof gasPriceCoefficient === 'number') {
         setIsTransactionLoading(true);
-
         const valueToSend =
           assetType === AssetTypeEnum.GasToken || assetType === AssetTypeEnum.Token
             ? getAmount(value, decimals).toString()
             : value;
+
         const transactionParams: TransactionParams = {
           gasPrice: Math.trunc(Number(estimations?.gasPrice) * gasPriceCoefficient),
           gasLimit: Number(estimations?.gasLimit),
@@ -86,8 +74,7 @@ export const EvmConfirmation: FC<Props> = ({
           transactionParams,
           publicKeyHash,
           assetType,
-          standard,
-          successCallback: customSuccessCallback,
+          successCallback,
           errorCallback
         });
       }
@@ -95,19 +82,11 @@ export const EvmConfirmation: FC<Props> = ({
     [estimations]
   );
 
-  const onDecline = () => {
-    if (isDefined(messageID)) {
-      sendErrorToDAppAndClosePopup(messageID);
-    }
-
-    goBack();
-  };
-
   return (
     <Confirmation
       isFeeLoading={isLoading}
       onSend={onSend}
-      onDecline={onDecline}
+      onDecline={goBack}
       isTransactionLoading={isTransactionLoading}
       receiverPublicKeyHash={receiverPublicKeyHash}
       amount={value}

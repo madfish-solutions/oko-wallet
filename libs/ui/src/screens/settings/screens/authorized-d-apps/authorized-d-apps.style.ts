@@ -41,19 +41,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: getCustomSize(3)
   },
-  exploreDapps: {
-    alignItems: 'center',
-    backgroundColor: colors.orange,
-    marginTop: getCustomSize(10),
-    marginBottom: getCustomSize(9),
-    borderRadius: getCustomSize(1.75),
-    alignSelf: 'center',
-    paddingHorizontal: getCustomSize(1.375)
-  },
-  exploreText: {
-    paddingVertical: getCustomSize(0.875),
-    ...typography.taglineInterSemiBoldUppercase13
-  },
   emptyIcon: {
     top: -90
   }

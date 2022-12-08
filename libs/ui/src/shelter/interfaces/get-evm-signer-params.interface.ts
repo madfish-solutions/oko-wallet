@@ -4,7 +4,7 @@ import { OnEventFn } from '@rnw-community/shared';
 import { AssetTypeEnum } from '../../enums/asset-type.enum';
 import { TokenStandardEnum } from '../../enums/token-standard.enum';
 
-export interface TransactionParams extends Pick<TransactionRequest, 'gasLimit' | 'gasPrice'> {
+export interface TransactionParams extends Pick<TransactionRequest, 'gasLimit' | 'gasPrice' | 'data'> {
   tokenAddress: string;
   receiverPublicKeyHash: string;
   tokenId?: string;

@@ -327,7 +327,7 @@ export class InpageProvider extends AbstractStreamProvider {
    * Gets the experimental _metamask API as Proxy, so that we can warn consumers
    * about its experimental nature.
    */
-  protected _getExperimentalApi() {
+  _getExperimentalApi() {
     return new Proxy(
       {
         /**
@@ -383,7 +383,7 @@ export class InpageProvider extends AbstractStreamProvider {
    * @param networkInfo.chainId - The latest chain ID.
    * @param networkInfo.networkVersion - The latest network ID.
    */
-  protected _handleChainChanged({ chainId, networkVersion }: { chainId?: string; networkVersion?: string } = {}) {
+  _handleChainChanged({ chainId, networkVersion }: { chainId?: string; networkVersion?: string } = {}) {
     // This will validate the params and disconnect the provider if the
     // networkVersion is 'loading'.
     super._handleChainChanged({ chainId, networkVersion });

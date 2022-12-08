@@ -1,6 +1,6 @@
 import { SeedWordsAmount } from '../constants/seed-words-amount';
 import { AccountInterface } from '../interfaces/account.interface';
-import { DAppInfo } from '../interfaces/dapp-info.interface';
+import { DAppInfo, DAppTransactionInfo } from '../interfaces/dapp-info.interface';
 import { NetworkInterface } from '../interfaces/network.interface';
 import { Token } from '../interfaces/token.interface';
 import { TransferParams } from '../interfaces/transfer-params.interface';
@@ -55,7 +55,8 @@ export enum ScreensEnum {
   DeleteDApp = 'DeleteDApp',
   AddNewCollectible = 'AddNewCollectible',
   Collectible = 'Collectible',
-  Initial = 'Initial'
+  Initial = 'Initial',
+  DAppTransactionConfirmation = 'DAppTransactionConfirmation'
 }
 
 export type ScreensParamList = {
@@ -111,6 +112,11 @@ export type ScreensParamList = {
   [ScreensEnum.AuthorizedDApps]: undefined;
   [ScreensEnum.DeleteDApp]: { origin: string };
   [ScreensEnum.Initial]: undefined;
+  [ScreensEnum.DAppTransactionConfirmation]: {
+    messageId: string;
+    transactionInfo: DAppTransactionInfo;
+    dAppInfo: DAppInfo;
+  };
 };
 
 export const walletStackScreens = [
