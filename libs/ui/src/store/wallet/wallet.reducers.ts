@@ -38,7 +38,6 @@ import {
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
-  changeTokenVisibility,
   getPublicKeyHash,
   getSelectedAccount,
   getSelectedNetworkChainId,
