@@ -79,7 +79,7 @@ export const EditToken: FC = () => {
       return goBack();
     }
 
-    dispatch(editTokenAction({ token: fields }));
+    dispatch(editTokenAction(fields));
     goBack();
   };
 

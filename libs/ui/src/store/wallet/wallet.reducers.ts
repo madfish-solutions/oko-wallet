@@ -290,10 +290,9 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         }
       };
     })
-    .addCase(editTokenAction, (state, { payload: { token, changeVisibility } }) => {
-      const { tokenAddress, tokenId, decimals, ...metadata } = token;
+    .addCase(editTokenAction, (state, { payload }) => {
+      const { tokenAddress, tokenId, decimals, ...metadata } = payload;
       const chainId = getSelectedNetworkChainId(state);
-      const accountTokensSlug = getAccountTokensSlug(chainId, state.selectedAccountPublicKeyHash);
       const tokenMetadataSlug = getTokenMetadataSlug(chainId, tokenAddress, tokenId);
 
       return {
@@ -305,13 +304,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
             ...metadata,
             decimals: Number(decimals)
           }
-        },
-        ...(changeVisibility === true && {
-          accountsTokens: {
-            ...state.accountsTokens,
-            [accountTokensSlug]: changeTokenVisibility(state.accountsTokens, token, accountTokensSlug)
-          }
-        })
+        }
       };
     })
     .addCase(changeTokenVisibilityAction, (state, { payload: token }) => {

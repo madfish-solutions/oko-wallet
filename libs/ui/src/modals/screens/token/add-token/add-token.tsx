@@ -8,7 +8,11 @@ import { useDispatch } from 'react-redux';
 import { EVM_TOKEN_METADATA_ABI } from '../../../../constants/abi/evm-tokens-metadata-abi';
 import { DEBOUNCE_TIME } from '../../../../constants/defaults';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { addNewTokenAction, editTokenAction } from '../../../../store/wallet/wallet.actions';
+import {
+  addNewTokenAction,
+  changeTokenVisibilityAction,
+  editTokenAction
+} from '../../../../store/wallet/wallet.actions';
 import { useAccountAssetsSelector, useSelectedNetworkSelector } from '../../../../store/wallet/wallet.selectors';
 import { getDefaultEvmProvider } from '../../../../utils/get-default-evm-provider.utils';
 import { isEvmAddressValid } from '../../../../utils/is-evm-address-valid.util';
@@ -123,7 +127,8 @@ export const AddNewToken: FC = () => {
     }
 
     if (isDefined(currentToken) && !currentToken.isVisible) {
-      dispatch(editTokenAction({ token: fields, changeVisibility: true }));
+      dispatch(editTokenAction(fields));
+      dispatch(changeTokenVisibilityAction(currentToken));
 
       return goBack();
     }
