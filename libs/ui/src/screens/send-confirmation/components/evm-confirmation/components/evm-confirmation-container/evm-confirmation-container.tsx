@@ -35,7 +35,7 @@ export const EvmConfirmationContainer: FC<Props> = ({
   const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } =
     useTransactionHook(receiverPublicKeyHash);
 
-  const { tokenAddress, tokenId, decimals, symbol } = asset;
+  const { tokenAddress, tokenId, decimals, symbol, standard } = asset;
   const assetType = getAssetType(asset);
 
   const { estimations, isLoading } = useEvmEstimations({
@@ -83,7 +83,8 @@ export const EvmConfirmationContainer: FC<Props> = ({
           publicKeyHash,
           assetType,
           successCallback: onSuccessTransaction,
-          errorCallback
+          errorCallback,
+          standard
         });
       }
     },
