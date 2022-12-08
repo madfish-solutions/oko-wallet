@@ -310,14 +310,14 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     .addCase(changeTokenVisibilityAction, (state, { payload: token }) => {
       const chainId = getSelectedNetworkChainId(state);
       const accountTokensSlug = getAccountTokensSlug(chainId, state.selectedAccountPublicKeyHash);
+      const updatedAccountTokens = state.accountsTokens[accountTokensSlug].map(accountToken =>
+        getTokenSlug(accountToken.tokenAddress, accountToken.tokenId) ===
+        getTokenSlug(token.tokenAddress, token.tokenId)
+          ? { ...accountToken, isVisible: !accountToken.isVisible }
+          : accountToken
+      );
 
-      return {
-        ...state,
-        accountsTokens: {
-          ...state.accountsTokens,
-          [accountTokensSlug]: changeTokenVisibility(state.accountsTokens, token, accountTokensSlug)
-        }
-      };
+      return { ...state, accountsTokens: { ...state.accountsTokens, [accountTokensSlug]: updatedAccountTokens } };
     })
     .addCase(sortAccountTokensByVisibility, state => {
       const chainId = getSelectedNetworkChainId(state);
