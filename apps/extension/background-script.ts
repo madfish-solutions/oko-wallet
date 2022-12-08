@@ -87,8 +87,10 @@ runtime.onConnect.addListener(port => {
           if (isPermissionGranted) {
             const result = [selectedAccountPublicKeyHash];
             const message = createDAppResponse(id, result);
+            const notification = createDAppNotificationResponse('oko_accountsChanged', result);
 
             port.postMessage(message);
+            port.postMessage(notification);
           } else {
             await openDAppConnectionConfirmationPopup(id, dAppInfo);
           }
@@ -99,8 +101,10 @@ runtime.onConnect.addListener(port => {
           if (isPermissionGranted) {
             const result = [selectedAccountPublicKeyHash];
             const message = createDAppResponse(id, result);
+            const notification = createDAppNotificationResponse('oko_accountsChanged', result);
 
             port.postMessage(message);
+            port.postMessage(notification);
           }
 
           return Promise.resolve();
@@ -127,7 +131,8 @@ runtime.onConnect.addListener(port => {
         case 'eth_chainId': {
           const result = getHexChanId(selectedNetworkChainId);
           const message = createDAppResponse(id, result);
-          const notification = createDAppNotificationResponse(selectedNetworkChainId);
+          const params = { chainId: getHexChanId(selectedNetworkChainId), networkVersion: selectedNetworkChainId };
+          const notification = createDAppNotificationResponse('oko_chainChanged', params);
 
           port.postMessage(message);
           port.postMessage(notification);

@@ -1,13 +1,10 @@
 export const getHexChanId = (chainId: string) => `0x${Number(chainId).toString(16)}`;
 
-export const createDAppNotificationResponse = (chainId: string) => ({
+export const createDAppNotificationResponse = <T>(method: string, params: T) => ({
   data: {
     data: {
-      method: 'oko_chainChanged',
-      params: {
-        chainId: getHexChanId(chainId),
-        networkVersion: chainId
-      }
+      method,
+      params
     },
     name: 'oko-provider'
   },
