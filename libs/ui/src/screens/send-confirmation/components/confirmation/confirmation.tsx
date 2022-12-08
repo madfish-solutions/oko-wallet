@@ -15,7 +15,6 @@ import { TextInput } from '../../../../components/text-input/text-input';
 import { Text } from '../../../../components/text/text';
 import { MainnetRpcEnum, TestnetRpcEnum } from '../../../../constants/rpc';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
-import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { ModalActionContainer } from '../../../../modals/components/modal-action-container/modal-action-container';
 import {
   useSelectedAccountSelector,
@@ -36,6 +35,7 @@ import { getProgressStatus } from './utils/get-progress-status.util';
 interface Props {
   isFeeLoading: boolean;
   onSend: OnSend;
+  onDecline: () => void;
   isTransactionLoading: boolean;
   receiverPublicKeyHash: string;
   amount: string;
@@ -52,14 +52,15 @@ const defaultValues = {
 export const Confirmation: FC<Props> = ({
   isFeeLoading,
   onSend,
+  onDecline,
   isTransactionLoading,
   receiverPublicKeyHash,
   symbol,
   amount,
   initialTransactionFee,
-  storageFee = 0
+  storageFee = 0,
+  children
 }) => {
-  const { goBack } = useNavigation();
   const account = useSelectedAccountSelector();
   const {
     iconName,
@@ -143,7 +144,7 @@ export const Confirmation: FC<Props> = ({
       screenTitle="Confirm Operation"
       submitTitle="Confirm"
       cancelTitle="Decline"
-      onCancelPress={goBack}
+      onCancelPress={onDecline}
       onSubmitPress={handleSubmit(onConfirmPress)}
       isSubmitDisabled={isConfirmButtonDisabled}
       isCancelDisabled={isTransactionLoading}
@@ -151,6 +152,7 @@ export const Confirmation: FC<Props> = ({
       scrollViewRef={scrollViewRef}
     >
       <View>
+        {children}
         <View style={styles.container}>
           <Text style={styles.title}>From</Text>
           <SelectedAccount account={account} isDisabled />
@@ -172,8 +174,12 @@ export const Confirmation: FC<Props> = ({
             <Row style={styles.sendBlock}>
               <Text style={styles.operationText}>Send</Text>
               <Row>
-                <Text style={styles.amount}>{amount}</Text>
-                <Text style={[styles.symbol, styles.symbolColor]}>{symbol}</Text>
+                {amount !== '0' && (
+                  <>
+                    <Text style={styles.amount}>{amount}</Text>
+                    <Text style={[styles.symbol, styles.symbolColor]}>{symbol}</Text>
+                  </>
+                )}
               </Row>
             </Row>
             <Row style={styles.receiverBlock}>

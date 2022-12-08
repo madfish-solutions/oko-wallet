@@ -321,7 +321,7 @@ export abstract class BaseProvider extends SafeEventEmitter {
    * @param networkInfo - An object with network info.
    * @param networkInfo.chainId - The latest chain ID.
    */
-  protected _handleChainChanged({ chainId }: { chainId?: string; networkVersion?: string } = {}) {
+  _handleChainChanged({ chainId }: { chainId?: string; networkVersion?: string } = {}) {
     if (!isValidChainId(chainId)) {
       return;
     }

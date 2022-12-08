@@ -1,6 +1,7 @@
 import { OpKind } from '@taquito/taquito';
 import React, { FC, useCallback } from 'react';
 
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
 import {
   useSelectedAccountSelector,
@@ -24,6 +25,7 @@ export const TezosConfirmation: FC<Props> = ({ transferParams: { transferParams,
   const sender = useSelectedAccountSelector();
   const network = useSelectedNetworkSelector();
   const { sendTezosTransaction } = useShelter();
+  const { goBack } = useNavigation();
   const { estimations, isLoading } = useTezosEstimations({ sender, transferParams, network });
   const { storageLimitSum, gasFeeSum, revealGasFee, transferParamsWithFees, isOneOperation } = useTezosFees(
     transferParams,
@@ -91,6 +93,7 @@ export const TezosConfirmation: FC<Props> = ({ transferParams: { transferParams,
     <Confirmation
       isFeeLoading={isLoading}
       onSend={onSend}
+      onDecline={goBack}
       isTransactionLoading={isTransactionLoading}
       storageFee={storageFee}
       receiverPublicKeyHash={to}

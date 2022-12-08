@@ -3,4 +3,5 @@ export interface Asset {
   tokenAddress: string;
   tokenId: string;
   symbol: string;
+  data?: string;
 }

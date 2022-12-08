@@ -1,8 +1,7 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
-import { Linking, Pressable, ScrollView, TouchableOpacity, View } from 'react-native';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { tabs } from 'webextension-polyfill';
 
 import { AllowsBlock } from '../../../components/allows-block/allows-block';
 import { Button } from '../../../components/button/button';
@@ -25,14 +24,12 @@ import {
   useSelectedAccountSelector
 } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
-import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
-import { createDAppResponse } from '../../../utils/dapp.utils';
-import { eraseProtocol } from '../../../utils/string.util';
+import { sendResponseToDAppAndClosePopup } from '../../../utils/dapp.utils';
 import { getFormattedBalance } from '../../../utils/units.utils';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
 import { styles } from './d-app-connection-confirmation.styles';
-import { DAppImage } from './d-app-image/d-app-image';
+import { DAppHeader } from './d-app-header/d-app-header';
 
 const rules: AllowsRules[] = [
   { text: 'See wallet balance and activity', isAllowed: true },
@@ -52,47 +49,18 @@ export const DAppConnectionConfirmation: FC = () => {
   const gasBalance = getFormattedBalance(balance.data, decimals);
 
   const sendMessage = () => {
-    tabs.query({ active: true }).then(queryTabs => {
-      if (queryTabs[0].id !== undefined) {
-        dispatch(connectDAppAction({ dAppInfo: params.dAppInfo, accountPublicKeyHash: selectedAccountPublicKeyHash }));
-
-        const message = createDAppResponse(params.messageId, [selectedAccountPublicKeyHash]);
-        tabs.sendMessage(queryTabs[0].id, message);
-
-        setTimeout(window.close, 1000);
-      }
-    });
+    dispatch(connectDAppAction({ dAppInfo: params.dAppInfo, accountPublicKeyHash: selectedAccountPublicKeyHash }));
+    sendResponseToDAppAndClosePopup(params.messageId, [selectedAccountPublicKeyHash]);
   };
 
   const navigateToAccountsSelector = () => navigate(ScreensEnum.AccountsSelector);
   const navigateToWalletScreen = () => navigate(ScreensEnum.Wallet);
-  const copy = () => handleCopyToClipboard(params.dAppInfo.origin);
 
   return (
     <ModalContainer screenTitle="Confirm operation">
       <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
         <View style={styles.viewRoot}>
-          <Row style={styles.container}>
-            <DAppImage imageUri={params.dAppInfo.favicon} />
-            <Icon name={IconNameEnum.SwapItems} size={getCustomSize(9)} />
-            <DAppImage />
-          </Row>
-          <Row style={styles.addressRow}>
-            <Text style={styles.smallText}>Address</Text>
-            <Row>
-              <Text
-                style={styles.explorerLink}
-                onPress={() => Linking.openURL(params.dAppInfo.origin)}
-                numberOfLines={1}
-              >
-                {eraseProtocol(params.dAppInfo.origin)}
-              </Text>
-              <Pressable onPress={copy}>
-                <Icon name={IconNameEnum.Copy} />
-              </Pressable>
-            </Row>
-          </Row>
-          <View style={styles.divider} />
+          <DAppHeader favicon={params.dAppInfo.favicon} origin={params.dAppInfo.origin} />
           <Text style={[styles.smallText, styles.from]}>From</Text>
           <View style={styles.accountSelector}>
             <Row style={styles.selectorRow}>

@@ -17,10 +17,22 @@ export const sendEvmTransactionSubscription = (sendEvmTransaction$: Subject<GetE
 
         return Shelter.getEvmSigner$(publicKeyHash, provider).pipe(
           switchMap(signer => {
-            const { receiverPublicKeyHash, value, gasLimit, gasPrice, tokenAddress, tokenId } = transactionParams;
+            const {
+              receiverPublicKeyHash,
+              value,
+              gasLimit,
+              gasPrice,
+              tokenAddress,
+              tokenId,
+              data = '0x'
+            } = transactionParams;
 
             if (assetType === AssetTypeEnum.GasToken) {
-              return signer.sendTransaction({ to: receiverPublicKeyHash, value, gasLimit, gasPrice });
+              if (value !== '0') {
+                return signer.sendTransaction({ to: receiverPublicKeyHash, value, gasLimit, gasPrice, data });
+              }
+
+              return signer.sendTransaction({ gasLimit, gasPrice, data });
             } else if (assetType === AssetTypeEnum.Collectible) {
               const contract = Erc721abi__factory.connect(tokenAddress, signer);
 

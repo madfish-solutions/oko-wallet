@@ -1,5 +1,6 @@
 import './shim.js';
 
+import { getDefaultProvider } from 'ethers';
 import {
   BackgroundMessage,
   BackgroundMessageType,
@@ -10,8 +11,12 @@ import {
 import { Runtime, runtime, scripting, storage } from 'webextension-polyfill';
 
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
-import { openDAppConnectionConfirmationPopup, openNetworkChangeConfirmationPopup } from './src/utils/browser.utils';
-import { getHexChanId } from './src/utils/network.utils';
+import {
+  openDAppConnectionConfirmationPopup,
+  openNetworkChangeConfirmationPopup,
+  openConfirmSendTransactionPopup
+} from './src/utils/browser.utils';
+import { createDAppNotificationResponse, getHexChanId } from './src/utils/network.utils';
 import { getState } from './src/utils/state.utils';
 
 const APP_LOCK_PERIOD = 5 * 60 * 1000;
@@ -67,9 +72,15 @@ runtime.onConnect.addListener(port => {
       const state = await getState();
 
       const dAppState = state.dApps[dAppInfo.origin];
-      const selectedNetworkChainId = state.wallet.selectedNetworkChainId;
+      const selectedRpcUrl = state.wallet.selectedNetworkRpcUrl;
+      const selectedNetwork = state.wallet.networks.find(
+        network => network.rpcUrl === state.wallet.selectedNetworkRpcUrl
+      );
+      const selectedNetworkChainId = selectedNetwork?.chainId ?? '1';
       const selectedAccountPublicKeyHash = state.wallet.selectedAccountPublicKeyHash;
       const isPermissionGranted = dAppState?.allowedAccounts.includes(selectedAccountPublicKeyHash);
+
+      const provider = getDefaultProvider(selectedRpcUrl);
 
       switch (method) {
         case 'eth_requestAccounts': {
@@ -101,13 +112,32 @@ runtime.onConnect.addListener(port => {
           return Promise.resolve();
         }
         case 'oko_getProviderState': {
-          if (isPermissionGranted) {
-            const result = {
-              accounts: [selectedAccountPublicKeyHash],
-              chainId: getHexChanId(selectedNetworkChainId),
-              isUnlocked: true,
-              networkVersion: '56'
-            };
+          const result = {
+            accounts: isPermissionGranted ? [selectedAccountPublicKeyHash] : [],
+            chainId: getHexChanId(selectedNetworkChainId),
+            isUnlocked: true,
+            networkVersion: selectedNetworkChainId
+          };
+          const message = createDAppResponse(id, result);
+
+          port.postMessage(message);
+
+          return Promise.resolve();
+        }
+        case 'eth_chainId': {
+          const result = getHexChanId(selectedNetworkChainId);
+          const message = createDAppResponse(id, result);
+          const notification = createDAppNotificationResponse(selectedNetworkChainId);
+
+          port.postMessage(message);
+          port.postMessage(notification);
+
+          return Promise.resolve();
+        }
+
+        case 'eth_estimateGas': {
+          if (data.params !== undefined) {
+            const result = await provider.estimateGas(data.params[0].data);
             const message = createDAppResponse(id, result);
 
             port.postMessage(message);
@@ -115,9 +145,64 @@ runtime.onConnect.addListener(port => {
 
           return Promise.resolve();
         }
-        case 'eth_chainId': {
-          const result = getHexChanId(selectedNetworkChainId);
+
+        case 'eth_call': {
+          if (data.params !== undefined) {
+            const result = await provider.call({ to: data.params[0].to, data: data.params[0].data });
+            const message = createDAppResponse(id, result);
+
+            port.postMessage(message);
+          }
+
+          return Promise.resolve();
+        }
+
+        case 'eth_getBlockByNumber': {
+          const result = await provider.getBlock(data.params?.[0]);
           const message = createDAppResponse(id, result);
+
+          port.postMessage(message);
+
+          return Promise.resolve();
+        }
+
+        case 'eth_blockNumber': {
+          const result = await provider.getBlockNumber();
+          const message = createDAppResponse(id, result.toString());
+
+          port.postMessage(message);
+
+          return Promise.resolve();
+        }
+
+        case 'eth_sendTransaction': {
+          await openConfirmSendTransactionPopup(id, data.params?.[0], dAppInfo);
+
+          return Promise.resolve();
+        }
+
+        case 'eth_getTransactionByHash': {
+          const txReceipt = await provider.getTransaction(data.params?.[0]);
+
+          const message = createDAppResponse(id, txReceipt);
+
+          port.postMessage(message);
+
+          return Promise.resolve();
+        }
+
+        case 'eth_getTransactionReceipt': {
+          const txReceipt = await provider.getTransactionReceipt(data.params?.[0]);
+
+          const message = createDAppResponse(id, txReceipt);
+
+          port.postMessage(message);
+
+          return Promise.resolve();
+        }
+
+        case 'net_version': {
+          const message = createDAppResponse(id, selectedNetworkChainId);
 
           port.postMessage(message);
 
