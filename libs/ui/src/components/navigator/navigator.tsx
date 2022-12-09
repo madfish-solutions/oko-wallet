@@ -53,11 +53,13 @@ import { Token } from '../../screens/token/token';
 import { Tokens } from '../../screens/tokens/tokens';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
+import { useShowLoaderSelector } from '../../store/settings/settings.selectors';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
 import { isPopup } from '../../utils/location.utils';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 import { setStoredValue } from '../../utils/store.util';
 import { substring } from '../../utils/substring.util';
+import { FullScreenLoader } from '../loader/components/full-screen-loader/full-screen-loader';
 
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
 import { useActiveTokenList } from './hooks/use-active-token-list.hook';
@@ -69,6 +71,7 @@ export const globalNavigationRef = createRef<NavigationContainerRef<ScreensParam
 export const Navigator: FC = () => {
   const { initialState, isReady, handleStateChange } = usePersistedNavigationState();
   const isAuthorised = useIsAuthorisedSelector();
+  const showLoader = useShowLoaderSelector();
 
   useLockApp(isReady);
   useActiveTokenList();
@@ -266,6 +269,8 @@ export const Navigator: FC = () => {
           </>
         )}
       </Stack.Navigator>
+
+      {showLoader && <FullScreenLoader />}
     </NavigationContainer>
   );
 };

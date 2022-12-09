@@ -7,3 +7,6 @@ export const useAnalyticsEnabledSelector = () =>
 
 export const useBiometricEnabledSelector = () =>
   useSelector<SettingsRootState, boolean>(({ settings }) => settings.isBiometricEnabled);
+
+export const useShowLoaderSelector = () =>
+  useSelector<SettingsRootState, boolean>(({ settings }) => settings.showLoader);
