@@ -14,7 +14,6 @@ import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
 import { styles } from './reveal-seed-phrase.styles';
-// eslint-disable-next-line import/namespace
 import { RevealSeedPhrasePageTestIDs } from './reveal-seed-phrase.test-ids';
 
 // TODO: Add amountWords from settings
