@@ -12,7 +12,7 @@ export const createDAppResponse = <T>(id: string, result: T) => ({
   target: 'oko-inpage'
 });
 
-const createErrorMessage = (id: string) => ({
+export const createErrorMessage = (id: string) => ({
   data: {
     data: {
       id: Number(id),

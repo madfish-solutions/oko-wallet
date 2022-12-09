@@ -14,7 +14,8 @@ import { DAppMessage } from './src/interfaces/dapp-message.interface';
 import {
   openDAppConnectionConfirmationPopup,
   openNetworkChangeConfirmationPopup,
-  openConfirmSendTransactionPopup
+  openConfirmSendTransactionPopup,
+  openSignMessagePopup
 } from './src/utils/browser.utils';
 import { createDAppNotificationResponse, getHexChanId } from './src/utils/network.utils';
 import { getState } from './src/utils/state.utils';
@@ -139,6 +140,14 @@ runtime.onConnect.addListener(port => {
 
           return Promise.resolve();
         }
+        case 'eth_gasPrice': {
+          const result = await provider.getGasPrice();
+          const message = createDAppResponse(id, result);
+
+          port.postMessage(message);
+
+          return Promise.resolve();
+        }
 
         case 'eth_estimateGas': {
           if (data.params !== undefined) {
@@ -210,6 +219,13 @@ runtime.onConnect.addListener(port => {
           const message = createDAppResponse(id, selectedNetworkChainId);
 
           port.postMessage(message);
+
+          return Promise.resolve();
+        }
+
+        case 'eth_sign':
+        case 'personal_sign': {
+          await openSignMessagePopup(id, data.params as string[], dAppInfo);
 
           return Promise.resolve();
         }
