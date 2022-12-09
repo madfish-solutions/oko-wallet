@@ -7009,10 +7009,10 @@ react-native-toast-notifications@^3.3.1:
   resolved "https://registry.yarnpkg.com/react-native-toast-notifications/-/react-native-toast-notifications-3.3.1.tgz#c3d6f3b63a4df81c2912560d27878ea056672981"
   integrity sha512-yc1Q2nOdIYvAf0GAIlmg8q42hiwpEHnLxkxJ6P+tN6jpcKZ1qzMXlgnmNdyF9cm9VOyHQexEP8952IKNAv1Olw==
 
-react-native-vision-camera@^2.15.2:
-  version "2.15.2"
-  resolved "https://registry.yarnpkg.com/react-native-vision-camera/-/react-native-vision-camera-2.15.2.tgz#96a17c8b4e557df317734897853a861e0cfbc3ed"
-  integrity sha512-pkVj0r2nbZaj3+bB9CGPNistCUyoCgS2SmawzugrZs5oMlFWlgZYuJj+6s3Q98xTGgV/8/ST0njohB6soDi0VA==
+react-native-vision-camera@2.15.1:
+  version "2.15.1"
+  resolved "https://registry.yarnpkg.com/react-native-vision-camera/-/react-native-vision-camera-2.15.1.tgz#2259cce3b4ff4ac6c8e9eb859a71a12731ceddf6"
+  integrity sha512-mvz9T6DRfHSee52dpwZxyIdhED8ebmMbVoIpAC2MwkAv1tAV2iZhScRNhpf3Pj9pbh9hpO7Kan0Kc+k7GQGhpw==
 
 react-native@0.68.5:
   version "0.68.5"

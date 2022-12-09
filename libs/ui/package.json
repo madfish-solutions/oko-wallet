@@ -60,7 +60,7 @@
     "react-native-svg": "^12.3.0",
     "react-native-themis": "^0.14.7",
     "react-native-toast-notifications": "^3.3.1",
-    "react-native-vision-camera": "^2.15.2",
+    "react-native-vision-camera": "2.15.1",
     "react-redux": "^8.0.1",
     "react-test-renderer": "^17.0.2",
     "redux-flipper": "^2.0.1",
