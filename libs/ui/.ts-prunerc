@@ -1,3 +1,3 @@
 {
-  "ignore": "src/index.ts|src/background-script.ts|src/contract-types|.native.ts"
+  "ignore": "src/index.ts|src/background-script.ts|src/contract-types|.native.ts|.ios.ts|.android.ts"
 }

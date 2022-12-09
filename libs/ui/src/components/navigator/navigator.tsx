@@ -63,6 +63,7 @@ import { substring } from '../../utils/substring.util';
 
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
 import { useActiveTokenList } from './hooks/use-active-token-list.hook';
+import { useShowSecurityScreen } from './hooks/use-show-security-sceen.hook';
 import { useTokensPriceInfo } from './hooks/use-tokens-price-info.hook';
 import { Stack } from './utils/get-stack-navigator';
 
@@ -71,6 +72,7 @@ export const globalNavigationRef = createRef<NavigationContainerRef<ScreensParam
 export const Navigator: FC = () => {
   const { initialState, isReady, handleStateChange } = usePersistedNavigationState();
   const isAuthorised = useIsAuthorisedSelector();
+  const showSecurityScreen = useShowSecurityScreen();
 
   useLockApp(isReady);
   useActiveTokenList();
@@ -274,6 +276,8 @@ export const Navigator: FC = () => {
           </>
         )}
       </Stack.Navigator>
+
+      {showSecurityScreen && <SplashScreen />}
     </NavigationContainer>
   );
 };
