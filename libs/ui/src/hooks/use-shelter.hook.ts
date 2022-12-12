@@ -1,4 +1,5 @@
 import { OnEventFn } from '@rnw-community/shared';
+import { ethers, Wallet } from 'ethers';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Subject } from 'rxjs';
@@ -28,8 +29,10 @@ import { sendTezosTransactionSubscription } from '../shelter/utils/send-tezos-tr
 import {
   useAllAccountsSelector,
   useAllHdAccountsSelector,
+  useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkTypeSelector
 } from '../store/wallet/wallet.selectors';
+import { sendResponseToDAppAndClosePopup } from '../utils/dapp.utils';
 
 import { useNavigation } from './use-navigation.hook';
 import { useToast } from './use-toast.hook';
@@ -39,6 +42,7 @@ export const useShelter = () => {
   const networkType = useSelectedNetworkTypeSelector();
   const accounts = useAllAccountsSelector();
   const allHdAccounts = useAllHdAccountsSelector();
+  const selectedAccount = useSelectedAccountPublicKeyHashSelector();
   const { goBack } = useNavigation();
   const { showErrorToast } = useToast();
 
@@ -126,6 +130,16 @@ export const useShelter = () => {
   const createImportedAccount = (params: Omit<CreateImportedAccountParams, 'accountId'>) =>
     createImportedAccount$.next({ ...params, accountId: accounts.length + 1 });
 
+  const signMessage = (messageId: string, messageToSign: string) =>
+    revealPrivateKey({
+      publicKeyHash: selectedAccount,
+      successCallback: async privateKey => {
+        const signer = new Wallet(privateKey);
+        const signedMsg = await signer.signMessage(ethers.utils.toUtf8String(messageToSign));
+        sendResponseToDAppAndClosePopup(messageId, signedMsg);
+      }
+    });
+
   return {
     importWallet,
     createHdAccount,
@@ -134,6 +148,7 @@ export const useShelter = () => {
     sendTezosTransaction,
     revealSeedPhrase,
     revealPrivateKey,
-    createImportedAccount
+    createImportedAccount,
+    signMessage
   };
 };

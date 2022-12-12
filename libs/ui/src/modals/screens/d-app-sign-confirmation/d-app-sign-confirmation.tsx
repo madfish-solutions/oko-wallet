@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { ethers, Wallet } from 'ethers';
+import { ethers } from 'ethers';
 import React, { FC } from 'react';
 import { View } from 'react-native';
 
@@ -11,7 +11,7 @@ import { ModalActionContainer } from '../../../modals/components/modal-action-co
 import { FromAccount } from '../../../screens/send-confirmation/components/confirmation/components/from-account/from-account';
 import { SelectedNetwork } from '../../../screens/send-confirmation/components/confirmation/components/selected-network/selected-network';
 import { useSelectedAccountSelector } from '../../../store/wallet/wallet.selectors';
-import { sendErrorToDAppAndClosePopup, sendResponseToDAppAndClosePopup } from '../../../utils/dapp.utils';
+import { sendErrorToDAppAndClosePopup } from '../../../utils/dapp.utils';
 import { DAppHeader } from '../d-app-connection-confirmation/d-app-header/d-app-header';
 
 import { styles } from './d-app-sign-confirmation.styles';
@@ -19,18 +19,8 @@ import { styles } from './d-app-sign-confirmation.styles';
 export const DAppSignConfirmation: FC = () => {
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DAppSignConfirmation>>();
   const selectedAccount = useSelectedAccountSelector();
-  const { revealPrivateKey } = useShelter();
+  const { signMessage } = useShelter();
   useClosePopup(params.messageId);
-
-  const signMessage = () =>
-    revealPrivateKey({
-      publicKeyHash: selectedAccount.networksKeys.EVM?.publicKeyHash ?? '',
-      successCallback: async privateKey => {
-        const signer = new Wallet(privateKey);
-        const signedMsg = await signer.signMessage(ethers.utils.toUtf8String(params.signInfo[0]));
-        sendResponseToDAppAndClosePopup(params.messageId, signedMsg);
-      }
-    });
 
   const declineMessage = () => sendErrorToDAppAndClosePopup(params.messageId);
 
@@ -39,7 +29,7 @@ export const DAppSignConfirmation: FC = () => {
       screenTitle="Confirm Sign"
       submitTitle="Sign"
       cancelTitle="Decline"
-      onSubmitPress={signMessage}
+      onSubmitPress={() => signMessage(params.messageId, params.signInfo[0])}
       onCancelPress={declineMessage}
     >
       <DAppHeader favicon={params.dAppInfo.favicon} origin={params.dAppInfo.origin} />
