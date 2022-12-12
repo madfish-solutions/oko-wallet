@@ -49,3 +49,9 @@ export type CreateImportedAccountParams = {
   networkType: NetworkTypeEnum;
   accountId: number;
 };
+
+export type SignedMessageParams = {
+  publicKey: string;
+  messageToSign: string;
+  successCallback: OnEventFn<string>;
+};

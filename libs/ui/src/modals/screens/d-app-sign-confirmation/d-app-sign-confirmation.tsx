@@ -11,7 +11,7 @@ import { ModalActionContainer } from '../../../modals/components/modal-action-co
 import { FromAccount } from '../../../screens/send-confirmation/components/confirmation/components/from-account/from-account';
 import { SelectedNetwork } from '../../../screens/send-confirmation/components/confirmation/components/selected-network/selected-network';
 import { useSelectedAccountSelector } from '../../../store/wallet/wallet.selectors';
-import { sendErrorToDAppAndClosePopup } from '../../../utils/dapp.utils';
+import { sendErrorToDAppAndClosePopup, sendResponseToDAppAndClosePopup } from '../../../utils/dapp.utils';
 import { DAppHeader } from '../d-app-connection-confirmation/d-app-header/d-app-header';
 
 import { styles } from './d-app-sign-confirmation.styles';
@@ -22,15 +22,22 @@ export const DAppSignConfirmation: FC = () => {
   const { signMessage } = useShelter();
   useClosePopup(params.messageId);
 
-  const declineMessage = () => sendErrorToDAppAndClosePopup(params.messageId);
+  const onDecline = () => sendErrorToDAppAndClosePopup(params.messageId);
+
+  const onSubmit = () =>
+    signMessage({
+      publicKey: selectedAccount.networksKeys.EVM?.publicKeyHash ?? '',
+      messageToSign: params.signInfo[0],
+      successCallback: message => sendResponseToDAppAndClosePopup(params.messageId, message)
+    });
 
   return (
     <ModalActionContainer
       screenTitle="Confirm Sign"
       submitTitle="Sign"
       cancelTitle="Decline"
-      onSubmitPress={() => signMessage(params.messageId, params.signInfo[0])}
-      onCancelPress={declineMessage}
+      onSubmitPress={onSubmit}
+      onCancelPress={onDecline}
     >
       <DAppHeader favicon={params.dAppInfo.favicon} origin={params.dAppInfo.origin} />
       <View style={styles.messageBlock}>
