@@ -6,9 +6,9 @@ import { View } from 'react-native';
 
 import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { useClosePopup } from '../../../hooks/use-close-popup';
 import { EvmConfirmation } from '../../../screens/send-confirmation/components/evm-confirmation/evm-confirmation';
 import { useAccountTokensSelector, useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
-import { sendErrorToDAppAndClosePopup } from '../../../utils/dapp.utils';
 import { DAppHeader } from '../d-app-connection-confirmation/d-app-header/d-app-header';
 
 import { styles } from './d-app-transaction-confirmation.styles';
@@ -17,12 +17,9 @@ export const DAppTransactionConfirmation: FC = () => {
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DAppTransactionConfirmation>>();
   const network = useSelectedNetworkSelector();
   const allAvailableTokens = useAccountTokensSelector();
+  useClosePopup(params.messageId);
 
   const permissionNeededToken = allAvailableTokens.find(token => token.tokenAddress === params.transactionInfo.to);
-
-  window.addEventListener('beforeunload', () => {
-    sendErrorToDAppAndClosePopup(params.messageId);
-  });
 
   const transferParams = useMemo(() => {
     const getValue = () => {
