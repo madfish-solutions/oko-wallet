@@ -53,7 +53,7 @@ export const SelectedAccount: FC<Props> = ({ account, isDisabled = false, style 
       });
 
     return () => subscription.unsubscribe();
-  }, [account]);
+  }, [account, network.rpcUrl, network.chainId]);
 
   const onChangeAccountPress = () => {
     setBalance('0');

@@ -5,7 +5,7 @@ export const filterAccountTokensByValue = (tokens: Token[], searchValue: string)
   tokens.filter(token => {
     const commonCondition =
       token.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-      token.symbol.toLowerCase().includes(searchValue.toLowerCase());
+      token?.symbol?.toLowerCase().includes(searchValue.toLowerCase());
 
     const isGasToken = checkIsGasToken(token.tokenAddress);
 

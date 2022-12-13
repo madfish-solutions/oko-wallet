@@ -44,7 +44,7 @@ export const NavigationBar = () => {
       />
 
       <TabBarButton
-        routeName={ScreensEnum.Send}
+        routeName={ScreensEnum.SendToken}
         name={IconNameEnum.Send}
         focused={isStackFocused(sendStackScreens)}
         testID={NavigationBarTestIDs.SendButton}

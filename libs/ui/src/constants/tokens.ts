@@ -1,4 +1,4 @@
-import { AccountTokenInput } from '../interfaces/token-input.interface';
+import { TokenExtendedMetadata } from '../interfaces/token-extended-metadata.interface';
 import { getTokenMetadataSlug } from '../utils/token-metadata.util';
 
 import { EvmChainId } from './chain-ids';
@@ -6,7 +6,7 @@ import { NETWORKS_DEFAULT_LIST } from './networks';
 
 type NetworkChainId = string;
 
-export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = {
+export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, TokenExtendedMetadata[]> = {
   [EvmChainId.Klaytn]: [
     {
       tokenAddress: '0xcee8faf64bb97a73bb51e115aa89c17ffa8dd167',

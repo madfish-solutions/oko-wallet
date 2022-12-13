@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { Erc20Abi__factory, Erc721abi__factory } from '../../../../../contract-types';
 import { AssetTypeEnum } from '../../../../../enums/asset-type.enum';
 import { Asset } from '../../../../../interfaces/asset.interface';
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
 import { getDefaultEvmProvider } from '../../../../../utils/get-default-evm-provider.utils';
-import { getAmount } from '../utils/get-amount.util';
+import { getGasLimit } from '../utils/get-gas-limit.util';
 import { modifyGasLimit } from '../utils/modify-gas-limit.util';
 
 interface UseEvmEstimationsArgs {
@@ -19,7 +18,7 @@ interface UseEvmEstimationsArgs {
 
 export const useEvmEstimations = ({
   network: { rpcUrl },
-  asset: { tokenAddress, decimals, tokenId },
+  asset,
   receiverPublicKeyHash,
   value,
   publicKeyHash,
@@ -33,27 +32,7 @@ export const useEvmEstimations = ({
 
     const getEstimations = async () => {
       const provider = getDefaultEvmProvider(rpcUrl);
-
-      let gasLimit;
-
-      if (assetType === AssetTypeEnum.GasToken) {
-        gasLimit = await provider
-          .estimateGas({ to: receiverPublicKeyHash, value: getAmount(value, decimals) })
-          .catch(console.log);
-      } else if (assetType === AssetTypeEnum.Collectible) {
-        const contract = Erc721abi__factory.connect(tokenAddress, provider);
-
-        gasLimit = await contract.estimateGas
-          .transferFrom(publicKeyHash, receiverPublicKeyHash, tokenId)
-          .catch(console.log);
-      } else {
-        const contract = Erc20Abi__factory.connect(tokenAddress, provider);
-
-        gasLimit = await contract.estimateGas
-          .transfer(receiverPublicKeyHash, getAmount(value, decimals))
-          .catch(console.log);
-      }
-
+      const gasLimit = await getGasLimit(asset, assetType, receiverPublicKeyHash, publicKeyHash, value, rpcUrl);
       const fee = await provider.getFeeData();
 
       setEstimations({ gasLimit: modifyGasLimit(gasLimit), gasPrice: fee.gasPrice?.toNumber() ?? 0 });
@@ -61,7 +40,7 @@ export const useEvmEstimations = ({
     };
 
     getEstimations();
-  }, [rpcUrl, tokenAddress]);
+  }, [rpcUrl, asset.tokenAddress]);
 
   return useMemo(() => ({ estimations, isLoading }), [estimations, isLoading]);
 };

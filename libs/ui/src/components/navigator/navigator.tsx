@@ -34,9 +34,11 @@ import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
 import { ScanQrCode } from '../../screens/scan-qr-code/scan-qr-code';
 import { SendConfirmation } from '../../screens/send-confirmation/send-confirmation';
-import { AccountsSelector as SendAccountsSelector } from '../../screens/send/components/accounts-selector/accounts-selector';
-import { TokensSelector as SendTokensSelector } from '../../screens/send/components/tokens-selector/tokens-selector';
-import { Send } from '../../screens/send/send';
+import { CollectiblesSelector as SendCollectiblesSelector } from '../../screens/send/screens/send-collectible/components/collectibles-selector/collectibles-selector';
+import { SendCollectible } from '../../screens/send/screens/send-collectible/send-collectible';
+import { AccountsSelector as SendAccountsSelector } from '../../screens/send/screens/send-token/components/accounts-selector/accounts-selector';
+import { TokensSelector as SendTokensSelector } from '../../screens/send/screens/send-token/components/tokens-selector/tokens-selector';
+import { SendToken } from '../../screens/send/screens/send-token/send-token';
 import { AboutUs as SettingsAboutUs } from '../../screens/settings/screens/about-us/about-us';
 import { AccountsSettings } from '../../screens/settings/screens/accounts-settings/acсounts-settings';
 import { AppearanceSelector as SettingsAppearanceSelector } from '../../screens/settings/screens/appearance-selector/appearance-selector';
@@ -112,7 +114,8 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.SettingsGeneral} component={SettingsGeneral} />
               <Stack.Screen name={ScreensEnum.SettingsSecurity} component={SettingsSecurity} />
               <Stack.Screen name={ScreensEnum.SettingsAboutUs} component={SettingsAboutUs} />
-              <Stack.Screen name={ScreensEnum.Send} component={Send} />
+              <Stack.Screen name={ScreensEnum.SendToken} component={SendToken} />
+              <Stack.Screen name={ScreensEnum.SendCollectible} component={SendCollectible} />
               <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
               <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
               <Stack.Screen name={ScreensEnum.Tokens} component={Tokens} />
@@ -139,8 +142,13 @@ export const Navigator: FC = () => {
               />
               <Stack.Screen
                 name={ScreensEnum.SendTokensSelector}
-                options={{ title: 'Select Token From' }}
+                options={{ title: 'Select Token' }}
                 component={SendTokensSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SendCollectiblesSelector}
+                options={{ title: 'Select Collectible' }}
+                component={SendCollectiblesSelector}
               />
               <Stack.Screen
                 name={ScreensEnum.SendAccountsSelector}

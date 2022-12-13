@@ -1,3 +1,5 @@
+import { TokenStandardEnum } from '../enums/token-standard.enum';
+
 export interface TokenMetadata {
   name: string;
   decimals: number;
@@ -7,6 +9,6 @@ export interface TokenMetadata {
   artifactUri?: string;
   collectionId?: string | null;
   contractName?: string;
-  innerId?: string;
   collectionSize?: number;
+  standard?: TokenStandardEnum;
 }

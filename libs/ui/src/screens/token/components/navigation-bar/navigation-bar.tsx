@@ -26,7 +26,7 @@ export const NavigationBar: FC<Props> = ({ token }) => {
       return null;
     }
 
-    if (screen === ScreensEnum.Send) {
+    if (screen === ScreensEnum.SendToken) {
       navigate(screen, { token });
     } else {
       navigate(screen);

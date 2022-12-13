@@ -84,7 +84,7 @@ export const Confirmation: FC<Props> = ({
   });
   const scrollViewRef = useRef<ScrollView>(null);
 
-  const isConfirmButtonDisabled = !isEmpty(errors) || isTransactionLoading;
+  const isConfirmButtonDisabled = !isEmpty(errors) || isTransactionLoading || isFeeLoading;
   const isOwnSpeedSelected = speed.value === SpeedEnum.Own;
 
   const ownGasFee = watch('ownGasFee');
@@ -216,7 +216,7 @@ export const Confirmation: FC<Props> = ({
             </>
           )}
           {isTezosNetwork && (
-            <FeeItem title="Gas" loading={isFeeLoading} fee={correctedTransactionFee} symbol={symbol} />
+            <FeeItem title="Gas" loading={isFeeLoading} fee={correctedTransactionFee} symbol={gasTokenSymbol} />
           )}
 
           {isOwnSpeedSelected && (

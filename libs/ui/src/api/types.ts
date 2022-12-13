@@ -21,8 +21,8 @@ export interface NftListResponse {
   content: string;
   detail_url: string;
   contract_name: string;
-  is_erc1155?: boolean;
-  is_erc721?: boolean;
+  is_erc1155?: true;
+  is_erc721?: true;
   amount: number;
   usd_price?: number;
   collection_id: string;

@@ -10,6 +10,7 @@ import { HeaderContainer } from '../../components/screen-components/header-conta
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
+import { usePreviousScreenName } from '../../hooks/use-previous-screen.hook';
 import { useToast } from '../../hooks/use-toast.hook';
 import { useSelectedNetworkTypeSelector } from '../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../styles/format-size';
@@ -21,6 +22,8 @@ const qrScannerIconSize = getCustomSize(25);
 
 export const ScanQrCode: FC = () => {
   const { goBack, navigate } = useNavigation();
+  const previousScreen = usePreviousScreenName();
+
   const { showErrorToast } = useToast();
   const networkType = useSelectedNetworkTypeSelector();
 
@@ -37,16 +40,18 @@ export const ScanQrCode: FC = () => {
   useEffect(() => void Camera.requestCameraPermission().then(status => setHasPermission(status === 'authorized')), []);
 
   useEffect(() => {
-    if (qrCodes.length && hasPermission) {
+    const isSendScreen = previousScreen === ScreensEnum.SendToken || previousScreen === ScreensEnum.SendCollectible;
+
+    if (qrCodes.length && hasPermission && isSendScreen) {
       const [{ displayValue: receiverPublicKeyHash }] = qrCodes;
       const isValid = isAddressValid(receiverPublicKeyHash, networkType);
 
       if (!isValid) {
         showErrorToast(`${networkType} QR Code not found on the picture.`);
 
-        navigate(ScreensEnum.Send);
+        navigate(previousScreen);
       } else {
-        navigate(ScreensEnum.Send, { receiverPublicKeyHash });
+        navigate(previousScreen, { receiverPublicKeyHash });
       }
 
       return () => setHasPermission(false);
