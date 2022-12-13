@@ -14,6 +14,7 @@ import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
 import { styles } from './reveal-seed-phrase.styles';
+import { RevealSeedPhrasePageTestIDs } from './reveal-seed-phrase.test-ids';
 
 // TODO: Add amountWords from settings
 const initialSeedPhraseValue = [...Array(12).fill('')];
@@ -69,7 +70,13 @@ export const RevealSeedPhrase: FC = () => {
         <Announcement text="Never share seed phrase with third persons" style={styles.warning} />
         <Text style={styles.title}>Seed Phrase</Text>
         <Text style={styles.description}>Here you can reveal your Seed Phrase</Text>
-        <Mnemonic mnemonic={seedPhrase} isShowProtectLayout={isShowProtectLayout} handleHideLayout={handleHideLayout}>
+        <Mnemonic
+          mnemonic={seedPhrase}
+          isShowProtectLayout={isShowProtectLayout}
+          handleHideLayout={handleHideLayout}
+          protectLayoutTestID={RevealSeedPhrasePageTestIDs.TapToRevealLayoutInSettings}
+          wordTextTestID={RevealSeedPhrasePageTestIDs.MnemonicWordsTextInSettings}
+        >
           <MnemonicActionButton onPress={handleCopy} iconName={IconNameEnum.Copy} text="Copy" />
         </Mnemonic>
       </ScrollView>
