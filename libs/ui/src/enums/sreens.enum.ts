@@ -56,7 +56,8 @@ export enum ScreensEnum {
   AddNewCollectible = 'AddNewCollectible',
   Collectible = 'Collectible',
   Initial = 'Initial',
-  DAppTransactionConfirmation = 'DAppTransactionConfirmation'
+  DAppTransactionConfirmation = 'DAppTransactionConfirmation',
+  DAppSignConfirmation = 'DAppSignConfirmation'
 }
 
 export type ScreensParamList = {
@@ -117,6 +118,7 @@ export type ScreensParamList = {
     transactionInfo: DAppTransactionInfo;
     dAppInfo: DAppInfo;
   };
+  [ScreensEnum.DAppSignConfirmation]: { messageId: string; signInfo: string[]; dAppInfo: DAppInfo };
 };
 
 export const walletStackScreens = [

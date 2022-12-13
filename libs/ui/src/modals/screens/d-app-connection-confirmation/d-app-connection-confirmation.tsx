@@ -15,6 +15,7 @@ import { RobotIcon } from '../../../components/robot-icon/robot-icon';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { useClosePopup } from '../../../hooks/use-close-popup';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { AllowsRules } from '../../../interfaces/dapp-connection.interface';
 import { connectDAppAction } from '../../../store/d-apps/d-apps.actions';
@@ -24,7 +25,11 @@ import {
   useSelectedAccountSelector
 } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
-import { sendResponseToDAppAndClosePopup } from '../../../utils/dapp.utils';
+import {
+  sendErrorToDAppAndClosePopup,
+  sendNotificationToDApp,
+  sendResponseToDAppAndClosePopup
+} from '../../../utils/dapp.utils';
 import { getFormattedBalance } from '../../../utils/units.utils';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
@@ -46,15 +51,18 @@ export const DAppConnectionConfirmation: FC = () => {
 
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DAppConnectionConfirmation>>();
 
+  useClosePopup(params.messageId);
+
   const gasBalance = getFormattedBalance(balance.data, decimals);
 
   const sendMessage = () => {
     dispatch(connectDAppAction({ dAppInfo: params.dAppInfo, accountPublicKeyHash: selectedAccountPublicKeyHash }));
+    sendNotificationToDApp('oko_accountsChanged', [selectedAccountPublicKeyHash]);
     sendResponseToDAppAndClosePopup(params.messageId, [selectedAccountPublicKeyHash]);
   };
 
   const navigateToAccountsSelector = () => navigate(ScreensEnum.AccountsSelector);
-  const navigateToWalletScreen = () => navigate(ScreensEnum.Wallet);
+  const declineConnection = () => sendErrorToDAppAndClosePopup(params.messageId);
 
   return (
     <ModalContainer screenTitle="Confirm operation">
@@ -95,7 +103,7 @@ export const DAppConnectionConfirmation: FC = () => {
         </View>
       </ScrollView>
       <Row style={styles.buttonPanel}>
-        <Button onPress={navigateToWalletScreen} theme={ButtonThemesEnum.Primary} title="Decline" />
+        <Button onPress={declineConnection} theme={ButtonThemesEnum.Primary} title="Decline" />
         <Button onPress={sendMessage} theme={ButtonThemesEnum.Secondary} title="Connect" />
       </Row>
     </ModalContainer>

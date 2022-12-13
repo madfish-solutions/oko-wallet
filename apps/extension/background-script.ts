@@ -14,7 +14,8 @@ import { DAppMessage } from './src/interfaces/dapp-message.interface';
 import {
   openDAppConnectionConfirmationPopup,
   openNetworkChangeConfirmationPopup,
-  openConfirmSendTransactionPopup
+  openConfirmSendTransactionPopup,
+  openSignMessagePopup
 } from './src/utils/browser.utils';
 import { createDAppNotificationResponse, getHexChanId } from './src/utils/network.utils';
 import { getState } from './src/utils/state.utils';
@@ -87,8 +88,10 @@ runtime.onConnect.addListener(port => {
           if (isPermissionGranted) {
             const result = [selectedAccountPublicKeyHash];
             const message = createDAppResponse(id, result);
+            const notification = createDAppNotificationResponse('oko_accountsChanged', result);
 
             port.postMessage(message);
+            port.postMessage(notification);
           } else {
             await openDAppConnectionConfirmationPopup(id, dAppInfo);
           }
@@ -99,7 +102,12 @@ runtime.onConnect.addListener(port => {
           if (isPermissionGranted) {
             const result = [selectedAccountPublicKeyHash];
             const message = createDAppResponse(id, result);
+            const notification = createDAppNotificationResponse('oko_accountsChanged', result);
 
+            port.postMessage(message);
+            port.postMessage(notification);
+          } else {
+            const message = createDAppResponse(id, []);
             port.postMessage(message);
           }
 
@@ -127,10 +135,19 @@ runtime.onConnect.addListener(port => {
         case 'eth_chainId': {
           const result = getHexChanId(selectedNetworkChainId);
           const message = createDAppResponse(id, result);
-          const notification = createDAppNotificationResponse(selectedNetworkChainId);
+          const params = { chainId: getHexChanId(selectedNetworkChainId), networkVersion: selectedNetworkChainId };
+          const notification = createDAppNotificationResponse('oko_chainChanged', params);
 
           port.postMessage(message);
           port.postMessage(notification);
+
+          return Promise.resolve();
+        }
+        case 'eth_gasPrice': {
+          const result = await provider.getGasPrice();
+          const message = createDAppResponse(id, result);
+
+          port.postMessage(message);
 
           return Promise.resolve();
         }
@@ -205,6 +222,13 @@ runtime.onConnect.addListener(port => {
           const message = createDAppResponse(id, selectedNetworkChainId);
 
           port.postMessage(message);
+
+          return Promise.resolve();
+        }
+
+        case 'eth_sign':
+        case 'personal_sign': {
+          await openSignMessagePopup(id, data.params as string[], dAppInfo);
 
           return Promise.resolve();
         }

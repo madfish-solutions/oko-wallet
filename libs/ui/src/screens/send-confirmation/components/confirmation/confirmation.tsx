@@ -7,9 +7,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Button } from '../../../../components/button/button';
 import { CopyText } from '../../../../components/copy-text/copy-text';
 import { Divider } from '../../../../components/divider/divider';
-import { IconWithBorder } from '../../../../components/icon-with-border/icon-with-border';
-import { Icon } from '../../../../components/icon/icon';
-import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';
 import { TextInput } from '../../../../components/text-input/text-input';
 import { Text } from '../../../../components/text/text';
@@ -22,11 +19,12 @@ import {
   useSelectedNetworkTypeSelector
 } from '../../../../store/wallet/wallet.selectors';
 import { formatUnits, parseUnits } from '../../../../utils/units.utils';
-import { SelectedAccount } from '../../../send/components/selected-account/selected-account';
 import { OnSend } from '../../types';
 
 import { FeeItem } from './components/fee-item/fee-item';
+import { FromAccount } from './components/from-account/from-account';
 import { ProgressBar } from './components/progress-bar/progress-bar';
+import { SelectedNetwork } from './components/selected-network/selected-network';
 import { styles } from './confirmation.styles';
 import { ownGasFeeRules, requiredFieldRule, SpeedOption, speedOptions } from './constants';
 import { SpeedEnum } from './enums';
@@ -63,8 +61,6 @@ export const Confirmation: FC<Props> = ({
 }) => {
   const account = useSelectedAccountSelector();
   const {
-    iconName,
-    name,
     gasTokenMetadata: { symbol: gasTokenSymbol, decimals: gasTokenDecimals },
     rpcUrl
   } = useSelectedNetworkSelector();
@@ -153,21 +149,8 @@ export const Confirmation: FC<Props> = ({
     >
       <View>
         {children}
-        <View style={styles.container}>
-          <Text style={styles.title}>From</Text>
-          <SelectedAccount account={account} isDisabled />
-        </View>
-
-        <View style={styles.container}>
-          <Text style={styles.title}>Network</Text>
-          <Row style={styles.networkContainer}>
-            <IconWithBorder>
-              <Icon name={iconName ?? IconNameEnum.NetworkFallback} />
-            </IconWithBorder>
-            <Text style={styles.networkName}>{name}</Text>
-          </Row>
-        </View>
-
+        <FromAccount account={account} />
+        <SelectedNetwork />
         <View style={styles.container}>
           <Text style={styles.title}>Operation</Text>
           <View style={styles.operationContainer}>
