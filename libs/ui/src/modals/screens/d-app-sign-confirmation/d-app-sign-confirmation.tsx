@@ -38,6 +38,7 @@ export const DAppSignConfirmation: FC = () => {
       cancelTitle="Decline"
       onSubmitPress={onSubmit}
       onCancelPress={onDecline}
+      isBackButton={false}
     >
       <DAppHeader favicon={params.dAppInfo.favicon} origin={params.dAppInfo.origin} />
       <View style={styles.messageBlock}>

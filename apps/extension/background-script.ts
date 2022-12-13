@@ -106,6 +106,9 @@ runtime.onConnect.addListener(port => {
 
             port.postMessage(message);
             port.postMessage(notification);
+          } else {
+            const message = createDAppResponse(id, []);
+            port.postMessage(message);
           }
 
           return Promise.resolve();

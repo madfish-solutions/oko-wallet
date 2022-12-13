@@ -25,7 +25,11 @@ import {
   useSelectedAccountSelector
 } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
-import { sendErrorToDAppAndClosePopup, sendResponseToDAppAndClosePopup } from '../../../utils/dapp.utils';
+import {
+  sendErrorToDAppAndClosePopup,
+  sendNotificationToDApp,
+  sendResponseToDAppAndClosePopup
+} from '../../../utils/dapp.utils';
 import { getFormattedBalance } from '../../../utils/units.utils';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
@@ -53,6 +57,7 @@ export const DAppConnectionConfirmation: FC = () => {
 
   const sendMessage = () => {
     dispatch(connectDAppAction({ dAppInfo: params.dAppInfo, accountPublicKeyHash: selectedAccountPublicKeyHash }));
+    sendNotificationToDApp('oko_accountsChanged', [selectedAccountPublicKeyHash]);
     sendResponseToDAppAndClosePopup(params.messageId, [selectedAccountPublicKeyHash]);
   };
 

@@ -12,6 +12,7 @@ import { removeDAppConnectionAction } from '../../../store/d-apps/d-apps.actions
 import { useDAppSelector } from '../../../store/d-apps/d-apps.selectors';
 import { useSelectedAccountPublicKeyHashSelector } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
+import { sendNotificationToDApp } from '../../../utils/dapp.utils';
 import { eraseProtocol } from '../../../utils/string.util';
 import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';
 
@@ -26,6 +27,8 @@ export const DeleteDApp: FC = () => {
 
   const confirmDAppDelete = () => {
     dispatch(removeDAppConnectionAction({ dAppInfo, accountPublicKeyHash: publicKeyHash }));
+    sendNotificationToDApp('oko_accountsChanged', []);
+
     goBack();
   };
 
