@@ -1,167 +1,258 @@
-import { AccountTokenInput } from '../interfaces/token-input.interface';
+import { TokenExtendedMetadata } from '../interfaces/token-extended-metadata.interface';
 import { getTokenMetadataSlug } from '../utils/token-metadata.util';
 
+import { EvmChainId } from './chain-ids';
 import { NETWORKS_DEFAULT_LIST } from './networks';
 
 type NetworkChainId = string;
 
-const KLAYTN_CHAIN_ID = '8217';
-const TEZOS_CHAIN_ID = 'NetXdQprcVkpaWU';
-const ROPSTEN_CHAIN_ID = '3';
-const BNB_CHAIN_ID = '56';
-
-export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, AccountTokenInput[]> = {
-  [KLAYTN_CHAIN_ID]: [
-    {
-      tokenAddress: '0x02cbe46fb8a1f579254a9b485788f2d86cad51aa',
-      name: 'BORA',
-      symbol: 'BORA',
-      decimals: 18,
-      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3801.png'
-    },
-    {
-      tokenAddress: '0xc6a2ad8cc6e4a7e08fc37cc5954be07d499e7654',
-      name: 'KlaySwap Protocol',
-      symbol: 'KSP',
-      decimals: 18,
-      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/8296.png'
-    },
-    {
-      tokenAddress: '0xcf87f94fd8f6b6f0b479771f10df672f99eada63',
-      name: 'ClaimSwap',
-      symbol: 'CLA',
-      decimals: 18,
-      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/18371.png'
-    },
-    {
-      tokenAddress: '0xe815a060b9279eba642f8c889fab7afc0d0aca63',
-      name: 'KLAYMETA',
-      symbol: 'META',
-      decimals: 18,
-      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/18255.png'
-    },
-    {
-      tokenAddress: '0x5096db80b21ef45230c9e423c373f1fc9c0198dd',
-      name: 'WEMIX',
-      symbol: 'WEMIX',
-      decimals: 18,
-      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/7548.png'
-    },
-    {
-      tokenAddress: '0x5c74070fdea071359b86082bd9f9b3deaafbe32b',
-      name: 'KDAI',
-      symbol: 'KDAI',
-      decimals: 18,
-      thumbnailUri: ''
-    },
-    {
-      tokenAddress: '0xfd844c2fca5e595004b17615f891620d1cb9bbb2',
-      name: 'Wrapped KLAY',
-      symbol: 'WKLAY',
-      decimals: 18,
-      thumbnailUri: ''
-    },
-    {
-      tokenAddress: '0xdcd62c57182e780e23d2313c4782709da85b9d6c',
-      name: 'SOMESING',
-      symbol: 'SSX',
-      decimals: 18,
-      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5612.png'
-    },
-    {
-      tokenAddress: '0xdb116e2dc96b4e69e3544f41b50550436579979a',
-      name: 'KlayFi Finance',
-      symbol: 'KFI',
-      decimals: 18,
-      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/16676.png'
-    },
-    {
-      tokenAddress: '0xe950bdcfa4d1e45472e76cf967db93dbfc51ba3e',
-      name: 'KAI',
-      symbol: 'KAI',
-      decimals: 18,
-      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/20073.png'
-    },
-    {
-      tokenAddress: '0x3cb6be2fc6677a63cb52b07aed523f93f5a06cb4',
-      name: 'OBSR',
-      symbol: 'OBSR',
-      decimals: 8,
-      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3698.png'
-    },
-    {
-      tokenAddress: '0x9e481eb17d3c3c07d7a6ab571b4ba8ef432b5cf2',
-      name: 'MyCreditChain',
-      symbol: 'MCC',
-      decimals: 18,
-      thumbnailUri: ''
-    },
+export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, TokenExtendedMetadata[]> = {
+  [EvmChainId.Klaytn]: [
     {
       tokenAddress: '0xcee8faf64bb97a73bb51e115aa89c17ffa8dd167',
-      name: 'oUSDT',
+      name: 'Orbit Bridge Klaytn USD Tether',
       symbol: 'oUSDT',
       decimals: 6,
-      thumbnailUri: ''
+      thumbnailUri: 'https://tokens.1inch.io/0xcee8faf64bb97a73bb51e115aa89c17ffa8dd167.png'
+    },
+    {
+      tokenAddress: '0x4fa62f1f404188ce860c8f0041d6ac3765a72e67',
+      name: 'Kokoa Stable Dollar',
+      symbol: 'KSD',
+      decimals: 18,
+      thumbnailUri: 'https://tokens.1inch.io/0x4fa62f1f404188ce860c8f0041d6ac3765a72e67.png'
     },
     {
       tokenAddress: '0x34d21b1e550d73cee41151c77f3c73359527a396',
-      name: 'oETH',
+      name: 'Orbit Bridge Klaytn Ethereum',
       symbol: 'oETH',
       decimals: 18,
-      thumbnailUri: ''
+      thumbnailUri: 'https://tokens.1inch.io/0x34d21b1e550d73cee41151c77f3c73359527a396.png'
     },
     {
-      tokenAddress: '0x9eaefb09fe4aabfbe6b1ca316a3c36afc83a393f',
-      name: 'oXRP',
-      symbol: 'oXRP',
-      decimals: 6,
-      thumbnailUri: ''
-    }
-  ],
-  [TEZOS_CHAIN_ID]: [
-    {
-      tokenAddress: 'KT193D4vozYnhGJQVtw7CoxxqphqUEEwK6Vb',
-      tokenId: '2',
-      name: 'Quipuswap Governance Token',
-      symbol: 'QUIPU',
-      decimals: 6,
-      thumbnailUri: ''
-    },
-    {
-      tokenAddress: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
-      tokenId: '',
-      name: 'Kolibri',
-      symbol: 'KUSD',
+      tokenAddress: '0x5fff3a6c16c2208103f318f4713d4d90601a7313',
+      name: 'KLEVA Protocol',
+      symbol: 'KLEVA',
       decimals: 18,
-      thumbnailUri: ''
+      thumbnailUri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/21122.png'
     }
   ],
-  [ROPSTEN_CHAIN_ID]: [
+  [EvmChainId.BinanceSmartChain]: [
     {
-      tokenAddress: '0x101848D5C5bBca18E6b4431eEdF6B95E9ADF82FA',
-      tokenId: '',
-      name: 'WEENUS',
-      symbol: 'WEENUS',
+      tokenAddress: '0x55d398326f99059ff775485246999027b3197955',
+      name: 'Tether USD',
+      symbol: 'USDT',
       decimals: 18,
-      thumbnailUri: ''
+      thumbnailUri: 'https://tokens.1inch.io/0xdac17f958d2ee523a2206206994597c13d831ec7.png'
     },
     {
-      tokenAddress: '0xF6fF95D53E08c9660dC7820fD5A775484f77183A',
-      tokenId: '',
-      name: 'YEENUS',
-      symbol: 'YEENUS',
-      decimals: 8,
-      thumbnailUri: ''
+      tokenAddress: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
+      name: 'BUSD Token',
+      symbol: 'BUSD',
+      decimals: 18,
+      thumbnailUri: 'https://tokens.1inch.io/0x4fabb145d64652a948d72533023f6e7a623c7c53.png'
+    },
+    {
+      tokenAddress: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
+      name: 'PancakeSwap Token',
+      symbol: 'CAKE',
+      decimals: 18,
+      thumbnailUri: 'https://tokens.1inch.io/0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82.png'
+    },
+    {
+      tokenAddress: '0xcf6bb5389c92bdda8a3747ddb454cb7a64626c63',
+      name: 'Venus',
+      symbol: 'XVS',
+      decimals: 18,
+      thumbnailUri: 'https://tokens.1inch.io/0xcf6bb5389c92bdda8a3747ddb454cb7a64626c63.png'
     }
   ],
-  [BNB_CHAIN_ID]: [
+  [EvmChainId.Polygon]: [
     {
-      tokenAddress: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d',
-      tokenId: '',
-      name: 'Binance-Peg USD Coin',
+      tokenAddress: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f',
+      name: 'Tether USD',
+      symbol: 'USDT',
+      decimals: 6,
+      thumbnailUri: 'https://tokens.1inch.io/0xdac17f958d2ee523a2206206994597c13d831ec7.png'
+    },
+    {
+      tokenAddress: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
+      name: 'USD Coin (PoS)',
       symbol: 'USDC',
+      decimals: 6,
+      thumbnailUri: 'https://tokens.1inch.io/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png'
+    },
+    {
+      tokenAddress: '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619',
+      name: 'Wrapped Ether',
+      symbol: 'WETH',
       decimals: 18,
-      thumbnailUri: 'https://bscscan.com/token/images/centre-usdc_28.png'
+      thumbnailUri: 'https://tokens.1inch.io/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619.png'
+    },
+    {
+      tokenAddress: '0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6',
+      name: 'WBTC',
+      symbol: 'Wrapped BTC',
+      decimals: 8,
+      thumbnailUri: 'https://tokens.1inch.io/0x2260fac5e5542a773aa44fbcfedf7c193bc2c599.png'
+    }
+  ],
+  [EvmChainId.Ethereum]: [
+    {
+      tokenAddress: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+      name: 'Tether USD',
+      symbol: 'USDT',
+      decimals: 6,
+      thumbnailUri: 'https://tokens.1inch.io/0xdac17f958d2ee523a2206206994597c13d831ec7.png'
+    },
+    {
+      tokenAddress: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+      name: 'USD Coin',
+      symbol: 'USDC',
+      decimals: 6,
+      thumbnailUri: 'https://tokens.1inch.io/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png'
+    },
+    {
+      tokenAddress: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
+      name: 'WBTC',
+      symbol: 'Wrapped BTC',
+      decimals: 8,
+      thumbnailUri: 'https://tokens.1inch.io/0x2260fac5e5542a773aa44fbcfedf7c193bc2c599.png'
+    },
+    {
+      tokenAddress: '0x6b175474e89094c44da98b954eedeac495271d0f',
+      name: 'DAI',
+      symbol: 'Dai Stablecoin',
+      decimals: 18,
+      thumbnailUri: 'https://tokens.1inch.io/0x6b175474e89094c44da98b954eedeac495271d0f.png'
+    }
+  ],
+  [EvmChainId.Arbitrum]: [
+    {
+      tokenAddress: '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9',
+      name: 'Tether USD',
+      symbol: 'USDT',
+      decimals: 6,
+      // recheck
+      thumbnailUri: 'https://tokens.1inch.io/0xdac17f958d2ee523a2206206994597c13d831ec7.png'
+    },
+    {
+      tokenAddress: '0xff970a61a04b1ca14834a43f5de4533ebddb5cc8',
+      name: 'USD Coin (Arb1)',
+      symbol: 'USDC',
+      decimals: 6,
+      thumbnailUri: 'https://tokens.1inch.io/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png'
+    },
+    {
+      tokenAddress: '0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f',
+      name: 'WBTC',
+      symbol: 'Wrapped BTC',
+      decimals: 8,
+      thumbnailUri: 'https://tokens.1inch.io/0x2260fac5e5542a773aa44fbcfedf7c193bc2c599.png'
+    },
+    {
+      tokenAddress: '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1',
+      name: 'DAI',
+      symbol: 'Dai Stablecoin',
+      decimals: 18,
+      thumbnailUri: 'https://tokens.1inch.io/0x6b175474e89094c44da98b954eedeac495271d0f.png'
+    }
+  ],
+  [EvmChainId.Avalanche]: [
+    {
+      tokenAddress: '0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7',
+      name: 'TetherToken',
+      symbol: 'USDT',
+      decimals: 6,
+      thumbnailUri: 'https://tokens.1inch.io/0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7.png'
+    },
+    {
+      tokenAddress: '0xd586e7f844cea2f87f50152665bcbc2c279d8d70',
+      name: 'Dai Stablecoin',
+      symbol: 'DAI.e',
+      decimals: 18,
+      thumbnailUri: 'https://tokens.1inch.io/0x6b175474e89094c44da98b954eedeac495271d0f.png'
+    },
+    {
+      tokenAddress: '0x5947bb275c521040051d82396192181b413227a3',
+      name: 'Chainlink Token',
+      symbol: 'LINK.e',
+      decimals: 18,
+      thumbnailUri: 'https://tokens.1inch.io/0x697256caa3ccafd62bb6d3aa1c7c5671786a5fd9.png'
+    },
+    {
+      tokenAddress: '0x62edc0692bd897d2295872a9ffcac5425011c661',
+      name: 'GMX',
+      symbol: 'GMX',
+      decimals: 18,
+      thumbnailUri: 'https://tokens.1inch.io/0x62edc0692bd897d2295872a9ffcac5425011c661.png'
+    }
+  ],
+  [EvmChainId.Optimism]: [
+    {
+      tokenAddress: '0x4200000000000000000000000000000000000042',
+      name: 'Optimism',
+      symbol: 'OP',
+      decimals: 18,
+      thumbnailUri: 'https://tokens.1inch.io/0x4200000000000000000000000000000000000042.png'
+    },
+    {
+      tokenAddress: '0x94b008aa00579c1307b0ef2c499ad98a8ce58e58',
+      name: 'Tether USD',
+      symbol: 'USDT',
+      decimals: 6,
+      thumbnailUri: 'https://tokens.1inch.io/0x94b008aa00579c1307b0ef2c499ad98a8ce58e58.png'
+    },
+    {
+      tokenAddress: '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1',
+      name: 'DAI',
+      symbol: 'Dai stable coin',
+      decimals: 18,
+      thumbnailUri: 'https://cryptologos.cc/logos/multi-collateral-dai-dai-logo.svg?v=010'
+    },
+    {
+      tokenAddress: '0x4200000000000000000000000000000000000006',
+      name: 'Wrapped Ether',
+      symbol: 'WETH',
+      decimals: 18,
+      thumbnailUri: 'https://tokens.1inch.io/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png'
+    }
+  ],
+  [EvmChainId.Fantom]: [
+    {
+      tokenAddress: '0x511d35c52a3c244e7b8bd92c0c297755fbd89212',
+      name: 'Avalanche',
+      symbol: 'AVAX',
+      decimals: 18,
+      thumbnailUri: 'https://tokens.1inch.io/0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7.png'
+    },
+    {
+      tokenAddress: '0x049d68029688eabf473097a2fc38ef61633a3c7a',
+      name: 'Frapped USDT',
+      symbol: 'fUSDT',
+      decimals: 6,
+      thumbnailUri: 'https://tokens.1inch.io/0x049d68029688eabf473097a2fc38ef61633a3c7a.png'
+    },
+    {
+      tokenAddress: '0x04068da6c83afcfa0e13ba15a6696662335d5b75',
+      name: 'USD Coin',
+      symbol: 'USDC',
+      decimals: 6,
+      thumbnailUri: 'https://tokens.1inch.io/0xddafbb505ad214d7b80b1f830fccc89b60fb7a83.png'
+    },
+    {
+      tokenAddress: '0x321162cd933e2be498cd2267a90534a804051b11',
+      name: 'Bitcoin',
+      symbol: 'BTC',
+      decimals: 8,
+      thumbnailUri: 'https://tokens.1inch.io/0x2260fac5e5542a773aa44fbcfedf7c193bc2c599.png'
+    },
+    {
+      tokenAddress: '0x511d35c52a3c244e7b8bd92c0c297755fbd89212',
+      name: 'Avalanche',
+      symbol: 'AVAX',
+      decimals: 18,
+      thumbnailUri: 'https://tokens.1inch.io/0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7.png'
     }
   ]
 };

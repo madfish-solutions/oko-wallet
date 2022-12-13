@@ -24,7 +24,7 @@ export const ProgressBar: FC<Props> = ({ status }) => {
         </Row>
       );
 
-    case SpeedEnum.Middle:
+    case SpeedEnum.Medium:
       return (
         <Row>
           <Text style={styles.text}>{status}</Text>

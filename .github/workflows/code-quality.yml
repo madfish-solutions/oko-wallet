@@ -17,6 +17,13 @@ jobs:
       - name: Environment setup
         uses: ./.github/workflows/environment-setup
 
+      - name: Secrets setup
+        uses: ./.github/workflows/secrets-setup
+        with:
+          DEFAULT_SEED_PHRASE: ${{ secrets.DEFAULT_SEED_PHRASE }}
+          DEFAULT_PASSWORD: ${{ secrets.DEFAULT_PASSWORD }}
+          DEFAULT_HD_ACCOUNT_PRIVATE_KEY: ${{ secrets.DEFAULT_HD_ACCOUNT_PRIVATE_KEY }}
+
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"

@@ -15,6 +15,7 @@ interface Props<T extends object> extends Pick<FlatListProps<T>, 'renderItem' | 
   data: T[];
   selectedIndex: number;
   isSearchInitiallyOpened?: boolean;
+  isEmptyList?: boolean;
 }
 
 export const Selector = <T extends object>({
@@ -26,6 +27,7 @@ export const Selector = <T extends object>({
   selectedItemName,
   selectedIndex,
   isSearchInitiallyOpened,
+  isEmptyList = !data.length,
   getItemLayout = getItemLayoutBase
 }: Props<T>) => {
   const { flatListRef } = useFlatListRef({ data, selectedIndex });
@@ -37,7 +39,7 @@ export const Selector = <T extends object>({
         setSearchValue={setSearchValue}
         selectedItemName={selectedItemName}
         isSearchInitiallyOpened={isSearchInitiallyOpened}
-        isEmptyList={!data.length}
+        isEmptyList={isEmptyList}
       />
 
       <FlatList

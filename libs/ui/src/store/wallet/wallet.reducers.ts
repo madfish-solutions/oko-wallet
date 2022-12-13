@@ -1,6 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 
+import { TokenStandardEnum } from '../../enums/token-standard.enum';
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
 import { AccountToken } from '../../interfaces/account-token.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
@@ -12,29 +13,30 @@ import { getTokenSlug } from '../../utils/token.utils';
 import { createEntity } from '../utils/entity.utils';
 
 import {
-  addNewNetworkAction,
-  createHdAccountForNewNetworkTypeAction,
-  changeNetworkAction,
-  createHdAccountAction,
-  setSelectedAccountAction,
-  editAccountNameAction,
-  loadGasTokenBalanceAction,
-  changeAccountAction,
-  addNewTokenAction,
-  changeTokenVisibilityAction,
-  loadAccountTokenBalanceAction,
-  updateTransactionAction,
-  addTransactionAction,
-  setConfirmedDappAction,
-  editNetworkAction,
-  removeNetworkAction,
-  editTokenAction,
-  sortAccountTokensByVisibility,
-  addNewTokensAction,
-  getAllUserNftAction,
-  deleteConfirmedDappAction,
   addNewCollectibleAction,
-  changeAccountVisibilityAction
+  addNewNetworkAction,
+  addNewTokenAction,
+  addNewTokensAction,
+  addTransactionAction,
+  changeAccountAction,
+  changeAccountVisibilityAction,
+  changeNetworkAction,
+  changeTokenVisibilityAction,
+  createHdAccountAction,
+  createHdAccountForNewNetworkTypeAction,
+  deleteConfirmedDappAction,
+  editAccountNameAction,
+  editNetworkAction,
+  editTokenAction,
+  getAllUserNftAction,
+  loadAccountTokenBalanceAction,
+  loadGasTokenBalanceAction,
+  removeNetworkAction,
+  setConfirmedDappAction,
+  setSelectedAccountAction,
+  sortAccountTokensByVisibility,
+  updateTransactionAction,
+  deleteZeroAmountCollectible
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -234,12 +236,19 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         const currentAcc: Record<string, Omit<TokenMetadata, 'symbol'>> = { ...acc };
 
         if (!isDefined(state.tokensMetadata[tokenMetadataSlug])) {
+          const standard = nft.is_erc721
+            ? TokenStandardEnum.ERC721
+            : nft.is_erc1155
+            ? TokenStandardEnum.ERC1155
+            : undefined;
+
           currentAcc[tokenMetadataSlug] = {
             name: isNotEmptyString(nft.name) ? nft.name : 'Unnamed NFT',
             collectionId: nft.collection_id,
             contractName: isNotEmptyString(nft.contract_name) ? nft.contract_name : 'Unnamed Collection',
             decimals: 0,
-            artifactUri: nft.thumbnail_url
+            artifactUri: nft.thumbnail_url,
+            ...(isDefined(standard) && { standard })
           };
         }
 
@@ -258,9 +267,9 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         }
       };
     })
-    .addCase(addNewCollectibleAction, (state, { payload: newCollectible }) => {
+    .addCase(addNewCollectibleAction, (state, { payload }) => {
       const { selectedAccountPublicKeyHash } = state;
-      const { tokenAddress, tokenId, ...tokenMetadata } = newCollectible;
+      const { tokenAddress, tokenId, ...tokenMetadata } = payload.token;
       const chainId = getSelectedNetworkChainId(state);
       const tokenMetadataSlug = getTokenMetadataSlug(chainId, tokenAddress, tokenId);
       const accountTokensSlug = getAccountTokensSlug(chainId, selectedAccountPublicKeyHash);
@@ -283,10 +292,32 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
               tokenId,
               tokenAddress,
               isVisible: true,
-              balance: createEntity('0')
+              balance: createEntity(payload.balance)
             }
           ]
         }
+      };
+    })
+    .addCase(deleteZeroAmountCollectible, (state, { payload: collectible }) => {
+      const { tokensMetadata, accountsTokens, selectedAccountPublicKeyHash } = state;
+      const chainId = getSelectedNetworkChainId(state);
+
+      const accountTokensSlug = getAccountTokensSlug(chainId, selectedAccountPublicKeyHash);
+      const collectibleMetadataSlug = getTokenMetadataSlug(chainId, collectible.tokenAddress, collectible.tokenId);
+      const filteredAccountTokens = accountsTokens[accountTokensSlug].filter(
+        ({ tokenAddress, tokenId }) => getTokenMetadataSlug(chainId, tokenAddress, tokenId) !== collectibleMetadataSlug
+      );
+
+      const copiedMetadata = { ...tokensMetadata };
+      delete copiedMetadata[collectibleMetadataSlug];
+
+      return {
+        ...state,
+        accountsTokens: {
+          ...state.accountsTokens,
+          [accountTokensSlug]: filteredAccountTokens
+        },
+        tokensMetadata: copiedMetadata
       };
     })
     .addCase(editTokenAction, (state, { payload }) => {

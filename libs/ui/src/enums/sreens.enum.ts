@@ -4,13 +4,16 @@ import { DAppInfo, DAppTransactionInfo } from '../interfaces/dapp-info.interface
 import { NetworkInterface } from '../interfaces/network.interface';
 import { Token } from '../interfaces/token.interface';
 import { TransferParams } from '../interfaces/transfer-params.interface';
+import { SendParams } from '../screens/send/types';
 
 export enum ScreensEnum {
   ImportWallet = 'ImportWallet',
   ManageTokens = 'ManageTokens',
   Receive = 'Receive',
-  Send = 'Send',
+  SendToken = 'SendToken',
+  SendCollectible = 'SendCollectible',
   SendTokensSelector = 'SendTokensSelector',
+  SendCollectiblesSelector = 'SendCollectiblesSelector',
   SendAccountsSelector = 'SendAccountsSelector',
   SendConfirmation = 'SendConfirmation',
   Settings = 'Settings',
@@ -61,8 +64,10 @@ export type ScreensParamList = {
   [ScreensEnum.ImportWallet]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.ManageTokens]: undefined;
   [ScreensEnum.Receive]: undefined;
-  [ScreensEnum.Send]?: { account?: AccountInterface; token?: Token; receiverPublicKeyHash?: string };
-  [ScreensEnum.SendTokensSelector]: { token: Token };
+  [ScreensEnum.SendToken]?: SendParams;
+  [ScreensEnum.SendCollectible]?: SendParams;
+  [ScreensEnum.SendTokensSelector]: { token?: Token };
+  [ScreensEnum.SendCollectiblesSelector]: { token?: Token };
   [ScreensEnum.SendAccountsSelector]: { account: AccountInterface };
   [ScreensEnum.SendConfirmation]: {
     transferParams: TransferParams;
@@ -120,12 +125,14 @@ export const walletStackScreens = [
   ScreensEnum.Wallet,
   ScreensEnum.Activity,
   ScreensEnum.Tokens,
-  ScreensEnum.ManageTokens
+  ScreensEnum.ManageTokens,
+  ScreensEnum.CollectiblesList,
+  ScreensEnum.SpecificCollectiblesList
 ];
 export const receiveStackScreens = [ScreensEnum.Receive];
 export const swapStackScreens = [];
 export const sendStackScreens = [
-  ScreensEnum.Send,
+  ScreensEnum.SendToken,
   ScreensEnum.SendTokensSelector,
   ScreensEnum.SendConfirmation,
   ScreensEnum.AccountsSelector
