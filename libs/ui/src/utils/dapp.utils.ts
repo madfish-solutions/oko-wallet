@@ -47,7 +47,7 @@ export const sendErrorToDAppAndClosePopup = (id: string) => {
   setTimeout(() => close(), 1000);
 };
 
-export const createDAppNotificationResponse = <T>(method: string, params: T) => ({
+const createDAppNotificationResponse = <T>(method: string, params: T) => ({
   data: {
     data: {
       method,
