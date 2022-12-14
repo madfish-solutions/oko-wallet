@@ -24,7 +24,7 @@
     "@taquito/signer": "^12.1.1",
     "@taquito/taquito": "^12.1.1",
     "@taquito/utils": "^12.1.0",
-    "@typechain/ethers-v5": "^10.1.0",
+    "@typechain/ethers-v5": "^10.2.0",
     "@types/jest": "^27.4.1",
     "@types/lodash": "^4.14.182",
     "@types/react": "^17.0.44",
@@ -70,7 +70,7 @@
     "ts-action": "^11.0.0",
     "ts-action-operators": "^9.1.2",
     "ts-prune": "^0.10.3",
-    "typechain": "^8.1.0",
+    "typechain": "^8.1.1",
     "vision-camera-code-scanner": "^0.2.0",
     "wasm-themis": "^0.14.5"
   },
