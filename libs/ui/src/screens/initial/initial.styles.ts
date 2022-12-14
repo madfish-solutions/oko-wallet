@@ -21,15 +21,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  logo: {
-    height: getCustomSize(10.5),
-    width: getCustomSize(10.5),
-    borderRadius: getCustomSize(2),
-    backgroundColor: colors.bgGrey1
-  },
-  icon: {
-    margin: getCustomSize()
-  },
   button: {
     marginTop: getCustomSize(2)
   },

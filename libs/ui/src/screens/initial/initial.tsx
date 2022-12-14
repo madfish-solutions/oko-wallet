@@ -3,7 +3,6 @@ import { View } from 'react-native';
 
 import { Button } from '../../components/button/button';
 import { ButtonThemesEnum } from '../../components/button/enums';
-import { IconWithBorder } from '../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../components/icon/icon';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
@@ -35,9 +34,7 @@ export const Initial: FC = () => {
   return (
     <View style={styles.root}>
       <View style={styles.logoContainer}>
-        <IconWithBorder style={styles.logo}>
-          <Icon name={IconNameEnum.WalletLogoPlaceholderSquare} size={getCustomSize(9)} iconStyle={styles.icon} />
-        </IconWithBorder>
+        <Icon name={IconNameEnum.WalletLogoPlaceholder} size={getCustomSize(11)} />
       </View>
       <View style={styles.bottomBlock}>
         <Button
@@ -53,7 +50,7 @@ export const Initial: FC = () => {
           onPress={navigateToImportAccount}
           testID={InitialTestIDs.ImportExistingWalletButton}
         />
-        <MadFishLogo style={styles.madLogo} color={colors.logoDark} />
+        <MadFishLogo style={styles.madLogo} color={colors.bgGrey3} />
       </View>
     </View>
   );

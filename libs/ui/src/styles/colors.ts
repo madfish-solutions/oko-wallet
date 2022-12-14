@@ -20,7 +20,8 @@ const textColors = {
   textGrey2: '#868993',
   textGrey3: '#B4B6BC',
   textGrey4: '#E1E3E9',
-  textGrey5: '#686B73'
+  textGrey5: '#686B73',
+  textGrey6: '#727B93'
 };
 
 const accentColors = {
