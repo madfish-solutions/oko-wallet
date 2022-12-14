@@ -20,6 +20,7 @@ interface Props {
   pixelShitSize?: number;
   style?: ViewStyleProps;
   containerStyle?: ImageStyle;
+  shitIconStyle?: ViewStyleProps;
 }
 
 export const CollectibleImage: FC<Props> = ({
@@ -28,9 +29,10 @@ export const CollectibleImage: FC<Props> = ({
   width = size,
   height = size,
   onPress,
-  pixelShitSize,
+  pixelShitSize = getCustomSize(5),
   style,
-  containerStyle
+  containerStyle,
+  shitIconStyle
 }) => {
   const [imageIsLoaded, setImageIsLoaded] = useState(!isNotEmptyString(artifactUri));
 
@@ -44,7 +46,7 @@ export const CollectibleImage: FC<Props> = ({
           <Icon
             name={IconNameEnum.PixelShit}
             size={pixelShitSize ?? getCustomSize(5)}
-            iconStyle={styles.pixelShitIcon}
+            iconStyle={[styles.pixelShitIcon, shitIconStyle]}
           />
         )}
       </Pressable>

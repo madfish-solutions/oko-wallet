@@ -14,7 +14,8 @@ export const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 const ROUTES_TO_IGNORE: string[] = [
   ScreensEnum.DAppConnectionConfirmation,
   ScreensEnum.NetworkChangeConfirmation,
-  ScreensEnum.DAppTransactionConfirmation
+  ScreensEnum.DAppTransactionConfirmation,
+  ScreensEnum.DAppSignConfirmation
 ];
 
 export const usePersistedNavigationState = () => {
@@ -35,7 +36,8 @@ export const usePersistedNavigationState = () => {
           if (
             typeof query.id === 'string' &&
             typeof query.dAppInfo === 'string' &&
-            query.transactionInfo === undefined
+            query.transactionInfo === undefined &&
+            query.signInfo === undefined
           ) {
             const route = createNavigationRoute(ScreensEnum.DAppConnectionConfirmation, {
               messageId: query.id,
@@ -69,6 +71,21 @@ export const usePersistedNavigationState = () => {
             const route = createNavigationRoute(ScreensEnum.DAppTransactionConfirmation, {
               messageId: query.id,
               transactionInfo: JSON.parse(query.transactionInfo),
+              dAppInfo: JSON.parse(query.dAppInfo)
+            });
+
+            storedInitialState.routes.push(route);
+          }
+
+          //Confirm sign from dApp
+          if (
+            typeof query.id === 'string' &&
+            typeof query.signInfo === 'string' &&
+            typeof query.dAppInfo === 'string'
+          ) {
+            const route = createNavigationRoute(ScreensEnum.DAppSignConfirmation, {
+              messageId: query.id,
+              signInfo: JSON.parse(query.signInfo),
               dAppInfo: JSON.parse(query.dAppInfo)
             });
 

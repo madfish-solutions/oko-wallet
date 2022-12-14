@@ -34,3 +34,9 @@ export const openConfirmSendTransactionPopup = async (
       `popup.html?id=${id}&transactionInfo=${JSON.stringify(transactionInfo)}&dAppInfo=${JSON.stringify(dappInfo)}`
     )
   });
+
+export const openSignMessagePopup = async (id: string, signInfo: string[], dappInfo: DAppInfo) =>
+  windows.create({
+    ...popupCreateData,
+    url: runtime.getURL(`popup.html?id=${id}&signInfo=${JSON.stringify(signInfo)}&dAppInfo=${JSON.stringify(dappInfo)}`)
+  });

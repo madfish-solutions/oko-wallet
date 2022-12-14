@@ -46,3 +46,22 @@ export const sendErrorToDAppAndClosePopup = (id: string) => {
 
   setTimeout(() => close(), 1000);
 };
+
+const createDAppNotificationResponse = <T>(method: string, params: T) => ({
+  data: {
+    data: {
+      method,
+      params
+    },
+    name: 'oko-provider'
+  },
+  target: 'oko-inpage'
+});
+
+export const sendNotificationToDApp = <T>(method: string, result: T) => {
+  tabs.query({ active: true }).then(queryTabs => {
+    if (queryTabs[0].id !== undefined) {
+      tabs.sendMessage(queryTabs[0].id, createDAppNotificationResponse(method, result));
+    }
+  });
+};

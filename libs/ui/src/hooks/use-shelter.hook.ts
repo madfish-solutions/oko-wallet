@@ -10,7 +10,8 @@ import {
   CreateHdAccountParams,
   CreateImportedAccountParams,
   RevealPrivateKeyParams,
-  RevealSeedPhraseParams
+  RevealSeedPhraseParams,
+  SignedMessageParams
 } from '../interfaces/create-hd-account.interface';
 import { GetEvmSignerParams } from '../shelter/interfaces/get-evm-signer-params.interface';
 import { GetTezosSignerParams } from '../shelter/interfaces/get-tezos-signer-params.interface';
@@ -25,6 +26,7 @@ import { revealPrivateKeySubscription } from '../shelter/utils/reveal-private-ke
 import { revealSeedPhraseSubscription } from '../shelter/utils/reveal-seed-phrase-subscription.util';
 import { sendEvmTransactionSubscription } from '../shelter/utils/send-evm-transaction-subscription.util';
 import { sendTezosTransactionSubscription } from '../shelter/utils/send-tezos-transaction-subscription.util';
+import { signMessageSubscription } from '../shelter/utils/sign-message-subscription';
 import {
   useAllAccountsSelector,
   useAllHdAccountsSelector,
@@ -50,6 +52,7 @@ export const useShelter = () => {
   const revealSeedPhrase$ = useMemo(() => new Subject<RevealSeedPhraseParams>(), []);
   const createImportedAccount$ = useMemo(() => new Subject<CreateImportedAccountParams>(), []);
   const revealPrivateKey$ = useMemo(() => new Subject<RevealPrivateKeyParams>(), []);
+  const signMessage$ = useMemo(() => new Subject<SignedMessageParams>(), []);
 
   useEffect(() => {
     const subscriptions = [
@@ -66,7 +69,8 @@ export const useShelter = () => {
       sendTezosTransactionSubscription(sendTezosTransaction$),
       revealSeedPhraseSubscription(revealSeedPhrase$),
       revealPrivateKeySubscription(revealPrivateKey$),
-      createImportAccountSubscription(createImportedAccount$, showErrorToast, dispatch, goBack)
+      createImportAccountSubscription(createImportedAccount$, showErrorToast, dispatch, goBack),
+      signMessageSubscription(signMessage$)
     ];
 
     return () => subscriptions.forEach(subscription => subscription.unsubscribe());
@@ -126,6 +130,8 @@ export const useShelter = () => {
   const createImportedAccount = (params: Omit<CreateImportedAccountParams, 'accountId'>) =>
     createImportedAccount$.next({ ...params, accountId: accounts.length + 1 });
 
+  const signMessage = useCallback((param: SignedMessageParams) => signMessage$.next(param), [signMessage$]);
+
   return {
     importWallet,
     createHdAccount,
@@ -134,6 +140,7 @@ export const useShelter = () => {
     sendTezosTransaction,
     revealSeedPhrase,
     revealPrivateKey,
-    createImportedAccount
+    createImportedAccount,
+    signMessage
   };
 };

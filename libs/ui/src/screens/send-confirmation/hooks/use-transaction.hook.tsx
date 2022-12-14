@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 
 import { Text } from '../../../components/text/text';
 import { NetworkTypeEnum } from '../../../enums/network-type.enum';
+import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useToast } from '../../../hooks/use-toast.hook';
 import { addTransactionAction } from '../../../store/wallet/wallet.actions';
@@ -18,7 +19,7 @@ import {
 
 export const useTransactionHook = (receiverPublicKeyHash: string) => {
   const dispatch = useDispatch();
-  const { pop } = useNavigation();
+  const { navigate } = useNavigation();
   const { showSuccessToast, showErrorToast } = useToast();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { explorerUrl } = useSelectedNetworkSelector();
@@ -50,7 +51,7 @@ export const useTransactionHook = (receiverPublicKeyHash: string) => {
     );
 
     setIsTransactionLoading(false);
-    pop(2);
+    navigate(ScreensEnum.Wallet);
   };
 
   const errorCallback = () => {

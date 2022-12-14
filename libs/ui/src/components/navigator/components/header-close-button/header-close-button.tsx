@@ -12,6 +12,7 @@ import { HeaderCloseButtonTestIDs } from './header-close-button.test-ids';
 const goBackRoutes = [
   ScreensEnum.SendAccountsSelector,
   ScreensEnum.SendTokensSelector,
+  ScreensEnum.SendCollectiblesSelector,
   ScreensEnum.WordsAmountSelector,
   ScreensEnum.Collectible,
   ScreensEnum.RevealPrivateKey,

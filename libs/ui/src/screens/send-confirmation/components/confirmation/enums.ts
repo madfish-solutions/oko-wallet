@@ -1,6 +1,6 @@
 export enum SpeedEnum {
   Slow = 'slow',
-  Middle = 'middle',
+  Medium = 'medium',
   Fast = 'fast',
   Own = 'own'
 }

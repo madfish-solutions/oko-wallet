@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { ListRenderItemInfo } from 'react-native';
 
 import { CollectibleImage } from '../../../../components/collectible-image/collectible-image';
@@ -22,13 +22,19 @@ export const SpecificCollectiblesList: FC = () => {
   const {
     params: { collectionName }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SpecificCollectiblesList>>();
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
 
   const collectiblesList = useSelectedCollectionSelector(collectionName);
 
   const { collectibles, setSearchValue } = useCollectibleList(collectiblesList);
 
   const handleItemPress = (collectible: Token) => navigate(ScreensEnum.Collectible, { collectible });
+
+  useEffect(() => {
+    if (collectiblesList.length === 0) {
+      goBack();
+    }
+  }, [collectiblesList.length]);
 
   const renderItem = useCallback(
     ({ item: collectible, index }: ListRenderItemInfo<Token>) => (
