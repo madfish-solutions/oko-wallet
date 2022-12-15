@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "postinstall": "rn-nodeify --install 'stream,buffer,process,events,crypto' --hack && bash postinstall.sh",
+    "postinstall": "rn-nodeify --install 'stream,buffer,process,events,crypto' --hack",
     "start": "react-native start",
     "android": "react-native run-android",
     "android:build:aab": "cd android && ./gradlew bundleRelease",
