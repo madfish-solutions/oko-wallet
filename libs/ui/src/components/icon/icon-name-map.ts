@@ -65,7 +65,6 @@ import SendIcon from './assets/send.svg';
 import SettingsIcon from './assets/settings.svg';
 import Share from './assets/share.svg';
 import Slider from './assets/slider.svg';
-import SplashScreen from './assets/splash-screen.svg';
 import StakeIcon from './assets/stake.svg';
 import Success from './assets/success.svg';
 import SwapIcon from './assets/swap.svg';
@@ -76,7 +75,6 @@ import TopupIcon from './assets/topup.svg';
 import TransparencyLayout from './assets/transparency-layout.svg';
 import Twitter from './assets/twitter.svg';
 import User from './assets/user.svg';
-import WalletLogoPlaceholderSquare from './assets/wallet-logo-placeholder-square.svg';
 import WalletLogoPlaceholder from './assets/wallet-logo-placeholder.svg';
 import WarningWhite from './assets/warning-white.svg';
 import WarningYellow from './assets/warning-yellow.svg';
@@ -130,7 +128,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Slider]: Slider,
   [IconNameEnum.AddChain]: AddChain,
   [IconNameEnum.Share]: Share,
-  [IconNameEnum.SplashScreen]: SplashScreen,
   [IconNameEnum.GridSettings]: GridSettings,
   [IconNameEnum.SelectedCheckbox]: SelectedCheckbox,
   [IconNameEnum.SelectedSquareCheckbox]: SelectedSquareCheckbox,
@@ -176,7 +173,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.See]: See,
   [IconNameEnum.WalletLogoPlaceholder]: WalletLogoPlaceholder,
   [IconNameEnum.IconWarning]: IconWarning,
-  [IconNameEnum.WalletLogoPlaceholderSquare]: WalletLogoPlaceholderSquare,
   [IconNameEnum.FaceId]: FaceId,
   [IconNameEnum.Home]: Home,
   [IconNameEnum.Fantom]: Fantom,

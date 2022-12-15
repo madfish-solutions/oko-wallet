@@ -9,6 +9,6 @@ import { styles } from './splash-screen.styles';
 
 export const SplashScreen: FC = () => (
   <View style={styles.root}>
-    <Icon name={IconNameEnum.SplashScreen} size={getCustomSize(11)} />
+    <Icon name={IconNameEnum.WalletLogoPlaceholder} size={getCustomSize(11)} />
   </View>
 );

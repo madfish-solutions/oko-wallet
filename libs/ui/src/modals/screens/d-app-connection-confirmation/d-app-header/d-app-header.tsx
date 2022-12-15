@@ -19,8 +19,8 @@ interface Props {
 export const DAppHeader: FC<Props> = ({ favicon, origin }) => (
   <>
     <Row style={styles.container}>
-      <DAppImage />
-      <Icon name={IconNameEnum.SwapItems} size={getCustomSize(9)} />
+      <Icon name={IconNameEnum.WalletLogoPlaceholder} size={getCustomSize(8)} />
+      <Icon name={IconNameEnum.SwapItems} size={getCustomSize(8)} />
       <DAppImage imageUri={favicon} />
     </Row>
     <Row style={styles.addressRow}>
