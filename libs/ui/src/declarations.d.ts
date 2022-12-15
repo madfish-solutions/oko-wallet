@@ -4,3 +4,7 @@ declare module '*.svg' {
   const content: FC<SvgProps>;
   export default content;
 }
+
+declare module '@env' {
+  export const REACT_APP_BASE_BACKEND_URL: string;
+}
