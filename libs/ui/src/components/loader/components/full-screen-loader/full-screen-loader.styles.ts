@@ -7,11 +7,7 @@ import { maximiseViewStyles } from '../../../navigator/utils/maximise-view-optio
 
 export const styles = StyleSheet.create({
   root: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
+    ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.bgGrey1,
