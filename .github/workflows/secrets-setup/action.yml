@@ -13,3 +13,10 @@ runs:
         DEFAULT_PASSWORD=${{ inputs.DEFAULT_PASSWORD }}
         DEFAULT_HD_ACCOUNT_PRIVATE_KEY=${{ inputs.DEFAULT_HD_ACCOUNT_PRIVATE_KEY }}
         EOF
+
+    - name: Create .env file
+      shell: bash
+      run: |
+        cat << EOF > libs/ui/.env
+        REACT_APP_BACKEND_URL=${{ inputs.REACT_APP_BACKEND_URL }}
+        EOF

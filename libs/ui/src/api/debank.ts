@@ -1,4 +1,4 @@
-import { REACT_APP_BASE_BACKEND_URL } from '@env';
+import { REACT_APP_BACKEND_URL } from '@env';
 import { isDefined } from '@rnw-community/shared';
 import axios from 'axios';
 import memoize from 'fast-memoize';
@@ -8,7 +8,7 @@ import { ActivityResponse, TokenInfo } from '../interfaces/activity.interface';
 import { NftListResponse, TokenListResponse } from './types';
 
 const debankApiRequest = axios.create({
-  baseURL: `${REACT_APP_BASE_BACKEND_URL}debank/`
+  baseURL: `${REACT_APP_BACKEND_URL}/debank/`
 });
 
 export const getHistoryList = memoize(
