@@ -26,7 +26,7 @@ const _abi = [
     stateMutability: "view",
     type: "function",
   },
-];
+] as const;
 
 export class Erc165Abi__factory {
   static readonly abi = _abi;

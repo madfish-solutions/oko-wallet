@@ -4,7 +4,8 @@ import 'react-native-gesture-handler/jestSetup';
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter.js');
 
+import './src/mocks/native-modules.mock';
 import './src/mocks/react-native-async-storage.mock';
-import './src/mocks/react-native-reanimated.mock';
-import './src/mocks/react-native-themis.mock';
 import './src/mocks/react-native-device-info.mock';
+import './src/mocks/react-native-permissions.mock';
+import './src/mocks/react-native-themis.mock';

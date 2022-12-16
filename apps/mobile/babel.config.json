@@ -11,12 +11,6 @@
         }
       }
     ],
-    "@babel/plugin-proposal-export-namespace-from",
-    [
-      "react-native-reanimated/plugin",
-      {
-        "globals": ["__scanCodes"]
-      }
-    ]
+    "@babel/plugin-proposal-export-namespace-from"
   ]
 }
