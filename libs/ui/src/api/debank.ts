@@ -3,6 +3,7 @@ import { isDefined } from '@rnw-community/shared';
 import axios from 'axios';
 import memoize from 'fast-memoize';
 
+//@ts-ignore
 import { ActivityResponse, TokenInfo } from '../interfaces/activity.interface';
 
 import { NftListResponse, TokenListResponse } from './types';

@@ -23,6 +23,7 @@ jobs:
           DEFAULT_SEED_PHRASE: ${{ secrets.DEFAULT_SEED_PHRASE }}
           DEFAULT_PASSWORD: ${{ secrets.DEFAULT_PASSWORD }}
           DEFAULT_HD_ACCOUNT_PRIVATE_KEY: ${{ secrets.DEFAULT_HD_ACCOUNT_PRIVATE_KEY }}
+          REACT_APP_BACKEND_URL: ${{ secrets.REACT_APP_BACKEND_URL }}
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
