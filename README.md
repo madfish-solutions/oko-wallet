@@ -8,6 +8,8 @@ The future releases will include a unique widget system. Information about this 
 
 🌎 [https://www.okowallet.app/](https://www.okowallet.app/)
 
+![application screenshot](./docs/assets/readme-banner.png)
+
 # ▶️  Installation
 
 There are extension and mobile application versions of Oko Wallet, and here you can find instructions to build them:
