@@ -12,10 +12,6 @@ export const styles = StyleSheet.create({
   icon: {
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0
+    ...StyleSheet.absoluteFillObject
   }
 });
