@@ -8,7 +8,6 @@ import { ActivityList } from '../../screens/activity/components/activity-list';
 import { getCustomSize } from '../../styles/format-size';
 import { isWeb } from '../../utils/platform.utils';
 import { EmptySearchIcon } from '../icon/components/empty-search-icon/empty-search-icon';
-import { IconNameEnum } from '../icon/icon-name.enum';
 import { LoaderSizeEnum } from '../loader/enums';
 import { Loader } from '../loader/loader';
 import { Row } from '../row/row';
