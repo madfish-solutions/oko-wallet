@@ -30,7 +30,7 @@ export const sendEvmTransactionSubscription = (sendEvmTransaction$: Subject<GetE
 
             switch (assetType) {
               case AssetTypeEnum.GasToken:
-                if (value !== '0') {
+                if (value !== '0.0') {
                   return signer.sendTransaction({ to: receiverPublicKeyHash, value, gasLimit, gasPrice, data });
                 }
 

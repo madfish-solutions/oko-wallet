@@ -29,7 +29,7 @@ export const DAppTransactionConfirmation: FC = () => {
         return ethers.utils.formatUnits(parsedValue, network.gasTokenMetadata.decimals);
       }
 
-      return '0';
+      return '0.0';
     };
 
     return {
@@ -49,7 +49,7 @@ export const DAppTransactionConfirmation: FC = () => {
     <EvmConfirmation transferParams={transferParams} messageID={params.messageId}>
       <DAppHeader favicon={params.dAppInfo.favicon} origin={params.dAppInfo.origin} />
 
-      {permissionNeededToken && transferParams.value === '0' && (
+      {permissionNeededToken && transferParams.value === '0.0' && (
         <View style={styles.allowanceBlock}>
           <Text style={styles.mainText}>Give permission to access your {permissionNeededToken.symbol}?</Text>
           <Text style={styles.text}>
