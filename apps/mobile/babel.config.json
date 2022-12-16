@@ -12,6 +12,6 @@
       }
     ],
     "@babel/plugin-proposal-export-namespace-from",
-    ["module:react-native-dotenv"]
+    ["module:react-native-dotenv", { "path": "../../.env" }]
   ]
 }
