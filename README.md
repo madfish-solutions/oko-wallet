@@ -18,19 +18,27 @@ There are extension and mobile application versions of Oko Wallet, and here you 
 
 - If you want to run iOS/Android applications, [set up the React Native development environment](https://reactnative.dev/docs/environment-setup)
 
-- Install dependencies with 
-`yarn install:all`
+- Install dependencies with:
+```bash
+yarn install:all
+```
 
 - If you want to run iOS, install pods for the iOS application additionally:
-`run yarn install:pods`
+```bash
+run yarn install:pods
+```
 
 ## Extension build
 
-- Build the project to the `./apps/extension/dist/` folder with 
-`yarn build extension`
+- Build the project to the `./apps/extension/dist/` folder with
+```bash
+yarn build extension
+```
 
 - Optionally, you may run yarn extension to run development mode:
-`yarn extension`
+```bash
+yarn extension
+```
 
 - To load the extension:
 	- go to `chrome://extensions/` in the browser;
@@ -40,8 +48,12 @@ There are extension and mobile application versions of Oko Wallet, and here you 
 
 ## Mobile build
 
-- Run iOS build locally with
-`yarn ios`
+- Run iOS build locally with:
+```bash
+yarn ios
+```
 
-- Run Android build locally with
-`yarn android`
+- Run Android build locally with:
+```bash
+yarn android
+```
