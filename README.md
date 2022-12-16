@@ -33,7 +33,7 @@ There are extension and mobile application versions of Oko Wallet, and here you 
 `yarn extension`
 
 - To load the extension:
-	- go to [chrome://extensions](chrome://extensions/) in the browser;
+	- go to `chrome://extensions/` in the browser;
 	- enable `Developer mode` in the top right corner;
 	- press `Load unpacked`;
 	- select `dist` folder;
