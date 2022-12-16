@@ -23,7 +23,8 @@ import {
   loadTokenMetadataAction,
   addNewTokenAction,
   addNewTokensAction,
-  getAllUserNftAction
+  getAllUserNftAction,
+  deleteCollectibleAction
 } from './wallet.actions';
 
 const getGasTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Observable<RootState>) =>
@@ -45,16 +46,20 @@ const getTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Observab
     toPayload(),
     withSelectedAccount(state$),
     withSelectedNetwork(state$),
-    concatMap(([[{ token }, account], network]) =>
+    concatMap(([[{ token, deleteZeroBalance }, account], network]) =>
       getTokenBalance$(network, account, token).pipe(
-        map(balance =>
-          loadAccountTokenBalanceAction.success({
+        map(balance => {
+          if (deleteZeroBalance === true && Number(balance) === 0) {
+            return deleteCollectibleAction(token);
+          }
+
+          return loadAccountTokenBalanceAction.success({
             token: {
               ...token,
               balance: createEntity(balance)
             }
-          })
-        ),
+          });
+        }),
         catchError(error => of(loadAccountTokenBalanceAction.fail({ token, error: error.message })))
       )
     )

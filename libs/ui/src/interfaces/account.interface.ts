@@ -20,6 +20,7 @@ export interface Transaction {
   from: string;
   to: string;
   transactionHash: string;
+  asset: { tokenAddress: string; tokenId: string };
 }
 
 export type PendingTransaction = Omit<Transaction, 'status'>;
