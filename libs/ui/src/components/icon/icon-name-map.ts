@@ -37,7 +37,6 @@ import IconPlaceholder from './assets/icon-placeholder.svg';
 import IconWarning from './assets/icon-warning.svg';
 import InfoRed from './assets/info-red.svg';
 import Info from './assets/info.svg';
-import LoaderSnake from './assets/loader-snake.svg';
 import LoadersIcon from './assets/loaders.svg';
 import LockClosed from './assets/lock-closed.svg';
 import LockOpen from './assets/lock-open.svg';
@@ -181,6 +180,5 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Arbitrum]: Arbitrum,
   [IconNameEnum.Optimism]: Optimism,
   [IconNameEnum.Polygon]: Polygon,
-  [IconNameEnum.User]: User,
-  [IconNameEnum.LoaderSnake]: LoaderSnake
+  [IconNameEnum.User]: User
 };

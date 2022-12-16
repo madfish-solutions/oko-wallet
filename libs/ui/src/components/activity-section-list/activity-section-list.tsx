@@ -47,7 +47,7 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, tokenAd
     <>
       {isLoading && (
         <View style={styles.loading}>
-          <Loader iconName={IconNameEnum.LoaderSnake} size={LoaderSizeEnum.Large} />
+          <Loader size={LoaderSizeEnum.Large} />
         </View>
       )}
     </>
