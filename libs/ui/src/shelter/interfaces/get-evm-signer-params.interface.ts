@@ -1,5 +1,6 @@
 import { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider';
 import { OnEventFn } from '@rnw-community/shared';
+import { BigNumber } from 'ethers';
 
 import { AssetTypeEnum } from '../../enums/asset-type.enum';
 import { TokenStandardEnum } from '../../enums/token-standard.enum';
@@ -8,7 +9,7 @@ export interface TransactionParams extends Pick<TransactionRequest, 'gasLimit' |
   tokenAddress: string;
   receiverPublicKeyHash: string;
   tokenId?: string;
-  value: string;
+  value: string | BigNumber;
 }
 
 export interface GetEvmSignerParams {

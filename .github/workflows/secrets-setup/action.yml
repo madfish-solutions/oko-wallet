@@ -14,9 +14,16 @@ runs:
         DEFAULT_HD_ACCOUNT_PRIVATE_KEY=${{ inputs.DEFAULT_HD_ACCOUNT_PRIVATE_KEY }}
         EOF
 
-    - name: Create .env file
+    - name: Create apps/extension/.env file
       shell: bash
       run: |
-        cat << EOF > libs/ui/.env
-        REACT_APP_BACKEND_URL=${{ inputs.REACT_APP_BACKEND_URL }}
+        cat << EOF > apps/extension/.env
+        BACKEND_URL=${{ inputs.BACKEND_URL }}
+        EOF
+
+    - name: Create apps/mobile/.env file
+      shell: bash
+      run: |
+        cat << EOF > apps/mobile/.env
+        BACKEND_URL=${{ inputs.BACKEND_URL }}
         EOF

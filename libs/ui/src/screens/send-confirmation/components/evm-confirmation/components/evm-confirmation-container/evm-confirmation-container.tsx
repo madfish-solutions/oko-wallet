@@ -58,7 +58,7 @@ export const EvmConfirmationContainer: FC<Props> = ({
         setIsTransactionLoading(true);
         const valueToSend =
           assetType === AssetTypeEnum.GasToken || assetType === AssetTypeEnum.Token
-            ? getAmount(value, decimals).toString()
+            ? getAmount(value, decimals)
             : value;
 
         const transactionParams: TransactionParams = {
