@@ -3,6 +3,7 @@ import { isNotEmptyString } from '@rnw-community/shared';
 import { of, Subject } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
+import { FLOAT_ZERO_STRING } from '../../constants/defaults';
 import { Erc1155Abi__factory, Erc20Abi__factory, Erc721Abi__factory } from '../../contract-types';
 import { AssetTypeEnum } from '../../enums/asset-type.enum';
 import { checkIsErc721Collectible } from '../../utils/check-is-erc721-collectible.util';
@@ -30,7 +31,7 @@ export const sendEvmTransactionSubscription = (sendEvmTransaction$: Subject<GetE
 
             switch (assetType) {
               case AssetTypeEnum.GasToken:
-                if (value !== '0.0') {
+                if (value !== FLOAT_ZERO_STRING) {
                   return signer.sendTransaction({ to: receiverPublicKeyHash, value, gasLimit, gasPrice, data });
                 }
 

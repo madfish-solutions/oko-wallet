@@ -5,6 +5,7 @@ import React, { FC, useMemo } from 'react';
 import { View } from 'react-native';
 
 import { Text } from '../../../components/text/text';
+import { FLOAT_ZERO_STRING } from '../../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useClosePopup } from '../../../hooks/use-close-popup';
 import { EvmConfirmation } from '../../../screens/send-confirmation/components/evm-confirmation/evm-confirmation';
@@ -29,7 +30,7 @@ export const DAppTransactionConfirmation: FC = () => {
         return ethers.utils.formatUnits(parsedValue, network.gasTokenMetadata.decimals);
       }
 
-      return '0.0';
+      return FLOAT_ZERO_STRING;
     };
 
     return {
@@ -49,7 +50,7 @@ export const DAppTransactionConfirmation: FC = () => {
     <EvmConfirmation transferParams={transferParams} messageID={params.messageId}>
       <DAppHeader favicon={params.dAppInfo.favicon} origin={params.dAppInfo.origin} />
 
-      {permissionNeededToken && transferParams.value === '0.0' && (
+      {permissionNeededToken && transferParams.value === FLOAT_ZERO_STRING && (
         <View style={styles.allowanceBlock}>
           <Text style={styles.mainText}>Give permission to access your {permissionNeededToken.symbol}?</Text>
           <Text style={styles.text}>
