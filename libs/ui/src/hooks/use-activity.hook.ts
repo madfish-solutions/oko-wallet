@@ -92,10 +92,14 @@ const transformApiData = (
 export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAddress?: string) => {
   const [lastTimestamp, setLastTimestamp] = useState(0);
   const [activity, setActivity] = useState<SectionListActivityData[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const tokenAddressRequest = tokenAddress === GAS_TOKEN_ADDRESS ? undefined : tokenAddress;
 
   const fetchActivity = async (startTime: number) => {
+    setIsLoading(true);
+
     const response = await getHistoryList(publicKeyHash, chainName, startTime, tokenAddressRequest);
+
     if (response !== undefined) {
       const activityData =
         tokenAddress === GAS_TOKEN_ADDRESS
@@ -106,13 +110,15 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
       }
       setActivity([...activity, ...activityData]);
     }
+
+    setIsLoading(false);
   };
 
   const fetchData = async () => {
     fetchActivity(lastTimestamp);
   };
 
-  return { activity, fetchData };
+  return { activity, fetchData, isLoading };
 };
 
 export const useTokenInfo = (tokenId: string | undefined, chainName: string) => {

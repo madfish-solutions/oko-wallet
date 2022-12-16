@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { setIsAnalyticsEnabled, setIsBiometricEnabled } from './settings.actions';
+import { hideLoaderAction, setIsAnalyticsEnabled, setIsBiometricEnabled, showLoaderAction } from './settings.actions';
 import { settingsInitialState, SettingsState } from './settings.state';
 
 export const settingsReducers = createReducer<SettingsState>(settingsInitialState, builder => {
@@ -12,5 +12,13 @@ export const settingsReducers = createReducer<SettingsState>(settingsInitialStat
     .addCase(setIsBiometricEnabled, (state, { payload: isBiometricEnabled }) => ({
       ...state,
       isBiometricEnabled
+    }))
+    .addCase(showLoaderAction, state => ({
+      ...state,
+      showLoader: true
+    }))
+    .addCase(hideLoaderAction, state => ({
+      ...state,
+      showLoader: false
     }));
 });

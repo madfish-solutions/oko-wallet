@@ -5,9 +5,11 @@ export interface SettingsRootState {
 export interface SettingsState {
   isAnalyticsEnabled: boolean;
   isBiometricEnabled: boolean;
+  showLoader: boolean;
 }
 
 export const settingsInitialState: SettingsState = {
   isAnalyticsEnabled: true,
-  isBiometricEnabled: false
+  isBiometricEnabled: false,
+  showLoader: false
 };
