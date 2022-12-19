@@ -1,8 +1,8 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
+import { isDefined } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { ScrollView, Pressable, Linking, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { tabs } from 'webextension-polyfill';
 
 import { AllowsBlock } from '../../../components/allows-block/allows-block';
 import { Button } from '../../../components/button/button';
@@ -18,7 +18,7 @@ import { useDAppSelector } from '../../../store/d-apps/d-apps.selectors';
 import { changeNetworkAction } from '../../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
 import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
-import { createDAppResponse } from '../../../utils/dapp.utils';
+import { sendResponseToDAppAndClosePopup } from '../../../utils/dapp.utils';
 import { eraseProtocol } from '../../../utils/string.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 import { DAppImage } from '../d-app-connection-confirmation/d-app-image/d-app-image';
@@ -45,16 +45,10 @@ export const NetworkChangeConfirmation: FC = () => {
   );
 
   const acceptChangeNetwork = () => {
-    const decimalChainId = parseInt(params.requestedChainId.substring(2), 16);
-    dispatch(changeNetworkAction(decimalChainId.toString()));
-    tabs.query({ active: true }).then(queryTabs => {
-      if (queryTabs[0].id !== undefined) {
-        const message = createDAppResponse(params.messageId, null);
-        tabs.sendMessage(queryTabs[0].id, message);
-
-        setTimeout(window.close, 1000);
-      }
-    });
+    if (isDefined(dappsNetwork)) {
+      dispatch(changeNetworkAction(dappsNetwork?.rpcUrl));
+    }
+    sendResponseToDAppAndClosePopup(params.messageId, null);
   };
 
   return (

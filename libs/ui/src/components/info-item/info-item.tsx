@@ -13,7 +13,7 @@ import { styles } from './info-item.styles';
 interface Props {
   name: string;
   value: string | ReactNode;
-  prompt: string | null;
+  prompt?: string | null;
 }
 
 export const InfoItem: FC<Props> = ({ name, value, prompt }) => {
@@ -52,7 +52,7 @@ export const InfoItem: FC<Props> = ({ name, value, prompt }) => {
         return value;
       }
     }
-  }, []);
+  }, [value, prompt]);
 
   return (
     <Row style={styles.item}>

@@ -17,5 +17,10 @@ export const styles = StyleSheet.create({
     ...typography.numbersIBMPlexSansMedium11,
     marginVertical: getCustomSize(),
     color: colors.textGrey3
+  },
+  loading: {
+    padding: getCustomSize(2),
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });

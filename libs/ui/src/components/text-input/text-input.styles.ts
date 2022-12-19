@@ -8,7 +8,7 @@ import { isWeb } from '../../utils/platform.utils';
 export const styles = StyleSheet.create({
   inputContainer: {
     backgroundColor: colors.bgGrey4,
-    borderWidth: 1,
+    borderWidth: getCustomSize(0.125),
     borderColor: colors.bgGrey4,
     borderRadius: getCustomSize(),
     paddingLeft: getCustomSize(1.5),
@@ -33,13 +33,5 @@ export const styles = StyleSheet.create({
     ...(isWeb && { caretColor: colors.orange }),
     lineHeight: undefined,
     overflow: 'hidden'
-  },
-  textErrorContainer: {
-    position: 'absolute',
-    bottom: -getCustomSize(2.25)
-  },
-  textError: {
-    color: colors.red,
-    ...typography.captionInterRegular11
   }
 });

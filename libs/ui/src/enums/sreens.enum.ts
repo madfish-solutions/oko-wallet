@@ -1,16 +1,19 @@
 import { SeedWordsAmount } from '../constants/seed-words-amount';
 import { AccountInterface } from '../interfaces/account.interface';
-import { DAppInfo } from '../interfaces/dapp-info.interface';
+import { DAppInfo, DAppTransactionInfo } from '../interfaces/dapp-info.interface';
 import { NetworkInterface } from '../interfaces/network.interface';
 import { Token } from '../interfaces/token.interface';
 import { TransferParams } from '../interfaces/transfer-params.interface';
+import { SendParams } from '../screens/send/types';
 
 export enum ScreensEnum {
   ImportWallet = 'ImportWallet',
   ManageTokens = 'ManageTokens',
   Receive = 'Receive',
-  Send = 'Send',
+  SendToken = 'SendToken',
+  SendCollectible = 'SendCollectible',
   SendTokensSelector = 'SendTokensSelector',
+  SendCollectiblesSelector = 'SendCollectiblesSelector',
   SendAccountsSelector = 'SendAccountsSelector',
   SendConfirmation = 'SendConfirmation',
   Settings = 'Settings',
@@ -52,15 +55,19 @@ export enum ScreensEnum {
   DeleteDApp = 'DeleteDApp',
   AddNewCollectible = 'AddNewCollectible',
   Collectible = 'Collectible',
-  Initial = 'Initial'
+  Initial = 'Initial',
+  DAppTransactionConfirmation = 'DAppTransactionConfirmation',
+  DAppSignConfirmation = 'DAppSignConfirmation'
 }
 
 export type ScreensParamList = {
   [ScreensEnum.ImportWallet]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.ManageTokens]: undefined;
   [ScreensEnum.Receive]: undefined;
-  [ScreensEnum.Send]?: { account?: AccountInterface; token?: Token; receiverPublicKeyHash?: string };
-  [ScreensEnum.SendTokensSelector]: { token: Token };
+  [ScreensEnum.SendToken]?: SendParams;
+  [ScreensEnum.SendCollectible]?: SendParams;
+  [ScreensEnum.SendTokensSelector]: { token?: Token };
+  [ScreensEnum.SendCollectiblesSelector]: { token?: Token };
   [ScreensEnum.SendAccountsSelector]: { account: AccountInterface };
   [ScreensEnum.SendConfirmation]: {
     transferParams: TransferParams;
@@ -106,18 +113,26 @@ export type ScreensParamList = {
   [ScreensEnum.AuthorizedDApps]: undefined;
   [ScreensEnum.DeleteDApp]: { origin: string };
   [ScreensEnum.Initial]: undefined;
+  [ScreensEnum.DAppTransactionConfirmation]: {
+    messageId: string;
+    transactionInfo: DAppTransactionInfo;
+    dAppInfo: DAppInfo;
+  };
+  [ScreensEnum.DAppSignConfirmation]: { messageId: string; signInfo: string[]; dAppInfo: DAppInfo };
 };
 
 export const walletStackScreens = [
   ScreensEnum.Wallet,
   ScreensEnum.Activity,
   ScreensEnum.Tokens,
-  ScreensEnum.ManageTokens
+  ScreensEnum.ManageTokens,
+  ScreensEnum.CollectiblesList,
+  ScreensEnum.SpecificCollectiblesList
 ];
 export const receiveStackScreens = [ScreensEnum.Receive];
 export const swapStackScreens = [];
 export const sendStackScreens = [
-  ScreensEnum.Send,
+  ScreensEnum.SendToken,
   ScreensEnum.SendTokensSelector,
   ScreensEnum.SendConfirmation,
   ScreensEnum.AccountsSelector

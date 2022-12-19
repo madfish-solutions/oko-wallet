@@ -37,6 +37,7 @@ import IconPlaceholder from './assets/icon-placeholder.svg';
 import IconWarning from './assets/icon-warning.svg';
 import InfoRed from './assets/info-red.svg';
 import Info from './assets/info.svg';
+import LoaderSnake from './assets/loader-snake.svg';
 import LoadersIcon from './assets/loaders.svg';
 import LockClosed from './assets/lock-closed.svg';
 import LockOpen from './assets/lock-open.svg';
@@ -65,7 +66,6 @@ import SendIcon from './assets/send.svg';
 import SettingsIcon from './assets/settings.svg';
 import Share from './assets/share.svg';
 import Slider from './assets/slider.svg';
-import SplashScreen from './assets/splash-screen.svg';
 import StakeIcon from './assets/stake.svg';
 import Success from './assets/success.svg';
 import SwapIcon from './assets/swap.svg';
@@ -75,17 +75,22 @@ import Tooltip from './assets/tooltip.svg';
 import TopupIcon from './assets/topup.svg';
 import TransparencyLayout from './assets/transparency-layout.svg';
 import Twitter from './assets/twitter.svg';
-import WalletLogoPlaceholderSquare from './assets/wallet-logo-placeholder-square.svg';
+import User from './assets/user.svg';
 import WalletLogoPlaceholder from './assets/wallet-logo-placeholder.svg';
 import WarningWhite from './assets/warning-white.svg';
 import WarningYellow from './assets/warning-yellow.svg';
 import XIcon from './assets/x.svg';
 import Youtube from './assets/youtube.svg';
 import { IconNameEnum } from './icon-name.enum';
+import Arbitrum from './networks/arbitrum.svg';
+import Avalanche from './networks/avalanche.svg';
 import BinanceSmartChain from './networks/bsc.svg';
 import Ethereum from './networks/ethereum.svg';
 import NetworkFallback from './networks/fallback.svg';
+import Fantom from './networks/fantom.svg';
 import Klaytn from './networks/klaytn.svg';
+import Optimism from './networks/optimism.svg';
+import Polygon from './networks/polygon.svg';
 
 export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Paste]: Paste,
@@ -124,7 +129,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Slider]: Slider,
   [IconNameEnum.AddChain]: AddChain,
   [IconNameEnum.Share]: Share,
-  [IconNameEnum.SplashScreen]: SplashScreen,
   [IconNameEnum.GridSettings]: GridSettings,
   [IconNameEnum.SelectedCheckbox]: SelectedCheckbox,
   [IconNameEnum.SelectedSquareCheckbox]: SelectedSquareCheckbox,
@@ -170,7 +174,13 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.See]: See,
   [IconNameEnum.WalletLogoPlaceholder]: WalletLogoPlaceholder,
   [IconNameEnum.IconWarning]: IconWarning,
-  [IconNameEnum.WalletLogoPlaceholderSquare]: WalletLogoPlaceholderSquare,
   [IconNameEnum.FaceId]: FaceId,
-  [IconNameEnum.Home]: Home
+  [IconNameEnum.Home]: Home,
+  [IconNameEnum.Fantom]: Fantom,
+  [IconNameEnum.Avalanche]: Avalanche,
+  [IconNameEnum.Arbitrum]: Arbitrum,
+  [IconNameEnum.Optimism]: Optimism,
+  [IconNameEnum.Polygon]: Polygon,
+  [IconNameEnum.User]: User,
+  [IconNameEnum.LoaderSnake]: LoaderSnake
 };

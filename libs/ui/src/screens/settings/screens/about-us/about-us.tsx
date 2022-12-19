@@ -63,10 +63,10 @@ export const AboutUs: FC = () => {
 
           <View style={styles.footer}>
             <Row style={styles.walletNameContainer}>
-              <Icon name={IconNameEnum.WalletLogoPlaceholder} width={getCustomSize(15)} height={getCustomSize(8)} />
+              <Icon name={IconNameEnum.WalletLogoPlaceholder} size={getCustomSize(8)} />
               <Divider size={getCustomSize(0.125)} style={styles.verticalSeparator} />
               <Text style={styles.walletText}>
-                <Text style={styles.redText}>Name Wallet </Text>is an easy-to-use multiplatrform & multichain wallet for
+                <Text style={styles.redText}>Oko Wallet </Text>is an easy-to-use multiplatform & multichain wallet for
                 interacting with crypto, WEB3 & NFT.
               </Text>
             </Row>

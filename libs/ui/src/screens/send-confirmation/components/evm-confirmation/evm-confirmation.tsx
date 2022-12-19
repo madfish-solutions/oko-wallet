@@ -1,87 +1,41 @@
+import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { isDefined } from '@rnw-community/shared';
-import React, { FC, useCallback } from 'react';
+import React, { FC } from 'react';
 
-import { AssetTypeEnum } from '../../../../enums/asset-type.enum';
-import { useShelter } from '../../../../hooks/use-shelter.hook';
-import { TransactionParams } from '../../../../shelter/interfaces/get-evm-signer-params.interface';
-import {
-  useSelectedAccountPublicKeyHashSelector,
-  useSelectedNetworkSelector
-} from '../../../../store/wallet/wallet.selectors';
-import { getAssetType } from '../../../../utils/get-asset-type.util';
-import { useTransactionHook } from '../../hooks/use-transaction.hook';
-import { EvmTransferParams, OnSend } from '../../types';
-import { Confirmation } from '../confirmation/confirmation';
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
+import { sendErrorToDAppAndClosePopup, sendResponseToDAppAndClosePopup } from '../../../../utils/dapp.utils';
+import { EvmTransferParams } from '../../types';
 
-import { useEvmEstimations } from './hooks/use-evm-estimations.hook';
-import { getAmount } from './utils/get-amount.util';
+import { EvmConfirmationContainer } from './components/evm-confirmation-container/evm-confirmation-container';
 
 interface Props {
   transferParams: EvmTransferParams;
+  messageID?: string;
 }
 
-export const EvmConfirmation: FC<Props> = ({ transferParams: { asset, receiverPublicKeyHash, value } }) => {
-  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
-  const network = useSelectedNetworkSelector();
-  const { sendEvmTransaction } = useShelter();
-  const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } =
-    useTransactionHook(receiverPublicKeyHash);
+export const EvmConfirmation: FC<Props> = ({ transferParams, messageID, children }) => {
+  const { goBack } = useNavigation();
 
-  const { tokenAddress, tokenId, decimals, symbol } = asset;
-  const assetType = getAssetType(asset);
+  const additionalSuccessCallback = (transactionResponse: TransactionResponse) => {
+    if (isDefined(messageID)) {
+      sendResponseToDAppAndClosePopup(messageID, transactionResponse.hash);
+    }
+  };
 
-  const { estimations, isLoading } = useEvmEstimations({
-    network,
-    asset,
-    receiverPublicKeyHash,
-    value,
-    publicKeyHash,
-    assetType
-  });
+  const onDecline = () => {
+    if (isDefined(messageID)) {
+      sendErrorToDAppAndClosePopup(messageID);
+    }
 
-  const { rpcUrl } = network;
-  const transactionFee = isDefined(estimations?.gasPrice)
-    ? Number(estimations?.gasPrice) * Number(estimations?.gasLimit)
-    : 0;
-
-  const onSend: OnSend = useCallback(
-    gasPriceCoefficient => {
-      if (isDefined(estimations?.gasPrice) && typeof gasPriceCoefficient === 'number') {
-        setIsTransactionLoading(true);
-
-        const transactionParams: TransactionParams = {
-          gasPrice: Math.trunc(Number(estimations?.gasPrice) * gasPriceCoefficient),
-          gasLimit: Number(estimations?.gasLimit),
-          receiverPublicKeyHash,
-          tokenAddress,
-          tokenId,
-          ...(assetType !== AssetTypeEnum.Collectible && {
-            value: getAmount(value, decimals)
-          })
-        };
-
-        sendEvmTransaction({
-          rpcUrl,
-          transactionParams,
-          publicKeyHash,
-          assetType,
-          successCallback,
-          errorCallback
-        });
-      }
-    },
-    [estimations]
-  );
+    goBack();
+  };
 
   return (
-    <Confirmation
-      isFeeLoading={isLoading}
-      onSend={onSend}
-      isTransactionLoading={isTransactionLoading}
-      receiverPublicKeyHash={receiverPublicKeyHash}
-      amount={value}
-      symbol={symbol}
-      initialTransactionFee={transactionFee}
+    <EvmConfirmationContainer
+      transferParams={transferParams}
+      onDecline={onDecline}
+      additionalSuccessCallback={additionalSuccessCallback}
+      children={children}
     />
   );
 };

@@ -1,3 +1,4 @@
+import { isDefined } from '@rnw-community/shared';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -60,6 +61,18 @@ export const useAllHdAccountsSelector = () => {
   const accounts = useAllAccountsSelector();
 
   return useMemo(() => accounts.filter(({ type }) => type === AccountTypeEnum.HD_ACCOUNT), [accounts]);
+};
+
+export const useAllImportedAccountsSelector = (networkType: NetworkTypeEnum) => {
+  const accounts = useAllAccountsSelector();
+
+  return useMemo(
+    () =>
+      accounts.filter(
+        ({ type, networksKeys }) => type === AccountTypeEnum.IMPORTED_ACCOUNT && isDefined(networksKeys[networkType])
+      ),
+    [accounts, networkType]
+  );
 };
 
 export const useAllVisibleAccountsSelector = () => {

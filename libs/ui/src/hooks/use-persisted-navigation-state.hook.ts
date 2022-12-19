@@ -11,7 +11,12 @@ import { getStoredValue, setStoredValue } from '../utils/store.util';
 
 export const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
-const ROUTES_TO_IGNORE: string[] = [ScreensEnum.DAppConnectionConfirmation, ScreensEnum.NetworkChangeConfirmation];
+const ROUTES_TO_IGNORE: string[] = [
+  ScreensEnum.DAppConnectionConfirmation,
+  ScreensEnum.NetworkChangeConfirmation,
+  ScreensEnum.DAppTransactionConfirmation,
+  ScreensEnum.DAppSignConfirmation
+];
 
 export const usePersistedNavigationState = () => {
   const [isReady, setIsReady] = useState(false);
@@ -28,7 +33,12 @@ export const usePersistedNavigationState = () => {
           const query = parse(location.search);
 
           // DAppConfirmation
-          if (typeof query.id === 'string' && typeof query.dAppInfo === 'string') {
+          if (
+            typeof query.id === 'string' &&
+            typeof query.dAppInfo === 'string' &&
+            query.transactionInfo === undefined &&
+            query.signInfo === undefined
+          ) {
             const route = createNavigationRoute(ScreensEnum.DAppConnectionConfirmation, {
               messageId: query.id,
               dAppInfo: JSON.parse(query.dAppInfo)
@@ -47,6 +57,36 @@ export const usePersistedNavigationState = () => {
               messageId: query.id,
               dAppOrigin: query.origin,
               requestedChainId: query.requestedChainId
+            });
+
+            storedInitialState.routes.push(route);
+          }
+
+          //Confirm transaction from dApp
+          if (
+            typeof query.id === 'string' &&
+            typeof query.transactionInfo === 'string' &&
+            typeof query.dAppInfo === 'string'
+          ) {
+            const route = createNavigationRoute(ScreensEnum.DAppTransactionConfirmation, {
+              messageId: query.id,
+              transactionInfo: JSON.parse(query.transactionInfo),
+              dAppInfo: JSON.parse(query.dAppInfo)
+            });
+
+            storedInitialState.routes.push(route);
+          }
+
+          //Confirm sign from dApp
+          if (
+            typeof query.id === 'string' &&
+            typeof query.signInfo === 'string' &&
+            typeof query.dAppInfo === 'string'
+          ) {
+            const route = createNavigationRoute(ScreensEnum.DAppSignConfirmation, {
+              messageId: query.id,
+              signInfo: JSON.parse(query.signInfo),
+              dAppInfo: JSON.parse(query.dAppInfo)
             });
 
             storedInitialState.routes.push(route);

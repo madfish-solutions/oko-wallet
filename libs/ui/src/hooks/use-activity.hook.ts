@@ -103,6 +103,7 @@ const transformApiData = (
 export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAddress?: string) => {
   const [lastTimestamp, setLastTimestamp] = useState<Record<string, number>>({});
   const [activity, setActivity] = useState<SectionListActivityData[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setActivity([]);
@@ -110,6 +111,8 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
   }, [publicKeyHash, chainName]);
 
   const fetchActivity = async (startTime: number) => {
+    setIsLoading(true);
+
     const response = await getHistoryList(publicKeyHash, chainName, startTime, tokenAddress);
 
     if (response !== undefined) {
@@ -131,11 +134,13 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
         }));
       }
     }
+
+    setIsLoading(false);
   };
 
   const fetchData = debounce((startTime?: number) => {
     fetchActivity(isDefined(startTime) ? startTime : lastTimestamp[publicKeyHash] ?? 0);
   }, DEBOUNCE_TIME);
 
-  return { activity, fetchData };
+  return { activity, fetchData, isLoading };
 };

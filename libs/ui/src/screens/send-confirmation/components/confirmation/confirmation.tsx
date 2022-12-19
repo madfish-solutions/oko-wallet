@@ -7,15 +7,11 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Button } from '../../../../components/button/button';
 import { CopyText } from '../../../../components/copy-text/copy-text';
 import { Divider } from '../../../../components/divider/divider';
-import { IconWithBorder } from '../../../../components/icon-with-border/icon-with-border';
-import { Icon } from '../../../../components/icon/icon';
-import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';
 import { TextInput } from '../../../../components/text-input/text-input';
 import { Text } from '../../../../components/text/text';
 import { MainnetRpcEnum, TestnetRpcEnum } from '../../../../constants/rpc';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
-import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { ModalActionContainer } from '../../../../modals/components/modal-action-container/modal-action-container';
 import {
   useSelectedAccountSelector,
@@ -23,11 +19,12 @@ import {
   useSelectedNetworkTypeSelector
 } from '../../../../store/wallet/wallet.selectors';
 import { formatUnits, parseUnits } from '../../../../utils/units.utils';
-import { SelectedAccount } from '../../../send/components/selected-account/selected-account';
 import { OnSend } from '../../types';
 
 import { FeeItem } from './components/fee-item/fee-item';
+import { FromAccount } from './components/from-account/from-account';
 import { ProgressBar } from './components/progress-bar/progress-bar';
+import { SelectedNetwork } from './components/selected-network/selected-network';
 import { styles } from './confirmation.styles';
 import { ownGasFeeRules, requiredFieldRule, SpeedOption, speedOptions } from './constants';
 import { SpeedEnum } from './enums';
@@ -36,6 +33,7 @@ import { getProgressStatus } from './utils/get-progress-status.util';
 interface Props {
   isFeeLoading: boolean;
   onSend: OnSend;
+  onDecline: () => void;
   isTransactionLoading: boolean;
   receiverPublicKeyHash: string;
   amount: string;
@@ -52,18 +50,17 @@ const defaultValues = {
 export const Confirmation: FC<Props> = ({
   isFeeLoading,
   onSend,
+  onDecline,
   isTransactionLoading,
   receiverPublicKeyHash,
   symbol,
   amount,
   initialTransactionFee,
-  storageFee = 0
+  storageFee = 0,
+  children
 }) => {
-  const { goBack } = useNavigation();
   const account = useSelectedAccountSelector();
   const {
-    iconName,
-    name,
     gasTokenMetadata: { symbol: gasTokenSymbol, decimals: gasTokenDecimals },
     rpcUrl
   } = useSelectedNetworkSelector();
@@ -83,7 +80,7 @@ export const Confirmation: FC<Props> = ({
   });
   const scrollViewRef = useRef<ScrollView>(null);
 
-  const isConfirmButtonDisabled = !isEmpty(errors) || isTransactionLoading;
+  const isConfirmButtonDisabled = !isEmpty(errors) || isTransactionLoading || isFeeLoading;
   const isOwnSpeedSelected = speed.value === SpeedEnum.Own;
 
   const ownGasFee = watch('ownGasFee');
@@ -143,7 +140,7 @@ export const Confirmation: FC<Props> = ({
       screenTitle="Confirm Operation"
       submitTitle="Confirm"
       cancelTitle="Decline"
-      onCancelPress={goBack}
+      onCancelPress={onDecline}
       onSubmitPress={handleSubmit(onConfirmPress)}
       isSubmitDisabled={isConfirmButtonDisabled}
       isCancelDisabled={isTransactionLoading}
@@ -151,29 +148,21 @@ export const Confirmation: FC<Props> = ({
       scrollViewRef={scrollViewRef}
     >
       <View>
-        <View style={styles.container}>
-          <Text style={styles.title}>From</Text>
-          <SelectedAccount account={account} isDisabled />
-        </View>
-
-        <View style={styles.container}>
-          <Text style={styles.title}>Network</Text>
-          <Row style={styles.networkContainer}>
-            <IconWithBorder>
-              <Icon name={iconName ?? IconNameEnum.NetworkFallback} />
-            </IconWithBorder>
-            <Text style={styles.networkName}>{name}</Text>
-          </Row>
-        </View>
-
+        {children}
+        <FromAccount account={account} />
+        <SelectedNetwork />
         <View style={styles.container}>
           <Text style={styles.title}>Operation</Text>
           <View style={styles.operationContainer}>
             <Row style={styles.sendBlock}>
               <Text style={styles.operationText}>Send</Text>
               <Row>
-                <Text style={styles.amount}>{amount}</Text>
-                <Text style={[styles.symbol, styles.symbolColor]}>{symbol}</Text>
+                {amount !== '0' && (
+                  <>
+                    <Text style={styles.amount}>{amount}</Text>
+                    <Text style={[styles.symbol, styles.symbolColor]}>{symbol}</Text>
+                  </>
+                )}
               </Row>
             </Row>
             <Row style={styles.receiverBlock}>
@@ -186,7 +175,7 @@ export const Confirmation: FC<Props> = ({
         <View>
           <Text style={styles.title}>Transactions Details</Text>
           {isEvmNetwork && (
-            <FeeItem title="Gas" loading={isFeeLoading} fee={correctedTransactionFee} symbol={gasTokenSymbol} />
+            <FeeItem title="Max Gas" loading={isFeeLoading} fee={correctedTransactionFee} symbol={gasTokenSymbol} />
           )}
           {!isKlaytnNetwork && (
             <>
@@ -210,7 +199,7 @@ export const Confirmation: FC<Props> = ({
             </>
           )}
           {isTezosNetwork && (
-            <FeeItem title="Gas" loading={isFeeLoading} fee={correctedTransactionFee} symbol={symbol} />
+            <FeeItem title="Gas" loading={isFeeLoading} fee={correctedTransactionFee} symbol={gasTokenSymbol} />
           )}
 
           {isOwnSpeedSelected && (

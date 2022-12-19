@@ -321,7 +321,7 @@ export abstract class BaseProvider extends SafeEventEmitter {
    * @param networkInfo - An object with network info.
    * @param networkInfo.chainId - The latest chain ID.
    */
-  protected _handleChainChanged({ chainId }: { chainId?: string; networkVersion?: string } = {}) {
+  _handleChainChanged({ chainId }: { chainId?: string; networkVersion?: string } = {}) {
     if (!isValidChainId(chainId)) {
       return;
     }
@@ -345,7 +345,7 @@ export abstract class BaseProvider extends SafeEventEmitter {
    * @param isEthAccounts - Whether the accounts value was returned by
    * a call to eth_accounts.
    */
-  protected _handleAccountsChanged(accounts: unknown[], isEthAccounts = false): void {
+  _handleAccountsChanged(accounts: unknown[], isEthAccounts = false): void {
     let _accounts = accounts;
 
     if (!Array.isArray(accounts)) {

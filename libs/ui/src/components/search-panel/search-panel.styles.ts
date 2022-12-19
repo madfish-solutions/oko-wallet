@@ -7,7 +7,6 @@ export const styles = StyleSheet.create({
     position: 'relative',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: getCustomSize(5),
     marginBottom: getCustomSize(2),
     width: '100%'
   },

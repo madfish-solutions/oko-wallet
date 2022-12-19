@@ -225,4 +225,9 @@ export class Shelter {
 
   static getTezosSigner$ = (publicKeyHash: string) =>
     Shelter.revealPrivateKey$(publicKeyHash).pipe(map(privateKey => new InMemorySigner(privateKey)));
+
+  static signMessage$ = (publicKeyHash: string, messageToSign: string) =>
+    Shelter.revealPrivateKey$(publicKeyHash).pipe(
+      switchMap(privateKey => new ethers.Wallet(privateKey).signMessage(ethers.utils.toUtf8String(messageToSign)))
+    );
 }

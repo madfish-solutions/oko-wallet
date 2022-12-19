@@ -55,3 +55,8 @@ body {
   background-color: rgba(16, 20, 24, 1);
   overflow: hidden;
 }
+
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}

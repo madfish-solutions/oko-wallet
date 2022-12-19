@@ -12,7 +12,6 @@ export const styles = StyleSheet.create({
     marginHorizontal: getCustomSize(2)
   },
   container: {
-    marginHorizontal: getCustomSize(2),
     paddingHorizontal: getCustomSize(8),
     paddingVertical: getCustomSize(1.5)
   },
@@ -41,10 +40,10 @@ export const styles = StyleSheet.create({
   divider: {
     height: getCustomSize(0.125),
     backgroundColor: colors.bgGrey3,
-    width: '100%'
+    width: '100%',
+    marginBottom: getCustomSize(2.15625)
   },
   from: {
-    marginTop: getCustomSize(2.25),
     marginBottom: getCustomSize()
   },
   accountSelector: {

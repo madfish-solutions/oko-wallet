@@ -1,10 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { KeyboardAvoidingView, Platform, Pressable, View } from 'react-native';
+import { KeyboardAvoidingView, Pressable, View } from 'react-native';
 
 import { Button } from '../../components/button/button';
 import { ButtonThemesEnum } from '../../components/button/enums';
-import { IconWithBorder } from '../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../components/icon/icon';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
 import { Row } from '../../components/row/row';
@@ -18,7 +17,7 @@ import { useValidateForm } from '../../hooks/use-validate-form.hook';
 import { useBiometricEnabledSelector } from '../../store/settings/settings.selectors';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
-import { isMobile } from '../../utils/platform.utils';
+import { isMobile, isIOS } from '../../utils/platform.utils';
 import { MadFishLogo } from '../settings/components/mad-fish-logo/mad-fish-logo';
 
 import { styles } from './unlock.styles';
@@ -58,11 +57,9 @@ export const UnlockApp: FC = () => {
   const isSubmitDisabled = (Object.keys(errors).length > 0 && isSubmitted) || unlockError !== '';
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.root}>
+    <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.root}>
       <View style={styles.logoContainer}>
-        <IconWithBorder style={styles.logo}>
-          <Icon name={IconNameEnum.WalletLogoPlaceholderSquare} size={getCustomSize(9)} iconStyle={styles.icon} />
-        </IconWithBorder>
+        <Icon name={IconNameEnum.WalletLogoPlaceholder} size={getCustomSize(11)} />
       </View>
       <View style={styles.bottomBlock}>
         <Row style={styles.password}>
@@ -80,7 +77,7 @@ export const UnlockApp: FC = () => {
                   prompt="Enter your password to unlock wallet"
                   containerStyle={styles.input}
                   clearIconStyles={styles.clearIcon}
-                  labelStyle={styles.label}
+                  labelContainerStyle={styles.label}
                   error={
                     errors.password?.message !== undefined
                       ? errors.password?.message
@@ -121,7 +118,7 @@ export const UnlockApp: FC = () => {
             </Text>
           </Text>
         </Row>
-        <MadFishLogo style={styles.madLogo} color={colors.logoDark} />
+        <MadFishLogo style={styles.madLogo} color={colors.bgGrey3} />
       </View>
     </KeyboardAvoidingView>
   );

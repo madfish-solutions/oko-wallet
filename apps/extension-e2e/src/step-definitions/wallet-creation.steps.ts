@@ -9,9 +9,7 @@ Given(/I enter my mnemonic/, async () => {
 });
 
 Given(/I save my mnemonic/, async () => {
-  const wordsArray = await Pages.CreateNewWallet.getWordsArray();
-
-  BrowserContext.seedPhrase = wordsArray.join(' ');
+  BrowserContext.seedPhrase = await Pages.CreateNewWallet.getMnemonic();
 });
 
 Given(/I verify my mnemonic/, async () => {

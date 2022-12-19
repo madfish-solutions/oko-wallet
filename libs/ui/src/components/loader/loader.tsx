@@ -10,9 +10,10 @@ import { LoaderSizeEnum } from './enums';
 interface Props {
   color?: string;
   size?: LoaderSizeEnum;
+  iconName?: IconNameEnum;
 }
 
-export const Loader: FC<Props> = ({ color, size = LoaderSizeEnum.Medium }) => {
+export const Loader: FC<Props> = ({ color, iconName = IconNameEnum.Loaders, size = LoaderSizeEnum.Medium }) => {
   const spinAnimation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -41,7 +42,7 @@ export const Loader: FC<Props> = ({ color, size = LoaderSizeEnum.Medium }) => {
 
   return (
     <Animated.View style={animatedStyle}>
-      <Icon name={IconNameEnum.Loaders} size={sizes[size]} color={color} />
+      <Icon name={iconName} size={sizes[size]} color={color} />
     </Animated.View>
   );
 };

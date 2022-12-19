@@ -1,10 +1,11 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { isNotEmptyString } from '@rnw-community/shared';
 import { of, Subject } from 'rxjs';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { Erc20Abi__factory, Erc721abi__factory } from '../../contract-types';
+import { Erc1155Abi__factory, Erc20Abi__factory, Erc721Abi__factory } from '../../contract-types';
 import { AssetTypeEnum } from '../../enums/asset-type.enum';
+import { checkIsErc721Collectible } from '../../utils/check-is-erc721-collectible.util';
 import { getDefaultEvmProvider } from '../../utils/get-default-evm-provider.utils';
 import { GetEvmSignerParams } from '../interfaces/get-evm-signer-params.interface';
 import { Shelter } from '../shelter';
@@ -12,30 +13,55 @@ import { Shelter } from '../shelter';
 export const sendEvmTransactionSubscription = (sendEvmTransaction$: Subject<GetEvmSignerParams>) =>
   sendEvmTransaction$
     .pipe(
-      switchMap(({ publicKeyHash, rpcUrl, successCallback, transactionParams, errorCallback, assetType }) => {
+      switchMap(({ publicKeyHash, rpcUrl, successCallback, transactionParams, errorCallback, assetType, standard }) => {
         const provider = getDefaultEvmProvider(rpcUrl);
 
         return Shelter.getEvmSigner$(publicKeyHash, provider).pipe(
           switchMap(signer => {
-            const { receiverPublicKeyHash, value, gasLimit, gasPrice, tokenAddress, tokenId } = transactionParams;
-
-            if (assetType === AssetTypeEnum.GasToken) {
-              return signer.sendTransaction({ to: receiverPublicKeyHash, value, gasLimit, gasPrice });
-            } else if (assetType === AssetTypeEnum.Collectible) {
-              const contract = Erc721abi__factory.connect(tokenAddress, signer);
-
-              return contract.transferFrom(publicKeyHash, receiverPublicKeyHash, tokenId as string, {
-                gasLimit,
-                gasPrice
-              });
-            }
-
-            const contract = Erc20Abi__factory.connect(tokenAddress, signer);
-
-            return contract.transfer(receiverPublicKeyHash, value as string, {
+            const {
+              receiverPublicKeyHash,
+              value,
               gasLimit,
-              gasPrice
-            });
+              gasPrice,
+              tokenAddress,
+              tokenId = '0',
+              data = '0x'
+            } = transactionParams;
+
+            switch (assetType) {
+              case AssetTypeEnum.GasToken:
+                if (value !== '0') {
+                  return signer.sendTransaction({ to: receiverPublicKeyHash, value, gasLimit, gasPrice, data });
+                }
+
+                return signer.sendTransaction({ gasLimit, gasPrice, data });
+
+              case AssetTypeEnum.Collectible:
+                const isErc721 = checkIsErc721Collectible({ standard });
+
+                if (isErc721) {
+                  const contract721 = Erc721Abi__factory.connect(tokenAddress, signer);
+
+                  return contract721.transferFrom(publicKeyHash, receiverPublicKeyHash, tokenId, {
+                    gasLimit,
+                    gasPrice
+                  });
+                }
+                const contract1155 = Erc1155Abi__factory.connect(tokenAddress, signer);
+
+                return contract1155.safeTransferFrom(publicKeyHash, receiverPublicKeyHash, tokenId, value, [], {
+                  gasLimit,
+                  gasPrice
+                });
+
+              default:
+                const contract20 = Erc20Abi__factory.connect(tokenAddress, signer);
+
+                return contract20.transfer(receiverPublicKeyHash, value, {
+                  gasLimit,
+                  gasPrice
+                });
+            }
           }),
           map((transactionResponse): [TransactionResponse, GetEvmSignerParams['successCallback']] => [
             transactionResponse,
