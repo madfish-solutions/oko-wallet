@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { View } from 'react-native';
+import { Linking, View } from 'react-native';
 
 import { Divider } from '../../components/divider/divider';
 import { IconWithBorderEnum } from '../../components/icon-with-border/enums';
@@ -29,6 +29,7 @@ import { ItemContainer } from './components/item-container/item-container';
 import { Item } from './components/item/item';
 import { MadFishLogo } from './components/mad-fish-logo/mad-fish-logo';
 import { Separator } from './components/separator/separator';
+import { socialMediaLinks } from './constants';
 import { styles } from './settings.styles';
 import { SettingsTestIDs } from './settings.test-ids';
 
@@ -44,8 +45,10 @@ export const Settings: FC = () => {
   const navigateToSettingsSecurity = () => navigate(ScreensEnum.SettingsSecurity);
   const navigateToSettingsAboutUs = () => navigate(ScreensEnum.SettingsAboutUs);
   const navigateToSettingsResetWalletConfirm = () => navigate(ScreensEnum.SettingsResetWalletConfirm);
-
   const navigateToAuthorizedDapps = () => navigate(ScreensEnum.AuthorizedDApps);
+
+  const goToTelegram = () => Linking.openURL(socialMediaLinks.telegram);
+  const goToTwitter = () => Linking.openURL(socialMediaLinks.twitter);
 
   return (
     <ScreenContainer>
@@ -101,11 +104,18 @@ export const Settings: FC = () => {
               <Item title="About us" icon={IconNameEnum.InfoRed} onPress={navigateToSettingsAboutUs} />
               <Separator />
               <Row style={styles.socialMedia}>
-                <TouchableIcon size={socialIconSize} name={IconNameEnum.Telegram} />
-                <TouchableIcon size={socialIconSize} name={IconNameEnum.Twitter} />
-                <TouchableIcon size={socialIconSize} name={IconNameEnum.Discord} />
-                <TouchableIcon size={socialIconSize} name={IconNameEnum.Reddit} />
-                <TouchableIcon size={socialIconSize} name={IconNameEnum.Youtube} />
+                <Pressable onPress={goToTelegram} style={[styles.socialMediaBlock, styles.telegram]}>
+                  <Row>
+                    <Icon size={socialIconSize} name={IconNameEnum.Telegram} />
+                    <Text style={styles.socialMediaText}>Telegram</Text>
+                  </Row>
+                </Pressable>
+                <Pressable onPress={goToTwitter} style={styles.socialMediaBlock}>
+                  <Row>
+                    <Icon size={socialIconSize} name={IconNameEnum.Twitter} />
+                    <Text style={styles.socialMediaText}>Twitter</Text>
+                  </Row>
+                </Pressable>
               </Row>
             </ItemContainer>
 

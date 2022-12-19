@@ -27,9 +27,20 @@ export const styles = StyleSheet.create({
   },
   socialMedia: {
     paddingVertical: getCustomSize(),
-    paddingLeft: getCustomSize(3.5),
-    paddingRight: getCustomSize(3.375),
+    paddingHorizontal: getCustomSize(1.5),
     justifyContent: 'space-between'
+  },
+  socialMediaBlock: {
+    backgroundColor: colors.bgGrey4,
+    flex: 1,
+    alignItems: 'center',
+    borderRadius: getCustomSize(0.75)
+  },
+  telegram: {
+    marginRight: getCustomSize(1.5)
+  },
+  socialMediaText: {
+    ...typography.bodyInterSemiBold15
   },
   resetContainer: {
     alignItems: 'center',
