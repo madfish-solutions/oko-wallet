@@ -59,7 +59,7 @@ export const getTokenList = memoize(
 );
 
 export const getAllUserNftList = memoize(
-  (publicKeyHash: string, chainId: string | undefined) =>
+  (publicKeyHash: string, chainId: string) =>
     debankApiRequest
       .get<NftListResponse[]>('v1/user/nft_list', { params: { id: publicKeyHash, chain_id: chainId } })
       .then(({ data }) => data)

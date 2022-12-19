@@ -124,7 +124,23 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
       if (startTime === 0) {
         setActivity(activityData);
       } else {
-        setActivity(prev => [...prev, ...activityData]);
+        setActivity(prev => {
+          const lastDateData = prev.filter(item => item.title === (activityData.length > 0 && activityData[0].title));
+
+          const lastDateEqualsFirst = isDefined(lastDateData) && lastDateData.length > 0;
+
+          if (lastDateEqualsFirst) {
+            const dateTitle = lastDateData[0].title;
+            const prevDataWithoutLastDate = prev.filter(item => item.title !== dateTitle);
+            const concatDataWithTheSameDate = lastDateData[0].data.concat(
+              activityData.filter(item => item.title === dateTitle)[0].data
+            );
+
+            return [...prevDataWithoutLastDate, { title: dateTitle, data: concatDataWithTheSameDate }];
+          }
+
+          return [...prev, ...activityData];
+        });
       }
 
       if (response.history_list.length > 0) {

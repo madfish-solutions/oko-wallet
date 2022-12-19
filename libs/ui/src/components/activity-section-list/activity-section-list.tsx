@@ -54,7 +54,7 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, tokenAd
     setOffsetY(event.nativeEvent.contentOffset.y);
   }, DEBOUNCE_TIME);
 
-  const handleNedReached = () => {
+  const handleEndReached = () => {
     fetchData();
   };
 
@@ -90,7 +90,7 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, tokenAd
       getItemLayout={getItemLayout}
       ListEmptyComponent={renderListEmptyComponent}
       onEndReachedThreshold={0.25}
-      onEndReached={handleNedReached}
+      onEndReached={handleEndReached}
       stickySectionHeadersEnabled
     />
   );

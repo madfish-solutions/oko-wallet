@@ -1,12 +1,12 @@
 import { isDefined } from '@rnw-community/shared';
 
+type AnyType = any;
+
 interface CacheItem<T> {
   createdAt: number;
   data: T;
-  prevArgs: any[];
+  prevArgs: AnyType[];
 }
-
-type AnyType = any;
 
 const cache: Record<string, CacheItem<AnyType>> = {};
 
@@ -14,17 +14,17 @@ export const memoize =
   <ArgumentsType extends AnyType[], ReturnType>(
     fetchFn: (...args: ArgumentsType) => Promise<ReturnType>,
     keyFn: (...args: ArgumentsType) => string,
-    experationTime: number
+    expirationTime: number
   ): ((...args: ArgumentsType) => Promise<ReturnType>) =>
   (...args) => {
     const key = keyFn(...args);
     const cacheValue = cache[key];
 
     if (
-      (isDefined(cacheValue) && cacheValue.createdAt + experationTime > new Date().getTime()) ||
-      (isDefined(cacheValue) &&
-        isDefined(cacheValue.prevArgs) &&
-        JSON.stringify(cacheValue.prevArgs) === JSON.stringify([...args]))
+      isDefined(cacheValue) &&
+      cacheValue.createdAt + expirationTime > new Date().getTime() &&
+      isDefined(cacheValue.prevArgs) &&
+      JSON.stringify(cacheValue.prevArgs) === JSON.stringify([...args])
     ) {
       return cacheValue.data;
     }
