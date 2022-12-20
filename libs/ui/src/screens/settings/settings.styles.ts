@@ -36,11 +36,16 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: getCustomSize(0.75)
   },
-  telegram: {
+  telegramBlock: {
     marginRight: getCustomSize(1.5)
   },
-  socialMediaText: {
-    ...typography.bodyInterSemiBold15
+  telegram: {
+    ...typography.bodyInterSemiBold15,
+    marginRight: getCustomSize(0.75)
+  },
+  twitter: {
+    ...typography.bodyInterSemiBold15,
+    marginRight: getCustomSize()
   },
   resetContainer: {
     alignItems: 'center',

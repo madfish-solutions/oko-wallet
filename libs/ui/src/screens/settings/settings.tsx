@@ -104,16 +104,16 @@ export const Settings: FC = () => {
               <Item title="About us" icon={IconNameEnum.InfoRed} onPress={navigateToSettingsAboutUs} />
               <Separator />
               <Row style={styles.socialMedia}>
-                <Pressable onPress={goToTelegram} style={[styles.socialMediaBlock, styles.telegram]}>
+                <Pressable onPress={goToTelegram} style={[styles.socialMediaBlock, styles.telegramBlock]}>
                   <Row>
                     <Icon size={socialIconSize} name={IconNameEnum.Telegram} />
-                    <Text style={styles.socialMediaText}>Telegram</Text>
+                    <Text style={styles.telegram}>Telegram</Text>
                   </Row>
                 </Pressable>
                 <Pressable onPress={goToTwitter} style={styles.socialMediaBlock}>
                   <Row>
                     <Icon size={socialIconSize} name={IconNameEnum.Twitter} />
-                    <Text style={styles.socialMediaText}>Twitter</Text>
+                    <Text style={styles.twitter}>Twitter</Text>
                   </Row>
                 </Pressable>
               </Row>
