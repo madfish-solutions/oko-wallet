@@ -89,7 +89,7 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, tokenAd
       onScroll={handleScroll}
       getItemLayout={getItemLayout}
       ListEmptyComponent={renderListEmptyComponent}
-      onEndReachedThreshold={0.25}
+      onEndReachedThreshold={0.1}
       onEndReached={handleEndReached}
       stickySectionHeadersEnabled
     />

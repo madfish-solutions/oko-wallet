@@ -125,28 +125,42 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
         setActivity(activityData);
       } else {
         setActivity(prev => {
-          const lastDateData = prev.filter(item => item.title === (activityData.length > 0 && activityData[0].title));
+          if (
+            activityData.length &&
+            prev.slice(-1)[0].data.slice(-1)[0].timestamp !== activityData.slice(-1)[0].data.slice(-1)[0].timestamp
+          ) {
+            const groupingAllDataByDates = [...prev, ...activityData].reduce(
+              (acc: Record<string, ActivityData[]>, currentItem) => {
+                if (!acc.hasOwnProperty(currentItem.title)) {
+                  return {
+                    ...acc,
+                    [currentItem.title]: currentItem.data
+                  };
+                }
 
-          const lastDateEqualsFirst = isDefined(lastDateData) && lastDateData.length > 0;
-
-          if (lastDateEqualsFirst) {
-            const dateTitle = lastDateData[0].title;
-            const prevDataWithoutLastDate = prev.filter(item => item.title !== dateTitle);
-            const concatDataWithTheSameDate = lastDateData[0].data.concat(
-              activityData.filter(item => item.title === dateTitle)[0].data
+                return {
+                  ...acc,
+                  [currentItem.title]: [...acc[currentItem.title], ...currentItem.data]
+                };
+              },
+              {}
             );
+            const result = Object.keys(groupingAllDataByDates).map(title => ({
+              title,
+              data: groupingAllDataByDates[title]
+            }));
 
-            return [...prevDataWithoutLastDate, { title: dateTitle, data: concatDataWithTheSameDate }];
+            return result;
           }
 
-          return [...prev, ...activityData];
+          return prev;
         });
       }
 
-      if (response.history_list.length > 0) {
+      if (activityData.length > 0) {
         setLastTimestamp(prev => ({
           ...prev,
-          [publicKeyHash]: response.history_list[response.history_list.length - 1].time_at
+          [publicKeyHash]: activityData[activityData.length - 1].data.slice(-1)[0].timestamp
         }));
       }
     }
