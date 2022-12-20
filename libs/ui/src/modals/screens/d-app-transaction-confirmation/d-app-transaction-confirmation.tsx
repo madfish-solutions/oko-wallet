@@ -13,6 +13,7 @@ import { useAccountTokensSelector, useSelectedNetworkSelector } from '../../../s
 import { DAppHeader } from '../d-app-connection-confirmation/d-app-header/d-app-header';
 
 import { styles } from './d-app-transaction-confirmation.styles';
+import { parseTransactionData } from './d-app-transaction.utils';
 
 export const DAppTransactionConfirmation: FC = () => {
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DAppTransactionConfirmation>>();
@@ -20,7 +21,11 @@ export const DAppTransactionConfirmation: FC = () => {
   const allAvailableTokens = useAccountTokensSelector();
   useClosePopup(params.messageId);
 
-  const permissionNeededToken = allAvailableTokens.find(token => token.tokenAddress === params.transactionInfo.to);
+  const transactionData = parseTransactionData(params.transactionInfo.data);
+
+  const permissionNeededToken = allAvailableTokens.find(
+    token => token.tokenAddress?.toLowerCase() === params.transactionInfo?.to?.toLowerCase()
+  );
 
   const transferParams = useMemo(() => {
     const getValue = () => {
@@ -50,9 +55,11 @@ export const DAppTransactionConfirmation: FC = () => {
     <EvmConfirmation transferParams={transferParams} messageID={params.messageId}>
       <DAppHeader favicon={params.dAppInfo.favicon} origin={params.dAppInfo.origin} />
 
-      {permissionNeededToken && transferParams.value === FLOAT_ZERO_STRING && (
+      {transactionData && transactionData.name === 'approve' && (
         <View style={styles.allowanceBlock}>
-          <Text style={styles.mainText}>Give permission to access your {permissionNeededToken.symbol}?</Text>
+          <Text style={styles.mainText}>
+            Give permission to access your {permissionNeededToken?.symbol ?? 'TOKEN'}?
+          </Text>
           <Text style={styles.text}>
             By granting permission, you are allowing the following contract to access your funds
           </Text>

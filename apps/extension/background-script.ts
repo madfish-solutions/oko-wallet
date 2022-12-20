@@ -155,7 +155,7 @@ runtime.onConnect.addListener(port => {
         case 'eth_estimateGas': {
           if (data.params !== undefined) {
             const result = await provider.estimateGas(data.params[0].data);
-            const message = createDAppResponse(id, result);
+            const message = createDAppResponse(id, result._hex);
 
             port.postMessage(message);
           }
