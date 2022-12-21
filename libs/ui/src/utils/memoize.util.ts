@@ -5,7 +5,6 @@ type AnyType = any;
 interface CacheItem<T> {
   createdAt: number;
   data: T;
-  prevArgs: AnyType[];
 }
 
 const cache: Record<string, CacheItem<AnyType>> = {};
@@ -22,9 +21,7 @@ export const memoize =
 
     if (
       isDefined(cacheValue) &&
-      cacheValue.createdAt + expirationTime > new Date().getTime() &&
-      isDefined(cacheValue.prevArgs) &&
-      JSON.stringify(cacheValue.prevArgs) === JSON.stringify([...args])
+      cacheValue.createdAt + expirationTime > new Date().getTime()
     ) {
       return cacheValue.data;
     }
@@ -32,8 +29,7 @@ export const memoize =
     const newValue = fetchFn(...args);
     cache[key] = {
       createdAt: new Date().getTime(),
-      data: newValue,
-      prevArgs: [...args]
+      data: newValue
     };
 
     return newValue;

@@ -57,7 +57,7 @@ export interface ActivityResponse {
   cate_dict: unknown;
   history_list: TransactionResponse[];
   project_dict: unknown;
-  token_dict: unknown;
+  token_dict: Record<string, TokenInfo>;
 }
 
 export interface ActivityData {

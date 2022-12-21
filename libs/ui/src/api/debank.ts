@@ -33,10 +33,11 @@ export const getHistoryList = memoize(
       })
       .then(result => result.data)
       .catch(e => console.log(e)),
-  (publicKeyHash, chainName, _, tokenAddress) =>
+  (publicKeyHash, chainName, startTime, tokenAddress) =>
     getSlug(
       publicKeyHash,
       chainName,
+      startTime.toString(),
       isNotEmptyString(tokenAddress) ? tokenAddress : '',
       isNotEmptyString(tokenAddress) ? 'history-list' : 'all_history_list'
     ),

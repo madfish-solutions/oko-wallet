@@ -9,7 +9,6 @@ import {
   ActivityData,
   ActivityResponse,
   SectionListActivityData,
-  TokenInfo,
   TransactionLabelEnum
 } from '../interfaces/activity.interface';
 import { checkIsDayLabelNeeded, transformTimestampToDate } from '../screens/activity/components/activity-list.utils';
@@ -38,7 +37,7 @@ const transformApiData = (
 
   let sectionListItem: SectionListActivityData | undefined;
 
-  const userTokensMetadata = data.token_dict as Record<string, TokenInfo>;
+  const userTokensMetadata = data.token_dict;
 
   filteredTransactions.forEach(txData => {
     const activityData = {
@@ -168,9 +167,9 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
     setIsLoading(false);
   };
 
-  const fetchData = debounce((startTime?: number) => {
+  const fetch = debounce((startTime?: number) => {
     fetchActivity(isDefined(startTime) ? startTime : lastTimestamp[publicKeyHash] ?? 0);
   }, DEBOUNCE_TIME);
 
-  return { activity, fetchData, isLoading };
+  return { activity, fetch, isLoading };
 };

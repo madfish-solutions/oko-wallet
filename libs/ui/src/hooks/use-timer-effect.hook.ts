@@ -1,28 +1,11 @@
-import { EmptyFn, isDefined } from '@rnw-community/shared';
+import { EmptyFn } from '@rnw-community/shared';
 import { DependencyList, useEffect } from 'react';
 
-export const useTimerEffect = (
-  callback: EmptyFn,
-  refreshInterval: number,
-  deps: DependencyList = [],
-  scrollOffsetY?: number
-) =>
+export const useTimerEffect = (callback: EmptyFn, refreshInterval: number, deps: DependencyList = []) =>
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    callback();
 
-    if (isDefined(scrollOffsetY) && scrollOffsetY === 0) {
-      callback();
-
-      interval = setInterval(callback, refreshInterval);
-    } else if (!isDefined(scrollOffsetY)) {
-      callback();
-
-      interval = setInterval(callback, refreshInterval);
-    } else {
-      return () => {
-        clearInterval(interval);
-      };
-    }
+    const interval = setInterval(callback, refreshInterval);
 
     return () => clearInterval(interval);
   }, [...deps]);

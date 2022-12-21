@@ -36,6 +36,8 @@ interface Props {
 
 const keyExtractor = ({ hash, timestamp }: ActivityData) => `${hash}_${timestamp}`;
 
+const getItemLayout = getItemLayoutSectionList<ActivityData, SectionListActivityData>(getCustomSize(9));
+
 const renderSectionHeader = (item: { section: SectionListData<ActivityData, SectionListActivityData> }) => (
   <Row style={styles.dateWrapper}>
     <Text style={styles.dateText}>{item.section.title}</Text>
@@ -46,16 +48,27 @@ const emptyIconSize = getCustomSize(isWeb ? 30 : 36);
 
 export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, tokenAddress = '' }) => {
   const [offsetY, setOffsetY] = useState(0);
-  const { activity, fetchData, isLoading } = useAllActivity(publicKeyHash, getDebankId(chainId), tokenAddress);
+  const { activity, fetch, isLoading } = useAllActivity(publicKeyHash, getDebankId(chainId), tokenAddress);
 
-  useTimerEffect(() => fetchData(0), DATA_UPDATE_TIME, [publicKeyHash, chainId, offsetY], offsetY);
+  const handleFetchData = () => {
+    if (offsetY === 0) {
+      fetch(0);
+    }
+  };
 
-  const handleScroll = debounce((event: NativeSyntheticEvent<NativeScrollEvent>) => {
+  useTimerEffect(handleFetchData, DATA_UPDATE_TIME, [publicKeyHash, chainId, offsetY]);
+
+  const handleScrollWeb = debounce((event: NativeSyntheticEvent<NativeScrollEvent>) => {
     setOffsetY(event.nativeEvent.contentOffset.y);
   }, DEBOUNCE_TIME);
 
+  const handleScrollMobile = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    event.persist();
+    debounce(() => setOffsetY(event.nativeEvent.contentOffset.y), DEBOUNCE_TIME);
+  };
+
   const handleEndReached = () => {
-    fetchData();
+    fetch();
   };
 
   const renderItem: SectionListRenderItem<ActivityData, SectionListActivityData> = useCallback(
@@ -64,8 +77,6 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, tokenAd
     ),
     [publicKeyHash, chainId]
   );
-
-  const getItemLayout = getItemLayoutSectionList<ActivityData, SectionListActivityData>(getCustomSize(9));
 
   const renderListFooterComponent = () => (
     <>
@@ -86,7 +97,7 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, tokenAd
       renderSectionHeader={renderSectionHeader}
       ListFooterComponent={renderListFooterComponent}
       keyExtractor={keyExtractor}
-      onScroll={handleScroll}
+      onScroll={isWeb ? handleScrollWeb : handleScrollMobile}
       getItemLayout={getItemLayout}
       ListEmptyComponent={renderListEmptyComponent}
       onEndReachedThreshold={0.1}
