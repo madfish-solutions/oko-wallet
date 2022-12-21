@@ -19,10 +19,7 @@ export const memoize =
     const key = keyFn(...args);
     const cacheValue = cache[key];
 
-    if (
-      isDefined(cacheValue) &&
-      cacheValue.createdAt + expirationTime > new Date().getTime()
-    ) {
+    if (isDefined(cacheValue) && cacheValue.createdAt + expirationTime > new Date().getTime()) {
       return cacheValue.data;
     }
 
