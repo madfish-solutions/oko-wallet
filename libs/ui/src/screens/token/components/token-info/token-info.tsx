@@ -1,16 +1,17 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { isDefined } from '@rnw-community/shared';
+import { isString } from 'lodash';
 import React, { FC } from 'react';
 import { ScrollView } from 'react-native';
 
 import { CopyText } from '../../../../components/copy-text/copy-text';
-import { Currency } from '../../../../components/currency/currency';
 import { InfoItem } from '../../../../components/info-item/info-item';
 import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useSelectedNetworkSelector } from '../../../../store/wallet/wallet.selectors';
 import { getString } from '../../../../utils/get-string.utils';
 import { getTokenDetailsUrl } from '../../../../utils/get-token-details-url.util';
+import { removeTrailingSlash } from '../../../../utils/remove-trailing-slash.util';
+import { eraseProtocol } from '../../../../utils/string.util';
 
 import { styles } from './token-info.styles';
 
@@ -23,9 +24,7 @@ export const TokenInfo: FC = () => {
   const { explorerUrl, networkType } = useSelectedNetworkSelector();
 
   // TODO: get data from api
-  const tvl = '410';
-  const tradeVolume = '720';
-  const web = 'https://quipuswap.com/';
+  const web = undefined;
 
   const tokenMetadata = {
     ...(tokenAddress !== GAS_TOKEN_ADDRESS && {
@@ -35,27 +34,11 @@ export const TokenInfo: FC = () => {
         prompt: getTokenDetailsUrl(tokenAddress, getString(explorerUrl), networkType)
       }
     }),
-    ...(isDefined(web) && {
-      web: {
-        name: 'Web',
-        value: 'quipuswap.com',
-        prompt: 'https://quipuswap.com/'
-      }
-    }),
-    ...(isDefined(tvl) && {
-      tvl: {
-        name: 'TVL',
-        value: <Currency amount={tvl} />,
-        prompt: null
-      }
-    }),
-    ...(isDefined(tradeVolume) && {
-      tradeVolume: {
-        name: 'Trade Volume',
-        value: <Currency amount={tradeVolume} />,
-        prompt: null
-      }
-    }),
+    web: {
+      name: 'Web',
+      value: isString(web) ? eraseProtocol(removeTrailingSlash(web)) : web,
+      prompt: web
+    },
     decimal: {
       name: 'Decimal',
       value: decimals.toString(),
