@@ -5,7 +5,7 @@ export enum TransactionLabelEnum {
   Received = 'Received'
 }
 
-export interface TokenInfo {
+interface TokenInfo {
   id: string;
   chain: string;
   name: string;
