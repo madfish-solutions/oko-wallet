@@ -55,7 +55,8 @@ export const coinGeckoId: Record<string, string> = {
 
 export const coinGeckoGasTokenId: Record<string, string> = {
   '1': 'ethereum',
-  '10': 'optimism',
+  '10': 'ethereum',
+  '42161': 'ethereum',
   '25': 'crypto-com-chain',
   '50': 'xdce-crowd-sale',
   '52': 'coinex-token',

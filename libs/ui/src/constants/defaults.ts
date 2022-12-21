@@ -15,3 +15,5 @@ export const SECURITY_TIME = 30000;
 export const EXTENSION_WIDTH = 360;
 
 export const HIDE_SPLASH_SCREEN_TIMEOUT = 100;
+
+export const FLOAT_ZERO_STRING = '0.0';
