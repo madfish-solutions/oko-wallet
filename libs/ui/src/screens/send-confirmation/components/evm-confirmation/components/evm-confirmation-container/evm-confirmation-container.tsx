@@ -24,7 +24,7 @@ interface Props {
 }
 
 export const EvmConfirmationContainer: FC<Props> = ({
-  transferParams: { asset, receiverPublicKeyHash, value, data = '0x', gas = undefined },
+  transferParams: { asset, receiverPublicKeyHash, value, data = '0x', gas },
   onDecline,
   additionalSuccessCallback,
   children
