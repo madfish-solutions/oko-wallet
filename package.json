@@ -38,7 +38,6 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "^26.1.5",
     "prettier": "^2.6.2",
-    "react-native-dotenv": "^3.4.6",
     "typescript": "^4.6.3"
   },
   "dependencies": {
