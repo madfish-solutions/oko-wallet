@@ -1,5 +1,5 @@
 import { isDefined, isNotEmptyString, OnEventFn } from '@rnw-community/shared';
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { GestureResponderEvent, Image, ImageStyle, Pressable, View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
@@ -35,6 +35,10 @@ export const CollectibleImage: FC<Props> = ({
   shitIconStyle
 }) => {
   const [imageIsLoaded, setImageIsLoaded] = useState(!isNotEmptyString(artifactUri));
+
+  useEffect(() => {
+    setImageIsLoaded(!isNotEmptyString(artifactUri));
+  }, [artifactUri]);
 
   return (
     <View style={[styles.root, { width, height }, style]}>
