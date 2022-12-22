@@ -37,10 +37,10 @@ export const InfoItem: FC<Props> = ({ name, value, prompt }) => {
           );
         }
 
-        return <Text style={styles.value}>{value}</Text>;
+        return <Text style={styles.value}>{value ?? '---'}</Text>;
       }
       default: {
-        if (isDefined(prompt)) {
+        if (isDefined(prompt) && isDefined(value)) {
           return (
             <Row>
               {value}
@@ -49,7 +49,7 @@ export const InfoItem: FC<Props> = ({ name, value, prompt }) => {
           );
         }
 
-        return value;
+        return <Text style={styles.value}>{value ?? '---'}</Text>;
       }
     }
   }, [value, prompt]);
