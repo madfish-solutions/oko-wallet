@@ -79,7 +79,7 @@ module.exports = {
             http: false,
             https: false,
             net: false,
-            path: false,
+            path: require.resolve('path-browserify'),
             stream: require.resolve('readable-stream'),
             tls: false,
             util: false,

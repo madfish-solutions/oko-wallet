@@ -13,3 +13,17 @@ runs:
         DEFAULT_PASSWORD=${{ inputs.DEFAULT_PASSWORD }}
         DEFAULT_HD_ACCOUNT_PRIVATE_KEY=${{ inputs.DEFAULT_HD_ACCOUNT_PRIVATE_KEY }}
         EOF
+
+    - name: Create apps/extension/.env file
+      shell: bash
+      run: |
+        cat << EOF > apps/extension/.env
+        BACKEND_URL=${{ inputs.BACKEND_URL }}
+        EOF
+
+    - name: Create apps/mobile/.env file
+      shell: bash
+      run: |
+        cat << EOF > apps/mobile/.env
+        BACKEND_URL=${{ inputs.BACKEND_URL }}
+        EOF

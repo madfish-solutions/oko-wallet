@@ -42,6 +42,7 @@
     "ed25519-hd-key": "^1.2.0",
     "ethers": "^5.6.4",
     "jest": "^27.5.1",
+    "jest-webextension-mock": "^3.8.7",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-hook-form": "^7.39.4",
@@ -49,6 +50,7 @@
     "react-native-bootsplash": "^4.3.2",
     "react-native-camera": "^4.2.1",
     "react-native-device-info": "^10.2.0",
+    "react-native-dotenv": "^3.4.6",
     "react-native-flipper": "^0.144.0",
     "react-native-gesture-handler": "^2.7.0",
     "react-native-haptic-feedback": "^1.14.0",
@@ -76,8 +78,5 @@
   },
   "resolutions": {
     "@types/react": "^17"
-  },
-  "dependencies": {
-    "jest-webextension-mock": "^3.7.22"
   }
 }
