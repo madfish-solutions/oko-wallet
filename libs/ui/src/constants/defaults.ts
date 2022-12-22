@@ -11,15 +11,9 @@ export const DEBOUNCE_TIME = 300;
 export const GAS_TOKEN_ADDRESS = 'gas_token_address';
 
 export const SECURITY_TIME = 30000;
-export const BASE_DEBANK_URL = 'https://pro-openapi.debank.com/';
-const MY_ACCESS_KEY = 'd74c140f710733b43b228752dbedc0eff8091bc6';
-
-export const DEBANK_HEADERS = {
-  Accept: 'application/json',
-  'Content-Type': 'application/json',
-  AccessKey: MY_ACCESS_KEY
-};
 
 export const EXTENSION_WIDTH = 360;
 
 export const HIDE_SPLASH_SCREEN_TIMEOUT = 100;
+
+export const FLOAT_ZERO_STRING = '0.0';

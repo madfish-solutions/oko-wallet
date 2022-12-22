@@ -1,7 +1,8 @@
+import { BACKEND_URL } from '@env';
 import { isNotEmptyString } from '@rnw-community/shared';
 import axios from 'axios';
 
-import { BASE_DEBANK_URL, DEBANK_HEADERS, GAS_TOKEN_ADDRESS } from '../constants/defaults';
+import { GAS_TOKEN_ADDRESS } from '../constants/defaults';
 import { DATA_UPDATE_TIME } from '../constants/update-time';
 import { ActivityResponse } from '../interfaces/activity.interface';
 import { getSlug } from '../utils/getSlug.uitl';
@@ -10,8 +11,7 @@ import { memoize } from '../utils/memoize.util';
 import { NftListResponse, TokenListResponse } from './types';
 
 const debankApiRequest = axios.create({
-  baseURL: BASE_DEBANK_URL,
-  headers: DEBANK_HEADERS
+  baseURL: `${BACKEND_URL}/debank/`
 });
 
 export const getHistoryList = memoize(
