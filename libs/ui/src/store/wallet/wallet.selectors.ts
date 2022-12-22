@@ -164,8 +164,10 @@ export const useVisibleAccountTokensAndGasTokenSelector = (): Token[] => {
 
 export const useCollectiblesSelector = () => {
   const assets = useAccountAssetsSelector();
+  const { rpcUrl, chainId } = useSelectedNetworkSelector();
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
-  return useMemo(() => assets.filter(token => isCollectible(token)), [assets]);
+  return useMemo(() => assets.filter(token => isCollectible(token)), [assets, rpcUrl, chainId, publicKeyHash]);
 };
 
 export const useSelectedCollectionSelector = (contractName: string) => {
