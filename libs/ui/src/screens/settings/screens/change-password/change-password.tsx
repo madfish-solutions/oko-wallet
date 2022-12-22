@@ -121,14 +121,15 @@ export const ChangePassword: FC = () => {
           name="oldPassword"
           render={({ field }) => (
             <Column style={styles.oldPasswordContainer}>
-              <Row style={styles.inputContainer}>
+              <Row style={styles.inputWrapper}>
                 <TextInput
                   field={field}
                   label="Password"
                   secureTextEntry={isSecureOldPassword}
                   placeholder="123456"
                   prompt="Type your password"
-                  containerStyle={styles.input}
+                  containerStyle={styles.inputContainer}
+                  inputStyle={styles.input}
                   clearIconStyles={styles.clearIcon}
                   error={passwordMatchError}
                   onFocus={onFocusOldPassword}
@@ -157,14 +158,15 @@ export const ChangePassword: FC = () => {
           rules={commonRules}
           render={({ field }) => (
             <Column style={styles.passwordContainer}>
-              <Row style={styles.inputContainer}>
+              <Row style={styles.inputWrapper}>
                 <TextInput
                   field={field}
                   label="Password"
                   secureTextEntry={isSecurePassword}
                   placeholder="Password12345"
                   prompt="Set new password"
-                  containerStyle={styles.input}
+                  containerStyle={styles.inputContainer}
+                  inputStyle={styles.input}
                   error={errors.oldPassword?.message}
                   clearIconStyles={styles.clearIcon}
                   inputContainerStyle={
@@ -201,7 +203,7 @@ export const ChangePassword: FC = () => {
           name="confirmPassword"
           rules={changePasswordRules}
           render={({ field }) => (
-            <Row style={[styles.inputContainer, styles.controllerOffset]}>
+            <Row style={[styles.inputWrapper, styles.controllerOffset]}>
               <TextInput
                 field={field}
                 label="New Password Confirm"
@@ -209,7 +211,8 @@ export const ChangePassword: FC = () => {
                 placeholder="••••••••••"
                 prompt="Repeat password"
                 error={errors.confirmPassword?.message}
-                containerStyle={styles.input}
+                containerStyle={styles.inputContainer}
+                inputStyle={styles.input}
                 clearIconStyles={styles.clearIcon}
                 labelContainerStyle={styles.label}
               />

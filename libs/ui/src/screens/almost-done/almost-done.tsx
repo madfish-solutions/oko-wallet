@@ -125,14 +125,15 @@ export const AlmostDone: FC = () => {
         rules={commonRules}
         render={({ field }) => (
           <Column style={styles.passwordContainer}>
-            <Row style={styles.inputContainer}>
+            <Row style={styles.inputWrapper}>
               <TextInput
                 field={field}
                 label="Password"
                 secureTextEntry={isSecurePassword}
                 placeholder="Password"
                 prompt="Password is used to protect the wallet"
-                containerStyle={styles.input}
+                containerStyle={styles.inputContainer}
+                inputStyle={styles.input}
                 clearIconStyles={styles.clearIcon}
                 inputContainerStyle={
                   ((isDefined(passwordIsNoValid) && passwordIsNoValid) || isDefined(errors.password?.message)) &&
@@ -175,7 +176,7 @@ export const AlmostDone: FC = () => {
         name="confirmPassword"
         rules={confirmPasswordRules}
         render={({ field }) => (
-          <Row style={[styles.inputContainer, styles.controllerOffset]}>
+          <Row style={[styles.inputWrapper, styles.controllerOffset]}>
             <TextInput
               field={field}
               label="Password Confirm"
@@ -183,7 +184,8 @@ export const AlmostDone: FC = () => {
               placeholder="Password"
               prompt="Password is used to protect the wallet"
               error={errors.confirmPassword?.message}
-              containerStyle={styles.input}
+              containerStyle={styles.inputContainer}
+              inputStyle={styles.input}
               clearIconStyles={styles.clearIcon}
               testID={AlmostDoneTestIDs.PasswordConfirmInput}
             />
