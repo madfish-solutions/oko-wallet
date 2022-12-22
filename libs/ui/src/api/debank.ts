@@ -1,9 +1,9 @@
-import { BACKEND_URL } from '@env';
 import { isDefined } from '@rnw-community/shared';
 import axios from 'axios';
 import memoize from 'fast-memoize';
 
 import { ActivityResponse, TokenInfo } from '../interfaces/activity.interface';
+import { BACKEND_URL } from '../utils/env.utils';
 
 import { NftListResponse, TokenListResponse } from './types';
 
