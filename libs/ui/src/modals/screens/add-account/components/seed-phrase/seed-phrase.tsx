@@ -76,7 +76,7 @@ export const SeedPhrase: FC = () => {
 
   useEffect(() => {
     clearErrors();
-  }, [accountName]);
+  }, [accountName, mnemonic]);
 
   useEffect(() => {
     setFocus('name');
