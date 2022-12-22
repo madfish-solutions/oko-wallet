@@ -37,7 +37,7 @@ const transformApiData = (
 
   let sectionListItem: SectionListActivityData | undefined;
 
-  const userTokensMetadata = data.token_dict;
+  const userTokensMetadata: ActivityResponse['token_dict'] = data.token_dict;
 
   filteredTransactions.forEach(txData => {
     const activityData = {
@@ -52,13 +52,8 @@ const transformApiData = (
       activityData.transactionStatus = TransactionStatusEnum.applied;
     }
 
-    const getTokenSymbol = (address: string) => {
-      if (userTokensMetadata[address].hasOwnProperty('optimized_symbol')) {
-        return userTokensMetadata[address].optimized_symbol;
-      }
-
-      return userTokensMetadata[address].name;
-    };
+    const getTokenSymbol = (address: string) =>
+      userTokensMetadata[address].optimized_symbol ?? userTokensMetadata[address].name;
 
     if (txData.cate_id !== null) {
       activityData.transactionLabel = capitalize(txData.cate_id) as TransactionLabelEnum;
