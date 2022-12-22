@@ -1,8 +1,11 @@
-const CopyPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
+
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const DotenvPlugin = require('dotenv-webpack');
+
 const packageJSON = require('./package.json');
 
 const appDirectory = path.resolve(__dirname);
@@ -121,6 +124,7 @@ module.exports = {
             template: 'public/fullpage.html',
             filename: 'fullpage.html',
             chunks: ['main']
-        })
+        }),
+        new DotenvPlugin()
     ]
 };
