@@ -40,7 +40,7 @@ jobs:
       - name: Secrets setup
         uses: ./.github/workflows/secrets-setup
         with:
-          BACKEND_URL: ${{ secrets.BACKEND_URL }}s
+          BACKEND_URL: ${{ secrets.BACKEND_URL }}
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
