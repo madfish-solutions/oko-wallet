@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { Linking, TouchableOpacity, View } from 'react-native';
 
 import { Column } from '../../../components/column/column';
@@ -8,7 +8,6 @@ import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
 import { TokenAmount } from '../../../components/token-amount/token-amount';
-import { useTokenInfo } from '../../../hooks/use-activity.hook';
 import { ActivityData, TransactionLabelEnum } from '../../../interfaces/activity.interface';
 import { useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
 import { colors } from '../../../styles/colors';
@@ -24,16 +23,11 @@ interface Props {
 }
 
 export const ActivityList: FC<Props> = ({
-  transaction: { hash, timestamp, transactionLabel, transactionStatus, symbol, amount = 0, tokenId },
-  chainName
+  transaction: { hash, timestamp, transactionLabel, transactionStatus, symbol, amount = 0 }
 }) => {
   const { explorerUrl } = useSelectedNetworkSelector();
-  const { symbol: tokenSymbol, fetchTokenSymbol } = useTokenInfo(tokenId, chainName);
-  const onBlockchainExplorerPress = () => Linking.openURL(`${explorerUrl}/tx/${hash}`);
 
-  useEffect(() => {
-    fetchTokenSymbol();
-  }, []);
+  const onBlockchainExplorerPress = () => Linking.openURL(`${explorerUrl}/tx/${hash}`);
 
   return (
     <View>
@@ -64,11 +58,7 @@ export const ActivityList: FC<Props> = ({
               </TouchableOpacity>
             </Row>
             <Row style={styles.amountContainer}>
-              <TokenAmount
-                value={formatBalances(amount)}
-                symbol={symbol ? symbol.toUpperCase() : tokenSymbol.toUpperCase()}
-                style={styles.amount}
-              />
+              <TokenAmount value={formatBalances(amount)} symbol={symbol.toUpperCase()} style={styles.amount} />
             </Row>
           </Column>
         </Row>

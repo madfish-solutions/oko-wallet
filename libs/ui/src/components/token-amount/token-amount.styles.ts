@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
     marginRight: getCustomSize(0.5)
   },
   symbol: {
-    marginLeft: getCustomSize(0.25)
+    marginLeft: getCustomSize(0.25),
+    maxWidth: getCustomSize(18.75)
   }
 });

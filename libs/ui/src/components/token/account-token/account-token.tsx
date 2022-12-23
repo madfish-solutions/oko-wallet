@@ -1,10 +1,12 @@
 import { isDefined, isEmptyString } from '@rnw-community/shared';
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import { DATA_UPDATE_TIME } from '../../../constants/update-time';
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
+import { useTimerEffect } from '../../../hooks/use-timer-effect.hook';
 import { Token } from '../../../interfaces/token.interface';
 import { getImageSource } from '../../../screens/wallet/components/assets-widget/utils/get-image-source.util';
 import { TokenPriceInfo } from '../../../store/tokens-market-info/tokens-market-info.state';
@@ -45,7 +47,7 @@ export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = false
   const formattedBalance = getFormattedBalance(balance?.data ?? 0, decimals);
   const usdBalance = getDollarValue({ amount: balance?.data ?? 0, price, decimals });
 
-  useEffect(() => {
+  const getTokenBalance = () => {
     if (!loadBalance || isEmptyString(publicKeyHash)) {
       return;
     }
@@ -55,7 +57,9 @@ export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = false
     } else {
       dispatch(loadAccountTokenBalanceAction.submit({ token }));
     }
-  }, [rpcUrl, publicKeyHash]);
+  };
+
+  useTimerEffect(getTokenBalance, DATA_UPDATE_TIME, [rpcUrl, publicKeyHash]);
 
   const handleTokenVisibility = () => dispatch(changeTokenVisibilityAction(token));
 
