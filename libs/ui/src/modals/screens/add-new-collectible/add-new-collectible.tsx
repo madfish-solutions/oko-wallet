@@ -125,10 +125,10 @@ export const AddNewCollectible: FC = () => {
 
     if (isDefined(currentToken)) {
       if (isNotEmptyString(fields.tokenId)) {
-        return setError('tokenId', { message: 'Token with this Token ID already exist' });
+        return setError('tokenId', { message: 'Сollectible with this Token ID already exist' });
       }
 
-      return setError('tokenAddress', { message: 'Token with this Address already exist' });
+      return setError('tokenAddress', { message: 'Сollectible with this Address already exist' });
     }
 
     const provider = getDefaultProvider(rpcUrl);
@@ -148,8 +148,6 @@ export const AddNewCollectible: FC = () => {
 
     goBack();
   };
-
-  const handlePromptNavigate = () => null;
 
   const handleLayout = (e: LayoutChangeEvent) => {
     setLayoutWidth(e.nativeEvent.layout.width);
@@ -177,8 +175,7 @@ export const AddNewCollectible: FC = () => {
               field={field}
               label="Address"
               placeholder="Address"
-              prompt="How to get Token Address?"
-              handlePrompt={handlePromptNavigate}
+              prompt="Enter the Address of collectible"
               error={errors?.tokenAddress?.message}
               containerStyle={styles.inputContainer}
             />
@@ -193,8 +190,7 @@ export const AddNewCollectible: FC = () => {
               field={field}
               label="Token ID"
               placeholder="0"
-              prompt="What is Token ID?"
-              handlePrompt={handlePromptNavigate}
+              prompt="Enter the Token ID"
               error={errors?.tokenId?.message}
               containerStyle={styles.inputContainer}
             />
