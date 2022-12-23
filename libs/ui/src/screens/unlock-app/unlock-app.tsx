@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { KeyboardAvoidingView, Pressable, View } from 'react-native';
+import { KeyboardAvoidingView, NativeSyntheticEvent, Pressable, TextInputKeyPressEventData, View } from 'react-native';
 
 import { Button } from '../../components/button/button';
 import { ButtonThemesEnum } from '../../components/button/enums';
@@ -13,11 +13,10 @@ import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useUnlock } from '../../hooks/use-unlock.hook';
-import { useValidateForm } from '../../hooks/use-validate-form.hook';
 import { useBiometricEnabledSelector } from '../../store/settings/settings.selectors';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
-import { isMobile, isIOS } from '../../utils/platform.utils';
+import { isMobile, isIOS, isWeb } from '../../utils/platform.utils';
 import { MadFishLogo } from '../settings/components/mad-fish-logo/mad-fish-logo';
 
 import { styles } from './unlock.styles';
@@ -27,6 +26,8 @@ interface Password {
 }
 
 const defaultValues = { password: '' };
+
+const behavior = isIOS ? 'padding' : 'height';
 
 export const UnlockApp: FC = () => {
   const isBiometricEnabled = useBiometricEnabledSelector();
@@ -39,6 +40,7 @@ export const UnlockApp: FC = () => {
     control,
     watch,
     handleSubmit,
+    setFocus,
     formState: { errors, isSubmitted }
   } = useForm<Password>({
     mode: 'onChange',
@@ -47,17 +49,29 @@ export const UnlockApp: FC = () => {
 
   useEffect(() => void (!isLocked && goBack()), [isLocked]);
 
-  const password = watch('password');
+  useEffect(() => {
+    if (isWeb) {
+      setFocus('password');
+    }
+  }, []);
 
-  const { commonRules } = useValidateForm();
+  const password = watch('password');
 
   const onUnlock = () => unlock(password);
   const onResetWallet = () => navigate(ScreensEnum.SettingsResetWalletConfirm);
 
   const isSubmitDisabled = (Object.keys(errors).length > 0 && isSubmitted) || unlockError !== '';
 
+  const onEnterPress = isWeb
+    ? (event: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+        if (event.nativeEvent.key === 'Enter') {
+          onUnlock();
+        }
+      }
+    : undefined;
+
   return (
-    <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.root}>
+    <KeyboardAvoidingView behavior={behavior} style={styles.root}>
       <View style={styles.logoContainer}>
         <Icon name={IconNameEnum.WalletLogoPlaceholder} size={getCustomSize(11)} />
       </View>
@@ -66,7 +80,6 @@ export const UnlockApp: FC = () => {
           <Controller
             control={control}
             name="password"
-            rules={commonRules}
             render={({ field }) => (
               <Row style={styles.inputContainer}>
                 <TextInput
@@ -78,16 +91,9 @@ export const UnlockApp: FC = () => {
                   containerStyle={styles.input}
                   clearIconStyles={styles.clearIcon}
                   labelContainerStyle={styles.label}
-                  error={
-                    errors.password?.message !== undefined
-                      ? errors.password?.message
-                      : unlockError
-                      ? unlockError
-                      : undefined
-                  }
-                  onChange={() => {
-                    setUnlockError('');
-                  }}
+                  error={unlockError}
+                  onKeyPress={onEnterPress}
+                  onChange={() => setUnlockError('')}
                 />
                 <TouchableIcon
                   name={isSecurePassword ? IconNameEnum.EyeOpen : IconNameEnum.EyeClosed}
