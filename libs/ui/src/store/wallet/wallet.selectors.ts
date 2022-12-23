@@ -221,8 +221,6 @@ const usePendingTransactionsSelector = () => {
 };
 
 export const usePendingCollectiblesTransactionsSelector = () => {
-  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
-  const { chainId } = useSelectedNetworkSelector();
   const pendingTransactions = usePendingTransactionsSelector();
 
   return useMemo(
@@ -230,7 +228,7 @@ export const usePendingCollectiblesTransactionsSelector = () => {
       pendingTransactions.filter(
         ({ asset: { tokenAddress, tokenId } }) => isNotEmptyString(tokenAddress) && isNotEmptyString(tokenId)
       ),
-    [pendingTransactions, publicKeyHash, chainId]
+    [pendingTransactions]
   );
 };
 
