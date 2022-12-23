@@ -85,6 +85,7 @@ export const UnlockApp: FC = () => {
                   labelContainerStyle={styles.label}
                   error={unlockError}
                   onKeyPress={onEnterPress}
+                  onSubmitEditing={onUnlock}
                   onChange={() => setUnlockError(undefined)}
                 />
                 <TouchableIcon
