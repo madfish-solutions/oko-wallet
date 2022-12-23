@@ -50,11 +50,7 @@ export const UnlockApp: FC = () => {
 
   useEffect(() => void (!isLocked && goBack()), [isLocked]);
 
-  useEffect(() => {
-    if (isWeb) {
-      setFocus('password');
-    }
-  }, []);
+  useEffect(() => void (isWeb && setFocus('password')), []);
 
   const password = watch('password');
 
@@ -63,13 +59,8 @@ export const UnlockApp: FC = () => {
 
   const isSubmitDisabled = (Object.keys(errors).length > 0 && isSubmitted) || isDefined(unlockError);
 
-  const onEnterPress = isWeb
-    ? (event: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
-        if (event.nativeEvent.key === 'Enter') {
-          onUnlock();
-        }
-      }
-    : undefined;
+  const onEnterPress = (event: NativeSyntheticEvent<TextInputKeyPressEventData>) =>
+    isWeb ? event.nativeEvent.key === 'Enter' && onUnlock() : undefined;
 
   return (
     <KeyboardAvoidingView behavior={behavior} style={styles.root}>
