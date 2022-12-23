@@ -119,6 +119,7 @@ export const ChangePassword: FC = () => {
         <Controller
           control={control}
           name="oldPassword"
+          rules={commonRules}
           render={({ field }) => (
             <Column style={styles.oldPasswordContainer}>
               <Row style={styles.inputWrapper}>
@@ -131,7 +132,7 @@ export const ChangePassword: FC = () => {
                   containerStyle={styles.inputContainer}
                   inputStyle={styles.input}
                   clearIconStyles={styles.clearIcon}
-                  error={passwordMatchError}
+                  error={errors.oldPassword?.message ?? passwordMatchError}
                   onFocus={onFocusOldPassword}
                   labelContainerStyle={styles.label}
                 />
@@ -167,7 +168,6 @@ export const ChangePassword: FC = () => {
                   prompt="Set new password"
                   containerStyle={styles.inputContainer}
                   inputStyle={styles.input}
-                  error={errors.oldPassword?.message}
                   clearIconStyles={styles.clearIcon}
                   inputContainerStyle={
                     ((isDefined(passwordIsNoValid) && passwordIsNoValid) || isDefined(errors.password?.message)) &&
