@@ -119,18 +119,20 @@ export const ChangePassword: FC = () => {
         <Controller
           control={control}
           name="oldPassword"
+          rules={commonRules}
           render={({ field }) => (
             <Column style={styles.oldPasswordContainer}>
-              <Row style={styles.inputContainer}>
+              <Row style={styles.inputWrapper}>
                 <TextInput
                   field={field}
                   label="Password"
                   secureTextEntry={isSecureOldPassword}
                   placeholder="123456"
                   prompt="Type your password"
-                  containerStyle={styles.input}
+                  containerStyle={styles.inputContainer}
+                  inputStyle={styles.input}
                   clearIconStyles={styles.clearIcon}
-                  error={passwordMatchError}
+                  error={errors.oldPassword?.message ?? passwordMatchError}
                   onFocus={onFocusOldPassword}
                   labelContainerStyle={styles.label}
                 />
@@ -157,15 +159,15 @@ export const ChangePassword: FC = () => {
           rules={commonRules}
           render={({ field }) => (
             <Column style={styles.passwordContainer}>
-              <Row style={styles.inputContainer}>
+              <Row style={styles.inputWrapper}>
                 <TextInput
                   field={field}
                   label="Password"
                   secureTextEntry={isSecurePassword}
                   placeholder="Password12345"
                   prompt="Set new password"
-                  containerStyle={styles.input}
-                  error={errors.oldPassword?.message}
+                  containerStyle={styles.inputContainer}
+                  inputStyle={styles.input}
                   clearIconStyles={styles.clearIcon}
                   inputContainerStyle={
                     ((isDefined(passwordIsNoValid) && passwordIsNoValid) || isDefined(errors.password?.message)) &&
@@ -201,7 +203,7 @@ export const ChangePassword: FC = () => {
           name="confirmPassword"
           rules={changePasswordRules}
           render={({ field }) => (
-            <Row style={[styles.inputContainer, styles.controllerOffset]}>
+            <Row style={[styles.inputWrapper, styles.controllerOffset]}>
               <TextInput
                 field={field}
                 label="New Password Confirm"
@@ -209,7 +211,8 @@ export const ChangePassword: FC = () => {
                 placeholder="••••••••••"
                 prompt="Repeat password"
                 error={errors.confirmPassword?.message}
-                containerStyle={styles.input}
+                containerStyle={styles.inputContainer}
+                inputStyle={styles.input}
                 clearIconStyles={styles.clearIcon}
                 labelContainerStyle={styles.label}
               />

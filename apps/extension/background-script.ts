@@ -155,7 +155,7 @@ runtime.onConnect.addListener(port => {
         case 'eth_estimateGas': {
           if (data.params !== undefined) {
             const result = await provider.estimateGas(data.params[0].data);
-            const message = createDAppResponse(id, result);
+            const message = createDAppResponse(id, result._hex);
 
             port.postMessage(message);
           }
@@ -186,6 +186,15 @@ runtime.onConnect.addListener(port => {
         case 'eth_blockNumber': {
           const result = await provider.getBlockNumber();
           const message = createDAppResponse(id, result.toString());
+
+          port.postMessage(message);
+
+          return Promise.resolve();
+        }
+
+        case 'eth_getBalance': {
+          const result = await provider.getBalance(data.params?.[0], data.params?.[1] ?? 'latest');
+          const message = createDAppResponse(id, result._hex);
 
           port.postMessage(message);
 

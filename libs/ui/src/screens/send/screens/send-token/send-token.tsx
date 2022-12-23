@@ -95,7 +95,7 @@ export const SendToken: FC = () => {
 
     if (isTokenSelected) {
       const price =
-        allTokensMarketInfoSelector[getTokenMetadataSlug(chainId, token.tokenAddress, token.tokenId)].price ?? 0;
+        allTokensMarketInfoSelector[getTokenMetadataSlug(chainId, token.tokenAddress, token.tokenId)]?.price;
       balance.availableBalance = getFormattedBalance(token.balance.data, token.decimals);
       balance.availableUsdBalance = getDollarValue({
         amount: balance.availableBalance,
@@ -107,7 +107,7 @@ export const SendToken: FC = () => {
         amount,
         decimals: token.decimals,
         price,
-        errorValue: '0.00',
+        errorValue: isDefined(price) ? '0.00' : undefined,
         isNeedToFormat: false
       });
     }

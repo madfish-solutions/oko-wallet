@@ -3,7 +3,6 @@ import { TouchableOpacity, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
 import { Column } from '../../components/column/column';
-import { Icon } from '../../components/icon/icon';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { Row } from '../../components/row/row';
@@ -37,7 +36,6 @@ export const Receive: FC = () => {
   const navigateToWallet = () => navigate(ScreensEnum.Wallet);
   const copyAddress = () => handleCopyToClipboard(publicKeyHash);
   const shareAddress = () => share({ message: publicKeyHash });
-  const promptNavigate = () => null;
 
   useDelayedEffect(() => setIsCopied(false), [isCopied]);
 
@@ -48,13 +46,6 @@ export const Receive: FC = () => {
       </HeaderContainer>
 
       <ScreenScrollView style={styles.root}>
-        <TouchableOpacity onPress={promptNavigate} style={styles.promptWrapper}>
-          <Row style={styles.prompt}>
-            <Text style={styles.propmtText}>How to receive Crypto & NFT</Text>
-            <Icon name={IconNameEnum.Tooltip} />
-          </Row>
-        </TouchableOpacity>
-
         <Column style={styles.container}>
           <View style={styles.qrCodeWrapper}>
             <QRCode

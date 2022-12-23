@@ -27,9 +27,25 @@ export const styles = StyleSheet.create({
   },
   socialMedia: {
     paddingVertical: getCustomSize(),
-    paddingLeft: getCustomSize(3.5),
-    paddingRight: getCustomSize(3.375),
+    paddingHorizontal: getCustomSize(1.5),
     justifyContent: 'space-between'
+  },
+  socialMediaBlock: {
+    backgroundColor: colors.bgGrey4,
+    flex: 1,
+    alignItems: 'center',
+    borderRadius: getCustomSize(0.75)
+  },
+  telegramBlock: {
+    marginRight: getCustomSize(1.5)
+  },
+  telegram: {
+    ...typography.bodyInterSemiBold15,
+    marginRight: getCustomSize(0.75)
+  },
+  twitter: {
+    ...typography.bodyInterSemiBold15,
+    marginRight: getCustomSize()
   },
   resetContainer: {
     alignItems: 'center',
