@@ -6,7 +6,7 @@ import { Shelter } from '../shelter/shelter';
 
 export const useUnlock = () => {
   const [isLocked, setIsLocked] = useState(() => Shelter.getIsLocked());
-  const [unlockError, setUnlockError] = useState<string | undefined>(undefined);
+  const [unlockError, setUnlockError] = useState<string>();
 
   const unlock$ = useMemo(() => new Subject<string>(), []);
 
