@@ -1,3 +1,4 @@
+import { isDefined } from '@rnw-community/shared';
 import React, { FC, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, NativeSyntheticEvent, Pressable, TextInputKeyPressEventData, View } from 'react-native';
@@ -60,7 +61,7 @@ export const UnlockApp: FC = () => {
   const onUnlock = () => unlock(password);
   const onResetWallet = () => navigate(ScreensEnum.SettingsResetWalletConfirm);
 
-  const isSubmitDisabled = (Object.keys(errors).length > 0 && isSubmitted) || unlockError !== '';
+  const isSubmitDisabled = (Object.keys(errors).length > 0 && isSubmitted) || isDefined(unlockError);
 
   const onEnterPress = isWeb
     ? (event: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
@@ -93,7 +94,7 @@ export const UnlockApp: FC = () => {
                   labelContainerStyle={styles.label}
                   error={unlockError}
                   onKeyPress={onEnterPress}
-                  onChange={() => setUnlockError('')}
+                  onChange={() => setUnlockError(undefined)}
                 />
                 <TouchableIcon
                   name={isSecurePassword ? IconNameEnum.EyeOpen : IconNameEnum.EyeClosed}
