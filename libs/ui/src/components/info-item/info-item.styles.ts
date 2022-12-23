@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     color: colors.textGrey3
   },
   value: {
-    ...typography.numbersIBMPlexSansMedium13
+    ...typography.captionInterSemiBold13
   },
   stringValue: {
     ...typography.captionInterSemiBold13,
