@@ -43,14 +43,14 @@ export const useTransactionHook = (receiverPublicKeyHash: string, asset: Asset) 
       </Text>
     );
 
-    const { tokenAddress, tokenId } = asset;
+    const { tokenAddress, tokenId, standard } = asset;
 
     dispatch(
       addTransactionAction({
         from: publicKeyHash,
         to: receiverPublicKeyHash,
         transactionHash: transactionResponse.hash,
-        asset: { tokenAddress, tokenId }
+        asset: { tokenAddress, tokenId, standard }
       })
     );
 

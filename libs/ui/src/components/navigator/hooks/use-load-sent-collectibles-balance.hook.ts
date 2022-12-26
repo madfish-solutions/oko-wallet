@@ -1,3 +1,4 @@
+import { isDefined } from '@rnw-community/shared';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -21,7 +22,7 @@ export const useLoadSentCollectiblesBalance = () => {
         const provider = getDefaultEvmProvider(rpcUrl);
         const transaction = await provider.getTransactionReceipt(transactionHash);
 
-        if (transaction?.status === 1) {
+        if (isDefined(transaction?.status)) {
           dispatch(loadAccountTokenBalanceAction.submit({ token: asset as Token, deleteZeroBalance: true }));
           dispatch(deleteTransactionAction(transactionHash));
         }
