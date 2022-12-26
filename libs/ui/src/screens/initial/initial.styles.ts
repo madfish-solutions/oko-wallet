@@ -12,14 +12,18 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: colors.bgGrey1,
     ...(isFullpage && {
-      marginTop: maximiseViewStyles.marginTop
+      marginTop: maximiseViewStyles.marginTop,
+      borderRadius: maximiseViewStyles.borderRadius
     })
   },
   logoContainer: {
     backgroundColor: colors.bgGrey1,
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    ...(isFullpage && {
+      borderRadius: maximiseViewStyles.borderRadius
+    })
   },
   button: {
     marginTop: getCustomSize(2)
@@ -28,7 +32,10 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.navGrey1,
     paddingHorizontal: getCustomSize(2),
     borderTopLeftRadius: getCustomSize(2),
-    borderTopRightRadius: getCustomSize(2)
+    borderTopRightRadius: getCustomSize(2),
+    ...(isFullpage && {
+      borderRadius: maximiseViewStyles.borderRadius
+    })
   },
   madLogo: {
     marginBottom: getCustomSize(4.25),
