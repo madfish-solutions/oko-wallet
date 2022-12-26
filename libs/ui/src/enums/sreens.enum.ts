@@ -55,7 +55,7 @@ export enum ScreensEnum {
   DeleteDApp = 'DeleteDApp',
   AddNewCollectible = 'AddNewCollectible',
   Collectible = 'Collectible',
-  Initial = 'Initial',
+  Welcome = 'Welcome',
   DAppTransactionConfirmation = 'DAppTransactionConfirmation',
   DAppSignConfirmation = 'DAppSignConfirmation'
 }
@@ -112,7 +112,7 @@ export type ScreensParamList = {
   [ScreensEnum.ChangePassword]: undefined;
   [ScreensEnum.AuthorizedDApps]: undefined;
   [ScreensEnum.DeleteDApp]: { origin: string };
-  [ScreensEnum.Initial]: undefined;
+  [ScreensEnum.Welcome]: undefined;
   [ScreensEnum.DAppTransactionConfirmation]: {
     messageId: string;
     transactionInfo: DAppTransactionInfo;

@@ -39,7 +39,7 @@ export const WalletCreationContainer: FC<Props> = ({
   const { navigate, goBack } = useNavigation();
 
   const navigateToCreateANewWallet = () => goBack();
-  const closeCreateWalletSteps = () => navigate(ScreensEnum.Initial);
+  const closeCreateWalletSteps = () => navigate(ScreensEnum.Welcome);
 
   return (
     <ScreenContainer>

@@ -13,10 +13,10 @@ import { isFullpage } from '../../utils/location.utils';
 import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
 import { MadFishLogo } from '../settings/components/mad-fish-logo/mad-fish-logo';
 
-import { styles } from './initial.styles';
-import { InitialTestIDs } from './initial.test-ids';
+import { styles } from './welcome.styles';
+import { WelcomeTestIds } from './welcome.test-ids';
 
-export const Initial: FC = () => {
+export const Welcome: FC = () => {
   const { navigate } = useNavigation();
   const navigateToCreateWallet = () => {
     if (!isFullpage) {
@@ -42,13 +42,13 @@ export const Initial: FC = () => {
           theme={ButtonThemesEnum.Secondary}
           style={styles.button}
           onPress={navigateToCreateWallet}
-          testID={InitialTestIDs.CrateNewWalletButton}
+          testID={WelcomeTestIds.CrateNewWalletButton}
         />
         <Button
           title="IMPORT EXISTING WALLET"
           style={styles.button}
           onPress={navigateToImportAccount}
-          testID={InitialTestIDs.ImportExistingWalletButton}
+          testID={WelcomeTestIds.ImportExistingWalletButton}
         />
         <MadFishLogo style={styles.madLogo} color={colors.bgGrey3} />
       </View>
