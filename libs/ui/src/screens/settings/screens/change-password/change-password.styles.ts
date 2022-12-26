@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
   },
   eyeIcon: {
     position: 'absolute',
-    top: getCustomSize(1.25),
+    top: getCustomSize(1.5),
     right: getCustomSize()
   },
   passwordValidationContainer: {
