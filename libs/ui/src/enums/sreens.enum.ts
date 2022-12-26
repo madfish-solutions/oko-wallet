@@ -1,3 +1,4 @@
+import { Option } from '../components/dropdown/option.interface';
 import { SeedWordsAmount } from '../constants/seed-words-amount';
 import { AccountInterface } from '../interfaces/account.interface';
 import { DAppInfo, DAppTransactionInfo } from '../interfaces/dapp-info.interface';
@@ -22,6 +23,7 @@ export enum ScreensEnum {
   RevealSeedPhrase = 'RevealSeedPhrase',
   SettingsGeneral = 'SettingsGeneral',
   SettingsCurrencySelector = 'SettingsCurrencySelector',
+  ActivityFilterSelector = 'ActivityFilterSelector',
   SettingsAppearanceSelector = 'SettingsAppearanceSelector',
   SettingsSecurity = 'SettingsSecurity',
   SettingsLockTimeSelector = 'SettingsLockTimeSelector',
@@ -101,7 +103,8 @@ export type ScreensParamList = {
   [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.VerifyMnemonic]: { mnemonic: string[] };
   [ScreensEnum.AlmostDone]: { mnemonic: string; currentStep: number; stepsAmount: number };
-  [ScreensEnum.Activity]: undefined;
+  [ScreensEnum.Activity]?: { filterType: Option };
+  [ScreensEnum.ActivityFilterSelector]: { filterType: Option };
   [ScreensEnum.Token]: { token: Token };
   [ScreensEnum.CollectiblesList]: undefined;
   [ScreensEnum.CollectiblesList]: undefined;

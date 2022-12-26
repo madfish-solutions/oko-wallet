@@ -5,6 +5,7 @@ import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useLockApp } from '../../hooks/use-lock-app.hook';
 import { PERSISTENCE_KEY, usePersistedNavigationState } from '../../hooks/use-persisted-navigation-state.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
+import { ActivityFilterSelector } from '../../modals/screens/activity-filter-selector/activity-filter-selector';
 import { AddAccount } from '../../modals/screens/add-account/add-account';
 import { AddNewCollectible } from '../../modals/screens/add-new-collectible/add-new-collectible';
 import { Collectible } from '../../modals/screens/collectible/collectible';
@@ -262,6 +263,11 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.SettingsLockTimeSelector}
                 options={{ title: 'Lock time' }}
                 component={SettingsLockTimeSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.ActivityFilterSelector}
+                options={{ title: 'Activity Filter' }}
+                component={ActivityFilterSelector}
               />
             </Stack.Group>
           </>

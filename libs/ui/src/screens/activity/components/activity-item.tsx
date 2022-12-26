@@ -13,8 +13,8 @@ import { useSelectedNetworkSelector } from '../../../store/wallet/wallet.selecto
 import { colors } from '../../../styles/colors';
 import { formatBalances } from '../../../utils/units.utils';
 
-import { styles } from './activity-list.styles';
-import { transformTimestampToTime } from './activity-list.utils';
+import { styles } from './activity-item.styles';
+import { transformTimestampToTime } from './activity-item.utils';
 
 interface Props {
   transaction: ActivityData;
@@ -22,7 +22,7 @@ interface Props {
   chainName: string;
 }
 
-export const ActivityList: FC<Props> = ({
+export const ActivityItem: FC<Props> = ({
   transaction: { hash, timestamp, transactionLabel, transactionStatus, symbol, amount = 0 }
 }) => {
   const { explorerUrl } = useSelectedNetworkSelector();
@@ -58,7 +58,7 @@ export const ActivityList: FC<Props> = ({
               </TouchableOpacity>
             </Row>
             <Row style={styles.amountContainer}>
-              <TokenAmount value={formatBalances(amount)} symbol={symbol.toUpperCase()} style={styles.amount} />
+              <TokenAmount value={formatBalances(amount)} symbol={symbol?.toUpperCase()} style={styles.amount} />
             </Row>
           </Column>
         </Row>

@@ -29,6 +29,8 @@ import Error from './assets/error.svg';
 import EyeClosedIcon from './assets/eye-closed.svg';
 import EyeOpenIcon from './assets/eye-open.svg';
 import FaceId from './assets/face-id.svg';
+import FilterNo from './assets/filter-no.svg';
+import FilterYes from './assets/filter-yes.svg';
 import GasIcon from './assets/gas.svg';
 import GridSettings from './assets/grid-settings.svg';
 import Home from './assets/home.svg';
@@ -182,5 +184,7 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Optimism]: Optimism,
   [IconNameEnum.Polygon]: Polygon,
   [IconNameEnum.User]: User,
-  [IconNameEnum.LoaderSnake]: LoaderSnake
+  [IconNameEnum.LoaderSnake]: LoaderSnake,
+  [IconNameEnum.FilterNo]: FilterNo,
+  [IconNameEnum.FilterYes]: FilterYes
 };

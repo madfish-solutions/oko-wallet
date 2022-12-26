@@ -15,7 +15,7 @@ import { DATA_UPDATE_TIME } from '../../constants/update-time';
 import { useAllActivity } from '../../hooks/use-activity.hook';
 import { useTimerEffect } from '../../hooks/use-timer-effect.hook';
 import { ActivityData, SectionListActivityData } from '../../interfaces/activity.interface';
-import { ActivityList } from '../../screens/activity/components/activity-list';
+import { ActivityItem } from '../../screens/activity/components/activity-item';
 import { getCustomSize } from '../../styles/format-size';
 import { getItemLayoutSectionList } from '../../utils/get-item-layout-section-list.util';
 import { isWeb } from '../../utils/platform.utils';
@@ -56,6 +56,8 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, tokenAd
     }
   };
 
+  console.log(activity);
+
   useTimerEffect(handleFetchData, DATA_UPDATE_TIME, [publicKeyHash, chainId, offsetY]);
 
   const handleScrollWeb = debounce((event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -72,9 +74,7 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, tokenAd
   };
 
   const renderItem: SectionListRenderItem<ActivityData, SectionListActivityData> = useCallback(
-    ({ item: activityItems }) => (
-      <ActivityList transaction={activityItems} address={publicKeyHash} chainName={getDebankId(chainId)} />
-    ),
+    ({ item }) => <ActivityItem transaction={item} address={publicKeyHash} chainName={getDebankId(chainId)} />,
     [publicKeyHash, chainId]
   );
 
