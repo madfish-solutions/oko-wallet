@@ -32,10 +32,13 @@ export const EvmConfirmationContainer: FC<Props> = ({
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const network = useSelectedNetworkSelector();
   const { sendEvmTransaction } = useShelter();
-  const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } =
-    useTransactionHook(receiverPublicKeyHash);
 
   const { tokenAddress, tokenId, decimals, symbol, standard } = asset;
+  const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } = useTransactionHook(
+    receiverPublicKeyHash,
+    asset
+  );
+
   const assetType = getAssetType(asset);
 
   const { estimations, isLoading } = useEvmEstimations({

@@ -36,7 +36,10 @@ export const TezosConfirmation: FC<Props> = ({ transferParams: { transferParams,
   const [{ to, amount }] = transferParams;
 
   const { symbol } = asset;
-  const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } = useTransactionHook(to);
+  const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } = useTransactionHook(
+    to,
+    asset
+  );
 
   const minimalFeePerStorageByteMutez = estimations[0]?.minimalFeePerStorageByteMutez ?? 0;
   const {

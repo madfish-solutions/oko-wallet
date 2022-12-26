@@ -10,6 +10,7 @@ import { NetworkTypeEnum } from '../../../enums/network-type.enum';
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useToast } from '../../../hooks/use-toast.hook';
+import { Asset } from '../../../interfaces/asset.interface';
 import { addTransactionAction } from '../../../store/wallet/wallet.actions';
 import {
   useSelectedAccountPublicKeyHashSelector,
@@ -17,7 +18,7 @@ import {
   useSelectedNetworkTypeSelector
 } from '../../../store/wallet/wallet.selectors';
 
-export const useTransactionHook = (receiverPublicKeyHash: string) => {
+export const useTransactionHook = (receiverPublicKeyHash: string, asset: Asset) => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
   const { showSuccessToast, showErrorToast } = useToast();
@@ -42,11 +43,14 @@ export const useTransactionHook = (receiverPublicKeyHash: string) => {
       </Text>
     );
 
+    const { tokenAddress, tokenId, standard } = asset;
+
     dispatch(
       addTransactionAction({
         from: publicKeyHash,
         to: receiverPublicKeyHash,
-        transactionHash: transactionResponse.hash
+        transactionHash: transactionResponse.hash,
+        asset: { tokenAddress, tokenId, standard }
       })
     );
 
