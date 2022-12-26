@@ -91,7 +91,5 @@ export enum IconNameEnum {
   Arbitrum = 'Arbitrum',
   Polygon = 'Polygon',
   User = 'User',
-  LoaderSnake = 'LoaderSnake',
-  FilterNo = 'FilterNo',
-  FilterYes = 'FilterYes'
+  LoaderSnake = 'LoaderSnake'
 }
