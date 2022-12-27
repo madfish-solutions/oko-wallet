@@ -3,15 +3,15 @@ import { TransactionStatusEnum } from '../enums/transactions.enum';
 export enum TransactionLabelEnum {
   Send = 'Send',
   Received = 'Received',
-  Swap = 'Swap',
-  ContractInteraction = 'Contract Interaction'
+  ContractInteraction = 'Contract Interaction',
+  Interaction = 'Interaction'
 }
 
 export enum TransactionTypeEnum {
   Send = 'send',
-  Received = 'received',
-  Swap = 'swap',
-  ContractInteraction = 'contract_interaction'
+  Receive = 'receive',
+  ContractInteraction = 'contract_interaction',
+  Interaction = 'interaction'
 }
 
 interface TokenInfo {
@@ -27,6 +27,7 @@ interface TokenInfo {
   is_verified: boolean;
   is_core: boolean;
   is_wallet: boolean;
+  thumbnail_url?: string;
   time_at: number;
 }
 
@@ -83,24 +84,26 @@ export interface ActivityResponse {
   token_dict: Record<string, TokenInfo>;
 }
 
+interface Transfer {
+  amount: number;
+  symbol: string;
+}
+
 export interface ActivityData {
   type: TransactionTypeEnum;
   hash: string;
   timestamp: number;
-  transactionLabel: TransactionLabelEnum;
-  transactionStatus: TransactionStatusEnum;
+  label: string;
+  status: TransactionStatusEnum;
   symbol?: string;
   amount?: number;
-  swapValues?: [
-    {
-      amountTokenSend: number;
-      symbolTokenSend: string;
-      amountTokenReceive: number;
-      symbolTokenReceive: string;
-    }
-  ];
+  transfer?: {
+    receives: Transfer[];
+    sends: Transfer[];
+  };
   projectName?: string;
   tokenId?: string;
+  isCollectible?: boolean;
 }
 
 export interface SectionListActivityData {

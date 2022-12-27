@@ -1,5 +1,6 @@
+import { isDefined } from '@rnw-community/shared';
 import debounce from 'lodash/debounce';
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -14,7 +15,7 @@ import { DEBOUNCE_TIME } from '../../constants/defaults';
 import { DATA_UPDATE_TIME } from '../../constants/update-time';
 import { useAllActivity } from '../../hooks/use-activity.hook';
 import { useTimerEffect } from '../../hooks/use-timer-effect.hook';
-import { ActivityData, SectionListActivityData } from '../../interfaces/activity.interface';
+import { ActivityData, SectionListActivityData, TransactionTypeEnum } from '../../interfaces/activity.interface';
 import { ActivityItem } from '../../screens/activity/components/activity-item';
 import { getCustomSize } from '../../styles/format-size';
 import { getItemLayoutSectionList } from '../../utils/get-item-layout-section-list.util';
@@ -31,6 +32,7 @@ import { styles } from './activity-section-list.styles';
 interface Props {
   publicKeyHash: string;
   chainId: string;
+  filterType?: string;
   tokenAddress?: string;
 }
 
@@ -46,9 +48,11 @@ const renderSectionHeader = (item: { section: SectionListData<ActivityData, Sect
 
 const emptyIconSize = getCustomSize(isWeb ? 30 : 36);
 
-export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, tokenAddress = '' }) => {
+export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterType, tokenAddress = '' }) => {
   const [offsetY, setOffsetY] = useState(0);
-  const { activity, fetch, isLoading } = useAllActivity(publicKeyHash, getDebankId(chainId), tokenAddress);
+  const { activity: allActivity, fetch, isLoading } = useAllActivity(publicKeyHash, getDebankId(chainId), tokenAddress);
+
+  const [activity, setActivity] = useState(allActivity);
 
   const handleFetchData = () => {
     if (offsetY === 0) {
@@ -56,7 +60,34 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, tokenAd
     }
   };
 
-  console.log(activity);
+  const filterActivity = (condition: (activity: ActivityData) => boolean) => {
+    setActivity(
+      allActivity
+        .map(item => ({
+          title: item.title,
+          data: item.data.filter(activity => condition(activity))
+        }))
+        .filter(item => item.data.length)
+    );
+  };
+
+  useEffect(() => {
+    if (isDefined(filterType)) {
+      if (filterType === TransactionTypeEnum.Send) {
+        filterActivity(activity => activity.type === TransactionTypeEnum.Send);
+      } else if (filterType === TransactionTypeEnum.Receive) {
+        filterActivity(activity => activity.type === TransactionTypeEnum.Receive);
+      } else if (filterType === TransactionTypeEnum.ContractInteraction) {
+        filterActivity(activity => activity.type === TransactionTypeEnum.ContractInteraction);
+      } else if (filterType === 'collectibles') {
+        filterActivity(activity => activity.isCollectible ?? false);
+      } else if (filterType === 'all_activity') {
+        setActivity(allActivity);
+      }
+    } else {
+      setActivity(allActivity);
+    }
+  }, [filterType, allActivity]);
 
   useTimerEffect(handleFetchData, DATA_UPDATE_TIME, [publicKeyHash, chainId, offsetY]);
 

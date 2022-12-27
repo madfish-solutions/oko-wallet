@@ -21,8 +21,10 @@ export enum IconNameEnum {
   Partners = 'Partners',
   Qrscan = 'Qrscan',
   Receive = 'Receive',
+  ReceiveSmall = 'ReceiveSmall',
   Search = 'Search',
   Send = 'Send',
+  SendSmall = 'SendSmall',
   Settings = 'Settings',
   Stake = 'Stake',
   Swap = 'Swap',
@@ -89,5 +91,6 @@ export enum IconNameEnum {
   User = 'User',
   LoaderSnake = 'LoaderSnake',
   FilterNo = 'FilterNo',
-  FilterYes = 'FilterYes'
+  FilterYes = 'FilterYes',
+  Document = 'Document'
 }

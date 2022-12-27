@@ -47,7 +47,7 @@ export const Activity: FC = () => {
         <Text style={styles.filterName}>{params?.filterType.title ?? ACTIVITIES_TYPES[0].title}</Text>
         <TouchableIcon name={iconName} onPress={openActivityFilters} />
       </Row>
-      <ActivitySectionList publicKeyHash={publicKeyHash} chainId={chainId} />
+      <ActivitySectionList publicKeyHash={publicKeyHash} chainId={chainId} filterType={params?.filterType.value} />
       <NavigationBar />
     </ScreenContainer>
   );

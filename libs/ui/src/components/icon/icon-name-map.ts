@@ -18,6 +18,7 @@ import DappConnect from './assets/dapp-connect.svg';
 import Delete from './assets/delete.svg';
 import Deposit from './assets/deposit.svg';
 import Discord from './assets/discord.svg';
+import Document from './assets/document.svg';
 import DropdownSelector from './assets/dropdown-selector.svg';
 import DropdownIcon from './assets/dropdown.svg';
 import DropupIcon from './assets/dropup.svg';
@@ -57,6 +58,7 @@ import PixelShit from './assets/pixel-shit.svg';
 import QrScanner from './assets/qr-scanner.svg';
 import QrIcon from './assets/qr.svg';
 import QrscanIcon from './assets/qrscan.svg';
+import ReceiveSmallIcon from './assets/receive-small.svg';
 import ReceiveIcon from './assets/receive.svg';
 import Reddit from './assets/reddit.svg';
 import Refresh from './assets/refresh.svg';
@@ -64,6 +66,7 @@ import SearchIcon from './assets/search.svg';
 import Security from './assets/security.svg';
 import See from './assets/see.svg';
 import SelectedCheckbox from './assets/selected-checkbox.svg';
+import SendSmallIcon from './assets/send-small.svg';
 import SendIcon from './assets/send.svg';
 import SettingsIcon from './assets/settings.svg';
 import Share from './assets/share.svg';
@@ -116,8 +119,10 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Partners]: PartnersIcon,
   [IconNameEnum.Qrscan]: QrscanIcon,
   [IconNameEnum.Receive]: ReceiveIcon,
+  [IconNameEnum.ReceiveSmall]: ReceiveSmallIcon,
   [IconNameEnum.Search]: SearchIcon,
   [IconNameEnum.Send]: SendIcon,
+  [IconNameEnum.SendSmall]: SendSmallIcon,
   [IconNameEnum.Settings]: SettingsIcon,
   [IconNameEnum.Stake]: StakeIcon,
   [IconNameEnum.Swap]: SwapIcon,
@@ -186,5 +191,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.User]: User,
   [IconNameEnum.LoaderSnake]: LoaderSnake,
   [IconNameEnum.FilterNo]: FilterNo,
-  [IconNameEnum.FilterYes]: FilterYes
+  [IconNameEnum.FilterYes]: FilterYes,
+  [IconNameEnum.Document]: Document
 };

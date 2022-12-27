@@ -1,4 +1,4 @@
-import { isDefined } from '@rnw-community/shared';
+import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import debounce from 'lodash/debounce';
 import { useEffect, useState } from 'react';
 
@@ -43,65 +43,56 @@ const transformApiData = (
 
   const getProjectName = (projectId: string) => userProjectsMetadata[projectId].name;
 
-  const getTransactionType = (
-    txData: TransactionResponse,
-    isGasToken: boolean,
-    isGasTokenSended: boolean
-  ): TransactionTypeEnum => {
-    if ((txData.sends.length > 0 && !txData.receives.length) || (isGasToken && isGasTokenSended)) {
-      return TransactionTypeEnum.Send;
+  const getTransactionType = (txData: TransactionResponse, isGasToken: boolean, isGasTokenSended: boolean) => {
+    if (txData.cate_id === TransactionTypeEnum.Send || (isGasToken && isGasTokenSended)) {
+      return {
+        type: TransactionTypeEnum.Send,
+        label: TransactionLabelEnum.Send
+      };
     }
-    if ((txData.receives.length > 0 && !txData.sends.length) || (isGasToken && !isGasTokenSended)) {
-      return TransactionTypeEnum.Received;
+    if (txData.cate_id === TransactionTypeEnum.Receive || (isGasToken && !isGasTokenSended)) {
+      return {
+        type: TransactionTypeEnum.Receive,
+        label: TransactionLabelEnum.Received
+      };
     }
-    if (txData.sends.length > 0 && txData.receives.length > 0) {
-      return TransactionTypeEnum.Swap;
+    if (isNotEmptyString(txData.tx.name)) {
+      return {
+        type: TransactionTypeEnum.Interaction,
+        label: txData.tx.name
+      };
     }
 
-    return TransactionTypeEnum.ContractInteraction;
-  };
-
-  const getTransactionLabel = (type: TransactionTypeEnum) => {
-    switch (type) {
-      case TransactionTypeEnum.Send: {
-        return TransactionLabelEnum.Send;
-      }
-      case TransactionTypeEnum.Received: {
-        return TransactionLabelEnum.Received;
-      }
-      case TransactionTypeEnum.Swap: {
-        return TransactionLabelEnum.Swap;
-      }
-      case TransactionTypeEnum.ContractInteraction: {
-        return TransactionLabelEnum.ContractInteraction;
-      }
-    }
+    return {
+      type: TransactionTypeEnum.ContractInteraction,
+      label: TransactionLabelEnum.ContractInteraction
+    };
   };
 
   data?.history_list.forEach(txData => {
     const activityData = {
-      transactionStatus: TransactionStatusEnum.applied,
+      status: TransactionStatusEnum.applied,
       hash: txData.id,
       timestamp: txData.time_at
     } as ActivityData;
 
     if (txData.tx?.status === 0) {
-      activityData.transactionStatus = TransactionStatusEnum.failed;
-    } else {
-      activityData.transactionStatus = TransactionStatusEnum.applied;
+      activityData.status = TransactionStatusEnum.failed;
     }
 
     const isGasToken =
       !(txData.sends.length > 0 && txData.receives.length > 0) &&
+      isDefined(txData.tx) &&
+      txData.tx.value > 0 &&
       txData.cate_id === null &&
       txData.token_approve === null;
     const isGasTokenSended = publicKeyHash.toLowerCase() === txData.tx?.from_addr?.toLowerCase();
 
-    const transactionType: TransactionTypeEnum = getTransactionType(txData, isGasToken, isGasTokenSended);
-    activityData.transactionLabel = getTransactionLabel(transactionType);
-    activityData.type = transactionType;
+    const { type, label } = getTransactionType(txData, isGasToken, isGasTokenSended);
+    activityData.type = type;
+    activityData.label = label;
 
-    switch (transactionType) {
+    switch (type) {
       case TransactionTypeEnum.Send: {
         if (isGasToken) {
           activityData.symbol = chainName;
@@ -110,10 +101,11 @@ const transformApiData = (
           activityData.amount = txData.sends[0]?.amount;
           activityData.tokenId = txData.sends[0]?.token_id;
           activityData.symbol = getTokenSymbol(txData.sends[0]?.token_id);
+          activityData.isCollectible = isDefined(userTokensMetadata[txData.sends[0]?.token_id].thumbnail_url);
         }
         break;
       }
-      case TransactionTypeEnum.Received: {
+      case TransactionTypeEnum.Receive: {
         if (isGasToken) {
           activityData.symbol = chainName;
           activityData.amount = txData.tx?.value;
@@ -121,23 +113,28 @@ const transformApiData = (
           activityData.tokenId = txData.receives[0]?.token_id;
           activityData.amount = txData.receives[0]?.amount;
           activityData.symbol = getTokenSymbol(txData.receives[0]?.token_id);
+          activityData.isCollectible = isDefined(userTokensMetadata[txData.receives[0]?.token_id].thumbnail_url);
         }
         break;
       }
-      case TransactionTypeEnum.Swap: {
-        activityData.projectName = isDefined(txData.project_id) ? getProjectName(txData.project_id) : 'Unknown project';
-        activityData.swapValues = [
-          {
-            amountTokenSend: txData.sends[0]?.amount,
-            amountTokenReceive: txData.receives[0]?.amount,
-            symbolTokenSend: getTokenSymbol(txData.sends[0]?.token_id),
-            symbolTokenReceive: getTokenSymbol(txData.receives[0]?.token_id)
-          }
-        ];
-        break;
-      }
+      case TransactionTypeEnum.Interaction:
       case TransactionTypeEnum.ContractInteraction: {
-        activityData.projectName = isDefined(txData.project_id) ? getProjectName(txData.project_id) : 'Unknown project';
+        activityData.projectName = isDefined(txData.project_id) ? getProjectName(txData.project_id) : '';
+        activityData.transfer = {
+          sends: [
+            ...(txData.sends.map(item => ({
+              amount: item.amount,
+              symbol: getTokenSymbol(item.token_id)
+            })) ?? [])
+          ],
+          receives: [
+            ...(txData.receives.map(item => ({
+              amount: item.amount,
+              symbol: getTokenSymbol(item.token_id)
+            })) ?? [])
+          ]
+        };
+        break;
       }
     }
 

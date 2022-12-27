@@ -18,12 +18,12 @@ export const ACTIVITIES_TYPES: Option[] = [
   },
   {
     id: 4,
-    title: 'Swap',
-    value: 'swap'
+    title: 'Contract Interaction',
+    value: 'contract_interaction'
   },
   {
     id: 5,
-    title: 'Contract Interaction',
-    value: 'contract_interaction'
+    title: 'Collectibles',
+    value: 'collectibles'
   }
 ];

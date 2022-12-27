@@ -17,12 +17,14 @@ export const styles = StyleSheet.create({
     width: '100%'
   },
   content: {
+    height: '100%',
     paddingVertical: getCustomSize(),
     justifyContent: 'space-between',
     flex: 1
   },
   send: {
-    ...typography.bodyInterSemiBold15
+    ...typography.bodyInterSemiBold15,
+    textTransform: 'capitalize'
   },
   sendWrapper: {
     marginBottom: getCustomSize(1.5)
@@ -55,10 +57,14 @@ export const styles = StyleSheet.create({
     color: colors.textGrey2
   },
   txHash: {
-    ...typography.numbersIBMPlexSansMedium11,
     marginLeft: getCustomSize(),
     marginRight: getCustomSize(0.5),
-    paddingHorizontal: getCustomSize(0.5)
+    paddingHorizontal: getCustomSize(0.5),
+    paddingVertical: getCustomSize(0.25)
+  },
+  txHashText: {
+    ...typography.numbersIBMPlexSansMedium11,
+    textTransform: 'lowercase'
   },
   hash: {
     alignItems: 'center',
@@ -67,13 +73,39 @@ export const styles = StyleSheet.create({
   amount: {
     ...typography.numbersIBMPlexSansMedium15
   },
+  symbol: {
+    color: colors.textGrey2,
+    textTransform: 'uppercase'
+  },
+  transfer: {
+    alignItems: 'flex-end'
+  },
+  transferItem: {
+    marginBottom: getCustomSize(0.5)
+  },
+  minus: {
+    marginRight: getCustomSize(0.25),
+    ...typography.numbersIBMPlexSansMedium15,
+    color: colors.red
+  },
+  plus: {
+    marginRight: getCustomSize(0.25),
+    ...typography.numbersIBMPlexSansMedium15,
+    color: colors.green
+  },
   rightContainer: {
     alignSelf: 'flex-end',
     flex: 1,
     marginBottom: getCustomSize(1.5)
   },
   amountContainer: {
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
+    alignItems: 'flex-end'
+  },
+  projectName: {
+    marginBottom: getCustomSize(),
+    ...typography.captionInterSemiBold11,
+    color: colors.textGrey2
   },
   touchable: {
     flexDirection: 'row',
