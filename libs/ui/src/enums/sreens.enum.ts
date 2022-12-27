@@ -130,7 +130,6 @@ export const walletStackScreens = [
   ScreensEnum.SpecificCollectiblesList
 ];
 export const receiveStackScreens = [ScreensEnum.Receive];
-export const swapStackScreens = [];
 export const sendStackScreens = [
   ScreensEnum.SendToken,
   ScreensEnum.SendTokensSelector,
