@@ -21,7 +21,6 @@ import { getCustomSize } from '../../styles/format-size';
 import { getItemLayoutSectionList } from '../../utils/get-item-layout-section-list.util';
 import { isWeb } from '../../utils/platform.utils';
 import { EmptySearchIcon } from '../icon/components/empty-search-icon/empty-search-icon';
-import { IconNameEnum } from '../icon/icon-name.enum';
 import { LoaderSizeEnum } from '../loader/enums';
 import { Loader } from '../loader/loader';
 import { Row } from '../row/row';
@@ -113,7 +112,7 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
     <>
       {isLoading && (
         <View style={styles.loading}>
-          <Loader iconName={IconNameEnum.LoaderSnake} size={LoaderSizeEnum.Large} />
+          <Loader size={LoaderSizeEnum.Large} />
         </View>
       )}
     </>

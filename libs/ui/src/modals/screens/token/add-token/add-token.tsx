@@ -98,6 +98,7 @@ export const AddNewToken: FC = () => {
         setValue('symbol', symbol);
         setValue('decimals', decimals.toString());
         setValue('name', name);
+        clearErrors();
       }
     }, DEBOUNCE_TIME)
   ).current;

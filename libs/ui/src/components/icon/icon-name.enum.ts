@@ -1,6 +1,8 @@
 export enum IconNameEnum {
   Activity = 'Activity',
+  ActivitySmall = 'ActivitySmall',
   Add = 'Add',
+  AddSmall = 'AddSmall',
   AddChain = 'AddChain',
   ArrowLeft = 'ArrowLeft',
   ArrowRight = 'ArrowRight',
@@ -28,6 +30,7 @@ export enum IconNameEnum {
   Settings = 'Settings',
   Stake = 'Stake',
   Swap = 'Swap',
+  SwapSmall = 'SwapSmall',
   Topup = 'Topup',
   X = 'X',
   Klaytn = 'Klaytn',

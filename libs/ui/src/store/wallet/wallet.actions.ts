@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 
 import { NftListResponse, TokenListResponse } from '../../api/types';
-import { AccountInterface, PendingTransaction, Transaction } from '../../interfaces/account.interface';
+import { AccountInterface, PendingTransaction } from '../../interfaces/account.interface';
 import { DappConnectionInfo } from '../../interfaces/dapp-connection.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
@@ -26,10 +26,10 @@ export const changeAccountVisibilityAction = createAction<AccountInterface['acco
 
 export const loadGasTokenBalanceAction = createActions<void, string, string>('wallet/LOAD_GAS_TOKEN_BALANCE');
 export const loadAccountTokenBalanceAction = createActions<
-  { token: Token },
+  { token: Token; deleteZeroBalance?: boolean },
   { token: Token },
   { token: Token; error: string }
->('wallet/LOAD_TOKEN_BALANCE');
+>('wallet/LOAD_ACCOUNT_TOKEN_BALANCE');
 
 export const addNewNetworkAction = createAction<NetworkInterface>('wallet/ADD_NEW_NETWORK');
 export const changeNetworkAction = createAction<string>('wallet/CHANGE_NETWORK');
@@ -58,12 +58,12 @@ export const getAllUserNftAction = createActions<
 export const addNewCollectibleAction = createAction<{ token: TokenExtendedMetadata; balance: string }>(
   'wallet/ADD_NEW_COLLECTIBLE'
 );
-export const deleteZeroAmountCollectible = createAction<Token>('wallet/DELETE_ZERO_AMOUNT_COLLECTIBLE');
+export const deleteCollectibleAction = createAction<Token>('wallet/DELETE_COLLECTIBLE');
 
 export const sendAssetAction = createActions<SendAssetPayload>('wallet/SEND_ASSET');
 
 export const addTransactionAction = createAction<PendingTransaction>('wallet/ADD_TRANSACTION');
-export const updateTransactionAction = createAction<Transaction>('wallet/CHANGE_TRANSACTION_STATUS');
+export const deleteTransactionAction = createAction<string>('wallet/DELETE_TRANSACTION');
 
 export const setConfirmedDappAction = createAction<DappConnectionInfo>('wallet/SET_CONFIRMED_DAPP');
 export const deleteConfirmedDappAction = createAction<string>('wallet/DELETE_CONFIRMED_DAPP');

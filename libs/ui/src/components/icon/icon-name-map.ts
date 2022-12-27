@@ -1,8 +1,10 @@
 import { FC } from 'react';
 import { SvgProps } from 'react-native-svg';
 
+import ActivitySmallIcon from './assets/activity-small.svg';
 import ActivityIcon from './assets/activity.svg';
 import AddChain from './assets/add-chain.svg';
+import AddSmallIcon from './assets/add-small.svg';
 import AddIcon from './assets/add.svg';
 import ArrowLeftIcon from './assets/arrow-left.svg';
 import ArrowRightIcon from './assets/arrow-right.svg';
@@ -73,6 +75,7 @@ import Share from './assets/share.svg';
 import Slider from './assets/slider.svg';
 import StakeIcon from './assets/stake.svg';
 import Success from './assets/success.svg';
+import SwapSmallIcon from './assets/swap-small.svg';
 import SwapIcon from './assets/swap.svg';
 import SwapItems from './assets/swapItems.svg';
 import Telegram from './assets/telegram.svg';
@@ -100,7 +103,9 @@ import Polygon from './networks/polygon.svg';
 export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Paste]: Paste,
   [IconNameEnum.Activity]: ActivityIcon,
+  [IconNameEnum.ActivitySmall]: ActivitySmallIcon,
   [IconNameEnum.Add]: AddIcon,
+  [IconNameEnum.AddSmall]: AddSmallIcon,
   [IconNameEnum.ArrowLeft]: ArrowLeftIcon,
   [IconNameEnum.ArrowRight]: ArrowRightIcon,
   [IconNameEnum.Assets]: AssetsIcon,
@@ -126,6 +131,7 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Settings]: SettingsIcon,
   [IconNameEnum.Stake]: StakeIcon,
   [IconNameEnum.Swap]: SwapIcon,
+  [IconNameEnum.SwapSmall]: SwapSmallIcon,
   [IconNameEnum.Topup]: TopupIcon,
   [IconNameEnum.X]: XIcon,
   [IconNameEnum.Klaytn]: Klaytn,

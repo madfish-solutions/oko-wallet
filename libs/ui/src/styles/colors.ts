@@ -30,7 +30,8 @@ const accentColors = {
   green: '#14BA30',
   yellow: '#D6A700',
   brown: '#ed3d2514',
-  black: '#080E15'
+  black: '#080E15',
+  white: '#FFFFFF'
 };
 
 const basicColors = {

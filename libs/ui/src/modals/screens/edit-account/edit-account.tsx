@@ -16,7 +16,7 @@ export const EditAccount: FC = () => {
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.EditAccount>>();
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
-  const { nameRules } = useAccountFieldRules(account.name);
+  const { nameRules } = useAccountFieldRules();
 
   const {
     control,
@@ -45,7 +45,7 @@ export const EditAccount: FC = () => {
   const onSubmit = ({ name }: { name: string }) => {
     const editedName = name.trim();
 
-    if (account.name !== editedName) {
+    if (account.name !== editedName && editedName !== '') {
       dispatch(editAccountNameAction({ accountId: account.accountId, name: editedName }));
     }
 

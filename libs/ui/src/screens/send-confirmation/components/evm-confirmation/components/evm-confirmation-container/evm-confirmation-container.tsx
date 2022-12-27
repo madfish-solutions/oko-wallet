@@ -24,7 +24,7 @@ interface Props {
 }
 
 export const EvmConfirmationContainer: FC<Props> = ({
-  transferParams: { asset, receiverPublicKeyHash, value, data = '0x' },
+  transferParams: { asset, receiverPublicKeyHash, value, data = '0x', gas },
   onDecline,
   additionalSuccessCallback,
   children
@@ -32,10 +32,13 @@ export const EvmConfirmationContainer: FC<Props> = ({
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const network = useSelectedNetworkSelector();
   const { sendEvmTransaction } = useShelter();
-  const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } =
-    useTransactionHook(receiverPublicKeyHash);
 
   const { tokenAddress, tokenId, decimals, symbol, standard } = asset;
+  const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } = useTransactionHook(
+    receiverPublicKeyHash,
+    asset
+  );
+
   const assetType = getAssetType(asset);
 
   const { estimations, isLoading } = useEvmEstimations({
@@ -47,10 +50,10 @@ export const EvmConfirmationContainer: FC<Props> = ({
     assetType
   });
 
+  const gasLimit = isDefined(gas) ? parseInt(gas, 16) : Number(estimations?.gasLimit);
+
   const { rpcUrl } = network;
-  const transactionFee = isDefined(estimations?.gasPrice)
-    ? Number(estimations?.gasPrice) * Number(estimations?.gasLimit)
-    : 0;
+  const transactionFee = isDefined(estimations?.gasPrice) ? Number(estimations?.gasPrice) * gasLimit : 0;
 
   const onSend: OnSend = useCallback(
     gasPriceCoefficient => {
@@ -63,7 +66,7 @@ export const EvmConfirmationContainer: FC<Props> = ({
 
         const transactionParams: TransactionParams = {
           gasPrice: Math.trunc(Number(estimations?.gasPrice) * gasPriceCoefficient),
-          gasLimit: Number(estimations?.gasLimit),
+          gasLimit,
           receiverPublicKeyHash,
           tokenAddress,
           tokenId,

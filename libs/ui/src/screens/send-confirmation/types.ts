@@ -8,6 +8,7 @@ export interface EvmTransferParams {
   asset: Asset;
   value: string;
   data?: string;
+  gas?: string;
 }
 
 export interface TezosTransferParams {

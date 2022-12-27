@@ -1,23 +1,8 @@
 import { isNotEmptyString } from '@rnw-community/shared';
 
 import { onlySpacesError, requiredFieldError } from '../../constants/form-errors';
-import { useAllVisibleAccountsSelector } from '../../store/wallet/wallet.selectors';
 
-export const useAccountFieldRules = (accountName = '') => {
-  const visibleAccounts = useAllVisibleAccountsSelector();
-
-  const accountsName = visibleAccounts.map(({ name }) => name);
-
-  const checkIfAccountNameUnique = (currentValue: string) => {
-    const correctedCurrentValue = currentValue.trim().toLowerCase();
-
-    if (accountName.toLowerCase() === correctedCurrentValue || !accountsName.includes(correctedCurrentValue)) {
-      return true;
-    }
-
-    return 'Should be unique';
-  };
-
+export const useAccountFieldRules = () => {
   const validateDerivationPath = (currentValue: string) => {
     if (currentValue.length === 0) {
       return true;
@@ -59,7 +44,7 @@ export const useAccountFieldRules = (accountName = '') => {
       message: 'Maximum 21 symbol'
     },
     required: false,
-    validate: { checkIfAccountNameUnique }
+    validate: { checkIfOnlySpaces }
   };
 
   const derivationPathRules = {
