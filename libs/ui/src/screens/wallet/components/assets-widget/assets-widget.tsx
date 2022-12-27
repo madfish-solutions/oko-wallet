@@ -48,7 +48,7 @@ export const AssetsWidget: FC<TestIDProps> = ({ testID }) => {
             title="Activity"
             size={ButtonWithIconSizeEnum.Medium}
             theme={ButtonWithIconThemesEnum.Tertiary}
-            leftIcon={IconNameEnum.Activity}
+            leftIcon={IconNameEnum.ActivitySmall}
             onPress={navigateToActivity}
           />
           <Divider />
