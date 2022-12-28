@@ -42,9 +42,9 @@ export abstract class AbstractStreamProvider extends BaseProvider {
    */
   constructor(
     connectionStream: Duplex,
-    { jsonRpcStreamName, logger, maxEventListeners, rpcMiddleware }: StreamProviderOptions
+    { jsonRpcStreamName, logger, maxEventListeners, rpcMiddleware, anotherProvider }: StreamProviderOptions
   ) {
-    super({ logger, maxEventListeners, rpcMiddleware });
+    super({ logger, maxEventListeners, rpcMiddleware, anotherProvider });
 
     if (!isDuplex(connectionStream)) {
       throw new Error('invalid duplex stream');

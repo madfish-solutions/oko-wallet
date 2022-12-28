@@ -29,10 +29,10 @@ let isFullpageOpen = false;
 
 scripting.registerContentScripts([
   {
-    id: 'inpage-script',
+    id: 'oko-inpage-script',
     matches: ['file://*/*', 'http://*/*', 'https://*/*'],
     js: ['scripts/inpage.js'],
-    runAt: 'document_start',
+    runAt: 'document_idle',
     // @ts-ignore
     world: 'MAIN'
   }

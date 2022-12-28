@@ -10,6 +10,7 @@ import {
   JsonRpcMiddleware
 } from 'json-rpc-engine';
 
+import { InpageProvider } from './inpage-provider';
 import { ConsoleLike } from './types/console-like.type';
 import { Maybe } from './types/maybe.type';
 import { getRpcPromiseCallback } from './utils/rpc.utils';
@@ -40,6 +41,8 @@ export interface BaseProviderOptions {
    * order immediately after engine initialization.
    */
   rpcMiddleware?: JsonRpcMiddleware<unknown, unknown>[];
+
+  anotherProvider?: InpageProvider[];
 }
 
 export interface RequestArguments {
@@ -91,13 +94,20 @@ export abstract class BaseProvider extends SafeEventEmitter {
 
   public selectedAddress: string | null;
 
+  public anotherProvider: InpageProvider[];
+
   /**
    * @param options - An options bag
    * @param options.logger - The logging API to use. Default: console
    * @param options.maxEventListeners - The maximum number of event
    * listeners. Default: 100
    */
-  constructor({ logger = console, maxEventListeners = 100, rpcMiddleware = [] }: BaseProviderOptions = {}) {
+  constructor({
+    logger = console,
+    maxEventListeners = 100,
+    rpcMiddleware = [],
+    anotherProvider
+  }: BaseProviderOptions = {}) {
     super();
 
     this._log = logger;
@@ -121,6 +131,7 @@ export abstract class BaseProvider extends SafeEventEmitter {
     this._handleUnlockStateChanged = this._handleUnlockStateChanged.bind(this);
     this._rpcRequest = this._rpcRequest.bind(this);
     this.request = this.request.bind(this);
+    this.anotherProvider = anotherProvider ?? [];
 
     // Handle RPC requests via dapp-side RPC engine.
     //
@@ -152,7 +163,7 @@ export abstract class BaseProvider extends SafeEventEmitter {
    * @returns A Promise that resolves with the result of the RPC method,
    * or rejects if an error is encountered.
    */
-  async request<T>(args: RequestArguments): Promise<Maybe<T>> {
+  async request<T>(args: RequestArguments): Promise<Maybe<T> | any> {
     if (!args || typeof args !== 'object' || Array.isArray(args)) {
       throw ethErrors.rpc.invalidRequest({
         message: 'invalid args',
@@ -178,6 +189,10 @@ export abstract class BaseProvider extends SafeEventEmitter {
 
     return new Promise<T>((resolve, reject) => {
       this._rpcRequest({ method, params }, getRpcPromiseCallback(resolve, reject));
+
+      if (method === 'eth_requestAccounts' && this.anotherProvider.length > 0) {
+        this.anotherProvider[0]._rpcRequest({ method, params }, getRpcPromiseCallback(resolve, reject));
+      }
     });
   }
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Duplex } from 'stream';
 
 import { InpageProvider, InpageProviderOptions } from './inpage-provider';
@@ -36,10 +37,13 @@ export function initializeProvider({
   maxEventListeners = 100,
   shouldSetOnWindow = true
 }: InitializeProviderOptions): InpageProvider {
+  // @ts-ignore
+  const anotherProvider = window.ethereum ? [window.ethereum] : [];
   const provider = new InpageProvider(connectionStream, {
     jsonRpcStreamName,
     logger,
-    maxEventListeners
+    maxEventListeners,
+    anotherProvider
   });
 
   const proxiedProvider = new Proxy(provider, {

@@ -82,13 +82,19 @@ export class InpageProvider extends AbstractStreamProvider {
    */
   constructor(
     connectionStream: Duplex,
-    { jsonRpcStreamName = InpageProviderStreamName, logger = console, maxEventListeners }: InpageProviderOptions = {}
+    {
+      jsonRpcStreamName = InpageProviderStreamName,
+      logger = console,
+      maxEventListeners,
+      anotherProvider
+    }: InpageProviderOptions = {}
   ) {
     super(connectionStream, {
       jsonRpcStreamName,
       logger,
       maxEventListeners,
-      rpcMiddleware: getDefaultExternalMiddleware(logger)
+      rpcMiddleware: getDefaultExternalMiddleware(logger),
+      anotherProvider
     });
 
     // We shouldn't perform asynchronous work in the constructor, but at one
