@@ -76,7 +76,6 @@ export const sendNotificationToDApp = <T>(method: string, result: T, origin?: st
   tabs.query({}).then(queryTabs => {
     if (isDefined(origin)) {
       const dAppTab = queryTabs.find(tab => tab.url?.includes(origin));
-      console.log(dAppTab, 'dapp');
       if (isDefined(dAppTab) && isDefined(dAppTab.id)) {
         tabs.sendMessage(dAppTab.id, createDAppNotificationResponse(method, result));
       }

@@ -163,7 +163,7 @@ export abstract class BaseProvider extends SafeEventEmitter {
    * @returns A Promise that resolves with the result of the RPC method,
    * or rejects if an error is encountered.
    */
-  async request<T>(args: RequestArguments): Promise<Maybe<T> | any> {
+  async request<T>(args: RequestArguments): Promise<Maybe<T>> {
     if (!args || typeof args !== 'object' || Array.isArray(args)) {
       throw ethErrors.rpc.invalidRequest({
         message: 'invalid args',
