@@ -9,5 +9,11 @@ export class BackgroundMessager {
   static getPasswordHash = () => BackgroundMessager.sendMessage({ type: BackgroundMessageType.GetPasswordHash });
 
   static setPasswordHash = (passwordHash: string) =>
-    BackgroundMessager.sendMessage({ type: BackgroundMessageType.SetPasswordHash, data: { passwordHash } });
+    BackgroundMessager.sendMessage({
+      type: BackgroundMessageType.SetPasswordHash,
+      data: { passwordHash }
+    });
+
+  static setLockTimePeriod = (lockTimePeriod: number) =>
+    BackgroundMessager.sendMessage({ type: BackgroundMessageType.SetLockTimePeriod, data: { lockTimePeriod } });
 }

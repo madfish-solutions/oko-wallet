@@ -1,6 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { hideLoaderAction, setIsAnalyticsEnabled, setIsBiometricEnabled, showLoaderAction } from './settings.actions';
+import {
+  hideLoaderAction,
+  setAppLockTimePeriod,
+  setIsAnalyticsEnabled,
+  setIsBiometricEnabled,
+  showLoaderAction
+} from './settings.actions';
 import { settingsInitialState, SettingsState } from './settings.state';
 
 export const settingsReducers = createReducer<SettingsState>(settingsInitialState, builder => {
@@ -20,5 +26,9 @@ export const settingsReducers = createReducer<SettingsState>(settingsInitialStat
     .addCase(hideLoaderAction, state => ({
       ...state,
       showLoader: false
+    }))
+    .addCase(setAppLockTimePeriod, (state, { payload: lockTimePeriod }) => ({
+      ...state,
+      lockTimePeriod
     }));
 });

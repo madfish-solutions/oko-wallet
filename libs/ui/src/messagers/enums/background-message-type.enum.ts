@@ -1,4 +1,5 @@
 export enum BackgroundMessageType {
   SetPasswordHash = 'SetPasswordHash',
-  GetPasswordHash = 'GetPasswordHash'
+  GetPasswordHash = 'GetPasswordHash',
+  SetLockTimePeriod = 'SetLockTimePeriod'
 }

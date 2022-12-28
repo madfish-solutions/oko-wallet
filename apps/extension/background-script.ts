@@ -20,10 +20,9 @@ import {
 import { createDAppNotificationResponse, getHexChanId } from './src/utils/network.utils';
 import { getState } from './src/utils/state.utils';
 
-const APP_LOCK_PERIOD = 5 * 60 * 1000;
-
-let passwordHash = INITIAL_PASSWORD_HASH;
-let lastUserActivityTimestamp = 0;
+const LOGIN_TOKEN = 'login_token';
+const LOCK_TIME_PERIOD = 'lock_time_period';
+const LAST_USER_ACTIVITY_TIMESTAMP = 'last_user_activity_timestamp';
 
 let isFullpageOpen = false;
 
@@ -38,16 +37,22 @@ scripting.registerContentScripts([
   }
 ]);
 
-runtime.onConnect.addListener(port => {
+const convertLockTime = (value: number) => value * 60 * 1000;
+
+async function fetchFromStorage<T = any>(key: string): Promise<T | null> {
+  const items = await storage.local.get([key]);
+  if (key in items) {
+    return items[key];
+  }
+
+  return null;
+}
+
+runtime.onConnect.addListener(async port => {
   // check for time expired and max-view no opened then extension need to lock
-  const savedSessionTimeExpired = Date.now() > lastUserActivityTimestamp + APP_LOCK_PERIOD;
 
   if (isFullpagePort(port)) {
     isFullpageOpen = true;
-  }
-
-  if (savedSessionTimeExpired && !isFullpageOpen) {
-    passwordHash = INITIAL_PASSWORD_HASH;
   }
 
   // listen when UI is closed
@@ -57,7 +62,7 @@ runtime.onConnect.addListener(port => {
         isFullpageOpen = false;
       }
 
-      return (lastUserActivityTimestamp = Date.now());
+      return storage.local.set({ [LAST_USER_ACTIVITY_TIMESTAMP]: Date.now() });
     });
   }
 
@@ -251,14 +256,34 @@ runtime.onConnect.addListener(port => {
 });
 
 // listen messages from UI
-runtime.onMessage.addListener((message: BackgroundMessage) => {
+runtime.onMessage.addListener(async (message: BackgroundMessage) => {
   switch (message.type) {
     case BackgroundMessageType.SetPasswordHash: {
-      passwordHash = message.data.passwordHash;
+      storage.local.set({ [LOGIN_TOKEN]: message.data.passwordHash });
+
+      return Promise.resolve();
+    }
+    case BackgroundMessageType.SetLockTimePeriod: {
+      storage.local.set({ [LOCK_TIME_PERIOD]: message.data.lockTimePeriod });
 
       return Promise.resolve();
     }
     case BackgroundMessageType.GetPasswordHash: {
+      const passwordHash: string | null = await fetchFromStorage(LOGIN_TOKEN);
+      const lastUserActivity = await fetchFromStorage(LAST_USER_ACTIVITY_TIMESTAMP);
+      const lockTimePeriod: number | null = await fetchFromStorage(LOCK_TIME_PERIOD);
+
+      if (
+        Date.now() > lastUserActivity + convertLockTime(lockTimePeriod ?? 1) &&
+        !isFullpageOpen &&
+        passwordHash !== null &&
+        passwordHash.length
+      ) {
+        storage.local.set({ [LOGIN_TOKEN]: INITIAL_PASSWORD_HASH, [LAST_USER_ACTIVITY_TIMESTAMP]: 0 });
+
+        return Promise.resolve('');
+      }
+
       return Promise.resolve(passwordHash);
     }
     case E2eMessageType.ClearStorage: {

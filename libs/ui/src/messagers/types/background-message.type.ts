@@ -12,8 +12,19 @@ interface SetPasswordHashMessage {
   };
 }
 
+interface SetLockTimePeriodMessage {
+  type: BackgroundMessageType.SetLockTimePeriod;
+  data: {
+    lockTimePeriod: number;
+  };
+}
+
 interface E2eClearStorageMessage {
   type: E2eMessageType.ClearStorage;
 }
 
-export type BackgroundMessage = GetPasswordHashMessage | SetPasswordHashMessage | E2eClearStorageMessage;
+export type BackgroundMessage =
+  | GetPasswordHashMessage
+  | SetPasswordHashMessage
+  | E2eClearStorageMessage
+  | SetLockTimePeriodMessage;
