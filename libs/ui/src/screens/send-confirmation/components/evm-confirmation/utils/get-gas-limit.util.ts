@@ -18,7 +18,7 @@ export const getGasLimit = (
 
   switch (assetType) {
     case AssetTypeEnum.GasToken:
-      return getGasTokenGasLimit(value, decimals, receiverPublicKeyHash, rpcUrl);
+      return getGasTokenGasLimit(publicKeyHash, value, decimals, receiverPublicKeyHash, rpcUrl);
 
     case AssetTypeEnum.Collectible:
       const isErc721 = checkIsErc721Collectible(asset);
@@ -28,21 +28,31 @@ export const getGasLimit = (
         : getCollectible1155GasLimit(publicKeyHash, receiverPublicKeyHash, tokenAddress, tokenId, value, rpcUrl);
 
     default:
-      return getToken20GasLimit(receiverPublicKeyHash, tokenAddress, value, decimals, rpcUrl);
+      return getToken20GasLimit(publicKeyHash, receiverPublicKeyHash, tokenAddress, value, decimals, rpcUrl);
   }
 };
 
-const getGasTokenGasLimit = (value: string, decimals: number, receiverPublicKeyHash: string, rpcUrl: string) => {
+const getGasTokenGasLimit = (
+  from: string,
+  value: string,
+  decimals: number,
+  receiverPublicKeyHash: string,
+  rpcUrl: string
+) => {
   const provider = getDefaultEvmProvider(rpcUrl);
 
   return provider
-    .estimateGas({ to: receiverPublicKeyHash, value: getAmount(value, decimals) })
+    .estimateGas({
+      from,
+      to: receiverPublicKeyHash,
+      value: getAmount(value, decimals)
+    })
     .then(gasLimit => gasLimit)
     .catch(console.log);
 };
 
 const getCollectible721GasLimit = (
-  publicKeyHash: string,
+  from: string,
   receiverPublicKeyHash: string,
   tokenAddress: string,
   tokenId: string,
@@ -52,13 +62,13 @@ const getCollectible721GasLimit = (
   const contract721 = Erc721Abi__factory.connect(tokenAddress, provider);
 
   return contract721.estimateGas
-    .transferFrom(publicKeyHash, receiverPublicKeyHash, tokenId)
+    .transferFrom(from, receiverPublicKeyHash, tokenId, { from })
     .then(gasLimit => gasLimit)
     .catch(console.log);
 };
 
 const getCollectible1155GasLimit = (
-  publicKeyHash: string,
+  from: string,
   receiverPublicKeyHash: string,
   tokenAddress: string,
   tokenId: string,
@@ -69,12 +79,13 @@ const getCollectible1155GasLimit = (
   const contract1155 = Erc1155Abi__factory.connect(tokenAddress, provider);
 
   return contract1155.estimateGas
-    .safeTransferFrom(publicKeyHash, receiverPublicKeyHash, tokenId, value, [])
+    .safeTransferFrom(from, receiverPublicKeyHash, tokenId, value, [], { from })
     .then(gasLimit => gasLimit)
     .catch(console.log);
 };
 
 const getToken20GasLimit = (
+  from: string,
   receiverPublicKeyHash: string,
   tokenAddress: string,
   value: string,
@@ -85,7 +96,7 @@ const getToken20GasLimit = (
   const contract20 = Erc20Abi__factory.connect(tokenAddress, provider);
 
   return contract20.estimateGas
-    .transfer(receiverPublicKeyHash, getAmount(value, decimals))
+    .transfer(receiverPublicKeyHash, getAmount(value, decimals), { from })
     .then(gasLimit => gasLimit)
     .catch(console.log);
 };
