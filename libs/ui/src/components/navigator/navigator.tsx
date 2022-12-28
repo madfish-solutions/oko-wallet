@@ -84,7 +84,7 @@ export const Navigator: FC = () => {
   useActiveTokenList();
   useTokensPriceInfo();
   useLoadSentCollectiblesBalance();
-  useResetLoading(showLoader);
+  useResetLoading();
 
   useEffect(() => {
     // TODO: Add check for ScreenEnum.AlmostDone screen later
