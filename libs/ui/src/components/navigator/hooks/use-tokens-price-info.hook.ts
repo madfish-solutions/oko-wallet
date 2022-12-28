@@ -1,7 +1,8 @@
 import { isNotEmptyString } from '@rnw-community/shared';
-import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { DATA_UPDATE_TIME } from '../../../constants/update-time';
+import { useTimerEffect } from '../../../hooks/use-timer-effect.hook';
 import { loadTokensPriceInfo } from '../../../store/tokens-market-info/tokens-market-info.actions';
 import {
   useSelectedAccountPublicKeyHashSelector,
@@ -15,11 +16,13 @@ export const useTokensPriceInfo = () => {
   const visibleAccountTokens = useVisibleAccountTokensSelector();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
-  useEffect(() => {
+  const getTokensPriceInfo = () => {
     if (isNotEmptyString(publicKeyHash)) {
       const tokenAddressesList = visibleAccountTokens.map(visibleAccountToken => visibleAccountToken.tokenAddress);
 
       dispatch(loadTokensPriceInfo.submit({ tokenAddressesList, chainId }));
     }
-  }, [chainId, rpcUrl, visibleAccountTokens.length, publicKeyHash]);
+  };
+
+  useTimerEffect(getTokensPriceInfo, DATA_UPDATE_TIME, [chainId, rpcUrl]);
 };

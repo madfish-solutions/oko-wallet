@@ -4,7 +4,7 @@ import { catchError, map, switchMap, concatMap } from 'rxjs/operators';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
-import { getAllUserNftList, getTokenInfo, getTokenList } from '../../api/debank';
+import { getAllUserNftList, getTokenList } from '../../api/debank';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { parseTezosTransferParams } from '../../utils/parse-tezos-transfer-params.utils';
@@ -20,10 +20,9 @@ import {
   loadGasTokenBalanceAction,
   loadAccountTokenBalanceAction,
   sendAssetAction,
-  loadTokenMetadataAction,
-  addNewTokenAction,
   addNewTokensAction,
-  getAllUserNftAction
+  getAllUserNftAction,
+  deleteCollectibleAction
 } from './wallet.actions';
 
 const getGasTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Observable<RootState>) =>
@@ -45,16 +44,20 @@ const getTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Observab
     toPayload(),
     withSelectedAccount(state$),
     withSelectedNetwork(state$),
-    concatMap(([[{ token }, account], network]) =>
+    concatMap(([[{ token, deleteZeroBalance }, account], network]) =>
       getTokenBalance$(network, account, token).pipe(
-        map(balance =>
-          loadAccountTokenBalanceAction.success({
+        map(balance => {
+          if (deleteZeroBalance === true && Number(balance) === 0) {
+            return deleteCollectibleAction(token);
+          }
+
+          return loadAccountTokenBalanceAction.success({
             token: {
               ...token,
               balance: createEntity(balance)
             }
-          })
-        ),
+          });
+        }),
         catchError(error => of(loadAccountTokenBalanceAction.fail({ token, error: error.message })))
       )
     )
@@ -83,18 +86,6 @@ const sendAssetEpic: Epic = (action$: Observable<Action>, state$: Observable<Roo
     )
   );
 
-const saveNewTokenEpic: Epic = (action$: Observable<Action>) =>
-  action$.pipe(
-    ofType(loadTokenMetadataAction),
-    toPayload(),
-    concatMap(({ tokenId, chainName }) =>
-      from(getTokenInfo(tokenId, chainName)).pipe(
-        map(result => addNewTokenAction({ ...result, tokenAddress: result.id })),
-        catchError(error => of(console.log(error)))
-      )
-    )
-  );
-
 const addNewTokensEpic: Epic = (action$: Observable<Action>) =>
   action$.pipe(
     ofType(addNewTokensAction.submit),
@@ -119,7 +110,6 @@ export const walletEpics = combineEpics(
   getGasTokenBalanceEpic,
   getTokenBalanceEpic,
   sendAssetEpic,
-  saveNewTokenEpic,
   addNewTokensEpic,
   getAllUserNftEpic
 );

@@ -192,6 +192,15 @@ runtime.onConnect.addListener(port => {
           return Promise.resolve();
         }
 
+        case 'eth_getBalance': {
+          const result = await provider.getBalance(data.params?.[0], data.params?.[1] ?? 'latest');
+          const message = createDAppResponse(id, result._hex);
+
+          port.postMessage(message);
+
+          return Promise.resolve();
+        }
+
         case 'eth_sendTransaction': {
           await openConfirmSendTransactionPopup(id, data.params?.[0], dAppInfo);
 

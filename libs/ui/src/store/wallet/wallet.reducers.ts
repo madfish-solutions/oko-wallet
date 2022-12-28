@@ -35,8 +35,8 @@ import {
   setConfirmedDappAction,
   setSelectedAccountAction,
   sortAccountTokensByVisibility,
-  updateTransactionAction,
-  deleteZeroAmountCollectible
+  deleteTransactionAction,
+  deleteCollectibleAction
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -298,7 +298,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         }
       };
     })
-    .addCase(deleteZeroAmountCollectible, (state, { payload: collectible }) => {
+    .addCase(deleteCollectibleAction, (state, { payload: collectible }) => {
       const { tokensMetadata, accountsTokens, selectedAccountPublicKeyHash } = state;
       const chainId = getSelectedNetworkChainId(state);
 
@@ -473,11 +473,11 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       }
     };
   });
-  builder.addCase(updateTransactionAction, (state, { payload: transaction }) => {
+  builder.addCase(deleteTransactionAction, (state, { payload: transactionHash }) => {
     const chainId = getSelectedNetworkChainId(state);
     const accountTokensSlug = getAccountTokensSlug(chainId, state.selectedAccountPublicKeyHash);
-    const updatedAccountTransactions = state.transactions[accountTokensSlug].map(tx =>
-      tx.transactionHash === transaction.transactionHash ? transaction : tx
+    const updatedAccountTransactions = state.transactions[accountTokensSlug].filter(
+      currentTransaction => currentTransaction.transactionHash !== transactionHash
     );
 
     return { ...state, transactions: { ...state.transactions, [accountTokensSlug]: updatedAccountTransactions } };

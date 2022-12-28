@@ -1,12 +1,12 @@
-import { isDefined } from '@rnw-community/shared';
+import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { TokenMetadata } from 'src/interfaces/token-metadata.interface';
 
 import { GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { AccountTypeEnum } from '../../enums/account-type.enum';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
+import { TransactionStatusEnum } from '../../enums/transactions.enum';
 import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { Token } from '../../interfaces/token.interface';
@@ -205,20 +205,43 @@ export const useTokenBalanceSelector = (tokenSlug: string): string => {
   return useMemo(() => tokenBalance, [tokenBalance]);
 };
 
-export const useAllSavedTokensSelector = () => {
-  const tokensMetadata = useSelector<WalletRootState, Record<string, TokenMetadata>>(
-    ({ wallet }) => wallet.tokensMetadata
+const usePendingTransactionsSelector = () => {
+  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
+  const { chainId } = useSelectedNetworkSelector();
+  const accountTokensSlug = getAccountTokensSlug(chainId, publicKeyHash);
+  const transactions = useSelector<WalletRootState, WalletState['transactions']>(({ wallet }) => wallet.transactions);
+
+  return useMemo(
+    () =>
+      isDefined(transactions[accountTokensSlug])
+        ? transactions[accountTokensSlug].filter(({ status }) => status === TransactionStatusEnum.pending)
+        : [],
+    [transactions, accountTokensSlug]
   );
+};
 
-  const allTokens = Object.entries(tokensMetadata);
+export const usePendingCollectiblesTransactionsSelector = () => {
+  const pendingTransactions = usePendingTransactionsSelector();
 
-  const getTokenAddress = (metadataSlug: string) => metadataSlug.split('_')[1];
+  return useMemo(
+    () =>
+      pendingTransactions.filter(
+        ({ asset: { tokenAddress, tokenId } }) => isNotEmptyString(tokenAddress) && isNotEmptyString(tokenId)
+      ),
+    [pendingTransactions]
+  );
+};
 
-  allTokens.map(token => {
-    token[0] = getTokenAddress(token[0]);
+export const useIsPendingCollectibleTransaction = (tokenAddress: string, tokenId = '') => {
+  const pendingCollectiblesTransactions = usePendingCollectiblesTransactionsSelector();
 
-    return token;
-  });
-
-  return allTokens;
+  return useMemo(
+    () =>
+      isDefined(
+        pendingCollectiblesTransactions.find(
+          ({ asset }) => tokenAddress === asset.tokenAddress && tokenId === asset.tokenId
+        )
+      ),
+    [pendingCollectiblesTransactions]
+  );
 };

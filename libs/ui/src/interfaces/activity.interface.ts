@@ -5,7 +5,7 @@ export enum TransactionLabelEnum {
   Received = 'Received'
 }
 
-export interface TokenInfo {
+interface TokenInfo {
   id: string;
   chain: string;
   name: string;
@@ -57,7 +57,7 @@ export interface ActivityResponse {
   cate_dict: unknown;
   history_list: TransactionResponse[];
   project_dict: unknown;
-  token_dict: unknown;
+  token_dict: Record<string, TokenInfo>;
 }
 
 export interface ActivityData {
@@ -68,11 +68,6 @@ export interface ActivityData {
   amount: number;
   symbol: string;
   tokenId?: string;
-}
-
-export interface NewTokenMetadataRequest {
-  tokenId: string;
-  chainName: string;
 }
 
 export interface SectionListActivityData {

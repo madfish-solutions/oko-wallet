@@ -1,14 +1,25 @@
-import React, { FC, useEffect } from 'react';
-import { SectionList, SectionListData, SectionListRenderItem, View } from 'react-native';
+import debounce from 'lodash/debounce';
+import React, { FC, useCallback, useState } from 'react';
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  SectionList,
+  SectionListData,
+  SectionListRenderItem,
+  View
+} from 'react-native';
 
 import { getDebankId } from '../../api/utils/get-debank-id.util';
+import { DEBOUNCE_TIME } from '../../constants/defaults';
+import { DATA_UPDATE_TIME } from '../../constants/update-time';
 import { useAllActivity } from '../../hooks/use-activity.hook';
+import { useTimerEffect } from '../../hooks/use-timer-effect.hook';
 import { ActivityData, SectionListActivityData } from '../../interfaces/activity.interface';
 import { ActivityList } from '../../screens/activity/components/activity-list';
 import { getCustomSize } from '../../styles/format-size';
+import { getItemLayoutSectionList } from '../../utils/get-item-layout-section-list.util';
 import { isWeb } from '../../utils/platform.utils';
 import { EmptySearchIcon } from '../icon/components/empty-search-icon/empty-search-icon';
-import { IconNameEnum } from '../icon/icon-name.enum';
 import { LoaderSizeEnum } from '../loader/enums';
 import { Loader } from '../loader/loader';
 import { Row } from '../row/row';
@@ -22,32 +33,55 @@ interface Props {
   tokenAddress?: string;
 }
 
-const keyExtractor = ({ hash }: ActivityData) => hash;
+const keyExtractor = ({ hash, timestamp }: ActivityData) => `${hash}_${timestamp}`;
+
+const getItemLayout = getItemLayoutSectionList<ActivityData, SectionListActivityData>(getCustomSize(9));
+
+const renderSectionHeader = (item: { section: SectionListData<ActivityData, SectionListActivityData> }) => (
+  <Row style={styles.dateWrapper}>
+    <Text style={styles.dateText}>{item.section.title}</Text>
+  </Row>
+);
 
 const emptyIconSize = getCustomSize(isWeb ? 30 : 36);
 
 export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, tokenAddress = '' }) => {
-  const { activity, fetchData, isLoading } = useAllActivity(publicKeyHash, getDebankId(chainId), tokenAddress);
+  const [offsetY, setOffsetY] = useState(0);
+  const { activity, fetch, isLoading } = useAllActivity(publicKeyHash, getDebankId(chainId), tokenAddress);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const handleFetchData = () => {
+    if (offsetY === 0) {
+      fetch(0);
+    }
+  };
 
-  const renderItem: SectionListRenderItem<ActivityData, SectionListActivityData> = ({ item: activityItems }) => (
-    <ActivityList transaction={activityItems} address={publicKeyHash} chainName={getDebankId(chainId)} />
-  );
+  useTimerEffect(handleFetchData, DATA_UPDATE_TIME, [publicKeyHash, chainId, offsetY]);
 
-  const renderSectionHeader = (item: { section: SectionListData<ActivityData, SectionListActivityData> }) => (
-    <Row style={styles.dateWrapper}>
-      <Text style={styles.dateText}>{item.section.title}</Text>
-    </Row>
+  const handleScrollWeb = debounce((event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    setOffsetY(event.nativeEvent.contentOffset.y);
+  }, DEBOUNCE_TIME);
+
+  const handleScrollMobile = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    event.persist();
+    debounce(() => setOffsetY(event.nativeEvent.contentOffset.y), DEBOUNCE_TIME);
+  };
+
+  const handleEndReached = () => {
+    fetch();
+  };
+
+  const renderItem: SectionListRenderItem<ActivityData, SectionListActivityData> = useCallback(
+    ({ item: activityItems }) => (
+      <ActivityList transaction={activityItems} address={publicKeyHash} chainName={getDebankId(chainId)} />
+    ),
+    [publicKeyHash, chainId]
   );
 
   const renderListFooterComponent = () => (
     <>
       {isLoading && (
         <View style={styles.loading}>
-          <Loader iconName={IconNameEnum.LoaderSnake} size={LoaderSizeEnum.Large} />
+          <Loader size={LoaderSizeEnum.Large} />
         </View>
       )}
     </>
@@ -62,9 +96,11 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, tokenAd
       renderSectionHeader={renderSectionHeader}
       ListFooterComponent={renderListFooterComponent}
       keyExtractor={keyExtractor}
+      onScroll={isWeb ? handleScrollWeb : handleScrollMobile}
+      getItemLayout={getItemLayout}
       ListEmptyComponent={renderListEmptyComponent}
       onEndReachedThreshold={0.1}
-      onEndReached={fetchData}
+      onEndReached={handleEndReached}
       stickySectionHeadersEnabled
     />
   );

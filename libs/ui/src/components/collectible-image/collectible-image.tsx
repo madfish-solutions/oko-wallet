@@ -1,13 +1,15 @@
 import { isDefined, isNotEmptyString, OnEventFn } from '@rnw-community/shared';
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { GestureResponderEvent, Image, ImageStyle, Pressable, View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
+import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { Icon } from '../icon/icon';
 import { IconNameEnum } from '../icon/icon-name.enum';
 import { LoaderSizeEnum } from '../loader/enums';
 import { Loader } from '../loader/loader';
+import { Text } from '../text/text';
 
 import { styles } from './collectible-image.styles';
 
@@ -21,6 +23,7 @@ interface Props {
   style?: ViewStyleProps;
   containerStyle?: ImageStyle;
   shitIconStyle?: ViewStyleProps;
+  isPending?: boolean;
 }
 
 export const CollectibleImage: FC<Props> = ({
@@ -30,11 +33,16 @@ export const CollectibleImage: FC<Props> = ({
   height = size,
   onPress,
   pixelShitSize = getCustomSize(5),
+  isPending = false,
   style,
   containerStyle,
   shitIconStyle
 }) => {
   const [imageIsLoaded, setImageIsLoaded] = useState(!isNotEmptyString(artifactUri));
+
+  useEffect(() => {
+    setImageIsLoaded(!isNotEmptyString(artifactUri));
+  }, [artifactUri]);
 
   return (
     <View style={[styles.root, { width, height }, style]}>
@@ -54,6 +62,16 @@ export const CollectibleImage: FC<Props> = ({
         <View style={[styles.layout, containerStyle]}>
           <Loader size={LoaderSizeEnum.Large} />
         </View>
+      )}
+      {isPending && imageIsLoaded && (
+        <>
+          <View style={styles.pendingLoader}>
+            <Loader size={LoaderSizeEnum.Large} color={colors.white} />
+          </View>
+          <View style={styles.pendingTextBlock}>
+            <Text style={styles.pendingText}>Pending</Text>
+          </View>
+        </>
       )}
     </View>
   );

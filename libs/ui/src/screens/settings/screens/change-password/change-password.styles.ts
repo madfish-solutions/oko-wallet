@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
 import { typography } from '../../../../styles/typography';
-import { isMobile } from '../../../../utils/platform.utils';
+import { isMobile, isWeb } from '../../../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {
@@ -19,12 +19,15 @@ export const styles = StyleSheet.create({
     marginBottom: getCustomSize(3.75),
     marginTop: getCustomSize(2.125)
   },
-  inputContainer: {
+  inputWrapper: {
     position: 'relative',
     width: '100%'
   },
-  input: {
+  inputContainer: {
     width: '100%'
+  },
+  input: {
+    width: isWeb ? '80%' : '82%'
   },
   errorInput: {
     borderColor: colors.red
@@ -35,7 +38,7 @@ export const styles = StyleSheet.create({
   },
   eyeIcon: {
     position: 'absolute',
-    top: getCustomSize(1.25),
+    top: getCustomSize(1.5),
     right: getCustomSize()
   },
   passwordValidationContainer: {

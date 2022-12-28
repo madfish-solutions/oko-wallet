@@ -72,6 +72,8 @@ export const TextInput = <
   clearIconStyles,
   onFocus: onFocusProps,
   onChange: onChangeProps,
+  onKeyPress,
+  onSubmitEditing,
   labelContainerStyle,
   labelTextStyle,
   testID
@@ -156,6 +158,8 @@ export const TextInput = <
             secureTextEntry={secureTextEntry}
             allowFontScaling={false}
             onChange={onChangeNative}
+            onSubmitEditing={onSubmitEditing}
+            onKeyPress={onKeyPress}
             selectTextOnFocus={!editable}
             testID={testID}
           />

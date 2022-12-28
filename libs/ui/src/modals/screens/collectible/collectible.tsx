@@ -15,8 +15,12 @@ import { InfoItem } from '../../../components/info-item/info-item';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useToast } from '../../../hooks/use-toast.hook';
-import { loadAccountTokenBalanceAction, deleteZeroAmountCollectible } from '../../../store/wallet/wallet.actions';
-import { useSelectedCollectibleSelector, useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
+import { loadAccountTokenBalanceAction, deleteCollectibleAction } from '../../../store/wallet/wallet.actions';
+import {
+  useIsPendingCollectibleTransaction,
+  useSelectedCollectibleSelector,
+  useSelectedNetworkSelector
+} from '../../../store/wallet/wallet.selectors';
 import { getString } from '../../../utils/get-string.utils';
 import { getTokenDetailsUrl } from '../../../utils/get-token-details-url.util';
 import { eraseProtocol } from '../../../utils/string.util';
@@ -35,6 +39,7 @@ export const Collectible: FC = () => {
   const { navigate, goBack } = useNavigation();
   const { showErrorToast } = useToast();
   const isScreenFocused = useIsFocused();
+  const isPendingTransaction = useIsPendingCollectibleTransaction(collectible.tokenAddress, collectible.tokenId);
 
   const dispatch = useDispatch();
   const { explorerUrl, networkType } = useSelectedNetworkSelector();
@@ -46,7 +51,7 @@ export const Collectible: FC = () => {
 
   useEffect(() => {
     if (Number(selectedCollectible?.balance.data) === 0 && isDefined(selectedCollectible) && isScreenFocused) {
-      dispatch(deleteZeroAmountCollectible(selectedCollectible));
+      dispatch(deleteCollectibleAction(selectedCollectible));
       showErrorToast('You are not the owner of this Collectible');
 
       goBack();
@@ -104,7 +109,12 @@ export const Collectible: FC = () => {
         <ScrollView style={styles.content} contentContainerStyle={styles.contentContainerStyle}>
           <View onLayout={handleLayout} style={styles.collectibleWrapper}>
             <Icon name={IconNameEnum.NftLayout} size={layoutWidth} />
-            <CollectibleImage artifactUri={collectible.artifactUri} size={layoutWidth} style={styles.imageContainer} />
+            <CollectibleImage
+              artifactUri={collectible.artifactUri}
+              size={layoutWidth}
+              isPending={isPendingTransaction}
+              style={styles.imageContainer}
+            />
           </View>
 
           <Column style={styles.list}>
