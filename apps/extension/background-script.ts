@@ -11,6 +11,7 @@ import {
 import { Runtime, runtime, scripting, storage } from 'webextension-polyfill';
 
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
+import { convertLockTime, fetchFromStorage } from './src/utils/background-script.utils';
 import {
   openDAppConnectionConfirmationPopup,
   openNetworkChangeConfirmationPopup,
@@ -36,17 +37,6 @@ scripting.registerContentScripts([
     world: 'MAIN'
   }
 ]);
-
-const convertLockTime = (value: number) => value * 60 * 1000;
-
-async function fetchFromStorage<T = any>(key: string): Promise<T | null> {
-  const items = await storage.local.get([key]);
-  if (key in items) {
-    return items[key];
-  }
-
-  return null;
-}
 
 runtime.onConnect.addListener(async port => {
   // check for time expired and max-view no opened then extension need to lock
