@@ -2,7 +2,7 @@ import { Option } from '../../../components/dropdown/option.interface';
 
 import { ActivityFilterEnum } from './activity-filter.enum';
 
-export const ACTIVITIES_TYPES: Option[] = [
+export const ACTIVITIES_TYPES: Option<ActivityFilterEnum>[] = [
   {
     id: 1,
     title: 'All Activity',

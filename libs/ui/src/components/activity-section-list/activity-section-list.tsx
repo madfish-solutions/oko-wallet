@@ -1,6 +1,5 @@
-import { isDefined } from '@rnw-community/shared';
 import debounce from 'lodash/debounce';
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useMemo, useState } from 'react';
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -15,10 +14,11 @@ import { DEBOUNCE_TIME } from '../../constants/defaults';
 import { DATA_UPDATE_TIME } from '../../constants/update-time';
 import { useAllActivity } from '../../hooks/use-activity.hook';
 import { useTimerEffect } from '../../hooks/use-timer-effect.hook';
-import { ActivityData, SectionListActivityData, TransactionTypeEnum } from '../../interfaces/activity.interface';
+import { ActivityData, SectionListActivityData } from '../../interfaces/activity.interface';
 import { ActivityFilterEnum } from '../../modals/screens/activity-filter-selector/activity-filter.enum';
 import { ActivityItem } from '../../screens/activity/components/activity-item';
 import { getCustomSize } from '../../styles/format-size';
+import { getFilteredActivity } from '../../utils/filter-activity.util';
 import { getItemLayoutSectionList } from '../../utils/get-item-layout-section-list.util';
 import { isWeb } from '../../utils/platform.utils';
 import { EmptySearchIcon } from '../icon/components/empty-search-icon/empty-search-icon';
@@ -32,7 +32,7 @@ import { styles } from './activity-section-list.styles';
 interface Props {
   publicKeyHash: string;
   chainId: string;
-  filterType?: string;
+  filterTypeName?: ActivityFilterEnum;
   tokenAddress?: string;
 }
 
@@ -48,52 +48,17 @@ const renderSectionHeader = (item: { section: SectionListData<ActivityData, Sect
 
 const emptyIconSize = getCustomSize(isWeb ? 30 : 36);
 
-export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterType, tokenAddress = '' }) => {
+export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterTypeName, tokenAddress = '' }) => {
   const [offsetY, setOffsetY] = useState(0);
   const { activity: allActivity, fetch, isLoading } = useAllActivity(publicKeyHash, getDebankId(chainId), tokenAddress);
 
-  const [activity, setActivity] = useState(allActivity);
+  const activity = useMemo(() => getFilteredActivity(allActivity, filterTypeName), [allActivity, filterTypeName]);
 
   const handleFetchData = () => {
     if (offsetY === 0) {
       fetch(0);
     }
   };
-
-  const filterActivity = (condition: (activity: ActivityData) => boolean) => {
-    setActivity(
-      allActivity
-        .map(item => ({
-          title: item.title,
-          data: item.data.filter(activity => condition(activity))
-        }))
-        .filter(item => item.data.length)
-    );
-  };
-
-  useEffect(() => {
-    if (isDefined(filterType)) {
-      switch (filterType) {
-        case ActivityFilterEnum.Send: {
-          return filterActivity(activity => activity.type === TransactionTypeEnum.Send);
-        }
-        case ActivityFilterEnum.Receive: {
-          return filterActivity(activity => activity.type === TransactionTypeEnum.Receive);
-        }
-        case ActivityFilterEnum.ContractInteraction: {
-          return filterActivity(activity => activity.type === TransactionTypeEnum.ContractInteraction);
-        }
-        case ActivityFilterEnum.Collectibles: {
-          return filterActivity(activity => activity.isCollectible ?? false);
-        }
-        case ActivityFilterEnum.AllActivity: {
-          return setActivity(allActivity);
-        }
-      }
-    } else {
-      setActivity(allActivity);
-    }
-  }, [filterType, allActivity]);
 
   useTimerEffect(handleFetchData, DATA_UPDATE_TIME, [publicKeyHash, chainId, offsetY]);
 

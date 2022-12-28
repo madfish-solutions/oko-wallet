@@ -1,18 +1,6 @@
 import { TransactionStatusEnum } from '../enums/transactions.enum';
 
-export enum TransactionLabelEnum {
-  Send = 'Send',
-  Received = 'Received',
-  ContractInteraction = 'Contract Interaction',
-  Interaction = 'Interaction'
-}
-
-export enum TransactionTypeEnum {
-  Send = 'send',
-  Receive = 'receive',
-  ContractInteraction = 'contract_interaction',
-  Interaction = 'interaction'
-}
+import { TransactionTypeEnum } from './activity.enum';
 
 interface TokenInfo {
   id: string;
@@ -77,16 +65,16 @@ export interface TransactionResponse {
   ];
 }
 
+interface Transfer {
+  amount: number;
+  symbol: string;
+}
+
 export interface ActivityResponse {
   cate_dict: unknown;
   history_list: TransactionResponse[];
   project_dict: Record<string, ProjectInfo>;
   token_dict: Record<string, TokenInfo>;
-}
-
-interface Transfer {
-  amount: number;
-  symbol: string;
 }
 
 export interface ActivityData {

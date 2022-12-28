@@ -1,5 +1,4 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { isDefined } from '@rnw-community/shared';
 import React, { FC } from 'react';
 
 import { ActivitySectionList } from '../../components/activity-section-list/activity-section-list';
@@ -23,19 +22,16 @@ import { styles } from './activity.styles';
 
 export const Activity: FC = () => {
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Activity>>();
+  const filterType = params?.filterType ?? ACTIVITIES_TYPES[0];
 
   const { navigate } = useNavigation();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { chainId } = useSelectedNetworkSelector();
 
   const navigateToWallet = () => navigate(ScreensEnum.Wallet);
-  const openActivityFilters = () =>
-    navigate(ScreensEnum.ActivityFilterSelector, { filterType: params?.filterType ?? ACTIVITIES_TYPES[0] });
+  const openActivityFilters = () => navigate(ScreensEnum.ActivityFilterSelector, { filterType });
 
-  const iconName =
-    isDefined(params) && params?.filterType.id !== ACTIVITIES_TYPES[0].id
-      ? IconNameEnum.FilterYes
-      : IconNameEnum.FilterNo;
+  const iconName = filterType.id !== ACTIVITIES_TYPES[0].id ? IconNameEnum.FilterYes : IconNameEnum.FilterNo;
 
   return (
     <ScreenContainer style={styles.root}>
@@ -43,10 +39,10 @@ export const Activity: FC = () => {
         <ScreenTitle title="Transactions" onBackButtonPress={navigateToWallet} />
       </HeaderContainer>
       <Row style={styles.panel}>
-        <Text style={styles.filterName}>{params?.filterType.title ?? ACTIVITIES_TYPES[0].title}</Text>
+        <Text style={styles.filterName}>{filterType.title}</Text>
         <TouchableIcon name={iconName} onPress={openActivityFilters} />
       </Row>
-      <ActivitySectionList publicKeyHash={publicKeyHash} chainId={chainId} filterType={params?.filterType.value} />
+      <ActivitySectionList publicKeyHash={publicKeyHash} chainId={chainId} filterTypeName={filterType.value} />
       <NavigationBar />
     </ScreenContainer>
   );

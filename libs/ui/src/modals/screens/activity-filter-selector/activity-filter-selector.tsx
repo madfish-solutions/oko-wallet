@@ -7,6 +7,7 @@ import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
+import { ActivityFilterEnum } from './activity-filter.enum';
 import { ACTIVITIES_TYPES } from './constants';
 
 export const ActivityFilterSelector: FC = () => {
@@ -16,7 +17,7 @@ export const ActivityFilterSelector: FC = () => {
 
   const { navigate } = useNavigation();
 
-  const handleFilterSelect = (param: Option) => {
+  const handleFilterSelect = (param: Option<ActivityFilterEnum>) => {
     navigate(ScreensEnum.Activity, { filterType: param });
   };
 
