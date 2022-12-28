@@ -31,9 +31,7 @@ export const loadEvmTokenBalance$ = (
 
   switch (standard) {
     case TokenStandardEnum.ERC721:
-      return from(getErc721CollectibleBalance({ tokenAddress, tokenId, provider, publicKeyHash })).pipe(
-        map(balance => balance.toString())
-      );
+      return from(getErc721CollectibleBalance({ tokenAddress, tokenId, provider, publicKeyHash }));
 
     case TokenStandardEnum.ERC1155:
       return from(getErc1155CollectibleBalance({ tokenAddress, tokenId, provider, publicKeyHash }));

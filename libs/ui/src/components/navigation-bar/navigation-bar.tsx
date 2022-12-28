@@ -6,7 +6,6 @@ import {
   ScreensEnum,
   sendStackScreens,
   settingsStackScreens,
-  swapStackScreens,
   walletStackScreens
 } from '../../enums/sreens.enum';
 import { IconNameEnum } from '../icon/icon-name.enum';
@@ -35,12 +34,6 @@ export const NavigationBar = () => {
         name={IconNameEnum.Receive}
         focused={isStackFocused(receiveStackScreens)}
         testID={NavigationBarTestIDs.ReceiveButton}
-      />
-
-      <TabBarButton
-        name={IconNameEnum.Swap}
-        focused={isStackFocused(swapStackScreens)}
-        testID={NavigationBarTestIDs.SwapButton}
       />
 
       <TabBarButton

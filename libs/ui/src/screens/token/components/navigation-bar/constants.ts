@@ -12,7 +12,8 @@ export const tokenNavigationBar: TokenNavigationBarOption[] = [
   {
     id: 1,
     iconName: IconNameEnum.Swap,
-    routeName: ScreensEnum.SendToken
+    routeName: ScreensEnum.SendToken,
+    disabled: true
   },
   {
     id: 2,

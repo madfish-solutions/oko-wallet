@@ -1,4 +1,5 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
+import { isDefined } from '@rnw-community/shared';
 import React, { FC, useCallback, useEffect } from 'react';
 import { ListRenderItemInfo } from 'react-native';
 
@@ -10,7 +11,10 @@ import { Text } from '../../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token } from '../../../../interfaces/token.interface';
-import { useSelectedCollectionSelector } from '../../../../store/wallet/wallet.selectors';
+import {
+  usePendingCollectiblesTransactionsSelector,
+  useSelectedCollectionSelector
+} from '../../../../store/wallet/wallet.selectors';
 import { CollectibleRenderItem } from '../../components/collectible-render-item/collectible-render-item';
 import { ListContainer } from '../../components/list-container/list-container';
 import { COLLECTIBLE_SIZE } from '../../constants';
@@ -25,6 +29,7 @@ export const SpecificCollectiblesList: FC = () => {
   const { navigate, goBack } = useNavigation();
 
   const collectiblesList = useSelectedCollectionSelector(collectionName);
+  const pendingCollectiblesTransactions = usePendingCollectiblesTransactionsSelector();
 
   const { collectibles, setSearchValue } = useCollectibleList(collectiblesList);
 
@@ -37,24 +42,32 @@ export const SpecificCollectiblesList: FC = () => {
   }, [collectiblesList.length]);
 
   const renderItem = useCallback(
-    ({ item: collectible, index }: ListRenderItemInfo<Token>) => (
-      <CollectibleRenderItem
-        collectible={collectible}
-        name={collectible.name}
-        handleItemPress={handleItemPress}
-        index={index}
-      >
-        <Icon name={IconNameEnum.NftLayout} size={COLLECTIBLE_SIZE} />
+    ({ item: collectible, index }: ListRenderItemInfo<Token>) => {
+      const pendingTransaction = pendingCollectiblesTransactions.find(
+        ({ asset: { tokenId, tokenAddress } }) =>
+          tokenAddress === collectible.tokenAddress && tokenId === collectible.tokenId
+      );
 
-        <CollectibleImage
-          artifactUri={collectible.artifactUri}
-          size={COLLECTIBLE_SIZE}
-          onPress={() => handleItemPress(collectible)}
-          style={styles.imageContainer}
-        />
-      </CollectibleRenderItem>
-    ),
-    []
+      return (
+        <CollectibleRenderItem
+          collectible={collectible}
+          name={collectible.name}
+          handleItemPress={handleItemPress}
+          index={index}
+        >
+          <Icon name={IconNameEnum.NftLayout} size={COLLECTIBLE_SIZE} />
+
+          <CollectibleImage
+            artifactUri={collectible.artifactUri}
+            size={COLLECTIBLE_SIZE}
+            onPress={() => handleItemPress(collectible)}
+            isPending={isDefined(pendingTransaction)}
+            style={styles.imageContainer}
+          />
+        </CollectibleRenderItem>
+      );
+    },
+    [pendingCollectiblesTransactions]
   );
 
   return (

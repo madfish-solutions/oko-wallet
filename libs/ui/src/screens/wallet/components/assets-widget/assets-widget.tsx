@@ -35,21 +35,6 @@ export const AssetsWidget: FC<TestIDProps> = ({ testID }) => {
   return (
     <WidgetContainer style={styles.widgetStyles} iconName={IconNameEnum.Assets} title="Tokens" testID={testID}>
       <View style={styles.root}>
-        <Row style={styles.upperButtons}>
-          <ButtonWithIcon
-            title="Swap"
-            size={ButtonWithIconSizeEnum.Medium}
-            theme={ButtonWithIconThemesEnum.Tertiary}
-            leftIcon={IconNameEnum.Swap}
-          />
-          <Divider />
-          <ButtonWithIcon
-            title="Top up"
-            size={ButtonWithIconSizeEnum.Medium}
-            theme={ButtonWithIconThemesEnum.Tertiary}
-            rightIcon={IconNameEnum.Topup}
-          />
-        </Row>
         {visibleAccountTokens.map(token => (
           <AccountToken
             key={getTokenSlug(token.tokenAddress, token.tokenId)}
@@ -63,7 +48,7 @@ export const AssetsWidget: FC<TestIDProps> = ({ testID }) => {
             title="Activity"
             size={ButtonWithIconSizeEnum.Medium}
             theme={ButtonWithIconThemesEnum.Tertiary}
-            leftIcon={IconNameEnum.Activity}
+            leftIcon={IconNameEnum.ActivitySmall}
             onPress={navigateToActivity}
           />
           <Divider />

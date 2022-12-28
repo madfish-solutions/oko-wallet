@@ -1,6 +1,8 @@
 export enum IconNameEnum {
   Activity = 'Activity',
+  ActivitySmall = 'ActivitySmall',
   Add = 'Add',
+  AddSmall = 'AddSmall',
   AddChain = 'AddChain',
   ArrowLeft = 'ArrowLeft',
   ArrowRight = 'ArrowRight',
@@ -21,11 +23,13 @@ export enum IconNameEnum {
   Partners = 'Partners',
   Qrscan = 'Qrscan',
   Receive = 'Receive',
+  ReceiveSmall = 'ReceiveSmall',
   Search = 'Search',
   Send = 'Send',
   Settings = 'Settings',
   Stake = 'Stake',
   Swap = 'Swap',
+  SwapSmall = 'SwapSmall',
   Topup = 'Topup',
   X = 'X',
   Klaytn = 'Klaytn',
@@ -86,6 +90,5 @@ export enum IconNameEnum {
   Optimism = 'Optimism',
   Arbitrum = 'Arbitrum',
   Polygon = 'Polygon',
-  User = 'User',
-  LoaderSnake = 'LoaderSnake'
+  User = 'User'
 }
