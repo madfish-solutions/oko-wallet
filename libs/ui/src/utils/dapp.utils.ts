@@ -1,3 +1,4 @@
+import { isDefined } from '@rnw-community/shared';
 import { tabs } from 'webextension-polyfill';
 
 export const createDAppResponse = <T>(id: string, result: T) => ({
@@ -27,18 +28,31 @@ const createErrorMessage = (id: string) => ({
   target: 'oko-inpage'
 });
 
-export const sendResponseToDAppAndClosePopup = <T>(messageID: string, result: T) => {
-  tabs.query({ active: true }).then(queryTabs => {
-    if (queryTabs[0].id !== undefined) {
-      tabs.sendMessage(queryTabs[0].id, createDAppResponse(messageID, result));
+export const sendResponseToDAppAndClosePopup = <T>(messageID: string, result: T, origin?: string) => {
+  tabs.query({}).then(queryTabs => {
+    if (isDefined(origin)) {
+      const dAppTab = queryTabs.find(tab => tab.url?.includes(origin));
+      if (isDefined(dAppTab) && isDefined(dAppTab.id)) {
+        tabs.sendMessage(dAppTab.id, createDAppResponse(messageID, result));
+      }
+    } else {
+      if (queryTabs[0].id !== undefined) {
+        tabs.sendMessage(queryTabs[0].id, createDAppResponse(messageID, result));
+      }
     }
   });
 
   setTimeout(() => close(), 1000);
 };
 
-export const sendErrorToDAppAndClosePopup = (id: string) => {
-  tabs.query({ active: true }).then(queryTabs => {
+export const sendErrorToDAppAndClosePopup = (id: string, origin?: string) => {
+  tabs.query({}).then(queryTabs => {
+    if (isDefined(origin)) {
+      const dAppTab = queryTabs.find(tab => tab.url?.includes(origin));
+      if (isDefined(dAppTab) && isDefined(dAppTab.id)) {
+        tabs.sendMessage(dAppTab.id, createErrorMessage(id));
+      }
+    }
     if (queryTabs[0].id !== undefined) {
       tabs.sendMessage(queryTabs[0].id, createErrorMessage(id));
     }
@@ -58,9 +72,15 @@ const createDAppNotificationResponse = <T>(method: string, params: T) => ({
   target: 'oko-inpage'
 });
 
-export const sendNotificationToDApp = <T>(method: string, result: T) => {
-  tabs.query({ active: true }).then(queryTabs => {
-    if (queryTabs[0].id !== undefined) {
+export const sendNotificationToDApp = <T>(method: string, result: T, origin?: string) => {
+  tabs.query({}).then(queryTabs => {
+    if (isDefined(origin)) {
+      const dAppTab = queryTabs.find(tab => tab.url?.includes(origin));
+      console.log(dAppTab, 'dapp');
+      if (isDefined(dAppTab) && isDefined(dAppTab.id)) {
+        tabs.sendMessage(dAppTab.id, createDAppNotificationResponse(method, result));
+      }
+    } else if (queryTabs[0].id !== undefined) {
       tabs.sendMessage(queryTabs[0].id, createDAppNotificationResponse(method, result));
     }
   });

@@ -57,12 +57,12 @@ export const DAppConnectionConfirmation: FC = () => {
 
   const sendMessage = () => {
     dispatch(connectDAppAction({ dAppInfo: params.dAppInfo, accountPublicKeyHash: selectedAccountPublicKeyHash }));
-    sendNotificationToDApp('oko_accountsChanged', [selectedAccountPublicKeyHash]);
-    sendResponseToDAppAndClosePopup(params.messageId, [selectedAccountPublicKeyHash]);
+    sendNotificationToDApp('oko_accountsChanged', [selectedAccountPublicKeyHash], params.dAppInfo.origin);
+    sendResponseToDAppAndClosePopup(params.messageId, [selectedAccountPublicKeyHash], params.dAppInfo.origin);
   };
 
   const navigateToAccountsSelector = () => navigate(ScreensEnum.AccountsSelector);
-  const declineConnection = () => sendErrorToDAppAndClosePopup(params.messageId);
+  const declineConnection = () => sendErrorToDAppAndClosePopup(params.messageId, params.dAppInfo.origin);
 
   return (
     <ModalContainer screenTitle="Confirm operation">
