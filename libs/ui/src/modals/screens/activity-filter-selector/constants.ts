@@ -1,29 +1,31 @@
 import { Option } from '../../../components/dropdown/option.interface';
 
+import { ActivityFilterEnum } from './activity-filter.enum';
+
 export const ACTIVITIES_TYPES: Option[] = [
   {
     id: 1,
     title: 'All Activity',
-    value: 'all_activity'
+    value: ActivityFilterEnum.AllActivity
   },
   {
     id: 2,
     title: 'Send',
-    value: 'send'
+    value: ActivityFilterEnum.Send
   },
   {
     id: 3,
     title: 'Receive',
-    value: 'receive'
+    value: ActivityFilterEnum.Receive
   },
   {
     id: 4,
     title: 'Contract Interaction',
-    value: 'contract_interaction'
+    value: ActivityFilterEnum.ContractInteraction
   },
   {
     id: 5,
     title: 'Collectibles',
-    value: 'collectibles'
+    value: ActivityFilterEnum.Collectibles
   }
 ];

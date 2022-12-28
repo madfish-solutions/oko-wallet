@@ -16,6 +16,7 @@ import { DATA_UPDATE_TIME } from '../../constants/update-time';
 import { useAllActivity } from '../../hooks/use-activity.hook';
 import { useTimerEffect } from '../../hooks/use-timer-effect.hook';
 import { ActivityData, SectionListActivityData, TransactionTypeEnum } from '../../interfaces/activity.interface';
+import { ActivityFilterEnum } from '../../modals/screens/activity-filter-selector/activity-filter.enum';
 import { ActivityItem } from '../../screens/activity/components/activity-item';
 import { getCustomSize } from '../../styles/format-size';
 import { getItemLayoutSectionList } from '../../utils/get-item-layout-section-list.util';
@@ -72,16 +73,22 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
 
   useEffect(() => {
     if (isDefined(filterType)) {
-      if (filterType === TransactionTypeEnum.Send) {
-        filterActivity(activity => activity.type === TransactionTypeEnum.Send);
-      } else if (filterType === TransactionTypeEnum.Receive) {
-        filterActivity(activity => activity.type === TransactionTypeEnum.Receive);
-      } else if (filterType === TransactionTypeEnum.ContractInteraction) {
-        filterActivity(activity => activity.type === TransactionTypeEnum.ContractInteraction);
-      } else if (filterType === 'collectibles') {
-        filterActivity(activity => activity.isCollectible ?? false);
-      } else if (filterType === 'all_activity') {
-        setActivity(allActivity);
+      switch (filterType) {
+        case ActivityFilterEnum.Send: {
+          return filterActivity(activity => activity.type === TransactionTypeEnum.Send);
+        }
+        case ActivityFilterEnum.Receive: {
+          return filterActivity(activity => activity.type === TransactionTypeEnum.Receive);
+        }
+        case ActivityFilterEnum.ContractInteraction: {
+          return filterActivity(activity => activity.type === TransactionTypeEnum.ContractInteraction);
+        }
+        case ActivityFilterEnum.Collectibles: {
+          return filterActivity(activity => activity.isCollectible ?? false);
+        }
+        case ActivityFilterEnum.AllActivity: {
+          return setActivity(allActivity);
+        }
       }
     } else {
       setActivity(allActivity);

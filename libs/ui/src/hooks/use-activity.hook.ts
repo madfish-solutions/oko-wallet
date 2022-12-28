@@ -43,14 +43,14 @@ const transformApiData = (
 
   const getProjectName = (projectId: string) => userProjectsMetadata[projectId].name;
 
-  const getTransactionType = (txData: TransactionResponse, isGasToken: boolean, isGasTokenSended: boolean) => {
-    if (txData.cate_id === TransactionTypeEnum.Send || (isGasToken && isGasTokenSended)) {
+  const getTransactionType = (txData: TransactionResponse, isGasToken: boolean, isGasTokenSent: boolean) => {
+    if (txData.cate_id === TransactionTypeEnum.Send || (isGasToken && isGasTokenSent)) {
       return {
         type: TransactionTypeEnum.Send,
         label: TransactionLabelEnum.Send
       };
     }
-    if (txData.cate_id === TransactionTypeEnum.Receive || (isGasToken && !isGasTokenSended)) {
+    if (txData.cate_id === TransactionTypeEnum.Receive || (isGasToken && !isGasTokenSent)) {
       return {
         type: TransactionTypeEnum.Receive,
         label: TransactionLabelEnum.Received
@@ -86,9 +86,9 @@ const transformApiData = (
       txData.tx.value > 0 &&
       txData.cate_id === null &&
       txData.token_approve === null;
-    const isGasTokenSended = publicKeyHash.toLowerCase() === txData.tx?.from_addr?.toLowerCase();
+    const isGasTokenSent = publicKeyHash.toLowerCase() === txData.tx?.from_addr?.toLowerCase();
 
-    const { type, label } = getTransactionType(txData, isGasToken, isGasTokenSended);
+    const { type, label } = getTransactionType(txData, isGasToken, isGasTokenSent);
     activityData.type = type;
     activityData.label = label;
 

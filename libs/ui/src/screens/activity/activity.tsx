@@ -32,11 +32,10 @@ export const Activity: FC = () => {
   const openActivityFilters = () =>
     navigate(ScreensEnum.ActivityFilterSelector, { filterType: params?.filterType ?? ACTIVITIES_TYPES[0] });
 
-  const iconName = isDefined(params)
-    ? params?.filterType.id === ACTIVITIES_TYPES[0].id
-      ? IconNameEnum.FilterNo
-      : IconNameEnum.FilterYes
-    : IconNameEnum.FilterNo;
+  const iconName =
+    isDefined(params) && params?.filterType.id !== ACTIVITIES_TYPES[0].id
+      ? IconNameEnum.FilterYes
+      : IconNameEnum.FilterNo;
 
   return (
     <ScreenContainer style={styles.root}>
