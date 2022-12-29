@@ -2,6 +2,7 @@ import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { isDefined } from '@rnw-community/shared';
 import React, { FC } from 'react';
 
+import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { sendErrorToDAppAndClosePopup, sendResponseToDAppAndClosePopup } from '../../../../utils/dapp.utils';
 import { EvmTransferParams } from '../../types';
@@ -10,21 +11,21 @@ import { EvmConfirmationContainer } from './components/evm-confirmation-containe
 
 interface Props {
   transferParams: EvmTransferParams;
-  messageID?: string;
+  params?: ScreensParamList[ScreensEnum.DAppTransactionConfirmation];
 }
 
-export const EvmConfirmation: FC<Props> = ({ transferParams, messageID, children }) => {
+export const EvmConfirmation: FC<Props> = ({ transferParams, params, children }) => {
   const { goBack } = useNavigation();
 
   const additionalSuccessCallback = (transactionResponse: TransactionResponse) => {
-    if (isDefined(messageID)) {
-      sendResponseToDAppAndClosePopup(messageID, transactionResponse.hash);
+    if (isDefined(params)) {
+      sendResponseToDAppAndClosePopup(params.messageId, transactionResponse.hash, params.dAppInfo.origin);
     }
   };
 
   const onDecline = () => {
-    if (isDefined(messageID)) {
-      sendErrorToDAppAndClosePopup(messageID);
+    if (isDefined(params)) {
+      sendErrorToDAppAndClosePopup(params.messageId, params.dAppInfo.origin);
     }
 
     goBack();

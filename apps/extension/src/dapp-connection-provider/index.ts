@@ -37,8 +37,8 @@ export function initializeProvider({
   maxEventListeners = 100,
   shouldSetOnWindow = true
 }: InitializeProviderOptions): InpageProvider {
-  // @ts-ignore
-  const anotherProvider = window.ethereum ? [window.ethereum] : [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const anotherProvider = (window as Record<string, any>).ethereum ? [(window as Record<string, any>).ethereum] : [];
   const provider = new InpageProvider(connectionStream, {
     jsonRpcStreamName,
     logger,

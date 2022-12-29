@@ -48,7 +48,7 @@ export const NetworkChangeConfirmation: FC = () => {
     if (isDefined(dappsNetwork)) {
       dispatch(changeNetworkAction(dappsNetwork?.rpcUrl));
     }
-    sendResponseToDAppAndClosePopup(params.messageId, null);
+    sendResponseToDAppAndClosePopup(params.messageId, null, params.dAppOrigin);
   };
 
   return (

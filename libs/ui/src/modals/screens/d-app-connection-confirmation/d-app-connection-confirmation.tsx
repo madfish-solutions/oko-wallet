@@ -51,7 +51,7 @@ export const DAppConnectionConfirmation: FC = () => {
 
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DAppConnectionConfirmation>>();
 
-  useClosePopup(params.messageId);
+  useClosePopup(params.messageId, params.dAppInfo.origin);
 
   const gasBalance = getFormattedBalance(balance.data, decimals);
 

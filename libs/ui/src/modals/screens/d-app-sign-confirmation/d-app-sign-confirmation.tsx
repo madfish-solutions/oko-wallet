@@ -20,15 +20,15 @@ export const DAppSignConfirmation: FC = () => {
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DAppSignConfirmation>>();
   const selectedAccount = useSelectedAccountSelector();
   const { signMessage } = useShelter();
-  useClosePopup(params.messageId);
+  useClosePopup(params.messageId, params.dAppInfo.origin);
 
-  const onDecline = () => sendErrorToDAppAndClosePopup(params.messageId);
+  const onDecline = () => sendErrorToDAppAndClosePopup(params.messageId, params.dAppInfo.origin);
 
   const onSubmit = () =>
     signMessage({
       publicKey: selectedAccount.networksKeys.EVM?.publicKeyHash ?? '',
       messageToSign: params.signInfo[0],
-      successCallback: message => sendResponseToDAppAndClosePopup(params.messageId, message)
+      successCallback: message => sendResponseToDAppAndClosePopup(params.messageId, message, params.dAppInfo.origin)
     });
 
   return (
