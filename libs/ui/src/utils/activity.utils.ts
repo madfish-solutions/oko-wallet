@@ -8,8 +8,8 @@ export const getTokenSymbol = (userTokensMetadata: ActivityResponse['token_dict'
 
 export const getTransactionProjectName = (
   userProjectsMetadata: ActivityResponse['project_dict'],
-  txData: TransactionResponse
-) => (isDefined(txData.project_id) ? userProjectsMetadata[txData.project_id].name : '');
+  transaction: TransactionResponse
+) => (isDefined(transaction.project_id) ? userProjectsMetadata[transaction.project_id].name : '');
 
 export const isGasTokenSentTransaction = (publicKeyHash: string, transaction: TransactionResponse) =>
   publicKeyHash.toLowerCase() === transaction.tx?.from_addr?.toLowerCase();
@@ -21,23 +21,23 @@ export const isGasTokenTransaction = (transaction: TransactionResponse) =>
   transaction.cate_id === null &&
   transaction.token_approve === null;
 
-export const getTransactionType = (txData: TransactionResponse, isGasToken: boolean, isGasTokenSent: boolean) => {
-  if (txData.cate_id === TransactionTypeEnum.Send || (isGasToken && isGasTokenSent)) {
+export const getTransactionType = (transaction: TransactionResponse, isGasToken: boolean, isGasTokenSent: boolean) => {
+  if (transaction.cate_id === TransactionTypeEnum.Send || (isGasToken && isGasTokenSent)) {
     return {
       type: TransactionTypeEnum.Send,
       label: TransactionLabelEnum.Send
     };
   }
-  if (txData.cate_id === TransactionTypeEnum.Receive || (isGasToken && !isGasTokenSent)) {
+  if (transaction.cate_id === TransactionTypeEnum.Receive || (isGasToken && !isGasTokenSent)) {
     return {
       type: TransactionTypeEnum.Receive,
       label: TransactionLabelEnum.Received
     };
   }
-  if (isNotEmptyString(txData.tx.name)) {
+  if (isNotEmptyString(transaction.tx.name)) {
     return {
       type: TransactionTypeEnum.Interaction,
-      label: txData.tx.name
+      label: transaction.tx.name
     };
   }
 

@@ -10,6 +10,7 @@ import { ActivityData, ActivityResponse, SectionListActivityData } from '../inte
 import { checkIsDayLabelNeeded, transformTimestampToDate } from '../screens/activity/components/activity-item.utils';
 import {
   getTokenSymbol,
+  getTransactionProjectName,
   getTransactionType,
   isGasTokenSentTransaction,
   isGasTokenTransaction
@@ -83,9 +84,7 @@ const transformApiData = (
       }
       case TransactionTypeEnum.Interaction:
       case TransactionTypeEnum.ContractInteraction: {
-        activityData.projectName = isDefined(transaction.project_id)
-          ? userProjectsMetadata[transaction.project_id].name
-          : '';
+        activityData.projectName = getTransactionProjectName(userProjectsMetadata, transaction);
         activityData.transfer = {
           sends: [
             ...transaction.sends.map(item => ({
