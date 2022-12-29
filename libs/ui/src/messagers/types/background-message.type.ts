@@ -1,18 +1,18 @@
 import { BackgroundMessageType } from '../enums/background-message-type.enum';
 import { E2eMessageType } from '../enums/e2e-message-type.enum';
 
-interface GetPasswordHashMessage {
+export interface GetPasswordHashMessage {
   type: BackgroundMessageType.GetPasswordHash;
 }
 
-interface SetPasswordHashMessage {
+export interface SetPasswordHashMessage {
   type: BackgroundMessageType.SetPasswordHash;
   data: {
     passwordHash: string;
   };
 }
 
-interface SetLockTimePeriodMessage {
+export interface SetLockTimePeriodMessage {
   type: BackgroundMessageType.SetLockTimePeriod;
   data: {
     lockTimePeriod: number;

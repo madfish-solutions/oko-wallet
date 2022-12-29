@@ -1,17 +1,15 @@
 import './shim.js';
 
 import { getDefaultProvider } from 'ethers';
-import {
-  BackgroundMessage,
-  BackgroundMessageType,
-  createDAppResponse,
-  E2eMessageType,
-  INITIAL_PASSWORD_HASH
-} from 'ui/background-script';
+import { BackgroundMessage, BackgroundMessageType, createDAppResponse, E2eMessageType } from 'ui/background-script';
 import { Runtime, runtime, scripting, storage } from 'webextension-polyfill';
 
+import {
+  LAST_USER_ACTIVITY_TIMESTAMP_KEY,
+  LOCK_TIME_PERIOD_KEY,
+  PASSWORD_HASH_KEY
+} from './src/constants/storage-keys';
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
-import { convertLockTime, fetchFromStorage } from './src/utils/background-script.utils';
 import {
   openDAppConnectionConfirmationPopup,
   openNetworkChangeConfirmationPopup,
@@ -19,11 +17,13 @@ import {
   openSignMessagePopup
 } from './src/utils/browser.utils';
 import { createDAppNotificationResponse, getHexChanId } from './src/utils/network.utils';
+import {
+  getSessionPasswordHash,
+  putToStorage,
+  setLockTimePeriod,
+  setSessionPaswordHash
+} from './src/utils/session.utils';
 import { getState } from './src/utils/state.utils';
-
-const LOGIN_TOKEN = 'login_token';
-const LOCK_TIME_PERIOD = 'lock_time_period';
-const LAST_USER_ACTIVITY_TIMESTAMP = 'last_user_activity_timestamp';
 
 let isFullpageOpen = false;
 
@@ -52,7 +52,7 @@ runtime.onConnect.addListener(async port => {
         isFullpageOpen = false;
       }
 
-      return storage.local.set({ [LAST_USER_ACTIVITY_TIMESTAMP]: Date.now() });
+      return putToStorage({ [LAST_USER_ACTIVITY_TIMESTAMP_KEY]: Date.now() });
     });
   }
 
@@ -248,33 +248,14 @@ runtime.onConnect.addListener(async port => {
 // listen messages from UI
 runtime.onMessage.addListener(async (message: BackgroundMessage) => {
   switch (message.type) {
+    case BackgroundMessageType.GetPasswordHash: {
+      return getSessionPasswordHash(isFullpageOpen);
+    }
     case BackgroundMessageType.SetPasswordHash: {
-      storage.local.set({ [LOGIN_TOKEN]: message.data.passwordHash });
-
-      return Promise.resolve();
+      return setSessionPaswordHash(PASSWORD_HASH_KEY, message.data.passwordHash);
     }
     case BackgroundMessageType.SetLockTimePeriod: {
-      storage.local.set({ [LOCK_TIME_PERIOD]: message.data.lockTimePeriod });
-
-      return Promise.resolve();
-    }
-    case BackgroundMessageType.GetPasswordHash: {
-      const passwordHash: string | null = await fetchFromStorage(LOGIN_TOKEN);
-      const lastUserActivity = await fetchFromStorage(LAST_USER_ACTIVITY_TIMESTAMP);
-      const lockTimePeriod: number | null = await fetchFromStorage(LOCK_TIME_PERIOD);
-
-      if (
-        Date.now() > lastUserActivity + convertLockTime(lockTimePeriod ?? 1) &&
-        !isFullpageOpen &&
-        passwordHash !== null &&
-        passwordHash.length
-      ) {
-        storage.local.set({ [LOGIN_TOKEN]: INITIAL_PASSWORD_HASH, [LAST_USER_ACTIVITY_TIMESTAMP]: 0 });
-
-        return Promise.resolve('');
-      }
-
-      return Promise.resolve(passwordHash);
+      return setLockTimePeriod(LOCK_TIME_PERIOD_KEY, message.data.lockTimePeriod);
     }
     case E2eMessageType.ClearStorage: {
       return storage.local.clear();
