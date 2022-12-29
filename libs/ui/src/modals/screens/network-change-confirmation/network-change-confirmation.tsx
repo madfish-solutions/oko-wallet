@@ -33,9 +33,9 @@ const changeNetworkRules: AllowsRules[] = [
 ];
 
 export const NetworkChangeConfirmation: FC = () => {
-  const selectedNetwork = useSelectedNetworkSelector();
   const showLoader = useShowLoaderSelector();
-  const { name: selectedNetworkName, iconName: selectedNetworkIcon } = useMemo(() => selectedNetwork, []);
+  const selectedNetwork = useSelectedNetworkSelector();
+  const initialSelectedNetwork = useMemo(() => selectedNetwork, []);
   const networks = useAllNetworksSelector();
   const dispatch = useDispatch();
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.NetworkChangeConfirmation>>();
@@ -80,15 +80,15 @@ export const NetworkChangeConfirmation: FC = () => {
         </Row>
         <View style={styles.divider} />
         <Row style={styles.chainChange}>
-          <NetworkImage iconName={selectedNetworkIcon} type={IconWithBorderEnum.Quaternary} />
+          <NetworkImage iconName={initialSelectedNetwork.iconName} type={IconWithBorderEnum.Quaternary} />
           <Icon name={IconNameEnum.ArrowRight} />
           <NetworkImage iconName={dappsNetwork?.iconName} type={IconWithBorderEnum.Quaternary} />
         </Row>
         <View>
           <Text style={styles.grayText}>From</Text>
           <Row style={styles.chainSelector}>
-            <NetworkImage iconName={selectedNetworkIcon} />
-            <Text style={styles.chainName}>{selectedNetworkName}</Text>
+            <NetworkImage iconName={initialSelectedNetwork.iconName} />
+            <Text style={styles.chainName}>{initialSelectedNetwork.name}</Text>
           </Row>
         </View>
         <View style={styles.addressTo}>
