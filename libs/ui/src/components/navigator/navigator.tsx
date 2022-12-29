@@ -67,6 +67,7 @@ import { FullScreenLoader } from '../loader/components/full-screen-loader/full-s
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
 import { useActiveTokenList } from './hooks/use-active-token-list.hook';
 import { useLoadSentCollectiblesBalance } from './hooks/use-load-sent-collectibles-balance.hook';
+import { useResetLoading } from './hooks/use-reset-loading.hook';
 import { useShowSecurityScreen } from './hooks/use-show-security-sceen.hook';
 import { useTokensPriceInfo } from './hooks/use-tokens-price-info.hook';
 import { Stack } from './utils/get-stack-navigator';
@@ -83,6 +84,7 @@ export const Navigator: FC = () => {
   useActiveTokenList();
   useTokensPriceInfo();
   useLoadSentCollectiblesBalance();
+  useResetLoading();
 
   useEffect(() => {
     // TODO: Add check for ScreenEnum.AlmostDone screen later

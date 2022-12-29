@@ -32,10 +32,15 @@ export const useEvmEstimations = ({
 
     const getEstimations = async () => {
       const provider = getDefaultEvmProvider(rpcUrl);
-      const gasLimit = await getGasLimit(asset, assetType, receiverPublicKeyHash, publicKeyHash, value, rpcUrl);
-      const fee = await provider.getFeeData();
 
-      setEstimations({ gasLimit: modifyGasLimit(gasLimit), gasPrice: fee.gasPrice?.toNumber() ?? 0 });
+      const [gasLimitPromiseResult, feePromiseResult] = await Promise.allSettled([
+        getGasLimit(asset, assetType, receiverPublicKeyHash, publicKeyHash, value, rpcUrl),
+        provider.getFeeData()
+      ]);
+      const gasLimit = gasLimitPromiseResult.status === 'fulfilled' ? gasLimitPromiseResult.value : undefined;
+      const gasPrice = feePromiseResult.status === 'fulfilled' ? feePromiseResult.value.gasPrice?.toNumber() ?? 0 : 0;
+
+      setEstimations({ gasLimit: modifyGasLimit(gasLimit), gasPrice });
       setIsLoading(false);
     };
 
