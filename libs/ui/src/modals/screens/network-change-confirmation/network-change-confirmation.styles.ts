@@ -18,7 +18,8 @@ export const styles = StyleSheet.create({
   },
   dappLogo: {
     justifyContent: 'center',
-    marginTop: getCustomSize(3.25)
+    marginTop: getCustomSize(3.25),
+    marginBottom: getCustomSize(3)
   },
   explorerLink: {
     maxWidth: getCustomSize(26.5),

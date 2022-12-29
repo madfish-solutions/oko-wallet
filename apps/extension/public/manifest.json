@@ -5,7 +5,7 @@
   "manifest_version": 3,
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Open the popup"
+    "default_title": "Oko Wallet"
   },
   "background": {
     "service_worker": "scripts/background-script.js"
