@@ -19,6 +19,7 @@ import { useValidatePasswordForm } from '../../hooks/use-validate-password-form.
 import { usePasswordValidation } from '../../hooks/use-validation-messages.hook';
 import { setIsAnalyticsEnabled, setIsBiometricEnabled } from '../../store/settings/settings.actions';
 import { isMobile } from '../../utils/platform.utils';
+import { goToTermsOfUse, goToPrivatePolicy } from '../settings/screens/about-us/utils/go-to-oko-links.utils';
 
 import { styles } from './almost-done.styles';
 import { AlmostDoneTestIDs } from './almost-done.test-ids';
@@ -220,10 +221,12 @@ export const AlmostDone: FC = () => {
           <Row>
             <Text style={styles.text}>the</Text>
             <TouchableOpacity style={styles.link}>
-              <Text style={styles.linkingText}>Terms of Usage</Text>
+              <Text onPress={goToTermsOfUse} style={styles.linkingText}>
+                Terms of Use
+              </Text>
             </TouchableOpacity>
             <Text style={styles.text}>and</Text>
-            <TouchableOpacity style={styles.link}>
+            <TouchableOpacity onPress={goToPrivatePolicy} style={styles.link}>
               <Text style={styles.linkingText}>Privacy Policy</Text>
             </TouchableOpacity>
           </Row>
