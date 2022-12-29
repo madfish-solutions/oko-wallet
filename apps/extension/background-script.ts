@@ -115,7 +115,16 @@ runtime.onConnect.addListener(port => {
         }
         case 'wallet_addEthereumChain':
         case 'wallet_switchEthereumChain': {
-          await openNetworkChangeConfirmationPopup(id, dAppInfo.origin, data.params?.[0]?.chainId);
+          if (data.params?.[0]?.chainId === getHexChanId(selectedNetworkChainId)) {
+            const message = createDAppResponse(id, null);
+            const params = { chainId: getHexChanId(selectedNetworkChainId), networkVersion: selectedNetworkChainId };
+            const notification = createDAppNotificationResponse('oko_chainChanged', params);
+
+            port.postMessage(message);
+            port.postMessage(notification);
+          } else {
+            await openNetworkChangeConfirmationPopup(id, dAppInfo.origin, data.params?.[0]?.chainId);
+          }
 
           return Promise.resolve();
         }
