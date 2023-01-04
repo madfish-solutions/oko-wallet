@@ -41,7 +41,7 @@ export const AboutUs: FC = () => {
 
       <ScreenScrollView style={settingsStyles.root} contentContainerStyle={settingsStyles.rootContentContainer}>
         <View style={settingsStyles.root}>
-          <View style={settingsStyles.content}>
+          <View style={styles.content}>
             <ItemContainer>
               <Item title="Website" onPress={goToWebsite} />
               <Separator />
