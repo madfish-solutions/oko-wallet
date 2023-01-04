@@ -14,7 +14,7 @@ import { DEBOUNCE_TIME } from '../../constants/defaults';
 import { DATA_UPDATE_TIME } from '../../constants/update-time';
 import { useAllActivity } from '../../hooks/use-activity.hook';
 import { useTimerEffect } from '../../hooks/use-timer-effect.hook';
-import { ActivityData, SectionListActivityData } from '../../interfaces/activity.interface';
+import { ActivityData, SectionListActivityData } from '../../interfaces/activity-data.interface';
 import { ActivityFilterEnum } from '../../modals/screens/activity-filter-selector/activity-filter.enum';
 import { ActivityItem } from '../../screens/activity/components/activity-item';
 import { getCustomSize } from '../../styles/format-size';

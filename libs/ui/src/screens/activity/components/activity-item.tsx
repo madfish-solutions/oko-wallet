@@ -10,7 +10,7 @@ import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
 import { TokenAmount } from '../../../components/token-amount/token-amount';
 import { TransactionTypeEnum } from '../../../interfaces/activity.enum';
-import { ActivityData } from '../../../interfaces/activity.interface';
+import { ActivityData } from '../../../interfaces/activity-data.interface';
 import { useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
 import { formatBalances } from '../../../utils/units.utils';
 

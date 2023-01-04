@@ -5,14 +5,14 @@ import { useEffect, useState } from 'react';
 import { getHistoryList } from '../api/debank';
 import { DEBOUNCE_TIME, GAS_TOKEN_ADDRESS } from '../constants/defaults';
 import { TransactionStatusEnum } from '../enums/transactions.enum';
+import { ActivityData, SectionListActivityData } from '../interfaces/activity-data.interface';
+import { ActivityResponse } from '../interfaces/activity-response.interface';
 import { TransactionTypeEnum } from '../interfaces/activity.enum';
-import { ActivityData, ActivityResponse, SectionListActivityData } from '../interfaces/activity.interface';
 import { checkIsDayLabelNeeded, transformTimestampToDate } from '../screens/activity/components/activity-item.utils';
 import {
   getTokenSymbol,
   getTransactionProjectName,
   getTransactionType,
-  isGasTokenSentTransaction,
   isGasTokenTransaction
 } from '../utils/activity.utils';
 
@@ -51,9 +51,8 @@ const transformApiData = (
     }
 
     const isGasToken = isGasTokenTransaction(transaction);
-    const isGasTokenSent = isGasTokenSentTransaction(publicKeyHash, transaction);
 
-    const { type, label } = getTransactionType(transaction, isGasToken, isGasTokenSent);
+    const { type, label } = getTransactionType(transaction, isGasToken, publicKeyHash);
     activityData.type = type;
     activityData.label = label;
 

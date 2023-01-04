@@ -1,7 +1,7 @@
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 
 import { TransactionLabelEnum, TransactionTypeEnum } from '../interfaces/activity.enum';
-import { ActivityResponse, TransactionResponse } from '../interfaces/activity.interface';
+import { ActivityResponse, TransactionResponse } from '../interfaces/activity-data.interface';
 
 export const getTokenSymbol = (userTokensMetadata: ActivityResponse['token_dict'], address: string) =>
   userTokensMetadata[address].optimized_symbol ?? userTokensMetadata[address].name;
@@ -21,7 +21,9 @@ export const isGasTokenTransaction = (transaction: TransactionResponse) =>
   transaction.cate_id === null &&
   transaction.token_approve === null;
 
-export const getTransactionType = (transaction: TransactionResponse, isGasToken: boolean, isGasTokenSent: boolean) => {
+export const getTransactionType = (transaction: TransactionResponse, isGasToken: boolean, publicKeyHash: string) => {
+  const isGasTokenSent = isGasTokenSentTransaction(publicKeyHash, transaction);
+
   if (transaction.cate_id === TransactionTypeEnum.Send || (isGasToken && isGasTokenSent)) {
     return {
       type: TransactionTypeEnum.Send,

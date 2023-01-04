@@ -1,7 +1,7 @@
 import { isDefined } from '@rnw-community/shared';
 
+import { ActivityData, SectionListActivityData } from '../interfaces/activity-data.interface';
 import { TransactionTypeEnum } from '../interfaces/activity.enum';
-import { ActivityData, SectionListActivityData } from '../interfaces/activity.interface';
 import { ActivityFilterEnum } from '../modals/screens/activity-filter-selector/activity-filter.enum';
 
 const filterActivity = (activity: SectionListActivityData[], condition: (activity: ActivityData) => boolean) =>
