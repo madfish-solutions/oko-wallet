@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import { Dropdown } from '../../../../components/dropdown/dropdown';
 import { Option } from '../../../../components/dropdown/option.interface';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { BackgroundMessager } from '../../../../messagers/background-messager';
 import { ModalContainer } from '../../../../modals/components/modal-container/modal-container';
 import { setAppLockTimePeriod } from '../../../../store/settings/settings.actions';
 import { useLockTimePeriodSelector } from '../../../../store/settings/settings.selectors';
@@ -19,7 +18,6 @@ export const LockTimeSelector: FC = () => {
 
   const onSelect = ({ value }: Option<number>) => {
     if (isWeb) {
-      BackgroundMessager.setLockTimePeriod(value);
       dispatch(setAppLockTimePeriod(value));
     }
     goBack();
