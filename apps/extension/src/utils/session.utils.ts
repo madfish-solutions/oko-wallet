@@ -37,13 +37,13 @@ export const getSessionPasswordHash = async (isFullpageOpen: boolean) => {
   const lastUserActivity = await fetchFromStorage(LAST_USER_ACTIVITY_TIMESTAMP_KEY);
   const lockTimePeriod: number | null = await fetchFromStorage(LOCK_TIME_PERIOD_KEY);
 
-  const timeIsExpired =
+  const isTimeExpired =
     Date.now() > lastUserActivity + convertLockTime(lockTimePeriod ?? 1) &&
     !isFullpageOpen &&
     passwordHash !== null &&
     passwordHash.length > 0;
 
-  if (timeIsExpired) {
+  if (isTimeExpired) {
     putToStorage({ [PASSWORD_HASH_KEY]: INITIAL_PASSWORD_HASH, [LAST_USER_ACTIVITY_TIMESTAMP_KEY]: 0 });
 
     return Promise.resolve('');
