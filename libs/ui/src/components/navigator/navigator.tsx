@@ -195,7 +195,7 @@ export const Navigator: FC = () => {
               />
               <Stack.Screen
                 name={ScreensEnum.NetworkChangeConfirmation}
-                options={{ title: 'Confirm change network' }}
+                options={{ title: 'Confirm Network Change' }}
                 component={NetworkChangeConfirmation}
               />
               <Stack.Screen

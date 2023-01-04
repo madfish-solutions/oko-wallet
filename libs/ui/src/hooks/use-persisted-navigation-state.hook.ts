@@ -15,7 +15,8 @@ const ROUTES_TO_IGNORE: string[] = [
   ScreensEnum.DAppConnectionConfirmation,
   ScreensEnum.NetworkChangeConfirmation,
   ScreensEnum.DAppTransactionConfirmation,
-  ScreensEnum.DAppSignConfirmation
+  ScreensEnum.DAppSignConfirmation,
+  ScreensEnum.Unlock
 ];
 
 export const usePersistedNavigationState = () => {
