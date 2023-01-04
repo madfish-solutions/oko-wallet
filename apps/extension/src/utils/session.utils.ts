@@ -1,12 +1,16 @@
-import { storage } from 'webextension-polyfill';
-
 import { INITIAL_PASSWORD_HASH } from '../../../../libs/ui/src/background-script';
 import { LAST_USER_ACTIVITY_TIMESTAMP_KEY, LOCK_TIME_PERIOD_KEY, PASSWORD_HASH_KEY } from '../constants/storage-keys';
+
+import { browserWithSession as browser } from './browser.utils';
 
 export const convertLockTime = (value: number) => value * 60 * 1000;
 
 export async function fetchFromStorage<T = any>(key: string): Promise<T | null> {
-  const items = await storage.local.get([key]);
+  if (!browser.storage.session) {
+    return null;
+  }
+
+  const items = await browser.storage.session.get([key]);
   if (key in items) {
     return items[key];
   }
@@ -15,7 +19,11 @@ export async function fetchFromStorage<T = any>(key: string): Promise<T | null> 
 }
 
 export async function putToStorage<T = any>(item: Record<string, T>) {
-  return storage.local.set(item);
+  if (!browser.storage.session) {
+    return null;
+  }
+
+  return browser.storage.session.set(item);
 }
 
 export const setSessionPaswordHash = (key: string, value: string) => {

@@ -10,13 +10,13 @@ import {
   PASSWORD_HASH_KEY
 } from './src/constants/storage-keys';
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
+import { createDAppNotificationResponse, getHexChanId } from './src/utils/network.utils';
 import {
+  openConfirmSendTransactionPopup,
   openDAppConnectionConfirmationPopup,
   openNetworkChangeConfirmationPopup,
-  openConfirmSendTransactionPopup,
   openSignMessagePopup
-} from './src/utils/browser.utils';
-import { createDAppNotificationResponse, getHexChanId } from './src/utils/network.utils';
+} from './src/utils/popup.utils';
 import {
   getSessionPasswordHash,
   putToStorage,
