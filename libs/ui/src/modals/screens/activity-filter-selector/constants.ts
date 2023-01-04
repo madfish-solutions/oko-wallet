@@ -20,8 +20,8 @@ export const ACTIVITIES_TYPES: Option<ActivityFilterEnum>[] = [
   },
   {
     id: 4,
-    title: 'Contract Interaction',
-    value: ActivityFilterEnum.ContractInteraction
+    title: 'Contract Calls',
+    value: ActivityFilterEnum.ContractCalls
   },
   {
     id: 5,

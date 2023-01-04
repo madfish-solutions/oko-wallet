@@ -2,6 +2,6 @@ export enum ActivityFilterEnum {
   AllActivity = 'all_activity',
   Send = 'send',
   Receive = 'receive',
-  ContractInteraction = 'contract_interaction',
+  ContractCalls = 'contract_calls',
   Collectibles = 'collectibles'
 }

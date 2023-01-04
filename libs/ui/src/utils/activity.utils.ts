@@ -1,7 +1,8 @@
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 
+import { ActivityResponse } from '../interfaces/activity-response.interface';
 import { TransactionLabelEnum, TransactionTypeEnum } from '../interfaces/activity.enum';
-import { ActivityResponse, TransactionResponse } from '../interfaces/activity-data.interface';
+import { TransactionResponse } from '../interfaces/transaction-response.interface';
 
 export const getTokenSymbol = (userTokensMetadata: ActivityResponse['token_dict'], address: string) =>
   userTokensMetadata[address].optimized_symbol ?? userTokensMetadata[address].name;
@@ -36,15 +37,9 @@ export const getTransactionType = (transaction: TransactionResponse, isGasToken:
       label: TransactionLabelEnum.Received
     };
   }
-  if (isNotEmptyString(transaction.tx.name)) {
-    return {
-      type: TransactionTypeEnum.Interaction,
-      label: transaction.tx.name
-    };
-  }
 
   return {
-    type: TransactionTypeEnum.ContractInteraction,
-    label: TransactionLabelEnum.ContractInteraction
+    type: TransactionTypeEnum.ContractCalls,
+    label: isNotEmptyString(transaction.tx.name) ? transaction.tx.name : TransactionLabelEnum.ContractInteraction
   };
 };

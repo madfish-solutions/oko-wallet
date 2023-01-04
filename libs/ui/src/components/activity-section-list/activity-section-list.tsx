@@ -1,5 +1,5 @@
 import debounce from 'lodash/debounce';
-import React, { FC, useCallback, useMemo, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -48,15 +48,32 @@ const renderSectionHeader = (item: { section: SectionListData<ActivityData, Sect
 
 const emptyIconSize = getCustomSize(isWeb ? 30 : 36);
 
+let numberOfAttempts = 0;
+
 export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterTypeName, tokenAddress = '' }) => {
   const [offsetY, setOffsetY] = useState(0);
   const { activity: allActivity, fetch, isLoading } = useAllActivity(publicKeyHash, getDebankId(chainId), tokenAddress);
 
   const activity = useMemo(() => getFilteredActivity(allActivity, filterTypeName), [allActivity, filterTypeName]);
 
+  useEffect(() => {
+    if (
+      filterTypeName !== ActivityFilterEnum.AllActivity &&
+      allActivity.length > 0 &&
+      activity.length === 0 &&
+      numberOfAttempts <= 10
+    ) {
+      const lastDate = allActivity.slice(-1)[0].data.slice(-1)[0].timestamp;
+
+      fetch(lastDate);
+      numberOfAttempts += 1;
+    }
+  }, [filterTypeName, allActivity, numberOfAttempts, activity]);
+
   const handleFetchData = () => {
     if (offsetY === 0) {
       fetch(0);
+      numberOfAttempts = 0;
     }
   };
 

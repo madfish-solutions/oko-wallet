@@ -21,8 +21,8 @@ export const getFilteredActivity = (activity: SectionListActivityData[], filterT
       case ActivityFilterEnum.Receive: {
         return filterActivity(activity, activity => activity.type === TransactionTypeEnum.Receive);
       }
-      case ActivityFilterEnum.ContractInteraction: {
-        return filterActivity(activity, activity => activity.type === TransactionTypeEnum.ContractInteraction);
+      case ActivityFilterEnum.ContractCalls: {
+        return filterActivity(activity, activity => activity.type === TransactionTypeEnum.ContractCalls);
       }
       case ActivityFilterEnum.Collectibles: {
         return filterActivity(activity, activity => activity.isCollectible ?? false);

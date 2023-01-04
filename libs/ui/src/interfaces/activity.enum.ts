@@ -1,13 +1,11 @@
 export enum TransactionLabelEnum {
   Send = 'Send',
   Received = 'Received',
-  ContractInteraction = 'Contract Interaction',
-  Interaction = 'Interaction'
+  ContractInteraction = 'Contract Interaction'
 }
 
 export enum TransactionTypeEnum {
   Send = 'send',
   Receive = 'receive',
-  ContractInteraction = 'contract_interaction',
-  Interaction = 'interaction'
+  ContractCalls = 'contract_calls'
 }

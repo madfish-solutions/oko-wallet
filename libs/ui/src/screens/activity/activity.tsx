@@ -24,11 +24,10 @@ export const Activity: FC = () => {
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Activity>>();
   const filterType = params?.filterType ?? ACTIVITIES_TYPES[0];
 
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { chainId } = useSelectedNetworkSelector();
 
-  const navigateToWallet = () => navigate(ScreensEnum.Wallet);
   const openActivityFilters = () => navigate(ScreensEnum.ActivityFilterSelector, { filterType });
 
   const iconName = filterType.id !== ACTIVITIES_TYPES[0].id ? IconNameEnum.FilterYes : IconNameEnum.FilterNo;
@@ -36,7 +35,7 @@ export const Activity: FC = () => {
   return (
     <ScreenContainer style={styles.root}>
       <HeaderContainer isSelectors>
-        <ScreenTitle title="Transactions" onBackButtonPress={navigateToWallet} />
+        <ScreenTitle title="Transactions" onBackButtonPress={goBack} />
       </HeaderContainer>
       <Row style={styles.panel}>
         <Text style={styles.filterName}>{filterType.title}</Text>

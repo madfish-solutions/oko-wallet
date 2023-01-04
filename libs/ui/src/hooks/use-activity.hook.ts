@@ -81,8 +81,7 @@ const transformApiData = (
         }
         break;
       }
-      case TransactionTypeEnum.Interaction:
-      case TransactionTypeEnum.ContractInteraction: {
+      case TransactionTypeEnum.ContractCalls: {
         activityData.projectName = getTransactionProjectName(userProjectsMetadata, transaction);
         activityData.transfer = {
           sends: [
@@ -141,7 +140,7 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
 
       if (startTime === 0) {
         setActivity(activityData);
-      } else {
+      } else if (activityData.length > 0) {
         setActivity(prev => {
           if (
             activityData.length &&
