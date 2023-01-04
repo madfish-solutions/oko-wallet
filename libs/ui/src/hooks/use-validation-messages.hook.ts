@@ -37,7 +37,7 @@ export const usePasswordValidation = <T extends { password?: boolean | undefined
 
     if (isDefined(dirtyFields?.password)) {
       // check password length
-      if (password.trim().length < 8 || password.trim().length > 30) {
+      if (password.length < 8 || password.length > 30) {
         updateValidationMessageState(1, false);
       } else if (isNotEmptyString(password)) {
         updateValidationMessageState(1, true);
