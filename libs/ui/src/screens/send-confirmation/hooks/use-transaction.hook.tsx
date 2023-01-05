@@ -1,5 +1,5 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider';
-import { isString } from '@rnw-community/shared';
+import { isNotEmptyString, isString } from '@rnw-community/shared';
 import { BatchOperation } from '@taquito/taquito';
 import React, { useState } from 'react';
 import { Linking } from 'react-native';
@@ -45,14 +45,16 @@ export const useTransactionHook = (receiverPublicKeyHash: string, asset: Asset) 
 
     const { tokenAddress, tokenId, standard } = asset;
 
-    dispatch(
-      addTransactionAction({
-        from: publicKeyHash,
-        to: receiverPublicKeyHash,
-        transactionHash: transactionResponse.hash,
-        asset: { tokenAddress, tokenId, standard }
-      })
-    );
+    if (isNotEmptyString(tokenAddress) && isNotEmptyString(tokenId)) {
+      dispatch(
+        addTransactionAction({
+          from: publicKeyHash,
+          to: receiverPublicKeyHash,
+          transactionHash: transactionResponse.hash,
+          asset: { tokenAddress, tokenId, standard }
+        })
+      );
+    }
 
     setIsTransactionLoading(false);
     navigate(ScreensEnum.Wallet);
