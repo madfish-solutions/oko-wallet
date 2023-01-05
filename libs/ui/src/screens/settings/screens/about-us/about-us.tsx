@@ -21,6 +21,14 @@ import { styles as settingsStyles } from '../../settings.styles';
 
 import { styles } from './about-us.styles';
 import { Version } from './components/version/version';
+import {
+  goToTermsOfUse,
+  goToContact,
+  goToCareers,
+  goToPrivatePolicy,
+  goToRepository,
+  goToWebsite
+} from './utils/go-to-oko-links.utils';
 
 export const AboutUs: FC = () => {
   const { goBack } = useNavigation();
@@ -33,27 +41,19 @@ export const AboutUs: FC = () => {
 
       <ScreenScrollView style={settingsStyles.root} contentContainerStyle={settingsStyles.rootContentContainer}>
         <View style={settingsStyles.root}>
-          <View style={settingsStyles.content}>
+          <View style={styles.content}>
             <ItemContainer>
-              <Item title="Website" />
+              <Item title="Website" onPress={goToWebsite} />
               <Separator />
-              <Item title="Repository" />
+              <Item title="Repository" onPress={goToRepository} />
               <Separator />
-              <Item title="Privacy Policy" />
+              <Item title="Privacy Policy" onPress={goToPrivatePolicy} />
               <Separator />
-              <Item title="Terms of Use" />
+              <Item title="Terms of Use" onPress={goToTermsOfUse} />
               <Separator />
-              <Item title="Careers" />
+              <Item title="Careers" onPress={goToCareers} />
               <Separator />
-              <Item title="Contact" />
-            </ItemContainer>
-
-            <Divider size={getCustomSize(2)} />
-
-            <ItemContainer>
-              <Item title="Knowledge Base" />
-              <Separator />
-              <Item title="Feature Request" />
+              <Item title="Contact" onPress={goToContact} />
             </ItemContainer>
 
             <Divider size={getCustomSize(2)} />
