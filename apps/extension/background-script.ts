@@ -11,19 +11,14 @@ import {
 } from './src/constants/storage-keys';
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
 import { createDAppNotificationResponse, getHexChanId } from './src/utils/network.utils';
+import { getSessionPasswordHash, setToStorage } from './src/utils/session.utils';
+import { getState } from './src/utils/state.utils';
 import {
   openConfirmSendTransactionPopup,
   openDAppConnectionConfirmationPopup,
   openNetworkChangeConfirmationPopup,
   openSignMessagePopup
-} from './src/utils/popup.utils';
-import {
-  getSessionPasswordHash,
-  putToStorage,
-  setLockTimePeriod,
-  setSessionPaswordHash
-} from './src/utils/session.utils';
-import { getState } from './src/utils/state.utils';
+} from './src/utils/windows.utils';
 
 let isFullpageOpen = false;
 
@@ -40,7 +35,6 @@ scripting.registerContentScripts([
 
 runtime.onConnect.addListener(async port => {
   // check for time expired and max-view no opened then extension need to lock
-
   if (isFullpagePort(port)) {
     isFullpageOpen = true;
   }
@@ -52,9 +46,14 @@ runtime.onConnect.addListener(async port => {
         isFullpageOpen = false;
       }
 
-      return putToStorage({ [LAST_USER_ACTIVITY_TIMESTAMP_KEY]: Date.now() });
+      return setToStorage({ [LAST_USER_ACTIVITY_TIMESTAMP_KEY]: Date.now() });
     });
   }
+
+  const state = await getState();
+
+  const lockTimePeriod = state.settings.lockTimePeriod;
+  setToStorage({ [LOCK_TIME_PERIOD_KEY]: lockTimePeriod });
 
   // listen content script messages
   port.onMessage.addListener(async (message: DAppMessage) => {
@@ -64,8 +63,6 @@ runtime.onConnect.addListener(async port => {
       const id = data.id;
       const method = data.method;
       const dAppInfo = message.sender;
-
-      const state = await getState();
 
       const dAppState = state.dApps[dAppInfo.origin];
       const selectedRpcUrl = state.wallet.selectedNetworkRpcUrl;
@@ -246,16 +243,13 @@ runtime.onConnect.addListener(async port => {
 });
 
 // listen messages from UI
-runtime.onMessage.addListener(async (message: BackgroundMessage) => {
+runtime.onMessage.addListener((message: BackgroundMessage) => {
   switch (message.type) {
     case BackgroundMessageType.GetPasswordHash: {
       return getSessionPasswordHash(isFullpageOpen);
     }
     case BackgroundMessageType.SetPasswordHash: {
-      return setSessionPaswordHash(PASSWORD_HASH_KEY, message.data.passwordHash);
-    }
-    case BackgroundMessageType.SetLockTimePeriod: {
-      return setLockTimePeriod(LOCK_TIME_PERIOD_KEY, message.data.lockTimePeriod);
+      return setToStorage({ [PASSWORD_HASH_KEY]: message.data.passwordHash });
     }
     case E2eMessageType.ClearStorage: {
       return storage.local.clear();

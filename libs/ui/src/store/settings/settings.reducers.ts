@@ -1,7 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { BackgroundMessager } from '../../messagers/background-messager';
-
 import {
   hideLoaderAction,
   setAppLockTimePeriod,
@@ -29,12 +27,8 @@ export const settingsReducers = createReducer<SettingsState>(settingsInitialStat
       ...state,
       showLoader: false
     }))
-    .addCase(setAppLockTimePeriod, (state, { payload: lockTimePeriod }) => {
-      BackgroundMessager.setLockTimePeriod(lockTimePeriod);
-
-      return {
-        ...state,
-        lockTimePeriod
-      };
-    });
+    .addCase(setAppLockTimePeriod, (state, { payload: lockTimePeriod }) => ({
+      ...state,
+      lockTimePeriod
+    }));
 });

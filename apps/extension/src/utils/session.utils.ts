@@ -1,3 +1,5 @@
+import { isDefined } from '@rnw-community/shared';
+
 import { INITIAL_PASSWORD_HASH } from '../../../../libs/ui/src/background-script';
 import { LAST_USER_ACTIVITY_TIMESTAMP_KEY, LOCK_TIME_PERIOD_KEY, PASSWORD_HASH_KEY } from '../constants/storage-keys';
 
@@ -5,8 +7,8 @@ import { browserWithSession as browser } from './browser.utils';
 
 export const convertLockTime = (value: number) => value * 60 * 1000;
 
-export async function fetchFromStorage<T = any>(key: string): Promise<T | null> {
-  if (!browser.storage.session) {
+export async function getFromStorage<T>(key: string): Promise<T | null> {
+  if (!isDefined(browser.storage.session)) {
     return null;
   }
 
@@ -18,24 +20,18 @@ export async function fetchFromStorage<T = any>(key: string): Promise<T | null> 
   return null;
 }
 
-export async function putToStorage<T = any>(item: Record<string, T>) {
-  if (!browser.storage.session) {
+export async function setToStorage<T>(item: Record<string, T>) {
+  if (!isDefined(browser.storage.session)) {
     return null;
   }
 
   return browser.storage.session.set(item);
 }
 
-export const setSessionPaswordHash = (key: string, value: string) => {
-  putToStorage({ [key]: value });
-
-  return Promise.resolve();
-};
-
 export const getSessionPasswordHash = async (isFullpageOpen: boolean) => {
-  const passwordHash: string | null = await fetchFromStorage(PASSWORD_HASH_KEY);
-  const lastUserActivity: number | null = await fetchFromStorage(LAST_USER_ACTIVITY_TIMESTAMP_KEY);
-  const lockTimePeriod: number | null = await fetchFromStorage(LOCK_TIME_PERIOD_KEY);
+  const passwordHash: string | null = await getFromStorage(PASSWORD_HASH_KEY);
+  const lastUserActivity: number | null = await getFromStorage(LAST_USER_ACTIVITY_TIMESTAMP_KEY);
+  const lockTimePeriod: number | null = await getFromStorage(LOCK_TIME_PERIOD_KEY);
 
   if (passwordHash === null || lastUserActivity === null) {
     return Promise.resolve('');
@@ -48,16 +44,10 @@ export const getSessionPasswordHash = async (isFullpageOpen: boolean) => {
     passwordHash.length > 0;
 
   if (isTimeExpired) {
-    putToStorage({ [PASSWORD_HASH_KEY]: INITIAL_PASSWORD_HASH, [LAST_USER_ACTIVITY_TIMESTAMP_KEY]: 0 });
+    setToStorage({ [PASSWORD_HASH_KEY]: INITIAL_PASSWORD_HASH, [LAST_USER_ACTIVITY_TIMESTAMP_KEY]: 0 });
 
     return Promise.resolve('');
   }
 
   return Promise.resolve(passwordHash);
-};
-
-export const setLockTimePeriod = (key: string, value: number) => {
-  putToStorage({ [key]: value });
-
-  return Promise.resolve();
 };

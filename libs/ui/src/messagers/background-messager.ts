@@ -13,7 +13,4 @@ export class BackgroundMessager {
       type: BackgroundMessageType.SetPasswordHash,
       data: { passwordHash }
     });
-
-  static setLockTimePeriod = (lockTimePeriod: number) =>
-    BackgroundMessager.sendMessage({ type: BackgroundMessageType.SetLockTimePeriod, data: { lockTimePeriod } });
 }
