@@ -10,6 +10,7 @@ jobs:
   code-quality:
     name: Checks if ts, lint, unit tests works & create build
     runs-on: ubuntu-latest
+    environment: development
     steps:
       - name: Clone repository
         uses: actions/checkout@v2
