@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { isDefined } from '@rnw-community/shared';
+import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import React, { FC, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { TouchableOpacity } from 'react-native';
@@ -17,6 +17,7 @@ import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useShelter } from '../../hooks/use-shelter.hook';
 import { useValidatePasswordForm } from '../../hooks/use-validate-password-form.hook';
 import { usePasswordValidation } from '../../hooks/use-validation-messages.hook';
+import { useAccountFieldRules } from '../../modals/hooks/use-validate-account-field.hook';
 import { setIsAnalyticsEnabled, setIsBiometricEnabled } from '../../store/settings/settings.actions';
 import { isMobile } from '../../utils/platform.utils';
 import { goToTermsOfUse, goToPrivatePolicy } from '../settings/screens/about-us/utils/go-to-oko-links.utils';
@@ -25,8 +26,10 @@ import { styles } from './almost-done.styles';
 import { AlmostDoneTestIDs } from './almost-done.test-ids';
 import { CreateAccountType } from './types';
 
+const defaultAccountName = 'Account 1';
+
 const defaultValues = {
-  name: 'Account 1',
+  name: defaultAccountName,
   password: '',
   confirmPassword: ''
 };
@@ -69,20 +72,23 @@ export const AlmostDone: FC = () => {
     [passwordValidationMessages, dirtyFields.password]
   );
 
-  const { commonRules, nameRules, confirmPasswordRules } = useValidatePasswordForm({
+  const { commonRules, confirmPasswordRules } = useValidatePasswordForm({
     password,
     confirmPassword,
     confirmPasswordError: errors.confirmPassword?.message,
     trigger
   });
+  const { nameRules } = useAccountFieldRules();
 
   const handleCreateAccount = ({ name, password }: CreateAccountType) => {
+    const accountName = isNotEmptyString(name.trim()) ? name.trim() : defaultAccountName;
+
     if (!passwordIsNoValid && isAcceptTerms) {
       importWallet({
         seedPhrase: mnemonic,
-        password: password.trim(),
+        password,
         hdAccountsLength: 1,
-        accountName: name.trim()
+        accountName
       });
 
       dispatch(setIsAnalyticsEnabled(isAllowUseAnalytics));
@@ -113,8 +119,8 @@ export const AlmostDone: FC = () => {
           <TextInput
             field={field}
             label="Account Name"
-            placeholder="Account 1"
-            prompt="Name of main account (4-18 characters)"
+            placeholder={defaultAccountName}
+            prompt="Name of main account (1-14 characters)"
             error={errors.name?.message}
             containerStyle={styles.controllerOffset}
           />
