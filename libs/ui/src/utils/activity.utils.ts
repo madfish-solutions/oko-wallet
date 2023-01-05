@@ -12,7 +12,7 @@ export const getTransactionProjectName = (
   transaction: TransactionResponse
 ) => (isDefined(transaction.project_id) ? userProjectsMetadata[transaction.project_id].name : '');
 
-export const isGasTokenSentTransaction = (publicKeyHash: string, transaction: TransactionResponse) =>
+const isGasTokenSentTransaction = (publicKeyHash: string, transaction: TransactionResponse) =>
   publicKeyHash.toLowerCase() === transaction.tx?.from_addr?.toLowerCase();
 
 export const isGasTokenTransaction = (transaction: TransactionResponse) =>
