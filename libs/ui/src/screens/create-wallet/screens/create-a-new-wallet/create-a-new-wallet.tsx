@@ -18,7 +18,7 @@ import { SECURITY_TIME } from '../../../../constants/defaults';
 import { MnemonicLengthEnum, words } from '../../../../constants/seed-words-amount';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { handleCopyToClipboard } from '../../../../utils/copy-to-clipboard.util';
+import { handleSetValueToClipboard } from '../../../../utils/copy-to-clipboard.util';
 import { WarningMessageDropdown } from '../../components/warning-message-dropdown/warning-message-dropdown';
 
 import { styles } from './create-a-new-wallet.styles';
@@ -100,7 +100,7 @@ export const CreateANewWallet: FC = () => {
   };
 
   const handleCopyMnemonic = () => {
-    handleCopyToClipboard(mnemonic.join(' '));
+    handleSetValueToClipboard(mnemonic.join(' '));
     setIsShowProtectLayout(true);
   };
 

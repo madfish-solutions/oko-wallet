@@ -10,7 +10,7 @@ import { NavigationBar } from '../../../components/navigation-bar/navigation-bar
 import { Text } from '../../../components/text/text';
 import { SECURITY_TIME } from '../../../constants/defaults';
 import { useShelter } from '../../../hooks/use-shelter.hook';
-import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
+import { handleSetValueToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
 import { styles } from './reveal-seed-phrase.styles';
@@ -38,12 +38,12 @@ export const RevealSeedPhrase: FC = () => {
     const seedPhraseAlreadyExist = seedPhrase.every(word => isNotEmptyString(word));
 
     if (seedPhraseAlreadyExist) {
-      handleCopyToClipboard(seedPhrase.join(' '));
+      handleSetValueToClipboard(seedPhrase.join(' '));
       setSeedPhrase(initialSeedPhraseValue);
     } else {
       revealSeedPhrase({
         successCallback: seedPhraseParam => {
-          handleCopyToClipboard(seedPhraseParam);
+          handleSetValueToClipboard(seedPhraseParam);
         }
       });
     }
