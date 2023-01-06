@@ -48,6 +48,7 @@ const renderSectionHeader = (item: { section: SectionListData<ActivityData, Sect
 
 const emptyIconSize = getCustomSize(isWeb ? 30 : 36);
 
+const MAX_ACTIVITY_ATTEMPTS = 10;
 let numberOfAttempts = 0;
 
 export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterTypeName, tokenAddress = '' }) => {
@@ -61,14 +62,14 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
       filterTypeName !== ActivityFilterEnum.AllActivity &&
       allActivity.length > 0 &&
       activity.length === 0 &&
-      numberOfAttempts <= 10
+      numberOfAttempts <= MAX_ACTIVITY_ATTEMPTS
     ) {
       const lastDate = allActivity.slice(-1)[0].data.slice(-1)[0].timestamp;
 
       fetch(lastDate);
       numberOfAttempts += 1;
     }
-  }, [filterTypeName, allActivity, numberOfAttempts, activity]);
+  }, [filterTypeName, allActivity, activity]);
 
   const handleFetchData = () => {
     if (offsetY === 0) {
