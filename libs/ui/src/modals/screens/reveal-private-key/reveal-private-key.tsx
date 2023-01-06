@@ -10,7 +10,7 @@ import { Text } from '../../../components/text/text';
 import { SECURITY_TIME } from '../../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useShelter } from '../../../hooks/use-shelter.hook';
-import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
+import { handleSetValueToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
 import { styles } from './reveal-private-key.styles';
@@ -36,7 +36,7 @@ export const RevealPrivateKey: FC = () => {
   };
 
   const handleCopy = () => {
-    handleCopyToClipboard(privateKey);
+    handleSetValueToClipboard(privateKey);
     setIsShowProtectLayout(true);
     setPrivateKey('');
   };

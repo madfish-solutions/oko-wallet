@@ -21,7 +21,7 @@ import {
 } from '../../store/wallet/wallet.selectors';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
-import { handleCopyToClipboard } from '../../utils/copy-to-clipboard.util';
+import { handleSetValueToClipboard } from '../../utils/copy-to-clipboard.util';
 import { isMobile } from '../../utils/platform.utils';
 import { share } from '../../utils/share.util';
 
@@ -34,7 +34,7 @@ export const Receive: FC = () => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
   const navigateToWallet = () => navigate(ScreensEnum.Wallet);
-  const copyAddress = () => handleCopyToClipboard(publicKeyHash);
+  const copyAddress = () => handleSetValueToClipboard(publicKeyHash);
   const shareAddress = () => share({ message: publicKeyHash });
 
   useDelayedEffect(() => setIsCopied(false), [isCopied]);

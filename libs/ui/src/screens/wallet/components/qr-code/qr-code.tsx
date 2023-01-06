@@ -10,7 +10,7 @@ import { TouchableIcon } from '../../../../components/touchable-icon/touchable-i
 import { useSelectedAccountPublicKeyHashSelector } from '../../../../store/wallet/wallet.selectors';
 import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
-import { handleCopyToClipboard } from '../../../../utils/copy-to-clipboard.util';
+import { handleSetValueToClipboard } from '../../../../utils/copy-to-clipboard.util';
 import { isMobile } from '../../../../utils/platform.utils';
 import { share } from '../../../../utils/share.util';
 
@@ -23,7 +23,7 @@ interface Props {
 export const QrCode: FC<Props> = ({ contentOffsetY }) => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
-  const copyAddress = () => handleCopyToClipboard(publicKeyHash);
+  const copyAddress = () => handleSetValueToClipboard(publicKeyHash);
 
   const shareAddress = () => share({ message: publicKeyHash });
 

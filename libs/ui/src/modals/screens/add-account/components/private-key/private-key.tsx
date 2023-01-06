@@ -11,6 +11,7 @@ import { Text } from '../../../../../components/text/text';
 import { useNavigation } from '../../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../../hooks/use-shelter.hook';
 import { useAllAccountsSelector, useSelectedNetworkTypeSelector } from '../../../../../store/wallet/wallet.selectors';
+import { handleSetValueToClipboard } from '../../../../../utils/copy-to-clipboard.util';
 import { generateHdAccountFromPrivateKey } from '../../../../../utils/generate-hd-account-from-private-key.util';
 import { ModalFooterButtons } from '../../../../components/modal-footer-buttons/modal-footer-buttons';
 import { useAccountFieldRules } from '../../../../hooks/use-validate-account-field.hook';
@@ -45,6 +46,13 @@ export const PrivateKey: FC = () => {
   });
 
   const accountName = watch('name');
+  const privateKey = watch('privateKey');
+
+  useEffect(() => {
+    if (privateKey.length > 60) {
+      handleSetValueToClipboard('');
+    }
+  }, [privateKey]);
 
   useEffect(() => {
     clearErrors();
@@ -55,7 +63,12 @@ export const PrivateKey: FC = () => {
   }, [errors.name]);
 
   const handlePaste = async () => {
-    const value = await Clipboard.getString();
+    const value = await Clipboard.getString().then(value => {
+      handleSetValueToClipboard('');
+
+      return value;
+    });
+
     setValue('privateKey', value);
     clearErrors('privateKey');
   };
