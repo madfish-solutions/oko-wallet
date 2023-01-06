@@ -42,7 +42,7 @@
   bridge.surfacePresenter = _bridgeAdapter.surfacePresenter;
 #endif
 
-  UIView *rootView = RCTAppSetupDefaultRootView(bridge, @"KlaytnWallet", nil);
+  UIView *rootView = RCTAppSetupDefaultRootView(bridge, @"Oko Wallet", nil);
 
   if (@available(iOS 13.0, *)) {
     rootView.backgroundColor = [UIColor systemBackgroundColor];
