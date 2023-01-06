@@ -1,8 +1,8 @@
 import ObjectMultiplex from '@metamask/object-multiplex';
-import { WindowPostMessageStream } from '@metamask/post-message-stream';
 import pump from 'pump';
 import { runtime } from 'webextension-polyfill';
 
+import { pageStream, PROVIDER } from './src/constants/content-script';
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
 import { getWindowMetadata } from './src/utils/window.utils';
 
@@ -44,15 +44,6 @@ function connectPort() {
 }
 
 connectPort();
-
-const CONTENT_SCRIPT = 'oko-contentscript';
-const INPAGE = 'oko-inpage';
-const PROVIDER = 'oko-provider';
-
-const pageStream = new WindowPostMessageStream({
-  name: CONTENT_SCRIPT,
-  target: INPAGE
-});
 
 // listen UI and send message to dApps
 runtime.onMessage.addListener(async message => {
