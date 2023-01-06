@@ -73,7 +73,7 @@ export const ActivityItem: FC<Props> = ({
                 symbolStyle={styles.symbol}
               />
             )}
-            {isDefined(transfer) && (
+            {isDefined(transfer) && (transfer.sends.length > 0 || transfer.receives.length > 0) && (
               <Column style={styles.transfer}>
                 {transfer.sends.length > 0 && (
                   <Row style={styles.transferItem}>

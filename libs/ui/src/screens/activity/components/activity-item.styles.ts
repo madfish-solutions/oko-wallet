@@ -78,7 +78,8 @@ export const styles = StyleSheet.create({
     textTransform: 'uppercase'
   },
   transfer: {
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
+    marginTop: getCustomSize()
   },
   transferItem: {
     marginBottom: getCustomSize(0.5)
@@ -103,7 +104,6 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-end'
   },
   projectName: {
-    marginBottom: getCustomSize(),
     ...typography.captionInterSemiBold11,
     color: colors.textGrey2
   },
