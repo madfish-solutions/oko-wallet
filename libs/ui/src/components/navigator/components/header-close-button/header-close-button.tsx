@@ -1,4 +1,5 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
+import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
@@ -25,11 +26,19 @@ const goBackRoutes = [
   ScreensEnum.ActivityFilterSelector
 ];
 
-export const HeaderCloseButton: FC = () => {
+interface Props {
+  onCloseButtonPress?: OnEventFn<void>;
+}
+
+export const HeaderCloseButton: FC<Props> = ({ onCloseButtonPress }) => {
   const { navigate, goBack } = useNavigation();
   const { name } = useRoute<RouteProp<ScreensParamList>>();
 
   const onClosePress = () => {
+    if (isDefined(onCloseButtonPress)) {
+      return onCloseButtonPress();
+    }
+
     if (goBackRoutes.includes(name)) {
       goBack();
     } else {

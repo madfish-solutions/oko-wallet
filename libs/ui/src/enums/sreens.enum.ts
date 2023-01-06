@@ -32,7 +32,7 @@ export enum ScreensEnum {
   SettingsResetWalletConfirm = 'SettingsResetWalletConfirm',
   Wallet = 'Wallet',
   ConnectToDapps = 'ConnectToDapps',
-  Unlock = 'unlock',
+  Unlock = 'Unlock',
   AccountsSelector = 'AccountsSelector',
   NetworksSelector = 'NetworksSelector',
   EditAccount = 'EditAccount',

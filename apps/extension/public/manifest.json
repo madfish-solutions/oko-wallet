@@ -1,11 +1,11 @@
 {
-  "name": "Klaytn Wallet",
-  "description": "Klaytn Wallet description",
+  "name": "Oko Wallet",
+  "description": "Multichain wallet. In-app yield farming, swaps, and staking. Manage your tokens and NFTs in one place.",
   "version": "1.0",
   "manifest_version": 3,
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Open the popup"
+    "default_title": "Oko Wallet"
   },
   "background": {
     "service_worker": "scripts/background-script.js"
@@ -25,9 +25,9 @@
   ],
   "host_permissions": ["<all_urls>"],
   "icons": {
-    "16": "mics/logo192.png",
-    "48": "mics/logo192.png",
-    "128": "mics/logo192.png"
+    "16": "mics/logo16.png",
+    "48": "mics/logo48.png",
+    "128": "mics/logo128.png"
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"

@@ -8,6 +8,7 @@ import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { SECURITY_TIME } from '../constants/defaults';
 import { allMnemonicLengthValue, maxWordsLength, SeedWordsAmount, words } from '../constants/seed-words-amount';
 import { ScreensEnum } from '../enums/sreens.enum';
+import { handleSetValueToClipboard } from '../utils/copy-to-clipboard.util';
 
 import { useNavigation } from './use-navigation.hook';
 
@@ -85,6 +86,7 @@ export const useImportSeedPhrase = (wordsAmountParam: SeedWordsAmount | undefine
         setWordsAmount(calculatedLength);
         setSelectedInputIndex(null);
         setMnemonic(filledMnemonic);
+        handleSetValueToClipboard('');
       }
     });
   }, [selectedInputIndex]);

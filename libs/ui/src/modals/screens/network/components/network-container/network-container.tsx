@@ -3,11 +3,7 @@ import React, { FC } from 'react';
 import { Control, Controller, FieldErrors, UseControllerProps, UseFormSetValue } from 'react-hook-form';
 import { GestureResponderEvent } from 'react-native';
 
-import { IconNameEnum } from '../../../../../components/icon/icon-name.enum';
-import { Row } from '../../../../../components/row/row';
 import { TextInput } from '../../../../../components/text-input/text-input';
-import { Text } from '../../../../../components/text/text';
-import { TouchableIcon } from '../../../../../components/touchable-icon/touchable-icon';
 import { useNavigation } from '../../../../../hooks/use-navigation.hook';
 import { ModalActionContainer } from '../../../../components/modal-action-container/modal-action-container';
 import { FooterButtons } from '../../../../components/modal-footer-buttons/modal-footer-buttons.interface';
@@ -41,9 +37,6 @@ export const NetworkContainer: FC<Props> = ({
 }) => {
   const { goBack } = useNavigation();
 
-  const handlePressPrompt = () => null;
-  const handlePromptNavigate = () => null;
-
   return (
     <ModalActionContainer
       screenTitle={screenTitle}
@@ -52,11 +45,6 @@ export const NetworkContainer: FC<Props> = ({
       onSubmitPress={onSubmitPress}
       onCancelPress={goBack}
     >
-      <Row style={styles.prompt}>
-        <Text style={styles.text}>How to add new Network?</Text>
-        <TouchableIcon name={IconNameEnum.Tooltip} onPress={handlePressPrompt} />
-      </Row>
-
       <Controller
         control={control}
         name="name"
@@ -80,8 +68,7 @@ export const NetworkContainer: FC<Props> = ({
             field={field}
             label="RPC URL"
             placeholder="https://"
-            prompt="How to get RPC URL?"
-            handlePrompt={handlePromptNavigate}
+            prompt="Enter network RPC URL"
             error={errors?.rpcUrl?.message}
             editable={editable}
             containerStyle={styles.inputContainer}
@@ -113,8 +100,7 @@ export const NetworkContainer: FC<Props> = ({
             label="Block Explorer URL"
             placeholder="https://"
             required={false}
-            prompt="I don’t have Block Explorer URL"
-            handlePrompt={handlePromptNavigate}
+            prompt="Enter the Block Explorer URL"
             error={errors?.blockExplorerUrl?.message}
             containerStyle={styles.inputContainer}
           />

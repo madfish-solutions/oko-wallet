@@ -1,3 +1,3 @@
 import Clipboard from '@react-native-clipboard/clipboard';
 
-export const handleCopyToClipboard = (value: string) => Clipboard.setString(value);
+export const handleSetValueToClipboard = (value: string) => Clipboard.setString(value);

@@ -42,8 +42,6 @@ export const TokenContainer: FC<Props> = ({
 }) => {
   const { goBack } = useNavigation();
 
-  const handlePromptNavigate = () => null;
-
   return (
     <ModalActionContainer
       screenTitle={screenTitle}
@@ -62,8 +60,7 @@ export const TokenContainer: FC<Props> = ({
               field={field}
               label="Address"
               placeholder="Address"
-              prompt="How to get Token Address?"
-              handlePrompt={handlePromptNavigate}
+              prompt="Enter the token address"
               error={errors?.tokenAddress?.message}
               containerStyle={styles.inputContainer}
               editable={editable}
@@ -79,8 +76,7 @@ export const TokenContainer: FC<Props> = ({
               field={field}
               label="Token ID"
               placeholder="0"
-              prompt="What is Token ID?"
-              handlePrompt={handlePromptNavigate}
+              prompt="Enter the token ID"
               required={false}
               error={errors?.tokenId?.message}
               containerStyle={styles.inputContainer}

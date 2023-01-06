@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { TouchableOpacity } from 'react-native';
 
 import { TextStyleProps } from '../../interfaces/style.interface';
-import { handleCopyToClipboard } from '../../utils/copy-to-clipboard.util';
+import { handleSetValueToClipboard } from '../../utils/copy-to-clipboard.util';
 import { shortize } from '../../utils/shortize.util';
 import { Text } from '../text/text';
 
@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const CopyText: FC<Props> = ({ text, isShortize = true, numberOfLines, style, textStyle }) => {
-  const copy = () => handleCopyToClipboard(text);
+  const copy = () => handleSetValueToClipboard(text);
 
   return (
     <TouchableOpacity onPress={copy} style={[styles.root, style]}>
