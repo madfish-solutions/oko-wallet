@@ -1,7 +1,7 @@
 import { WindowPostMessageStream } from '@metamask/post-message-stream';
 
-const CONTENT_SCRIPT = 'oko-contentscript';
-const INPAGE = 'oko-inpage';
+export const CONTENT_SCRIPT = 'oko-contentscript';
+export const INPAGE = 'oko-inpage';
 export const PROVIDER = 'oko-provider';
 
 export const pageStream = new WindowPostMessageStream({

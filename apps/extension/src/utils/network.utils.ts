@@ -1,3 +1,5 @@
+import { INPAGE, PROVIDER } from '../constants/content-script';
+
 export const getHexChanId = (chainId: string) => `0x${Number(chainId).toString(16)}`;
 
 export const createDAppNotificationResponse = <T>(method: string, params: T) => ({
@@ -6,7 +8,7 @@ export const createDAppNotificationResponse = <T>(method: string, params: T) => 
       method,
       params
     },
-    name: 'oko-provider'
+    name: PROVIDER
   },
-  target: 'oko-inpage'
+  target: INPAGE
 });

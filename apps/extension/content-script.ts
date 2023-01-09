@@ -2,7 +2,7 @@ import ObjectMultiplex from '@metamask/object-multiplex';
 import pump from 'pump';
 import { runtime } from 'webextension-polyfill';
 
-import { pageStream, PROVIDER } from './src/constants/content-script';
+import { CONTENT_SCRIPT, pageStream, PROVIDER } from './src/constants/content-script';
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
 import { getWindowMetadata } from './src/utils/window.utils';
 
@@ -18,7 +18,7 @@ function connectPort() {
 
   // listen dApps and send message to background-script
   window.addEventListener('message', async message => {
-    if (message.data?.target === 'oko-contentscript') {
+    if (message.data?.target === CONTENT_SCRIPT) {
       const windowMetadata = await getWindowMetadata();
 
       const dAppMessage: DAppMessage = {

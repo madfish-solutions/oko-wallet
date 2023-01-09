@@ -2,6 +2,8 @@ import { ethErrors } from 'eth-rpc-errors';
 import { JsonRpcRequest, JsonRpcResponse, PendingJsonRpcResponse } from 'json-rpc-engine';
 import type { Duplex } from 'stream';
 
+import { PROVIDER } from '../constants/content-script';
+
 import type { UnvalidatedJsonRpcRequest } from './base-provider';
 import { AbstractStreamProvider, StreamProviderOptions } from './stream-provider';
 import { getDefaultExternalMiddleware } from './utils/middleware.utils';
@@ -43,7 +45,7 @@ interface SentWarningsState {
 /**
  * The name of the stream consumed by {@link InpageProvider}.
  */
-export const InpageProviderStreamName = 'oko-provider';
+export const InpageProviderStreamName = PROVIDER;
 
 export class InpageProvider extends AbstractStreamProvider {
   protected _sentWarnings: SentWarningsState = {

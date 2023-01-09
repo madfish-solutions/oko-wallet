@@ -10,6 +10,7 @@ import {
 } from 'ui/background-script';
 import { Runtime, runtime, scripting, storage } from 'webextension-polyfill';
 
+import { CONTENT_SCRIPT } from './src/constants/content-script.js';
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
 import {
   openDAppConnectionConfirmationPopup,
@@ -65,7 +66,7 @@ runtime.onConnect.addListener(port => {
   port.onMessage.addListener(async (message: DAppMessage) => {
     const data = message.data.data.data;
 
-    if (message.data.target === 'oko-contentscript' && data !== undefined) {
+    if (message.data.target === CONTENT_SCRIPT && data !== undefined) {
       const id = data.id;
       const method = data.method;
       const dAppInfo = message.sender;

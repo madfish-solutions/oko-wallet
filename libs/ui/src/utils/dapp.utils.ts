@@ -1,5 +1,8 @@
 import { tabs } from 'webextension-polyfill';
 
+const INPAGE = 'oko-inpage';
+const PROVIDER = 'oko-provider';
+
 export const createDAppResponse = <T>(id: string, result: T) => ({
   data: {
     data: {
@@ -7,9 +10,9 @@ export const createDAppResponse = <T>(id: string, result: T) => ({
       jsonrpc: '2.0',
       result
     },
-    name: 'oko-provider'
+    name: PROVIDER
   },
-  target: 'oko-inpage'
+  target: INPAGE
 });
 
 const createErrorMessage = (id: string) => ({
@@ -22,9 +25,9 @@ const createErrorMessage = (id: string) => ({
         code: 4001
       }
     },
-    name: 'oko-provider'
+    name: PROVIDER
   },
-  target: 'oko-inpage'
+  target: INPAGE
 });
 
 export const sendResponseToDAppAndClosePopup = <T>(messageID: string, result: T) => {
@@ -53,9 +56,9 @@ const createDAppNotificationResponse = <T>(method: string, params: T) => ({
       method,
       params
     },
-    name: 'oko-provider'
+    name: PROVIDER
   },
-  target: 'oko-inpage'
+  target: INPAGE
 });
 
 export const sendNotificationToDApp = <T>(method: string, result: T) => {
