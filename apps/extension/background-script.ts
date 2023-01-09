@@ -1,29 +1,24 @@
 import './shim.js';
 
 import { getDefaultProvider } from 'ethers';
-import {
-  BackgroundMessage,
-  BackgroundMessageType,
-  createDAppResponse,
-  E2eMessageType,
-  INITIAL_PASSWORD_HASH
-} from 'ui/background-script';
+import { BackgroundMessage, BackgroundMessageType, createDAppResponse, E2eMessageType } from 'ui/background-script';
 import { Runtime, runtime, scripting, storage } from 'webextension-polyfill';
 
-import { DAppMessage } from './src/interfaces/dapp-message.interface';
 import {
+  LAST_USER_ACTIVITY_TIMESTAMP_KEY,
+  LOCK_TIME_PERIOD_KEY,
+  PASSWORD_HASH_KEY
+} from './src/constants/storage-keys';
+import { DAppMessage } from './src/interfaces/dapp-message.interface';
+import { createDAppNotificationResponse, getHexChanId } from './src/utils/network.utils';
+import { getSessionPasswordHash, setToStorage } from './src/utils/session.utils';
+import { getState } from './src/utils/state.utils';
+import {
+  openConfirmSendTransactionPopup,
   openDAppConnectionConfirmationPopup,
   openNetworkChangeConfirmationPopup,
-  openConfirmSendTransactionPopup,
   openSignMessagePopup
-} from './src/utils/browser.utils';
-import { createDAppNotificationResponse, getHexChanId } from './src/utils/network.utils';
-import { getState } from './src/utils/state.utils';
-
-const APP_LOCK_PERIOD = 5 * 60 * 1000;
-
-let passwordHash = INITIAL_PASSWORD_HASH;
-let lastUserActivityTimestamp = 0;
+} from './src/utils/windows.utils';
 
 let isFullpageOpen = false;
 
@@ -38,16 +33,10 @@ scripting.registerContentScripts([
   }
 ]);
 
-runtime.onConnect.addListener(port => {
+runtime.onConnect.addListener(async port => {
   // check for time expired and max-view no opened then extension need to lock
-  const savedSessionTimeExpired = Date.now() > lastUserActivityTimestamp + APP_LOCK_PERIOD;
-
   if (isFullpagePort(port)) {
     isFullpageOpen = true;
-  }
-
-  if (savedSessionTimeExpired && !isFullpageOpen) {
-    passwordHash = INITIAL_PASSWORD_HASH;
   }
 
   // listen when UI is closed
@@ -57,9 +46,14 @@ runtime.onConnect.addListener(port => {
         isFullpageOpen = false;
       }
 
-      return (lastUserActivityTimestamp = Date.now());
+      return setToStorage({ [LAST_USER_ACTIVITY_TIMESTAMP_KEY]: Date.now() });
     });
   }
+
+  const state = await getState();
+
+  const lockTimePeriod = state.settings.lockTimePeriod;
+  setToStorage({ [LOCK_TIME_PERIOD_KEY]: lockTimePeriod });
 
   // listen content script messages
   port.onMessage.addListener(async (message: DAppMessage) => {
@@ -69,8 +63,6 @@ runtime.onConnect.addListener(port => {
       const id = data.id;
       const method = data.method;
       const dAppInfo = message.sender;
-
-      const state = await getState();
 
       const dAppState = state.dApps[dAppInfo.origin];
       const selectedRpcUrl = state.wallet.selectedNetworkRpcUrl;
@@ -253,13 +245,11 @@ runtime.onConnect.addListener(port => {
 // listen messages from UI
 runtime.onMessage.addListener((message: BackgroundMessage) => {
   switch (message.type) {
-    case BackgroundMessageType.SetPasswordHash: {
-      passwordHash = message.data.passwordHash;
-
-      return Promise.resolve();
-    }
     case BackgroundMessageType.GetPasswordHash: {
-      return Promise.resolve(passwordHash);
+      return getSessionPasswordHash(isFullpageOpen);
+    }
+    case BackgroundMessageType.SetPasswordHash: {
+      return setToStorage({ [PASSWORD_HASH_KEY]: message.data.passwordHash });
     }
     case E2eMessageType.ClearStorage: {
       return storage.local.clear();
