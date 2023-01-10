@@ -65,7 +65,7 @@ export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
       createHdAccountForNewNetworkType(
         account,
         networkType,
-        account => navigateToRevealPrivateKey(getPublicKeyHash(account, networkType)),
+        newAccount => navigateToRevealPrivateKey(getPublicKeyHash(newAccount, networkType)),
         false
       );
     } else {

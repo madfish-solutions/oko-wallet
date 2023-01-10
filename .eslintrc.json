@@ -40,7 +40,6 @@
       "never"
     ],
     "no-void": "off",
-    "no-shadow": "off",
     "react-hooks/exhaustive-deps": "off",
     "import/no-unresolved": "off",
     "import/default": "off",
@@ -75,6 +74,7 @@
     ],
     "@typescript-eslint/strict-boolean-expressions": "error",
     "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-shadow": "error",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-unnecessary-type-constraint": "off",
     "@typescript-eslint/ban-ts-comment": "off",

@@ -46,11 +46,7 @@ export const SelectedAccount: FC<Props> = ({ account, isDisabled = false, style 
           return of([]);
         })
       )
-      .subscribe(balance => {
-        if (isString(balance)) {
-          setBalance(balance);
-        }
-      });
+      .subscribe(newBalance => isString(newBalance) && setBalance(newBalance));
 
     return () => subscription.unsubscribe();
   }, [account, network.rpcUrl, network.chainId]);

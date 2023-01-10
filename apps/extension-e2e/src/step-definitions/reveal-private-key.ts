@@ -6,6 +6,6 @@ import { Pages } from '../page-objects';
 
 Given(/I verify private key/, async () => {
   const privateKeyText = await Pages.RevealPrivateKey.privateKeyText.getText();
-  // eslint-disable-next-line jest/no-standalone-expect
+
   expect(privateKeyText).eql(DEFAULT_HD_ACCOUNT_PRIVATE_KEY);
 });

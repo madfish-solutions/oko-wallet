@@ -86,9 +86,9 @@ export const AddNetwork: FC = () => {
         if (TEZOS_NETWORKS_LIST.includes(removeTrailingSlash(newRpcUrl.trim()))) {
           createTezosToolkit(newRpcUrl)
             .rpc.getChainId()
-            .then(chainId => {
-              currentChainId = chainId;
-              getTezosNetworkData(chainId);
+            .then(result => {
+              currentChainId = result;
+              getTezosNetworkData(result);
             })
             .catch(() => {
               resetDynamicFields();
@@ -106,8 +106,7 @@ export const AddNetwork: FC = () => {
             });
 
             if (isDefined(currentProvider)) {
-              const { chainId } = currentProvider;
-              currentChainId = chainId;
+              currentChainId = currentProvider.chainId;
               getEvmNetworkData(currentChainId);
             }
           } catch {
@@ -180,24 +179,24 @@ export const AddNetwork: FC = () => {
     chainId
   });
 
-  const onSubmit = ({ name, rpcUrl, chainId, tokenSymbol, blockExplorerUrl }: FormTypes) => {
+  const onSubmit = (formValue: FormTypes) => {
     let networkType = NetworkTypeEnum.EVM;
 
-    if (NETWORK_CHAIN_IDS_BY_NETWORK_TYPE[NetworkTypeEnum.Tezos].includes(chainId)) {
+    if (NETWORK_CHAIN_IDS_BY_NETWORK_TYPE[NetworkTypeEnum.Tezos].includes(formValue.chainId)) {
       networkType = NetworkTypeEnum.Tezos;
     }
 
     const network: NetworkInterface = {
-      name: name.trim(),
-      rpcUrl: removeTrailingSlash(rpcUrl.trim()),
-      chainId: chainId.trim(),
+      name: formValue.name.trim(),
+      rpcUrl: removeTrailingSlash(formValue.rpcUrl.trim()),
+      chainId: formValue.chainId.trim(),
       gasTokenMetadata: {
         name: nativeTokenInfo.tokenName,
-        symbol: tokenSymbol.trim(),
+        symbol: formValue.tokenSymbol.trim(),
         decimals: nativeTokenInfo.decimals,
         thumbnailUri: nativeTokenInfo.thumbnailUri
       },
-      explorerUrl: blockExplorerUrl?.trim(),
+      explorerUrl: formValue.blockExplorerUrl?.trim(),
       networkType
     };
 

@@ -64,8 +64,8 @@ export const NetworksList = () => {
     return navigate(ScreensEnum.AddNetwork);
   };
 
-  const navigateToEditNetwork = (selectedNetwork: NetworkInterface, isNetworkSelected: boolean) =>
-    navigate(ScreensEnum.EditNetwork, { network: selectedNetwork, isNetworkSelected });
+  const navigateToEditNetwork = (network: NetworkInterface, isNetworkSelected: boolean) =>
+    navigate(ScreensEnum.EditNetwork, { network, isNetworkSelected });
 
   const renderItem = ({ item, index }: ListRenderItemInfo<NetworkInterface>) => {
     const isNetworkSelected = selectedIndex === index;

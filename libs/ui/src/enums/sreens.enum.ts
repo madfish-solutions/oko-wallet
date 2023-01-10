@@ -46,6 +46,7 @@ export enum ScreensEnum {
   VerifyMnemonic = 'VerifyMnemonic',
   AlmostDone = 'AlmostDone',
   Activity = 'Activity',
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   Token = 'Token',
   CollectiblesList = 'CollectiblesList',
   SpecificCollectiblesList = 'SpecificCollectiblesList',

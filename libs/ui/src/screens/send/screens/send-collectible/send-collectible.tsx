@@ -98,15 +98,15 @@ export const SendCollectible: FC = () => {
     navigate(ScreensEnum.SendCollectiblesSelector, { token });
   };
 
-  const onSubmit = ({ token, amount, receiverPublicKeyHash, isTransferBetweenAccounts, account }: FormTypes) => {
+  const onSubmit = (formValue: FormTypes) => {
     const isGasTokenZeroBalance = Number(gasToken.balance.data) === 0;
 
     if (isGasTokenZeroBalance) {
       return showErrorToast('Not enough gas');
     }
 
-    if (isDefined(token)) {
-      const { decimals, tokenAddress, tokenId, name, standard } = token;
+    if (isDefined(formValue.token)) {
+      const { decimals, tokenAddress, tokenId, name, standard } = formValue.token;
       const assetToSend: Asset = {
         decimals,
         tokenAddress: tokenAddress === GAS_TOKEN_ADDRESS ? '' : tokenAddress,
@@ -118,9 +118,11 @@ export const SendCollectible: FC = () => {
       dispatch(
         sendAssetAction.submit({
           asset: assetToSend,
-          amount,
+          amount: formValue.amount,
           receiverPublicKeyHash:
-            isTransferBetweenAccounts && account ? getPublicKeyHash(account, networkType) : receiverPublicKeyHash
+            formValue.isTransferBetweenAccounts && formValue.account
+              ? getPublicKeyHash(formValue.account, networkType)
+              : formValue.receiverPublicKeyHash
         })
       );
     }

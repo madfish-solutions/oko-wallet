@@ -22,7 +22,7 @@ import { usePasswordValidation } from '../../../../hooks/use-validation-messages
 
 import { styles } from './change-password.styles';
 
-interface ChangePasswordType {
+interface FormTypes {
   oldPassword: string;
   password: string;
   confirmPassword: string;
@@ -98,9 +98,9 @@ export const ChangePassword: FC = () => {
     confirmPasswordError: errors.confirmPassword?.message
   });
 
-  const handleChangePassword = ({ password, oldPassword }: ChangePasswordType) => {
+  const handleChangePassword = (formValue: FormTypes) => {
     if (!passwordIsNoValid) {
-      changePassword(password, oldPassword);
+      changePassword(formValue.password, formValue.oldPassword);
     }
   };
 

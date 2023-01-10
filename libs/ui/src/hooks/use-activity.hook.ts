@@ -26,18 +26,18 @@ to ActivityData type, as we needed
 */
 
 const transformApiData = (
-  data: ActivityResponse,
+  response: ActivityResponse,
   publicKeyHash: string,
   chainName: string
 ): SectionListActivityData[] => {
-  let response: SectionListActivityData[] = [];
-  const filteredTransactions = data?.history_list.filter(
+  let result: SectionListActivityData[] = [];
+  const filteredTransactions = response?.history_list.filter(
     txData => !(txData.receives.length > 0 && txData.sends.length > 0) && txData.cate_id !== 'approve'
   );
 
   let sectionListItem: SectionListActivityData | undefined;
 
-  const userTokensMetadata: ActivityResponse['token_dict'] = data.token_dict;
+  const userTokensMetadata: ActivityResponse['token_dict'] = response.token_dict;
 
   filteredTransactions.forEach(txData => {
     const activityData = {
@@ -79,7 +79,7 @@ const transformApiData = (
     }
 
     if (checkIsDayLabelNeeded(txData.time_at) && sectionListItem !== undefined) {
-      response = [...response, sectionListItem];
+      result = [...result, sectionListItem];
       sectionListItem = { title: transformTimestampToDate(txData.time_at), data: [activityData] };
     } else {
       const data = sectionListItem?.data ?? [];
@@ -88,10 +88,10 @@ const transformApiData = (
   });
 
   if (sectionListItem !== undefined) {
-    response = [...response, sectionListItem];
+    result = [...result, sectionListItem];
   }
 
-  return response;
+  return result;
 };
 
 export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAddress?: string) => {

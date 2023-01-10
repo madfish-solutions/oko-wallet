@@ -16,6 +16,6 @@ export interface TezosTransferParams {
   asset: Asset;
 }
 
-type OnSendEvmArg = number;
+export type OnSendEvmArg = number;
 export type OnSendTezosArg = { storageFee: number; gasFee: number };
 export type OnSend = OnEventFn<OnSendEvmArg | OnSendTezosArg>;

@@ -159,7 +159,7 @@ export const SeedPhrase: FC = () => {
                       value={value}
                       onFocus={el => handleInputFocus(index, el)}
                       onBlur={handleInputBlur}
-                      onChangeText={value => handleInputChange(value, index)}
+                      onChangeText={newValue => handleInputChange(newValue, index)}
                       style={[styles.mnemonicInput, isSubmitted && !isNotEmptyString(value) && styles.error]}
                     />
                     <Text selectable={false} style={styles.wordIndex}>{`${index + 1}.`}</Text>

@@ -1,14 +1,8 @@
 import { isDefined } from '@rnw-community/shared';
-import { SymmetricKey } from 'wasm-themis';
 
 import { LocalStorage } from './local-storage.util';
 
-export interface StoredSensitiveData {
-  symmetricKey: SymmetricKey;
-  encrypted: object;
-}
-
-export const getStoredValue = async <StoredSensitiveData>(key: string): Promise<StoredSensitiveData> => {
+export const getStoredValue = async <T>(key: string): Promise<T> => {
   const encryptedData = await LocalStorage.getItem(key);
 
   if (isDefined(encryptedData)) {

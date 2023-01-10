@@ -67,7 +67,12 @@ export const TransferBetweenMyAccounts: FC = () => {
     const publicKeyHashOfSelectedAccount = getPublicKeyHash(selectedAccount, networkType);
 
     if (!isTransferBetweenAccounts && isEmptyString(publicKeyHashOfSelectedAccount)) {
-      createHdAccountForNewNetworkType(selectedAccount, networkType, account => setValue('account', account), false);
+      createHdAccountForNewNetworkType(
+        selectedAccount,
+        networkType,
+        newAccount => setValue('account', newAccount),
+        false
+      );
     }
 
     clearErrors('receiverPublicKeyHash');
