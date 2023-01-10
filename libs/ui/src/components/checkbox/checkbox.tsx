@@ -1,5 +1,5 @@
 import { isDefined, OnEventFn } from '@rnw-community/shared';
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
@@ -11,12 +11,13 @@ import { Text } from '../text/text';
 
 import { styles } from './checkbox.styles';
 
-interface Props extends TestIDProps {
+type Props = PropsWithChildren<{
   text: string;
   selected: boolean;
   onSelect: OnEventFn<boolean>;
   style?: ViewStyleProps;
-}
+}> &
+  TestIDProps;
 
 export const Checkbox: FC<Props> = ({ text, selected = false, onSelect, style, children, testID }) => {
   const handleToggleCheckbox = () => {

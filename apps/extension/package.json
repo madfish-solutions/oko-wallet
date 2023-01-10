@@ -49,7 +49,7 @@
     "react-native-toast-notifications": "^3.3.1",
     "react-native-web": "^0.18.10",
     "react-redux": "^8.0.5",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "redux-observable": "^2.0.0",
     "redux-persist": "^6.0.0",
     "rxjs": "^7.8.0",

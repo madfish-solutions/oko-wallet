@@ -1,5 +1,5 @@
 import isEmpty from 'lodash/isEmpty';
-import React, { FC, Fragment, useEffect, useRef, useState } from 'react';
+import React, { FC, Fragment, PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -30,7 +30,7 @@ import { ownGasFeeRules, requiredFieldRule, SpeedOption, speedOptions } from './
 import { SpeedEnum } from './enums';
 import { getProgressStatus } from './utils/get-progress-status.util';
 
-interface Props {
+type Props = PropsWithChildren<{
   isFeeLoading: boolean;
   onSend: OnSend;
   onDecline: () => void;
@@ -40,7 +40,7 @@ interface Props {
   symbol: string;
   initialTransactionFee: number;
   storageFee?: number;
-}
+}>;
 
 const defaultValues = {
   ownGasFee: '',

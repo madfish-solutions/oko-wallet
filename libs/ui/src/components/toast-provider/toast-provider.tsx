@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { ToastProvider as ToastProviderBase } from 'react-native-toast-notifications';
 
 import { ToastsEnum } from '../../enums/toasts.enums';
@@ -11,7 +11,7 @@ const renderToast = <ToastProps extends { message: string | JSX.Element; type?: 
   type
 }: ToastProps) => <Toast message={message} type={type as ToastsEnum} />;
 
-export const ToastProvider: FC = ({ children }) => (
+export const ToastProvider: FC<PropsWithChildren> = ({ children }) => (
   <ToastProviderBase offset={offset} renderToast={renderToast}>
     {children}
   </ToastProviderBase>

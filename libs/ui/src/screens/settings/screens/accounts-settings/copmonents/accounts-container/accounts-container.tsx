@@ -1,5 +1,5 @@
 import { isEmptyString } from '@rnw-community/shared';
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { FlatList, ListRenderItemInfo, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { TestIDProps } from 'src/interfaces/test-id.props';
@@ -32,9 +32,10 @@ import { getPublicKeyHash } from '../../../../../../store/wallet/wallet.utils';
 import { styles } from './accounts-container.styles';
 import { AccountsContainerTestIDs } from './accounts-container.test-ids';
 
-interface Props extends TestIDProps {
+type Props = PropsWithChildren<{
   accounts: AccountInterface[];
-}
+}> &
+  TestIDProps;
 
 const keyExtractor = (account: AccountInterface) => account.accountId.toString();
 
