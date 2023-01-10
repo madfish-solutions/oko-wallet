@@ -30,6 +30,7 @@ jobs:
   testapp-build:
     name: Creates extension, iOS & Android builds
     runs-on: macos-latest
+    environment: production
     steps:
       - name: Clone repository
         uses: actions/checkout@v2

@@ -22,13 +22,6 @@ export const useValidatePasswordForm = <FormFields extends { confirmPassword: st
 }: UseValidatePasswordFormArgs<FormFields>) => {
   const { commonRules } = useValidateForm();
 
-  const checkName = (currentValue: string) => {
-    const trimValue = currentValue.trim();
-    if (trimValue.length < 4 || trimValue.length > 18) {
-      return '4-18 characters';
-    }
-  };
-
   const matchPassword = (currentValue: string) => {
     if (currentValue !== password) {
       return PASSWORD_DOES_NOT_MATCH;
@@ -39,11 +32,6 @@ export const useValidatePasswordForm = <FormFields extends { confirmPassword: st
     if (currentValue !== password) {
       return PASSWORD_DOES_NOT_MATCH;
     }
-  };
-
-  const nameRules = {
-    required: requiredFieldError,
-    validate: { ...commonRules.validate, checkName }
   };
 
   const confirmPasswordRules = {
@@ -65,7 +53,6 @@ export const useValidatePasswordForm = <FormFields extends { confirmPassword: st
 
   return {
     commonRules,
-    nameRules,
     confirmPasswordRules,
     changePasswordRules
   };

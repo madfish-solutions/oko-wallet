@@ -10,6 +10,8 @@ import { editAccountNameAction } from '../../../store/wallet/wallet.actions';
 import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';
 import { useAccountFieldRules } from '../../hooks/use-validate-account-field.hook';
 
+import { styles } from './edit-account.styles';
+
 export const EditAccount: FC = () => {
   const {
     params: { account }
@@ -65,7 +67,13 @@ export const EditAccount: FC = () => {
         name="name"
         rules={nameRules}
         render={({ field }) => (
-          <TextInput field={field} label="Account name" placeholder={account.name} error={errors?.name?.message} />
+          <TextInput
+            field={field}
+            label="Account name"
+            placeholder={account.name}
+            error={errors?.name?.message}
+            containerStyle={styles.inputContainer}
+          />
         )}
       />
     </ModalActionContainer>

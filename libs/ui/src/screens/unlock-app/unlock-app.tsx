@@ -111,7 +111,7 @@ export const UnlockApp: FC = () => {
         />
         <Row style={styles.textContainer}>
           <Text style={styles.commonText}>
-            Having troubles?{' '}
+            Having troubles?
             <Text style={styles.linkText} onPress={onResetWallet}>
               Reset a wallet
             </Text>

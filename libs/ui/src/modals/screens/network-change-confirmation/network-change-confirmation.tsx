@@ -1,28 +1,30 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { isDefined } from '@rnw-community/shared';
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { ScrollView, Pressable, Linking, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { AllowsBlock } from '../../../components/allows-block/allows-block';
 import { Button } from '../../../components/button/button';
-import { ButtonSizeEnum, ButtonThemesEnum } from '../../../components/button/enums';
+import { ButtonThemesEnum } from '../../../components/button/enums';
+import { IconWithBorderEnum } from '../../../components/icon-with-border/enums';
 import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
-import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { AllowsRules } from '../../../interfaces/dapp-connection.interface';
 import { useDAppSelector } from '../../../store/d-apps/d-apps.selectors';
+import { showLoaderAction } from '../../../store/settings/settings.actions';
+import { useShowLoaderSelector } from '../../../store/settings/settings.selectors';
 import { changeNetworkAction } from '../../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
-import { handleCopyToClipboard } from '../../../utils/copy-to-clipboard.util';
-import { sendResponseToDAppAndClosePopup } from '../../../utils/dapp.utils';
+import { sendErrorToDAppAndClosePopup, sendResponseToDAppAndClosePopup } from '../../../utils/dapp.utils';
 import { eraseProtocol } from '../../../utils/string.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 import { DAppImage } from '../d-app-connection-confirmation/d-app-image/d-app-image';
 
+import { NetworkImage } from './components/network-image/network-image';
 import { styles } from './network-change-confirmation.styles';
 
 const changeNetworkRules: AllowsRules[] = [
@@ -31,68 +33,75 @@ const changeNetworkRules: AllowsRules[] = [
 ];
 
 export const NetworkChangeConfirmation: FC = () => {
-  const { navigate } = useNavigation();
-  const { name: selectedNetworkName } = useSelectedNetworkSelector();
+  const showLoader = useShowLoaderSelector();
+  const selectedNetwork = useSelectedNetworkSelector();
+  const initialSelectedNetwork = useMemo(() => selectedNetwork, []);
   const networks = useAllNetworksSelector();
   const dispatch = useDispatch();
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.NetworkChangeConfirmation>>();
   const dAppState = useDAppSelector(params.dAppOrigin);
 
-  const navigateToWalletScreen = () => navigate(ScreensEnum.Wallet);
-  const copy = () => handleCopyToClipboard(dAppState.origin);
+  const goToDappUrl = () => Linking.openURL(dAppState.origin);
   const dappsNetwork = networks.find(
     network => network.chainId === parseInt(params.requestedChainId.substring(2), 16).toString()
   );
 
-  const acceptChangeNetwork = () => {
+  const onConfirm = () => {
+    dispatch(showLoaderAction());
+
     if (isDefined(dappsNetwork)) {
       dispatch(changeNetworkAction(dappsNetwork?.rpcUrl));
     }
     sendResponseToDAppAndClosePopup(params.messageId, null, params.dAppOrigin);
   };
+  const onDecline = () => {
+    dispatch(showLoaderAction());
+
+    sendErrorToDAppAndClosePopup(params.messageId, params.dAppOrigin);
+  };
 
   return (
-    <ModalContainer screenTitle="Confirm change network">
+    <ModalContainer screenTitle="Confirm Network Change" onHeaderCloseButtonPress={onDecline}>
       <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
         <Row style={styles.dappLogo}>
           <DAppImage imageUri={dAppState.favicon} />
         </Row>
         <Row style={styles.addressRow}>
           <Text style={styles.smallText}>Address</Text>
-          <Row>
-            <Text style={styles.explorerLink} onPress={() => Linking.openURL(dAppState.origin)} numberOfLines={1}>
-              {eraseProtocol(dAppState.origin)}
-            </Text>
-            <Pressable onPress={copy}>
-              <Icon name={IconNameEnum.Copy} />
-            </Pressable>
-          </Row>
+          <Pressable onPress={goToDappUrl}>
+            <Row>
+              <Text style={styles.explorerLink} numberOfLines={1}>
+                {eraseProtocol(dAppState.origin)}
+              </Text>
+              <Icon name={IconNameEnum.Tooltip} />
+            </Row>
+          </Pressable>
         </Row>
         <View style={styles.divider} />
         <Row style={styles.chainChange}>
-          <DAppImage />
+          <NetworkImage iconName={initialSelectedNetwork.iconName} type={IconWithBorderEnum.Quaternary} />
           <Icon name={IconNameEnum.ArrowRight} />
-          <DAppImage />
+          <NetworkImage iconName={dappsNetwork?.iconName} type={IconWithBorderEnum.Quaternary} />
         </Row>
         <View>
           <Text style={styles.grayText}>From</Text>
           <Row style={styles.chainSelector}>
-            <DAppImage size={ButtonSizeEnum.Small} />
-            <Text style={styles.chainName}>{selectedNetworkName}</Text>
+            <NetworkImage iconName={initialSelectedNetwork.iconName} />
+            <Text style={styles.chainName}>{initialSelectedNetwork.name}</Text>
           </Row>
         </View>
         <View style={styles.addressTo}>
           <Text style={styles.grayText}>To</Text>
           <Row style={styles.chainSelector}>
-            <DAppImage size={ButtonSizeEnum.Small} />
+            <NetworkImage iconName={dappsNetwork?.iconName} />
             <Text style={styles.chainName}>{dappsNetwork?.name}</Text>
           </Row>
         </View>
         <AllowsBlock rules={changeNetworkRules} />
       </ScrollView>
       <Row style={styles.buttonPanel}>
-        <Button onPress={navigateToWalletScreen} theme={ButtonThemesEnum.Primary} title="Decline" />
-        <Button theme={ButtonThemesEnum.Secondary} title="Confirm" onPress={acceptChangeNetwork} />
+        <Button title="Decline" onPress={onDecline} disabled={showLoader} theme={ButtonThemesEnum.Primary} />
+        <Button title="Confirm" onPress={onConfirm} disabled={showLoader} theme={ButtonThemesEnum.Secondary} />
       </Row>
     </ModalContainer>
   );
