@@ -39,7 +39,7 @@ import IconDisconnect from './assets/icon-disconnect.svg';
 import IconPlaceholder from './assets/icon-placeholder.svg';
 import IconWarning from './assets/icon-warning.svg';
 import InfoRed from './assets/info-red.svg';
-import InfoToast from './assets/Info-toast.svg';
+import InfoToast from './assets/info-toast.svg';
 import Info from './assets/info.svg';
 import LoadersIcon from './assets/loaders.svg';
 import LockClosed from './assets/lock-closed.svg';
