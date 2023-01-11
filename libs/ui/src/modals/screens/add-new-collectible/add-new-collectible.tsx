@@ -141,7 +141,7 @@ export const AddNewCollectible: FC = () => {
     });
 
     if (Number(balance) === 0) {
-      return showErrorToast('You are not the owner of this Collectible');
+      return showErrorToast({ message: 'You are not the owner of this Collectible' });
     }
 
     dispatch(addNewCollectibleAction({ token: collectibleMetadata, balance }));

@@ -13,8 +13,10 @@ import {
   TEZOS_NETWORKS_LIST
 } from '../../../../constants/networks';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
+import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
+import { useToast } from '../../../../hooks/use-toast.hook';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
 import { addNewNetworkAction } from '../../../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedAccountSelector } from '../../../../store/wallet/wallet.selectors';
@@ -35,9 +37,10 @@ const defaultValues = {
 };
 
 export const AddNetwork: FC = () => {
-  const { goBack } = useNavigation();
+  const { navigate } = useNavigation();
   const dispatch = useDispatch();
   const { createHdAccountForNewNetworkType } = useShelter();
+  const { showSuccessToast } = useToast();
 
   const selectedAccount = useSelectedAccountSelector();
   const networks = useAllNetworksSelector();
@@ -209,7 +212,8 @@ export const AddNetwork: FC = () => {
       dispatch(addNewNetworkAction(network));
     }
 
-    goBack();
+    navigate(ScreensEnum.Wallet);
+    showSuccessToast({ message: 'Success!', description: 'The network was successfully added! ' });
   };
 
   return (

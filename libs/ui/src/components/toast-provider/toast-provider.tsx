@@ -1,15 +1,19 @@
 import React, { FC } from 'react';
 import { ToastProvider as ToastProviderBase } from 'react-native-toast-notifications';
+import { ToastProps } from 'react-native-toast-notifications/lib/typescript/toast';
 
 import { ToastsEnum } from '../../enums/toasts.enums';
+import { Toast } from '../toast/toast';
 
-import { Toast } from './components/toast/toast';
 import { offset } from './constants/offset';
 
-const renderToast = <ToastProps extends { message: string | JSX.Element; type?: string }>({
-  message,
-  type
-}: ToastProps) => <Toast message={message} type={type as ToastsEnum} />;
+interface RenderToastProps extends ToastProps {
+  timerLine?: boolean;
+}
+
+const renderToast = ({ message, type, data, onHide, duration }: RenderToastProps) => (
+  <Toast message={message} type={type as ToastsEnum} onClose={onHide} data={data} duration={duration} />
+);
 
 export const ToastProvider: FC = ({ children }) => (
   <ToastProviderBase offset={offset} renderToast={renderToast}>

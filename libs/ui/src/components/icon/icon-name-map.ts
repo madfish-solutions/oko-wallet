@@ -15,6 +15,7 @@ import SelectedSquareCheckbox from './assets/check-ok.svg';
 import ChevronRight from './assets/chevron-right.svg';
 import Chevron from './assets/chevron.svg';
 import Clear from './assets/clear.svg';
+import Close from './assets/close.svg';
 import CopyIcon from './assets/copy.svg';
 import DappConnect from './assets/dapp-connect.svg';
 import Delete from './assets/delete.svg';
@@ -38,6 +39,7 @@ import IconDisconnect from './assets/icon-disconnect.svg';
 import IconPlaceholder from './assets/icon-placeholder.svg';
 import IconWarning from './assets/icon-warning.svg';
 import InfoRed from './assets/info-red.svg';
+import InfoToast from './assets/Info-toast.svg';
 import Info from './assets/info.svg';
 import LoadersIcon from './assets/loaders.svg';
 import LockClosed from './assets/lock-closed.svg';
@@ -188,5 +190,7 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Arbitrum]: Arbitrum,
   [IconNameEnum.Optimism]: Optimism,
   [IconNameEnum.Polygon]: Polygon,
-  [IconNameEnum.User]: User
+  [IconNameEnum.User]: User,
+  [IconNameEnum.Close]: Close,
+  [IconNameEnum.InfoToast]: InfoToast
 };

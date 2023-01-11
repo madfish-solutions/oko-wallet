@@ -57,7 +57,7 @@ export const TransferBetweenMyAccounts: FC = () => {
 
   const onTransferBetweenAccountsPress = () => {
     if (isTransferBetweenAccountsDisabled) {
-      return showWarningToast('Please, add one more account');
+      return showWarningToast({ message: 'Please, add one more account' });
     }
     const selectedAccount = account ?? allAccountsWithoutSelected[0];
 

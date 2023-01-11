@@ -3,6 +3,8 @@ import { OnEventFn } from '@rnw-community/shared';
 import { catchError, of, Subject, switchMap } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
+import { ScreensEnum } from '../../enums/sreens.enum';
+import { Toast } from '../../hooks/use-toast.hook';
 import { CreateImportedAccountParams } from '../../interfaces/create-hd-account.interface';
 import { hideLoaderAction, showLoaderAction } from '../../store/settings/settings.actions';
 import { createHdAccountAction } from '../../store/wallet/wallet.actions';
@@ -10,9 +12,10 @@ import { Shelter } from '../shelter';
 
 export const createImportAccountSubscription = (
   createImportedAccount$: Subject<CreateImportedAccountParams>,
-  showErrorToast: OnEventFn<string>,
+  showErrorToast: OnEventFn<Toast>,
+  showSuccessToast: OnEventFn<Toast>,
   dispatch: Dispatch,
-  goBack: OnEventFn<void>
+  navigate: OnEventFn<ScreensEnum>
 ) =>
   createImportedAccount$
     .pipe(
@@ -21,7 +24,10 @@ export const createImportAccountSubscription = (
         Shelter.createImportedAccount$(hdAccount, networkType, accountId, name)
       ),
       catchError(() => {
-        showErrorToast('Failed to import account. This may happen because provided Key is invalid.');
+        showErrorToast({
+          message: 'Failed to import account.',
+          description: 'This may happen because provided Key is invalid.'
+        });
 
         return of(undefined);
       }),
@@ -30,6 +36,7 @@ export const createImportAccountSubscription = (
     .subscribe(account => {
       if (account !== undefined) {
         dispatch(createHdAccountAction(account));
-        goBack();
+        navigate(ScreensEnum.Wallet);
+        showSuccessToast({ message: 'Success!', description: 'The new account was successfully imported!' });
       }
     });

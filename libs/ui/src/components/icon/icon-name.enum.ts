@@ -61,6 +61,7 @@ export enum IconNameEnum {
   DropdownSelector = 'DropdownSelector',
   Refresh = 'Refresh',
   Info = 'Info',
+  InfoToast = 'InfoToast',
   Deposit = 'Deposit',
   NftCollectionLayout = 'NftCollectionLayout',
   NftLayout = 'NftLayout',
@@ -90,5 +91,6 @@ export enum IconNameEnum {
   Optimism = 'Optimism',
   Arbitrum = 'Arbitrum',
   Polygon = 'Polygon',
-  User = 'User'
+  User = 'User',
+  Close = 'Close'
 }
