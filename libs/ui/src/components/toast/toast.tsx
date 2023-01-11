@@ -16,7 +16,7 @@ import { themes } from './constants/themes';
 import { styles } from './toast.styles';
 
 export interface ToastData {
-  description: string | JSX.Element;
+  description?: string | JSX.Element;
   isShowTimerLine?: boolean;
 }
 
