@@ -213,7 +213,10 @@ export const AddNetwork: FC = () => {
     }
 
     navigate(ScreensEnum.Wallet);
-    showSuccessToast({ message: 'Success!', data: { description: 'The network was successfully added! ' } });
+    showSuccessToast({
+      message: 'Success!',
+      data: { description: `The network ${name.trim()} was successfully added! ` }
+    });
   };
 
   return (
