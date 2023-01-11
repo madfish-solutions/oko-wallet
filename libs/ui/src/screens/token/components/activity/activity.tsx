@@ -11,18 +11,14 @@ import {
 } from '../../../../store/wallet/wallet.selectors';
 
 export const Activity: FC = () => {
-  const {
-    params: {
-      token: { tokenAddress: basicTokenAddress }
-    }
-  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Token>>();
+  const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Token>>();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { chainId } = useSelectedNetworkSelector();
 
   const tokenAddress =
-    getDebankId(chainId) !== 'klay' && basicTokenAddress === GAS_TOKEN_ADDRESS
+    getDebankId(chainId) !== 'klay' && params.token.tokenAddress === GAS_TOKEN_ADDRESS
       ? getDebankId(chainId)
-      : basicTokenAddress;
+      : params.token.tokenAddress;
 
   return <ActivitySectionList publicKeyHash={publicKeyHash} chainId={chainId} tokenAddress={tokenAddress} />;
 };
