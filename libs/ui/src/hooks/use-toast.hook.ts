@@ -1,12 +1,13 @@
 import { useToast as useToastBase } from 'react-native-toast-notifications';
 import { ToastProps } from 'react-native-toast-notifications/lib/typescript/toast';
 
+import { ToastData } from '../components/toast/toast';
 import { ToastsEnum } from '../enums/toasts.enums';
 
 export interface Toast {
   message: ToastProps['message'];
-  description?: JSX.Element | string;
   duration?: number;
+  data?: ToastData;
 }
 
 interface ToastBase extends Toast {
@@ -18,8 +19,8 @@ const TOAST_LIFETIME = 5000;
 export const useToast = () => {
   const toastBase = useToastBase();
 
-  const toast = ({ message, duration = TOAST_LIFETIME, type, description }: ToastBase) =>
-    toastBase.show(message, { duration, type, data: description });
+  const toast = ({ message, duration = TOAST_LIFETIME, type, data }: ToastBase) =>
+    toastBase.show(message, { duration, type, data });
 
   const showSuccessToast = (args: Toast) => toast({ type: ToastsEnum.success, ...args });
   const showWarningToast = (args: Toast) => toast({ type: ToastsEnum.warning, ...args });

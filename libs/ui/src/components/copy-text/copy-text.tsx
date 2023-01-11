@@ -25,7 +25,10 @@ export const CopyText: FC<Props> = ({ text, isShortize = true, numberOfLines, st
 
     showSuccessToast({
       message: 'Copied',
-      duration: 0
+      duration: 1000,
+      data: {
+        isShowTimerLine: false
+      }
     });
   };
 

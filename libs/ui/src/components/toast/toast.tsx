@@ -15,10 +15,15 @@ import { TouchableIcon } from '../touchable-icon/touchable-icon';
 import { themes } from './constants/themes';
 import { styles } from './toast.styles';
 
+export interface ToastData {
+  description: string | JSX.Element;
+  isShowTimerLine?: boolean;
+}
+
 interface Props extends Pick<ToastProps, 'message'> {
   type: ToastsEnum;
   onClose?: OnEventFn<GestureResponderEvent>;
-  data?: JSX.Element | string;
+  data?: ToastData;
   duration?: number;
 }
 
@@ -43,6 +48,8 @@ export const Toast: FC<Props> = ({ message, type, onClose, data, duration }) => 
     outputRange: ['0%', '100%']
   });
 
+  const isShowTimerLine = (isDefined(data) && data.isShowTimerLine) ?? true;
+
   return (
     <Column style={[styles.root, themes[type].root]}>
       <Row style={styles.container}>
@@ -52,9 +59,13 @@ export const Toast: FC<Props> = ({ message, type, onClose, data, duration }) => 
             <Text style={styles.text}>{message}</Text>
           </Row>
 
-          {isDefined(data) && (
+          {isDefined(data) && isDefined(data.description) && (
             <View style={styles.description}>
-              {typeof data === 'string' ? <Text style={styles.descriptionText}>{data}</Text> : data}
+              {typeof data.description === 'string' ? (
+                <Text style={styles.descriptionText}>{data.description}</Text>
+              ) : (
+                data.description
+              )}
             </View>
           )}
         </Column>
@@ -62,7 +73,7 @@ export const Toast: FC<Props> = ({ message, type, onClose, data, duration }) => 
         <TouchableIcon onPress={onClose} name={IconNameEnum.Close} style={styles.closeButton} />
       </Row>
 
-      {isDefined(duration) && duration > 0 && (
+      {isDefined(duration) && duration > 0 && isShowTimerLine && (
         <View style={styles.timerLine}>
           <Animated.View style={[styles.line, { width: interpolateWidthValue }, themes[type].lineColor]} />
         </View>

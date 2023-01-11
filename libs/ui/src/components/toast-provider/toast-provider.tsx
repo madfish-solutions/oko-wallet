@@ -7,11 +7,7 @@ import { Toast } from '../toast/toast';
 
 import { offset } from './constants/offset';
 
-interface RenderToastProps extends ToastProps {
-  timerLine?: boolean;
-}
-
-const renderToast = ({ message, type, data, onHide, duration }: RenderToastProps) => (
+const renderToast = ({ message, type, data, onHide, duration }: ToastProps) => (
   <Toast message={message} type={type as ToastsEnum} onClose={onHide} data={data} duration={duration} />
 );
 

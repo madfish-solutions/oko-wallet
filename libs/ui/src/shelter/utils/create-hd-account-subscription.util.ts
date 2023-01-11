@@ -27,7 +27,7 @@ export const createHdAccountSubscription = ({
       catchError(() => {
         showErrorToast({
           message: 'Failed to import account.',
-          description: 'This may happen because provided Key is invalid.'
+          data: { description: 'This may happen because provided Key is invalid.' }
         });
 
         return of(undefined);
@@ -40,7 +40,7 @@ export const createHdAccountSubscription = ({
 
         dispatch(createHdAccountAction(account));
         successCallback?.();
-        showSuccessToast({ message: 'Success!', description: 'The new account was successfully added!' });
+        showSuccessToast({ message: 'Success!', data: { description: 'The new account was successfully added!' } });
       }
     });
 
@@ -72,7 +72,7 @@ export const createHdAccountForNewNetworkTypeSubscription = ({
       catchError(() => {
         showErrorToast({
           message: 'Failed to import account.',
-          description: 'This may happen because provided Key is invalid.'
+          data: { description: 'This may happen because provided Key is invalid.' }
         });
 
         return of(undefined);
@@ -85,6 +85,6 @@ export const createHdAccountForNewNetworkTypeSubscription = ({
 
         dispatch(createHdAccountForNewNetworkTypeAction({ account: updatedAccount, switchToNewAccount }));
         successCallback?.(updatedAccount);
-        showSuccessToast({ message: 'Success!', description: 'The new account was successfully added!' });
+        showSuccessToast({ message: 'Success!', data: { description: 'The new account was successfully added!' } });
       }
     });

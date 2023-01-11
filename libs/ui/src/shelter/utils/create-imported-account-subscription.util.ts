@@ -26,7 +26,7 @@ export const createImportAccountSubscription = (
       catchError(() => {
         showErrorToast({
           message: 'Failed to import account.',
-          description: 'This may happen because provided Key is invalid.'
+          data: { description: 'This may happen because provided Key is invalid.' }
         });
 
         return of(undefined);
@@ -37,6 +37,6 @@ export const createImportAccountSubscription = (
       if (account !== undefined) {
         dispatch(createHdAccountAction(account));
         navigate(ScreensEnum.Wallet);
-        showSuccessToast({ message: 'Success!', description: 'The new account was successfully imported!' });
+        showSuccessToast({ message: 'Success!', data: { description: 'The new account was successfully imported!' } });
       }
     });

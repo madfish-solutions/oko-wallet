@@ -39,13 +39,15 @@ export const useTransactionHook = (receiverPublicKeyHash: string, asset: Asset) 
 
     showSuccessToast({
       message: 'Success!',
-      description: (
-        <ToastDescription
-          message="Transaction request sent! Confirming..."
-          opHash={transactionResponse.hash}
-          onPress={onBlockchainExplorerPress}
-        />
-      )
+      data: {
+        description: (
+          <ToastDescription
+            message="Transaction request sent! Confirming..."
+            opHash={transactionResponse.hash}
+            onPress={onBlockchainExplorerPress}
+          />
+        )
+      }
     });
 
     const { tokenAddress, tokenId, standard } = asset;
