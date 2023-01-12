@@ -1,3 +1,4 @@
+console.log('a');
 import './shim.js';
 import 'react-native-gesture-handler';
 
