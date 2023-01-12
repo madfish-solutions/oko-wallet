@@ -48,7 +48,7 @@ export const Toast: FC<Props> = ({ message, type, onClose, data, duration }) => 
     outputRange: ['0%', '100%']
   });
 
-  const isShowTimerLine = (isDefined(data) && data.isShowTimerLine) || true;
+  const isShowTimerLine = isDefined(data) && isDefined(data.isShowTimerLine) ? data.isShowTimerLine : true;
 
   return (
     <Column style={[styles.root, themes[type].root]}>
