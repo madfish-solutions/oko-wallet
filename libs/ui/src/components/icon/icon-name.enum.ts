@@ -26,6 +26,7 @@ export enum IconNameEnum {
   ReceiveSmall = 'ReceiveSmall',
   Search = 'Search',
   Send = 'Send',
+  SendSmall = 'SendSmall',
   Settings = 'Settings',
   Stake = 'Stake',
   Swap = 'Swap',
@@ -92,5 +93,8 @@ export enum IconNameEnum {
   Arbitrum = 'Arbitrum',
   Polygon = 'Polygon',
   User = 'User',
-  Close = 'Close'
+  Close = 'Close',
+  FilterNo = 'FilterNo',
+  FilterYes = 'FilterYes',
+  Document = 'Document'
 }
