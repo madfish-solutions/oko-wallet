@@ -19,9 +19,9 @@ export const getTokenDetailsUrl = ({
   chainId
 }: TokenDetails) => {
   const isKlaytn = isDefined(chainId) && getDebankId(chainId) === 'klay';
-  const searchParam = isDefined(id) && isKlaytn ? '/nft/' : '/token/';
-  const explorerUrlPrefix = networkType === NetworkTypeEnum.EVM ? searchParam : '';
-  const collectibleParam = isDefined(chainId) && isKlaytn ? '/' + id : `?a=${id}`;
+  const tokenSearchParam = isDefined(id) && isKlaytn ? '/nft/' : '/token/';
+  const idSearchParam = isDefined(chainId) && isKlaytn ? `/${id}` : `?a=${id}`;
+  const explorerUrlPrefix = networkType === NetworkTypeEnum.EVM ? tokenSearchParam : '';
 
-  return `${explorerUrl}${explorerUrlPrefix}${address}${isDefined(id) ? collectibleParam : ''}`;
+  return `${explorerUrl}${explorerUrlPrefix}${address}${isDefined(id) ? idSearchParam : ''}`;
 };
