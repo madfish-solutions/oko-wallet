@@ -12,6 +12,8 @@
     "@dicebear/avatars": "^4.10.8",
     "@dicebear/avatars-bottts-sprites": "^4.10.8",
     "@dicebear/avatars-jdenticon-sprites": "^4.10.8",
+    "@dicebear/collection": "^5.0.2",
+    "@dicebear/core": "^5.0.2",
     "@metamask/object-multiplex": "^1.2.0",
     "@metamask/post-message-stream": "^6.1.0",
     "@react-native-async-storage/async-storage": "^1.17.11",

@@ -77,6 +77,8 @@
     "@types/react": "^18"
   },
   "dependencies": {
+    "@dicebear/collection": "^5.0.2",
+    "@dicebear/core": "^5.0.2",
     "react-native-vision-camera": "^2.15.2",
     "vision-camera-code-scanner": "^0.2.0"
   }

@@ -28,13 +28,23 @@ if (typeof localStorage !== 'undefined') {
   localStorage.debug = isDev ? '*' : '';
 }
 
-// If using the crypto shim, uncomment the following line to ensure
-// crypto is loaded first, so it can populate global.crypto
+/**
+ * If using the crypto shim, uncomment the following line to ensure
+ * crypto is loaded first, so it can populate global.crypto
+ */
 require('crypto');
 
-// Shims required for ethers in constrained environments:
-// - atob
-// - btoa
-// - nextTick
-// - FileReader.prototype.readAsArrayBuffer
+/**
+ * Shims required for ethers in constrained environments:
+ * - atob
+ * - btoa
+ * - nextTick
+ * - FileReader.prototype.readAsArrayBuffer
+ */
 require('@ethersproject/shims');
+
+/**
+ * This is a fast polyfill for TextEncoder and TextDecoder.
+ * used by @dicebear/converter/lib/core.js
+ */
+require('fast-text-encoding');
