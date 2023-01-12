@@ -1,6 +1,7 @@
-import React from 'react';
-import { BarCodeReadEvent } from 'react-native-camera';
-import QRCodeScanner from 'react-native-qrcode-scanner';
+import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
+import { Camera, useCameraDevices } from 'react-native-vision-camera';
+import { BarcodeFormat, useScanBarcodes } from 'vision-camera-code-scanner';
 
 import { Icon } from '../../components/icon/icon';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
@@ -17,29 +18,45 @@ import { isAddressValid } from '../../utils/is-address-valid.utils';
 
 import { styles } from './scan-qr-code.styles';
 
+const qrScannerIconSize = getCustomSize(25);
+
 export const ScanQrCode = () => {
+  const [hasPermission, setHasPermission] = useState(false);
+
+  const devices = useCameraDevices();
+  const device = devices.back;
+  const isCameraAvailable = device != null && hasPermission;
+
+  const [frameProcessor, qrCodes] = useScanBarcodes([BarcodeFormat.QR_CODE], {
+    checkInverted: true
+  });
+
+  useEffect(() => void Camera.requestCameraPermission().then(status => setHasPermission(status === 'authorized')), []);
+
   const { navigate, goBack } = useNavigation();
   const previousScreen = usePreviousScreenName();
 
   const { showErrorToast } = useToast();
   const networkType = useSelectedNetworkTypeSelector();
 
-  const handleRead = ({ data: receiverPublicKeyHash }: BarCodeReadEvent) => {
-    const isValidAddress = isAddressValid(receiverPublicKeyHash, networkType);
+  useEffect(() => {
     const isSendScreen = previousScreen === ScreensEnum.SendToken || previousScreen === ScreensEnum.SendCollectible;
 
-    if (!isSendScreen) {
-      return goBack();
-    }
+    if (qrCodes.length && hasPermission && isSendScreen) {
+      const receiverPublicKeyHash = qrCodes[0].displayValue;
+      const isValid = isAddressValid(receiverPublicKeyHash, networkType);
 
-    if (isValidAddress) {
-      navigate(previousScreen, { receiverPublicKeyHash });
-    } else {
-      showErrorToast(`${networkType} QR Code not found on the picture.`);
+      if (!isValid) {
+        showErrorToast(`${networkType} QR Code not found on the picture.`);
 
-      navigate(previousScreen);
+        navigate(previousScreen);
+      } else {
+        navigate(previousScreen, { receiverPublicKeyHash });
+      }
+
+      return () => setHasPermission(false);
     }
-  };
+  }, [qrCodes.length]);
 
   return (
     <ScreenContainer>
@@ -47,14 +64,18 @@ export const ScanQrCode = () => {
         <ScreenTitle title="Scan QRcode" onBackButtonPress={goBack} />
       </HeaderContainer>
 
-      <QRCodeScanner
-        showMarker
-        customMarker={<Icon name={IconNameEnum.QrScanner} size={getCustomSize(25)} iconStyle={styles.icon} />}
-        permissionDialogTitle="There is no access to the Camera."
-        permissionDialogMessage="Please, give access in the phone Setting page."
-        onRead={handleRead}
-        cameraStyle={styles.camera}
-      />
+      {isCameraAvailable && (
+        <View>
+          <Camera
+            style={styles.camera}
+            device={device}
+            isActive
+            frameProcessor={frameProcessor}
+            frameProcessorFps={5}
+          />
+          <Icon name={IconNameEnum.QrScanner} size={qrScannerIconSize} iconStyle={styles.icon} />
+        </View>
+      )}
     </ScreenContainer>
   );
 };
