@@ -11,9 +11,10 @@ interface Props {
   value: string;
   symbol?: string;
   style?: TextStyleProps;
+  symbolStyle?: TextStyleProps;
 }
 
-export const TokenAmount: FC<Props> = ({ value, symbol, style }) => {
+export const TokenAmount: FC<Props> = ({ value, symbol, style, symbolStyle }) => {
   const isSmallValue = value.includes('<');
 
   const textStyle = [styles.text, style];
@@ -23,7 +24,7 @@ export const TokenAmount: FC<Props> = ({ value, symbol, style }) => {
       {isSmallValue && <Text style={[textStyle, styles.lessSign]}>&#60;</Text>}
       <Text style={textStyle}>{isSmallValue ? value.replace('<', '').trim() : value}</Text>
       {isNotEmptyString(symbol) && (
-        <Text numberOfLines={1} style={[textStyle, styles.symbol]}>
+        <Text numberOfLines={1} style={[textStyle, symbolStyle, styles.symbol]}>
           {symbol}
         </Text>
       )}

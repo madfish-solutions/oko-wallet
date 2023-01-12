@@ -20,6 +20,7 @@ import DappConnect from './assets/dapp-connect.svg';
 import Delete from './assets/delete.svg';
 import Deposit from './assets/deposit.svg';
 import Discord from './assets/discord.svg';
+import Document from './assets/document.svg';
 import DropdownSelector from './assets/dropdown-selector.svg';
 import DropdownIcon from './assets/dropdown.svg';
 import DropupIcon from './assets/dropup.svg';
@@ -31,6 +32,8 @@ import Error from './assets/error.svg';
 import EyeClosedIcon from './assets/eye-closed.svg';
 import EyeOpenIcon from './assets/eye-open.svg';
 import FaceId from './assets/face-id.svg';
+import FilterNo from './assets/filter-no.svg';
+import FilterYes from './assets/filter-yes.svg';
 import GasIcon from './assets/gas.svg';
 import GridSettings from './assets/grid-settings.svg';
 import Home from './assets/home.svg';
@@ -64,6 +67,7 @@ import SearchIcon from './assets/search.svg';
 import Security from './assets/security.svg';
 import See from './assets/see.svg';
 import SelectedCheckbox from './assets/selected-checkbox.svg';
+import SendSmallIcon from './assets/send-small.svg';
 import SendIcon from './assets/send.svg';
 import SettingsIcon from './assets/settings.svg';
 import Share from './assets/share.svg';
@@ -122,6 +126,7 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.ReceiveSmall]: ReceiveSmallIcon,
   [IconNameEnum.Search]: SearchIcon,
   [IconNameEnum.Send]: SendIcon,
+  [IconNameEnum.SendSmall]: SendSmallIcon,
   [IconNameEnum.Settings]: SettingsIcon,
   [IconNameEnum.Stake]: StakeIcon,
   [IconNameEnum.Swap]: SwapIcon,
@@ -188,5 +193,8 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Arbitrum]: Arbitrum,
   [IconNameEnum.Optimism]: Optimism,
   [IconNameEnum.Polygon]: Polygon,
-  [IconNameEnum.User]: User
+  [IconNameEnum.User]: User,
+  [IconNameEnum.FilterNo]: FilterNo,
+  [IconNameEnum.FilterYes]: FilterYes,
+  [IconNameEnum.Document]: Document
 };
