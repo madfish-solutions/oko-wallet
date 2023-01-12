@@ -3,7 +3,7 @@ import { JsonRpcRequest, JsonRpcResponse, PendingJsonRpcResponse } from 'json-rp
 import type { Duplex } from 'stream';
 
 import type { UnvalidatedJsonRpcRequest } from './base-provider';
-import { AbstractStreamProvider, StreamProviderOptions } from './stream-provider';
+import { StreamProvider, StreamProviderOptions } from './stream-provider';
 import { getDefaultExternalMiddleware } from './utils/middleware.utils';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -19,7 +19,7 @@ const getRpcPromiseCallback =
   };
 
 export interface SendSyncJsonRpcRequest extends JsonRpcRequest<unknown> {
-  method: 'eth_accounts' | 'eth_coinbase' | 'eth_uninstallFilter' | 'net_version';
+  method: 'eth_accounts' | 'eth_coinbase' | 'eth_uninstallFilter' | 'net_version' | 'eth_requestAccounts';
 }
 
 type WarningEventName = keyof SentWarningsState['events'];
@@ -45,7 +45,7 @@ interface SentWarningsState {
  */
 export const InpageProviderStreamName = 'oko-provider';
 
-export class InpageProvider extends AbstractStreamProvider {
+export class InpageProvider extends StreamProvider {
   protected _sentWarnings: SentWarningsState = {
     // methods
     enable: false,
@@ -194,7 +194,7 @@ export class InpageProvider extends AbstractStreamProvider {
    * @param errorMessage - A custom error message.
    * @emits BaseProvider#disconnect
    */
-  protected _handleDisconnect(isRecoverable: boolean, errorMessage?: string) {
+  _handleDisconnect(isRecoverable: boolean, errorMessage?: string) {
     super._handleDisconnect(isRecoverable, errorMessage);
     if (this.networkVersion && !isRecoverable) {
       this.networkVersion = null;
@@ -273,6 +273,10 @@ export class InpageProvider extends AbstractStreamProvider {
     if (typeof methodOrPayload === 'string' && (!callbackOrArgs || Array.isArray(callbackOrArgs))) {
       return new Promise((resolve, reject) => {
         try {
+          this.anotherProvider[0]._rpcRequest(
+            { method: methodOrPayload, params: callbackOrArgs },
+            getRpcPromiseCallback(resolve, reject, false)
+          );
           this._rpcRequest(
             { method: methodOrPayload, params: callbackOrArgs },
             getRpcPromiseCallback(resolve, reject, false)
@@ -296,10 +300,12 @@ export class InpageProvider extends AbstractStreamProvider {
    *
    * @deprecated
    */
-  protected _sendSync(payload: SendSyncJsonRpcRequest) {
+  _sendSync(payload: SendSyncJsonRpcRequest) {
+    console.log('send sync works..');
     let result;
     switch (payload.method) {
       case 'eth_accounts':
+      case 'eth_requestAccounts':
         result = this.selectedAddress ? [this.selectedAddress] : [];
         break;
 

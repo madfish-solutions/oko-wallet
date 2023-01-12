@@ -213,7 +213,7 @@ export abstract class BaseProvider extends SafeEventEmitter {
    * @emits BaseProvider#_initialized
    * @emits BaseProvider#connect - If `initialState` is defined.
    */
-  protected _initializeState(initialState?: {
+  _initializeState(initialState?: {
     accounts: string[];
     chainId: string;
     isUnlocked: boolean;
@@ -278,7 +278,7 @@ export abstract class BaseProvider extends SafeEventEmitter {
    * @param chainId - The ID of the newly connected chain.
    * @emits InpageProvider#connect
    */
-  protected _handleConnect(chainId: string) {
+  _handleConnect(chainId: string) {
     if (!this._state.isConnected) {
       this._state.isConnected = true;
       this.emit('connect', { chainId });
@@ -296,7 +296,7 @@ export abstract class BaseProvider extends SafeEventEmitter {
    * @param errorMessage - A custom error message.
    * @emits BaseProvider#disconnect
    */
-  protected _handleDisconnect(isRecoverable: boolean, errorMessage?: string) {
+  _handleDisconnect(isRecoverable: boolean, errorMessage?: string) {
     if (this._state.isConnected || (!this._state.isPermanentlyDisconnected && !isRecoverable)) {
       this._state.isConnected = false;
 
@@ -410,7 +410,7 @@ export abstract class BaseProvider extends SafeEventEmitter {
    * @param opts.accounts - The exposed accounts, if any.
    * @param opts.isUnlocked - The latest isUnlocked value.
    */
-  protected _handleUnlockStateChanged({ accounts, isUnlocked }: { accounts?: string[]; isUnlocked?: boolean } = {}) {
+  _handleUnlockStateChanged({ accounts, isUnlocked }: { accounts?: string[]; isUnlocked?: boolean } = {}) {
     if (typeof isUnlocked !== 'boolean') {
       this._log.error('Received invalid isUnlocked parameter. Please report this bug.');
 

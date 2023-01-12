@@ -32,7 +32,7 @@ scripting.registerContentScripts([
     id: 'oko-inpage-script',
     matches: ['file://*/*', 'http://*/*', 'https://*/*'],
     js: ['scripts/inpage.js'],
-    runAt: 'document_idle',
+    runAt: 'document_start',
     // @ts-ignore
     world: 'MAIN'
   }
@@ -84,6 +84,7 @@ runtime.onConnect.addListener(port => {
       const provider = getDefaultProvider(selectedRpcUrl);
 
       switch (method) {
+        case 'wallet_requestPermissions':
         case 'eth_requestAccounts': {
           if (isPermissionGranted) {
             const result = [selectedAccountPublicKeyHash];

@@ -2,6 +2,7 @@
 import { Duplex } from 'stream';
 
 import { InpageProvider, InpageProviderOptions } from './inpage-provider';
+import { shimWeb3 } from './shim-web3';
 
 interface InitializeProviderOptions extends InpageProviderOptions {
   /**
@@ -50,6 +51,8 @@ export function initializeProvider({
     // some common libraries, e.g. web3@1.x, mess with our API
     deleteProperty: () => true
   });
+
+  shimWeb3(proxiedProvider);
 
   if (shouldSetOnWindow) {
     setGlobalProvider(proxiedProvider);
