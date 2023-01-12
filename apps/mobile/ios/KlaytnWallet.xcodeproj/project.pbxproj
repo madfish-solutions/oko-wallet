@@ -526,6 +526,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = D653UWS37K;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = KlaytnWallet/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Oko Wallet";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -558,6 +559,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D653UWS37K;
 				INFOPLIST_FILE = KlaytnWallet/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Oko Wallet";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
