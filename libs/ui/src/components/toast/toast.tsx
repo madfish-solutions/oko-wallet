@@ -45,7 +45,7 @@ export const Toast: FC<Props> = ({ message, type, onClose, data, duration }) => 
 
   const interpolateWidthValue = animationController.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0%', '100%']
+    outputRange: ['100%', '0%']
   });
 
   const isShowTimerLine = isDefined(data) && isDefined(data.isShowTimerLine) ? data.isShowTimerLine : true;

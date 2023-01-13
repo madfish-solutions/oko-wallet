@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   root: {
     width: '91%',
     padding: getCustomSize(1.5),
-    marginTop: getCustomSize(0.5),
+    marginTop: getCustomSize(),
     borderRadius: getCustomSize(1.75)
   },
   container: {

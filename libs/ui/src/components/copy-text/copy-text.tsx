@@ -17,6 +17,8 @@ interface Props {
   textStyles?: TextStyleProps;
 }
 
+const TOAST_DURATION_OF_COPY = 5000;
+
 export const CopyText: FC<Props> = ({ text, isShortize = true, numberOfLines, style, textStyles }) => {
   const { showSuccessToast } = useToast();
 
@@ -25,7 +27,7 @@ export const CopyText: FC<Props> = ({ text, isShortize = true, numberOfLines, st
 
     showSuccessToast({
       message: 'Copied',
-      duration: 1000,
+      duration: TOAST_DURATION_OF_COPY,
       data: {
         isShowTimerLine: false
       }
