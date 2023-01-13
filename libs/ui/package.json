@@ -12,8 +12,8 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
-    "@dicebear/avatars": "^4.10.8",
-    "@dicebear/avatars-bottts-sprites": "^4.10.8",
+    "@dicebear/collection": "^5.0.2",
+    "@dicebear/core": "^5.0.2",
     "@react-native-async-storage/async-storage": "^1.17.11",
     "@react-native-clipboard/clipboard": "^1.11.1",
     "@react-navigation/native": "^6.1.2",
@@ -28,7 +28,7 @@
     "@types/jest": "^29.2.5",
     "@types/lodash": "^4.14.191",
     "@types/react": "^18.0.26",
-    "@types/react-native": "^0.70.8",
+    "@types/react-native": "^0.71.0",
     "@types/react-test-renderer": "^18.0.0",
     "@types/redux-persist": "^4.3.1",
     "@types/webextension-polyfill": "^0.9.2",
@@ -46,7 +46,7 @@
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-hook-form": "^7.41.5",
-    "react-native": "^0.70.6",
+    "react-native": "^0.71.0",
     "react-native-bootsplash": "^4.4.0",
     "react-native-config": "^1.4.11",
     "react-native-device-info": "^10.3.0",
@@ -75,11 +75,5 @@
   },
   "resolutions": {
     "@types/react": "^18"
-  },
-  "dependencies": {
-    "@dicebear/collection": "^5.0.2",
-    "@dicebear/core": "^5.0.2",
-    "react-native-vision-camera": "^2.15.2",
-    "vision-camera-code-scanner": "^0.2.0"
   }
 }

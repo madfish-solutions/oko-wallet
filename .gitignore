@@ -34,6 +34,8 @@ local.properties
 *.iml
 *.hprof
 .cxx/
+*.keystore
+!debug.keystore
 
 # node.js
 #
@@ -44,12 +46,6 @@ node_modules/
 npm-debug.log
 yarn-error.log
 package-lock.json
-
-# BUCK
-buck-out/
-\.buckd/
-*.keystore
-!debug.keystore
 
 # Fastlane
 # https://docs.fastlane.tools/best-practices/source-control/
@@ -76,3 +72,6 @@ coverage/
 
 #VSCode
 .vscode
+
+# Temporary files created by Metro to check the health of the file watcher
+.metro-health-check*
