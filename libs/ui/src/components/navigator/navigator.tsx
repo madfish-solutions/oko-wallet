@@ -60,7 +60,7 @@ import { Welcome } from '../../screens/welcome/welcome';
 import { useShowLoaderSelector } from '../../store/settings/settings.selectors';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
 import { isPopup } from '../../utils/location.utils';
-import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
+import { openFullViewPage } from '../../utils/open-maximise-screen.util';
 import { setStoredValue } from '../../utils/store.util';
 import { substring } from '../../utils/substring.util';
 import { FullScreenLoader } from '../loader/components/full-screen-loader/full-screen-loader';
@@ -97,10 +97,10 @@ export const Navigator: FC = () => {
       ) ?? false;
 
     if (isPopup && IsOpenOnlyFullViewScreen && isReady) {
-      openMaximiseScreen();
+      openFullViewPage();
     }
 
-    const isCreateWalletScreensOpened =
+    const isOpenSomeOfCreateWalletScreens =
       initialState?.routes.some(
         route =>
           route.name === ScreensEnum.CreateANewWallet ||
@@ -108,7 +108,7 @@ export const Navigator: FC = () => {
           route.name === ScreensEnum.ImportWallet
       ) ?? false;
 
-    if (isPopup && isCreateWalletScreensOpened && isReady) {
+    if (isPopup && isOpenSomeOfCreateWalletScreens && isReady) {
       const parentRoute = initialState?.routes.find(
         route => route.name === ScreensEnum.ImportWallet || route.name === ScreensEnum.CreateANewWallet
       )?.name;
@@ -124,7 +124,7 @@ export const Navigator: FC = () => {
         })
       );
 
-      openMaximiseScreen();
+      openFullViewPage();
     }
   }, [initialState, isReady]);
 

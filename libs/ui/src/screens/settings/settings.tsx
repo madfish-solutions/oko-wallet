@@ -21,7 +21,7 @@ import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useSelectedAccountPublicKeyHashSelector } from '../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../styles/format-size';
 import { isFullpage } from '../../utils/location.utils';
-import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
+import { openFullViewPage } from '../../utils/open-maximise-screen.util';
 import { isIOS, isWeb } from '../../utils/platform.utils';
 
 import EasterEgg from './assets/easter-egg.svg';
@@ -55,7 +55,7 @@ export const Settings: FC = () => {
       <HeaderContainer isSelectors>
         <ScreenTitle title="Settings" />
         {isWeb && (
-          <TouchableIcon name={isFullpage ? IconNameEnum.NewTab : IconNameEnum.Maximize} onPress={openMaximiseScreen} />
+          <TouchableIcon name={isFullpage ? IconNameEnum.NewTab : IconNameEnum.Maximize} onPress={openFullViewPage} />
         )}
       </HeaderContainer>
 

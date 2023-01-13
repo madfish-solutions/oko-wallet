@@ -9,7 +9,7 @@ import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
-import { redirectToMamixiseView } from '../../utils/redirecit-to-maximise-view.util';
+import { redirectToFullViewPage } from '../../utils/redirecit-to-maximise-view.util';
 import { MadFishLogo } from '../settings/components/mad-fish-logo/mad-fish-logo';
 
 import { styles } from './welcome.styles';
@@ -18,9 +18,9 @@ import { WelcomeTestIds } from './welcome.test-ids';
 export const Welcome: FC = () => {
   const { navigate } = useNavigation();
 
-  const navigateToCreateWallet = () => redirectToMamixiseView(() => navigate(ScreensEnum.CreateANewWallet));
+  const navigateToCreateWallet = () => redirectToFullViewPage(() => navigate(ScreensEnum.CreateANewWallet));
 
-  const navigateToImportAccount = () => redirectToMamixiseView(() => navigate(ScreensEnum.ImportWallet));
+  const navigateToImportAccount = () => redirectToFullViewPage(() => navigate(ScreensEnum.ImportWallet));
 
   return (
     <View style={styles.root}>
