@@ -42,7 +42,7 @@ export const Collectible: FC = () => {
   const isPendingTransaction = useIsPendingCollectibleTransaction(collectible.tokenAddress, collectible.tokenId);
 
   const dispatch = useDispatch();
-  const { explorerUrl, networkType } = useSelectedNetworkSelector();
+  const { explorerUrl, networkType, chainId } = useSelectedNetworkSelector();
   const selectedCollectible = useSelectedCollectibleSelector(
     getTokenSlug(collectible.tokenAddress, collectible.tokenId)
   );
@@ -93,7 +93,13 @@ export const Collectible: FC = () => {
     explorer: {
       name: 'Explorer',
       value: eraseProtocol(getString(explorerUrl)),
-      prompt: getTokenDetailsUrl(collectible.tokenAddress, getString(explorerUrl), networkType)
+      prompt: getTokenDetailsUrl({
+        address: collectible.tokenAddress,
+        id: getString(collectible.tokenId),
+        explorerUrl: getString(explorerUrl),
+        networkType,
+        chainId
+      })
     }
   };
 
