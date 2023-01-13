@@ -88,15 +88,42 @@ export const Navigator: FC = () => {
   useResetLoading();
 
   useEffect(() => {
-    // TODO: Add check for ScreenEnum.AlmostDone screen later
+    const IsOpenOnlyFullViewScreen =
+      initialState?.routes.some(
+        route =>
+          route.name === ScreensEnum.AddNewCollectible ||
+          route.name === ScreensEnum.AddNewToken ||
+          route.name === ScreensEnum.AddNetwork
+      ) ?? false;
+
+    if (isPopup && IsOpenOnlyFullViewScreen && isReady) {
+      openMaximiseScreen();
+    }
+
     const isCreateWalletScreensOpened =
       initialState?.routes.some(
-        route => route.name === ScreensEnum.CreateANewWallet || route.name === ScreensEnum.VerifyMnemonic
+        route =>
+          route.name === ScreensEnum.CreateANewWallet ||
+          route.name === ScreensEnum.VerifyMnemonic ||
+          route.name === ScreensEnum.ImportWallet
       ) ?? false;
 
     if (isPopup && isCreateWalletScreensOpened && isReady) {
-      // clear previous navigation state and leave only ScreenEnum.ImportAccount route when click by extension icon
-      setStoredValue(PERSISTENCE_KEY, JSON.stringify({ ...initialState, routes: initialState?.routes.slice(0, 1) }));
+      const parentRoute = initialState?.routes.find(
+        route => route.name === ScreensEnum.ImportWallet || route.name === ScreensEnum.CreateANewWallet
+      )?.name;
+
+      setStoredValue(
+        PERSISTENCE_KEY,
+        JSON.stringify({
+          ...initialState,
+          routes: [
+            { key: 'Welcome-YOKi4uV67S17eluroXFWt', name: 'Welcome' },
+            { key: `${parentRoute}-h-XhNwryARoSQpUS0E3f-`, name: parentRoute }
+          ]
+        })
+      );
+
       openMaximiseScreen();
     }
   }, [initialState, isReady]);

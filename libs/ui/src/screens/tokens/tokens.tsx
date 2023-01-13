@@ -76,11 +76,7 @@ export const Tokens: FC = () => {
     return isHideZeroBalance ? allAccountTokensWithBalance : visibleAccountTokensWithGasToken;
   }, [searchValue, allAccountTokens, visibleAccountTokensWithGasToken, isHideZeroBalance, allAccountTokensWithBalance]);
 
-  const navigateToAddNewToken = () => {
-    redirectToMamixiseView();
-
-    return navigate(ScreensEnum.AddNewToken);
-  };
+  const navigateToAddNewToken = () => redirectToMamixiseView(() => navigate(ScreensEnum.AddNewToken));
   const navigateToManageTokens = () => navigate(ScreensEnum.ManageTokens);
   const onPressActivityIcon = () => navigate(ScreensEnum.Activity);
   const onPressHideZeroBalances = () => setIsHideZeroBalance(!isHideZeroBalance);

@@ -58,11 +58,7 @@ export const NetworksList = () => {
     [selectedAccount]
   );
 
-  const navigateToAddNetwork = () => {
-    redirectToMamixiseView();
-
-    return navigate(ScreensEnum.AddNetwork);
-  };
+  const navigateToAddNetwork = () => redirectToMamixiseView(() => navigate(ScreensEnum.AddNetwork));
 
   const navigateToEditNetwork = (selectedNetwork: NetworkInterface, isNetworkSelected: boolean) =>
     navigate(ScreensEnum.EditNetwork, { network: selectedNetwork, isNetworkSelected });
