@@ -35,7 +35,7 @@ export const ScanQrCode = () => {
     if (isValidAddress) {
       navigate(previousScreen, { receiverPublicKeyHash });
     } else {
-      showErrorToast(`${networkType} QR Code not found on the picture.`);
+      showErrorToast({ message: `${networkType} QR Code not found on the picture.` });
 
       navigate(previousScreen);
     }

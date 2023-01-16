@@ -52,7 +52,7 @@ export const Collectible: FC = () => {
   useEffect(() => {
     if (Number(selectedCollectible?.balance.data) === 0 && isDefined(selectedCollectible) && isScreenFocused) {
       dispatch(deleteCollectibleAction(selectedCollectible));
-      showErrorToast('You are not the owner of this Collectible');
+      showErrorToast({ message: 'You are not the owner of this Collectible' });
 
       goBack();
     }

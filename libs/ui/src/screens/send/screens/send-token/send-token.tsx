@@ -121,7 +121,7 @@ export const SendToken: FC = () => {
     const isGasTokenZeroBalance = Number(gasToken.balance.data) === 0;
 
     if (isGasTokenZeroBalance) {
-      return showErrorToast('Not enough gas');
+      return showErrorToast({ message: 'Not enough gas' });
     }
 
     if (isDefined(token)) {
