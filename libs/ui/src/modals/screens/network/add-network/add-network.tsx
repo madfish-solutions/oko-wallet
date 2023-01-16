@@ -77,6 +77,7 @@ export const AddNetwork: FC = () => {
 
         try {
           const provider = getDefaultProvider(newRpcUrl.trim());
+
           const currentProvider = await provider.getNetwork().catch(() => {
             resetDynamicFields();
 
@@ -85,8 +86,11 @@ export const AddNetwork: FC = () => {
 
           if (isDefined(currentProvider)) {
             const { chainId } = currentProvider;
+
             currentChainId = chainId;
             getEvmNetworkData(currentChainId);
+          } else {
+            setError('rpcUrl', { message: 'Wrong RPC url or something went wrong' });
           }
         } catch {
           setError('rpcUrl', { message: 'Wrong RPC url or something went wrong' });
@@ -124,6 +128,8 @@ export const AddNetwork: FC = () => {
 
         clearErrors('chainId');
         clearErrors('tokenSymbol');
+      } else {
+        setError('chainId', { message: 'Failed to get chain ID. Is your RPC URL correct?' });
       }
     }
   }, []);
