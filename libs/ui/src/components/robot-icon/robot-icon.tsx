@@ -1,6 +1,7 @@
 import { bottts } from '@dicebear/collection';
 import { createAvatar } from '@dicebear/core';
-import React, { FC, useMemo } from 'react';
+import { isDefined } from '@rnw-community/shared';
+import React, { FC, useEffect, useState } from 'react';
 
 import { getCustomSize } from '../../styles/format-size';
 
@@ -10,13 +11,21 @@ interface Props {
 }
 
 export const RobotIcon: FC<Props> = ({ seed, size = getCustomSize(3) }) => {
-  const backgroundImage = useMemo(() => {
-    const svg = createAvatar(bottts, { seed, size }).toString();
+  const [backgroundImage, setBackgroundImage] = useState<string>();
 
-    return `url('${svg}')`;
+  useEffect(() => {
+    let active = true;
+
+    (async () => {
+      const dataUri = await createAvatar(bottts, { seed, size }).toDataUri();
+
+      active && setBackgroundImage(`url('${dataUri}')`);
+    })();
+
+    return () => void (active = false);
   }, [seed, size]);
 
-  return (
+  return isDefined(backgroundImage) ? (
     <div
       style={{
         backgroundImage,
@@ -24,5 +33,5 @@ export const RobotIcon: FC<Props> = ({ seed, size = getCustomSize(3) }) => {
         height: size
       }}
     />
-  );
+  ) : null;
 };
