@@ -10,6 +10,6 @@ export const redirectToFullViewPage = (screen: ScreensEnum) => {
   globalNavigationRef.current?.navigate(screen);
 
   if (isWeb && !isFullpage) {
-    setTimeout(openFullViewPage);
+    setTimeout(openFullViewPage, 0);
   }
 };

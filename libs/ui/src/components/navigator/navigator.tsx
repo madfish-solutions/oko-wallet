@@ -1,9 +1,9 @@
 import { NavigationContainer, NavigationContainerRef, DarkTheme } from '@react-navigation/native';
-import React, { FC, createRef, useEffect } from 'react';
+import React, { FC, createRef } from 'react';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useLockApp } from '../../hooks/use-lock-app.hook';
-import { PERSISTENCE_KEY, usePersistedNavigationState } from '../../hooks/use-persisted-navigation-state.hook';
+import { usePersistedNavigationState } from '../../hooks/use-persisted-navigation-state.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
 import { ActivityFilterSelector } from '../../modals/screens/activity-filter-selector/activity-filter-selector';
 import { AddAccount } from '../../modals/screens/add-account/add-account';
@@ -59,9 +59,6 @@ import { Wallet } from '../../screens/wallet/wallet';
 import { Welcome } from '../../screens/welcome/welcome';
 import { useShowLoaderSelector } from '../../store/settings/settings.selectors';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
-import { isPopup } from '../../utils/location.utils';
-import { openFullViewPage } from '../../utils/open-maximise-screen.util';
-import { setStoredValue } from '../../utils/store.util';
 import { substring } from '../../utils/substring.util';
 import { FullScreenLoader } from '../loader/components/full-screen-loader/full-screen-loader';
 
@@ -86,47 +83,6 @@ export const Navigator: FC = () => {
   useTokensPriceInfo();
   useLoadSentCollectiblesBalance();
   useResetLoading();
-
-  useEffect(() => {
-    const IsOpenOnlyFullViewScreen =
-      initialState?.routes.some(
-        route =>
-          route.name === ScreensEnum.AddNewCollectible ||
-          route.name === ScreensEnum.AddNewToken ||
-          route.name === ScreensEnum.AddNetwork
-      ) ?? false;
-
-    if (isPopup && IsOpenOnlyFullViewScreen && isReady) {
-      openFullViewPage();
-    }
-
-    const isOpenSomeOfCreateWalletScreens =
-      initialState?.routes.some(
-        route =>
-          route.name === ScreensEnum.CreateANewWallet ||
-          route.name === ScreensEnum.VerifyMnemonic ||
-          route.name === ScreensEnum.ImportWallet
-      ) ?? false;
-
-    if (isPopup && isOpenSomeOfCreateWalletScreens && isReady) {
-      const parentRoute = initialState?.routes.find(
-        route => route.name === ScreensEnum.ImportWallet || route.name === ScreensEnum.CreateANewWallet
-      )?.name;
-
-      setStoredValue(
-        PERSISTENCE_KEY,
-        JSON.stringify({
-          ...initialState,
-          routes: [
-            { key: 'Welcome-YOKi4uV67S17eluroXFWt', name: 'Welcome' },
-            { key: `${parentRoute}-h-XhNwryARoSQpUS0E3f-`, name: parentRoute }
-          ]
-        })
-      );
-
-      openFullViewPage();
-    }
-  }, [initialState, isReady]);
 
   if (!isReady) {
     return <SplashScreen />;
