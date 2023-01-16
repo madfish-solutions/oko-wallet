@@ -58,7 +58,7 @@ export const NetworksList = () => {
     [selectedAccount]
   );
 
-  const navigateToAddNetwork = () => redirectToFullViewPage(() => navigate(ScreensEnum.AddNetwork));
+  const navigateToAddNetwork = () => redirectToFullViewPage(ScreensEnum.AddNetwork);
 
   const navigateToEditNetwork = (selectedNetwork: NetworkInterface, isNetworkSelected: boolean) =>
     navigate(ScreensEnum.EditNetwork, { network: selectedNetwork, isNetworkSelected });

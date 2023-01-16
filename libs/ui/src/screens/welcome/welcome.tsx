@@ -6,7 +6,6 @@ import { ButtonThemesEnum } from '../../components/button/enums';
 import { Icon } from '../../components/icon/icon';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
-import { useNavigation } from '../../hooks/use-navigation.hook';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { redirectToFullViewPage } from '../../utils/redirecit-to-maximise-view.util';
@@ -16,11 +15,9 @@ import { styles } from './welcome.styles';
 import { WelcomeTestIds } from './welcome.test-ids';
 
 export const Welcome: FC = () => {
-  const { navigate } = useNavigation();
+  const navigateToCreateWallet = () => redirectToFullViewPage(ScreensEnum.CreateANewWallet);
 
-  const navigateToCreateWallet = () => redirectToFullViewPage(() => navigate(ScreensEnum.CreateANewWallet));
-
-  const navigateToImportAccount = () => redirectToFullViewPage(() => navigate(ScreensEnum.ImportWallet));
+  const navigateToImportAccount = () => redirectToFullViewPage(ScreensEnum.ImportWallet);
 
   return (
     <View style={styles.root}>
