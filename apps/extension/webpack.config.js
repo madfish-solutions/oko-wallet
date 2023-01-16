@@ -118,7 +118,7 @@ module.exports = {
                         ]
                     }
                 },
-                {from: 'node_modules/wasm-themis/src/libthemis.wasm', to: 'scripts/libthemis.wasm'}
+                {from: '../../libs/ui/node_modules/wasm-themis/src/libthemis.wasm', to: 'scripts/libthemis.wasm'}
             ]
         }),
         new HtmlWebpackPlugin({
