@@ -38,7 +38,6 @@
     "react-native-bootsplash": "^4.4.0",
     "react-native-config": "^1.4.11",
     "react-native-device-info": "^10.3.0",
-    "react-native-flipper": "^0.176.1",
     "react-native-gesture-handler": "^2.8.0",
     "react-native-haptic-feedback": "^1.14.0",
     "react-native-keychain": "^8.1.1",
