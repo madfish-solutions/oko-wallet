@@ -6,8 +6,8 @@ import { ScrollView, View } from 'react-native';
 
 import { Announcement } from '../../../../../components/announcement/announcement';
 import { Pressable } from '../../../../../components/pressable/pressable';
-import { TextInput as CustomTextInput } from '../../../../../components/text-input/text-input';
 import { Text } from '../../../../../components/text/text';
+import { TextInput as CustomTextInput } from '../../../../../components/text-input/text-input';
 import { useNavigation } from '../../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../../hooks/use-shelter.hook';
 import { useAllAccountsSelector, useSelectedNetworkTypeSelector } from '../../../../../store/wallet/wallet.selectors';

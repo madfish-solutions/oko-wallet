@@ -5,10 +5,10 @@ import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { CopyText } from '../../../../components/copy-text/copy-text';
-import { IconWithBorderEnum } from '../../../../components/icon-with-border/enums';
-import { IconWithBorder } from '../../../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
+import { IconWithBorderEnum } from '../../../../components/icon-with-border/enums';
+import { IconWithBorder } from '../../../../components/icon-with-border/icon-with-border';
 import { RobotIcon } from '../../../../components/robot-icon/robot-icon';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';

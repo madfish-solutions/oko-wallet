@@ -14,10 +14,10 @@ import { ScreenTitle } from '../../../../components/screen-components/header-con
 import { HeaderContainer } from '../../../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
 import { ScreenScrollView } from '../../../../components/screen-components/screen-scroll-view/screen-scroll-view';
+import { Text } from '../../../../components/text/text';
 import { ErrorField } from '../../../../components/text-input/components/error-field/error-field';
 import { Label } from '../../../../components/text-input/components/label/label';
 import { TextInput } from '../../../../components/text-input/text-input';
-import { Text } from '../../../../components/text/text';
 import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
