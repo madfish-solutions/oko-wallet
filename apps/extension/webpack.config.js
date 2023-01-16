@@ -8,6 +8,7 @@ const DotenvPlugin = require('dotenv-webpack');
 
 const packageJSON = require('./package.json');
 
+const isDevelopment = process.env.NODE_ENV === 'development';
 const appDirectory = path.resolve(__dirname);
 
 const babelLoaderConfiguration = {
@@ -63,7 +64,7 @@ module.exports = {
         path: path.resolve(appDirectory, 'dist'),
         filename: 'scripts/[name].js',
         chunkFilename: 'scripts/[name].chunk.js',
-        pathinfo: process.env.NODE_ENV === 'development' ? 'verbose' : undefined,
+        pathinfo: isDevelopment ? 'verbose' : undefined,
     },
 
     module: {
@@ -100,7 +101,7 @@ module.exports = {
 
     plugins: [
         new webpack.DefinePlugin({
-            __DEV__: JSON.stringify(process.env.NODE_ENV === 'development'),
+            __DEV__: JSON.stringify(isDevelopment),
             'process.env.VERSION': JSON.stringify(packageJSON.version),
         }),
         new webpack.ProvidePlugin({
