@@ -21,9 +21,12 @@
     "noEmit": true,
     "jsx": "react-native",
     "paths": {
-      "ui": ["../../libs/ui/src/index.ts"],
-      "ui/*": ["../../libs/ui/*"],
-      "ui/background-script": ["../../libs/ui/src/background-script"]
+      "ui": [
+        "../../libs/ui"
+      ],
+      "ui/background-script": [
+        "../../libs/ui/src/background-script"
+      ]
     }
   },
   "exclude": [
