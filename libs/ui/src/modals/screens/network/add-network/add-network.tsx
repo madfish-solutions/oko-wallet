@@ -214,7 +214,7 @@ export const AddNetwork: FC = () => {
     navigate(ScreensEnum.Wallet);
     showSuccessToast({
       message: 'Success!',
-      data: { description: `The network ${name.trim()} was successfully added! ` }
+      data: { description: `The network ${formValue.name.trim()} was successfully added! ` }
     });
   };
 

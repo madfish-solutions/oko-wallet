@@ -1,10 +1,4 @@
 {
-  "include": ["./"],
-  "exclude": [
-    "node_modules",
-    "webpack.config.js"
-  ],
-
   "compilerOptions": {
     "baseUrl": "./",
     "target": "es6",
@@ -31,5 +25,9 @@
       "ui/*": ["../../libs/ui/*"],
       "ui/background-script": ["../../libs/ui/src/background-script"]
     }
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "webpack.config.js"
+  ]
 }

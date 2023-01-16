@@ -1,6 +1,5 @@
-import { windows, runtime, Windows } from 'webextension-polyfill';
-
 import { DAppInfo, DAppTransactionInfo } from 'ui/src/interfaces/dapp-info.interface';
+import { windows, runtime, Windows } from 'webextension-polyfill';
 
 const popupCreateData: Windows.CreateCreateDataType = {
   type: 'popup',
