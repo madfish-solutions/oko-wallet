@@ -1,9 +1,11 @@
+import { Option } from '../components/dropdown/option.interface';
 import { SeedWordsAmount } from '../constants/seed-words-amount';
 import { AccountInterface } from '../interfaces/account.interface';
 import { DAppInfo, DAppTransactionInfo } from '../interfaces/dapp-info.interface';
 import { NetworkInterface } from '../interfaces/network.interface';
 import { Token } from '../interfaces/token.interface';
 import { TransferParams } from '../interfaces/transfer-params.interface';
+import { ActivityFilterEnum } from '../modals/screens/activity-filter-selector/activity-filter.enum';
 import { SendParams } from '../screens/send/types';
 
 export enum ScreensEnum {
@@ -22,6 +24,7 @@ export enum ScreensEnum {
   RevealSeedPhrase = 'RevealSeedPhrase',
   SettingsGeneral = 'SettingsGeneral',
   SettingsCurrencySelector = 'SettingsCurrencySelector',
+  ActivityFilterSelector = 'ActivityFilterSelector',
   SettingsAppearanceSelector = 'SettingsAppearanceSelector',
   SettingsSecurity = 'SettingsSecurity',
   SettingsLockTimeSelector = 'SettingsLockTimeSelector',
@@ -102,7 +105,8 @@ export type ScreensParamList = {
   [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.VerifyMnemonic]: { mnemonic: string[] };
   [ScreensEnum.AlmostDone]: { mnemonic: string; currentStep: number; stepsAmount: number };
-  [ScreensEnum.Activity]: undefined;
+  [ScreensEnum.Activity]?: { filterType: Option<ActivityFilterEnum> };
+  [ScreensEnum.ActivityFilterSelector]: { filterType: Option<ActivityFilterEnum> };
   [ScreensEnum.Token]: { token: Token };
   [ScreensEnum.CollectiblesList]: undefined;
   [ScreensEnum.CollectiblesList]: undefined;

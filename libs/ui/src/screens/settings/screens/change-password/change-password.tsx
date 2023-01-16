@@ -74,11 +74,11 @@ export const ChangePassword: FC = () => {
 
   const onSuccessFullPasswordChange = useCallback(() => {
     if (password === oldPassword) {
-      showErrorToast('Old password cannot match the new one');
+      showErrorToast({ message: 'Old password cannot match the new one' });
 
       setFocus('password');
     } else {
-      showSuccessToast('Password was successfully changed');
+      showSuccessToast({ message: 'Password was successfully changed' });
       goBack();
     }
   }, [password, oldPassword]);

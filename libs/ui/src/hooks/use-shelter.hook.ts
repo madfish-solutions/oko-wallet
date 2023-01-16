@@ -41,8 +41,8 @@ export const useShelter = () => {
   const networkType = useSelectedNetworkTypeSelector();
   const accounts = useAllAccountsSelector();
   const allHdAccounts = useAllHdAccountsSelector();
-  const { goBack } = useNavigation();
-  const { showErrorToast } = useToast();
+  const { navigate } = useNavigation();
+  const { showSuccessToast, showErrorToast } = useToast();
 
   const importWallet$ = useMemo(() => new Subject<ImportWalletParams>(), []);
   const sendEvmTransaction$ = useMemo(() => new Subject<GetEvmSignerParams>(), []);
@@ -59,17 +59,21 @@ export const useShelter = () => {
       importWalletSubscription(importWallet$, dispatch),
       createHdAccountSubscription({
         createHdAccount$,
-        dispatch
+        dispatch,
+        showErrorToast,
+        showSuccessToast
       }),
       createHdAccountForNewNetworkTypeSubscription({
         createHdAccountForNewNetworkType$,
-        dispatch
+        dispatch,
+        showErrorToast,
+        showSuccessToast
       }),
       sendEvmTransactionSubscription(sendEvmTransaction$),
       sendTezosTransactionSubscription(sendTezosTransaction$),
       revealSeedPhraseSubscription(revealSeedPhrase$),
       revealPrivateKeySubscription(revealPrivateKey$),
-      createImportAccountSubscription(createImportedAccount$, showErrorToast, dispatch, goBack),
+      createImportAccountSubscription(createImportedAccount$, showErrorToast, showSuccessToast, dispatch, navigate),
       signMessageSubscription(signMessage$)
     ];
 

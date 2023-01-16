@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { GAS_TOKEN_ADDRESS } from '../constants/defaults';
 import { DATA_UPDATE_TIME } from '../constants/update-time';
-import { ActivityResponse } from '../interfaces/activity.interface';
+import { ActivityResponse } from '../interfaces/activity-response.interface';
 import { BACKEND_URL } from '../utils/env.utils';
 import { getSlug } from '../utils/getSlug.uitl';
 import { memoize } from '../utils/memoize.util';

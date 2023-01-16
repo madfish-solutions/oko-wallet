@@ -6,6 +6,8 @@ const backgroundColors = {
   bgGrey5: '#2F3031',
   bgGrey6: '#23241D',
   bgBrown: '#ED3D2514',
+  bgNavyGreen: '#142621',
+  bgNavyRed: '#231A1D',
   bgTransparentYellow: 'rgba(214, 167, 0, 0.08)',
   bgTransparentGreen: 'rgba(20, 186, 48, 0.08)',
   bgTransparentRed: 'rgba(204, 37, 0, 0.08)'
@@ -31,14 +33,14 @@ const accentColors = {
   yellow: '#D6A700',
   brown: '#ed3d2514',
   black: '#080E15',
-  white: '#FFFFFF'
+  white: '#FFFFFF',
+  grey: '#252934'
 };
 
 const basicColors = {
   lines: '#495165',
   border1: '#727B93',
-  border2: '#2F3238',
-  logoDark: '#252934'
+  border2: '#2F3238'
 };
 
 export const colors = {
