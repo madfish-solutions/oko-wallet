@@ -89,7 +89,7 @@ export const CreateANewWallet: FC = () => {
     }
 
     setIsShowProtectLayout(true);
-    navigate(ScreensEnum.VerifyMnemonic, { mnemonic, initialScreen: ScreensEnum.CreateANewWallet });
+    navigate(ScreensEnum.VerifyMnemonic, { mnemonic });
   };
 
   const navigateToWordsAmountSelector = () => navigate(ScreensEnum.WordsAmountSelector, { wordsAmount });

@@ -51,8 +51,7 @@ export const ImportWallet: FC = () => {
       navigate(ScreensEnum.AlmostDone, {
         mnemonic: mnemonic.filter(word => isNotEmptyString(word)).join(' '),
         currentStep: 2,
-        stepsAmount: 2,
-        initialScreen: ScreensEnum.ImportWallet
+        stepsAmount: 2
       });
     }
   };

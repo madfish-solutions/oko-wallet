@@ -155,8 +155,7 @@ export const VerifyMnemonic: FC = () => {
       return navigate(ScreensEnum.AlmostDone, {
         mnemonic: mnemonic.join(' '),
         currentStep: 3,
-        stepsAmount: 3,
-        initialScreen: ScreensEnum.CreateANewWallet
+        stepsAmount: 3
       });
     }
 

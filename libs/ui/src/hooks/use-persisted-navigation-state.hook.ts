@@ -5,10 +5,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { ScreensEnum } from '../enums/sreens.enum';
 import { Mutable } from '../types/mutable.type';
-import { isPopup } from '../utils/location.utils';
 import { createNavigationRoute } from '../utils/navigation.utils';
 import { isWeb } from '../utils/platform.utils';
-import { redirectToFullViewPage } from '../utils/redirecit-to-maximise-view.util';
 import { getStoredValue, setStoredValue } from '../utils/store.util';
 
 export const PERSISTENCE_KEY = 'NAVIGATION_STATE';
@@ -18,15 +16,7 @@ const ROUTES_TO_IGNORE: string[] = [
   ScreensEnum.NetworkChangeConfirmation,
   ScreensEnum.DAppTransactionConfirmation,
   ScreensEnum.DAppSignConfirmation,
-  ScreensEnum.Unlock
-];
-
-const IS_ONLY_FULL_PAGE_SCREENS = [
-  ScreensEnum.AddNewCollectible,
-  ScreensEnum.AddNewToken,
-  ScreensEnum.AddNetwork,
-  ScreensEnum.CreateANewWallet,
-  ScreensEnum.ImportWallet,
+  ScreensEnum.Unlock,
   ScreensEnum.VerifyMnemonic,
   ScreensEnum.AlmostDone
 ];
@@ -44,26 +34,6 @@ export const usePersistedNavigationState = () => {
           storedInitialState.routes = storedInitialState.routes.filter(route => !ROUTES_TO_IGNORE.includes(route.name));
 
           const query = parse(location.search);
-
-          const lastRoute = storedInitialState.routes[storedInitialState.routes.length - 1];
-          const routeName = lastRoute.name as ScreensEnum;
-
-          if (IS_ONLY_FULL_PAGE_SCREENS.includes(routeName)) {
-            if (isPopup) {
-              redirectToFullViewPage(routeName);
-            }
-
-            if (isDefined(lastRoute.params) && lastRoute.params.hasOwnProperty('initialScreen')) {
-              // @ts-ignore;
-              const parentScreen = lastRoute.params.initialScreen as ScreensEnum;
-
-              if (isPopup) {
-                return redirectToFullViewPage(parentScreen);
-              }
-
-              storedInitialState.routes = [{ name: 'Welcome' }, { name: parentScreen }];
-            }
-          }
 
           // DAppConfirmation
           if (
@@ -137,8 +107,6 @@ export const usePersistedNavigationState = () => {
     (state: NavigationState | undefined) => setStoredValue(PERSISTENCE_KEY, JSON.stringify(state)),
     []
   );
-
-  console.log('initia', initialState);
 
   return useMemo(
     () => ({

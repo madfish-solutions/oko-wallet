@@ -6,18 +6,20 @@ import { ButtonThemesEnum } from '../../components/button/enums';
 import { Icon } from '../../components/icon/icon';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
+import { useNavigation } from '../../hooks/use-navigation.hook';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
-import { redirectToFullViewPage } from '../../utils/redirecit-to-maximise-view.util';
 import { MadFishLogo } from '../settings/components/mad-fish-logo/mad-fish-logo';
 
 import { styles } from './welcome.styles';
 import { WelcomeTestIds } from './welcome.test-ids';
 
 export const Welcome: FC = () => {
-  const navigateToCreateWallet = () => redirectToFullViewPage(ScreensEnum.CreateANewWallet);
+  const { navigate } = useNavigation();
 
-  const navigateToImportAccount = () => redirectToFullViewPage(ScreensEnum.ImportWallet);
+  const navigateToCreateWallet = () => navigate(ScreensEnum.CreateANewWallet);
+
+  const navigateToImportAccount = () => navigate(ScreensEnum.ImportWallet);
 
   return (
     <View style={styles.root}>

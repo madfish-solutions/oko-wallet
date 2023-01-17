@@ -13,7 +13,6 @@ import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token } from '../../../../interfaces/token.interface';
 import { ActivityFilterEnum } from '../../../../modals/screens/activity-filter-selector/activity-filter.enum';
 import { ACTIVITIES_TYPES } from '../../../../modals/screens/activity-filter-selector/constants';
-import { redirectToFullViewPage } from '../../../../utils/redirecit-to-maximise-view.util';
 import { getTokenSlug } from '../../../../utils/token.utils';
 
 import { styles } from './list-container.styles';
@@ -30,7 +29,7 @@ const keyExtractor = ({ tokenAddress, tokenId }: Token) => getTokenSlug(tokenAdd
 export const ListContainer: FC<Props> = ({ title, collectibles, setSearchValue, renderItem, children }) => {
   const { goBack, navigate } = useNavigation();
 
-  const navigateToAddNewCollectible = () => redirectToFullViewPage(ScreensEnum.AddNewCollectible);
+  const navigateToAddNewCollectible = () => navigate(ScreensEnum.AddNewCollectible);
   const navigateToActivity = () =>
     navigate(ScreensEnum.Activity, {
       filterType: ACTIVITIES_TYPES.find(item => item.value === ActivityFilterEnum.Collectibles) ?? ACTIVITIES_TYPES[0]

@@ -102,8 +102,8 @@ export type ScreensParamList = {
   [ScreensEnum.ScanQrCode]: undefined;
   [ScreensEnum.CreateANewWallet]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };
-  [ScreensEnum.VerifyMnemonic]: { mnemonic: string[]; initialScreen: ScreensEnum };
-  [ScreensEnum.AlmostDone]: { mnemonic: string; currentStep: number; stepsAmount: number; initialScreen: ScreensEnum };
+  [ScreensEnum.VerifyMnemonic]: { mnemonic: string[] };
+  [ScreensEnum.AlmostDone]: { mnemonic: string; currentStep: number; stepsAmount: number };
   [ScreensEnum.Activity]?: { filterType: Option<ActivityFilterEnum> };
   [ScreensEnum.ActivityFilterSelector]: { filterType: Option<ActivityFilterEnum> };
   [ScreensEnum.Token]: { token: Token };

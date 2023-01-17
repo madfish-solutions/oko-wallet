@@ -29,7 +29,6 @@ import {
   useVisibleAccountTokensAndGasTokenSelector
 } from '../../store/wallet/wallet.selectors';
 import { getTokensWithBalance } from '../../utils/get-tokens-with-balance.util';
-import { redirectToFullViewPage } from '../../utils/redirecit-to-maximise-view.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { getTokenSlug } from '../../utils/token.utils';
 
@@ -76,7 +75,7 @@ export const Tokens: FC = () => {
     return isHideZeroBalance ? allAccountTokensWithBalance : visibleAccountTokensWithGasToken;
   }, [searchValue, allAccountTokens, visibleAccountTokensWithGasToken, isHideZeroBalance, allAccountTokensWithBalance]);
 
-  const navigateToAddNewToken = () => redirectToFullViewPage(ScreensEnum.AddNewToken);
+  const navigateToAddNewToken = () => navigate(ScreensEnum.AddNewToken);
   const navigateToManageTokens = () => navigate(ScreensEnum.ManageTokens);
   const onPressActivityIcon = () => navigate(ScreensEnum.Activity);
   const onPressHideZeroBalances = () => setIsHideZeroBalance(!isHideZeroBalance);
