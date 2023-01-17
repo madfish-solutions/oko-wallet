@@ -9,7 +9,7 @@ import { createNavigationRoute } from '../utils/navigation.utils';
 import { isWeb } from '../utils/platform.utils';
 import { getStoredValue, setStoredValue } from '../utils/store.util';
 
-export const PERSISTENCE_KEY = 'NAVIGATION_STATE';
+const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
 const ROUTES_TO_IGNORE: string[] = [
   ScreensEnum.DAppConnectionConfirmation,
