@@ -7,7 +7,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  self.moduleName = @"KlaytnWallet";
+  self.moduleName = @"OkoWallet";
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
