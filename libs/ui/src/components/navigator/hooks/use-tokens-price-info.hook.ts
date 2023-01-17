@@ -24,5 +24,5 @@ export const useTokensPriceInfo = () => {
     }
   };
 
-  useTimerEffect(getTokensPriceInfo, DATA_UPDATE_TIME, [chainId, rpcUrl, publicKeyHash]);
+  useTimerEffect(getTokensPriceInfo, DATA_UPDATE_TIME, [chainId, rpcUrl, publicKeyHash, visibleAccountTokens]);
 };
