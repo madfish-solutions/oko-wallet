@@ -161,30 +161,19 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       const chainId = getSelectedNetworkChainId(state);
       const accountTokensSlug = getAccountTokensSlug(chainId, selectedAccountPublicKeyHash);
 
-      const stateAssets: AccountToken[] = [...state.accountsTokens[accountTokensSlug]];
+      const stateAccountsTokens: AccountToken[] = [...state.accountsTokens[accountTokensSlug]];
 
       const tokensWithBalance: AccountToken[] = tokenList
-        .map(token => {
-          const prevToken = stateAssets.find(prevToken => prevToken.tokenAddress === token.id);
-
-          if (isDefined(prevToken)) {
-            return {
-              ...prevToken,
-              balance: createEntity(token.raw_amount.toString())
-            };
-          }
-
-          return {
-            tokenAddress: token.id,
-            isVisible: true,
-            balance: createEntity(token.raw_amount.toString())
-          };
-        })
+        .map(token => ({
+          tokenAddress: token.id,
+          isVisible: true,
+          balance: createEntity(token.raw_amount.toString())
+        }))
         .filter(token => token.tokenAddress !== debankGasTokenName);
 
       const gasTokenBalance = tokenList.find(token => token.id === debankGasTokenName)?.raw_amount ?? 0;
 
-      const prevAccountTokens: AccountToken[] = state.accountsTokens[accountTokensSlug].filter(token => {
+      const prevAccountTokensWithoutBalance: AccountToken[] = stateAccountsTokens.filter(token => {
         const updatedToken = tokensWithBalance.find(
           tokenWithBalance =>
             getTokenSlug(tokenWithBalance.tokenAddress, tokenWithBalance.tokenId) ===
@@ -197,10 +186,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       });
 
       const prevAccountAssets: Record<string, boolean> =
-        state.accountsTokens[accountTokensSlug]?.reduce(
-          (acc, accountToken) => ({ ...acc, [accountToken.tokenAddress]: true }),
-          {}
-        ) ?? {};
+        stateAccountsTokens.reduce((acc, accountToken) => ({ ...acc, [accountToken.tokenAddress]: true }), {}) ?? {};
 
       const newTokens = tokenList.filter(token => !prevAccountAssets[token.id]);
 
@@ -227,7 +213,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         ...updateAccountsGasTokensState(state, { balance: gasTokenBalance.toString() }),
         accountsTokens: {
           ...state.accountsTokens,
-          [accountTokensSlug]: [...prevAccountTokens, ...tokensWithBalance]
+          [accountTokensSlug]: [...prevAccountTokensWithoutBalance, ...tokensWithBalance]
         },
         tokensMetadata: {
           ...state.tokensMetadata,

@@ -26,5 +26,8 @@ export const useSortAccountTokensByBalance = (tokens: Token[]): Token[] => {
     };
   });
 
-  return useMemo(() => assets.sort((a, b) => Number(b.dollarBalance) - Number(a.dollarBalance)), [tokens]);
+  return useMemo(
+    () => assets.sort((a, b) => Number(b.dollarBalance) - Number(a.dollarBalance)),
+    [tokens, allTokensMarketInfo]
+  );
 };
