@@ -29,7 +29,7 @@ export const getTokensPriceInfo = memoize(
           .catch(() => ({}))
       : {};
   },
-  chainId => getSlug(chainId, 'token-price-info'),
+  (chainId, tokenAddressesList) => getSlug(chainId, tokenAddressesList.length.toString(), 'token-price-info'),
   DATA_UPDATE_TIME
 );
 
