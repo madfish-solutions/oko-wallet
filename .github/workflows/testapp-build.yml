@@ -151,7 +151,7 @@ jobs:
         with:
           api_token: ${{ secrets.TESTAPPIO_API_TOKEN }}
           app_id: ${{ secrets.TESTAPPIO_APP_ID }}
-          file: apps/mobile/android/app/build/outputs/apk/release/app-release.apk
+          file: apps/mobile/android/app/build/outputs/apk/debug/app-debug.apk
           release_notes: ${{env.GIT_BRANCH_NAME}} Android
           git_release_notes: false
           include_git_commit_id: false
