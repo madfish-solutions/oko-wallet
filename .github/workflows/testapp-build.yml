@@ -83,7 +83,7 @@ jobs:
         if: ${{ github.event.inputs.ios == 'true' }}
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: 13
+          xcode-version: latest-stable
 
       - name: Update iOS version
         if: ${{ github.event.inputs.ios == 'true' }}
