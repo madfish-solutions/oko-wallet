@@ -1,7 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 
-import { TOKENS_DEFAULT_LIST } from '../../constants/tokens';
 import { TokenStandardEnum } from '../../enums/token-standard.enum';
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
 import { AccountToken } from '../../interfaces/account-token.interface';
@@ -17,7 +16,6 @@ import {
   addNewCollectibleAction,
   addNewNetworkAction,
   addNewTokenAction,
-  getAllUserTokensAction,
   addTransactionAction,
   changeAccountAction,
   changeAccountVisibilityAction,
@@ -37,7 +35,8 @@ import {
   setSelectedAccountAction,
   sortAccountTokensByVisibility,
   deleteTransactionAction,
-  deleteCollectibleAction
+  deleteCollectibleAction,
+  getAllUserTokensAction
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -153,57 +152,60 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         }
       };
     })
-    .addCase(getAllUserTokensAction.success, (state, { payload: { tokenList } }) => {
+    .addCase(getAllUserTokensAction.success, (state, { payload: { tokenList, debankGasTokenName } }) => {
       if (!tokenList.length) {
         return state;
       }
 
       const { selectedAccountPublicKeyHash } = state;
-
       const chainId = getSelectedNetworkChainId(state);
       const accountTokensSlug = getAccountTokensSlug(chainId, selectedAccountPublicKeyHash);
 
-      const collectibles = state.accountsTokens[accountTokensSlug].filter(
-        token => !isDefined(token.name) && !isDefined(token.symbol)
-      );
+      const stateAssets: AccountToken[] = [...state.accountsTokens[accountTokensSlug]];
 
-      const defaultTokens: Record<string, AccountToken> = TOKENS_DEFAULT_LIST[chainId].reduce(
-        (acc, token) => ({
-          ...acc,
-          [getTokenSlug(token.tokenAddress, token.tokenId)]: { ...token }
-        }),
-        {}
-      );
+      const tokensWithBalance: AccountToken[] = tokenList
+        .map(token => {
+          const prevToken = stateAssets.find(prevToken => prevToken.tokenAddress === token.id);
 
-      const defaultTokensWithZeroBalance = state.accountsTokens[accountTokensSlug].filter(
-        token =>
-          isDefined(defaultTokens[getTokenSlug(token.tokenAddress, token.tokenId)]) && Number(token.balance.data) === 0
-      );
+          if (isDefined(prevToken)) {
+            return {
+              ...prevToken,
+              balance: createEntity(token.raw_amount.toString())
+            };
+          }
 
-      const accountTokens = tokenList.map(token => {
-        const defaultToken = defaultTokens[getTokenSlug(token.id)];
-
-        if (isDefined(defaultToken) && token.raw_amount > 0) {
           return {
-            ...defaultToken,
+            tokenAddress: token.id,
+            isVisible: true,
             balance: createEntity(token.raw_amount.toString())
           };
-        }
+        })
+        .filter(token => token.tokenAddress !== debankGasTokenName);
 
-        return {
-          tokenAddress: token.id,
-          name: token.name,
-          symbol: token.symbol,
-          isVisible: true,
-          decimals: token.decimals,
-          balance: createEntity(token.raw_amount.toString())
-        };
+      const gasTokenBalance = tokenList.find(token => token.id === debankGasTokenName)?.raw_amount ?? 0;
+
+      const prevAccountTokens: AccountToken[] = state.accountsTokens[accountTokensSlug].filter(token => {
+        const updatedToken = tokensWithBalance.find(
+          tokenWithBalance =>
+            getTokenSlug(tokenWithBalance.tokenAddress, tokenWithBalance.tokenId) ===
+            getTokenSlug(token.tokenAddress, token.tokenId)
+        );
+
+        if (!isDefined(updatedToken) && token.tokenAddress !== debankGasTokenName) {
+          return { ...token };
+        }
       });
 
-      const allTokens: AccountToken[] = [...collectibles, ...defaultTokensWithZeroBalance, ...accountTokens];
+      const prevAccountAssets: Record<string, boolean> =
+        state.accountsTokens[accountTokensSlug]?.reduce(
+          (acc, accountToken) => ({ ...acc, [accountToken.tokenAddress]: true }),
+          {}
+        ) ?? {};
 
-      const tokensMetadata = accountTokens.reduce((acc, token) => {
-        const tokenMetadataSlug = getTokenMetadataSlug(chainId, token.tokenAddress);
+      const newTokens = tokenList.filter(token => !prevAccountAssets[token.id]);
+
+      const tokensMetadata = newTokens.reduce((acc, token) => {
+        const tokenMetadataSlug = getTokenMetadataSlug(chainId, token.id);
 
         if (isDefined(state.tokensMetadata[tokenMetadataSlug])) {
           return { ...acc };
@@ -214,16 +216,18 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
           [tokenMetadataSlug]: {
             name: token.name,
             symbol: token.symbol,
-            decimals: token.decimals
+            decimals: token.decimals,
+            thumbnailUri: token.logo_url
           }
         };
       }, {});
 
       return {
         ...state,
+        ...updateAccountsGasTokensState(state, { balance: gasTokenBalance.toString() }),
         accountsTokens: {
           ...state.accountsTokens,
-          [accountTokensSlug]: allTokens
+          [accountTokensSlug]: [...prevAccountTokens, ...tokensWithBalance]
         },
         tokensMetadata: {
           ...state.tokensMetadata,

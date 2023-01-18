@@ -1,15 +1,19 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { Divider } from '../../components/divider/divider';
 import { ScreenTitle } from '../../components/screen-components/header-container/components/screen-title/screen-title';
 import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { Tabs } from '../../components/tabs/tabs';
+import { DATA_UPDATE_TIME } from '../../constants/update-time';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
+import { useTimerEffect } from '../../hooks/use-timer-effect.hook';
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { useTokenMarketInfoSelector } from '../../store/tokens-market-info/token-market-info.selectors';
+import { loadAccountTokenBalanceAction, loadGasTokenBalanceAction } from '../../store/wallet/wallet.actions';
 import { useTokenBalanceSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
 import { checkIsGasToken } from '../../utils/check-is-gas-token.util';
 import { getDollarValue } from '../../utils/get-dollar-amount.util';
@@ -46,6 +50,7 @@ export const Token: FC<Props> = ({ style }) => {
     params: { token }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Token>>();
   const { chainId } = useSelectedNetworkSelector();
+  const dispatch = useDispatch();
 
   const { name, symbol, tokenAddress, decimals, tokenId, thumbnailUri, balance } = token;
   const { price, usdPriceChange24h } = useTokenMarketInfoSelector(tokenAddress, chainId);
@@ -54,6 +59,16 @@ export const Token: FC<Props> = ({ style }) => {
   const formattedBalance = getFormattedBalance(balanceFromStore ?? balance.data, decimals);
   const isGasToken = checkIsGasToken(tokenAddress);
   const usdBalance = getDollarValue({ amount: balance?.data ?? 0, price, decimals });
+
+  const getTokenBalanceFromContract = () => {
+    if (isGasToken) {
+      dispatch(loadGasTokenBalanceAction.submit());
+    } else {
+      dispatch(loadAccountTokenBalanceAction.submit({ token }));
+    }
+  };
+
+  useTimerEffect(getTokenBalanceFromContract, DATA_UPDATE_TIME, [token, chainId]);
 
   return (
     <ScreenContainer style={[styles.root, style]}>

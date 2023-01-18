@@ -10,9 +10,13 @@ import { AccountToken } from '../../../../components/token/account-token/account
 import { WidgetContainer } from '../../../../components/widget-container/widget-container';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
+import { useSortAccountTokensByBalance } from '../../../../hooks/use-sort-tokens-by-balance.hook';
 import { TestIDProps } from '../../../../interfaces/test-id.props';
 import { useTokensMarketInfoSelector } from '../../../../store/tokens-market-info/token-market-info.selectors';
-import { useSelectedNetworkSelector, useSortAccountTokensByBalance } from '../../../../store/wallet/wallet.selectors';
+import {
+  useSelectedNetworkSelector,
+  useVisibleAccountTokensAndGasTokenSelector
+} from '../../../../store/wallet/wallet.selectors';
 import { getTokenMetadataSlug } from '../../../../utils/token-metadata.util';
 import { getTokenSlug } from '../../../../utils/token.utils';
 
@@ -23,8 +27,9 @@ export const AssetsWidget: FC<TestIDProps> = ({ testID }) => {
   const { navigate } = useNavigation();
   const { chainId } = useSelectedNetworkSelector();
   const allTokensMarketInfo = useTokensMarketInfoSelector();
-  const accountTokens = useSortAccountTokensByBalance();
-  const visibleAccountTokens = useMemo(() => accountTokens.slice(0, VISIBLE_TOKENS_NUMBER), [accountTokens]);
+  const accountTokens = useVisibleAccountTokensAndGasTokenSelector();
+  const sortedTokens = useSortAccountTokensByBalance(accountTokens);
+  const visibleAccountTokens = useMemo(() => sortedTokens.slice(0, VISIBLE_TOKENS_NUMBER), [sortedTokens]);
 
   const navigateToTokens = () => navigate(ScreensEnum.Tokens);
   const navigateToActivity = () => navigate(ScreensEnum.Activity);
@@ -37,7 +42,6 @@ export const AssetsWidget: FC<TestIDProps> = ({ testID }) => {
             key={getTokenSlug(token.tokenAddress, token.tokenId)}
             token={token}
             marketInfo={allTokensMarketInfo[getTokenMetadataSlug(chainId, token.tokenAddress, token.tokenId)]}
-            loadBalance
           />
         ))}
         <Row>

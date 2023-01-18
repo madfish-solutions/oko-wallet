@@ -5,6 +5,4 @@ export interface AccountToken {
   tokenId?: string;
   isVisible: boolean;
   balance: LoadableEntityState<string>;
-  name?: string;
-  symbol?: string;
 }
