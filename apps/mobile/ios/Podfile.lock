@@ -301,7 +301,7 @@ PODS:
     - react-native-config/App (= 1.4.12)
   - react-native-config/App (1.4.12):
     - React-Core
-  - react-native-flipper (0.176.1):
+  - react-native-flipper (0.163.0):
     - React-Core
   - react-native-randombytes (3.6.1):
     - React-Core
@@ -679,7 +679,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 5061fcbec93fd672183dfb39cc2f65e55a0835db
   React-logger: a6c0b3a807a8e81f6d7fea2e72660766f55daa50
   react-native-config: 5e3e0c7798522b1a0d7641f7ffa5363044e16397
-  react-native-flipper: 7e4b1c3fe1a2eecbe7304e5ff6b89231b3ec61dc
+  react-native-flipper: 2d552a8178d839ef378220101fb7f0cd5b2a8003
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
   react-native-themis: ca42bd4e6c8c3204805b593aea1d959cf96a7e07
