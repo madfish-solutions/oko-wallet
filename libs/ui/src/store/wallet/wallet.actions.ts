@@ -43,7 +43,7 @@ export const removeNetworkAction = createAction<{ network: NetworkInterface; isN
 );
 
 export const addNewTokenAction = createAction<TokenExtendedMetadata>('wallet/ADD_NEW_TOKEN');
-export const addNewTokensAction = createActions<
+export const getAllUserTokensAction = createActions<
   { debankId: string; publicKeyHash: string },
   { tokenList: TokenListResponse; debankGasTokenName: string }
 >('wallet/ADD_NEW_TOKENS');

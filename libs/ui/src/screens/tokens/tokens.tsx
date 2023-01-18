@@ -24,9 +24,9 @@ import { sortAccountTokensByVisibility } from '../../store/wallet/wallet.actions
 import {
   useAccountTokensSelector,
   useSelectedNetworkSelector,
-  useVisibleAccountTokensSelector,
   useAccountTokensAndGasTokenSelector,
-  useVisibleAccountTokensAndGasTokenSelector
+  useVisibleAccountTokensAndGasTokenSelector,
+  useSortAccountTokensByBalance
 } from '../../store/wallet/wallet.selectors';
 import { getTokensWithBalance } from '../../utils/get-tokens-with-balance.util';
 import { redirectToMamixiseView } from '../../utils/redirecit-to-maximise-view.util';
@@ -44,7 +44,7 @@ export const Tokens: FC = () => {
   const dispatch = useDispatch();
   const { navigate, goBack } = useNavigation();
   const allAccountTokens = useAccountTokensSelector();
-  const visibleAccountTokens = useVisibleAccountTokensSelector();
+  const visibleAccountTokens = useSortAccountTokensByBalance();
   const allTokensMarketInfo = useTokensMarketInfoSelector();
 
   const allAccountTokensWithGasToken = useAccountTokensAndGasTokenSelector();

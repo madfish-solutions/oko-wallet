@@ -13,9 +13,11 @@ import { Token } from '../../interfaces/token.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { getAllAccountsWithoutCurrent } from '../../utils/get-all-accounts-without-current.util';
+import { getDollarValue } from '../../utils/get-dollar-amount.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { getTokenSlug, isCollectible } from '../../utils/token.utils';
 import { LoadableEntityState } from '../interfaces/loadable-entity-state.interface';
+import { useTokensMarketInfoSelector } from '../tokens-market-info/token-market-info.selectors';
 import { checkEquality } from '../utils/check-equality.util';
 
 import { WalletRootState, WalletState } from './wallet.state';
@@ -160,6 +162,33 @@ export const useVisibleAccountTokensAndGasTokenSelector = (): Token[] => {
   const gasToken = useGasTokenSelector();
 
   return useMemo(() => [gasToken, ...visibleAccountTokens], [visibleAccountTokens, gasToken]);
+};
+
+export const useSortAccountTokensByBalance = (): Token[] => {
+  const visibleAccountTokens = useVisibleAccountTokensSelector();
+  const gasToken = useGasTokenSelector();
+  const allTokensMarketInfo = useTokensMarketInfoSelector();
+  const { chainId } = useSelectedNetworkSelector();
+
+  const assets = visibleAccountTokens.map(asset => {
+    const tokenMetadataSlug = getTokenMetadataSlug(chainId, asset.tokenAddress);
+
+    const dollarBalance = getDollarValue({
+      amount: asset.balance?.data ?? 0,
+      price: isDefined(allTokensMarketInfo[tokenMetadataSlug]) ? allTokensMarketInfo[tokenMetadataSlug].price : 0,
+      decimals: asset.decimals
+    });
+
+    return {
+      ...asset,
+      dollarBalance
+    };
+  });
+
+  return useMemo(
+    () => [gasToken, ...assets.sort((a, b) => Number(b.dollarBalance) - Number(a.dollarBalance))],
+    [gasToken, visibleAccountTokens]
+  );
 };
 
 export const useCollectiblesSelector = () => {

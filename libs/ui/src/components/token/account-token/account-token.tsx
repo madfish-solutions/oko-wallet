@@ -52,11 +52,9 @@ export const AccountToken: FC<Props> = ({ token, showButton, loadBalance = false
       return;
     }
 
-    if (isGasToken) {
-      dispatch(loadGasTokenBalanceAction.submit());
-    } else {
-      dispatch(loadAccountTokenBalanceAction.submit({ token }));
-    }
+    // if (isGasToken) {
+    //   dispatch(loadGasTokenBalanceAction.submit());
+    // }
   };
 
   useTimerEffect(getTokenBalance, DATA_UPDATE_TIME, [rpcUrl, publicKeyHash]);

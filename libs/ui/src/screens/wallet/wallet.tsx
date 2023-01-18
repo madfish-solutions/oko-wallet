@@ -5,6 +5,7 @@ import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { ScreenContainerThemesEnum } from '../../components/screen-components/screen-container/enums';
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { useUnlock } from '../../hooks/use-unlock.hook';
+import { useAccountAssetsSelector } from '../../store/wallet/wallet.selectors';
 
 import { AssetsWidget } from './components/assets-widget/assets-widget';
 import { CollectiblesWidget } from './components/collectibles/collectibles';
@@ -20,6 +21,9 @@ export const Wallet: FC = () => {
   const { onScroll, onTouchEnd, changeQrCodeVisibility, contentOffsetY, scrollViewRef } = useHeaderAnimation();
 
   useAllUserNft();
+
+  const allAssets = useAccountAssetsSelector();
+  // console.log('allAssets', allAssets);
 
   return (
     <ScreenContainer theme={ScreenContainerThemesEnum.Secondary}>

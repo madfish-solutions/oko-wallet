@@ -1,6 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 
+import { TOKENS_DEFAULT_LIST } from '../../constants/tokens';
 import { TokenStandardEnum } from '../../enums/token-standard.enum';
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
 import { AccountToken } from '../../interfaces/account-token.interface';
@@ -16,7 +17,7 @@ import {
   addNewCollectibleAction,
   addNewNetworkAction,
   addNewTokenAction,
-  addNewTokensAction,
+  getAllUserTokensAction,
   addTransactionAction,
   changeAccountAction,
   changeAccountVisibilityAction,
@@ -152,32 +153,57 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         }
       };
     })
-    .addCase(addNewTokensAction.success, (state, { payload: { tokenList, debankGasTokenName } }) => {
+    .addCase(getAllUserTokensAction.success, (state, { payload: { tokenList } }) => {
       if (!tokenList.length) {
         return state;
       }
 
       const { selectedAccountPublicKeyHash } = state;
+
       const chainId = getSelectedNetworkChainId(state);
       const accountTokensSlug = getAccountTokensSlug(chainId, selectedAccountPublicKeyHash);
-      const defaultAccountTokens = { [debankGasTokenName]: true };
-      const prevAccountTokens: Record<string, boolean> =
-        state.accountsTokens[accountTokensSlug]?.reduce(
-          (acc, accountToken) => ({ ...acc, [accountToken.tokenAddress]: true }),
-          defaultAccountTokens
-        ) ?? defaultAccountTokens;
 
-      const newTokens = tokenList.filter(token => !prevAccountTokens[token.id]);
+      const collectibles = state.accountsTokens[accountTokensSlug].filter(
+        token => !isDefined(token.name) && !isDefined(token.symbol)
+      );
 
-      const accountTokens: AccountToken[] = newTokens.map(token => ({
-        tokenAddress: token.id,
-        name: token.name,
-        symbol: token.symbol,
-        isVisible: true,
-        balance: createEntity(token.raw_amount.toString())
-      }));
-      const tokensMetadata = newTokens.reduce((acc, token) => {
-        const tokenMetadataSlug = getTokenMetadataSlug(chainId, token.id);
+      const defaultTokens: Record<string, AccountToken> = TOKENS_DEFAULT_LIST[chainId].reduce(
+        (acc, token) => ({
+          ...acc,
+          [getTokenSlug(token.tokenAddress, token.tokenId)]: { ...token }
+        }),
+        {}
+      );
+
+      const defaultTokensWithZeroBalance = state.accountsTokens[accountTokensSlug].filter(
+        token =>
+          isDefined(defaultTokens[getTokenSlug(token.tokenAddress, token.tokenId)]) && Number(token.balance.data) === 0
+      );
+
+      const accountTokens = tokenList.map(token => {
+        const defaultToken = defaultTokens[getTokenSlug(token.id)];
+
+        if (isDefined(defaultToken) && token.raw_amount > 0) {
+          return {
+            ...defaultToken,
+            balance: createEntity(token.raw_amount.toString())
+          };
+        }
+
+        return {
+          tokenAddress: token.id,
+          name: token.name,
+          symbol: token.symbol,
+          isVisible: true,
+          decimals: token.decimals,
+          balance: createEntity(token.raw_amount.toString())
+        };
+      });
+
+      const allTokens: AccountToken[] = [...collectibles, ...defaultTokensWithZeroBalance, ...accountTokens];
+
+      const tokensMetadata = accountTokens.reduce((acc, token) => {
+        const tokenMetadataSlug = getTokenMetadataSlug(chainId, token.tokenAddress);
 
         if (isDefined(state.tokensMetadata[tokenMetadataSlug])) {
           return { ...acc };
@@ -188,8 +214,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
           [tokenMetadataSlug]: {
             name: token.name,
             symbol: token.symbol,
-            decimals: token.decimals,
-            thumbnailUri: token.logo_url
+            decimals: token.decimals
           }
         };
       }, {});
@@ -198,7 +223,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         ...state,
         accountsTokens: {
           ...state.accountsTokens,
-          [accountTokensSlug]: [...(state.accountsTokens[accountTokensSlug] ?? []), ...accountTokens]
+          [accountTokensSlug]: allTokens
         },
         tokensMetadata: {
           ...state.tokensMetadata,

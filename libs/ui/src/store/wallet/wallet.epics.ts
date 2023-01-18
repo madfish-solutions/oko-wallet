@@ -20,7 +20,7 @@ import {
   loadGasTokenBalanceAction,
   loadAccountTokenBalanceAction,
   sendAssetAction,
-  addNewTokensAction,
+  getAllUserTokensAction,
   getAllUserNftAction,
   deleteCollectibleAction
 } from './wallet.actions';
@@ -88,11 +88,11 @@ const sendAssetEpic: Epic = (action$: Observable<Action>, state$: Observable<Roo
 
 const addNewTokensEpic: Epic = (action$: Observable<Action>) =>
   action$.pipe(
-    ofType(addNewTokensAction.submit),
+    ofType(getAllUserTokensAction.submit),
     toPayload(),
     concatMap(({ debankId, publicKeyHash }) =>
       from(getTokenList(publicKeyHash, debankId)).pipe(
-        map(tokenList => addNewTokensAction.success({ tokenList, debankGasTokenName: debankId }))
+        map(tokenList => getAllUserTokensAction.success({ tokenList, debankGasTokenName: debankId }))
       )
     )
   );

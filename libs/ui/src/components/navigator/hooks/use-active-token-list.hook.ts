@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { getDebankId } from '../../../api/utils/get-debank-id.util';
 import { DATA_UPDATE_TIME } from '../../../constants/update-time';
 import { useTimerEffect } from '../../../hooks/use-timer-effect.hook';
-import { addNewTokensAction } from '../../../store/wallet/wallet.actions';
+import { getAllUserTokensAction } from '../../../store/wallet/wallet.actions';
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector
@@ -19,7 +19,7 @@ export const useActiveTokenList = () => {
     const debankId = getDebankId(chainId);
 
     if (isDefined(debankId) && isNotEmptyString(publicKeyHash)) {
-      dispatch(addNewTokensAction.submit({ debankId, publicKeyHash }));
+      dispatch(getAllUserTokensAction.submit({ debankId, publicKeyHash }));
     }
   };
 

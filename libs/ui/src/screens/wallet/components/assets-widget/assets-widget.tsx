@@ -12,10 +12,7 @@ import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { TestIDProps } from '../../../../interfaces/test-id.props';
 import { useTokensMarketInfoSelector } from '../../../../store/tokens-market-info/token-market-info.selectors';
-import {
-  useVisibleAccountTokensAndGasTokenSelector,
-  useSelectedNetworkSelector
-} from '../../../../store/wallet/wallet.selectors';
+import { useSelectedNetworkSelector, useSortAccountTokensByBalance } from '../../../../store/wallet/wallet.selectors';
 import { getTokenMetadataSlug } from '../../../../utils/token-metadata.util';
 import { getTokenSlug } from '../../../../utils/token.utils';
 
@@ -26,7 +23,7 @@ export const AssetsWidget: FC<TestIDProps> = ({ testID }) => {
   const { navigate } = useNavigation();
   const { chainId } = useSelectedNetworkSelector();
   const allTokensMarketInfo = useTokensMarketInfoSelector();
-  const accountTokens = useVisibleAccountTokensAndGasTokenSelector();
+  const accountTokens = useSortAccountTokensByBalance();
   const visibleAccountTokens = useMemo(() => accountTokens.slice(0, VISIBLE_TOKENS_NUMBER), [accountTokens]);
 
   const navigateToTokens = () => navigate(ScreensEnum.Tokens);
