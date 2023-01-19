@@ -7,7 +7,7 @@ const getSelector = (testID: string) => `[data-testid="${testID}"]`;
 const findElement = async (testID: string) => {
   const selector = getSelector(testID);
 
-  const element = await BrowserContext.page.waitForSelector(selector, { visible: true, timeout: 10000 });
+  const element = await BrowserContext.page.waitForSelector(selector, { visible: true, timeout: 3000 });
 
   if (isDefined(element)) {
     return element;
