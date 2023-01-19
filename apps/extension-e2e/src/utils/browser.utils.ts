@@ -13,7 +13,10 @@ export const initBrowser = () =>
 export const getExtensionId = async (browser: Browser) => {
   const [page] = await browser.pages();
   // Needed to catch service worker
-  await page.goto('https://www.google.com/');
+  await page.goto('https://www.google.com/', {
+    waitUntil: 'load',
+    timeout: 5000
+  });
 
   const extensionTarget = browser.targets().find(target => target.type() === 'service_worker');
 
