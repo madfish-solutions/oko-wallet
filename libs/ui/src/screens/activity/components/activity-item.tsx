@@ -12,6 +12,7 @@ import { TokenAmount } from '../../../components/token-amount/token-amount';
 import { ActivityData } from '../../../interfaces/activity-data.interface';
 import { TransactionTypeEnum } from '../../../interfaces/activity.enum';
 import { useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
+import { colors } from '../../../styles/colors';
 import { formatBalances } from '../../../utils/units.utils';
 
 import { styles } from './activity-item.styles';
@@ -35,7 +36,7 @@ export const ActivityItem: FC<Props> = ({
       case TransactionTypeEnum.Send:
         return <Icon name={IconNameEnum.SendSmall} />;
       case TransactionTypeEnum.Receive:
-        return <Icon name={IconNameEnum.ReceiveSmall} />;
+        return <Icon name={IconNameEnum.ReceiveSmall} color={colors.green} />;
       default:
         return <Icon name={IconNameEnum.Document} />;
     }
