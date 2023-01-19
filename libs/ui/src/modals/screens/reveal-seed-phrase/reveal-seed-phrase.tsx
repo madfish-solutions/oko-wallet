@@ -4,8 +4,8 @@ import { ScrollView } from 'react-native';
 
 import { Announcement } from '../../../components/announcement/announcement';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
-import { MnemonicActionButton } from '../../../components/mnemonic-action-button/mnemonic-action-button';
 import { Mnemonic } from '../../../components/mnemonic/mnemonic';
+import { MnemonicActionButton } from '../../../components/mnemonic-action-button/mnemonic-action-button';
 import { NavigationBar } from '../../../components/navigation-bar/navigation-bar';
 import { Text } from '../../../components/text/text';
 import { SECURITY_TIME } from '../../../constants/defaults';

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
@@ -11,11 +11,12 @@ import { Text } from '../text/text';
 
 import { styles } from './widget-container.styles';
 
-interface Props extends TestIDProps {
+type Props = PropsWithChildren<{
   iconName: IconNameEnum;
   title: string;
   style?: ViewStyleProps;
-}
+}> &
+  TestIDProps;
 
 export const WidgetContainer: FC<Props> = ({ children, style, iconName, title, testID }) => (
   <View style={[styles.root, style]} testID={testID}>

@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 
 import { Text } from '../../../../../../components/text/text';
 import { isMobile } from '../../../../../../utils/platform.utils';
-import { ItemContainer } from '../../../../components/item-container/item-container';
 import { Item } from '../../../../components/item/item';
+import { ItemContainer } from '../../../../components/item-container/item-container';
 
 import { version, build } from './constants';
 import { styles } from './version.styles';
