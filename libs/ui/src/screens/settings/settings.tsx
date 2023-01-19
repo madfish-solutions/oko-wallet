@@ -2,10 +2,10 @@ import React, { FC } from 'react';
 import { Linking, View } from 'react-native';
 
 import { Divider } from '../../components/divider/divider';
-import { IconWithBorderEnum } from '../../components/icon-with-border/enums';
-import { IconWithBorder } from '../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../components/icon/icon';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
+import { IconWithBorderEnum } from '../../components/icon-with-border/enums';
+import { IconWithBorder } from '../../components/icon-with-border/icon-with-border';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { Pressable } from '../../components/pressable/pressable';
 import { RobotIcon } from '../../components/robot-icon/robot-icon';
@@ -25,8 +25,8 @@ import { openFullViewPage } from '../../utils/open-maximise-screen.util';
 import { isIOS, isWeb } from '../../utils/platform.utils';
 
 import EasterEgg from './assets/easter-egg.svg';
-import { ItemContainer } from './components/item-container/item-container';
 import { Item } from './components/item/item';
+import { ItemContainer } from './components/item-container/item-container';
 import { MadFishLogo } from './components/mad-fish-logo/mad-fish-logo';
 import { Separator } from './components/separator/separator';
 import { socialMediaLinks } from './constants';

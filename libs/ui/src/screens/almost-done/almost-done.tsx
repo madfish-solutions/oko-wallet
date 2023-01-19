@@ -9,8 +9,8 @@ import { Checkbox } from '../../components/checkbox/checkbox';
 import { Column } from '../../components/column/column';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
 import { Row } from '../../components/row/row';
-import { TextInput } from '../../components/text-input/text-input';
 import { Text } from '../../components/text/text';
+import { TextInput } from '../../components/text-input/text-input';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
 import { WalletCreationContainer } from '../../components/wallet-creation-container/wallet-creation-container';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
@@ -24,11 +24,16 @@ import { goToTermsOfUse, goToPrivatePolicy } from '../settings/screens/about-us/
 
 import { styles } from './almost-done.styles';
 import { AlmostDoneTestIDs } from './almost-done.test-ids';
-import { CreateAccountType } from './types';
 
 const defaultAccountName = 'Account 1';
 
-const defaultValues = {
+interface FormTypes {
+  name: string;
+  password: string;
+  confirmPassword: string;
+}
+
+const defaultValues: FormTypes = {
   name: defaultAccountName,
   password: '',
   confirmPassword: ''
@@ -54,7 +59,7 @@ export const AlmostDone: FC = () => {
     watch,
     trigger,
     formState: { errors, dirtyFields, isSubmitted }
-  } = useForm<CreateAccountType>({
+  } = useForm<FormTypes>({
     mode: 'onChange',
     defaultValues
   });
@@ -80,13 +85,13 @@ export const AlmostDone: FC = () => {
   });
   const { nameRules } = useAccountFieldRules();
 
-  const handleCreateAccount = ({ name, password }: CreateAccountType) => {
-    const accountName = isNotEmptyString(name.trim()) ? name.trim() : defaultAccountName;
+  const handleCreateAccount = (formValue: FormTypes) => {
+    const accountName = isNotEmptyString(formValue.name.trim()) ? formValue.name.trim() : defaultAccountName;
 
     if (!passwordIsNoValid && isAcceptTerms) {
       importWallet({
         seedPhrase: mnemonic,
-        password,
+        password: formValue.password,
         hdAccountsLength: 1,
         accountName
       });

@@ -11,8 +11,8 @@ import { Row } from '../../../../components/row/row';
 import { ScreenTitle } from '../../../../components/screen-components/header-container/components/screen-title/screen-title';
 import { HeaderContainer } from '../../../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
-import { TextInput } from '../../../../components/text-input/text-input';
 import { Text } from '../../../../components/text/text';
+import { TextInput } from '../../../../components/text-input/text-input';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
 import { useChangePassword } from '../../../../hooks/use-change-password-hook';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
@@ -22,7 +22,7 @@ import { usePasswordValidation } from '../../../../hooks/use-validation-messages
 
 import { styles } from './change-password.styles';
 
-interface ChangePasswordType {
+interface FormTypes {
   oldPassword: string;
   password: string;
   confirmPassword: string;
@@ -74,11 +74,11 @@ export const ChangePassword: FC = () => {
 
   const onSuccessFullPasswordChange = useCallback(() => {
     if (password === oldPassword) {
-      showErrorToast('Old password cannot match the new one');
+      showErrorToast({ message: 'Old password cannot match the new one' });
 
       setFocus('password');
     } else {
-      showSuccessToast('Password was successfully changed');
+      showSuccessToast({ message: 'Password was successfully changed' });
       goBack();
     }
   }, [password, oldPassword]);
@@ -98,9 +98,9 @@ export const ChangePassword: FC = () => {
     confirmPasswordError: errors.confirmPassword?.message
   });
 
-  const handleChangePassword = ({ password, oldPassword }: ChangePasswordType) => {
+  const handleChangePassword = (formValue: FormTypes) => {
     if (!passwordIsNoValid) {
-      changePassword(password, oldPassword);
+      changePassword(formValue.password, formValue.oldPassword);
     }
   };
 

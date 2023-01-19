@@ -1,5 +1,5 @@
 import { OnEventFn } from '@rnw-community/shared';
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { FlatList, ListRenderItem } from 'react-native';
 
 import { Column } from '../../../../components/column/column';
@@ -17,12 +17,12 @@ import { getTokenSlug } from '../../../../utils/token.utils';
 
 import { styles } from './list-container.styles';
 
-interface Props {
+type Props = PropsWithChildren<{
   title?: string;
   collectibles: Token[];
   renderItem: ListRenderItem<Token>;
   setSearchValue: OnEventFn<string>;
-}
+}>;
 
 const keyExtractor = ({ tokenAddress, tokenId }: Token) => getTokenSlug(tokenAddress, tokenId);
 

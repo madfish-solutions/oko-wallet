@@ -1,10 +1,10 @@
 import { isDefined } from '@rnw-community/shared';
 import React, { FC } from 'react';
 
-import { IconWithBorderEnum } from '../../../../../components/icon-with-border/enums';
-import { IconWithBorder } from '../../../../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../../components/icon/icon-name.enum';
+import { IconWithBorderEnum } from '../../../../../components/icon-with-border/enums';
+import { IconWithBorder } from '../../../../../components/icon-with-border/icon-with-border';
 import { getCustomSize } from '../../../../../styles/format-size';
 
 import { styles } from './network-image.styles';

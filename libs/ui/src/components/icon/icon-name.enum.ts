@@ -62,6 +62,7 @@ export enum IconNameEnum {
   DropdownSelector = 'DropdownSelector',
   Refresh = 'Refresh',
   Info = 'Info',
+  InfoToast = 'InfoToast',
   Deposit = 'Deposit',
   NftCollectionLayout = 'NftCollectionLayout',
   NftLayout = 'NftLayout',
@@ -92,6 +93,7 @@ export enum IconNameEnum {
   Arbitrum = 'Arbitrum',
   Polygon = 'Polygon',
   User = 'User',
+  Close = 'Close',
   FilterNo = 'FilterNo',
   FilterYes = 'FilterYes',
   Document = 'Document'

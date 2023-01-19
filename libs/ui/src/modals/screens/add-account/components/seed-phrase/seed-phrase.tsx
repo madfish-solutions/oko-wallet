@@ -11,8 +11,8 @@ import { IconNameEnum } from '../../../../../components/icon/icon-name.enum';
 import { Paste } from '../../../../../components/paste/paste';
 import { Pressable } from '../../../../../components/pressable/pressable';
 import { Row } from '../../../../../components/row/row';
-import { TextInput as CustomTextInput } from '../../../../../components/text-input/text-input';
 import { Text } from '../../../../../components/text/text';
+import { TextInput as CustomTextInput } from '../../../../../components/text-input/text-input';
 import { NetworkTypeEnum } from '../../../../../enums/network-type.enum';
 import { ScreensEnum, ScreensParamList } from '../../../../../enums/sreens.enum';
 import { useImportSeedPhrase } from '../../../../../hooks/use-import-seed-phrase.hook';
@@ -159,7 +159,7 @@ export const SeedPhrase: FC = () => {
                       value={value}
                       onFocus={el => handleInputFocus(index, el)}
                       onBlur={handleInputBlur}
-                      onChangeText={value => handleInputChange(value, index)}
+                      onChangeText={newValue => handleInputChange(newValue, index)}
                       style={[styles.mnemonicInput, isSubmitted && !isNotEmptyString(value) && styles.error]}
                     />
                     <Text selectable={false} style={styles.wordIndex}>{`${index + 1}.`}</Text>

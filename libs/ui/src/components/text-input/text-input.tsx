@@ -85,8 +85,8 @@ export const TextInput = <
   const isPrompt = isDefined(prompt);
   const isNumberKeyboardType = keyboardType === 'numeric' || keyboardType === 'number-pad';
 
-  const onChangeText = (value: string) => {
-    let correctedValue = value;
+  const onChangeText = (newValue: string) => {
+    let correctedValue = newValue;
 
     if (isNumberKeyboardType) {
       correctedValue = correctedValue

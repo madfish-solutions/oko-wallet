@@ -1,5 +1,5 @@
 import { isDefined } from '@rnw-community/shared';
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { Image, ImageSourcePropType, View } from 'react-native';
 
 import { getCustomSize } from '../../../styles/format-size';
@@ -13,7 +13,7 @@ import { themeClasses } from './constants';
 import { TokenItemThemesEnum } from './enums';
 import { styles } from './token-item.styles';
 
-interface Props {
+type Props = PropsWithChildren<{
   symbol: string;
   imageSource: ImageSourcePropType;
   balance: string;
@@ -21,7 +21,7 @@ interface Props {
   usdBalance: string;
   isGasToken?: boolean;
   theme?: TokenItemThemesEnum;
-}
+}>;
 
 export const TokenItem: FC<Props> = ({
   imageSource,

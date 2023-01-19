@@ -9,10 +9,10 @@ import { ButtonSizeEnum, ButtonThemesEnum } from '../../../../components/button/
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';
+import { Text } from '../../../../components/text/text';
 import { Label } from '../../../../components/text-input/components/label/label';
 import { Prompt } from '../../../../components/text-input/components/prompt/prompt';
 import { TextInput } from '../../../../components/text-input/text-input';
-import { Text } from '../../../../components/text/text';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
@@ -57,7 +57,7 @@ export const TransferBetweenMyAccounts: FC = () => {
 
   const onTransferBetweenAccountsPress = () => {
     if (isTransferBetweenAccountsDisabled) {
-      return showWarningToast('Please, add one more account');
+      return showWarningToast({ message: 'Please, add one more account' });
     }
     const selectedAccount = account ?? allAccountsWithoutSelected[0];
 
@@ -67,7 +67,12 @@ export const TransferBetweenMyAccounts: FC = () => {
     const publicKeyHashOfSelectedAccount = getPublicKeyHash(selectedAccount, networkType);
 
     if (!isTransferBetweenAccounts && isEmptyString(publicKeyHashOfSelectedAccount)) {
-      createHdAccountForNewNetworkType(selectedAccount, networkType, account => setValue('account', account), false);
+      createHdAccountForNewNetworkType(
+        selectedAccount,
+        networkType,
+        newAccount => setValue('account', newAccount),
+        false
+      );
     }
 
     clearErrors('receiverPublicKeyHash');

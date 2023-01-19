@@ -1,4 +1,4 @@
-import React, { FC, RefObject } from 'react';
+import React, { FC, PropsWithChildren, RefObject } from 'react';
 import { View, ScrollView } from 'react-native';
 
 import { ViewStyleProps } from '../../../interfaces/style.interface';
@@ -8,12 +8,13 @@ import { FooterButtons } from '../modal-footer-buttons/modal-footer-buttons.inte
 
 import { styles } from './modal-action-container.styles';
 
-interface Props extends FooterButtons {
+type Props = PropsWithChildren<{
   screenTitle: string;
   isBackButton?: boolean;
   style?: ViewStyleProps;
   scrollViewRef?: RefObject<ScrollView>;
-}
+}> &
+  FooterButtons;
 
 export const ModalActionContainer: FC<Props> = ({
   screenTitle,

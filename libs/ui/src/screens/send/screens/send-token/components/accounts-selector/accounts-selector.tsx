@@ -18,9 +18,7 @@ import { checkIsNetworkTypeKeyExist } from '../../../../../../utils/check-is-net
 export const AccountsSelector: FC = () => {
   const { createHdAccountForNewNetworkType } = useShelter();
   const { navigate } = useNavigation();
-  const {
-    params: { account }
-  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendAccountsSelector>>();
+  const route = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendAccountsSelector>>();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
   const allAccounts = useAllVisibleAccountsSelector();
   const currentSelectedAccount = useSelectedAccountSelector();
@@ -47,7 +45,7 @@ export const AccountsSelector: FC = () => {
     <ModalContainer screenTitle="Select Account">
       <AccountsList
         accounts={accountsWithoutCurrent}
-        selectedAccount={account}
+        selectedAccount={route.params.account}
         onSelectItem={onSelectAccount}
         isSearchInitiallyOpened
       />

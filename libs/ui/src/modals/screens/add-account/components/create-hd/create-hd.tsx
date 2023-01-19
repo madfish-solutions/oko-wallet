@@ -3,6 +3,7 @@ import { Controller } from 'react-hook-form';
 
 import { Column } from '../../../../../components/column/column';
 import { TextInput } from '../../../../../components/text-input/text-input';
+import { ScreensEnum } from '../../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../../hooks/use-shelter.hook';
 import { ModalFooterButtons } from '../../../../components/modal-footer-buttons/modal-footer-buttons';
@@ -12,11 +13,11 @@ import { styles } from './create-hd.styles';
 
 export const CreateHD: FC = () => {
   const { createHdAccount } = useShelter();
-  const { goBack } = useNavigation();
+  const { navigate, goBack } = useNavigation();
   const { control, nameRules, defaultValue, handleSubmit, errors, isSubmitSuccessful } = useAccountNameControl();
 
   const onSubmit = ({ name }: { name: string }) =>
-    createHdAccount(name.trim().length ? name.trim() : defaultValue, goBack);
+    createHdAccount(name.trim().length ? name.trim() : defaultValue, () => navigate(ScreensEnum.Wallet));
 
   return (
     <Column style={styles.root}>

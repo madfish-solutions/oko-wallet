@@ -9,12 +9,12 @@
     "ts": "tsc --pretty"
   },
   "dependencies": {
-    "@cucumber/cucumber": "^8.7.0",
+    "@cucumber/cucumber": "^8.10.0",
     "@rnw-community/shared": "^0.48.0",
     "@types/chai": "^4.3.4",
     "chai": "^4.3.7",
     "dotenv": "^16.0.3",
-    "puppeteer": "^19.2.2",
+    "puppeteer": "^19.5.0",
     "ts-node": "^10.9.1"
   }
 }

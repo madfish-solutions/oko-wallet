@@ -6,8 +6,6 @@
   "author": "Andrii Ivaniv",
   "scripts": {
     "install:all": "yarn && yarn install:extension && yarn install:extension-e2e && yarn install:mobile && yarn install:libs",
-    "install:package": "cd libs/ui && yarn add -D $Package && cd ../../ && cd apps/extension && yarn add $Package && cd .. && cd mobile && yarn add $Package",
-    "remove:package": "cd libs/ui && yarn remove $Package && cd ../../ && cd apps/extension && yarn remove $Package && cd .. && cd mobile && yarn remove $Package",
     "install:extension": "cd apps/extension && yarn",
     "install:extension-e2e": "cd apps/extension-e2e && yarn",
     "install:mobile": "cd apps/mobile && yarn",
@@ -29,21 +27,15 @@
     "generate-contract-types": "cd libs/ui && yarn generate-contract-types"
   },
   "devDependencies": {
-    "@react-native-community/eslint-config": "^3.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.21.0",
-    "@typescript-eslint/parser": "^5.21.0",
-    "eslint": "^8.14.0",
-    "eslint-import-resolver-typescript": "^2.7.1",
+    "@react-native-community/eslint-config": "^3.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.48.1",
+    "@typescript-eslint/parser": "^5.48.1",
+    "eslint": "^8.31.0",
+    "eslint-import-resolver-typescript": "^3.5.2",
     "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jest": "^26.1.5",
-    "prettier": "^2.6.2",
-    "typescript": "^4.6.3"
-  },
-  "dependencies": {
-    "axios": "^0.27.2",
-    "fast-memoize": "^2.5.2",
-    "react-native-keychain": "^8.0.0",
-    "react-native-sha256": "^1.4.7"
+    "eslint-plugin-jest": "^27.2.1",
+    "prettier": "^2.8.2",
+    "typescript": "^4.8.4"
   }
 }

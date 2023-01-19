@@ -58,7 +58,7 @@ export const ActivityItem: FC<Props> = ({
         </Column>
         <Column style={styles.content}>
           <Row style={styles.rightContainer}>
-            <CopyText text={hash} style={styles.txHash} textStyle={styles.txHashText} />
+            <CopyText text={hash} style={styles.txHash} textStyles={styles.txHashText} />
             <TouchableOpacity onPress={onBlockchainExplorerPress} style={styles.touchable}>
               <Icon name={IconNameEnum.Tooltip} />
             </TouchableOpacity>
