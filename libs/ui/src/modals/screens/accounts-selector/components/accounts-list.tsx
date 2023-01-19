@@ -1,6 +1,7 @@
 import { isDefined, OnEventFn, isNotEmptyString } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { ListRenderItemInfo, View } from 'react-native';
+import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { CopyText } from '../../../../components/copy-text/copy-text';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
@@ -17,7 +18,7 @@ import { ModalRenderItem } from '../../../components/modal-render-item/modal-ren
 
 import { styles } from './accounts-list.styles';
 
-interface Props {
+interface Props extends TestIDProps {
   accounts: AccountInterface[];
   selectedAccount: AccountInterface;
   onSelectItem: OnEventFn<AccountInterface>;
@@ -34,7 +35,8 @@ export const AccountsList: FC<Props> = ({
   onSelectItem,
   onEdit,
   onPressAddIcon,
-  isSearchInitiallyOpened = false
+  isSearchInitiallyOpened = false,
+  testID
 }) => {
   const { accountsBalanceInUsd } = useFiatTotalBalance();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
@@ -47,6 +49,7 @@ export const AccountsList: FC<Props> = ({
 
     return (
       <ModalRenderItem
+        testID={testID}
         name={item.name}
         icon={<RobotIcon seed={publicKeyHash} />}
         isActive={isAccountSelected}
