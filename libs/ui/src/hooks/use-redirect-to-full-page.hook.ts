@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
+import { useNavigationState } from '@react-navigation/native';
+import { isDefined } from '@rnw-community/shared';
+import { useEffect, useMemo } from 'react';
 
 import { ScreensEnum } from '../enums/sreens.enum';
 import { isPopup } from '../utils/location.utils';
 import { openFullViewPage } from '../utils/open-maximise-screen.util';
-
-import { useCurrentRoute } from './use-current-route.hook';
 
 const IS_ONLY_FULL_PAGE_SCREENS = [
   ScreensEnum.Welcome,
@@ -18,11 +18,17 @@ const IS_ONLY_FULL_PAGE_SCREENS = [
 ];
 
 export const useRedirectToFullPage = () => {
-  const currentRoute = useCurrentRoute();
+  const navigationState = useNavigationState(state => state);
+
+  const currentScreen = useMemo(() => {
+    if (isDefined(navigationState)) {
+      return navigationState.routes[navigationState.routes.length - 1].name as ScreensEnum;
+    }
+  }, [navigationState]);
 
   useEffect(() => {
-    if (isPopup && IS_ONLY_FULL_PAGE_SCREENS.includes(currentRoute)) {
+    if (isDefined(currentScreen) && isPopup && IS_ONLY_FULL_PAGE_SCREENS.includes(currentScreen)) {
       openFullViewPage();
     }
-  }, [currentRoute]);
+  }, [currentScreen]);
 };
