@@ -1,6 +1,6 @@
 import { isDefined } from '@rnw-community/shared';
+import { INITIAL_PASSWORD_HASH } from 'ui/background-script';
 
-import { INITIAL_PASSWORD_HASH } from '../../../../libs/ui/src/background-script';
 import { LAST_USER_ACTIVITY_TIMESTAMP_KEY, LOCK_TIME_PERIOD_KEY, PASSWORD_HASH_KEY } from '../constants/storage-keys';
 
 import { browserWithSession as browser } from './browser.utils';

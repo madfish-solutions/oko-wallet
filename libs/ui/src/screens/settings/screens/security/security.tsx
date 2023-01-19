@@ -15,8 +15,8 @@ import { setIsBiometricEnabled } from '../../../../store/settings/settings.actio
 import { useBiometricEnabledSelector, useLockTimePeriodSelector } from '../../../../store/settings/settings.selectors';
 import { getCustomSize } from '../../../../styles/format-size';
 import { isMobile } from '../../../../utils/platform.utils';
-import { ItemContainer } from '../../components/item-container/item-container';
 import { Item } from '../../components/item/item';
+import { ItemContainer } from '../../components/item-container/item-container';
 import { styles } from '../../settings.styles';
 
 export const Security: FC = () => {

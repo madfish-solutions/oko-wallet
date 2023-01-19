@@ -1,4 +1,4 @@
-import { combineEpics, Epic } from 'redux-observable';
+import { combineEpics } from 'redux-observable';
 import { from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, concatMap } from 'rxjs/operators';
 import { Action } from 'ts-action';
@@ -25,7 +25,7 @@ import {
   deleteCollectibleAction
 } from './wallet.actions';
 
-const getGasTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Observable<RootState>) =>
+const getGasTokenBalanceEpic = (action$: Observable<Action>, state$: Observable<RootState>) =>
   action$.pipe(
     ofType(loadGasTokenBalanceAction.submit),
     withSelectedAccount(state$),
@@ -38,7 +38,7 @@ const getGasTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Obser
     )
   );
 
-const getTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Observable<RootState>) =>
+const getTokenBalanceEpic = (action$: Observable<Action>, state$: Observable<RootState>) =>
   action$.pipe(
     ofType(loadAccountTokenBalanceAction.submit),
     toPayload(),
@@ -63,7 +63,7 @@ const getTokenBalanceEpic: Epic = (action$: Observable<Action>, state$: Observab
     )
   );
 
-const sendAssetEpic: Epic = (action$: Observable<Action>, state$: Observable<RootState>) =>
+const sendAssetEpic = (action$: Observable<Action>, state$: Observable<RootState>) =>
   action$.pipe(
     ofType(sendAssetAction.submit),
     toPayload(),
@@ -86,7 +86,7 @@ const sendAssetEpic: Epic = (action$: Observable<Action>, state$: Observable<Roo
     )
   );
 
-const addNewTokensEpic: Epic = (action$: Observable<Action>) =>
+const addNewTokensEpic = (action$: Observable<Action>) =>
   action$.pipe(
     ofType(getAllUserTokensAction.submit),
     toPayload(),
@@ -97,7 +97,7 @@ const addNewTokensEpic: Epic = (action$: Observable<Action>) =>
     )
   );
 
-const getAllUserNftEpic: Epic = (action$: Observable<Action>) =>
+const getAllUserNftEpic = (action$: Observable<Action>) =>
   action$.pipe(
     ofType(getAllUserNftAction.submit),
     toPayload(),

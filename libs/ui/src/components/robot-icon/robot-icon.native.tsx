@@ -1,5 +1,5 @@
-import { createAvatar } from '@dicebear/avatars';
-import * as botttsSprites from '@dicebear/avatars-bottts-sprites';
+import { bottts } from '@dicebear/collection';
+import { createAvatar } from '@dicebear/core';
 import React, { FC, useMemo } from 'react';
 import { SvgXml } from 'react-native-svg';
 
@@ -11,15 +11,7 @@ interface Props {
 }
 
 export const RobotIcon: FC<Props> = ({ seed, size = getCustomSize(3) }) => {
-  const xml = useMemo(
-    () =>
-      createAvatar(botttsSprites, {
-        seed,
-        width: size,
-        height: size
-      }).replace('undefined', ''),
-    [seed, size]
-  );
+  const xml = useMemo(() => createAvatar(bottts, { seed, size }).toString(), [seed, size]);
 
   return <SvgXml xml={xml} />;
 };

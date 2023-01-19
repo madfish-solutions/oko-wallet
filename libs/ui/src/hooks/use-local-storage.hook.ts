@@ -32,7 +32,7 @@ export const useLocalStorage = <T>(key: string, initialValue: T) => {
     }
   };
 
-  const clearStorage = async (key: string) => {
+  const clearStorageValue = async () => {
     await AsyncStorage.removeItem(key);
     setLocalStorageValue(initialValue);
   };
@@ -40,6 +40,6 @@ export const useLocalStorage = <T>(key: string, initialValue: T) => {
   return {
     localStorageValue,
     setLocalStorageValue: setValue,
-    clearStorage
+    clearStorageValue
   };
 };

@@ -1,6 +1,7 @@
-import { createAvatar } from '@dicebear/avatars';
-import * as botttsSprites from '@dicebear/avatars-bottts-sprites';
-import React, { FC, useMemo } from 'react';
+import { bottts } from '@dicebear/collection';
+import { createAvatar } from '@dicebear/core';
+import { isDefined } from '@rnw-community/shared';
+import React, { FC, useEffect, useState } from 'react';
 
 import { getCustomSize } from '../../styles/format-size';
 
@@ -9,29 +10,22 @@ interface Props {
   size?: number;
 }
 
-const cache = new Map<string, string>();
-
 export const RobotIcon: FC<Props> = ({ seed, size = getCustomSize(3) }) => {
-  const backgroundImage = useMemo(() => {
-    const key = `bottts_${seed}_${size}`;
-    if (cache.has(key)) {
-      return cache.get(key);
-    }
+  const [backgroundImage, setBackgroundImage] = useState<string>();
 
-    const imgSrc = createAvatar(botttsSprites, {
-      seed,
-      base64: true,
-      width: size,
-      height: size
-    }).replace('undefined', '');
+  useEffect(() => {
+    let active = true;
 
-    const bi = `url('${imgSrc}')`;
-    cache.set(key, bi);
+    (async () => {
+      const dataUri = await createAvatar(bottts, { seed, size }).toDataUri();
 
-    return bi;
+      active && setBackgroundImage(`url('${dataUri}')`);
+    })();
+
+    return () => void (active = false);
   }, [seed, size]);
 
-  return (
+  return isDefined(backgroundImage) ? (
     <div
       style={{
         backgroundImage,
@@ -39,5 +33,5 @@ export const RobotIcon: FC<Props> = ({ seed, size = getCustomSize(3) }) => {
         height: size
       }}
     />
-  );
+  ) : null;
 };

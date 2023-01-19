@@ -102,14 +102,14 @@ export const useShelter = () => {
   const createHdAccountForNewNetworkType = useCallback(
     (
       account: AccountInterface,
-      networkType: NetworkTypeEnum,
+      newNetworkType: NetworkTypeEnum,
       successCallback?: OnEventFn<AccountInterface>,
       switchToNewAccount?: boolean
     ) =>
       createHdAccountForNewNetworkType$.next({
         account,
         accountIndex: allHdAccounts.indexOf(account),
-        networkType,
+        networkType: newNetworkType,
         successCallback,
         switchToNewAccount
       }),

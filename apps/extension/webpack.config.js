@@ -8,10 +8,12 @@ const DotenvPlugin = require('dotenv-webpack');
 
 const packageJSON = require('./package.json');
 
+const isDevelopment = process.env.NODE_ENV === 'development';
 const appDirectory = path.resolve(__dirname);
 
 const babelLoaderConfiguration = {
     test: /\.(js|jsx|ts|tsx|svg)$/,
+    exclude: [/node_modules\/@dicebear/],
     use: {
         loader: 'babel-loader',
         options: {
@@ -61,7 +63,8 @@ module.exports = {
     output: {
         path: path.resolve(appDirectory, 'dist'),
         filename: 'scripts/[name].js',
-        chunkFilename: 'scripts/[name].chunk.js'
+        chunkFilename: 'scripts/[name].chunk.js',
+        pathinfo: isDevelopment ? 'verbose' : undefined,
     },
 
     module: {
@@ -74,7 +77,10 @@ module.exports = {
             'react-native$': 'react-native-web'
         },
         plugins: [new TsconfigPathsPlugin()],
-        modules: [path.resolve(__dirname, 'node_modules')],
+        modules: [
+            path.resolve(__dirname, 'node_modules'),
+            path.resolve(__dirname, '../../libs/ui/node_modules')
+        ],
         extensions: ['.web.ts', '.web.tsx', '.web.mjs', '.web.js', '.web.jsx', '.ts', '.tsx', '.mjs', '.js', '.jsx'],
         fallback: {
             crypto: false,
@@ -95,7 +101,7 @@ module.exports = {
 
     plugins: [
         new webpack.DefinePlugin({
-            __DEV__: JSON.stringify(process.env.NODE_ENV === 'development'),
+            __DEV__: JSON.stringify(isDevelopment),
             'process.env.VERSION': JSON.stringify(packageJSON.version),
         }),
         new webpack.ProvidePlugin({
@@ -112,7 +118,7 @@ module.exports = {
                         ]
                     }
                 },
-                {from: 'node_modules/wasm-themis/src/libthemis.wasm', to: 'scripts/libthemis.wasm'}
+                {from: '../../libs/ui/node_modules/wasm-themis/src/libthemis.wasm', to: 'scripts/libthemis.wasm'}
             ]
         }),
         new HtmlWebpackPlugin({

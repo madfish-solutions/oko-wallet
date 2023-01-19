@@ -1,6 +1,11 @@
-import { initialized, SecureCellSeal } from 'wasm-themis';
+import { SymmetricKey, initialized, SecureCellSeal } from 'wasm-themis';
 
-import { getStoredValue, StoredSensitiveData } from '../utils/store.util';
+import { getStoredValue } from '../utils/store.util';
+
+interface StoredSensitiveData {
+  symmetricKey: SymmetricKey;
+  encrypted: object;
+}
 
 export const decrypt = async (key: string, passwordHash: string) => {
   await initialized;
