@@ -1,5 +1,6 @@
 import { useNavigationState } from '@react-navigation/native';
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
+import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { getDebankId } from '../../../api/utils/get-debank-id.util';
@@ -19,8 +20,13 @@ export const useActiveTokenList = () => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { chainId } = useSelectedNetworkSelector();
 
-  // TODO: Add useCurrentRoute();
-  const currentScreen = useNavigationState(state => state.routes[state.routes.length - 1].name as ScreensEnum);
+  const navigationState = useNavigationState(state => state);
+
+  const currentScreen = useMemo(() => {
+    if (isDefined(navigationState)) {
+      return navigationState.routes[navigationState.routes.length - 1].name as ScreensEnum;
+    }
+  }, [navigationState]);
 
   const getActiveTokenList = () => {
     const debankId = getDebankId(chainId);
@@ -32,7 +38,7 @@ export const useActiveTokenList = () => {
 
   useTimerEffect(
     () => {
-      if (!SCREENS_WITHOUT_UPDATE.includes(currentScreen)) {
+      if (isDefined(currentScreen) && !SCREENS_WITHOUT_UPDATE.includes(currentScreen)) {
         getActiveTokenList();
       }
     },
