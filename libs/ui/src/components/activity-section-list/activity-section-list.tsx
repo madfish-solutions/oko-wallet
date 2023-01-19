@@ -1,5 +1,5 @@
 import debounce from 'lodash/debounce';
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -14,9 +14,11 @@ import { DEBOUNCE_TIME } from '../../constants/defaults';
 import { DATA_UPDATE_TIME } from '../../constants/update-time';
 import { useAllActivity } from '../../hooks/use-activity.hook';
 import { useTimerEffect } from '../../hooks/use-timer-effect.hook';
-import { ActivityData, SectionListActivityData } from '../../interfaces/activity.interface';
-import { ActivityList } from '../../screens/activity/components/activity-list';
+import { ActivityData, SectionListActivityData } from '../../interfaces/activity-data.interface';
+import { ActivityFilterEnum } from '../../modals/screens/activity-filter-selector/activity-filter.enum';
+import { ActivityItem } from '../../screens/activity/components/activity-item';
 import { getCustomSize } from '../../styles/format-size';
+import { getFilteredActivity } from '../../utils/filter-activity.util';
 import { getItemLayoutSectionList } from '../../utils/get-item-layout-section-list.util';
 import { isWeb } from '../../utils/platform.utils';
 import { EmptySearchIcon } from '../icon/components/empty-search-icon/empty-search-icon';
@@ -30,6 +32,7 @@ import { styles } from './activity-section-list.styles';
 interface Props {
   publicKeyHash: string;
   chainId: string;
+  filterTypeName?: ActivityFilterEnum;
   tokenAddress?: string;
 }
 
@@ -45,13 +48,33 @@ const renderSectionHeader = (item: { section: SectionListData<ActivityData, Sect
 
 const emptyIconSize = getCustomSize(isWeb ? 30 : 36);
 
-export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, tokenAddress = '' }) => {
+const MAX_ACTIVITY_ATTEMPTS = 10;
+let numberOfAttempts = 0;
+
+export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterTypeName, tokenAddress = '' }) => {
   const [offsetY, setOffsetY] = useState(0);
-  const { activity, fetch, isLoading } = useAllActivity(publicKeyHash, getDebankId(chainId), tokenAddress);
+  const { activity: allActivity, fetch, isLoading } = useAllActivity(publicKeyHash, getDebankId(chainId), tokenAddress);
+
+  const activity = useMemo(() => getFilteredActivity(allActivity, filterTypeName), [allActivity, filterTypeName]);
+
+  useEffect(() => {
+    if (
+      filterTypeName !== ActivityFilterEnum.AllActivity &&
+      allActivity.length > 0 &&
+      activity.length === 0 &&
+      numberOfAttempts <= MAX_ACTIVITY_ATTEMPTS
+    ) {
+      const lastDate = allActivity.slice(-1)[0].data.slice(-1)[0].timestamp;
+
+      fetch(lastDate);
+      numberOfAttempts += 1;
+    }
+  }, [filterTypeName, allActivity, activity]);
 
   const handleFetchData = () => {
     if (offsetY === 0) {
       fetch(0);
+      numberOfAttempts = 0;
     }
   };
 
@@ -71,9 +94,7 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, tokenAd
   };
 
   const renderItem: SectionListRenderItem<ActivityData, SectionListActivityData> = useCallback(
-    ({ item: activityItems }) => (
-      <ActivityList transaction={activityItems} address={publicKeyHash} chainName={getDebankId(chainId)} />
-    ),
+    ({ item }) => <ActivityItem transaction={item} address={publicKeyHash} chainName={getDebankId(chainId)} />,
     [publicKeyHash, chainId]
   );
 

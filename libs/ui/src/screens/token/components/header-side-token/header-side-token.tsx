@@ -3,10 +3,10 @@ import React, { FC } from 'react';
 
 import { Column } from '../../../../components/column/column';
 import { Dynamics } from '../../../../components/dynamics/dynamics';
-import { IconWithBorderEnum } from '../../../../components/icon-with-border/enums';
-import { IconWithBorder } from '../../../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
+import { IconWithBorderEnum } from '../../../../components/icon-with-border/enums';
+import { IconWithBorder } from '../../../../components/icon-with-border/icon-with-border';
 import { Image } from '../../../../components/image/image';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';

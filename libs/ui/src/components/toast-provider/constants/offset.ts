@@ -2,4 +2,9 @@ import { isFullpage } from '../../../utils/location.utils';
 import { isMobile, isWeb } from '../../../utils/platform.utils';
 import { extensionHeight } from '../../navigator/utils/maximise-view-options';
 
-export const offset = isMobile ? 95 : isWeb && !isFullpage ? -505 : -(extensionHeight - 40);
+const isExtensionOpen = isWeb && !isFullpage;
+const offsetMobile = 95;
+const offsetMaximizeView = -(extensionHeight - 20);
+const offsetExtension = -521;
+
+export const offset = isMobile ? offsetMobile : isExtensionOpen ? offsetExtension : offsetMaximizeView;

@@ -1,29 +1,24 @@
 import './shim.js';
 
 import { getDefaultProvider } from 'ethers';
-import {
-  BackgroundMessage,
-  BackgroundMessageType,
-  createDAppResponse,
-  E2eMessageType,
-  INITIAL_PASSWORD_HASH
-} from 'ui/background-script';
+import { BackgroundMessage, BackgroundMessageType, createDAppResponse, E2eMessageType } from 'ui/background-script';
 import { Runtime, runtime, scripting, storage } from 'webextension-polyfill';
 
-import { DAppMessage } from './src/interfaces/dapp-message.interface';
 import {
+  LAST_USER_ACTIVITY_TIMESTAMP_KEY,
+  LOCK_TIME_PERIOD_KEY,
+  PASSWORD_HASH_KEY
+} from './src/constants/storage-keys';
+import { DAppMessage } from './src/interfaces/dapp-message.interface';
+import { createDAppNotificationResponse, getHexChanId } from './src/utils/network.utils';
+import { getSessionPasswordHash, setToStorage } from './src/utils/session.utils';
+import { getState } from './src/utils/state.utils';
+import {
+  openConfirmSendTransactionPopup,
   openDAppConnectionConfirmationPopup,
   openNetworkChangeConfirmationPopup,
-  openConfirmSendTransactionPopup,
   openSignMessagePopup
-} from './src/utils/browser.utils';
-import { createDAppNotificationResponse, getHexChanId } from './src/utils/network.utils';
-import { getState } from './src/utils/state.utils';
-
-const APP_LOCK_PERIOD = 5 * 60 * 1000;
-
-let passwordHash = INITIAL_PASSWORD_HASH;
-let lastUserActivityTimestamp = 0;
+} from './src/utils/windows.utils';
 
 let isFullpageOpen = false;
 
@@ -38,28 +33,28 @@ scripting.registerContentScripts([
   }
 ]);
 
-runtime.onConnect.addListener(port => {
+runtime.onConnect.addListener(async port => {
   // check for time expired and max-view no opened then extension need to lock
-  const savedSessionTimeExpired = Date.now() > lastUserActivityTimestamp + APP_LOCK_PERIOD;
-
   if (isFullpagePort(port)) {
     isFullpageOpen = true;
   }
 
-  if (savedSessionTimeExpired && !isFullpageOpen) {
-    passwordHash = INITIAL_PASSWORD_HASH;
-  }
-
   // listen when UI is closed
   if (port.name === 'klaytn_wallet_ui') {
-    port.onDisconnect.addListener(port => {
-      if (isFullpagePort(port)) {
+    port.onDisconnect.addListener(internalPort => {
+      // TODO: check if we could replace internalPort with port
+      if (isFullpagePort(internalPort)) {
         isFullpageOpen = false;
       }
 
-      return (lastUserActivityTimestamp = Date.now());
+      return setToStorage({ [LAST_USER_ACTIVITY_TIMESTAMP_KEY]: Date.now() });
     });
   }
+
+  const state = await getState();
+
+  const lockTimePeriod = state.settings.lockTimePeriod;
+  setToStorage({ [LOCK_TIME_PERIOD_KEY]: lockTimePeriod });
 
   // listen content script messages
   port.onMessage.addListener(async (message: DAppMessage) => {
@@ -69,8 +64,6 @@ runtime.onConnect.addListener(port => {
       const id = data.id;
       const method = data.method;
       const dAppInfo = message.sender;
-
-      const state = await getState();
 
       const dAppState = state.dApps[dAppInfo.origin];
       const selectedRpcUrl = state.wallet.selectedNetworkRpcUrl;
@@ -87,10 +80,10 @@ runtime.onConnect.addListener(port => {
         case 'eth_requestAccounts': {
           if (isPermissionGranted) {
             const result = [selectedAccountPublicKeyHash];
-            const message = createDAppResponse(id, result);
+            const response = createDAppResponse(id, result);
             const notification = createDAppNotificationResponse('oko_accountsChanged', result);
 
-            port.postMessage(message);
+            port.postMessage(response);
             port.postMessage(notification);
           } else {
             await openDAppConnectionConfirmationPopup(id, dAppInfo);
@@ -101,14 +94,15 @@ runtime.onConnect.addListener(port => {
         case 'eth_accounts': {
           if (isPermissionGranted) {
             const result = [selectedAccountPublicKeyHash];
-            const message = createDAppResponse(id, result);
+            const response = createDAppResponse(id, result);
             const notification = createDAppNotificationResponse('oko_accountsChanged', result);
 
-            port.postMessage(message);
+            port.postMessage(response);
             port.postMessage(notification);
           } else {
-            const message = createDAppResponse(id, []);
-            port.postMessage(message);
+            const response = createDAppResponse(id, []);
+
+            port.postMessage(response);
           }
 
           return Promise.resolve();
@@ -126,28 +120,28 @@ runtime.onConnect.addListener(port => {
             isUnlocked: true,
             networkVersion: selectedNetworkChainId
           };
-          const message = createDAppResponse(id, result);
+          const response = createDAppResponse(id, result);
 
-          port.postMessage(message);
+          port.postMessage(response);
 
           return Promise.resolve();
         }
         case 'eth_chainId': {
           const result = getHexChanId(selectedNetworkChainId);
-          const message = createDAppResponse(id, result);
+          const response = createDAppResponse(id, result);
           const params = { chainId: getHexChanId(selectedNetworkChainId), networkVersion: selectedNetworkChainId };
           const notification = createDAppNotificationResponse('oko_chainChanged', params);
 
-          port.postMessage(message);
+          port.postMessage(response);
           port.postMessage(notification);
 
           return Promise.resolve();
         }
         case 'eth_gasPrice': {
           const result = await provider.getGasPrice();
-          const message = createDAppResponse(id, result);
+          const response = createDAppResponse(id, result);
 
-          port.postMessage(message);
+          port.postMessage(response);
 
           return Promise.resolve();
         }
@@ -155,9 +149,9 @@ runtime.onConnect.addListener(port => {
         case 'eth_estimateGas': {
           if (data.params !== undefined) {
             const result = await provider.estimateGas(data.params[0].data);
-            const message = createDAppResponse(id, result._hex);
+            const response = createDAppResponse(id, result._hex);
 
-            port.postMessage(message);
+            port.postMessage(response);
           }
 
           return Promise.resolve();
@@ -166,9 +160,9 @@ runtime.onConnect.addListener(port => {
         case 'eth_call': {
           if (data.params !== undefined) {
             const result = await provider.call({ to: data.params[0].to, data: data.params[0].data });
-            const message = createDAppResponse(id, result);
+            const response = createDAppResponse(id, result);
 
-            port.postMessage(message);
+            port.postMessage(response);
           }
 
           return Promise.resolve();
@@ -176,27 +170,27 @@ runtime.onConnect.addListener(port => {
 
         case 'eth_getBlockByNumber': {
           const result = await provider.getBlock(data.params?.[0]);
-          const message = createDAppResponse(id, result);
+          const response = createDAppResponse(id, result);
 
-          port.postMessage(message);
+          port.postMessage(response);
 
           return Promise.resolve();
         }
 
         case 'eth_blockNumber': {
           const result = await provider.getBlockNumber();
-          const message = createDAppResponse(id, result.toString());
+          const response = createDAppResponse(id, result.toString());
 
-          port.postMessage(message);
+          port.postMessage(response);
 
           return Promise.resolve();
         }
 
         case 'eth_getBalance': {
           const result = await provider.getBalance(data.params?.[0], data.params?.[1] ?? 'latest');
-          const message = createDAppResponse(id, result._hex);
+          const response = createDAppResponse(id, result._hex);
 
-          port.postMessage(message);
+          port.postMessage(response);
 
           return Promise.resolve();
         }
@@ -209,28 +203,26 @@ runtime.onConnect.addListener(port => {
 
         case 'eth_getTransactionByHash': {
           const txReceipt = await provider.getTransaction(data.params?.[0]);
+          const response = createDAppResponse(id, txReceipt);
 
-          const message = createDAppResponse(id, txReceipt);
-
-          port.postMessage(message);
+          port.postMessage(response);
 
           return Promise.resolve();
         }
 
         case 'eth_getTransactionReceipt': {
           const txReceipt = await provider.getTransactionReceipt(data.params?.[0]);
+          const response = createDAppResponse(id, txReceipt);
 
-          const message = createDAppResponse(id, txReceipt);
-
-          port.postMessage(message);
+          port.postMessage(response);
 
           return Promise.resolve();
         }
 
         case 'net_version': {
-          const message = createDAppResponse(id, selectedNetworkChainId);
+          const response = createDAppResponse(id, selectedNetworkChainId);
 
-          port.postMessage(message);
+          port.postMessage(response);
 
           return Promise.resolve();
         }
@@ -253,13 +245,11 @@ runtime.onConnect.addListener(port => {
 // listen messages from UI
 runtime.onMessage.addListener((message: BackgroundMessage) => {
   switch (message.type) {
-    case BackgroundMessageType.SetPasswordHash: {
-      passwordHash = message.data.passwordHash;
-
-      return Promise.resolve();
-    }
     case BackgroundMessageType.GetPasswordHash: {
-      return Promise.resolve(passwordHash);
+      return getSessionPasswordHash(isFullpageOpen);
+    }
+    case BackgroundMessageType.SetPasswordHash: {
+      return setToStorage({ [PASSWORD_HASH_KEY]: message.data.passwordHash });
     }
     case E2eMessageType.ClearStorage: {
       return storage.local.clear();

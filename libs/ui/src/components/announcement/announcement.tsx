@@ -1,5 +1,5 @@
 import { isDefined } from '@rnw-community/shared';
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
@@ -11,12 +11,12 @@ import { styles } from './announcement.styles';
 import { messageTypes } from './contants';
 import { MessageType } from './enum';
 
-interface Props {
+type Props = PropsWithChildren<{
   text?: string;
   numberOfLines?: number;
   type?: MessageType;
   style?: ViewStyleProps;
-}
+}>;
 
 export const Announcement: FC<Props> = ({ text, type = MessageType.Warning, numberOfLines, style, children }) => (
   <Row style={[styles.root, messageTypes[type].style, style]}>

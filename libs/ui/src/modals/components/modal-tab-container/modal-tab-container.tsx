@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { ScrollView } from 'react-native';
 import { TestIDProps } from 'src/interfaces/test-id.props';
 
@@ -7,10 +7,11 @@ import { ModalContainer } from '../modal-container/modal-container';
 
 import { styles } from './modal-tab-container.styles';
 
-interface Props extends TestIDProps {
+type Props = PropsWithChildren<{
   screenTitle: string;
   style?: ViewStyleProps;
-}
+}> &
+  TestIDProps;
 
 export const ModalTabContainer: FC<Props> = ({ screenTitle, children, testID }) => (
   <ModalContainer screenTitle={screenTitle} isBackButton testID={testID}>

@@ -1,5 +1,5 @@
 import { OnEventFn } from '@rnw-community/shared';
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { View, GestureResponderEvent } from 'react-native';
 
 import { Column } from '../column/column';
@@ -9,13 +9,13 @@ import { Text } from '../text/text';
 
 import { styles } from './mnemonic.styles';
 
-interface Props {
+type Props = PropsWithChildren<{
   mnemonic: string[];
   isShowProtectLayout: boolean;
   handleHideLayout: OnEventFn<GestureResponderEvent>;
   protectLayoutTestID?: string;
   wordTextTestID?: string;
-}
+}>;
 
 export const Mnemonic: FC<Props> = ({
   mnemonic,

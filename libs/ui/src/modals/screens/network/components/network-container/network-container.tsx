@@ -1,5 +1,5 @@
 import { OnEventFn } from '@rnw-community/shared';
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { Control, Controller, FieldErrors, UseControllerProps, UseFormSetValue } from 'react-hook-form';
 import { GestureResponderEvent } from 'react-native';
 
@@ -11,7 +11,7 @@ import { FormTypes } from '../../types/form-types.interface';
 
 import { styles } from './network-container.styles';
 
-interface Props extends Pick<FooterButtons, 'submitTitle'> {
+type Props = PropsWithChildren<{
   screenTitle: string;
   onSubmitPress: OnEventFn<GestureResponderEvent>;
   control: Control<FormTypes, object>;
@@ -23,7 +23,8 @@ interface Props extends Pick<FooterButtons, 'submitTitle'> {
   errors: FieldErrors<FormTypes>;
   setValue: UseFormSetValue<FormTypes>;
   editable?: boolean;
-}
+}> &
+  Pick<FooterButtons, 'submitTitle'>;
 
 export const NetworkContainer: FC<Props> = ({
   screenTitle,

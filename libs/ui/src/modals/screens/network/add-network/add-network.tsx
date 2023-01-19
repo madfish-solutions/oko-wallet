@@ -13,8 +13,10 @@ import {
   TEZOS_NETWORKS_LIST
 } from '../../../../constants/networks';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
+import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
+import { useToast } from '../../../../hooks/use-toast.hook';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
 import { addNewNetworkAction } from '../../../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedAccountSelector } from '../../../../store/wallet/wallet.selectors';
@@ -35,9 +37,10 @@ const defaultValues = {
 };
 
 export const AddNetwork: FC = () => {
-  const { goBack } = useNavigation();
+  const { navigate } = useNavigation();
   const dispatch = useDispatch();
   const { createHdAccountForNewNetworkType } = useShelter();
+  const { showSuccessToast } = useToast();
 
   const selectedAccount = useSelectedAccountSelector();
   const networks = useAllNetworksSelector();
@@ -86,9 +89,9 @@ export const AddNetwork: FC = () => {
         if (TEZOS_NETWORKS_LIST.includes(removeTrailingSlash(newRpcUrl.trim()))) {
           createTezosToolkit(newRpcUrl)
             .rpc.getChainId()
-            .then(chainId => {
-              currentChainId = chainId;
-              getTezosNetworkData(chainId);
+            .then(result => {
+              currentChainId = result;
+              getTezosNetworkData(result);
             })
             .catch(() => {
               resetDynamicFields();
@@ -106,8 +109,7 @@ export const AddNetwork: FC = () => {
             });
 
             if (isDefined(currentProvider)) {
-              const { chainId } = currentProvider;
-              currentChainId = chainId;
+              currentChainId = currentProvider.chainId;
               getEvmNetworkData(currentChainId);
             }
           } catch {
@@ -180,24 +182,24 @@ export const AddNetwork: FC = () => {
     chainId
   });
 
-  const onSubmit = ({ name, rpcUrl, chainId, tokenSymbol, blockExplorerUrl }: FormTypes) => {
+  const onSubmit = (formValue: FormTypes) => {
     let networkType = NetworkTypeEnum.EVM;
 
-    if (NETWORK_CHAIN_IDS_BY_NETWORK_TYPE[NetworkTypeEnum.Tezos].includes(chainId)) {
+    if (NETWORK_CHAIN_IDS_BY_NETWORK_TYPE[NetworkTypeEnum.Tezos].includes(formValue.chainId)) {
       networkType = NetworkTypeEnum.Tezos;
     }
 
     const network: NetworkInterface = {
-      name: name.trim(),
-      rpcUrl: removeTrailingSlash(rpcUrl.trim()),
-      chainId: chainId.trim(),
+      name: formValue.name.trim(),
+      rpcUrl: removeTrailingSlash(formValue.rpcUrl.trim()),
+      chainId: formValue.chainId.trim(),
       gasTokenMetadata: {
         name: nativeTokenInfo.tokenName,
-        symbol: tokenSymbol.trim(),
+        symbol: formValue.tokenSymbol.trim(),
         decimals: nativeTokenInfo.decimals,
         thumbnailUri: nativeTokenInfo.thumbnailUri
       },
-      explorerUrl: blockExplorerUrl?.trim(),
+      explorerUrl: formValue.blockExplorerUrl?.trim(),
       networkType
     };
 
@@ -209,7 +211,11 @@ export const AddNetwork: FC = () => {
       dispatch(addNewNetworkAction(network));
     }
 
-    goBack();
+    navigate(ScreensEnum.Wallet);
+    showSuccessToast({
+      message: 'Success!',
+      data: { description: `The network ${formValue.name.trim()} was successfully added! ` }
+    });
   };
 
   return (

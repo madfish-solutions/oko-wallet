@@ -2,12 +2,7 @@ import * as Keychain from 'react-native-keychain';
 
 import { getKeychainOptions } from './keychain.utils.native';
 
-export interface StoredSensitiveData {
-  symmetricKey: string;
-  encrypted: string;
-}
-
-export const getStoredValue = async <StoredSensitiveData>(key: string): Promise<StoredSensitiveData> => {
+export const getStoredValue = async <T>(key: string): Promise<T> => {
   const rawKeychainData = await Keychain.getGenericPassword(getKeychainOptions(key));
 
   if (rawKeychainData !== false) {

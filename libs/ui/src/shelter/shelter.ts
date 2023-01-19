@@ -148,7 +148,7 @@ export class Shelter {
         ).pipe(
           switchMap(accountsData => {
             const privateData = accountsData.reduce((prev, curr) => ({ ...prev, ...curr.privateData }), {});
-            const publicData = accountsData.map(({ publicData }) => publicData);
+            const publicData = accountsData.map(data => data.publicData);
 
             return Shelter.saveSensitiveData$({
               [SEED_PHRASE_KEY]: seedPhrase,

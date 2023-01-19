@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { Linking } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { Text } from '../../../components/text/text';
+import { ToastDescription } from '../../../components/toast-description/toast-description';
 import { NetworkTypeEnum } from '../../../enums/network-type.enum';
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
@@ -37,11 +37,18 @@ export const useTransactionHook = (receiverPublicKeyHash: string, asset: Asset) 
       }
     };
 
-    showSuccessToast(
-      <Text onPress={onBlockchainExplorerPress}>
-        Your transaction was successfully send. Click for detail. Hash: {transactionResponse.hash.slice(0, 8)}...
-      </Text>
-    );
+    showSuccessToast({
+      message: 'Success!',
+      data: {
+        description: (
+          <ToastDescription
+            message="Transaction request sent! Confirming..."
+            opHash={transactionResponse.hash}
+            onPress={onBlockchainExplorerPress}
+          />
+        )
+      }
+    });
 
     const { tokenAddress, tokenId, standard } = asset;
 
@@ -61,7 +68,7 @@ export const useTransactionHook = (receiverPublicKeyHash: string, asset: Asset) 
   };
 
   const errorCallback = () => {
-    showErrorToast('Transaction failed. Try other params.');
+    showErrorToast({ message: 'Transaction failed. Try other params.' });
 
     setIsTransactionLoading(false);
   };

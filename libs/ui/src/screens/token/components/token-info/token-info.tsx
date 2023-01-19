@@ -25,7 +25,11 @@ export const TokenInfo: FC = () => {
       contract: {
         name: 'Contract',
         value: <CopyText text={tokenAddress} />,
-        prompt: getTokenDetailsUrl(tokenAddress, getString(explorerUrl), networkType)
+        prompt: getTokenDetailsUrl({
+          address: tokenAddress,
+          explorerUrl: getString(explorerUrl),
+          networkType
+        })
       }
     }),
     decimal: {

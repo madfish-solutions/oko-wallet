@@ -14,10 +14,10 @@ import { ScreenTitle } from '../../../../components/screen-components/header-con
 import { HeaderContainer } from '../../../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
 import { ScreenScrollView } from '../../../../components/screen-components/screen-scroll-view/screen-scroll-view';
+import { Text } from '../../../../components/text/text';
 import { ErrorField } from '../../../../components/text-input/components/error-field/error-field';
 import { Label } from '../../../../components/text-input/components/label/label';
 import { TextInput } from '../../../../components/text-input/text-input';
-import { Text } from '../../../../components/text/text';
 import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
@@ -98,15 +98,15 @@ export const SendCollectible: FC = () => {
     navigate(ScreensEnum.SendCollectiblesSelector, { token });
   };
 
-  const onSubmit = ({ token, amount, receiverPublicKeyHash, isTransferBetweenAccounts, account }: FormTypes) => {
+  const onSubmit = (formValue: FormTypes) => {
     const isGasTokenZeroBalance = Number(gasToken.balance.data) === 0;
 
     if (isGasTokenZeroBalance) {
-      return showErrorToast('Not enough gas');
+      return showErrorToast({ message: 'Not enough gas' });
     }
 
-    if (isDefined(token)) {
-      const { decimals, tokenAddress, tokenId, name, standard } = token;
+    if (isDefined(formValue.token)) {
+      const { decimals, tokenAddress, tokenId, name, standard } = formValue.token;
       const assetToSend: Asset = {
         decimals,
         tokenAddress: tokenAddress === GAS_TOKEN_ADDRESS ? '' : tokenAddress,
@@ -118,9 +118,11 @@ export const SendCollectible: FC = () => {
       dispatch(
         sendAssetAction.submit({
           asset: assetToSend,
-          amount,
+          amount: formValue.amount,
           receiverPublicKeyHash:
-            isTransferBetweenAccounts && account ? getPublicKeyHash(account, networkType) : receiverPublicKeyHash
+            formValue.isTransferBetweenAccounts && formValue.account
+              ? getPublicKeyHash(formValue.account, networkType)
+              : formValue.receiverPublicKeyHash
         })
       );
     }

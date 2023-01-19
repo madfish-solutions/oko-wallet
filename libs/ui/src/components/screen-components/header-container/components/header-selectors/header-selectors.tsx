@@ -9,9 +9,9 @@ import {
   useSelectedNetworkSelector
 } from '../../../../../store/wallet/wallet.selectors';
 import { CopyText } from '../../../../copy-text/copy-text';
-import { IconWithBorder } from '../../../../icon-with-border/icon-with-border';
 import { Icon } from '../../../../icon/icon';
 import { IconNameEnum } from '../../../../icon/icon-name.enum';
+import { IconWithBorder } from '../../../../icon-with-border/icon-with-border';
 import { RobotIcon } from '../../../../robot-icon/robot-icon';
 import { Row } from '../../../../row/row';
 import { Text } from '../../../../text/text';

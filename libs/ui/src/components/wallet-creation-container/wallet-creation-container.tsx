@@ -1,4 +1,4 @@
-import React, { FC, RefObject } from 'react';
+import React, { FC, PropsWithChildren, RefObject } from 'react';
 import { ScrollView } from 'react-native';
 
 import { ScreensEnum } from '../../enums/sreens.enum';
@@ -16,13 +16,14 @@ import { styles } from './wallet-creation-container.styles';
 
 const CREATE_WALLET_STEPS = 3;
 
-interface Props extends Omit<FooterButtonsInterface, 'submitTitle' | 'onCancelPress'> {
+type Props = PropsWithChildren<{
   title: string;
   currentStep: number;
   submitTitle?: string;
   stepsAmount?: number;
   scrollViewRef?: RefObject<ScrollView>;
-}
+}> &
+  Omit<FooterButtonsInterface, 'submitTitle' | 'onCancelPress'>;
 
 export const WalletCreationContainer: FC<Props> = ({
   title,
