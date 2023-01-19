@@ -85,9 +85,7 @@ export const AddNetwork: FC = () => {
           });
 
           if (isDefined(currentProvider)) {
-            const { chainId } = currentProvider;
-
-            currentChainId = chainId;
+            currentChainId = currentProvider.chainId;
             getEvmNetworkData(currentChainId);
           } else {
             setError('rpcUrl', { message: 'Wrong RPC url or something went wrong' });
@@ -148,18 +146,18 @@ export const AddNetwork: FC = () => {
     chainId
   });
 
-  const onSubmit = ({ name, rpcUrl, chainId, tokenSymbol, blockExplorerUrl }: FormTypes) => {
+  const onSubmit = (formValue: FormTypes) => {
     const network: NetworkInterface = {
-      name: name.trim(),
-      rpcUrl: removeTrailingSlash(rpcUrl.trim()),
-      chainId: chainId.trim(),
+      name: formValue.name.trim(),
+      rpcUrl: removeTrailingSlash(formValue.rpcUrl.trim()),
+      chainId: formValue.chainId.trim(),
       gasTokenMetadata: {
         name: nativeTokenInfo.tokenName,
-        symbol: tokenSymbol.trim(),
+        symbol: formValue.tokenSymbol.trim(),
         decimals: nativeTokenInfo.decimals,
         thumbnailUri: nativeTokenInfo.thumbnailUri
       },
-      explorerUrl: blockExplorerUrl?.trim(),
+      explorerUrl: formValue.blockExplorerUrl?.trim(),
       networkType: NetworkTypeEnum.EVM
     };
 
@@ -167,7 +165,7 @@ export const AddNetwork: FC = () => {
     navigate(ScreensEnum.Wallet);
     showSuccessToast({
       message: 'Success!',
-      data: { description: `The network ${name.trim()} was successfully added! ` }
+      data: { description: `The network ${formValue.name.trim()} was successfully added! ` }
     });
   };
 

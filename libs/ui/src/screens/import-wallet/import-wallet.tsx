@@ -92,7 +92,7 @@ export const ImportWallet: FC = () => {
                     style={[styles.mnemonicInput, isSubmitted && !isNotEmptyString(value) && styles.error]}
                     onBlur={handleInputBlur}
                     onFocus={el => handleInputFocus(index, el)}
-                    onChangeText={value => handleInputChange(value, index)}
+                    onChangeText={newValue => handleInputChange(newValue, index)}
                     testID={ImportWalletTestIDs.WordInput}
                   />
                   <Text selectable={false} style={styles.wordIndex}>{`${index + 1}.`}</Text>

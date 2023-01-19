@@ -1,6 +1,11 @@
 import { secureCellSealWithPassphraseDecrypt64 } from 'react-native-themis';
 
-import { getStoredValue, StoredSensitiveData } from '../utils/store.util.native';
+import { getStoredValue } from '../utils/store.util.native';
+
+interface StoredSensitiveData {
+  symmetricKey: string;
+  encrypted: string;
+}
 
 export const decrypt = async (key: string, passwordHash: string) => {
   const encryptedData = await getStoredValue<StoredSensitiveData>(key);

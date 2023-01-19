@@ -6,8 +6,8 @@ import { ScrollView, View } from 'react-native';
 
 import { Announcement } from '../../../../../components/announcement/announcement';
 import { Pressable } from '../../../../../components/pressable/pressable';
-import { TextInput as CustomTextInput } from '../../../../../components/text-input/text-input';
 import { Text } from '../../../../../components/text/text';
+import { TextInput as CustomTextInput } from '../../../../../components/text-input/text-input';
 import { useNavigation } from '../../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../../hooks/use-shelter.hook';
 import { useAllAccountsSelector, useSelectedNetworkTypeSelector } from '../../../../../store/wallet/wallet.selectors';
@@ -18,6 +18,11 @@ import { useAccountFieldRules } from '../../../../hooks/use-validate-account-fie
 
 import { styles } from './private-key.styles';
 
+interface FormTypes {
+  name: string;
+  privateKey: string;
+}
+
 export const PrivateKey: FC = () => {
   const { goBack } = useNavigation();
   const { createImportedAccount } = useShelter();
@@ -26,7 +31,12 @@ export const PrivateKey: FC = () => {
   const { nameRules, privateKeyRules } = useAccountFieldRules();
 
   const lastAccountIndex = accounts.length + 1;
-  const defaultValue = `Account ${lastAccountIndex}`;
+
+  const defaultName = `Account ${lastAccountIndex}`;
+  const defaultValues: FormTypes = {
+    name: defaultName,
+    privateKey: ''
+  };
 
   const {
     control,
@@ -37,12 +47,9 @@ export const PrivateKey: FC = () => {
     setValue,
     setFocus,
     formState: { errors }
-  } = useForm({
+  } = useForm<FormTypes>({
     mode: 'onChange',
-    defaultValues: {
-      name: defaultValue,
-      privateKey: ''
-    }
+    defaultValues
   });
 
   const accountName = watch('name');
@@ -62,20 +69,17 @@ export const PrivateKey: FC = () => {
     setFocus('name');
   }, [errors.name]);
 
-  const handlePaste = async () => {
-    const value = await Clipboard.getString().then(value => {
+  const handlePaste = () =>
+    Clipboard.getString().then(value => {
       handleSetValueToClipboard('');
 
-      return value;
+      setValue('privateKey', value);
+      clearErrors('privateKey');
     });
 
-    setValue('privateKey', value);
-    clearErrors('privateKey');
-  };
-
-  const onSubmit = async ({ name, privateKey }: { name: string; privateKey: string }) => {
+  const onSubmit = async (formValue: FormTypes) => {
     if (!Object.keys(errors).length) {
-      const hdAccount = await generateHdAccountFromPrivateKey(privateKey, networkType).catch(() => ({
+      const hdAccount = await generateHdAccountFromPrivateKey(formValue.privateKey, networkType).catch(() => ({
         publicKey: '',
         address: '',
         privateKey: ''
@@ -91,7 +95,11 @@ export const PrivateKey: FC = () => {
         }
       }
 
-      createImportedAccount({ name: name.trim().length ? name.trim() : defaultValue, hdAccount, networkType });
+      createImportedAccount({
+        name: formValue.name.trim().length ? formValue.name.trim() : defaultName,
+        hdAccount,
+        networkType
+      });
     }
   };
 
@@ -106,7 +114,7 @@ export const PrivateKey: FC = () => {
             <CustomTextInput
               field={field}
               label="Account name"
-              placeholder={defaultValue}
+              placeholder={defaultName}
               error={errors?.name?.message}
               required={false}
               containerStyle={styles.inputNameContainer}
