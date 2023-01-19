@@ -5,34 +5,29 @@ import { useDispatch } from 'react-redux';
 
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
-import { Token } from '../../../interfaces/token.interface';
+import { TokenWithBalance } from '../../../interfaces/token.interface';
 import { getImageSource } from '../../../screens/wallet/components/assets-widget/utils/get-image-source.util';
-import { TokenPriceInfo } from '../../../store/tokens-market-info/tokens-market-info.state';
 import { changeTokenVisibilityAction } from '../../../store/wallet/wallet.actions';
 import { checkIsGasToken } from '../../../utils/check-is-gas-token.util';
-import { getDollarValue } from '../../../utils/get-dollar-amount.util';
 import { getFormattedBalance } from '../../../utils/units.utils';
 import { Switch } from '../../switch/switch';
 import { TokenItemThemesEnum } from '../token-item/enums';
 import { TokenItem } from '../token-item/token-item';
 
 interface Props {
-  token: Token;
-  marketInfo?: TokenPriceInfo;
+  token: TokenWithBalance;
   showButton?: boolean;
   theme?: TokenItemThemesEnum;
 }
 
-export const AccountToken: FC<Props> = ({ token, showButton, theme, marketInfo = {} }) => {
+export const AccountToken: FC<Props> = ({ token, showButton, theme }) => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
-  const { price } = marketInfo;
-  const { decimals, thumbnailUri, balance, symbol, name, tokenAddress } = token;
+  const { decimals, thumbnailUri, balance, symbol, name, tokenAddress, dollarBalance } = token;
   const isGasToken = checkIsGasToken(tokenAddress);
 
   const imageSource = getImageSource(thumbnailUri);
   const formattedBalance = getFormattedBalance(balance?.data ?? 0, decimals);
-  const usdBalance = getDollarValue({ amount: balance?.data ?? 0, price, decimals });
 
   const handleTokenVisibility = () => dispatch(changeTokenVisibilityAction(token));
 
@@ -46,7 +41,7 @@ export const AccountToken: FC<Props> = ({ token, showButton, theme, marketInfo =
         symbol={symbol}
         theme={theme}
         name={name}
-        usdBalance={usdBalance}
+        usdBalance={dollarBalance}
         isGasToken={isGasToken}
       >
         {isDefined(showButton) && showButton && !isGasToken ? (

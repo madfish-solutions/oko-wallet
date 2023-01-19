@@ -12,12 +12,7 @@ import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useSortAccountTokensByBalance } from '../../../../hooks/use-sort-tokens-by-balance.hook';
 import { TestIDProps } from '../../../../interfaces/test-id.props';
-import { useTokensMarketInfoSelector } from '../../../../store/tokens-market-info/token-market-info.selectors';
-import {
-  useSelectedNetworkSelector,
-  useVisibleAccountTokensAndGasTokenSelector
-} from '../../../../store/wallet/wallet.selectors';
-import { getTokenMetadataSlug } from '../../../../utils/token-metadata.util';
+import { useVisibleAccountTokensAndGasTokenSelector } from '../../../../store/wallet/wallet.selectors';
 import { getTokenSlug } from '../../../../utils/token.utils';
 
 import { styles } from './assets-widget.styles';
@@ -25,8 +20,6 @@ import { VISIBLE_TOKENS_NUMBER } from './constants/assets-number';
 
 export const AssetsWidget: FC<TestIDProps> = ({ testID }) => {
   const { navigate } = useNavigation();
-  const { chainId } = useSelectedNetworkSelector();
-  const allTokensMarketInfo = useTokensMarketInfoSelector();
   const accountTokens = useVisibleAccountTokensAndGasTokenSelector();
   const sortedTokens = useSortAccountTokensByBalance(accountTokens);
   const visibleAccountTokens = useMemo(() => sortedTokens.slice(0, VISIBLE_TOKENS_NUMBER), [sortedTokens]);
@@ -38,11 +31,7 @@ export const AssetsWidget: FC<TestIDProps> = ({ testID }) => {
     <WidgetContainer style={styles.widgetStyles} iconName={IconNameEnum.Assets} title="Tokens" testID={testID}>
       <View style={styles.root}>
         {visibleAccountTokens.map(token => (
-          <AccountToken
-            key={getTokenSlug(token.tokenAddress, token.tokenId)}
-            token={token}
-            marketInfo={allTokensMarketInfo[getTokenMetadataSlug(chainId, token.tokenAddress, token.tokenId)]}
-          />
+          <AccountToken key={getTokenSlug(token.tokenAddress, token.tokenId)} token={token} />
         ))}
         <Row>
           <ButtonWithIcon

@@ -19,19 +19,16 @@ import { EMPTY_STRING } from '../../constants/defaults';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useSortAccountTokensByBalance } from '../../hooks/use-sort-tokens-by-balance.hook';
-import { Token } from '../../interfaces/token.interface';
-import { useTokensMarketInfoSelector } from '../../store/tokens-market-info/token-market-info.selectors';
+import { Token, TokenWithBalance } from '../../interfaces/token.interface';
 import { sortAccountTokensByVisibility } from '../../store/wallet/wallet.actions';
 import {
   useAccountTokensSelector,
-  useSelectedNetworkSelector,
   useVisibleAccountTokensSelector,
   useAccountTokensAndGasTokenSelector,
   useVisibleAccountTokensAndGasTokenSelector
 } from '../../store/wallet/wallet.selectors';
 import { getTokensWithBalance } from '../../utils/get-tokens-with-balance.util';
 import { redirectToMamixiseView } from '../../utils/redirecit-to-maximise-view.util';
-import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { getTokenSlug } from '../../utils/token.utils';
 
 import { styles } from './tokens.styles';
@@ -41,10 +38,8 @@ import { getListOfTokensAddresses } from './utils/get-list-of-tokens-adresses.ut
 const keyExtractor = ({ tokenAddress, tokenId }: Token) => getTokenSlug(tokenAddress, tokenId);
 
 export const Tokens: FC = () => {
-  const { chainId } = useSelectedNetworkSelector();
   const dispatch = useDispatch();
   const { navigate, goBack } = useNavigation();
-  const allTokensMarketInfo = useTokensMarketInfoSelector();
 
   const allAccountTokens = useAccountTokensSelector();
   const allAccountTokensWithGasToken = useAccountTokensAndGasTokenSelector();
@@ -103,19 +98,10 @@ export const Tokens: FC = () => {
   }, []);
 
   const renderItem = useCallback(
-    ({ item: token }: ListRenderItemInfo<Token>) => {
-      const tokenMetadataSlug = getTokenMetadataSlug(chainId, token.tokenAddress);
-
+    ({ item: token }: ListRenderItemInfo<TokenWithBalance>) => {
       const showButton = !token.isVisible || !tokensAddresses.includes(token.tokenAddress);
 
-      return (
-        <AccountToken
-          token={token}
-          showButton={showButton}
-          theme={TokenItemThemesEnum.Secondary}
-          marketInfo={allTokensMarketInfo[tokenMetadataSlug]}
-        />
-      );
+      return <AccountToken token={token} showButton={showButton} theme={TokenItemThemesEnum.Secondary} />;
     },
     [tokensAddresses, searchValue]
   );

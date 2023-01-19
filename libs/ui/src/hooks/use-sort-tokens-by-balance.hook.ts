@@ -1,13 +1,13 @@
 import { isDefined } from '@rnw-community/shared';
 import { useMemo } from 'react';
 
-import { Token } from '../interfaces/token.interface';
+import { Token, TokenWithBalance } from '../interfaces/token.interface';
 import { useTokensMarketInfoSelector } from '../store/tokens-market-info/token-market-info.selectors';
 import { useSelectedNetworkSelector } from '../store/wallet/wallet.selectors';
 import { getDollarValue } from '../utils/get-dollar-amount.util';
 import { getTokenMetadataSlug } from '../utils/token-metadata.util';
 
-export const useSortAccountTokensByBalance = (tokens: Token[]): Token[] => {
+export const useSortAccountTokensByBalance = (tokens: Token[]): TokenWithBalance[] => {
   const allTokensMarketInfo = useTokensMarketInfoSelector();
   const { chainId } = useSelectedNetworkSelector();
 
