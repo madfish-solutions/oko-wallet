@@ -34,7 +34,7 @@
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-hook-form": "^7.41.5",
-    "react-native": "^0.71.0",
+    "react-native": "^0.71.1",
     "react-native-bootsplash": "^4.4.0",
     "react-native-config": "^1.4.11",
     "react-native-device-info": "^10.3.0",
