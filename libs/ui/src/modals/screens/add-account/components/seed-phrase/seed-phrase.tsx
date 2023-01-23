@@ -197,7 +197,22 @@ export const SeedPhrase: FC = () => {
           )}
         />
 
-        <Announcement text="Only one account will be imported." />
+        <Announcement>
+          <Column style={styles.warningList}>
+            <Row style={styles.listItem}>
+              <Text style={styles.listDote}>●</Text>
+              <Text numberOfLines={2} style={styles.listText}>
+                We don't save your derivation path and Mnemonic
+              </Text>
+            </Row>
+            <Row style={styles.listItem}>
+              <Text style={styles.listDote}>●</Text>
+              <Text numberOfLines={2} style={styles.listText}>
+                Only one account will be imported
+              </Text>
+            </Row>
+          </Column>
+        </Announcement>
       </ScrollView>
 
       <ModalFooterButtons
