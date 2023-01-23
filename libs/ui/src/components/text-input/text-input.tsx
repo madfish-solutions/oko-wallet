@@ -45,6 +45,7 @@ interface Props<
   keyboardType?: KeyboardTypeOptions;
   labelContainerStyle?: ViewStyleProps;
   labelTextStyle?: TextStyleProps;
+  inputInnerContainerStyle?: TextStyleProps;
 }
 
 export const TextInput = <
@@ -76,7 +77,8 @@ export const TextInput = <
   onSubmitEditing,
   labelContainerStyle,
   labelTextStyle,
-  testID
+  testID,
+  inputInnerContainerStyle
 }: Props<TFieldValues, TName>) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -138,7 +140,7 @@ export const TextInput = <
           inputContainerStyle
         ]}
       >
-        <Row style={styles.innerContainer}>
+        <Row style={[styles.innerContainer, inputInnerContainerStyle]}>
           <TextInputBase
             ref={ref}
             placeholderTextColor={placeholderTextColor}

@@ -22,11 +22,13 @@ export const styles = StyleSheet.create({
   inputContainer: {
     width: '100%'
   },
+  inputInnerContainer: {
+    height: getCustomSize(14.75)
+  },
   textarea: {
-    height: getCustomSize(14.75),
-    marginTop: getCustomSize(1.25),
-    marginBottom: getCustomSize(3),
-    paddingRight: getCustomSize()
+    height: '100%',
+    paddingRight: getCustomSize(4.25),
+    paddingVertical: getCustomSize(1.75)
   },
   clearIcon: {
     position: 'absolute',
