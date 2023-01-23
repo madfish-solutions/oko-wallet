@@ -122,23 +122,10 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
 
 export const DEFAULT_NETWORK_TYPE: NetworkTypeEnum = NetworkTypeEnum.EVM;
 
-export enum TezosChainId {
+enum TezosChainId {
   Mainnet = 'NetXdQprcVkpaWU',
   Ghostnet = 'NetXnHfVqm9iesp'
 }
-
-export const TEZOS_NETWORKS_LIST = [
-  'https://mainnet-node.madfish.solutions',
-  'https://mainnet.smartpy.io',
-  'https://mainnet.api.tez.ie',
-  'https://rpc.ghostnet.teztnets.xyz',
-  'https://rpc.kathmandunet.teztnets.xyz',
-  'https://ithacanet.smartpy.io',
-  'https://rpczero.tzbeta.net',
-  'https://kathmandunet.ecadinfra.com',
-  'https://rpc.tzbeta.net',
-  'https://ghostnet.tezos.marigold.dev'
-];
 
 export const NETWORK_CHAIN_IDS_BY_NETWORK_TYPE: NetworkChainIdsByNetworkType = {
   [NetworkTypeEnum.Tezos]: [
@@ -154,9 +141,4 @@ export const NETWORK_CHAIN_IDS_BY_NETWORK_TYPE: NetworkChainIdsByNetworkType = {
     'NetXLH1uAxK7CCh'
   ],
   [NetworkTypeEnum.EVM]: []
-};
-
-export const tezosBlockExplorers = {
-  [TezosChainId.Mainnet]: 'https://tzkt.io',
-  [TezosChainId.Ghostnet]: 'https://ghostnet.tzkt.io'
 };
