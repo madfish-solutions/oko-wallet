@@ -39,7 +39,7 @@ export const CollectiblesSelector: FC = () => {
   const { name } = useSelectedNetworkSelector();
   const collectibles = useCollectiblesSelector();
   const accountCollectiblesWithBalance = useMemo(
-    () => collectibles.filter(collectibles => Number(collectibles.balance.data) > 0),
+    () => collectibles.filter(collectible => Number(collectible.balance.data) > 0),
     [collectibles]
   );
   const gasToken = useGasTokenSelector();

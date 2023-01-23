@@ -28,18 +28,18 @@ to ActivityData type, as we needed
 */
 
 const transformApiData = (
-  data: ActivityResponse,
+  response: ActivityResponse,
   publicKeyHash: string,
   chainName: string
 ): SectionListActivityData[] => {
-  let response: SectionListActivityData[] = [];
+  let result: SectionListActivityData[] = [];
 
   let sectionListItem: SectionListActivityData | undefined;
 
-  const userTokensMetadata = data.token_dict;
-  const userProjectsMetadata = data.project_dict;
+  const userTokensMetadata = response.token_dict;
+  const userProjectsMetadata = response.project_dict;
 
-  data?.history_list.forEach(transaction => {
+  response?.history_list.forEach(transaction => {
     const activityData = {
       status: TransactionStatusEnum.applied,
       hash: transaction.id,
@@ -102,7 +102,7 @@ const transformApiData = (
     }
 
     if (checkIsDayLabelNeeded(transaction.time_at) && sectionListItem !== undefined) {
-      response = [...response, sectionListItem];
+      result = [...result, sectionListItem];
       sectionListItem = { title: transformTimestampToDate(transaction.time_at), data: [activityData] };
     } else {
       const data = sectionListItem?.data ?? [];
@@ -111,10 +111,10 @@ const transformApiData = (
   });
 
   if (sectionListItem !== undefined) {
-    response = [...response, sectionListItem];
+    result = [...result, sectionListItem];
   }
 
-  return response;
+  return result;
 };
 
 export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAddress?: string) => {
@@ -162,12 +162,11 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
               },
               {}
             );
-            const result = Object.keys(groupingAllDataByDates).map(title => ({
+
+            return Object.keys(groupingAllDataByDates).map(title => ({
               title,
               data: groupingAllDataByDates[title]
             }));
-
-            return result;
           }
 
           return prev;

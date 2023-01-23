@@ -1,9 +1,9 @@
 import { NavigationContainer, NavigationContainerRef, DarkTheme } from '@react-navigation/native';
-import React, { FC, createRef, useEffect } from 'react';
+import React, { FC, createRef } from 'react';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useLockApp } from '../../hooks/use-lock-app.hook';
-import { PERSISTENCE_KEY, usePersistedNavigationState } from '../../hooks/use-persisted-navigation-state.hook';
+import { usePersistedNavigationState } from '../../hooks/use-persisted-navigation-state.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
 import { ActivityFilterSelector } from '../../modals/screens/activity-filter-selector/activity-filter-selector';
 import { AddAccount } from '../../modals/screens/add-account/add-account';
@@ -14,9 +14,9 @@ import { DAppSignConfirmation } from '../../modals/screens/d-app-sign-confirmati
 import { DAppTransactionConfirmation } from '../../modals/screens/d-app-transaction-confirmation/d-app-transaction-confirmation';
 import { DeleteDApp } from '../../modals/screens/delete-d-app/delete-d-app';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
-import { NetworkChangeConfirmation } from '../../modals/screens/network-change-confirmation/network-change-confirmation';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
 import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
+import { NetworkChangeConfirmation } from '../../modals/screens/network-change-confirmation/network-change-confirmation';
 import { NetworksSelector } from '../../modals/screens/networks-selector/networks-selector';
 import { RevealPrivateKey } from '../../modals/screens/reveal-private-key/reveal-private-key';
 import { RevealSeedPhrase } from '../../modals/screens/reveal-seed-phrase/reveal-seed-phrase';
@@ -38,11 +38,11 @@ import { ImportWallet } from '../../screens/import-wallet/import-wallet';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
 import { ScanQrCode } from '../../screens/scan-qr-code/scan-qr-code';
-import { SendConfirmation } from '../../screens/send-confirmation/send-confirmation';
 import { CollectiblesSelector as SendCollectiblesSelector } from '../../screens/send/screens/send-collectible/components/collectibles-selector/collectibles-selector';
 import { SendCollectible } from '../../screens/send/screens/send-collectible/send-collectible';
 import { AccountsSelector as SendAccountsSelector } from '../../screens/send/screens/send-token/components/accounts-selector/accounts-selector';
 import { SendToken } from '../../screens/send/screens/send-token/send-token';
+import { SendConfirmation } from '../../screens/send-confirmation/send-confirmation';
 import { AboutUs as SettingsAboutUs } from '../../screens/settings/screens/about-us/about-us';
 import { AccountsSettings } from '../../screens/settings/screens/accounts-settings/acсounts-settings';
 import { AppearanceSelector as SettingsAppearanceSelector } from '../../screens/settings/screens/appearance-selector/appearance-selector';
@@ -63,12 +63,10 @@ import { Wallet } from '../../screens/wallet/wallet';
 import { Welcome } from '../../screens/welcome/welcome';
 import { useShowLoaderSelector } from '../../store/settings/settings.selectors';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
-import { isPopup } from '../../utils/location.utils';
-import { openMaximiseScreen } from '../../utils/open-maximise-screen.util';
-import { setStoredValue } from '../../utils/store.util';
 import { substring } from '../../utils/substring.util';
 import { FullScreenLoader } from '../loader/components/full-screen-loader/full-screen-loader';
 
+import { ComponentWithNavigationContext } from './components/component-with-navigation-context/component-with-navigation-context';
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
 import { useActiveTokenList } from './hooks/use-active-token-list.hook';
 import { useLoadSentCollectiblesBalance } from './hooks/use-load-sent-collectibles-balance.hook';
@@ -90,20 +88,6 @@ export const Navigator: FC = () => {
   useTokensPriceInfo();
   useLoadSentCollectiblesBalance();
   useResetLoading();
-
-  useEffect(() => {
-    // TODO: Add check for ScreenEnum.AlmostDone screen later
-    const isCreateWalletScreensOpened =
-      initialState?.routes.some(
-        route => route.name === ScreensEnum.CreateANewWallet || route.name === ScreensEnum.VerifyMnemonic
-      ) ?? false;
-
-    if (isPopup && isCreateWalletScreensOpened && isReady) {
-      // clear previous navigation state and leave only ScreenEnum.ImportAccount route when click by extension icon
-      setStoredValue(PERSISTENCE_KEY, JSON.stringify({ ...initialState, routes: initialState?.routes.slice(0, 1) }));
-      openMaximiseScreen();
-    }
-  }, [initialState, isReady]);
 
   if (!isReady) {
     return <SplashScreen />;
@@ -314,6 +298,7 @@ export const Navigator: FC = () => {
 
       {showSecurityScreen && <SplashScreen />}
       {showLoader && <FullScreenLoader />}
+      <ComponentWithNavigationContext />
     </NavigationContainer>
   );
 };

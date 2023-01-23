@@ -1,9 +1,9 @@
 import React, { FC, useState } from 'react';
 import { FlatList, Linking, ListRenderItem, Pressable, View } from 'react-native';
 
-import { IconWithBorder } from '../../../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
+import { IconWithBorder } from '../../../../components/icon-with-border/icon-with-border';
 import { NavigationBar } from '../../../../components/navigation-bar/navigation-bar';
 import { Row } from '../../../../components/row/row';
 import { ScreenTitle } from '../../../../components/screen-components/header-container/components/screen-title/screen-title';

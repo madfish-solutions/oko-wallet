@@ -1,6 +1,6 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { isDefined, OnEventFn } from '@rnw-community/shared';
-import React, { FC, useCallback } from 'react';
+import React, { FC, PropsWithChildren, useCallback } from 'react';
 
 import { AssetTypeEnum } from '../../../../../../enums/asset-type.enum';
 import { useShelter } from '../../../../../../hooks/use-shelter.hook';
@@ -16,13 +16,13 @@ import { Confirmation } from '../../../confirmation/confirmation';
 import { useEvmEstimations } from '../../hooks/use-evm-estimations.hook';
 import { getAmount } from '../../utils/get-amount.util';
 
-interface Props {
+type Props = PropsWithChildren<{
   transferParams: EvmTransferParams;
   messageID?: string;
   onDecline: OnEventFn<void>;
   additionalSuccessCallback?: OnEventFn<TransactionResponse>;
   onConfirm?: (successCallback: OnEventFn<TransactionResponse>, gasPrice: number) => void;
-}
+}>;
 
 export const EvmConfirmationContainer: FC<Props> = ({
   transferParams: { asset, receiverPublicKeyHash, value, data = '0x', gas = 0 },

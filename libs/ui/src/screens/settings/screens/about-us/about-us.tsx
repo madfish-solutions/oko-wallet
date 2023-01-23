@@ -13,8 +13,8 @@ import { ScreenScrollView } from '../../../../components/screen-components/scree
 import { Text } from '../../../../components/text/text';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { getCustomSize } from '../../../../styles/format-size';
-import { ItemContainer } from '../../components/item-container/item-container';
 import { Item } from '../../components/item/item';
+import { ItemContainer } from '../../components/item-container/item-container';
 import { MadFishLogo } from '../../components/mad-fish-logo/mad-fish-logo';
 import { Separator } from '../../components/separator/separator';
 import { styles as settingsStyles } from '../../settings.styles';

@@ -1,5 +1,5 @@
 import { OnEventFn } from '@rnw-community/shared';
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import { TestIDProps } from 'src/interfaces/test-id.props';
 
@@ -8,12 +8,13 @@ import { isWeb } from '../../../utils/platform.utils';
 
 import { styles } from './modal-container.styles';
 
-interface Props extends TestIDProps {
+type Props = PropsWithChildren<{
   style?: StyleProp<ViewStyle>;
   screenTitle: string;
   isBackButton?: boolean;
   onHeaderCloseButtonPress?: OnEventFn<void>;
-}
+}> &
+  TestIDProps;
 
 export const ModalContainer: FC<Props> = ({
   children,

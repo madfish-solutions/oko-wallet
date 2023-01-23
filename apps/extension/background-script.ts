@@ -41,8 +41,9 @@ runtime.onConnect.addListener(async port => {
 
   // listen when UI is closed
   if (port.name === 'klaytn_wallet_ui') {
-    port.onDisconnect.addListener(port => {
-      if (isFullpagePort(port)) {
+    port.onDisconnect.addListener(internalPort => {
+      // TODO: check if we could replace internalPort with port
+      if (isFullpagePort(internalPort)) {
         isFullpageOpen = false;
       }
 
@@ -79,10 +80,10 @@ runtime.onConnect.addListener(async port => {
         case 'eth_requestAccounts': {
           if (isPermissionGranted) {
             const result = [selectedAccountPublicKeyHash];
-            const message = createDAppResponse(id, result);
+            const response = createDAppResponse(id, result);
             const notification = createDAppNotificationResponse('oko_accountsChanged', result);
 
-            port.postMessage(message);
+            port.postMessage(response);
             port.postMessage(notification);
           } else {
             await openDAppConnectionConfirmationPopup(id, dAppInfo);
@@ -93,14 +94,15 @@ runtime.onConnect.addListener(async port => {
         case 'eth_accounts': {
           if (isPermissionGranted) {
             const result = [selectedAccountPublicKeyHash];
-            const message = createDAppResponse(id, result);
+            const response = createDAppResponse(id, result);
             const notification = createDAppNotificationResponse('oko_accountsChanged', result);
 
-            port.postMessage(message);
+            port.postMessage(response);
             port.postMessage(notification);
           } else {
-            const message = createDAppResponse(id, []);
-            port.postMessage(message);
+            const response = createDAppResponse(id, []);
+
+            port.postMessage(response);
           }
 
           return Promise.resolve();
@@ -118,28 +120,28 @@ runtime.onConnect.addListener(async port => {
             isUnlocked: true,
             networkVersion: selectedNetworkChainId
           };
-          const message = createDAppResponse(id, result);
+          const response = createDAppResponse(id, result);
 
-          port.postMessage(message);
+          port.postMessage(response);
 
           return Promise.resolve();
         }
         case 'eth_chainId': {
           const result = getHexChanId(selectedNetworkChainId);
-          const message = createDAppResponse(id, result);
+          const response = createDAppResponse(id, result);
           const params = { chainId: getHexChanId(selectedNetworkChainId), networkVersion: selectedNetworkChainId };
           const notification = createDAppNotificationResponse('oko_chainChanged', params);
 
-          port.postMessage(message);
+          port.postMessage(response);
           port.postMessage(notification);
 
           return Promise.resolve();
         }
         case 'eth_gasPrice': {
           const result = await provider.getGasPrice();
-          const message = createDAppResponse(id, result);
+          const response = createDAppResponse(id, result);
 
-          port.postMessage(message);
+          port.postMessage(response);
 
           return Promise.resolve();
         }
@@ -147,9 +149,9 @@ runtime.onConnect.addListener(async port => {
         case 'eth_estimateGas': {
           if (data.params !== undefined) {
             const result = await provider.estimateGas(data.params[0].data);
-            const message = createDAppResponse(id, result._hex);
+            const response = createDAppResponse(id, result._hex);
 
-            port.postMessage(message);
+            port.postMessage(response);
           }
 
           return Promise.resolve();
@@ -158,9 +160,9 @@ runtime.onConnect.addListener(async port => {
         case 'eth_call': {
           if (data.params !== undefined) {
             const result = await provider.call({ to: data.params[0].to, data: data.params[0].data });
-            const message = createDAppResponse(id, result);
+            const response = createDAppResponse(id, result);
 
-            port.postMessage(message);
+            port.postMessage(response);
           }
 
           return Promise.resolve();
@@ -168,27 +170,27 @@ runtime.onConnect.addListener(async port => {
 
         case 'eth_getBlockByNumber': {
           const result = await provider.getBlock(data.params?.[0]);
-          const message = createDAppResponse(id, result);
+          const response = createDAppResponse(id, result);
 
-          port.postMessage(message);
+          port.postMessage(response);
 
           return Promise.resolve();
         }
 
         case 'eth_blockNumber': {
           const result = await provider.getBlockNumber();
-          const message = createDAppResponse(id, result.toString());
+          const response = createDAppResponse(id, result.toString());
 
-          port.postMessage(message);
+          port.postMessage(response);
 
           return Promise.resolve();
         }
 
         case 'eth_getBalance': {
           const result = await provider.getBalance(data.params?.[0], data.params?.[1] ?? 'latest');
-          const message = createDAppResponse(id, result._hex);
+          const response = createDAppResponse(id, result._hex);
 
-          port.postMessage(message);
+          port.postMessage(response);
 
           return Promise.resolve();
         }
@@ -201,28 +203,26 @@ runtime.onConnect.addListener(async port => {
 
         case 'eth_getTransactionByHash': {
           const txReceipt = await provider.getTransaction(data.params?.[0]);
+          const response = createDAppResponse(id, txReceipt);
 
-          const message = createDAppResponse(id, txReceipt);
-
-          port.postMessage(message);
+          port.postMessage(response);
 
           return Promise.resolve();
         }
 
         case 'eth_getTransactionReceipt': {
           const txReceipt = await provider.getTransactionReceipt(data.params?.[0]);
+          const response = createDAppResponse(id, txReceipt);
 
-          const message = createDAppResponse(id, txReceipt);
-
-          port.postMessage(message);
+          port.postMessage(response);
 
           return Promise.resolve();
         }
 
         case 'net_version': {
-          const message = createDAppResponse(id, selectedNetworkChainId);
+          const response = createDAppResponse(id, selectedNetworkChainId);
 
-          port.postMessage(message);
+          port.postMessage(response);
 
           return Promise.resolve();
         }

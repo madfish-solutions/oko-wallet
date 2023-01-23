@@ -1,5 +1,5 @@
 import { OnEventFn } from '@rnw-community/shared';
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { FlatList, ListRenderItem } from 'react-native';
 
 import { Column } from '../../../../components/column/column';
@@ -17,19 +17,19 @@ import { getTokenSlug } from '../../../../utils/token.utils';
 
 import { styles } from './list-container.styles';
 
-interface Props {
+type Props = PropsWithChildren<{
   title?: string;
   collectibles: Token[];
   renderItem: ListRenderItem<Token>;
   setSearchValue: OnEventFn<string>;
-}
+}>;
 
 const keyExtractor = ({ tokenAddress, tokenId }: Token) => getTokenSlug(tokenAddress, tokenId);
 
 export const ListContainer: FC<Props> = ({ title, collectibles, setSearchValue, renderItem, children }) => {
   const { goBack, navigate } = useNavigation();
 
-  const navigateToAddNewNft = () => navigate(ScreensEnum.AddNewCollectible);
+  const navigateToAddNewCollectible = () => navigate(ScreensEnum.AddNewCollectible);
   const navigateToActivity = () =>
     navigate(ScreensEnum.Activity, {
       filterType: ACTIVITIES_TYPES.find(item => item.value === ActivityFilterEnum.Collectibles) ?? ACTIVITIES_TYPES[0]
@@ -44,7 +44,7 @@ export const ListContainer: FC<Props> = ({ title, collectibles, setSearchValue, 
 
       <Column style={styles.root}>
         <SearchPanel
-          onPressAddIcon={navigateToAddNewNft}
+          onPressAddIcon={navigateToAddNewCollectible}
           setSearchValue={setSearchValue}
           onPressActivityIcon={navigateToActivity}
           isEmptyList={!collectibles.length}

@@ -1,16 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { isDefined } from '@rnw-community/shared';
-
-export type AnyType = any;
 
 interface CacheItem<T> {
   createdAt: number;
   data: T;
 }
 
-const cache: Record<string, CacheItem<AnyType>> = {};
+const cache: Record<string, CacheItem<any>> = {};
 
 export const memoize =
-  <ArgumentsType extends AnyType[], ReturnType>(
+  <ArgumentsType extends any[], ReturnType>(
     fetchFn: (...args: ArgumentsType) => Promise<ReturnType>,
     keyFn: (...args: ArgumentsType) => string,
     expirationTime: number

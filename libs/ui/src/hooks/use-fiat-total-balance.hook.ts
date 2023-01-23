@@ -53,7 +53,7 @@ export const useFiatTotalBalance = () => {
       const [chainId, accountPublicKeyHash] = accountTokensSlug.split('_');
 
       if (accountPublicKeyHash === evmPublicKeyHash || accountPublicKeyHash === tezosPublicKeyHash) {
-        const accountTokensSum = accountTokens.reduce((sum, accountToken) => {
+        const accountTokensSum = accountTokens.reduce((previousValue, accountToken) => {
           const tokenMetadataSlug = getTokenMetadataSlug(chainId, accountToken.tokenAddress, accountToken.tokenId);
           const { price } = allTokensMarketInfoSelector[tokenMetadataSlug] ?? {};
 
@@ -65,7 +65,7 @@ export const useFiatTotalBalance = () => {
             toFixed: false
           });
 
-          return dollarValue.plus(sum);
+          return dollarValue.plus(previousValue);
         }, new BigNumber(0));
 
         return sum.plus(accountTokensSum);

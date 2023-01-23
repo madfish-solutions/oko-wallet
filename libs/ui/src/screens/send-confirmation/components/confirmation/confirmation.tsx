@@ -1,5 +1,5 @@
 import isEmpty from 'lodash/isEmpty';
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, Fragment, PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -9,6 +9,7 @@ import { Row } from '../../../../components/row/row';
 import { SpeedSelector } from '../../../../components/speed-selector/speed-selector';
 import { TextInput } from '../../../../components/text-input/text-input';
 import { Text } from '../../../../components/text/text';
+import { TextInput } from '../../../../components/text-input/text-input';
 import { MainnetRpcEnum, TestnetRpcEnum } from '../../../../constants/rpc';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { ModalActionContainer } from '../../../../modals/components/modal-action-container/modal-action-container';
@@ -29,7 +30,7 @@ import { ownGasFeeRules, requiredFieldRule, SpeedOption, speedOptions } from './
 import { SpeedEnum } from './enums';
 import { getProgressStatus } from './utils/get-progress-status.util';
 
-interface Props {
+type Props = PropsWithChildren<{
   isFeeLoading: boolean;
   onSend: OnSend;
   onDecline: () => void;
@@ -39,7 +40,7 @@ interface Props {
   symbol: string;
   initialTransactionFee: number;
   storageFee?: number;
-}
+}>;
 
 const defaultValues = {
   ownGasFee: '',

@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "commonjs",
+    "baseUrl": "./",
+    "target": "es6",
+    "module": "es6",
     "lib": [
       "es2017",
       "dom"
@@ -12,7 +13,6 @@
     "isolatedModules": true,
     "strict": true,
     "moduleResolution": "node",
-    "baseUrl": "./",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
