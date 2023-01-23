@@ -1,1 +1,1 @@
-export const openMaximiseScreen = () => null;
+export const openFullViewPage = () => null;

@@ -161,7 +161,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       const chainId = getSelectedNetworkChainId(state);
       const accountTokensSlug = getAccountTokensSlug(chainId, selectedAccountPublicKeyHash);
 
-      const stateAccountsTokens: AccountToken[] = [...state.accountsTokens[accountTokensSlug]];
+      const stateAccountsTokens: AccountToken[] = [...(state.accountsTokens[accountTokensSlug] ?? [])];
 
       const tokensWithBalance: AccountToken[] = tokenList
         .map(token => ({

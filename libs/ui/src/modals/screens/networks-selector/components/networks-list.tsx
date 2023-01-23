@@ -21,7 +21,6 @@ import {
 import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
 import { getAccountTokensSlug } from '../../../../utils/address.util';
 import { checkIsNetworkTypeKeyExist } from '../../../../utils/check-is-network-type-key-exist';
-import { redirectToMamixiseView } from '../../../../utils/redirecit-to-maximise-view.util';
 import { ModalGasToken } from '../../../components/modal-gas-token/modal-gas-token';
 import { ModalRenderItem } from '../../../components/modal-render-item/modal-render-item';
 import { useListSearch } from '../../../hooks/use-list-search.hook';
@@ -58,11 +57,7 @@ export const NetworksList = () => {
     [selectedAccount]
   );
 
-  const navigateToAddNetwork = () => {
-    redirectToMamixiseView();
-
-    return navigate(ScreensEnum.AddNetwork);
-  };
+  const navigateToAddNetwork = () => navigate(ScreensEnum.AddNetwork);
 
   const navigateToEditNetwork = (network: NetworkInterface, isNetworkSelected: boolean) =>
     navigate(ScreensEnum.EditNetwork, { network, isNetworkSelected });
