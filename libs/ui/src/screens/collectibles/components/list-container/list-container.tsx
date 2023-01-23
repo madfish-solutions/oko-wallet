@@ -29,7 +29,7 @@ const keyExtractor = ({ tokenAddress, tokenId }: Token) => getTokenSlug(tokenAdd
 export const ListContainer: FC<Props> = ({ title, collectibles, setSearchValue, renderItem, children }) => {
   const { goBack, navigate } = useNavigation();
 
-  const navigateToAddNewNft = () => navigate(ScreensEnum.AddNewCollectible);
+  const navigateToAddNewCollectible = () => navigate(ScreensEnum.AddNewCollectible);
   const navigateToActivity = () =>
     navigate(ScreensEnum.Activity, {
       filterType: ACTIVITIES_TYPES.find(item => item.value === ActivityFilterEnum.Collectibles) ?? ACTIVITIES_TYPES[0]
@@ -44,7 +44,7 @@ export const ListContainer: FC<Props> = ({ title, collectibles, setSearchValue, 
 
       <Column style={styles.root}>
         <SearchPanel
-          onPressAddIcon={navigateToAddNewNft}
+          onPressAddIcon={navigateToAddNewCollectible}
           setSearchValue={setSearchValue}
           onPressActivityIcon={navigateToActivity}
           isEmptyList={!collectibles.length}
