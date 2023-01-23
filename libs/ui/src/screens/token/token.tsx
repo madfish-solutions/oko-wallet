@@ -1,5 +1,4 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { BigNumber } from 'bignumber.js';
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -13,13 +12,9 @@ import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useTimerEffect } from '../../hooks/use-timer-effect.hook';
 import { ViewStyleProps } from '../../interfaces/style.interface';
-import { useTokenMarketInfoSelector, useTokensMarketInfoSelector } from '../../store/tokens-market-info/token-market-info.selectors';
+import { useTokenMarketInfoSelector } from '../../store/tokens-market-info/token-market-info.selectors';
 import { loadAccountTokenBalanceAction, loadGasTokenBalanceAction } from '../../store/wallet/wallet.actions';
-import {
-  useTokenBalanceSelector,
-  useSelectedNetworkSelector,
-  useSelectedAccountPublicKeyHashSelector
-} from '../../store/wallet/wallet.selectors';
+import { useTokenBalanceSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
 import { checkIsGasToken } from '../../utils/check-is-gas-token.util';
 import { getTokenSlug } from '../../utils/token.utils';
 import { getFormattedBalance } from '../../utils/units.utils';
@@ -55,7 +50,6 @@ export const Token: FC<Props> = ({ style }) => {
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Token>>();
   const { chainId } = useSelectedNetworkSelector();
   const dispatch = useDispatch();
-  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
   const { name, symbol, tokenAddress, decimals, tokenId, thumbnailUri, balance, dollarBalance } = token;
   const { price, usdPriceChange24h } = useTokenMarketInfoSelector(tokenAddress, chainId);
