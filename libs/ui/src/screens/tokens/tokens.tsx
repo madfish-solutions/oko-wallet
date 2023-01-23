@@ -19,7 +19,7 @@ import { EMPTY_STRING } from '../../constants/defaults';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useSortAccountTokensByBalance } from '../../hooks/use-sort-tokens-by-balance.hook';
-import { Token, TokenWithBalance } from '../../interfaces/token.interface';
+import { Token, TokenWithBigNumberBalance } from '../../interfaces/token.interface';
 import { sortAccountTokensByVisibility } from '../../store/wallet/wallet.actions';
 import {
   useAccountTokensSelector,
@@ -93,7 +93,7 @@ export const Tokens: FC = () => {
   }, []);
 
   const renderItem = useCallback(
-    ({ item: token }: ListRenderItemInfo<TokenWithBalance>) => {
+    ({ item: token }: ListRenderItemInfo<TokenWithBigNumberBalance>) => {
       const showButton = !token.isVisible || !tokensAddresses.includes(token.tokenAddress);
 
       return <AccountToken token={token} showButton={showButton} theme={TokenItemThemesEnum.Secondary} />;

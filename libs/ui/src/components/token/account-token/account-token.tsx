@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
-import { TokenWithBalance } from '../../../interfaces/token.interface';
+import { TokenWithBigNumberBalance } from '../../../interfaces/token.interface';
 import { getImageSource } from '../../../screens/wallet/components/assets-widget/utils/get-image-source.util';
 import { changeTokenVisibilityAction } from '../../../store/wallet/wallet.actions';
 import { checkIsGasToken } from '../../../utils/check-is-gas-token.util';
@@ -16,7 +16,7 @@ import { TokenItemThemesEnum } from '../token-item/enums';
 import { TokenItem } from '../token-item/token-item';
 
 interface Props {
-  token: TokenWithBalance;
+  token: TokenWithBigNumberBalance;
   showButton?: boolean;
   theme?: TokenItemThemesEnum;
 }
@@ -29,9 +29,9 @@ export const AccountToken: FC<Props> = ({ token, showButton, theme }) => {
 
   const usdBalance =
     Object.keys(token).length > 0
-      ? new BigNumber(balance.data).gt(0) && new BigNumber(dollarBalance).eq(0)
+      ? new BigNumber(balance.data).gt(0) && dollarBalance.eq(0)
         ? '---'
-        : dollarBalance
+        : dollarBalance.toFixed(2)
       : '0';
 
   const imageSource = getImageSource(thumbnailUri);
@@ -39,7 +39,8 @@ export const AccountToken: FC<Props> = ({ token, showButton, theme }) => {
 
   const handleTokenVisibility = () => dispatch(changeTokenVisibilityAction(token));
 
-  const navigateToTokenDetails = () => navigate(ScreensEnum.Token, { token });
+  const navigateToTokenDetails = () =>
+    navigate(ScreensEnum.Token, { token: { ...token, dollarBalance: dollarBalance.toString() } });
 
   return (
     <Pressable onPress={navigateToTokenDetails}>

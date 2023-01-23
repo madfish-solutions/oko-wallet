@@ -1,3 +1,5 @@
+import { BigNumber } from 'bignumber.js';
+
 import { AccountToken } from './account-token.interface';
 import { TokenMetadata } from './token-metadata.interface';
 
@@ -6,3 +8,4 @@ export type GasTokenMetadata = Pick<TokenMetadata, 'name' | 'decimals' | 'symbol
 export type Token = AccountToken & TokenMetadata;
 
 export type TokenWithBalance = Token & { dollarBalance: string };
+export type TokenWithBigNumberBalance = Token & { dollarBalance: BigNumber };

@@ -24,7 +24,7 @@ export function getDollarValue(arg: {
   amount: string;
   decimals: number;
   price: number | undefined;
-  errorValue: BigNumber;
+  errorValue?: BigNumber;
   isNeedToFormat?: boolean;
   toFixed: false;
 }): BigNumber;

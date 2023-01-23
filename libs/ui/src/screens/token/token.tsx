@@ -1,5 +1,6 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import React, { FC } from 'react';
+import { BigNumber } from 'bignumber.js';
+import React, { FC, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Divider } from '../../components/divider/divider';
@@ -55,6 +56,7 @@ export const Token: FC<Props> = ({ style }) => {
   const { price, usdPriceChange24h } = useTokenMarketInfoSelector(tokenAddress, chainId);
 
   const balanceFromStore = useTokenBalanceSelector(getTokenSlug(tokenAddress, tokenId));
+
   const formattedBalance = getFormattedBalance(balanceFromStore.tokenBalance ?? balance.data, decimals);
   const isGasToken = checkIsGasToken(tokenAddress);
 
@@ -67,6 +69,16 @@ export const Token: FC<Props> = ({ style }) => {
   };
 
   useTimerEffect(getTokenBalanceFromContract, DATA_UPDATE_TIME, [token, chainId]);
+
+  const usdBalance = useMemo(() => {
+    const dollarBalanceBN = new BigNumber(dollarBalance);
+
+    if (dollarBalanceBN.gt(0) && dollarBalance.startsWith('0.00') && balanceFromStore.dollarBalance === '---') {
+      return dollarBalanceBN.toFixed(2);
+    }
+
+    return balanceFromStore.dollarBalance;
+  }, [dollarBalance, balanceFromStore]);
 
   return (
     <ScreenContainer style={[styles.root, style]}>
@@ -81,7 +93,7 @@ export const Token: FC<Props> = ({ style }) => {
         />
       </HeaderContainer>
 
-      <Balance balance={formattedBalance} usdBalance={balanceFromStore.dollarBalance ?? dollarBalance} />
+      <Balance balance={formattedBalance} usdBalance={usdBalance} />
       <NavigationBar token={token} />
 
       <Divider style={styles.divider} />

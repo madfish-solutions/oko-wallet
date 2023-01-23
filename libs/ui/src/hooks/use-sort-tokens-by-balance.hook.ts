@@ -2,23 +2,24 @@ import { isDefined } from '@rnw-community/shared';
 import { useMemo } from 'react';
 
 import { GAS_TOKEN_ADDRESS } from '../constants/defaults';
-import { Token, TokenWithBalance } from '../interfaces/token.interface';
+import { Token, TokenWithBigNumberBalance } from '../interfaces/token.interface';
 import { useTokensMarketInfoSelector } from '../store/tokens-market-info/token-market-info.selectors';
 import { useSelectedNetworkSelector } from '../store/wallet/wallet.selectors';
 import { getDollarValue } from '../utils/get-dollar-amount.util';
 import { getTokenMetadataSlug } from '../utils/token-metadata.util';
 
-export const useSortAccountTokensByBalance = (tokens: Token[]): TokenWithBalance[] => {
+export const useSortAccountTokensByBalance = (tokens: Token[]): TokenWithBigNumberBalance[] => {
   const allTokensMarketInfo = useTokensMarketInfoSelector();
   const { chainId } = useSelectedNetworkSelector();
 
-  const assets = tokens.map(asset => {
+  const tokensWithDollarBalance = tokens.map(asset => {
     const tokenMetadataSlug = getTokenMetadataSlug(chainId, asset.tokenAddress);
 
     const dollarBalance = getDollarValue({
       amount: asset.balance?.data ?? 0,
       price: isDefined(allTokensMarketInfo[tokenMetadataSlug]) ? allTokensMarketInfo[tokenMetadataSlug].price : 0,
-      decimals: asset.decimals
+      decimals: asset.decimals,
+      toFixed: false
     });
 
     return {
@@ -27,18 +28,44 @@ export const useSortAccountTokensByBalance = (tokens: Token[]): TokenWithBalance
     };
   });
 
-  const sortedTokens = useMemo(
-    () => assets.sort((a, b) => Number(b.dollarBalance) - Number(a.dollarBalance)),
-    [tokens, allTokensMarketInfo]
+  const gasToken = tokensWithDollarBalance.find(({ tokenAddress }) => tokenAddress === GAS_TOKEN_ADDRESS);
+
+  const allTokens = useMemo(
+    () =>
+      tokensWithDollarBalance
+        .filter(({ tokenAddress }) => tokenAddress !== GAS_TOKEN_ADDRESS)
+        .reduce(
+          (
+            acc: { tokensWithBalance: TokenWithBigNumberBalance[]; tokensWithZeroBalance: TokenWithBigNumberBalance[] },
+            currentToken: TokenWithBigNumberBalance
+          ) => {
+            if (currentToken.dollarBalance.gt(0)) {
+              return {
+                ...acc,
+                tokensWithBalance: [...(acc.tokensWithBalance ?? []), currentToken]
+              };
+            }
+
+            return {
+              ...acc,
+              tokensWithZeroBalance: [...(acc.tokensWithZeroBalance ?? []), currentToken]
+            };
+          },
+          { tokensWithBalance: [], tokensWithZeroBalance: [] }
+        ),
+    [tokensWithDollarBalance, allTokensMarketInfo]
   );
 
-  const gasToken = sortedTokens.find(({ tokenAddress }) => tokenAddress === GAS_TOKEN_ADDRESS);
-  
-  const tokensWithoutGasToken = sortedTokens.filter(({ tokenAddress }) => tokenAddress !== GAS_TOKEN_ADDRESS);
+  const { tokensWithBalance, tokensWithZeroBalance } = allTokens;
+
+  const sortedAccountTokens = [
+    ...tokensWithBalance.sort((a, b) => Number(b.dollarBalance) - Number(a.dollarBalance)),
+    ...tokensWithZeroBalance.sort((a, b) => Number(b.balance.data) - Number(a.balance.data))
+  ];
 
   if (isDefined(gasToken)) {
-    return [gasToken, ...tokensWithoutGasToken];
+    return [gasToken, ...sortedAccountTokens];
   }
 
-  return tokensWithoutGasToken;
+  return sortedAccountTokens;
 };
