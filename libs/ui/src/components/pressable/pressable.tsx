@@ -1,13 +1,15 @@
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { Pressable as PressableBase, PressableProps, PressableStateCallbackType } from 'react-native';
 import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
 
-interface Props extends TestIDProps, Pick<PressableProps, 'onPress'> {
+type Props = PropsWithChildren<{
   opacity?: boolean;
   style?: ViewStyleProps;
-}
+}> &
+  TestIDProps &
+  Pick<PressableProps, 'onPress'>;
 
 export const Pressable: FC<Props> = ({ onPress, opacity = true, style, children, testID }) => (
   <PressableBase

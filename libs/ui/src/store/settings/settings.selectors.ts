@@ -10,3 +10,6 @@ export const useBiometricEnabledSelector = () =>
 
 export const useShowLoaderSelector = () =>
   useSelector<SettingsRootState, boolean>(({ settings }) => settings.showLoader);
+
+export const useLockTimePeriodSelector = () =>
+  useSelector<SettingsRootState, number>(({ settings }) => settings.lockTimePeriod);

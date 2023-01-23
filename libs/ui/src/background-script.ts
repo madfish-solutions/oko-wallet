@@ -5,7 +5,7 @@
 //  4. extract this packages into separate libs
 
 export type { BackgroundMessage } from './messagers/types/background-message.type';
-export type { DAppInfo } from './interfaces/dapp-info.interface';
+export type { DAppInfo, DAppTransactionInfo } from './interfaces/dapp-info.interface';
 export type { RootState } from './store/store';
 
 export { BackgroundMessageType } from './messagers/enums/background-message-type.enum';

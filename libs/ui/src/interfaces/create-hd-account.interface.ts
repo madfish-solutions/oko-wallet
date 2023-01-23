@@ -3,6 +3,7 @@ import { OnEventFn } from '@rnw-community/shared';
 import { Subject } from 'rxjs';
 
 import { NetworkTypeEnum } from '../enums/network-type.enum';
+import { Toast } from '../hooks/use-toast.hook';
 
 import { AccountInterface } from './account.interface';
 
@@ -17,6 +18,8 @@ export interface CreateHdAccountParams {
 export type CreateHdAccountType = {
   createHdAccount$: Subject<CreateHdAccountParams>;
   dispatch: Dispatch;
+  showErrorToast: OnEventFn<Toast>;
+  showSuccessToast: OnEventFn<Toast>;
 };
 
 export interface CreateHdAccountForNewNetworkParams {
@@ -30,6 +33,8 @@ export interface CreateHdAccountForNewNetworkParams {
 export type CreateHdAccountForNewNetworkType = {
   createHdAccountForNewNetworkType$: Subject<CreateHdAccountForNewNetworkParams>;
   dispatch: Dispatch;
+  showErrorToast: OnEventFn<Toast>;
+  showSuccessToast: OnEventFn<Toast>;
 };
 
 export type RevealSeedPhraseParams = {

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { useUnlock } from '../../../hooks/use-unlock.hook';
@@ -6,10 +6,10 @@ import { ViewStyleProps } from '../../../interfaces/style.interface';
 
 import { styles } from './screen-scroll-view.styles';
 
-interface Props {
+type Props = PropsWithChildren<{
   style?: ViewStyleProps;
   contentContainerStyle?: ViewStyleProps;
-}
+}>;
 
 export const ScreenScrollView: FC<Props> = ({ style, contentContainerStyle, children }) => {
   const { isLocked } = useUnlock();

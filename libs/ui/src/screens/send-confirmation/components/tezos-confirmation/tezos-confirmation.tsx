@@ -10,7 +10,7 @@ import {
 } from '../../../../store/wallet/wallet.selectors';
 import { formatUnits, parseUnits } from '../../../../utils/units.utils';
 import { useTransactionHook } from '../../hooks/use-transaction.hook';
-import { OnSend, OnSendTezosArg, TezosTransferParams } from '../../types';
+import { OnSend, TezosTransferParams } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
 
 import { useTezosEstimations } from './hooks/use-tezos-estimations.hook';
@@ -52,42 +52,42 @@ export const TezosConfirmation: FC<Props> = ({ transferParams: { transferParams,
 
   const onSend: OnSend = useCallback(
     arg => {
-      setIsTransactionLoading(true);
+      if (typeof arg !== 'number') {
+        setIsTransactionLoading(true);
 
-      const { storageFee, gasFee } = arg as OnSendTezosArg;
+        // Tezos Taquito will add revealGasGee by himself
+        const feeToSend = arg.gasFee - revealGasFee;
+        const transactionParams = transferParamsWithFees.map((transferParam, index) => {
+          const isLastOpParam = index === transferParams.length - 1;
 
-      // Tezos Taquito will add revealGasGee by himself
-      const feeToSend = gasFee - revealGasFee;
-      const transactionParams = transferParamsWithFees.map((transferParam, index) => {
-        const isLastOpParam = index === transferParams.length - 1;
+          if (transferParam.kind !== OpKind.ACTIVATION) {
+            const correctTransferParam = { ...transferParam };
 
-        if (transferParam.kind !== OpKind.ACTIVATION) {
-          const correctTransferParam = { ...transferParam };
+            if (feeToSend) {
+              correctTransferParam.fee = isLastOpParam ? feeToSend : 0;
+            }
 
-          if (feeToSend) {
-            correctTransferParam.fee = isLastOpParam ? feeToSend : 0;
+            if (arg.storageFee && isOneOperation) {
+              correctTransferParam.storageLimit = parseUnits(
+                arg.storageFee / minimalFeePerStorageByteMutez,
+                decimals
+              ).toNumber();
+            }
+
+            return correctTransferParam;
           }
 
-          if (storageFee && isOneOperation) {
-            correctTransferParam.storageLimit = parseUnits(
-              storageFee / minimalFeePerStorageByteMutez,
-              decimals
-            ).toNumber();
-          }
+          return transferParam;
+        });
 
-          return correctTransferParam;
-        }
-
-        return transferParam;
-      });
-
-      sendTezosTransaction({
-        transactionParams,
-        rpcUrl,
-        publicKeyHash,
-        successCallback,
-        errorCallback
-      });
+        sendTezosTransaction({
+          transactionParams,
+          rpcUrl,
+          publicKeyHash,
+          successCallback,
+          errorCallback
+        });
+      }
     },
     [estimations]
   );

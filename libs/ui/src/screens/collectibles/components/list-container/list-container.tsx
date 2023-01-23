@@ -1,5 +1,5 @@
 import { OnEventFn } from '@rnw-community/shared';
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { FlatList, ListRenderItem } from 'react-native';
 
 import { Column } from '../../../../components/column/column';
@@ -11,23 +11,29 @@ import { SearchPanel } from '../../../../components/search-panel/search-panel';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token } from '../../../../interfaces/token.interface';
+import { ActivityFilterEnum } from '../../../../modals/screens/activity-filter-selector/activity-filter.enum';
+import { ACTIVITIES_TYPES } from '../../../../modals/screens/activity-filter-selector/constants';
 import { getTokenSlug } from '../../../../utils/token.utils';
 
 import { styles } from './list-container.styles';
 
-interface Props {
+type Props = PropsWithChildren<{
   title?: string;
   collectibles: Token[];
   renderItem: ListRenderItem<Token>;
   setSearchValue: OnEventFn<string>;
-}
+}>;
 
 const keyExtractor = ({ tokenAddress, tokenId }: Token) => getTokenSlug(tokenAddress, tokenId);
 
 export const ListContainer: FC<Props> = ({ title, collectibles, setSearchValue, renderItem, children }) => {
   const { goBack, navigate } = useNavigation();
 
-  const navigateToAddNewNft = () => navigate(ScreensEnum.AddNewCollectible);
+  const navigateToAddNewCollectible = () => navigate(ScreensEnum.AddNewCollectible);
+  const navigateToActivity = () =>
+    navigate(ScreensEnum.Activity, {
+      filterType: ACTIVITIES_TYPES.find(item => item.value === ActivityFilterEnum.Collectibles) ?? ACTIVITIES_TYPES[0]
+    });
 
   return (
     <ScreenContainer>
@@ -38,8 +44,9 @@ export const ListContainer: FC<Props> = ({ title, collectibles, setSearchValue, 
 
       <Column style={styles.root}>
         <SearchPanel
-          onPressAddIcon={navigateToAddNewNft}
+          onPressAddIcon={navigateToAddNewCollectible}
           setSearchValue={setSearchValue}
+          onPressActivityIcon={navigateToActivity}
           isEmptyList={!collectibles.length}
           style={styles.searchPanel}
         />

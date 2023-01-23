@@ -30,12 +30,16 @@ export const Dropdown = <OptionType,>({ description, selectedId, onSelect, optio
         {isDefined(description) && <Text style={styles.description}>{description}</Text>}
 
         <Column style={styles.wrapper}>
-          {options.map(({ id, title, value, testID }) => (
-            <Pressable key={id} onPress={() => onSelect({ id, title, value })} style={styles.item} testID={testID}>
-              <Text style={styles.title}>{title}</Text>
+          {options.map(option => (
+            <Pressable key={option.id} onPress={() => onSelect(option)} style={styles.item} testID={option.testID}>
+              <Text style={styles.title}>{option.title}</Text>
 
               <Icon
-                name={(selectedId ?? options[0].id) === id ? IconNameEnum.SelectedCheckbox : IconNameEnum.EmptyCheckbox}
+                name={
+                  (selectedId ?? options[0].id) === option.id
+                    ? IconNameEnum.SelectedCheckbox
+                    : IconNameEnum.EmptyCheckbox
+                }
               />
             </Pressable>
           ))}

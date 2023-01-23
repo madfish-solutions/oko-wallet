@@ -5,18 +5,20 @@ import { useEffect, useState } from 'react';
 import { getHistoryList } from '../api/debank';
 import { DEBOUNCE_TIME, GAS_TOKEN_ADDRESS } from '../constants/defaults';
 import { TransactionStatusEnum } from '../enums/transactions.enum';
+import { ActivityData, SectionListActivityData } from '../interfaces/activity-data.interface';
+import { ActivityResponse } from '../interfaces/activity-response.interface';
+import { TransactionTypeEnum } from '../interfaces/activity.enum';
+import { checkIsDayLabelNeeded, transformTimestampToDate } from '../screens/activity/components/activity-item.utils';
 import {
-  ActivityData,
-  ActivityResponse,
-  SectionListActivityData,
-  TransactionLabelEnum
-} from '../interfaces/activity.interface';
-import { checkIsDayLabelNeeded, transformTimestampToDate } from '../screens/activity/components/activity-list.utils';
-import { capitalize } from '../utils/string.util';
+  getTokenSymbol,
+  getTransactionProjectName,
+  getTransactionType,
+  isGasTokenTransaction
+} from '../utils/activity.utils';
 
 const filterGasTokenTransaction = (data: ActivityResponse) => ({
   ...data,
-  history_list: data?.history_list.filter(txData => txData.cate_id === null)
+  history_list: data?.history_list.filter(transaction => transaction.cate_id === null)
 });
 
 /*
@@ -26,72 +28,93 @@ to ActivityData type, as we needed
 */
 
 const transformApiData = (
-  data: ActivityResponse,
+  response: ActivityResponse,
   publicKeyHash: string,
   chainName: string
 ): SectionListActivityData[] => {
-  let response: SectionListActivityData[] = [];
-  const filteredTransactions = data?.history_list.filter(
-    txData => !(txData.receives.length > 0 && txData.sends.length > 0) && txData.cate_id !== 'approve'
-  );
+  let result: SectionListActivityData[] = [];
 
   let sectionListItem: SectionListActivityData | undefined;
 
-  const userTokensMetadata: ActivityResponse['token_dict'] = data.token_dict;
+  const userTokensMetadata = response.token_dict;
+  const userProjectsMetadata = response.project_dict;
 
-  filteredTransactions.forEach(txData => {
+  response?.history_list.forEach(transaction => {
     const activityData = {
-      transactionStatus: TransactionStatusEnum.applied,
-      hash: txData.id,
-      timestamp: txData.time_at
+      status: TransactionStatusEnum.applied,
+      hash: transaction.id,
+      timestamp: transaction.time_at
     } as ActivityData;
 
-    if (txData.tx?.status === 0) {
-      activityData.transactionStatus = TransactionStatusEnum.failed;
-    } else {
-      activityData.transactionStatus = TransactionStatusEnum.applied;
+    if (transaction.tx?.status === 0) {
+      activityData.status = TransactionStatusEnum.failed;
     }
 
-    const getTokenSymbol = (address: string) =>
-      userTokensMetadata[address].optimized_symbol ?? userTokensMetadata[address].name;
+    const isGasToken = isGasTokenTransaction(transaction);
 
-    if (txData.cate_id !== null) {
-      activityData.transactionLabel = capitalize(txData.cate_id) as TransactionLabelEnum;
+    const { type, label } = getTransactionType(transaction, isGasToken, publicKeyHash);
+    activityData.type = type;
+    activityData.label = label;
 
-      if (activityData.transactionLabel === TransactionLabelEnum.Send) {
-        activityData.amount = txData.sends[0]?.amount;
-        activityData.tokenId = txData.sends[0]?.token_id;
-        activityData.symbol = getTokenSymbol(txData.sends[0]?.token_id);
-      } else {
-        activityData.tokenId = txData.receives[0]?.token_id;
-        activityData.amount = txData.receives[0]?.amount;
-        activityData.symbol = getTokenSymbol(txData.receives[0]?.token_id);
-        activityData.transactionLabel = TransactionLabelEnum.Received;
+    switch (type) {
+      case TransactionTypeEnum.Send: {
+        if (isGasToken) {
+          activityData.symbol = chainName;
+          activityData.amount = transaction.tx?.value;
+        } else {
+          activityData.amount = transaction.sends[0]?.amount;
+          activityData.tokenId = transaction.sends[0]?.token_id;
+          activityData.symbol = getTokenSymbol(userTokensMetadata, transaction.sends[0]?.token_id);
+          activityData.isCollectible = isDefined(userTokensMetadata[transaction.sends[0]?.token_id].thumbnail_url);
+        }
+        break;
       }
-    } else {
-      activityData.symbol = chainName;
-      activityData.amount = txData.tx?.value;
-      if (publicKeyHash.toLowerCase() === txData.tx?.from_addr?.toLowerCase()) {
-        activityData.transactionLabel = TransactionLabelEnum.Send;
-      } else {
-        activityData.transactionLabel = TransactionLabelEnum.Received;
+      case TransactionTypeEnum.Receive: {
+        if (isGasToken) {
+          activityData.symbol = chainName;
+          activityData.amount = transaction.tx?.value;
+        } else {
+          activityData.tokenId = transaction.receives[0]?.token_id;
+          activityData.amount = transaction.receives[0]?.amount;
+          activityData.symbol = getTokenSymbol(userTokensMetadata, transaction.receives[0]?.token_id);
+          activityData.isCollectible = isDefined(userTokensMetadata[transaction.receives[0]?.token_id].thumbnail_url);
+        }
+        break;
+      }
+      case TransactionTypeEnum.ContractCalls: {
+        activityData.projectName = getTransactionProjectName(userProjectsMetadata, transaction);
+        activityData.transfer = {
+          sends: [
+            ...transaction.sends.map(item => ({
+              amount: item.amount,
+              symbol: getTokenSymbol(userTokensMetadata, item.token_id)
+            }))
+          ],
+          receives: [
+            ...transaction.receives.map(item => ({
+              amount: item.amount,
+              symbol: getTokenSymbol(userTokensMetadata, item.token_id)
+            }))
+          ]
+        };
+        break;
       }
     }
 
-    if (checkIsDayLabelNeeded(txData.time_at) && sectionListItem !== undefined) {
-      response = [...response, sectionListItem];
-      sectionListItem = { title: transformTimestampToDate(txData.time_at), data: [activityData] };
+    if (checkIsDayLabelNeeded(transaction.time_at) && sectionListItem !== undefined) {
+      result = [...result, sectionListItem];
+      sectionListItem = { title: transformTimestampToDate(transaction.time_at), data: [activityData] };
     } else {
       const data = sectionListItem?.data ?? [];
-      sectionListItem = { title: transformTimestampToDate(txData.time_at), data: [...data, activityData] };
+      sectionListItem = { title: transformTimestampToDate(transaction.time_at), data: [...data, activityData] };
     }
   });
 
   if (sectionListItem !== undefined) {
-    response = [...response, sectionListItem];
+    result = [...result, sectionListItem];
   }
 
-  return response;
+  return result;
 };
 
 export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAddress?: string) => {
@@ -117,7 +140,7 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
 
       if (startTime === 0) {
         setActivity(activityData);
-      } else {
+      } else if (activityData.length > 0) {
         setActivity(prev => {
           if (
             activityData.length &&
@@ -139,12 +162,11 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
               },
               {}
             );
-            const result = Object.keys(groupingAllDataByDates).map(title => ({
+
+            return Object.keys(groupingAllDataByDates).map(title => ({
               title,
               data: groupingAllDataByDates[title]
             }));
-
-            return result;
           }
 
           return prev;

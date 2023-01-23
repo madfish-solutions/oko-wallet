@@ -9,8 +9,8 @@ import { Column } from '../../../../components/column/column';
 import { DropdownSelectedItem } from '../../../../components/dropdown/components/dropdown-selected-item/dropdown-selected-item';
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
-import { MnemonicActionButton } from '../../../../components/mnemonic-action-button/mnemonic-action-button';
 import { Mnemonic } from '../../../../components/mnemonic/mnemonic';
+import { MnemonicActionButton } from '../../../../components/mnemonic-action-button/mnemonic-action-button';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 import { WalletCreationContainer } from '../../../../components/wallet-creation-container/wallet-creation-container';
@@ -18,7 +18,7 @@ import { SECURITY_TIME } from '../../../../constants/defaults';
 import { MnemonicLengthEnum, words } from '../../../../constants/seed-words-amount';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { handleCopyToClipboard } from '../../../../utils/copy-to-clipboard.util';
+import { handleSetValueToClipboard } from '../../../../utils/copy-to-clipboard.util';
 import { WarningMessageDropdown } from '../../components/warning-message-dropdown/warning-message-dropdown';
 
 import { styles } from './create-a-new-wallet.styles';
@@ -100,7 +100,7 @@ export const CreateANewWallet: FC = () => {
   };
 
   const handleCopyMnemonic = () => {
-    handleCopyToClipboard(mnemonic.join(' '));
+    handleSetValueToClipboard(mnemonic.join(' '));
     setIsShowProtectLayout(true);
   };
 

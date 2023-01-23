@@ -1,5 +1,5 @@
 import { isEmptyString } from '@rnw-community/shared';
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { FlatList, ListRenderItemInfo, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { TestIDProps } from 'src/interfaces/test-id.props';
@@ -7,10 +7,10 @@ import { TestIDProps } from 'src/interfaces/test-id.props';
 import { Button } from '../../../../../../components/button/button';
 import { ButtonSizeEnum, ButtonThemesEnum } from '../../../../../../components/button/enums';
 import { CopyText } from '../../../../../../components/copy-text/copy-text';
-import { IconWithBorderEnum } from '../../../../../../components/icon-with-border/enums';
-import { IconWithBorder } from '../../../../../../components/icon-with-border/icon-with-border';
 import { EmptySearchIcon } from '../../../../../../components/icon/components/empty-search-icon/empty-search-icon';
 import { IconNameEnum } from '../../../../../../components/icon/icon-name.enum';
+import { IconWithBorderEnum } from '../../../../../../components/icon-with-border/enums';
+import { IconWithBorder } from '../../../../../../components/icon-with-border/icon-with-border';
 import { RobotIcon } from '../../../../../../components/robot-icon/robot-icon';
 import { Row } from '../../../../../../components/row/row';
 import { SearchPanel } from '../../../../../../components/search-panel/search-panel';
@@ -32,9 +32,10 @@ import { getPublicKeyHash } from '../../../../../../store/wallet/wallet.utils';
 import { styles } from './accounts-container.styles';
 import { AccountsContainerTestIDs } from './accounts-container.test-ids';
 
-interface Props extends TestIDProps {
+type Props = PropsWithChildren<{
   accounts: AccountInterface[];
-}
+}> &
+  TestIDProps;
 
 const keyExtractor = (account: AccountInterface) => account.accountId.toString();
 
@@ -64,7 +65,7 @@ export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
       createHdAccountForNewNetworkType(
         account,
         networkType,
-        account => navigateToRevealPrivateKey(getPublicKeyHash(account, networkType)),
+        newAccount => navigateToRevealPrivateKey(getPublicKeyHash(newAccount, networkType)),
         false
       );
     } else {
