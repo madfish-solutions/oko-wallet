@@ -90,7 +90,12 @@ export const getDataToSwap = (
         referrerAddress: REFERRER_ADDRESS
       }
     })
-    .then(({ data: { tx: { gas, ...restTxParams } } }) => ({
+    .then(
+      ({
+        data: {
+          tx: { gas, ...restTxParams }
+        }
+      }) => ({
         gasLimit: gas,
         ...restTxParams
       })
