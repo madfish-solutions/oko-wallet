@@ -1,4 +1,5 @@
 import { isDefined } from '@rnw-community/shared';
+import { BigNumber } from 'bignumber.js';
 import React, { FC } from 'react';
 import { Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -26,6 +27,13 @@ export const AccountToken: FC<Props> = ({ token, showButton, theme }) => {
   const { decimals, thumbnailUri, balance, symbol, name, tokenAddress, dollarBalance } = token;
   const isGasToken = checkIsGasToken(tokenAddress);
 
+  const usdBalance =
+    Object.keys(token).length > 0
+      ? new BigNumber(balance.data).gt(0) && new BigNumber(dollarBalance).eq(0)
+        ? '---'
+        : dollarBalance
+      : '0';
+
   const imageSource = getImageSource(thumbnailUri);
   const formattedBalance = getFormattedBalance(balance?.data ?? 0, decimals);
 
@@ -41,7 +49,7 @@ export const AccountToken: FC<Props> = ({ token, showButton, theme }) => {
         symbol={symbol}
         theme={theme}
         name={name}
-        usdBalance={dollarBalance}
+        usdBalance={usdBalance}
         isGasToken={isGasToken}
       >
         {isDefined(showButton) && showButton && !isGasToken ? (

@@ -1,6 +1,7 @@
 import { isDefined } from '@rnw-community/shared';
 import { useMemo } from 'react';
 
+import { GAS_TOKEN_ADDRESS } from '../constants/defaults';
 import { Token, TokenWithBalance } from '../interfaces/token.interface';
 import { useTokensMarketInfoSelector } from '../store/tokens-market-info/token-market-info.selectors';
 import { useSelectedNetworkSelector } from '../store/wallet/wallet.selectors';
@@ -26,8 +27,18 @@ export const useSortAccountTokensByBalance = (tokens: Token[]): TokenWithBalance
     };
   });
 
-  return useMemo(
+  const sortedTokens = useMemo(
     () => assets.sort((a, b) => Number(b.dollarBalance) - Number(a.dollarBalance)),
     [tokens, allTokensMarketInfo]
   );
+
+  const gasToken = sortedTokens.find(({ tokenAddress }) => tokenAddress === GAS_TOKEN_ADDRESS);
+  
+  const tokensWithoutGasToken = sortedTokens.filter(({ tokenAddress }) => tokenAddress !== GAS_TOKEN_ADDRESS);
+
+  if (isDefined(gasToken)) {
+    return [gasToken, ...tokensWithoutGasToken];
+  }
+
+  return tokensWithoutGasToken;
 };

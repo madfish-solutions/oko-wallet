@@ -173,7 +173,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
 
       const gasTokenBalance = tokenList.find(token => token.id === debankGasTokenName)?.raw_amount ?? 0;
 
-      const prevAccountTokensWithoutBalance: AccountToken[] = stateAccountsTokens.filter(token => {
+      const prevNotUpdatedTokens: AccountToken[] = stateAccountsTokens.filter(token => {
         const updatedToken = tokensWithBalance.find(
           tokenWithBalance =>
             getTokenSlug(tokenWithBalance.tokenAddress, tokenWithBalance.tokenId) ===
@@ -185,10 +185,27 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         }
       });
 
-      const prevAccountAssets: Record<string, boolean> =
+      const updatedTokens = tokensWithBalance.map(token => {
+        const prevToken = stateAccountsTokens.find(
+          tokenWithBalance =>
+            getTokenSlug(tokenWithBalance.tokenAddress, tokenWithBalance.tokenId) ===
+            getTokenSlug(token.tokenAddress, token.tokenId)
+        );
+
+        if (isDefined(prevToken) && prevToken.isVisible !== token.isVisible) {
+          return {
+            ...token,
+            isVisible: prevToken.isVisible
+          };
+        }
+
+        return token;
+      });
+
+      const prevAccountTokens: Record<string, boolean> =
         stateAccountsTokens.reduce((acc, accountToken) => ({ ...acc, [accountToken.tokenAddress]: true }), {}) ?? {};
 
-      const newTokens = tokenList.filter(token => !prevAccountAssets[token.id]);
+      const newTokens = tokenList.filter(token => !prevAccountTokens[token.id]);
 
       const tokensMetadata = newTokens.reduce((acc, token) => {
         const tokenMetadataSlug = getTokenMetadataSlug(chainId, token.id);
@@ -213,7 +230,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         ...updateAccountsGasTokensState(state, { balance: gasTokenBalance.toString() }),
         accountsTokens: {
           ...state.accountsTokens,
-          [accountTokensSlug]: [...prevAccountTokensWithoutBalance, ...tokensWithBalance]
+          [accountTokensSlug]: [...prevNotUpdatedTokens, ...updatedTokens]
         },
         tokensMetadata: {
           ...state.tokensMetadata,
