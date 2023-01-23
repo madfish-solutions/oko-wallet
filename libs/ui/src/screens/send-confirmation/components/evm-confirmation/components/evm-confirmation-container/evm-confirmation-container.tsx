@@ -21,11 +21,13 @@ interface Props {
   messageID?: string;
   onDecline: OnEventFn<void>;
   additionalSuccessCallback?: OnEventFn<TransactionResponse>;
+  onConfirm?: (successCallback: OnEventFn<TransactionResponse>, gasPrice: number) => void;
 }
 
 export const EvmConfirmationContainer: FC<Props> = ({
-  transferParams: { asset, receiverPublicKeyHash, value, data = '0x', gas },
+  transferParams: { asset, receiverPublicKeyHash, value, data = '0x', gas = 0 },
   onDecline,
+  onConfirm,
   additionalSuccessCallback,
   children
 }) => {
@@ -47,48 +49,55 @@ export const EvmConfirmationContainer: FC<Props> = ({
     receiverPublicKeyHash,
     value,
     publicKeyHash,
-    assetType
+    assetType,
+    gas
   });
 
-  const gasLimit = isDefined(gas) ? parseInt(gas, 16) : Number(estimations?.gasLimit);
+  const gasLimit = gas > 0 ? gas : Number(estimations?.gasLimit);
 
   const { rpcUrl } = network;
   const transactionFee = isDefined(estimations?.gasPrice) ? Number(estimations?.gasPrice) * gasLimit : 0;
 
   const onSend: OnSend = useCallback(
     gasPriceCoefficient => {
+      const onSuccessTransaction = (transactionResponse: TransactionResponse) => {
+        successCallback(transactionResponse);
+
+        additionalSuccessCallback?.(transactionResponse);
+      };
+
       if (isDefined(estimations?.gasPrice) && typeof gasPriceCoefficient === 'number') {
         setIsTransactionLoading(true);
-        const valueToSend =
-          assetType === AssetTypeEnum.GasToken || assetType === AssetTypeEnum.Token
-            ? getAmount(value, decimals).toString()
-            : value;
+        const gasPrice = Math.trunc(Number(estimations?.gasPrice) * gasPriceCoefficient);
 
-        const transactionParams: TransactionParams = {
-          gasPrice: Math.trunc(Number(estimations?.gasPrice) * gasPriceCoefficient),
-          gasLimit,
-          receiverPublicKeyHash,
-          tokenAddress,
-          tokenId,
-          data,
-          value: valueToSend
-        };
+        if (isDefined(onConfirm)) {
+          onConfirm(onSuccessTransaction, gasPrice);
+        } else {
+          const valueToSend =
+            assetType === AssetTypeEnum.GasToken || assetType === AssetTypeEnum.Token
+              ? getAmount(value, decimals)
+              : value;
 
-        const onSuccessTransaction = (transactionResponse: TransactionResponse) => {
-          successCallback(transactionResponse);
+          const transactionParams: TransactionParams = {
+            gasPrice,
+            gasLimit,
+            receiverPublicKeyHash,
+            tokenAddress,
+            tokenId,
+            data,
+            value: valueToSend
+          };
 
-          additionalSuccessCallback?.(transactionResponse);
-        };
-
-        sendEvmTransaction({
-          rpcUrl,
-          transactionParams,
-          publicKeyHash,
-          assetType,
-          successCallback: onSuccessTransaction,
-          errorCallback,
-          standard
-        });
+          sendEvmTransaction({
+            rpcUrl,
+            transactionParams,
+            publicKeyHash,
+            assetType,
+            successCallback: onSuccessTransaction,
+            errorCallback,
+            standard
+          });
+        }
       }
     },
     [estimations]

@@ -13,6 +13,7 @@ import {
   RevealSeedPhraseParams,
   SignedMessageParams
 } from '../interfaces/create-hd-account.interface';
+import { SignEvmDataParams } from '../interfaces/transfer-params.interface';
 import { GetEvmSignerParams } from '../shelter/interfaces/get-evm-signer-params.interface';
 import { GetTezosSignerParams } from '../shelter/interfaces/get-tezos-signer-params.interface';
 import { ImportWalletParams } from '../shelter/interfaces/import-wallet-params.interface';
@@ -26,6 +27,7 @@ import { revealPrivateKeySubscription } from '../shelter/utils/reveal-private-ke
 import { revealSeedPhraseSubscription } from '../shelter/utils/reveal-seed-phrase-subscription.util';
 import { sendEvmTransactionSubscription } from '../shelter/utils/send-evm-transaction-subscription.util';
 import { sendTezosTransactionSubscription } from '../shelter/utils/send-tezos-transaction-subscription.util';
+import { signEvmDataSubscription } from '../shelter/utils/sign-evm-data-subscription';
 import { signMessageSubscription } from '../shelter/utils/sign-message-subscription';
 import {
   useAllAccountsSelector,
@@ -53,6 +55,7 @@ export const useShelter = () => {
   const createImportedAccount$ = useMemo(() => new Subject<CreateImportedAccountParams>(), []);
   const revealPrivateKey$ = useMemo(() => new Subject<RevealPrivateKeyParams>(), []);
   const signMessage$ = useMemo(() => new Subject<SignedMessageParams>(), []);
+  const signEvmData$ = useMemo(() => new Subject<SignEvmDataParams>(), []);
 
   useEffect(() => {
     const subscriptions = [
@@ -74,7 +77,8 @@ export const useShelter = () => {
       revealSeedPhraseSubscription(revealSeedPhrase$),
       revealPrivateKeySubscription(revealPrivateKey$),
       createImportAccountSubscription(createImportedAccount$, showErrorToast, showSuccessToast, dispatch, navigate),
-      signMessageSubscription(signMessage$)
+      signMessageSubscription(signMessage$),
+      signEvmDataSubscription(signEvmData$)
     ];
 
     return () => subscriptions.forEach(subscription => subscription.unsubscribe());
@@ -136,6 +140,8 @@ export const useShelter = () => {
 
   const signMessage = useCallback((param: SignedMessageParams) => signMessage$.next(param), [signMessage$]);
 
+  const signEvmData = useCallback((param: SignEvmDataParams) => signEvmData$.next(param), [signEvmData$]);
+
   return {
     importWallet,
     createHdAccount,
@@ -145,6 +151,7 @@ export const useShelter = () => {
     revealSeedPhrase,
     revealPrivateKey,
     createImportedAccount,
-    signMessage
+    signMessage,
+    signEvmData
   };
 };

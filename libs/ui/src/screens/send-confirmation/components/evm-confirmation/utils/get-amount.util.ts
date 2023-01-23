@@ -1,3 +1,3 @@
-import { ethers } from 'ethers';
+import { hexlify, parseUnits } from 'ethers/lib/utils';
 
-export const getAmount = (value: string, decimals: number) => ethers.utils.parseUnits(value, decimals);
+export const getAmount = (value: string, decimals: number) => hexlify(parseUnits(value, decimals));

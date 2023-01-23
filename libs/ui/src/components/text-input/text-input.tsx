@@ -44,6 +44,7 @@ interface Props<
   decimals?: number;
   keyboardType?: KeyboardTypeOptions;
   labelContainerStyle?: ViewStyleProps;
+  errorStyle?: ViewStyleProps;
   labelTextStyle?: TextStyleProps;
 }
 
@@ -76,6 +77,7 @@ export const TextInput = <
   onSubmitEditing,
   labelContainerStyle,
   labelTextStyle,
+  errorStyle,
   testID
 }: Props<TFieldValues, TName>) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -169,7 +171,7 @@ export const TextInput = <
         </Row>
         {children}
       </View>
-      {isError && <ErrorField name={error} />}
+      {isError && <ErrorField name={error} style={errorStyle} />}
     </View>
   );
 };

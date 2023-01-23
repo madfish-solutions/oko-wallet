@@ -1,15 +1,13 @@
 import { isDefined } from '@rnw-community/shared';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect } from 'react';
 import { UseFormSetValue, UseFormTrigger, UseFormClearErrors } from 'react-hook-form/dist/types/form';
 
-import { ScreensEnum } from '../../../enums/sreens.enum';
-import { useNavigation } from '../../../hooks/use-navigation.hook';
+import { useAccountOrNetworkChanged } from '../../../hooks/use-account-or-network-changed.hook';
 import { AccountInterface } from '../../../interfaces/account.interface';
 import { Token } from '../../../interfaces/token.interface';
 import {
   useAllAccountsWithoutSelectedSelector,
   useSelectedAccountPublicKeyHashSelector,
-  useSelectedNetworkSelector,
   useSelectedNetworkTypeSelector
 } from '../../../store/wallet/wallet.selectors';
 import { getPublicKeyHash } from '../../../store/wallet/wallet.utils';
@@ -26,14 +24,18 @@ interface UseSendArgs {
 
 export const useSendForm = ({ params, account, setValue, trigger, clearErrors, token }: UseSendArgs) => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
-  const network = useSelectedNetworkSelector();
   const networkType = useSelectedNetworkTypeSelector();
   const allAccountsWithoutSelected = useAllAccountsWithoutSelectedSelector();
-  const [isAccountOrNetworkChanged, setIsAccountOrNetworkChanged] = useState(false);
-  const { goBack, navigate } = useNavigation();
 
-  const initialPublicKeyHash = useRef(publicKeyHash);
-  const initialNetwork = useRef(network);
+  const onChangeAccountOrNetwork = () => {
+    setValue('token', undefined);
+    setValue('amount', '');
+    setValue('receiverPublicKeyHash', '');
+
+    clearErrors();
+  };
+
+  const onBackButtonPress = useAccountOrNetworkChanged(onChangeAccountOrNetwork);
 
   useEffect(() => {
     if (isDefined(params) && isDefined(params.account)) {
@@ -56,30 +58,7 @@ export const useSendForm = ({ params, account, setValue, trigger, clearErrors, t
     }
   }, [publicKeyHash, account, allAccountsWithoutSelected]);
 
-  useEffect(() => {
-    if (
-      publicKeyHash !== initialPublicKeyHash.current ||
-      network.rpcUrl !== initialNetwork.current.rpcUrl ||
-      network.chainId !== initialNetwork.current.chainId
-    ) {
-      setValue('token', undefined);
-      setValue('amount', '');
-      setValue('receiverPublicKeyHash', '');
-      clearErrors();
-
-      initialNetwork.current = network;
-      initialPublicKeyHash.current = publicKeyHash;
-
-      setIsAccountOrNetworkChanged(true);
-    }
-  }, [publicKeyHash, network.rpcUrl, network.chainId]);
-
   useEffect(() => clearErrors(), [token]);
-
-  const onBackButtonPress = useCallback(
-    () => (isAccountOrNetworkChanged ? navigate(ScreensEnum.Wallet) : goBack()),
-    [isAccountOrNetworkChanged]
-  );
 
   return { onBackButtonPress };
 };

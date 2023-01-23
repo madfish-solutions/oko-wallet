@@ -91,8 +91,8 @@ export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, TokenExtendedMetadata[]
     },
     {
       tokenAddress: '0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6',
-      name: 'WBTC',
-      symbol: 'Wrapped BTC',
+      name: 'Wrapped BTC',
+      symbol: 'WBTC',
       decimals: 8,
       thumbnailUri: 'https://tokens.1inch.io/0x2260fac5e5542a773aa44fbcfedf7c193bc2c599.png'
     }
@@ -114,15 +114,15 @@ export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, TokenExtendedMetadata[]
     },
     {
       tokenAddress: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
-      name: 'WBTC',
-      symbol: 'Wrapped BTC',
+      name: 'Wrapped BTC',
+      symbol: 'WBTC',
       decimals: 8,
       thumbnailUri: 'https://tokens.1inch.io/0x2260fac5e5542a773aa44fbcfedf7c193bc2c599.png'
     },
     {
       tokenAddress: '0x6b175474e89094c44da98b954eedeac495271d0f',
-      name: 'DAI',
-      symbol: 'Dai Stablecoin',
+      name: 'Dai Stablecoin',
+      symbol: 'DAI',
       decimals: 18,
       thumbnailUri: 'https://tokens.1inch.io/0x6b175474e89094c44da98b954eedeac495271d0f.png'
     }
@@ -133,7 +133,6 @@ export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, TokenExtendedMetadata[]
       name: 'Tether USD',
       symbol: 'USDT',
       decimals: 6,
-      // recheck
       thumbnailUri: 'https://tokens.1inch.io/0xdac17f958d2ee523a2206206994597c13d831ec7.png'
     },
     {
@@ -145,15 +144,15 @@ export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, TokenExtendedMetadata[]
     },
     {
       tokenAddress: '0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f',
-      name: 'WBTC',
-      symbol: 'Wrapped BTC',
+      name: 'Wrapped BTC',
+      symbol: 'WBTC',
       decimals: 8,
       thumbnailUri: 'https://tokens.1inch.io/0x2260fac5e5542a773aa44fbcfedf7c193bc2c599.png'
     },
     {
       tokenAddress: '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1',
-      name: 'DAI',
-      symbol: 'Dai Stablecoin',
+      name: 'Dai Stablecoin',
+      symbol: 'DAI',
       decimals: 18,
       thumbnailUri: 'https://tokens.1inch.io/0x6b175474e89094c44da98b954eedeac495271d0f.png'
     }
@@ -205,8 +204,8 @@ export const TOKENS_DEFAULT_LIST: Record<NetworkChainId, TokenExtendedMetadata[]
     },
     {
       tokenAddress: '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1',
-      name: 'DAI',
-      symbol: 'Dai stable coin',
+      name: 'Dai stable coin',
+      symbol: 'DAI',
       decimals: 18,
       thumbnailUri: 'https://cryptologos.cc/logos/multi-collateral-dai-dai-logo.svg?v=010'
     },

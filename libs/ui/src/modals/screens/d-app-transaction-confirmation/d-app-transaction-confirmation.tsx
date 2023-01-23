@@ -48,7 +48,7 @@ export const DAppTransactionConfirmation: FC = () => {
       receiverPublicKeyHash: params.transactionInfo.to,
       value: getValue(),
       data: params.transactionInfo.data,
-      gas: params.transactionInfo?.gas
+      gas: isDefined(params.transactionInfo?.gas) ? parseInt(params.transactionInfo.gas, 16) : 0
     };
   }, []);
 

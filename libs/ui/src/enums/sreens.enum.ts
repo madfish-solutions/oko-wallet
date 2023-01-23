@@ -1,3 +1,4 @@
+import { QuoteResponse } from '../api/1inch';
 import { Option } from '../components/dropdown/option.interface';
 import { SeedWordsAmount } from '../constants/seed-words-amount';
 import { AccountInterface } from '../interfaces/account.interface';
@@ -6,6 +7,7 @@ import { NetworkInterface } from '../interfaces/network.interface';
 import { Token } from '../interfaces/token.interface';
 import { TransferParams } from '../interfaces/transfer-params.interface';
 import { ActivityFilterEnum } from '../modals/screens/activity-filter-selector/activity-filter.enum';
+import { EvmTransferParams } from '../screens/send-confirmation/types';
 import { SendParams } from '../screens/send/types';
 
 export enum ScreensEnum {
@@ -14,7 +16,7 @@ export enum ScreensEnum {
   Receive = 'Receive',
   SendToken = 'SendToken',
   SendCollectible = 'SendCollectible',
-  SendTokensSelector = 'SendTokensSelector',
+  TokensSelector = 'TokensSelector',
   SendCollectiblesSelector = 'SendCollectiblesSelector',
   SendAccountsSelector = 'SendAccountsSelector',
   SendConfirmation = 'SendConfirmation',
@@ -60,7 +62,11 @@ export enum ScreensEnum {
   Collectible = 'Collectible',
   Welcome = 'Welcome',
   DAppTransactionConfirmation = 'DAppTransactionConfirmation',
-  DAppSignConfirmation = 'DAppSignConfirmation'
+  DAppSignConfirmation = 'DAppSignConfirmation',
+  Swap = 'Swap',
+  SwapRoute = 'SwapRoute',
+  SlippageTolerance = 'SlippageTolerance',
+  SwapConfirmation = 'SwapConfirmation'
 }
 
 export type ScreensParamList = {
@@ -69,7 +75,7 @@ export type ScreensParamList = {
   [ScreensEnum.Receive]: undefined;
   [ScreensEnum.SendToken]?: SendParams;
   [ScreensEnum.SendCollectible]?: SendParams;
-  [ScreensEnum.SendTokensSelector]: { token?: Token };
+  [ScreensEnum.TokensSelector]: { token?: Token; field: string; withBalanceTokens: boolean };
   [ScreensEnum.SendCollectiblesSelector]: { token?: Token };
   [ScreensEnum.SendAccountsSelector]: { account: AccountInterface };
   [ScreensEnum.SendConfirmation]: {
@@ -123,6 +129,12 @@ export type ScreensParamList = {
     dAppInfo: DAppInfo;
   };
   [ScreensEnum.DAppSignConfirmation]: { messageId: string; signInfo: string[]; dAppInfo: DAppInfo };
+  [ScreensEnum.Swap]?: { fromToken?: Token; toToken?: Token };
+  [ScreensEnum.SlippageTolerance]: undefined;
+  [ScreensEnum.SwapRoute]: { protocols: QuoteResponse['protocols']; fromToken: Token; toToken: Token };
+  [ScreensEnum.SwapConfirmation]: {
+    transferParams: EvmTransferParams;
+  };
 };
 
 export const walletStackScreens = [
@@ -134,9 +146,10 @@ export const walletStackScreens = [
   ScreensEnum.SpecificCollectiblesList
 ];
 export const receiveStackScreens = [ScreensEnum.Receive];
+export const swapStackScreens = [ScreensEnum.Swap];
 export const sendStackScreens = [
   ScreensEnum.SendToken,
-  ScreensEnum.SendTokensSelector,
+  ScreensEnum.TokensSelector,
   ScreensEnum.SendConfirmation,
   ScreensEnum.AccountsSelector
 ];

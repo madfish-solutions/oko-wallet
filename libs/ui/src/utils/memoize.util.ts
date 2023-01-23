@@ -1,6 +1,6 @@
 import { isDefined } from '@rnw-community/shared';
 
-type AnyType = any;
+export type AnyType = any;
 
 interface CacheItem<T> {
   createdAt: number;

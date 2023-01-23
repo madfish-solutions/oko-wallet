@@ -14,6 +14,7 @@ interface UseEvmEstimationsArgs {
   value: string;
   publicKeyHash: string;
   assetType: AssetTypeEnum;
+  gas: number;
 }
 
 export const useEvmEstimations = ({
@@ -22,7 +23,8 @@ export const useEvmEstimations = ({
   receiverPublicKeyHash,
   value,
   publicKeyHash,
-  assetType
+  assetType,
+  gas
 }: UseEvmEstimationsArgs) => {
   const [estimations, setEstimations] = useState<{ gasLimit: number; gasPrice: number } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -34,13 +36,15 @@ export const useEvmEstimations = ({
       const provider = getDefaultEvmProvider(rpcUrl);
 
       const [gasLimitPromiseResult, feePromiseResult] = await Promise.allSettled([
-        getGasLimit(asset, assetType, receiverPublicKeyHash, publicKeyHash, value, rpcUrl),
+        gas === 0
+          ? getGasLimit(asset, assetType, receiverPublicKeyHash, publicKeyHash, value, rpcUrl)
+          : Promise.resolve(gas),
         provider.getFeeData()
       ]);
       const gasLimit = gasLimitPromiseResult.status === 'fulfilled' ? gasLimitPromiseResult.value : undefined;
       const gasPrice = feePromiseResult.status === 'fulfilled' ? feePromiseResult.value.gasPrice?.toNumber() ?? 0 : 0;
 
-      setEstimations({ gasLimit: modifyGasLimit(gasLimit), gasPrice });
+      setEstimations({ gasLimit: modifyGasLimit(gasLimit, gas), gasPrice });
       setIsLoading(false);
     };
 

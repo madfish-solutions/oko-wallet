@@ -89,6 +89,9 @@ export const useAllAccountsWithoutSelectedSelector = () => {
   return useMemo(() => getAllAccountsWithoutCurrent(allAccounts, selectedAccount), [allAccounts, selectedAccount]);
 };
 
+export const useTokensMetadataSelector = () =>
+  useSelector<WalletRootState, WalletState['tokensMetadata']>(({ wallet }) => wallet.tokensMetadata);
+
 export const useAllAccountsTokensAndTokensMetadataSelector = () =>
   useSelector<
     WalletRootState,

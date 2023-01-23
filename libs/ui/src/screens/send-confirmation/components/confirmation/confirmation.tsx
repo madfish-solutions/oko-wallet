@@ -1,13 +1,12 @@
 import isEmpty from 'lodash/isEmpty';
-import React, { FC, Fragment, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
-import { Button } from '../../../../components/button/button';
 import { CopyText } from '../../../../components/copy-text/copy-text';
-import { Divider } from '../../../../components/divider/divider';
 import { Row } from '../../../../components/row/row';
+import { SpeedSelector } from '../../../../components/speed-selector/speed-selector';
 import { TextInput } from '../../../../components/text-input/text-input';
 import { Text } from '../../../../components/text/text';
 import { MainnetRpcEnum, TestnetRpcEnum } from '../../../../constants/rpc';
@@ -116,8 +115,8 @@ export const Confirmation: FC<Props> = ({
     }
   }, [initialTransactionFee, storageFee, isTezosNetwork, gasTokenDecimals]);
 
-  const handleSpeedChange = (speedOption: SpeedOption) => {
-    setSpeed(speedOption);
+  const handleSpeedChange = (speedOption: { title: string; value: string }) => {
+    setSpeed(speedOption as SpeedOption);
     clearErrors();
   };
 
@@ -183,19 +182,9 @@ export const Confirmation: FC<Props> = ({
                 <Text style={styles.speedOfTransactionText}>Speed of transaction</Text>
                 <ProgressBar status={progressStatus} />
               </Row>
-              <Row style={styles.speedContainer}>
-                {speedOptions.map(({ title, value }, index) => (
-                  <Fragment key={title}>
-                    <Button
-                      title={title}
-                      onPress={() => handleSpeedChange({ title, value })}
-                      style={[styles.speedItem, speed.value === value && styles.activeSpeedItem]}
-                      styleText={styles.speedItemText}
-                    />
-                    {speedOptions.length - 1 !== index && <Divider style={styles.borderRight} />}
-                  </Fragment>
-                ))}
-              </Row>
+              <View style={styles.selectorBlock}>
+                <SpeedSelector options={speedOptions} onSelect={handleSpeedChange} selectedItem={speed} />
+              </View>
             </>
           )}
           {isTezosNetwork && (

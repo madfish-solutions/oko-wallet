@@ -1,5 +1,5 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider';
-import { isDefined } from '@rnw-community/shared';
+import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
@@ -11,9 +11,10 @@ import { EvmConfirmationContainer } from './components/evm-confirmation-containe
 interface Props {
   transferParams: EvmTransferParams;
   messageID?: string;
+  onConfirm?: (successCallback: OnEventFn<TransactionResponse>, gasPrice: number) => void;
 }
 
-export const EvmConfirmation: FC<Props> = ({ transferParams, messageID, children }) => {
+export const EvmConfirmation: FC<Props> = ({ transferParams, messageID, onConfirm, children }) => {
   const { goBack } = useNavigation();
 
   const additionalSuccessCallback = (transactionResponse: TransactionResponse) => {
@@ -34,6 +35,7 @@ export const EvmConfirmation: FC<Props> = ({ transferParams, messageID, children
     <EvmConfirmationContainer
       transferParams={transferParams}
       onDecline={onDecline}
+      onConfirm={onConfirm}
       additionalSuccessCallback={additionalSuccessCallback}
       children={children}
     />

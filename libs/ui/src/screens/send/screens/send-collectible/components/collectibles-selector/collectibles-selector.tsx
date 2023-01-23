@@ -34,7 +34,7 @@ const COLLECTIBLE_IMAGE_SIZE = getCustomSize(8.375);
 export const CollectiblesSelector: FC = () => {
   const {
     params: { token }
-  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendTokensSelector>>();
+  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendCollectiblesSelector>>();
   const { navigate } = useNavigation();
   const { name } = useSelectedNetworkSelector();
   const collectibles = useCollectiblesSelector();

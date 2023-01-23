@@ -5,10 +5,9 @@ import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { TextStyleProps } from '../../../../../interfaces/style.interface';
 import { Column } from '../../../../column/column';
-import { IconNameEnum } from '../../../../icon/icon-name.enum';
 import { Text } from '../../../../text/text';
-import { TouchableIcon } from '../../../../touchable-icon/touchable-icon';
 
+import { BackButton } from './components/back-button/back-button';
 import { styles } from './screen-title.styles';
 
 interface Props extends TestIDProps {
@@ -26,9 +25,7 @@ export const ScreenTitle: FC<Props> = ({
   testID
 }) => (
   <Column style={styles.root}>
-    {isDefined(onBackButtonPress) && (
-      <TouchableIcon name={IconNameEnum.ArrowLeft} onPress={onBackButtonPress} style={styles.icon} testID={testID} />
-    )}
+    {isDefined(onBackButtonPress) && <BackButton onPress={onBackButtonPress} testID={testID} />}
     <Text style={[styles.title, titleStyle]} numberOfLines={numberOfLines} ellipsizeMode="tail">
       {title}
     </Text>

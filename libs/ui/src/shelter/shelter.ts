@@ -230,4 +230,7 @@ export class Shelter {
     Shelter.revealPrivateKey$(publicKeyHash).pipe(
       switchMap(privateKey => new ethers.Wallet(privateKey).signMessage(ethers.utils.toUtf8String(messageToSign)))
     );
+
+  static signEvmData$ = (publicKeyHash: string, provider: Provider, data: object) =>
+    Shelter.getEvmSigner$(publicKeyHash, provider).pipe(switchMap(signer => signer.sendTransaction(data)));
 }

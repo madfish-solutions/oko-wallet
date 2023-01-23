@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 
-import { SettingsRootState } from './settings.state';
+import { SettingsRootState, SettingsState } from './settings.state';
 
 export const useAnalyticsEnabledSelector = () =>
   useSelector<SettingsRootState, boolean>(({ settings }) => settings.isAnalyticsEnabled);
@@ -13,3 +13,6 @@ export const useShowLoaderSelector = () =>
 
 export const useLockTimePeriodSelector = () =>
   useSelector<SettingsRootState, number>(({ settings }) => settings.lockTimePeriod);
+
+export const useSlippageToleranceSelector = () =>
+  useSelector<SettingsRootState, SettingsState['slippageTolerance']>(({ settings }) => settings.slippageTolerance);

@@ -20,8 +20,12 @@ import { EditNetwork } from '../../modals/screens/network/edit-network/edit-netw
 import { NetworksSelector } from '../../modals/screens/networks-selector/networks-selector';
 import { RevealPrivateKey } from '../../modals/screens/reveal-private-key/reveal-private-key';
 import { RevealSeedPhrase } from '../../modals/screens/reveal-seed-phrase/reveal-seed-phrase';
+import { SlippageSettings } from '../../modals/screens/slippage-settings/slippage-settings';
+import { SwapConfirmation } from '../../modals/screens/swap-confirmation/swap-confirmation';
+import { SwapRoute } from '../../modals/screens/swap-route/swap-route';
 import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
 import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
+import { TokensSelector } from '../../modals/screens/tokens-selector/tokens-selector';
 import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
 import { Activity } from '../../screens/activity/activity';
 import { AlmostDone } from '../../screens/almost-done/almost-done';
@@ -38,7 +42,6 @@ import { SendConfirmation } from '../../screens/send-confirmation/send-confirmat
 import { CollectiblesSelector as SendCollectiblesSelector } from '../../screens/send/screens/send-collectible/components/collectibles-selector/collectibles-selector';
 import { SendCollectible } from '../../screens/send/screens/send-collectible/send-collectible';
 import { AccountsSelector as SendAccountsSelector } from '../../screens/send/screens/send-token/components/accounts-selector/accounts-selector';
-import { TokensSelector as SendTokensSelector } from '../../screens/send/screens/send-token/components/tokens-selector/tokens-selector';
 import { SendToken } from '../../screens/send/screens/send-token/send-token';
 import { AboutUs as SettingsAboutUs } from '../../screens/settings/screens/about-us/about-us';
 import { AccountsSettings } from '../../screens/settings/screens/accounts-settings/acсounts-settings';
@@ -52,6 +55,7 @@ import { ResetWalletConfirm as SettingsResetWalletConfirm } from '../../screens/
 import { Security as SettingsSecurity } from '../../screens/settings/screens/security/security';
 import { Settings } from '../../screens/settings/settings';
 import { SplashScreen } from '../../screens/splash-screen/splash-screen';
+import { Swap } from '../../screens/swap/swap';
 import { Token } from '../../screens/token/token';
 import { Tokens } from '../../screens/tokens/tokens';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
@@ -125,6 +129,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.SettingsAboutUs} component={SettingsAboutUs} />
               <Stack.Screen name={ScreensEnum.SendToken} component={SendToken} />
               <Stack.Screen name={ScreensEnum.SendCollectible} component={SendCollectible} />
+              <Stack.Screen name={ScreensEnum.Swap} component={Swap} />
               <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
               <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
               <Stack.Screen name={ScreensEnum.Tokens} component={Tokens} />
@@ -150,9 +155,9 @@ export const Navigator: FC = () => {
                 component={NetworksSelector}
               />
               <Stack.Screen
-                name={ScreensEnum.SendTokensSelector}
+                name={ScreensEnum.TokensSelector}
                 options={{ title: 'Select Token' }}
-                component={SendTokensSelector}
+                component={TokensSelector}
               />
               <Stack.Screen
                 name={ScreensEnum.SendCollectiblesSelector}
@@ -219,6 +224,17 @@ export const Navigator: FC = () => {
                 options={{ title: 'Confirm Operation' }}
                 component={SendConfirmation}
               />
+              <Stack.Screen
+                name={ScreensEnum.SwapConfirmation}
+                options={{ title: 'Confirm Operation' }}
+                component={SwapConfirmation}
+              />
+              <Stack.Screen
+                name={ScreensEnum.SlippageTolerance}
+                options={{ title: 'Slippage Tolerance' }}
+                component={SlippageSettings}
+              />
+              <Stack.Screen name={ScreensEnum.SwapRoute} options={{ title: 'Route' }} component={SwapRoute} />
             </Stack.Group>
 
             <Stack.Group screenOptions={modalScreenOptionsWithBackButton}>
