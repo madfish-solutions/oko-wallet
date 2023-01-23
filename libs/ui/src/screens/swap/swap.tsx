@@ -18,8 +18,8 @@ import { ScreenTitle } from '../../components/screen-components/header-container
 import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { ScreenScrollView } from '../../components/screen-components/screen-scroll-view/screen-scroll-view';
-import { getValueWithMaxNumberOfDecimals } from '../../components/text-input/utils/get-value-with-max-number-of-decimals.util';
 import { Text } from '../../components/text/text';
+import { getValueWithMaxNumberOfDecimals } from '../../components/text-input/utils/get-value-with-max-number-of-decimals.util';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
 import { GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
@@ -72,14 +72,22 @@ export const Swap: FC = () => {
 
   const fromTokenRules = useValidateAmountField(fromTokenBalance.availableBalance, true);
 
-  const { loading, loadingRoutes, allowance, onApprovePress, protocols, exchangeRate, getRoutes, canGetRoutes } =
-    useGetRoutesWithAllowance(fromToken, toToken, fromAmount, setValue);
+  const {
+    loading,
+    loadingRoutes,
+    allowance,
+    onApprovePress,
+    routes,
+    exchangeRate,
+    getAmountAndRoutes,
+    canGetAmountAndRoutes
+  } = useGetRoutesWithAllowance(fromToken, toToken, fromAmount, setValue);
   const { onSwapPress, dataForSwapLoading } = useSwap(fromToken, toToken, fromAmount);
-  const showLoading = loading || dataForSwapLoading;
 
+  const showLoading = loading || dataForSwapLoading;
   const isApproveSwapButtonDisabled = !isEmpty(errors);
   const showNavigationBar = !isDefined(fromToken) || !isDefined(toToken) || fromAmount === '';
-  const numberOfRoutes = protocols?.flat(1).length ?? 0;
+  const numberOfRoutes = routes?.flat(1).length ?? 0;
 
   const isNeedToApprove =
     isDefined(allowance) &&
@@ -114,11 +122,11 @@ export const Swap: FC = () => {
 
   const navigateToSlippageTolerance = () => navigate(ScreensEnum.SlippageTolerance);
   const navigateToSwapRoute = () =>
-    isDefined(protocols) &&
+    isDefined(routes) &&
     isDefined(fromToken) &&
     isDefined(toToken) &&
     !loadingRoutes &&
-    navigate(ScreensEnum.SwapRoute, { protocols, fromToken, toToken });
+    navigate(ScreensEnum.SwapRoute, { routes, fromToken, toToken });
 
   const swapTokenOrder = () => {
     setValue('fromAmount', toAmount);
@@ -153,7 +161,7 @@ export const Swap: FC = () => {
       <HeaderContainer isSelectors>
         <ScreenTitle title="Swap" onBackButtonPress={goBack} />
         <View style={styles.header}>
-          {canGetRoutes && <Timer getRoutes={getRoutes} protocols={protocols} />}
+          {canGetAmountAndRoutes && <Timer getAmountAndRoutes={getAmountAndRoutes} routes={routes} />}
           <TouchableIcon name={IconNameEnum.Slider} onPress={navigateToSlippageTolerance} />
         </View>
       </HeaderContainer>

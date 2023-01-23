@@ -1,4 +1,4 @@
-import { QuoteResponse } from '../api/1inch';
+import { GetAmountAndRoutesResponse } from '../api/1inch';
 import { Option } from '../components/dropdown/option.interface';
 import { SeedWordsAmount } from '../constants/seed-words-amount';
 import { AccountInterface } from '../interfaces/account.interface';
@@ -7,8 +7,8 @@ import { NetworkInterface } from '../interfaces/network.interface';
 import { Token } from '../interfaces/token.interface';
 import { TransferParams } from '../interfaces/transfer-params.interface';
 import { ActivityFilterEnum } from '../modals/screens/activity-filter-selector/activity-filter.enum';
-import { EvmTransferParams } from '../screens/send-confirmation/types';
 import { SendParams } from '../screens/send/types';
+import { EvmTransferParams } from '../screens/send-confirmation/types';
 
 export enum ScreensEnum {
   ImportWallet = 'ImportWallet',
@@ -132,7 +132,7 @@ export type ScreensParamList = {
   [ScreensEnum.DAppSignConfirmation]: { messageId: string; signInfo: string[]; dAppInfo: DAppInfo };
   [ScreensEnum.Swap]?: { fromToken?: Token; toToken?: Token };
   [ScreensEnum.SlippageTolerance]: undefined;
-  [ScreensEnum.SwapRoute]: { protocols: QuoteResponse['protocols']; fromToken: Token; toToken: Token };
+  [ScreensEnum.SwapRoute]: { routes: GetAmountAndRoutesResponse['protocols']; fromToken: Token; toToken: Token };
   [ScreensEnum.SwapConfirmation]: {
     transferParams: EvmTransferParams;
   };

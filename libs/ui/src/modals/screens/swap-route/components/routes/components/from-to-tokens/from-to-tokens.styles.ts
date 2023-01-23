@@ -15,8 +15,7 @@ export const styles = StyleSheet.create({
     color: colors.textGrey4
   },
   arrow: {
-    color: colors.orange,
-    marginHorizontal: getCustomSize(1.25)
+    marginHorizontal: getCustomSize()
   },
   square: {
     width: getCustomSize(),

@@ -5,7 +5,7 @@ import { Token } from '../interfaces/token.interface';
 import { REFERRER_FEE, REFERRER_ADDRESS } from './constants/1inch-agregator';
 import { get1inchTokenAddress } from './utils/get-1inch-token-address.util';
 
-export interface QuoteResponse {
+export interface GetAmountAndRoutesResponse {
   fromToken: {
     symbol: string;
     name: string;
@@ -35,9 +35,9 @@ const oneInchApiRequest = axios.create({
   baseURL: 'https://api-okowallet.1inch.io/v5.0/'
 });
 
-export const quote = (chainId: string, fromToken: Token, toToken: Token, amount: string) =>
+export const getAmountAndRoutesApi = (chainId: string, fromToken: Token, toToken: Token, amount: string) =>
   oneInchApiRequest
-    .get<QuoteResponse>(`${chainId}/quote`, {
+    .get<GetAmountAndRoutesResponse>(`${chainId}/quote`, {
       params: {
         fromTokenAddress: get1inchTokenAddress(fromToken.tokenAddress),
         toTokenAddress: get1inchTokenAddress(toToken.tokenAddress),

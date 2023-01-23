@@ -2,26 +2,27 @@ import { OnEventFn } from '@rnw-community/shared';
 import React, { FC, useState, useEffect } from 'react';
 import { View } from 'react-native';
 
-import { QuoteResponse } from '../../../../api/1inch';
+import { GetAmountAndRoutesResponse } from '../../../../api/1inch';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
-import { styles } from '../../swap.styles';
+
+import { styles } from './timer.styles';
 
 interface Props {
-  getRoutes: OnEventFn<void>;
-  protocols?: QuoteResponse['protocols'];
+  getAmountAndRoutes: OnEventFn<void>;
+  routes?: GetAmountAndRoutesResponse['protocols'];
 }
 
 const initialSecondsState = '30';
 
-export const Timer: FC<Props> = ({ getRoutes, protocols }) => {
+export const Timer: FC<Props> = ({ getAmountAndRoutes, routes }) => {
   const [seconds, setSeconds] = useState(initialSecondsState);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setSeconds(currentSeconds => {
         if (Number(currentSeconds) === 0) {
-          getRoutes();
+          getAmountAndRoutes();
           clearInterval(interval);
 
           return '00';
@@ -35,13 +36,13 @@ export const Timer: FC<Props> = ({ getRoutes, protocols }) => {
       clearInterval(interval);
       setSeconds(initialSecondsState);
     };
-  }, [getRoutes, protocols]);
+  }, [getAmountAndRoutes, routes]);
 
   return (
-    <Row style={styles.rateUpdatesBlock}>
-      <Text style={styles.rateUpdatesText}>Rates update in</Text>
-      <View style={styles.rateUpdateTimeBlock}>
-        <Text style={styles.rateUpdateTimeText}>00:{seconds}</Text>
+    <Row style={styles.root}>
+      <Text style={styles.rateUpdates}>Rates update in</Text>
+      <View style={styles.timeBlock}>
+        <Text style={styles.time}>00:{seconds}</Text>
       </View>
     </Row>
   );

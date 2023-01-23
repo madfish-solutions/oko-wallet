@@ -9,25 +9,6 @@ export const styles = StyleSheet.create({
   header: {
     alignItems: 'flex-end'
   },
-  rateUpdatesBlock: {
-    marginBottom: getCustomSize()
-  },
-  rateUpdatesText: {
-    ...typography.numbersIBMPlexSansMedium11,
-    color: colors.textGrey2
-  },
-  rateUpdateTimeBlock: {
-    borderRadius: getCustomSize(),
-    borderWidth: getCustomSize(0.125),
-    borderColor: colors.border1,
-    paddingHorizontal: getCustomSize(0.5),
-    paddingVertical: getCustomSize(0.6875),
-    marginLeft: getCustomSize(0.5)
-  },
-  rateUpdateTimeText: {
-    ...typography.numbersIBMPlexSansMedium11,
-    color: colors.textGrey1
-  },
   errorFromAmount: {
     bottom: -getCustomSize(isMobile ? 2 : 3.75)
   },

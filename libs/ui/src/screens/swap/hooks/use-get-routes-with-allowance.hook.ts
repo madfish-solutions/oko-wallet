@@ -7,7 +7,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { UseFormSetValue } from 'react-hook-form/dist/types/form';
 import { Alert } from 'react-native';
 
-import { quote, QuoteResponse, getDataToSignAllowance } from '../../../api/1inch';
+import { getAmountAndRoutesApi, GetAmountAndRoutesResponse, getDataToSignAllowance } from '../../../api/1inch';
 import { ONE_INCH_ROUTER_ADDRESS } from '../../../api/constants/1inch-agregator';
 import { DEBOUNCE_TIME, GAS_TOKEN_ADDRESS } from '../../../constants/defaults';
 import { Erc20Abi__factory } from '../../../contract-types';
@@ -31,22 +31,23 @@ export const useGetRoutesWithAllowance = (
   fromAmount: string,
   setValue: UseFormSetValue<FormTypes>
 ) => {
-  const { signEvmData } = useShelter();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
-  const [result, setResult] = useState<QuoteResponse>();
+  const { signEvmData } = useShelter();
+  const { chainId, rpcUrl } = useSelectedNetworkSelector();
+  const { showErrorToast } = useToast();
+
+  const [routes, setRoutes] = useState<GetAmountAndRoutesResponse['protocols']>();
   const [exchangeRate, setExchangeRate] = useState('----');
   const [allowance, setAllowance] = useState<BigNumber>();
   const [loadingRoutes, setLoadingRoutes] = useState(false);
   const [loadingAllowance, setLoadingAllowance] = useState(false);
-  const [loadingGettingAllowance, setLoadingGettingAllowance] = useState(false);
-  const { chainId, rpcUrl } = useSelectedNetworkSelector();
-  const { showErrorToast } = useToast();
+  const [loadingDataToSignAllowance, setLoadingDataToSignAllowance] = useState(false);
 
-  const getAllowance = useCallback((fromToken: Token) => {
+  const getAllowance = useCallback(({ tokenAddress }: Token) => {
     setLoadingAllowance(true);
 
     const provider = getDefaultEvmProvider(rpcUrl);
-    const contract20 = Erc20Abi__factory.connect(fromToken.tokenAddress, provider);
+    const contract20 = Erc20Abi__factory.connect(tokenAddress, provider);
     contract20
       .allowance(publicKeyHash, ONE_INCH_ROUTER_ADDRESS)
       .then(setAllowance)
@@ -59,53 +60,48 @@ export const useGetRoutesWithAllowance = (
     setLoadingAllowance
   );
 
-  const getQuote = useCallback(
-    debounce(
-      (
-        chainId: string,
-        rpcUrl: string,
-        publicKeyHash: string,
-        fromToken: Token,
-        toToken: Token,
-        fromAmount: string
-      ) => {
-        setLoadingRoutes(true);
+  const getSwapAmountAndRoutes = useCallback(
+    debounce((currentFromToken: Token, currentToToken: Token, currentFromAmount: string) => {
+      setLoadingRoutes(true);
 
-        quote(chainId, fromToken, toToken, parseUnits(fromAmount, fromToken.decimals).toString())
-          .then(quote => {
-            const exchangeRate = formatUnits(quote.toTokenAmount, quote.toToken.decimals).div(
-              formatUnits(quote.fromTokenAmount, quote.fromToken.decimals)
-            );
+      getAmountAndRoutesApi(
+        chainId,
+        currentFromToken,
+        currentToToken,
+        parseUnits(currentFromAmount, currentFromToken.decimals).toString()
+      )
+        .then(response => {
+          const currentExchangeRate = formatUnits(response.toTokenAmount, response.toToken.decimals).div(
+            formatUnits(response.fromTokenAmount, response.fromToken.decimals)
+          );
 
-            setExchangeRate(`1 ${fromToken.symbol} = ${exchangeRate.toFixed(4)} ${toToken.symbol}`);
-            setValue('toAmount', getFormattedBalance(quote.toTokenAmount, toToken.decimals).toString());
-            setResult(quote);
-          })
-          .catch(error => showErrorToast({ message: error.response?.data?.description }))
-          .finally(() => setLoadingRoutes(false));
+          setExchangeRate(`1 ${currentFromToken.symbol} = ${currentExchangeRate.toFixed(4)} ${currentToToken.symbol}`);
+          setValue('toAmount', getFormattedBalance(response.toTokenAmount, currentToToken.decimals).toString());
+          setRoutes(response.protocols);
+        })
+        .catch(error => showErrorToast({ message: error.response?.data?.description }))
+        .finally(() => setLoadingRoutes(false));
 
-        if (fromToken.tokenAddress !== GAS_TOKEN_ADDRESS) {
-          getAllowance(fromToken);
-        }
-      },
-      DEBOUNCE_TIME
-    ),
+      if (currentFromToken.tokenAddress !== GAS_TOKEN_ADDRESS) {
+        getAllowance(currentFromToken);
+      }
+    }, DEBOUNCE_TIME),
     []
   );
 
-  const canGetRoutes = isDefined(fromToken) && isDefined(toToken) && Number(fromAmount) > 0;
+  const canGetAmountAndRoutes = isDefined(fromToken) && isDefined(toToken) && Number(fromAmount) > 0;
 
-  const getRoutes = useCallback(() => {
-    if (canGetRoutes) {
-      getQuote(chainId, rpcUrl, publicKeyHash, fromToken, toToken, fromAmount);
+  const getAmountAndRoutes = useCallback(() => {
+    if (canGetAmountAndRoutes) {
+      getSwapAmountAndRoutes(fromToken, toToken, fromAmount);
     }
-  }, [fromToken?.tokenAddress, toToken?.tokenAddress, fromAmount, canGetRoutes]);
+  }, [fromToken?.tokenAddress, toToken?.tokenAddress, fromAmount, canGetAmountAndRoutes]);
 
-  useEffect(() => getRoutes(), [getRoutes]);
+  useEffect(() => getAmountAndRoutes(), [getAmountAndRoutes]);
 
   const approveHandler = () => {
     if (isDefined(fromToken)) {
-      setLoadingGettingAllowance(true);
+      setLoadingDataToSignAllowance(true);
 
       getDataToSignAllowance(chainId, fromToken.tokenAddress)
         .then(data =>
@@ -115,12 +111,12 @@ export const useGetRoutesWithAllowance = (
             rpcUrl,
             successCallback: (txHash: TransactionResponse) => {
               setAllowanceTxHashes(prevHashes => ({ ...prevHashes, [fromToken.tokenAddress]: txHash.hash }));
-              setLoadingGettingAllowance(false);
+              setLoadingDataToSignAllowance(false);
             }
           })
         )
         .catch(error => showErrorToast({ message: error.response?.data?.description }))
-        .finally(() => setLoadingGettingAllowance(false));
+        .finally(() => setLoadingDataToSignAllowance(false));
     }
   };
 
@@ -147,13 +143,14 @@ export const useGetRoutesWithAllowance = (
   };
 
   return {
-    loading: loadingRoutes || loadingAllowance || loadingGettingAllowance || isWaitingForAllowanceTransactionComplete,
+    loading:
+      loadingRoutes || loadingAllowance || loadingDataToSignAllowance || isWaitingForAllowanceTransactionComplete,
     loadingRoutes,
     allowance,
     exchangeRate,
-    getRoutes,
+    getAmountAndRoutes,
     onApprovePress,
-    canGetRoutes,
-    ...result
+    canGetAmountAndRoutes,
+    routes
   };
 };

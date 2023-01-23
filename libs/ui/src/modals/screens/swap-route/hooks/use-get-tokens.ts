@@ -11,7 +11,7 @@ import { getDefaultEvmProvider } from '../../../../utils/get-default-evm-provide
 import { getTokenMetadataSlug } from '../../../../utils/token-metadata.util';
 import { TokenFromRoute } from '../types';
 
-export const useGetTokens = ({ protocols, toToken }: RouteProp<ScreensParamList, ScreensEnum.SwapRoute>['params']) => {
+export const useGetTokens = ({ routes, toToken }: RouteProp<ScreensParamList, ScreensEnum.SwapRoute>['params']) => {
   const [loading, setLoading] = useState(true);
   const tokensMetadata = useTokensMetadataSelector();
   const { chainId, gasTokenMetadata, rpcUrl } = useSelectedNetworkSelector();
@@ -22,7 +22,7 @@ export const useGetTokens = ({ protocols, toToken }: RouteProp<ScreensParamList,
   useEffect(() => {
     const tokensAddressesWithoutMetadata: string[] = [];
 
-    protocols.flat(2).forEach(({ fromTokenAddress }) => {
+    routes.flat(2).forEach(({ fromTokenAddress }) => {
       if (fromTokenAddress === ONE_INCH_GAS_TOKEN_ADDRESS) {
         tokens.current[ONE_INCH_GAS_TOKEN_ADDRESS] = gasTokenMetadata;
       } else {

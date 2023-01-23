@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
 import { View } from 'react-native';
 
+import { Icon } from '../../../../../../../components/icon/icon';
+import { IconNameEnum } from '../../../../../../../components/icon/icon-name.enum';
 import { IconWithBorderEnum } from '../../../../../../../components/icon-with-border/enums';
 import { Row } from '../../../../../../../components/row/row';
-import { Text } from '../../../../../../../components/text/text';
 import { Token } from '../../../../../../../components/token/token';
 import { TokenMetadata } from '../../../../../../../interfaces/token-metadata.interface';
 
@@ -26,7 +27,7 @@ export const FromToTokens: FC<Props> = ({ fromToken, toToken }) => (
       symbolStyle={styles.symbol}
       iconType={IconWithBorderEnum.Ternary}
     />
-    <Text style={styles.arrow}>&rarr;</Text>
+    <Icon name={IconNameEnum.ArrowRightSmall} iconStyle={styles.arrow} />
     <Token
       symbol={toToken.symbol}
       uri={toToken.thumbnailUri}

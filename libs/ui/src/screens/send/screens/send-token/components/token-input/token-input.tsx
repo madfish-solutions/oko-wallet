@@ -8,12 +8,11 @@ import { View } from 'react-native';
 
 import { Button } from '../../../../../../components/button/button';
 import { ButtonThemesEnum } from '../../../../../../components/button/enums';
+import { Text } from '../../../../../../components/text/text';
 import { Label } from '../../../../../../components/text-input/components/label/label';
 import { TextInput } from '../../../../../../components/text-input/text-input';
-import { Text } from '../../../../../../components/text/text';
 import { ViewStyleProps } from '../../../../../../interfaces/style.interface';
 import { Token as TokenType } from '../../../../../../interfaces/token.interface';
-import { AnyType } from '../../../../../../utils/memoize.util';
 
 import { DollarAmount } from './components/dollar-amount/dollar-amount';
 import { SelectToken } from './components/select-token/select-token';
@@ -21,7 +20,7 @@ import { styles } from './token-input.styles';
 
 interface Props<TFieldValues extends FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> {
   label: string;
-  control: Control<TFieldValues, AnyType>;
+  control: Control<TFieldValues>;
   rules?: Pick<RegisterOptions<TFieldValues>, 'required'>;
   error?: string;
   token?: TokenType;
@@ -36,7 +35,8 @@ interface Props<TFieldValues extends FieldValues, TName extends FieldPath<TField
   onMaxButtonPress?: OnEventFn;
 }
 
-export const TokenInput = <TType extends FieldValues & Record<string, AnyType>>({
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
+export const TokenInput = <TType extends FieldValues & Record<string, any>>({
   control,
   rules,
   error,

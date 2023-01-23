@@ -6,6 +6,7 @@ export enum IconNameEnum {
   AddChain = 'AddChain',
   ArrowLeft = 'ArrowLeft',
   ArrowRight = 'ArrowRight',
+  ArrowRightSmall = 'ArrowRightSmall',
   Assets = 'Assets',
   CheckDone = 'CheckDone',
   CheckEmpty = 'CheckEmpty',

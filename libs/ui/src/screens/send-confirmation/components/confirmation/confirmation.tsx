@@ -1,5 +1,5 @@
 import isEmpty from 'lodash/isEmpty';
-import React, { FC, Fragment, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import React, { FC, PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -7,7 +7,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { CopyText } from '../../../../components/copy-text/copy-text';
 import { Row } from '../../../../components/row/row';
 import { SpeedSelector } from '../../../../components/speed-selector/speed-selector';
-import { TextInput } from '../../../../components/text-input/text-input';
 import { Text } from '../../../../components/text/text';
 import { TextInput } from '../../../../components/text-input/text-input';
 import { MainnetRpcEnum, TestnetRpcEnum } from '../../../../constants/rpc';

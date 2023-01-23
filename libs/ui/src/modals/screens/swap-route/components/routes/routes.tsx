@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { View } from 'react-native';
 
-import { QuoteResponse } from '../../../../../api/1inch';
+import { GetAmountAndRoutesResponse } from '../../../../../api/1inch';
 import { Text } from '../../../../../components/text/text';
 import { Token as TokenType } from '../../../../../interfaces/token.interface';
 import { TokenFromRoute } from '../../types';
@@ -11,25 +11,25 @@ import { Protocol } from './components/protocol/protocol';
 import { styles } from './routes.styles';
 
 interface Props {
-  protocols: QuoteResponse['protocols'];
+  routes: GetAmountAndRoutesResponse['protocols'];
   tokens: TokenFromRoute;
   fromToken: TokenType;
 }
 
-export const Routes: FC<Props> = ({ protocols, tokens, fromToken }) => (
+export const Routes: FC<Props> = ({ routes, tokens, fromToken }) => (
   <>
-    {protocols.map((protocol, protocolIndex) => (
-      <View key={protocolIndex} style={styles.root}>
-        {protocols.length > 1 && (
+    {routes.map((route, routeIndex) => (
+      <View key={routeIndex} style={styles.root}>
+        {routes.length > 1 && (
           <View>
             <View style={styles.square} />
             <Text style={styles.part}>
-              Part: {protocolIndex + 1} of {fromToken.symbol}
+              Part: {routeIndex + 1} of {fromToken.symbol}
             </Text>
           </View>
         )}
 
-        {protocol.map((path, pathIndex) =>
+        {route.map((path, pathIndex) =>
           path.length === 1 ? (
             path.map(({ fromTokenAddress, toTokenAddress, name, part }) => (
               <View key={`${fromTokenAddress}${toTokenAddress}${name}${part}`} style={styles.route}>

@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux';
 
 import { Warning } from '../../../components/announcement/components/warning/warning';
 import { SpeedSelector } from '../../../components/speed-selector/speed-selector';
-import { TextInput } from '../../../components/text-input/text-input';
 import { Text } from '../../../components/text/text';
+import { TextInput } from '../../../components/text-input/text-input';
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { setSlippageToleranceAction } from '../../../store/settings/settings.actions';
