@@ -16,9 +16,10 @@ export class AccountsSelectorPage extends Page {
   async getAccountSelectorContainer(name: string) {
     const elementHandlers = await findElements(AccountsSelectorTestIDs.AccountsTabs);
 
-    const elementHandler = elementHandlers.find(async element => {
-      const textElementHandler = await findElement(AccountTabsTestIDs.AccountsNames, element);
+    const elementHandler = elementHandlers.find(async elementHandle => {
+      const textElementHandler = await findElement(AccountTabsTestIDs.AccountsNames, elementHandle);
       const textContent = await textElementHandler.evaluate(element => element.textContent);
+      console.log(textContent, name, textContent === name);
 
       return textContent === name;
     });
