@@ -77,8 +77,8 @@ export const TextInput = <
   onSubmitEditing,
   labelContainerStyle,
   labelTextStyle,
-  testID,
-  inputInnerContainerStyle
+  inputInnerContainerStyle,
+  testID
 }: Props<TFieldValues, TName>) => {
   const [isFocused, setIsFocused] = useState(false);
 
