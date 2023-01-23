@@ -1,10 +1,9 @@
 import { Given } from '@cucumber/cucumber';
+import { expect } from 'chai';
 
 import { Pages } from '../page-objects';
 
-Given(/I click Account 1 on the AccountsSelector page/, async () => {
-  const accountSelectorContainer = await Pages.AccountsSelector.getAccountSelectorContainer('Account 1');
-  console.log(accountSelectorContainer);
-  
-  await accountSelectorContainer?.click();
+Given(/I see Account 2 on the AccountsSelector page/, async () => {
+  const accountSelectorContainer = await Pages.AccountsSelector.getAccountsSelectorContainer('Account 2');
+  expect(accountSelectorContainer).eql(true);
 });

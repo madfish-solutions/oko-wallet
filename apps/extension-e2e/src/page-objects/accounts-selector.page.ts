@@ -2,7 +2,7 @@ import { SearchPanelTestIDs } from '../../../../libs/ui/src/components/search-pa
 import { AccountTabsTestIDs } from '../../../../libs/ui/src/modals/components/modal-render-item/modal-render-item.test-ids';
 import { AccountsSelectorTestIDs } from '../../../../libs/ui/src/modals/screens/accounts-selector/accounts-selector.test-ids';
 import { Page } from '../classes/page.class';
-import { createPageElement, findElements, findElement } from '../utils/search.utils';
+import { createPageElement, findElements } from '../utils/search.utils';
 
 export class AccountsSelectorPage extends Page {
   accountsScreenTitle = createPageElement(AccountsSelectorTestIDs.AccountsScreenTitle);
@@ -13,17 +13,16 @@ export class AccountsSelectorPage extends Page {
     await this.accountAddingButton.waitForDisplayed();
   }
 
-  async getAccountSelectorContainer(name: string) {
-    const elementHandlers = await findElements(AccountsSelectorTestIDs.AccountsTabs);
+  async getAccountsSelectorContainer(name: string) {
+    let result = false;
+    const textElementHandler = await findElements(AccountTabsTestIDs.AccountsNames);
+    const textContents = textElementHandler.map(elementHandle =>
+      elementHandle.evaluate(element => element.textContent)
+    );
+    const namesArray = await Promise.all(textContents);
+    result = namesArray.includes(name);
+    console.log(namesArray, 'name-', name, 'result', result);
 
-    const elementHandler = elementHandlers.find(async elementHandle => {
-      const textElementHandler = await findElement(AccountTabsTestIDs.AccountsNames, elementHandle);
-      const textContent = await textElementHandler.evaluate(element => element.textContent);
-      console.log(textContent, name, textContent === name);
-
-      return textContent === name;
-    });
-
-    return elementHandler;
+    return result;
   }
 }
