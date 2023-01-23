@@ -16,8 +16,7 @@ export const styles = StyleSheet.create({
     marginBottom: getCustomSize(3.5)
   },
   container: {
-    position: 'relative',
-    marginBottom: getCustomSize(3.5)
+    position: 'relative'
   },
   inputContainer: {
     width: '100%'

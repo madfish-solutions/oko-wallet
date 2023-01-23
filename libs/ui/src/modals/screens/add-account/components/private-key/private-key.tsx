@@ -4,7 +4,6 @@ import React, { FC, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ScrollView, View } from 'react-native';
 
-import { Announcement } from '../../../../../components/announcement/announcement';
 import { Pressable } from '../../../../../components/pressable/pressable';
 import { Text } from '../../../../../components/text/text';
 import { TextInput as CustomTextInput } from '../../../../../components/text-input/text-input';
@@ -144,7 +143,6 @@ export const PrivateKey: FC = () => {
             <Text style={styles.pasteButtonText}>Paste</Text>
           </Pressable>
         </View>
-        <Announcement text="Only one account will be imported." />
       </ScrollView>
       <ModalFooterButtons
         submitTitle="Import"
