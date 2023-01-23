@@ -144,7 +144,7 @@ export const PrivateKey: FC = () => {
             <Text style={styles.pasteButtonText}>Paste</Text>
           </Pressable>
         </View>
-        <Announcement text={`The account will only be active for the current network type: ${networkType}`} />
+        <Announcement text="Only one account will be imported." />
       </ScrollView>
       <ModalFooterButtons
         submitTitle="Import"
