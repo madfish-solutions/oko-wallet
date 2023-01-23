@@ -28,7 +28,8 @@ export const styles = StyleSheet.create({
   textarea: {
     height: '100%',
     paddingRight: getCustomSize(4.25),
-    paddingVertical: getCustomSize(1.75)
+    paddingTop: getCustomSize(1.75),
+    paddingBottom: getCustomSize(1.75)
   },
   clearIcon: {
     position: 'absolute',
