@@ -11,7 +11,6 @@ import { ButtonThemesEnum } from '../../../../../../components/button/enums';
 import { Text } from '../../../../../../components/text/text';
 import { Label } from '../../../../../../components/text-input/components/label/label';
 import { TextInput } from '../../../../../../components/text-input/text-input';
-import { ViewStyleProps } from '../../../../../../interfaces/style.interface';
 import { Token as TokenType } from '../../../../../../interfaces/token.interface';
 
 import { DollarAmount } from './components/dollar-amount/dollar-amount';
@@ -33,7 +32,6 @@ interface Props<TFieldValues extends FieldValues, TName extends FieldPath<TField
   amount: string;
   availableFormattedBalance?: string;
   availableBalance?: string;
-  errorStyle?: ViewStyleProps;
   selectTokensWithBalance?: boolean;
 }
 
@@ -51,12 +49,12 @@ export const TokenInput = <TType extends FieldValues & Record<string, any>>({
   availableFormattedBalance,
   tokenParam,
   amount,
-  errorStyle,
   setValue,
   trigger,
   availableBalance
 }: Props<TType>) => {
   const isMaxButton = isDefined(token) && isDefined(setValue) && isDefined(trigger) && isDefined(availableBalance);
+
   const onMaxButtonPress = () => {
     if (isMaxButton) {
       // @ts-ignore
@@ -75,7 +73,7 @@ export const TokenInput = <TType extends FieldValues & Record<string, any>>({
             tokenParam={tokenParam}
             isReadOnly={isReadOnly}
             availableBalance={availableFormattedBalance}
-            withBalanceTokens={selectTokensWithBalance}
+            showOnlyTokenWithBalance={selectTokensWithBalance}
           />
         </View>
         <View style={styles.readOnlyInput}>
@@ -104,7 +102,6 @@ export const TokenInput = <TType extends FieldValues & Record<string, any>>({
             keyboardType="numeric"
             showClearIcon={false}
             editable={isDefined(token)}
-            errorStyle={errorStyle}
           >
             <View>
               <SelectToken
@@ -112,7 +109,7 @@ export const TokenInput = <TType extends FieldValues & Record<string, any>>({
                 tokenParam={tokenParam}
                 isReadOnly={isReadOnly}
                 availableBalance={availableFormattedBalance}
-                withBalanceTokens={selectTokensWithBalance}
+                showOnlyTokenWithBalance={selectTokensWithBalance}
               />
               <DollarAmount amount={amount} amountInDollar={amountInDollar} isReadOnly={isReadOnly} />
             </View>

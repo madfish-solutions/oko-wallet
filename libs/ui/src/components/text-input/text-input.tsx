@@ -44,7 +44,6 @@ interface Props<
   decimals?: number;
   keyboardType?: KeyboardTypeOptions;
   labelContainerStyle?: ViewStyleProps;
-  errorStyle?: ViewStyleProps;
   labelTextStyle?: TextStyleProps;
   inputInnerContainerStyle?: TextStyleProps;
 }
@@ -78,7 +77,6 @@ export const TextInput = <
   onSubmitEditing,
   labelContainerStyle,
   labelTextStyle,
-  errorStyle,
   inputInnerContainerStyle,
   testID
 }: Props<TFieldValues, TName>) => {
@@ -173,7 +171,7 @@ export const TextInput = <
         </Row>
         {children}
       </View>
-      {isError && <ErrorField name={error} style={errorStyle} />}
+      {isError && <ErrorField name={error} />}
     </View>
   );
 };

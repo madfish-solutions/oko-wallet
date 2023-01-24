@@ -1,4 +1,4 @@
-import { GetAmountAndRoutesResponse } from '../api/1inch';
+import { GetQuoteResponse } from '../api/1inch/types';
 import { Option } from '../components/dropdown/option.interface';
 import { SeedWordsAmount } from '../constants/seed-words-amount';
 import { AccountInterface } from '../interfaces/account.interface';
@@ -76,7 +76,7 @@ export type ScreensParamList = {
   [ScreensEnum.Receive]: undefined;
   [ScreensEnum.SendToken]?: SendParams;
   [ScreensEnum.SendCollectible]?: SendParams;
-  [ScreensEnum.TokensSelector]: { token?: Token; field: string; withBalanceTokens: boolean };
+  [ScreensEnum.TokensSelector]: { token?: Token; field: string; showOnlyTokenWithBalance: boolean };
   [ScreensEnum.SendCollectiblesSelector]: { token?: Token };
   [ScreensEnum.SendAccountsSelector]: { account: AccountInterface };
   [ScreensEnum.SendConfirmation]: {
@@ -132,7 +132,7 @@ export type ScreensParamList = {
   [ScreensEnum.DAppSignConfirmation]: { messageId: string; signInfo: string[]; dAppInfo: DAppInfo };
   [ScreensEnum.Swap]?: { fromToken?: Token; toToken?: Token };
   [ScreensEnum.SlippageTolerance]: undefined;
-  [ScreensEnum.SwapRoute]: { routes: GetAmountAndRoutesResponse['protocols']; fromToken: Token; toToken: Token };
+  [ScreensEnum.SwapRoute]: { routes: GetQuoteResponse['protocols']; fromToken: Token; toToken: Token };
   [ScreensEnum.SwapConfirmation]: {
     transferParams: EvmTransferParams;
   };

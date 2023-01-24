@@ -13,7 +13,7 @@ import { useSwapSupported } from '../../hooks/use-swap-supported.hook';
 import { useToast } from '../../hooks/use-toast.hook';
 import { IconNameEnum } from '../icon/icon-name.enum';
 import { Row } from '../row/row';
-import { DISABLED_SWAP } from '../toast/constants/toas-messages';
+import { modernCivilizationDidNotReachThisNetwork } from '../toast/constants/toas-messages';
 
 import { TabBarButton } from './components/tab-bar-button/tab-bar-button';
 import { styles } from './navigation-bar.styles';
@@ -30,7 +30,7 @@ export const NavigationBar = () => {
     showInfoToast({
       message: 'Oops!',
       data: {
-        description: DISABLED_SWAP
+        description: modernCivilizationDidNotReachThisNetwork
       }
     });
 
@@ -55,7 +55,7 @@ export const NavigationBar = () => {
         name={IconNameEnum.Swap}
         focused={isStackFocused(swapStackScreens)}
         disabled={!isSwapSupported}
-        onPress={onDisabledSwapPress}
+        onDisabledPress={onDisabledSwapPress}
         testID={NavigationBarTestIDs.SwapButton}
       />
 

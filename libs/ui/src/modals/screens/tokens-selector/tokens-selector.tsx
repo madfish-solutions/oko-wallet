@@ -34,14 +34,14 @@ const keyExtractor = ({ tokenAddress, tokenId }: TokenType) => getTokenSlug(toke
 export const TokensSelector: FC = () => {
   const allTokensMarketInfoSelector = useTokensMarketInfoSelector();
   const {
-    params: { token, field, withBalanceTokens }
+    params: { token, field, showOnlyTokenWithBalance }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.TokensSelector>>();
   const { navigate } = useNavigation();
   const { chainId } = useSelectedNetworkSelector();
   const visibleAccountTokens = useVisibleAccountTokensSelector();
   const accountTokens = useMemo(
-    () => (withBalanceTokens ? getTokensWithBalance(visibleAccountTokens) : visibleAccountTokens),
-    [visibleAccountTokens, field]
+    () => (showOnlyTokenWithBalance ? getTokensWithBalance(visibleAccountTokens) : visibleAccountTokens),
+    [visibleAccountTokens, showOnlyTokenWithBalance]
   );
   const previousScreen = usePreviousScreenName();
 

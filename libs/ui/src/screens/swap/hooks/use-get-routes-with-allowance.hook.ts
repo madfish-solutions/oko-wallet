@@ -7,8 +7,9 @@ import { useEffect, useState, useCallback } from 'react';
 import { UseFormSetValue } from 'react-hook-form/dist/types/form';
 import { Alert } from 'react-native';
 
-import { getAmountAndRoutesApi, GetAmountAndRoutesResponse, getDataToSignAllowance } from '../../../api/1inch';
-import { ONE_INCH_ROUTER_ADDRESS } from '../../../api/constants/1inch-agregator';
+import { getQuote, getApproveData } from '../../../api/1inch/1inch';
+import { ONE_INCH_ROUTER_ADDRESS } from '../../../api/1inch/constants';
+import { GetQuoteResponse } from '../../../api/1inch/types';
 import { DEBOUNCE_TIME, GAS_TOKEN_ADDRESS } from '../../../constants/defaults';
 import { Erc20Abi__factory } from '../../../contract-types';
 import { useShelter } from '../../../hooks/use-shelter.hook';
@@ -36,7 +37,7 @@ export const useGetRoutesWithAllowance = (
   const { chainId, rpcUrl } = useSelectedNetworkSelector();
   const { showErrorToast } = useToast();
 
-  const [routes, setRoutes] = useState<GetAmountAndRoutesResponse['protocols']>();
+  const [routes, setRoutes] = useState<GetQuoteResponse['protocols']>();
   const [exchangeRate, setExchangeRate] = useState('----');
   const [allowance, setAllowance] = useState<BigNumber>();
   const [loadingRoutes, setLoadingRoutes] = useState(false);
@@ -64,7 +65,7 @@ export const useGetRoutesWithAllowance = (
     debounce((currentFromToken: Token, currentToToken: Token, currentFromAmount: string) => {
       setLoadingRoutes(true);
 
-      getAmountAndRoutesApi(
+      getQuote(
         chainId,
         currentFromToken,
         currentToToken,
@@ -103,7 +104,7 @@ export const useGetRoutesWithAllowance = (
     if (isDefined(fromToken)) {
       setLoadingDataToSignAllowance(true);
 
-      getDataToSignAllowance(chainId, fromToken.tokenAddress)
+      getApproveData(chainId, fromToken.tokenAddress)
         .then(data =>
           signEvmData({
             publicKeyHash,

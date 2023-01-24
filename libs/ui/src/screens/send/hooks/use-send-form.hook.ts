@@ -27,7 +27,7 @@ export const useSendForm = ({ params, account, setValue, trigger, clearErrors, t
   const networkType = useSelectedNetworkTypeSelector();
   const allAccountsWithoutSelected = useAllAccountsWithoutSelectedSelector();
 
-  const onChangeAccountOrNetwork = () => {
+  const onResetForm = () => {
     setValue('token', undefined);
     setValue('amount', '');
     setValue('receiverPublicKeyHash', '');
@@ -35,7 +35,7 @@ export const useSendForm = ({ params, account, setValue, trigger, clearErrors, t
     clearErrors();
   };
 
-  const onBackButtonPress = useAccountOrNetworkChanged(onChangeAccountOrNetwork);
+  const onBackButtonPress = useAccountOrNetworkChanged(onResetForm);
 
   useEffect(() => {
     if (isDefined(params) && isDefined(params.account)) {

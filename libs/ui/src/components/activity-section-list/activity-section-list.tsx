@@ -9,7 +9,7 @@ import {
   View
 } from 'react-native';
 
-import { getDebankId } from '../../api/utils/get-debank-id.util';
+import { getDebankId } from '../../api/debank/utils/get-debank-id.util';
 import { DEBOUNCE_TIME } from '../../constants/defaults';
 import { DATA_UPDATE_TIME } from '../../constants/update-time';
 import { useAllActivity } from '../../hooks/use-activity.hook';

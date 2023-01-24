@@ -46,12 +46,15 @@ export const SwapRoute: FC = () => {
 
                 <Text style={styles.destination}>From</Text>
               </Row>
+
               <Routes routes={params.routes} tokens={tokens} fromToken={params.fromToken} />
+
               <Row style={styles.toToken}>
                 <Row>
                   <View style={styles.triangle} />
                   <Token symbol={params.toToken.symbol} uri={params.toToken?.thumbnailUri} forceHideTokenName />
                 </Row>
+
                 <Text style={styles.destination}>To</Text>
               </Row>
             </View>

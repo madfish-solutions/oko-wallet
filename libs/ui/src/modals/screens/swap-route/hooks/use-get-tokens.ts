@@ -2,7 +2,7 @@ import { RouteProp } from '@react-navigation/native';
 import { isDefined } from '@rnw-community/shared';
 import { useEffect, useRef, useState } from 'react';
 
-import { ONE_INCH_GAS_TOKEN_ADDRESS } from '../../../../api/constants/1inch-agregator';
+import { ONE_INCH_GAS_TOKEN_ADDRESS } from '../../../../api/1inch/constants';
 import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
 import { Erc20Abi__factory } from '../../../../contract-types';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';

@@ -4,7 +4,7 @@ import { catchError, map, switchMap, concatMap } from 'rxjs/operators';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
-import { getAllUserNftList, getTokenList } from '../../api/debank';
+import { getAllUserNftList, getTokenList } from '../../api/debank/debank';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { parseTezosTransferParams } from '../../utils/parse-tezos-transfer-params.utils';

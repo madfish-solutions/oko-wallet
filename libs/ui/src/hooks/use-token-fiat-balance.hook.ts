@@ -9,16 +9,18 @@ import { getDollarValue } from '../utils/get-dollar-amount.util';
 import { getTokenMetadataSlug } from '../utils/token-metadata.util';
 import { getFormattedBalance } from '../utils/units.utils';
 
+const zeroAmount = '0.00';
+
 export const useTokenFiatBalance = (amount: string, token: Token | undefined, isSwapScreen = false) => {
   const allTokensMarketInfoSelector = useTokensMarketInfoSelector();
   const { chainId } = useSelectedNetworkSelector();
 
   return useMemo(() => {
     const balance = {
-      availableFormattedBalance: '0',
-      availableBalance: '0',
-      availableUsdBalance: '0',
-      amountInDollar: '0.00'
+      availableFormattedBalance: zeroAmount,
+      availableBalance: zeroAmount,
+      availableUsdBalance: zeroAmount,
+      amountInDollar: zeroAmount
     };
 
     if (isDefined(token)) {
@@ -36,7 +38,7 @@ export const useTokenFiatBalance = (amount: string, token: Token | undefined, is
         amount,
         decimals: token.decimals,
         price,
-        errorValue: isDefined(price) ? '0.00' : undefined,
+        errorValue: isDefined(price) ? zeroAmount : undefined,
         isNeedToFormat: false
       });
     }

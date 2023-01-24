@@ -9,5 +9,7 @@ export const modifyGasLimit = (gasLimit: BigNumberish | undefined | void, gas: n
     return gas;
   }
 
-  return gasLimit === undefined ? DEFAULT_GAS_LIMIT : Math.floor(Number(gasLimit) * GAS_LIMIT_MULTIPLIER);
+  const calculatedGasLimit = Math.floor(Number(gasLimit) * GAS_LIMIT_MULTIPLIER);
+
+  return gasLimit === undefined ? DEFAULT_GAS_LIMIT : calculatedGasLimit;
 };

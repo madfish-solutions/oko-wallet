@@ -2,7 +2,7 @@ import { isDefined } from '@rnw-community/shared';
 import debounce from 'lodash/debounce';
 import { useEffect, useState } from 'react';
 
-import { getHistoryList } from '../api/debank';
+import { getHistoryList } from '../api/debank/debank';
 import { DEBOUNCE_TIME, GAS_TOKEN_ADDRESS } from '../constants/defaults';
 import { TransactionStatusEnum } from '../enums/transactions.enum';
 import { ActivityData, SectionListActivityData } from '../interfaces/activity-data.interface';

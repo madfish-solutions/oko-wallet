@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { View } from 'react-native';
 
-import { GetAmountAndRoutesResponse } from '../../../../../api/1inch';
+import { GetQuoteResponse } from '../../../../../api/1inch/types';
 import { Text } from '../../../../../components/text/text';
 import { Token as TokenType } from '../../../../../interfaces/token.interface';
 import { TokenFromRoute } from '../../types';
@@ -11,7 +11,7 @@ import { Protocol } from './components/protocol/protocol';
 import { styles } from './routes.styles';
 
 interface Props {
-  routes: GetAmountAndRoutesResponse['protocols'];
+  routes: GetQuoteResponse['protocols'];
   tokens: TokenFromRoute;
   fromToken: TokenType;
 }

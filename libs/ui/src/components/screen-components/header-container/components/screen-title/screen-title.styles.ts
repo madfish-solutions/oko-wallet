@@ -8,6 +8,9 @@ export const styles = StyleSheet.create({
   root: {
     paddingTop: getCustomSize(1.625)
   },
+  icon: {
+    marginBottom: getCustomSize()
+  },
   title: {
     maxWidth: getCustomSize(33),
     color: colors.textGrey1,

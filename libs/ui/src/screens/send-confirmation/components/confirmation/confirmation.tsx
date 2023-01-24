@@ -5,8 +5,8 @@ import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { CopyText } from '../../../../components/copy-text/copy-text';
+import { FragmentSelector } from '../../../../components/fragment-selector/fragment-selector';
 import { Row } from '../../../../components/row/row';
-import { SpeedSelector } from '../../../../components/speed-selector/speed-selector';
 import { Text } from '../../../../components/text/text';
 import { TextInput } from '../../../../components/text-input/text-input';
 import { MainnetRpcEnum, TestnetRpcEnum } from '../../../../constants/rpc';
@@ -183,7 +183,7 @@ export const Confirmation: FC<Props> = ({
                 <ProgressBar status={progressStatus} />
               </Row>
               <View style={styles.selectorBlock}>
-                <SpeedSelector options={speedOptions} onSelect={handleSpeedChange} selectedItem={speed} />
+                <FragmentSelector options={speedOptions} onSelect={handleSpeedChange} selectedItem={speed} />
               </View>
             </>
           )}

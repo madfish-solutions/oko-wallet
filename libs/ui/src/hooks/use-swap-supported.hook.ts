@@ -1,4 +1,4 @@
-import { supportedSwapChainIds } from '../api/constants/1inch-agregator';
+import { supportedSwapChainIds } from '../api/1inch/constants';
 import { useSelectedNetworkSelector } from '../store/wallet/wallet.selectors';
 
 export const useSwapSupported = () => {

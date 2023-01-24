@@ -1,4 +1,4 @@
-import { OnEventFn } from '@rnw-community/shared';
+import { emptyFn, OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { TestIDProps } from 'src/interfaces/test-id.props';
@@ -14,18 +14,25 @@ import { styles } from './tab-bar-button.styles';
 type TabBarScreens =
   | ScreensEnum.Wallet
   | ScreensEnum.Receive
+  | ScreensEnum.Swap
   | ScreensEnum.SendToken
-  | ScreensEnum.Settings
-  | ScreensEnum.Swap;
+  | ScreensEnum.Settings;
 
 interface Props extends IconProps, TestIDProps {
   routeName: TabBarScreens;
   focused: boolean;
   disabled?: boolean;
-  onPress?: OnEventFn<void>;
+  onDisabledPress?: OnEventFn<void>;
 }
 
-export const TabBarButton: FC<Props> = ({ routeName, disabled = false, name, testID, focused, onPress }) => {
+export const TabBarButton: FC<Props> = ({
+  routeName,
+  disabled = false,
+  name,
+  testID,
+  focused,
+  onDisabledPress = emptyFn
+}) => {
   const { navigate } = useNavigation();
   const color = disabled ? colors.bgGrey5 : focused ? colors.orange : colors.textGrey3;
 
@@ -34,7 +41,7 @@ export const TabBarButton: FC<Props> = ({ routeName, disabled = false, name, tes
       return navigate(routeName);
     }
 
-    onPress?.();
+    onDisabledPress();
   };
 
   return (

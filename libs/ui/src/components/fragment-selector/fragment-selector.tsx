@@ -5,7 +5,7 @@ import { Button } from '../button/button';
 import { Divider } from '../divider/divider';
 import { Row } from '../row/row';
 
-import { styles } from './speed-selector.styles';
+import { styles } from './fragment-selector.styles';
 
 interface Option {
   title: string;
@@ -17,15 +17,15 @@ interface Props {
   options: Option[];
 }
 
-export const SpeedSelector: FC<Props> = ({ selectedItem, onSelect, options }) => (
-  <Row style={styles.speedContainer}>
+export const FragmentSelector: FC<Props> = ({ selectedItem, onSelect, options }) => (
+  <Row style={styles.root}>
     {options.map(({ title, value }, index) => (
       <Fragment key={title}>
         <Button
           title={title}
           onPress={() => onSelect({ title, value })}
-          style={[styles.speedItem, selectedItem.value === value && styles.activeSpeedItem]}
-          styleText={styles.speedItemText}
+          style={[styles.item, selectedItem.value === value && styles.activeItem]}
+          styleText={styles.itemText}
         />
         {options.length - 1 !== index && <Divider style={styles.borderRight} />}
       </Fragment>

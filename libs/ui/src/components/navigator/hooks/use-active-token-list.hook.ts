@@ -1,7 +1,7 @@
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import { useDispatch } from 'react-redux';
 
-import { getDebankId } from '../../../api/utils/get-debank-id.util';
+import { getDebankId } from '../../../api/debank/utils/get-debank-id.util';
 import { DATA_UPDATE_TIME } from '../../../constants/update-time';
 import { useTimerEffect } from '../../../hooks/use-timer-effect.hook';
 import { addNewTokensAction } from '../../../store/wallet/wallet.actions';

@@ -3,7 +3,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 
-import { ONE_INCH_SITE, ONE_INCH_ICON } from '../../../api/constants/1inch-agregator';
+import { ONE_INCH_SITE, ONE_INCH_ICON } from '../../../api/1inch/constants';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useShelter } from '../../../hooks/use-shelter.hook';
 import { EvmConfirmation } from '../../../screens/send-confirmation/components/evm-confirmation/evm-confirmation';

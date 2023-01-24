@@ -4,7 +4,7 @@ import { Pressable } from 'react-native';
 import { Divider } from '../../../../components/divider/divider';
 import { Icon } from '../../../../components/icon/icon';
 import { Row } from '../../../../components/row/row';
-import { DISABLED_SWAP } from '../../../../components/toast/constants/toas-messages';
+import { modernCivilizationDidNotReachThisNetwork } from '../../../../components/toast/constants/toas-messages';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useToast } from '../../../../hooks/use-toast.hook';
@@ -30,7 +30,7 @@ export const NavigationBar: FC<Props> = ({ token }) => {
         showInfoToast({
           message: 'Oops!',
           data: {
-            description: DISABLED_SWAP
+            description: modernCivilizationDidNotReachThisNetwork
           }
         });
       }

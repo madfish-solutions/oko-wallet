@@ -18,14 +18,20 @@ interface Props {
   token?: TokenType;
   tokenParam: string;
   isReadOnly: boolean;
-  withBalanceTokens: boolean;
+  showOnlyTokenWithBalance: boolean;
   availableBalance?: string;
 }
 
-export const SelectToken: FC<Props> = ({ token, tokenParam, isReadOnly, availableBalance, withBalanceTokens }) => {
+export const SelectToken: FC<Props> = ({
+  token,
+  tokenParam,
+  isReadOnly,
+  availableBalance,
+  showOnlyTokenWithBalance
+}) => {
   const { navigate } = useNavigation();
   const navigateToTokensSelector = () =>
-    navigate(ScreensEnum.TokensSelector, { token, field: tokenParam, withBalanceTokens });
+    navigate(ScreensEnum.TokensSelector, { token, field: tokenParam, showOnlyTokenWithBalance });
 
   const isToken = isDefined(token);
 

@@ -2,7 +2,7 @@ import { isDefined } from '@rnw-community/shared';
 import { parseUnits } from 'ethers/lib/utils';
 import { useState } from 'react';
 
-import { getDataToSwap } from '../../../api/1inch';
+import { getSwapData } from '../../../api/1inch/1inch';
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useToast } from '../../../hooks/use-toast.hook';
@@ -27,7 +27,7 @@ export const useSwap = (fromToken: Token | undefined, toToken: Token | undefined
     if (isDefined(fromToken) && isDefined(toToken)) {
       setDataForSwapLoading(true);
 
-      getDataToSwap(
+      getSwapData(
         chainId,
         publicKeyHash,
         fromToken,

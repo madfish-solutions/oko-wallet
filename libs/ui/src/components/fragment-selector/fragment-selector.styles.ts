@@ -5,7 +5,7 @@ import { getCustomSize } from '../../styles/format-size';
 import { typography } from '../../styles/typography';
 
 export const styles = StyleSheet.create({
-  speedContainer: {
+  root: {
     height: getCustomSize(4.5),
     borderRadius: getCustomSize(2),
     backgroundColor: colors.bgGrey4,
@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: getCustomSize(0.25),
     justifyContent: 'space-between'
   },
-  speedItem: {
+  item: {
     height: getCustomSize(4),
     borderWidth: getCustomSize(0.25),
     borderColor: 'transparent',
@@ -22,12 +22,12 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '23%'
   },
-  speedItemText: {
+  activeItem: {
+    borderColor: colors.orange
+  },
+  itemText: {
     ...typography.taglineInterSemiBoldUppercase13,
     color: colors.textGrey1
-  },
-  activeSpeedItem: {
-    borderColor: colors.orange
   },
   borderRight: {
     width: getCustomSize(0.0625),

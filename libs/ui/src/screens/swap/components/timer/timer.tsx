@@ -2,7 +2,7 @@ import { OnEventFn } from '@rnw-community/shared';
 import React, { FC, useState, useEffect } from 'react';
 import { View } from 'react-native';
 
-import { GetAmountAndRoutesResponse } from '../../../../api/1inch';
+import { GetQuoteResponse } from '../../../../api/1inch/types';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 
@@ -10,7 +10,7 @@ import { styles } from './timer.styles';
 
 interface Props {
   getAmountAndRoutes: OnEventFn<void>;
-  routes?: GetAmountAndRoutesResponse['protocols'];
+  routes?: GetQuoteResponse['protocols'];
 }
 
 const initialSecondsState = '30';

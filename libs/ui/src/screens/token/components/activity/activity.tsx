@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 
-import { getDebankId } from '../../../../api/utils/get-debank-id.util';
+import { getDebankId } from '../../../../api/debank/utils/get-debank-id.util';
 import { ActivitySectionList } from '../../../../components/activity-section-list/activity-section-list';
 import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';

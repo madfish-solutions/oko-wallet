@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { Warning } from '../../../components/announcement/components/warning/warning';
-import { SpeedSelector } from '../../../components/speed-selector/speed-selector';
+import { FragmentSelector } from '../../../components/fragment-selector/fragment-selector';
 import { Text } from '../../../components/text/text';
 import { TextInput } from '../../../components/text-input/text-input';
 import { ScreensEnum } from '../../../enums/sreens.enum';
@@ -15,6 +15,7 @@ import { ModalActionContainer } from '../../components/modal-action-container/mo
 
 import { slippageOptions, ownSlippageRules, OWN } from './constatns';
 import { styles } from './slippage-settings.styles';
+import { FormTypes } from './types';
 import { findSlippageOption } from './utils/find-slippage-option.util';
 
 export const SlippageSettings: FC = () => {
@@ -30,7 +31,7 @@ export const SlippageSettings: FC = () => {
     handleSubmit,
     clearErrors,
     watch
-  } = useForm<{ ownSlippage: string }>({
+  } = useForm<FormTypes>({
     mode: 'onChange',
     defaultValues: {
       ownSlippage: slippageTolerance
@@ -50,7 +51,7 @@ export const SlippageSettings: FC = () => {
     }
   };
 
-  const onSubmit = ({ ownSlippage }: { ownSlippage: string }) => {
+  const onSubmit = ({ ownSlippage }: FormTypes) => {
     dispatch(setSlippageToleranceAction(isOwnSlippageSelected ? Number(ownSlippage).toString() : slippage.value));
     navigate(ScreensEnum.Swap);
   };
@@ -63,13 +64,13 @@ export const SlippageSettings: FC = () => {
       onCancelPress={goBack}
       isSubmitDisabled={isSubmitDisabled}
     >
-      <View>
+      <>
         <Text style={styles.settings}>Slippage Settings</Text>
         <Text style={styles.description}>
           If the price changes unfavorably more than the rate below, your trade will be canceled
         </Text>
         <View style={styles.selectorBlock}>
-          <SpeedSelector options={slippageOptions} selectedItem={slippage} onSelect={onSelect} />
+          <FragmentSelector options={slippageOptions} selectedItem={slippage} onSelect={onSelect} />
         </View>
         {isOwnSlippageSelected && (
           <Controller
@@ -94,7 +95,7 @@ export const SlippageSettings: FC = () => {
             style={styles.warning}
           />
         )}
-      </View>
+      </>
     </ModalActionContainer>
   );
 };

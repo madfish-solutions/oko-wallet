@@ -6,7 +6,7 @@ import React, { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { View } from 'react-native';
 
-import { REFERRER_FEE } from '../../api/constants/1inch-agregator';
+import { REFERRER_FEE } from '../../api/1inch/constants';
 import { Button } from '../../components/button/button';
 import { ButtonThemesEnum } from '../../components/button/enums';
 import { Divider } from '../../components/divider/divider';
@@ -27,7 +27,7 @@ import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useTokenFiatBalance } from '../../hooks/use-token-fiat-balance.hook';
 import { useSlippageToleranceSelector } from '../../store/settings/settings.selectors';
 import { useGasTokenSelector } from '../../store/wallet/wallet.selectors';
-import { useValidateAmountField, isGreaterThanZeroError } from '../send/hooks/use-validate-amount-field.hook';
+import { useValidateAmountField } from '../send/hooks/use-validate-amount-field.hook';
 import { TokenInput } from '../send/screens/send-token/components/token-input/token-input';
 
 import { Timer } from './components/timer/timer';
@@ -174,11 +174,12 @@ export const Swap: FC = () => {
           rules={fromTokenRules}
           availableBalance={fromTokenBalance.availableBalance}
           error={errors?.fromAmount?.message}
-          errorStyle={errors?.fromAmount?.type === isGreaterThanZeroError ? styles.errorFromAmount : undefined}
         />
+
         <View style={styles.swapIcon}>
           <TouchableIcon name={IconNameEnum.Swap} onPress={swapTokenOrder} />
         </View>
+
         <TokenInput
           label="To"
           control={control}
@@ -193,6 +194,7 @@ export const Swap: FC = () => {
 
         <Row style={styles.routeBlock}>
           <Text style={styles.route}>Route</Text>
+
           {numberOfRoutes > 0 ? (
             <Pressable onPress={navigateToSwapRoute}>
               <Text style={styles.routesText}>
@@ -207,6 +209,7 @@ export const Swap: FC = () => {
           <Text style={styles.caption11}>Routing Fee</Text>
           <Text style={styles.numbers13}>{REFERRER_FEE} %</Text>
         </Row>
+
         <Row style={styles.exchangeRateBlock}>
           <Text style={styles.caption11}>Exchange rate</Text>
           <Text numberOfLines={1} style={[styles.numbers13, styles.exchangeRate]}>
