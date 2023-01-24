@@ -56,8 +56,8 @@ runtime.onConnect.addListener(async port => {
   const lockTimePeriod = stateForLockTime.settings.lockTimePeriod;
   setToStorage({ [LOCK_TIME_PERIOD_KEY]: lockTimePeriod });
 
-  let requestsToOpenPopup = 0;
-  let responseStack: { id: string }[] = [];
+  let requestToOpenPopup = false;
+  let requestStack: { id: string }[] = [];
 
   // listen content script messages
   port.onMessage.addListener(async (message: DAppMessage) => {
@@ -82,17 +82,17 @@ runtime.onConnect.addListener(async port => {
 
       runtime.onMessage.addListener(newMessage => {
         if (newMessage.type === 'STACK_CHECK') {
-          if (responseStack.length > 0) {
+          if (requestStack.length > 0) {
             const result = [selectedAccountPublicKeyHash];
-            responseStack.forEach(item => {
+            requestStack.forEach(item => {
               const response = createDAppResponse(item.id, result);
               const notification = createDAppNotificationResponse('oko_accountsChanged', result);
 
               port.postMessage(response);
               port.postMessage(notification);
             });
-            requestsToOpenPopup = 0;
-            responseStack = [];
+            requestToOpenPopup = false;
+            requestStack = [];
           }
         }
 
@@ -102,8 +102,8 @@ runtime.onConnect.addListener(async port => {
       switch (method) {
         case 'wallet_requestPermissions':
         case 'eth_requestAccounts': {
-          if (requestsToOpenPopup > 0) {
-            responseStack.push({ id });
+          if (requestToOpenPopup) {
+            requestStack.push({ id });
           }
           if (isPermissionGranted) {
             const result = [selectedAccountPublicKeyHash];
@@ -113,10 +113,10 @@ runtime.onConnect.addListener(async port => {
             port.postMessage(response);
             port.postMessage(notification);
           } else {
-            if (requestsToOpenPopup === 0) {
+            if (!requestToOpenPopup) {
               await openDAppConnectionConfirmationPopup(id, dAppInfo);
             }
-            requestsToOpenPopup += 1;
+            requestToOpenPopup = true;
           }
 
           return Promise.resolve();
