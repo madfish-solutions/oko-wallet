@@ -6,7 +6,7 @@ module.exports = (async () => {
     const {
         resolver: { sourceExts, assetExts }
       } = await getDefaultConfig(__dirname);
-    
+
       return {
     transformer: {
         getTransformOptions: async () => ({
@@ -22,7 +22,10 @@ module.exports = (async () => {
     ],
     resolver: {
         disableHierarchicalLookup: true,
-        nodeModulesPaths: [path.resolve(__dirname, './node_modules')],
+        nodeModulesPaths: [
+            path.resolve(__dirname, 'node_modules'),
+            path.resolve(__dirname, '../../libs/ui/node_modules')
+        ],
         extraNodeModules: new Proxy(
             {},
             {

@@ -9,5 +9,8 @@ export class BackgroundMessager {
   static getPasswordHash = () => BackgroundMessager.sendMessage({ type: BackgroundMessageType.GetPasswordHash });
 
   static setPasswordHash = (passwordHash: string) =>
-    BackgroundMessager.sendMessage({ type: BackgroundMessageType.SetPasswordHash, data: { passwordHash } });
+    BackgroundMessager.sendMessage({
+      type: BackgroundMessageType.SetPasswordHash,
+      data: { passwordHash }
+    });
 }

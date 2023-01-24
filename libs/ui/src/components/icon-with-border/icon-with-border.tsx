@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { View, ViewStyle } from 'react-native';
 
 import { IconWithBorderEnum } from './enums';
@@ -12,10 +12,10 @@ const themeClasses = {
   [IconWithBorderEnum.Quinary]: styles.quinary
 };
 
-interface Props {
+type Props = PropsWithChildren<{
   type?: IconWithBorderEnum;
   style?: ViewStyle;
-}
+}>;
 
 export const IconWithBorder: FC<Props> = ({ type = IconWithBorderEnum.Primary, style, children }) => (
   <View style={[styles.root, themeClasses[type], style]}>{children}</View>

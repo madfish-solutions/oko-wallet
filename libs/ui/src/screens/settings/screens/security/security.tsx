@@ -12,17 +12,18 @@ import { Switch } from '../../../../components/switch/switch';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { setIsBiometricEnabled } from '../../../../store/settings/settings.actions';
-import { useBiometricEnabledSelector } from '../../../../store/settings/settings.selectors';
+import { useBiometricEnabledSelector, useLockTimePeriodSelector } from '../../../../store/settings/settings.selectors';
 import { getCustomSize } from '../../../../styles/format-size';
 import { isMobile } from '../../../../utils/platform.utils';
-import { ItemContainer } from '../../components/item-container/item-container';
 import { Item } from '../../components/item/item';
+import { ItemContainer } from '../../components/item-container/item-container';
 import { styles } from '../../settings.styles';
 
 export const Security: FC = () => {
   const dispatch = useDispatch();
   const { goBack, navigate } = useNavigation();
   const isBiometricEnabled = useBiometricEnabledSelector();
+  const lockTimePeriod = useLockTimePeriodSelector();
 
   const navigateToLockTimeSelector = () => navigate(ScreensEnum.SettingsLockTimeSelector);
   const navigateToChangePassword = () => navigate(ScreensEnum.ChangePassword);
@@ -37,7 +38,7 @@ export const Security: FC = () => {
       <ScreenScrollView>
         <ItemContainer>
           <Item title="Lock time(m)" onPress={navigateToLockTimeSelector} style={styles.itemWithDropDown}>
-            <DropdownSelectedItem title="1" onPress={navigateToLockTimeSelector} />
+            <DropdownSelectedItem title={lockTimePeriod.toString()} onPress={navigateToLockTimeSelector} />
           </Item>
         </ItemContainer>
 

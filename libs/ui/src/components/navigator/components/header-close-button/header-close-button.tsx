@@ -22,7 +22,8 @@ const goBackRoutes = [
   ScreensEnum.SettingsAppearanceSelector,
   ScreensEnum.SettingsResetWalletConfirm,
   ScreensEnum.SettingsLockTimeSelector,
-  ScreensEnum.EditAccount
+  ScreensEnum.EditAccount,
+  ScreensEnum.ActivityFilterSelector
 ];
 
 interface Props {

@@ -13,8 +13,8 @@ import { ScreenTitle } from '../../../../components/screen-components/header-con
 import { HeaderContainer } from '../../../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
 import { ScreenScrollView } from '../../../../components/screen-components/screen-scroll-view/screen-scroll-view';
-import { TextInput } from '../../../../components/text-input/text-input';
 import { Text } from '../../../../components/text/text';
+import { TextInput } from '../../../../components/text-input/text-input';
 import { Token } from '../../../../components/token/token';
 import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
@@ -117,15 +117,15 @@ export const SendToken: FC = () => {
 
   const amountRules = useValidateAmountField(availableBalance);
 
-  const onSubmit = ({ token, amount, receiverPublicKeyHash, isTransferBetweenAccounts, account }: FormTypes) => {
+  const onSubmit = (formValue: FormTypes) => {
     const isGasTokenZeroBalance = Number(gasToken.balance.data) === 0;
 
     if (isGasTokenZeroBalance) {
-      return showErrorToast('Not enough gas');
+      return showErrorToast({ message: 'Not enough gas' });
     }
 
-    if (isDefined(token)) {
-      const { decimals, tokenAddress, tokenId, symbol } = token;
+    if (isDefined(formValue.token)) {
+      const { decimals, tokenAddress, tokenId, symbol } = formValue.token;
       const assetToSend: Asset = {
         decimals,
         tokenAddress: tokenAddress === GAS_TOKEN_ADDRESS ? '' : tokenAddress,
@@ -136,9 +136,11 @@ export const SendToken: FC = () => {
       dispatch(
         sendAssetAction.submit({
           asset: assetToSend,
-          amount,
+          amount: formValue.amount,
           receiverPublicKeyHash:
-            isTransferBetweenAccounts && account ? getPublicKeyHash(account, networkType) : receiverPublicKeyHash
+            formValue.isTransferBetweenAccounts && formValue.account
+              ? getPublicKeyHash(formValue.account, networkType)
+              : formValue.receiverPublicKeyHash
         })
       );
     }

@@ -26,6 +26,7 @@ export enum IconNameEnum {
   ReceiveSmall = 'ReceiveSmall',
   Search = 'Search',
   Send = 'Send',
+  SendSmall = 'SendSmall',
   Settings = 'Settings',
   Stake = 'Stake',
   Swap = 'Swap',
@@ -61,6 +62,7 @@ export enum IconNameEnum {
   DropdownSelector = 'DropdownSelector',
   Refresh = 'Refresh',
   Info = 'Info',
+  InfoToast = 'InfoToast',
   Deposit = 'Deposit',
   NftCollectionLayout = 'NftCollectionLayout',
   NftLayout = 'NftLayout',
@@ -90,5 +92,9 @@ export enum IconNameEnum {
   Optimism = 'Optimism',
   Arbitrum = 'Arbitrum',
   Polygon = 'Polygon',
-  User = 'User'
+  User = 'User',
+  Close = 'Close',
+  FilterNo = 'FilterNo',
+  FilterYes = 'FilterYes',
+  Document = 'Document'
 }

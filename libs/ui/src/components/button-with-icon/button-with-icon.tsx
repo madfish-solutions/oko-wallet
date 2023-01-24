@@ -20,6 +20,7 @@ interface Props extends PressableProps {
   iconSize?: number;
   style?: ViewStyleProps;
   disabled?: boolean;
+  iconColor?: string;
 }
 
 export const ButtonWithIcon: FC<Props> = ({
@@ -31,6 +32,7 @@ export const ButtonWithIcon: FC<Props> = ({
   iconSize,
   style,
   disabled = false,
+  iconColor,
   ...restProps
 }) => (
   <Pressable
@@ -43,7 +45,7 @@ export const ButtonWithIcon: FC<Props> = ({
         <Icon
           name={leftIcon}
           size={iconSize}
-          color={disabled ? colors.bgGrey5 : colors.orange}
+          color={disabled ? colors.bgGrey5 : iconColor ?? colors.orange}
           iconStyle={styles.leftIcon}
         />
       )}

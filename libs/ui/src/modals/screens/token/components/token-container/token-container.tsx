@@ -1,5 +1,5 @@
 import { isDefined, isNotEmptyString, OnEventFn } from '@rnw-community/shared';
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { Control, Controller, FieldErrors, UseControllerProps } from 'react-hook-form';
 import { GestureResponderEvent, ScrollView, View } from 'react-native';
 
@@ -12,7 +12,7 @@ import { TokenFormTypes } from '../../types/form-types.interface';
 
 import { styles } from './token-container.styles';
 
-interface Props extends Pick<FooterButtons, 'submitTitle'> {
+type Props = PropsWithChildren<{
   screenTitle: string;
   onSubmitPress: OnEventFn<GestureResponderEvent>;
   control: Control<TokenFormTypes, object>;
@@ -26,7 +26,8 @@ interface Props extends Pick<FooterButtons, 'submitTitle'> {
   symbol: string;
   editable?: boolean;
   isLoadingMetadata?: boolean;
-}
+}> &
+  Pick<FooterButtons, 'submitTitle'>;
 
 export const TokenContainer: FC<Props> = ({
   screenTitle,
@@ -41,8 +42,6 @@ export const TokenContainer: FC<Props> = ({
   isLoadingMetadata = false
 }) => {
   const { goBack } = useNavigation();
-
-  const handlePromptNavigate = () => null;
 
   return (
     <ModalActionContainer
@@ -62,8 +61,7 @@ export const TokenContainer: FC<Props> = ({
               field={field}
               label="Address"
               placeholder="Address"
-              prompt="How to get Token Address?"
-              handlePrompt={handlePromptNavigate}
+              prompt="Enter the token address"
               error={errors?.tokenAddress?.message}
               containerStyle={styles.inputContainer}
               editable={editable}
@@ -79,8 +77,7 @@ export const TokenContainer: FC<Props> = ({
               field={field}
               label="Token ID"
               placeholder="0"
-              prompt="What is Token ID?"
-              handlePrompt={handlePromptNavigate}
+              prompt="Enter the token ID"
               required={false}
               error={errors?.tokenId?.message}
               containerStyle={styles.inputContainer}

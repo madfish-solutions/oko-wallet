@@ -36,7 +36,7 @@ export const ResetWalletConfirm: FC = () => {
       </View>
       <View style={styles.resetTextContainer}>
         <Text style={styles.resetText}>
-          You wanna reset Klaytn Wallet. As a result, all your data will be deleted. Confirm it?
+          You wanna reset Oko Wallet. As a result, all your data will be deleted. Confirm it?
         </Text>
       </View>
     </ModalActionContainer>

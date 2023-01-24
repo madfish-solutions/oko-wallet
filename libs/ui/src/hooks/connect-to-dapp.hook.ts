@@ -21,7 +21,7 @@ export const useConnectToDapp = () => {
   const [peerMeta, setPeerMeta] = useState<ClientPeerMeta>(peerMetaInitialValue);
   const [connected, setConnected] = useState(false);
   const [chainId, setChainId] = useState(1);
-  const { clearStorage, localStorageValue, setLocalStorageValue } = useLocalStorage<WalletConnectSession | null>(
+  const { clearStorageValue, localStorageValue, setLocalStorageValue } = useLocalStorage<WalletConnectSession | null>(
     'walletconnect',
     null
   );
@@ -43,11 +43,11 @@ export const useConnectToDapp = () => {
           throw `session_request: ${error}`;
         }
 
-        const { peerMeta, chainId } = payload.params[0];
+        const param = payload.params[0];
 
         setIsConnecting(false);
-        setChainId(chainId);
-        setPeerMeta(peerMeta);
+        setChainId(param.chainId);
+        setPeerMeta(param.peerMeta);
       });
 
       connector.on('session_update', error => {
@@ -77,7 +77,7 @@ export const useConnectToDapp = () => {
 
         setConnected(false);
         setPeerMeta(peerMetaInitialValue);
-        clearStorage('walletconnect');
+        clearStorageValue();
         setConnector(null);
       });
 
@@ -123,7 +123,7 @@ export const useConnectToDapp = () => {
       const walletConnector = new WalletConnect({ session: localStorageValue });
       walletConnector.killSession();
       setConnector(walletConnector);
-      clearStorage('walletconnect');
+      clearStorageValue();
       setPeerMeta(peerMetaInitialValue);
       setConnected(false);
     }
@@ -160,7 +160,6 @@ export const useConnectToDapp = () => {
     connected,
     uri,
     address: publicKeyHash,
-    clearStorage,
     isConnecting
   };
 };

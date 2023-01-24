@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { View } from 'react-native';
 
-import { IconWithBorder } from '../../../../../../components/icon-with-border/icon-with-border';
 import { Icon } from '../../../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../../../components/icon/icon-name.enum';
+import { IconWithBorder } from '../../../../../../components/icon-with-border/icon-with-border';
 import { Row } from '../../../../../../components/row/row';
 import { Text } from '../../../../../../components/text/text';
 import { useSelectedNetworkSelector } from '../../../../../../store/wallet/wallet.selectors';

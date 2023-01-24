@@ -38,13 +38,10 @@ export const useAccountFieldRules = () => {
     return true;
   };
 
+  const checkNameLength = (currentValue = '') => currentValue.trim().length <= 14 || 'Maximum 14 symbols';
+
   const nameRules = {
-    maxLength: {
-      value: 21,
-      message: 'Maximum 21 symbol'
-    },
-    required: false,
-    validate: { checkIfOnlySpaces }
+    validate: { checkNameLength }
   };
 
   const derivationPathRules = {

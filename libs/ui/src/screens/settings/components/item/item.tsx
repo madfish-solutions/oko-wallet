@@ -1,5 +1,5 @@
 import { isDefined } from '@rnw-community/shared';
-import React, { FC, ReactChild } from 'react';
+import React, { FC, PropsWithChildren, ReactChild } from 'react';
 import { PressableProps } from 'react-native';
 import { TestIDProps } from 'src/interfaces/test-id.props';
 
@@ -12,12 +12,14 @@ import { ViewStyleProps } from '../../../../interfaces/style.interface';
 
 import { styles } from './item.styles';
 
-interface Props extends TestIDProps, Pick<PressableProps, 'onPress'> {
+type Props = PropsWithChildren<{
   icon?: IconNameEnum;
   title: string;
   iconComponent?: ReactChild;
   style?: ViewStyleProps;
-}
+}> &
+  TestIDProps &
+  Pick<PressableProps, 'onPress'>;
 
 export const Item: FC<Props> = ({ icon, iconComponent, title, onPress, children, style, testID }) => (
   <Pressable onPress={onPress} style={[styles.root, style]} testID={testID}>
