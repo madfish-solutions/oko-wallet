@@ -1,5 +1,5 @@
 import { isDefined } from '@rnw-community/shared';
-import { tabs } from 'webextension-polyfill';
+import { tabs, runtime } from 'webextension-polyfill';
 
 export const createDAppResponse = <T>(id: string, result: T) => ({
   data: {
@@ -39,6 +39,11 @@ const createDAppNotificationResponse = <T>(method: string, params: T) => ({
   target: 'oko-inpage'
 });
 
+const createMessageToBackground = (origin: string) => ({
+  origin,
+  type: 'STACK_CHECK'
+});
+
 const sendMessageToDAppTab = (response: unknown, origin: string) => {
   tabs.query({}).then(queryTabs => {
     const dAppTab = queryTabs.find(tab => tab.url?.includes(origin));
@@ -65,4 +70,9 @@ export const sendErrorToDAppAndClosePopup = (id: string, origin: string) => {
 export const sendNotificationToDApp = <T>(method: string, result: T, origin: string) => {
   const notification = createDAppNotificationResponse(method, result);
   sendMessageToDAppTab(notification, origin);
+};
+
+export const sendMessageToBackground = (origin: string) => {
+  const message = createMessageToBackground(origin);
+  runtime.sendMessage(undefined, message);
 };

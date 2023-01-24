@@ -51,13 +51,17 @@ runtime.onConnect.addListener(async port => {
     });
   }
 
-  const state = await getState();
+  const stateForLockTime = await getState();
 
-  const lockTimePeriod = state.settings.lockTimePeriod;
+  const lockTimePeriod = stateForLockTime.settings.lockTimePeriod;
   setToStorage({ [LOCK_TIME_PERIOD_KEY]: lockTimePeriod });
+
+  let requestsToOpenPopup = 0;
+  let responseStack: { id: string }[] = [];
 
   // listen content script messages
   port.onMessage.addListener(async (message: DAppMessage) => {
+    const state = await getState();
     const data = message.data.data.data;
 
     if (message.data.target === 'oko-contentscript' && data !== undefined) {
@@ -76,9 +80,31 @@ runtime.onConnect.addListener(async port => {
 
       const provider = getDefaultProvider(selectedRpcUrl);
 
+      runtime.onMessage.addListener(newMessage => {
+        if (newMessage.type === 'STACK_CHECK') {
+          if (responseStack.length > 0) {
+            const result = [selectedAccountPublicKeyHash];
+            responseStack.forEach(item => {
+              const response = createDAppResponse(item.id, result);
+              const notification = createDAppNotificationResponse('oko_accountsChanged', result);
+
+              port.postMessage(response);
+              port.postMessage(notification);
+            });
+            requestsToOpenPopup = 0;
+            responseStack = [];
+          }
+        }
+
+        return Promise.resolve();
+      });
+
       switch (method) {
         case 'wallet_requestPermissions':
         case 'eth_requestAccounts': {
+          if (requestsToOpenPopup > 0) {
+            responseStack.push({ id });
+          }
           if (isPermissionGranted) {
             const result = [selectedAccountPublicKeyHash];
             const response = createDAppResponse(id, result);
@@ -87,7 +113,10 @@ runtime.onConnect.addListener(async port => {
             port.postMessage(response);
             port.postMessage(notification);
           } else {
-            await openDAppConnectionConfirmationPopup(id, dAppInfo);
+            if (requestsToOpenPopup === 0) {
+              await openDAppConnectionConfirmationPopup(id, dAppInfo);
+            }
+            requestsToOpenPopup += 1;
           }
 
           return Promise.resolve();
@@ -111,11 +140,11 @@ runtime.onConnect.addListener(async port => {
         case 'wallet_addEthereumChain':
         case 'wallet_switchEthereumChain': {
           if (data.params?.[0]?.chainId === getHexChanId(selectedNetworkChainId)) {
-            const message = createDAppResponse(id, null);
+            const response = createDAppResponse(id, null);
             const params = { chainId: getHexChanId(selectedNetworkChainId), networkVersion: selectedNetworkChainId };
             const notification = createDAppNotificationResponse('oko_chainChanged', params);
 
-            port.postMessage(message);
+            port.postMessage(response);
             port.postMessage(notification);
           } else {
             await openNetworkChangeConfirmationPopup(id, dAppInfo.origin, data.params?.[0]?.chainId);

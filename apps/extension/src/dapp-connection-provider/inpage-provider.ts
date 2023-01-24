@@ -225,6 +225,8 @@ export class InpageProvider extends StreamProvider {
       this._sentWarnings.enable = true;
     }
 
+    this.anotherProvider[0]._handleDisconnect(false);
+
     return new Promise<string[]>((resolve, reject) => {
       try {
         this._rpcRequest({ method: 'eth_requestAccounts', params: [] }, getRpcPromiseCallback(resolve, reject));
@@ -273,10 +275,12 @@ export class InpageProvider extends StreamProvider {
     if (typeof methodOrPayload === 'string' && (!callbackOrArgs || Array.isArray(callbackOrArgs))) {
       return new Promise((resolve, reject) => {
         try {
-          this.anotherProvider[0]._rpcRequest(
-            { method: methodOrPayload, params: callbackOrArgs },
-            getRpcPromiseCallback(resolve, reject, false)
-          );
+          if (this.anotherProvider.length > 0 && this.selectedAddress === null) {
+            this.anotherProvider[0]._rpcRequest(
+              { method: methodOrPayload, params: callbackOrArgs },
+              getRpcPromiseCallback(resolve, reject, false)
+            );
+          }
           this._rpcRequest(
             { method: methodOrPayload, params: callbackOrArgs },
             getRpcPromiseCallback(resolve, reject, false)
@@ -301,7 +305,6 @@ export class InpageProvider extends StreamProvider {
    * @deprecated
    */
   _sendSync(payload: SendSyncJsonRpcRequest) {
-    console.log('send sync works..');
     let result;
     switch (payload.method) {
       case 'eth_accounts':

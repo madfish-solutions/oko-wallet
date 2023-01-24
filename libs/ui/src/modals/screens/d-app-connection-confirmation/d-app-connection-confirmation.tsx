@@ -27,6 +27,7 @@ import {
 import { getCustomSize } from '../../../styles/format-size';
 import {
   sendErrorToDAppAndClosePopup,
+  sendMessageToBackground,
   sendNotificationToDApp,
   sendResponseToDAppAndClosePopup
 } from '../../../utils/dapp.utils';
@@ -59,6 +60,7 @@ export const DAppConnectionConfirmation: FC = () => {
     dispatch(connectDAppAction({ dAppInfo: params.dAppInfo, accountPublicKeyHash: selectedAccountPublicKeyHash }));
     sendNotificationToDApp('oko_accountsChanged', [selectedAccountPublicKeyHash], params.dAppInfo.origin);
     sendResponseToDAppAndClosePopup(params.messageId, [selectedAccountPublicKeyHash], params.dAppInfo.origin);
+    sendMessageToBackground(params.dAppInfo.origin);
   };
 
   const navigateToAccountsSelector = () => navigate(ScreensEnum.AccountsSelector);

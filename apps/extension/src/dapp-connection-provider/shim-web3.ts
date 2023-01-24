@@ -10,6 +10,7 @@ export function shimWeb3(provider: InpageProvider): void {
   let loggedCurrentProvider = false;
   let loggedMissingProperty = false;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if ((window as Record<string, any>).web3 === undefined) {
     const SHIM_IDENTIFIER = '__isMetaMaskShim__';
 
