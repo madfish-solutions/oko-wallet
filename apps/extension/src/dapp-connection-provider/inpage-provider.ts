@@ -225,10 +225,16 @@ export class InpageProvider extends StreamProvider {
       this._sentWarnings.enable = true;
     }
 
-    this.anotherProvider[0]._handleDisconnect(false);
+    //this.anotherProvider[0]._handleDisconnect(false);
 
     return new Promise<string[]>((resolve, reject) => {
       try {
+        if (this.anotherProvider.length > 0 && this.selectedAddress === null) {
+          this.anotherProvider[0]._rpcRequest(
+            { method: 'eth_requestAccounts', params: [] },
+            getRpcPromiseCallback(resolve, reject, false)
+          );
+        }
         this._rpcRequest({ method: 'eth_requestAccounts', params: [] }, getRpcPromiseCallback(resolve, reject));
       } catch (error) {
         reject(error);
