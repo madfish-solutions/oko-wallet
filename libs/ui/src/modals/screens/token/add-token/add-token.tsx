@@ -14,6 +14,7 @@ import {
   editTokenAction
 } from '../../../../store/wallet/wallet.actions';
 import { useAccountAssetsSelector, useSelectedNetworkSelector } from '../../../../store/wallet/wallet.selectors';
+import { getCurrentToken } from '../../../../utils/get-current-token.util';
 import { getDefaultEvmProvider } from '../../../../utils/get-default-evm-provider.utils';
 import { isEvmAddressValid } from '../../../../utils/is-evm-address-valid.util';
 import { getTokenSlug } from '../../../../utils/token.utils';
@@ -115,9 +116,7 @@ export const AddNewToken: FC = () => {
   }, [getEvmTokenMetadata, watchAddressUrl]);
 
   const onSubmit = (fields: TokenFormTypes) => {
-    const currentToken = accountTokens.find(
-      token => getTokenSlug(token.tokenAddress, token.tokenId) === getTokenSlug(fields.tokenAddress, fields.tokenId)
-    );
+    const currentToken = getCurrentToken(accountTokens, getTokenSlug(fields.tokenAddress, fields.tokenId));
 
     if (isDefined(currentToken) && currentToken.isVisible) {
       if (isNotEmptyString(fields.tokenId)) {

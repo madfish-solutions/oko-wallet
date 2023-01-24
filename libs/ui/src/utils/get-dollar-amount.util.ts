@@ -1,10 +1,12 @@
 import { isEmptyString, isDefined } from '@rnw-community/shared';
 import { BigNumber } from 'bignumber.js';
 
+import { TOKEN_DOLLAR_VALUE_PLUG } from '../constants/defaults';
+
 import { formatUnits } from './units.utils';
 
 interface GetDollarValueArgs {
-  amount: string;
+  amount: string | number;
   decimals: number;
   price: number | undefined;
   errorValue?: string | BigNumber;
@@ -13,7 +15,7 @@ interface GetDollarValueArgs {
 }
 
 export function getDollarValue(arg: {
-  amount: string;
+  amount: string | number;
   decimals: number;
   price: number | undefined;
   errorValue?: string;
@@ -21,7 +23,7 @@ export function getDollarValue(arg: {
 }): string;
 
 export function getDollarValue(arg: {
-  amount: string;
+  amount: string | number;
   decimals: number;
   price: number | undefined;
   errorValue?: BigNumber;
@@ -35,7 +37,7 @@ export function getDollarValue({
   decimals,
   toFixed = true,
   isNeedToFormat = true,
-  errorValue = '---'
+  errorValue = TOKEN_DOLLAR_VALUE_PLUG
 }: GetDollarValueArgs) {
   const bigNumAmount = isNeedToFormat ? formatUnits(amount, decimals) : new BigNumber(amount);
 

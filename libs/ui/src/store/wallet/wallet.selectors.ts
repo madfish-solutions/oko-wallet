@@ -1,5 +1,4 @@
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
-import { BigNumber } from 'bignumber.js';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -14,11 +13,9 @@ import { Token } from '../../interfaces/token.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { getAllAccountsWithoutCurrent } from '../../utils/get-all-accounts-without-current.util';
-import { getDollarValue } from '../../utils/get-dollar-amount.util';
 import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { getTokenSlug, isCollectible } from '../../utils/token.utils';
 import { LoadableEntityState } from '../interfaces/loadable-entity-state.interface';
-import { useTokensMarketInfoSelector } from '../tokens-market-info/token-market-info.selectors';
 import { checkEquality } from '../utils/check-equality.util';
 
 import { WalletRootState, WalletState } from './wallet.state';
@@ -191,44 +188,6 @@ export const useIsAuthorisedSelector = () => {
   const accounts = useSelector<WalletRootState, AccountInterface[]>(({ wallet }) => wallet.accounts);
 
   return useMemo(() => accounts.length > 0, [accounts.length]);
-};
-
-export const useTokenBalanceSelector = (tokenSlug: string) => {
-  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
-  const network = useSelectedNetworkSelector();
-  const accountTokens = useAccountTokensAndGasTokenSelector();
-  const allTokensMarketInfo = useTokensMarketInfoSelector();
-  const accountsGasTokens = useAccountsGasTokensSelector();
-  const accountGasTokenSlug = getAccountTokensSlug(network.chainId, publicKeyHash);
-  const [tokenAddress, tokenId] = tokenSlug.includes(GAS_TOKEN_ADDRESS)
-    ? [GAS_TOKEN_ADDRESS, ...tokenSlug.split(`${GAS_TOKEN_ADDRESS}_`).slice(-1)]
-    : tokenSlug.split('_');
-
-  const tokenMetadataSlug = getTokenMetadataSlug(network.chainId, tokenAddress, tokenId);
-
-  const currentToken = accountTokens.find(token => getTokenSlug(token.tokenAddress, token.tokenId) === tokenSlug);
-
-  const tokenBalance =
-    tokenSlug === getTokenSlug(GAS_TOKEN_ADDRESS)
-      ? accountsGasTokens[accountGasTokenSlug]?.data
-      : currentToken?.balance.data ?? '0';
-
-  const dollarBalance = getDollarValue({
-    amount: tokenBalance ?? 0,
-    price: isDefined(allTokensMarketInfo[tokenMetadataSlug]) ? allTokensMarketInfo[tokenMetadataSlug].price : 0,
-    decimals: currentToken?.decimals ?? 0
-  });
-
-  const prepareDollarBalance =
-    new BigNumber(tokenBalance).gt(0) && new BigNumber(dollarBalance).eq(0) ? '---' : dollarBalance;
-
-  return useMemo(
-    () => ({
-      tokenBalance,
-      dollarBalance: prepareDollarBalance
-    }),
-    [tokenBalance, dollarBalance]
-  );
 };
 
 const usePendingTransactionsSelector = () => {

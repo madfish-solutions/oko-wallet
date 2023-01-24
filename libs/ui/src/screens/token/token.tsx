@@ -1,6 +1,5 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { BigNumber } from 'bignumber.js';
-import React, { FC, useMemo } from 'react';
+import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Divider } from '../../components/divider/divider';
@@ -12,12 +11,13 @@ import { DATA_UPDATE_TIME } from '../../constants/update-time';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useTimerEffect } from '../../hooks/use-timer-effect.hook';
+import { useTokenBalance } from '../../hooks/use-token-balance.hook';
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { useTokenMarketInfoSelector } from '../../store/tokens-market-info/token-market-info.selectors';
 import { loadAccountTokenBalanceAction, loadGasTokenBalanceAction } from '../../store/wallet/wallet.actions';
-import { useTokenBalanceSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
+import { useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
 import { checkIsGasToken } from '../../utils/check-is-gas-token.util';
-import { getTokenSlug } from '../../utils/token.utils';
+import { getDollarValueToDisplay } from '../../utils/get-dollar-value-to-display.util';
 import { getFormattedBalance } from '../../utils/units.utils';
 
 import { Activity } from './components/activity/activity';
@@ -52,13 +52,14 @@ export const Token: FC<Props> = ({ style }) => {
   const { chainId } = useSelectedNetworkSelector();
   const dispatch = useDispatch();
 
-  const { name, symbol, tokenAddress, decimals, tokenId, thumbnailUri, balance, dollarBalance } = token;
+  const { name, symbol, tokenAddress, decimals, tokenId, thumbnailUri, balance } = token;
+
   const { price, usdPriceChange24h } = useTokenMarketInfoSelector(tokenAddress, chainId);
+  const { tokenBalance, valueInDollar } = useTokenBalance(tokenAddress, tokenId);
 
-  const balanceFromStore = useTokenBalanceSelector(getTokenSlug(tokenAddress, tokenId));
-
-  const formattedBalance = getFormattedBalance(balanceFromStore.tokenBalance ?? balance.data, decimals);
+  const formattedBalance = getFormattedBalance(tokenBalance.toString() ?? balance.data, decimals);
   const isGasToken = checkIsGasToken(tokenAddress);
+  const valueInDollarToDisplay = getDollarValueToDisplay(tokenBalance, valueInDollar);
 
   const getTokenBalanceFromContract = () => {
     if (isGasToken) {
@@ -69,16 +70,6 @@ export const Token: FC<Props> = ({ style }) => {
   };
 
   useTimerEffect(getTokenBalanceFromContract, DATA_UPDATE_TIME, [token, chainId]);
-
-  const usdBalance = useMemo(() => {
-    const dollarBalanceBN = new BigNumber(dollarBalance);
-
-    if (dollarBalanceBN.gt(0) && dollarBalance.startsWith('0.00') && balanceFromStore.dollarBalance === '---') {
-      return dollarBalanceBN.toFixed(2);
-    }
-
-    return balanceFromStore.dollarBalance;
-  }, [dollarBalance, balanceFromStore]);
 
   return (
     <ScreenContainer style={[styles.root, style]}>
@@ -93,7 +84,7 @@ export const Token: FC<Props> = ({ style }) => {
         />
       </HeaderContainer>
 
-      <Balance balance={formattedBalance} usdBalance={usdBalance} />
+      <Balance balance={formattedBalance} valueInDollar={valueInDollarToDisplay} />
       <NavigationBar token={token} />
 
       <Divider style={styles.divider} />

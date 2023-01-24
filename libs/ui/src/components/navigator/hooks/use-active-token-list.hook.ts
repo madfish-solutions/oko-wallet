@@ -1,11 +1,10 @@
-import { useNavigationState } from '@react-navigation/native';
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
-import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { getDebankId } from '../../../api/utils/get-debank-id.util';
 import { DATA_UPDATE_TIME } from '../../../constants/update-time';
 import { ScreensEnum } from '../../../enums/sreens.enum';
+import { useCurrentRoute } from '../../../hooks/use-current-route.hook';
 import { useTimerEffect } from '../../../hooks/use-timer-effect.hook';
 import { getAllUserTokensAction } from '../../../store/wallet/wallet.actions';
 import {
@@ -20,29 +19,19 @@ export const useActiveTokenList = () => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { chainId } = useSelectedNetworkSelector();
 
-  const navigationState = useNavigationState(state => state);
-
-  const currentScreen = useMemo(() => {
-    if (isDefined(navigationState)) {
-      return navigationState.routes[navigationState.routes.length - 1].name as ScreensEnum;
-    }
-  }, [navigationState]);
-
-  const getActiveTokenList = () => {
-    const debankId = getDebankId(chainId);
-
-    if (isDefined(debankId) && isNotEmptyString(publicKeyHash)) {
-      dispatch(getAllUserTokensAction.submit({ debankId, publicKeyHash }));
-    }
-  };
+  const currentRoute = useCurrentRoute();
 
   useTimerEffect(
     () => {
-      if (isDefined(currentScreen) && !SCREENS_WITHOUT_UPDATE.includes(currentScreen)) {
-        getActiveTokenList();
+      if (isDefined(currentRoute) && !SCREENS_WITHOUT_UPDATE.includes(currentRoute.name as ScreensEnum)) {
+        const debankId = getDebankId(chainId);
+
+        if (isDefined(debankId) && isNotEmptyString(publicKeyHash)) {
+          dispatch(getAllUserTokensAction.submit({ debankId, publicKeyHash }));
+        }
       }
     },
     DATA_UPDATE_TIME,
-    [chainId, publicKeyHash, currentScreen]
+    [chainId, publicKeyHash, currentRoute]
   );
 };

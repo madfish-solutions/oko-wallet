@@ -10,6 +10,7 @@ import { TokenWithBigNumberBalance } from '../../../interfaces/token.interface';
 import { getImageSource } from '../../../screens/wallet/components/assets-widget/utils/get-image-source.util';
 import { changeTokenVisibilityAction } from '../../../store/wallet/wallet.actions';
 import { checkIsGasToken } from '../../../utils/check-is-gas-token.util';
+import { getDollarValueToDisplay } from '../../../utils/get-dollar-value-to-display.util';
 import { getFormattedBalance } from '../../../utils/units.utils';
 import { Switch } from '../../switch/switch';
 import { TokenItemThemesEnum } from '../token-item/enums';
@@ -27,13 +28,7 @@ export const AccountToken: FC<Props> = ({ token, showButton, theme }) => {
   const { decimals, thumbnailUri, balance, symbol, name, tokenAddress, dollarBalance } = token;
   const isGasToken = checkIsGasToken(tokenAddress);
 
-  const usdBalance =
-    Object.keys(token).length > 0
-      ? new BigNumber(balance.data).gt(0) && dollarBalance.eq(0)
-        ? '---'
-        : dollarBalance.toFixed(2)
-      : '0';
-
+  const valueInDollar = getDollarValueToDisplay(new BigNumber(token.balance.data), dollarBalance);
   const imageSource = getImageSource(thumbnailUri);
   const formattedBalance = getFormattedBalance(balance?.data ?? 0, decimals);
 
@@ -50,7 +45,7 @@ export const AccountToken: FC<Props> = ({ token, showButton, theme }) => {
         symbol={symbol}
         theme={theme}
         name={name}
-        usdBalance={usdBalance}
+        valueInDollar={valueInDollar}
         isGasToken={isGasToken}
       >
         {isDefined(showButton) && showButton && !isGasToken ? (

@@ -17,3 +17,5 @@ export const EXTENSION_WIDTH = 360;
 export const HIDE_SPLASH_SCREEN_TIMEOUT = 100;
 
 export const FLOAT_ZERO_STRING = '0.0';
+
+export const TOKEN_DOLLAR_VALUE_PLUG = '---';

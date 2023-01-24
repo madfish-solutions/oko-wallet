@@ -58,10 +58,13 @@ export const useSortAccountTokensByBalance = (tokens: Token[]): TokenWithBigNumb
 
   const { tokensWithBalance, tokensWithZeroBalance } = allTokens;
 
-  const sortedAccountTokens = [
-    ...tokensWithBalance.sort((a, b) => Number(b.dollarBalance) - Number(a.dollarBalance)),
-    ...tokensWithZeroBalance.sort((a, b) => Number(b.balance.data) - Number(a.balance.data))
-  ];
+  const sortedAccountTokens = useMemo(
+    () => [
+      ...tokensWithBalance.sort((a, b) => Number(b.dollarBalance) - Number(a.dollarBalance)),
+      ...tokensWithZeroBalance.sort((a, b) => Number(b.balance.data) - Number(a.balance.data))
+    ],
+    [tokensWithBalance, tokensWithZeroBalance]
+  );
 
   if (isDefined(gasToken)) {
     return [gasToken, ...sortedAccountTokens];
