@@ -13,7 +13,7 @@ export class AccountsSelectorPage extends Page {
     await this.accountAddingButton.waitForDisplayed();
   }
 
-  async getAccountsSelectorContainer(name: string) {
+  async isAccountNameDisplayed(name: string) {
     let result = false;
     const textElementHandler = await findElements(AccountTabsTestIDs.AccountsNames);
     const textContents = textElementHandler.map(elementHandle =>
@@ -21,7 +21,6 @@ export class AccountsSelectorPage extends Page {
     );
     const namesArray = await Promise.all(textContents);
     result = namesArray.includes(name);
-    console.log(namesArray, 'name-', name, 'result', result);
 
     return result;
   }

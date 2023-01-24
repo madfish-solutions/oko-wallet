@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import { Pages } from '../page-objects';
 
-Given(/I see Account 2 on the AccountsSelector page/, async () => {
-  const accountSelectorContainer = await Pages.AccountsSelector.getAccountsSelectorContainer('Account 2');
+Given(/I see (.*) on the AccountsSelector page/, async (accountName: string) => {
+  const accountSelectorContainer = await Pages.AccountsSelector.isAccountNameDisplayed(accountName);
   expect(accountSelectorContainer).eql(true);
 });

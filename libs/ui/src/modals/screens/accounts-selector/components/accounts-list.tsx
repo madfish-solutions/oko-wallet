@@ -49,7 +49,6 @@ export const AccountsList: FC<Props> = ({
 
     return (
       <ModalRenderItem
-        testID={testID}
         name={item.name}
         icon={<RobotIcon seed={publicKeyHash} />}
         isActive={isAccountSelected}
@@ -69,6 +68,7 @@ export const AccountsList: FC<Props> = ({
             </>
           )
         }
+        testID={testID}
       />
     );
   };

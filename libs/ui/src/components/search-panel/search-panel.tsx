@@ -18,7 +18,7 @@ import { SearchPanelTestIDs } from './search-panel.test-ids';
 
 const SEARCH_FIELD = 'search';
 
-interface Props extends TestIDProps {
+interface Props {
   isEmptyList: boolean;
   setSearchValue: OnEventFn<string>;
   onPressAddIcon?: OnEventFn<GestureResponderEvent>;
