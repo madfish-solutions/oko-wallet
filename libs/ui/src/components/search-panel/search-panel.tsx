@@ -2,7 +2,6 @@ import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm, Controller, ControllerRenderProps, FieldValues, FieldPath } from 'react-hook-form';
 import { GestureResponderEvent } from 'react-native';
-import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { EMPTY_STRING } from '../../constants/defaults';
 import { ViewStyleProps } from '../../interfaces/style.interface';
