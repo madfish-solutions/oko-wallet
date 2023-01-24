@@ -14,14 +14,12 @@ export class AccountsSelectorPage extends Page {
   }
 
   async isAccountNameDisplayed(name: string) {
-    let result = false;
     const textElementHandler = await findElements(AccountTabsTestIDs.AccountsNames);
     const textContents = textElementHandler.map(elementHandle =>
       elementHandle.evaluate(element => element.textContent)
     );
     const namesArray = await Promise.all(textContents);
-    result = namesArray.includes(name);
 
-    return result;
+    return namesArray.includes(name);
   }
 }
