@@ -67,8 +67,8 @@ export const Swap: FC = () => {
   const fromAmount = watch('fromAmount');
   const toAmount = watch('toAmount');
 
-  const fromTokenBalance = useTokenFiatBalance(fromAmount, fromToken);
-  const toTokenBalance = useTokenFiatBalance(toAmount, toToken);
+  const fromTokenBalance = useTokenFiatBalance(fromAmount, fromToken, true);
+  const toTokenBalance = useTokenFiatBalance(toAmount, toToken, true);
 
   const fromTokenRules = useValidateAmountField(fromTokenBalance.availableBalance, true);
 
@@ -137,13 +137,6 @@ export const Swap: FC = () => {
     clearErrors();
   };
 
-  const onMaxButtonPress = isDefined(fromToken)
-    ? () => {
-        setValue('fromAmount', fromTokenBalance.availableBalance);
-        trigger('fromAmount');
-      }
-    : undefined;
-
   const onApproveOrSwapPress = () => {
     if (loading) {
       return;
@@ -168,6 +161,8 @@ export const Swap: FC = () => {
 
       <ScreenScrollView>
         <TokenInput
+          setValue={setValue}
+          trigger={trigger}
           label="From"
           control={control}
           name="fromAmount"
@@ -177,7 +172,7 @@ export const Swap: FC = () => {
           availableFormattedBalance={fromTokenBalance.availableFormattedBalance}
           amount={fromAmount}
           rules={fromTokenRules}
-          onMaxButtonPress={onMaxButtonPress}
+          availableBalance={fromTokenBalance.availableBalance}
           error={errors?.fromAmount?.message}
           errorStyle={errors?.fromAmount?.type === isGreaterThanZeroError ? styles.errorFromAmount : undefined}
         />
@@ -214,7 +209,9 @@ export const Swap: FC = () => {
         </Row>
         <Row style={styles.exchangeRateBlock}>
           <Text style={styles.caption11}>Exchange rate</Text>
-          <Text style={styles.numbers13}>{exchangeRate}</Text>
+          <Text numberOfLines={1} style={[styles.numbers13, styles.exchangeRate]}>
+            {exchangeRate}
+          </Text>
         </Row>
 
         <Divider style={styles.divider} />

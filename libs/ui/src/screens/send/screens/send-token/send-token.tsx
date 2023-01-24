@@ -83,13 +83,6 @@ export const SendToken: FC = () => {
     }
   }, [token]);
 
-  const onMaxButtonPress = isTokenSelected
-    ? () => {
-        setValue('amount', availableBalance);
-        trigger('amount');
-      }
-    : undefined;
-
   const onSubmit = (formValue: FormTypes) => {
     const isGasTokenZeroBalance = Number(gasToken.balance.data) === 0;
 
@@ -151,7 +144,6 @@ export const SendToken: FC = () => {
           tokenParam="token"
           amount={amount}
           selectTokensWithBalance={false}
-          onMaxButtonPress={onMaxButtonPress}
         />
 
         <FormProvider {...methods}>

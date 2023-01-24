@@ -1,9 +1,9 @@
-import { isDefined, isNotEmptyString, OnEventFn } from '@rnw-community/shared';
+import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import React from 'react';
 import { Controller, RegisterOptions } from 'react-hook-form';
 import { FieldPath } from 'react-hook-form/dist/types';
 import { FieldValues } from 'react-hook-form/dist/types/fields';
-import { Control } from 'react-hook-form/dist/types/form';
+import { Control, UseFormSetValue, UseFormTrigger } from 'react-hook-form/dist/types/form';
 import { View } from 'react-native';
 
 import { Button } from '../../../../../../components/button/button';
@@ -21,6 +21,8 @@ import { styles } from './token-input.styles';
 interface Props<TFieldValues extends FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> {
   label: string;
   control: Control<TFieldValues>;
+  setValue?: UseFormSetValue<TFieldValues>;
+  trigger?: UseFormTrigger<TFieldValues>;
   rules?: Pick<RegisterOptions<TFieldValues>, 'required'>;
   error?: string;
   token?: TokenType;
@@ -30,9 +32,9 @@ interface Props<TFieldValues extends FieldValues, TName extends FieldPath<TField
   tokenParam: string;
   amount: string;
   availableFormattedBalance?: string;
+  availableBalance?: string;
   errorStyle?: ViewStyleProps;
   selectTokensWithBalance?: boolean;
-  onMaxButtonPress?: OnEventFn;
 }
 
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
@@ -50,9 +52,20 @@ export const TokenInput = <TType extends FieldValues & Record<string, any>>({
   tokenParam,
   amount,
   errorStyle,
-  onMaxButtonPress
-}: Props<TType>) =>
-  isReadOnly ? (
+  setValue,
+  trigger,
+  availableBalance
+}: Props<TType>) => {
+  const isMaxButton = isDefined(token) && isDefined(setValue) && isDefined(trigger) && isDefined(availableBalance);
+  const onMaxButtonPress = () => {
+    if (isMaxButton) {
+      // @ts-ignore
+      setValue(name, availableBalance);
+      trigger(name);
+    }
+  };
+
+  return isReadOnly ? (
     <View>
       <Label title={label} />
       <View style={styles.readOnlyBlock}>
@@ -106,8 +119,9 @@ export const TokenInput = <TType extends FieldValues & Record<string, any>>({
           </TextInput>
         )}
       />
-      {isDefined(onMaxButtonPress) && (
+      {isMaxButton && (
         <Button title="Max" onPress={onMaxButtonPress} theme={ButtonThemesEnum.Ternary} style={styles.max} />
       )}
     </View>
   );
+};

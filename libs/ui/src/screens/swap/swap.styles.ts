@@ -50,6 +50,9 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: getCustomSize(1.25)
   },
+  exchangeRate: {
+    maxWidth: getCustomSize(26)
+  },
   divider: {
     width: '100%',
     height: getCustomSize(0.0625),
