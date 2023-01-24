@@ -134,6 +134,7 @@ export const PrivateKey: FC = () => {
                 multiline
                 error={errors?.privateKey?.message}
                 containerStyle={styles.inputContainer}
+                inputInnerContainerStyle={styles.inputInnerContainer}
                 inputStyle={styles.textarea}
                 clearIconStyles={styles.clearIcon}
               />
