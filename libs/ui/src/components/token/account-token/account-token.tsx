@@ -10,7 +10,7 @@ import { TokenWithBigNumberBalance } from '../../../interfaces/token.interface';
 import { getImageSource } from '../../../screens/wallet/components/assets-widget/utils/get-image-source.util';
 import { changeTokenVisibilityAction } from '../../../store/wallet/wallet.actions';
 import { checkIsGasToken } from '../../../utils/check-is-gas-token.util';
-import { getDollarValueToDisplay } from '../../../utils/get-dollar-value-to-display.util';
+import { getValueInDollarToDisplay } from '../../../utils/get-dollar-value-to-display.util';
 import { getFormattedBalance } from '../../../utils/units.utils';
 import { Switch } from '../../switch/switch';
 import { TokenItemThemesEnum } from '../token-item/enums';
@@ -25,17 +25,17 @@ interface Props {
 export const AccountToken: FC<Props> = ({ token, showButton, theme }) => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
-  const { decimals, thumbnailUri, balance, symbol, name, tokenAddress, dollarBalance } = token;
+  const { decimals, thumbnailUri, balance, symbol, name, tokenAddress, valueInDollar } = token;
   const isGasToken = checkIsGasToken(tokenAddress);
 
-  const valueInDollar = getDollarValueToDisplay(new BigNumber(token.balance.data), dollarBalance);
+  const valueInDollarToDispaly = getValueInDollarToDisplay(new BigNumber(token.balance.data), valueInDollar);
   const imageSource = getImageSource(thumbnailUri);
   const formattedBalance = getFormattedBalance(balance?.data ?? 0, decimals);
 
   const handleTokenVisibility = () => dispatch(changeTokenVisibilityAction(token));
 
   const navigateToTokenDetails = () =>
-    navigate(ScreensEnum.Token, { token: { ...token, dollarBalance: dollarBalance.toString() } });
+    navigate(ScreensEnum.Token, { token: { ...token, valueInDollar: valueInDollar.toString() } });
 
   return (
     <Pressable onPress={navigateToTokenDetails}>
@@ -45,7 +45,7 @@ export const AccountToken: FC<Props> = ({ token, showButton, theme }) => {
         symbol={symbol}
         theme={theme}
         name={name}
-        valueInDollar={valueInDollar}
+        valueInDollar={valueInDollarToDispaly}
         isGasToken={isGasToken}
       >
         {isDefined(showButton) && showButton && !isGasToken ? (

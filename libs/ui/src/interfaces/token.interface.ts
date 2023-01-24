@@ -7,5 +7,5 @@ export type GasTokenMetadata = Pick<TokenMetadata, 'name' | 'decimals' | 'symbol
 
 export type Token = AccountToken & TokenMetadata;
 
-export type TokenWithBalance = Token & { dollarBalance: string };
-export type TokenWithBigNumberBalance = Token & { dollarBalance: BigNumber };
+export type TokenWithBalance = Token & { valueInDollar: string };
+export type TokenWithBigNumberBalance = Token & { valueInDollar: BigNumber };

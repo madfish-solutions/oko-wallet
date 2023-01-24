@@ -15,7 +15,7 @@ export const useSortAccountTokensByBalance = (tokens: Token[]): TokenWithBigNumb
   const tokensWithDollarBalance = tokens.map(asset => {
     const tokenMetadataSlug = getTokenMetadataSlug(chainId, asset.tokenAddress);
 
-    const dollarBalance = getDollarValue({
+    const valueInDollar = getDollarValue({
       amount: asset.balance?.data ?? 0,
       price: isDefined(allTokensMarketInfo[tokenMetadataSlug]) ? allTokensMarketInfo[tokenMetadataSlug].price : 0,
       decimals: asset.decimals,
@@ -24,7 +24,7 @@ export const useSortAccountTokensByBalance = (tokens: Token[]): TokenWithBigNumb
 
     return {
       ...asset,
-      dollarBalance
+      valueInDollar
     };
   });
 
@@ -39,7 +39,7 @@ export const useSortAccountTokensByBalance = (tokens: Token[]): TokenWithBigNumb
             acc: { tokensWithBalance: TokenWithBigNumberBalance[]; tokensWithZeroBalance: TokenWithBigNumberBalance[] },
             currentToken: TokenWithBigNumberBalance
           ) => {
-            if (currentToken.dollarBalance.gt(0)) {
+            if (currentToken.valueInDollar.gt(0)) {
               return {
                 ...acc,
                 tokensWithBalance: [...(acc.tokensWithBalance ?? []), currentToken]
@@ -60,7 +60,7 @@ export const useSortAccountTokensByBalance = (tokens: Token[]): TokenWithBigNumb
 
   const sortedAccountTokens = useMemo(
     () => [
-      ...tokensWithBalance.sort((a, b) => Number(b.dollarBalance) - Number(a.dollarBalance)),
+      ...tokensWithBalance.sort((a, b) => Number(b.valueInDollar) - Number(a.valueInDollar)),
       ...tokensWithZeroBalance.sort((a, b) => Number(b.balance.data) - Number(a.balance.data))
     ],
     [tokensWithBalance, tokensWithZeroBalance]

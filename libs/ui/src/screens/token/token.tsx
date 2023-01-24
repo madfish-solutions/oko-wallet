@@ -17,7 +17,7 @@ import { useTokenMarketInfoSelector } from '../../store/tokens-market-info/token
 import { loadAccountTokenBalanceAction, loadGasTokenBalanceAction } from '../../store/wallet/wallet.actions';
 import { useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
 import { checkIsGasToken } from '../../utils/check-is-gas-token.util';
-import { getDollarValueToDisplay } from '../../utils/get-dollar-value-to-display.util';
+import { getValueInDollarToDisplay } from '../../utils/get-dollar-value-to-display.util';
 import { getFormattedBalance } from '../../utils/units.utils';
 
 import { Activity } from './components/activity/activity';
@@ -59,7 +59,7 @@ export const Token: FC<Props> = ({ style }) => {
 
   const formattedBalance = getFormattedBalance(tokenBalance.toString() ?? balance.data, decimals);
   const isGasToken = checkIsGasToken(tokenAddress);
-  const valueInDollarToDisplay = getDollarValueToDisplay(tokenBalance, valueInDollar);
+  const valueInDollarToDisplay = getValueInDollarToDisplay(tokenBalance, valueInDollar);
 
   const getTokenBalanceFromContract = () => {
     if (isGasToken) {
