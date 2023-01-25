@@ -3,10 +3,12 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": [
+      "./apps/backend/tsconfig.json",
       "./apps/extension/tsconfig.json",
       "./apps/extension-e2e/tsconfig.json",
       "./apps/mobile/tsconfig.json",
-      "./libs/ui/tsconfig.json"
+      "./libs/ui/tsconfig.json",
+      "./libs/backend/tsconfig.json"
     ]
   },
   "extends": [

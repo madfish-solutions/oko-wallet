@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+
 import { DeBankConfiguration, getDeBankConfig } from './debank';
 import { portOrDefaultGuard } from './guards';
 
@@ -14,9 +15,10 @@ export class BackendConfiguration {
     this.PORT = portOrDefaultGuard();
   }
   public static getInstance(): BackendConfiguration {
-    if (!BackendConfiguration.instance) {
+    if (BackendConfiguration.instance === undefined) {
       BackendConfiguration.instance = new BackendConfiguration();
     }
+
     return BackendConfiguration.instance;
   }
 }

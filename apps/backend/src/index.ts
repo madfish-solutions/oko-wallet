@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
-import config from './config';
+
 import debank from './apps/debank';
+import config from './config';
 
 const port = config.PORT;
 

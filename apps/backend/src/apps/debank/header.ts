@@ -1,5 +1,6 @@
-import { DeBankConfiguration } from '../../config/debank';
 import { IncomingHttpHeaders } from 'http';
+
+import { DeBankConfiguration } from '../../config';
 
 export function formDeBankHeaderWithKey(config: DeBankConfiguration): IncomingHttpHeaders {
   const headers = {
@@ -7,5 +8,6 @@ export function formDeBankHeaderWithKey(config: DeBankConfiguration): IncomingHt
     'Content-Type': 'application/json',
     AccessKey: config.ACCESS_KEY
   };
+
   return headers;
 }
