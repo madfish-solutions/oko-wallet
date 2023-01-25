@@ -22,7 +22,7 @@
     "esModuleInterop": true,
     "paths": {
       "backend": [
-        "../../libs/backend"
+        "../../libs/backend-types"
       ]
     },
     /* Advanced Options */
