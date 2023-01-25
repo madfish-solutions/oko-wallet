@@ -23,7 +23,6 @@ import {
 } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
 import { checkIsNetworkTypeKeyExist } from '../../../utils/check-is-network-type-key-exist';
-import { getAccountIdSlug } from '../../../utils/get-account-id-slug.util';
 import { ModalAccountBalance } from '../../components/modal-account-balance/modal-account-balance';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 import { ModalHeader } from '../../components/modal-header/modal-header';
@@ -41,7 +40,7 @@ export const AccountsSelector: FC = () => {
   const selectedNetworkType = useSelectedNetworkTypeSelector();
   const { totalAccountsBalance, accountsBalanceInUsd } = useFiatTotalBalance();
 
-  const totalBalanceOfSelectedAccount = accountsBalanceInUsd[getAccountIdSlug(selectedAccount)];
+  const totalBalanceOfSelectedAccount = accountsBalanceInUsd[selectedAccount.accountId];
 
   const handleChangeAccount = (account: AccountInterface) => {
     if (checkIsNetworkTypeKeyExist(account, selectedNetworkType)) {
