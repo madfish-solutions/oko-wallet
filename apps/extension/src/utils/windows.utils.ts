@@ -1,5 +1,4 @@
-import { DAppInfo, DAppTransactionInfo } from 'ui/background-script';
-import { windows, runtime, Windows } from 'webextension-polyfill';
+import { windows, runtime, Windows, Runtime } from 'webextension-polyfill';
 
 const popupCreateData: Windows.CreateCreateDataType = {
   type: 'popup',
@@ -9,32 +8,10 @@ const popupCreateData: Windows.CreateCreateDataType = {
   left: 20
 };
 
-export const openDAppConnectionConfirmationPopup = async (id: string, dAppInfo: DAppInfo) =>
+export const openPopup = async (params: { [x: string]: string }, port: Runtime.Port) => {
   windows.create({
     ...popupCreateData,
-    url: runtime.getURL(`popup.html?id=${id}&dAppInfo=${JSON.stringify(dAppInfo)}`)
+    url: runtime.getURL(`popup.html?${new URLSearchParams(params).toString()}`)
   });
-
-export const openNetworkChangeConfirmationPopup = async (id: string, origin: string, requestedChainId: string) =>
-  windows.create({
-    ...popupCreateData,
-    url: runtime.getURL(`popup.html?&origin=${origin}&id=${id}&requestedChainId=${requestedChainId}`)
-  });
-
-export const openConfirmSendTransactionPopup = async (
-  id: string,
-  transactionInfo: DAppTransactionInfo,
-  dappInfo: DAppInfo
-) =>
-  windows.create({
-    ...popupCreateData,
-    url: runtime.getURL(
-      `popup.html?id=${id}&transactionInfo=${JSON.stringify(transactionInfo)}&dAppInfo=${JSON.stringify(dappInfo)}`
-    )
-  });
-
-export const openSignMessagePopup = async (id: string, signInfo: string[], dappInfo: DAppInfo) =>
-  windows.create({
-    ...popupCreateData,
-    url: runtime.getURL(`popup.html?id=${id}&signInfo=${JSON.stringify(signInfo)}&dAppInfo=${JSON.stringify(dappInfo)}`)
-  });
+  port.postMessage({ type: 'POPUP_OPEN' });
+};

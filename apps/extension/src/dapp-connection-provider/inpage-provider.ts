@@ -225,8 +225,6 @@ export class InpageProvider extends StreamProvider {
       this._sentWarnings.enable = true;
     }
 
-    //this.anotherProvider[0]._handleDisconnect(false);
-
     return new Promise<string[]>((resolve, reject) => {
       try {
         if (this.anotherProvider.length > 0 && this.selectedAddress === null) {

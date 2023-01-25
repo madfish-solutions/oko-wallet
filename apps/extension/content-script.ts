@@ -19,6 +19,11 @@ const pageStream = new WindowPostMessageStream({
 
 // listen background-script message and send message to dApps
 myPort.onMessage.addListener(async message => {
+  if (message.type === 'POPUP_OPEN') {
+    myPort.postMessage(message);
+
+    return Promise.resolve();
+  }
   window.postMessage(message, '*');
 
   return Promise.resolve();

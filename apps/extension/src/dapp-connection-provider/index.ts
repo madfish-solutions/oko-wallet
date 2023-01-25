@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/strict-boolean-expressions */
+
 import { Duplex } from 'stream';
 
 import { InpageProvider, InpageProviderOptions } from './inpage-provider';
@@ -38,7 +39,6 @@ export function initializeProvider({
   maxEventListeners = 100,
   shouldSetOnWindow = true
 }: InitializeProviderOptions): InpageProvider {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const anotherProvider = (window as Record<string, any>).ethereum ? [(window as Record<string, any>).ethereum] : [];
   const provider = new InpageProvider(connectionStream, {
     jsonRpcStreamName,
@@ -68,7 +68,6 @@ export function initializeProvider({
  * @param providerInstance - The provider instance.
  */
 export function setGlobalProvider(providerInstance: InpageProvider): void {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (window as Record<string, any>).ethereum = providerInstance;
   window.dispatchEvent(new Event('ethereum#initialized'));
 }

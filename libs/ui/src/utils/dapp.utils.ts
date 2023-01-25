@@ -41,7 +41,7 @@ const createDAppNotificationResponse = <T>(method: string, params: T) => ({
 
 const createMessageToBackground = (origin: string) => ({
   origin,
-  type: 'STACK_CHECK'
+  type: 'POPUP_CLOSED'
 });
 
 const sendMessageToDAppTab = (response: unknown, origin: string) => {
