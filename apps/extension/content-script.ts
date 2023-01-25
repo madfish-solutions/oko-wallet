@@ -2,7 +2,8 @@ import ObjectMultiplex from '@metamask/object-multiplex';
 import pump from 'pump';
 import { runtime } from 'webextension-polyfill';
 
-import { CONTENT_SCRIPT, pageStream, PROVIDER } from './src/constants/content-script';
+import { CONTENT_SCRIPT, PROVIDER } from './src/constants/content-script';
+import { pageStream } from './src/constants/page-streams';
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
 import { getWindowMetadata } from './src/utils/window.utils';
 

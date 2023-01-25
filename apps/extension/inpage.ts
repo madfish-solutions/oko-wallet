@@ -1,4 +1,4 @@
-import { inpageStream } from './src/constants/content-script';
+import { inpageStream } from './src/constants/page-streams';
 import { initializeProvider } from './src/dapp-connection-provider';
 
 // setup background connection
