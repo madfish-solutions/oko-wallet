@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    /* Basic Options */
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": ["esnext"],
+    "allowJs": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "noEmit": false,
+    "isolatedModules": true,
+
+    /* Strict Type-Checking Options */
+    "strict": true,
+    "noImplicitAny": false,
+
+    /* Module Resolution Options */
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "paths": {
+      "backend": [
+        "../../libs/backend"
+      ]
+    },
+    /* Advanced Options */
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src"],
+  "exclude": [
+    "node_modules",
+  ]
+}
