@@ -9,11 +9,12 @@ type Props = PropsWithChildren<{
   style?: ViewStyleProps;
 }> &
   TestIDProps &
-  Pick<PressableProps, 'onPress'>;
+  Pick<PressableProps, 'onPress' | 'disabled'>;
 
-export const Pressable: FC<Props> = ({ onPress, opacity = true, style, children, testID }) => (
+export const Pressable: FC<Props> = ({ onPress, opacity = true, disabled, style, children, testID }) => (
   <PressableBase
     onPress={onPress}
+    disabled={disabled}
     style={({ pressed }: PressableStateCallbackType) => [opacity && { opacity: pressed ? 0.5 : 1.0 }, style]}
     testID={testID}
   >

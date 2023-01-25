@@ -208,7 +208,7 @@ export const SeedPhrase: FC = () => {
             <Row style={styles.listItem}>
               <Text style={styles.listDote}>●</Text>
               <Text numberOfLines={2} style={styles.listText}>
-                The account will only be active for the current network
+                Only one account will be imported
               </Text>
             </Row>
           </Column>
