@@ -12,6 +12,7 @@ import { useFilteredAccounts } from '../../../../hooks/use-filtered-accounts.hoo
 import { AccountInterface } from '../../../../interfaces/account.interface';
 import { useSelectedNetworkTypeSelector } from '../../../../store/wallet/wallet.selectors';
 import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
+import { getAccountIdSlug } from '../../../../utils/get-account-id-slug.util';
 import { ModalAccountBalance } from '../../../components/modal-account-balance/modal-account-balance';
 import { ModalRenderItem } from '../../../components/modal-render-item/modal-render-item';
 
@@ -51,7 +52,7 @@ export const AccountsList: FC<Props> = ({
         icon={<RobotIcon seed={publicKeyHash} />}
         isActive={isAccountSelected}
         balanceTitle="Total balance"
-        balance={<ModalAccountBalance balance={accountsBalanceInUsd[item.name]} />}
+        balance={<ModalAccountBalance balance={accountsBalanceInUsd[getAccountIdSlug(item)]} />}
         onSelectItem={() => onSelectItem(item)}
         rightBottomComponent={
           isDefined(onEdit) ? (

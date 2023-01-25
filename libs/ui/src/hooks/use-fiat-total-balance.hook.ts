@@ -11,6 +11,7 @@ import {
   useAllVisibleAccountsSelector
 } from '../store/wallet/wallet.selectors';
 import { getAccountTokensSlug } from '../utils/address.util';
+import { getAccountIdSlug } from '../utils/get-account-id-slug.util';
 import { getDollarValue } from '../utils/get-dollar-amount.util';
 import { getTokenMetadataSlug } from '../utils/token-metadata.util';
 
@@ -25,9 +26,11 @@ export const useFiatTotalBalance = () => {
 
   const accountsBalanceInUsd: Record<string, string> = accounts.reduce((acc, account) => {
     const {
-      name,
       networksKeys: { EVM, Tezos }
     } = account;
+
+    const accountIdSlug = getAccountIdSlug(account);
+
     const evmPublicKeyHash = isDefined(EVM) && isDefined(EVM.publicKeyHash) ? EVM.publicKeyHash : '';
     const tezosPublicKeyHash = isDefined(Tezos) && isDefined(Tezos.publicKeyHash) ? Tezos.publicKeyHash : '';
 
@@ -77,7 +80,7 @@ export const useFiatTotalBalance = () => {
     const totalSumOfGasTokenAndAccountToken = tokensBalance.plus(gasTokenBalance);
     totalAccountsBalance = totalAccountsBalance.plus(totalSumOfGasTokenAndAccountToken);
 
-    return { ...acc, [name]: totalSumOfGasTokenAndAccountToken.toFixed(2) };
+    return { ...acc, [accountIdSlug]: totalSumOfGasTokenAndAccountToken.toFixed(2) };
   }, {});
 
   return { accountsBalanceInUsd, totalAccountsBalance: totalAccountsBalance.toFixed(2) };
