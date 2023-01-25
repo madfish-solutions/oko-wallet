@@ -1,21 +1,24 @@
 import { isDefined } from '@rnw-community/shared';
+import { BigNumber } from 'bignumber.js';
 import { useMemo } from 'react';
 
 import { GAS_TOKEN_ADDRESS } from '../constants/defaults';
-import { Token, TokenWithBigNumberBalance } from '../interfaces/token.interface';
+import { Token, TokenWithFiatBalance } from '../interfaces/token.interface';
 import { useTokensMarketInfoSelector } from '../store/tokens-market-info/token-market-info.selectors';
+import { createEntity } from '../store/utils/entity.utils';
 import { useSelectedNetworkSelector } from '../store/wallet/wallet.selectors';
 import { getDollarValue } from '../utils/get-dollar-amount.util';
 import { getTokenMetadataSlug } from '../utils/token-metadata.util';
+import { getFormattedBalance } from '../utils/units.utils';
 
-export const useSortAccountTokensByBalance = (tokens: Token[]): TokenWithBigNumberBalance[] => {
+export const useSortAccountTokensByBalance = (tokens: Token[]): TokenWithFiatBalance[] => {
   const allTokensMarketInfo = useTokensMarketInfoSelector();
   const { chainId } = useSelectedNetworkSelector();
 
   const tokensWithDollarBalance = tokens.map(asset => {
     const tokenMetadataSlug = getTokenMetadataSlug(chainId, asset.tokenAddress);
 
-    const valueInDollar = getDollarValue({
+    const fiatBalance = getDollarValue({
       amount: asset.balance?.data ?? 0,
       price: isDefined(allTokensMarketInfo[tokenMetadataSlug]) ? allTokensMarketInfo[tokenMetadataSlug].price : 0,
       decimals: asset.decimals,
@@ -24,7 +27,7 @@ export const useSortAccountTokensByBalance = (tokens: Token[]): TokenWithBigNumb
 
     return {
       ...asset,
-      valueInDollar
+      fiatBalance: fiatBalance.toString()
     };
   });
 
@@ -36,10 +39,12 @@ export const useSortAccountTokensByBalance = (tokens: Token[]): TokenWithBigNumb
         .filter(({ tokenAddress }) => tokenAddress !== GAS_TOKEN_ADDRESS)
         .reduce(
           (
-            acc: { tokensWithBalance: TokenWithBigNumberBalance[]; tokensWithZeroBalance: TokenWithBigNumberBalance[] },
-            currentToken: TokenWithBigNumberBalance
+            acc: { tokensWithBalance: TokenWithFiatBalance[]; tokensWithZeroBalance: TokenWithFiatBalance[] },
+            currentToken: TokenWithFiatBalance
           ) => {
-            if (currentToken.valueInDollar.gt(0)) {
+            const fiatBalance = new BigNumber(currentToken.fiatBalance);
+
+            if (fiatBalance.gt(0)) {
               return {
                 ...acc,
                 tokensWithBalance: [...(acc.tokensWithBalance ?? []), currentToken]
@@ -60,14 +65,21 @@ export const useSortAccountTokensByBalance = (tokens: Token[]): TokenWithBigNumb
 
   const sortedAccountTokens = useMemo(
     () => [
-      ...tokensWithBalance.sort((a, b) => Number(b.valueInDollar) - Number(a.valueInDollar)),
-      ...tokensWithZeroBalance.sort((a, b) => Number(b.balance.data) - Number(a.balance.data))
+      ...tokensWithBalance
+        .map(token => ({ ...token, balance: createEntity(getFormattedBalance(token.balance.data, token.decimals)) }))
+        .sort((a, b) => Number(b.fiatBalance) - Number(a.fiatBalance)),
+      ...tokensWithZeroBalance
+        .map(token => ({ ...token, balance: createEntity(getFormattedBalance(token.balance.data, token.decimals)) }))
+        .sort((a, b) => Number(b.balance.data) - Number(a.balance.data))
     ],
     [tokensWithBalance, tokensWithZeroBalance]
   );
 
   if (isDefined(gasToken)) {
-    return [gasToken, ...sortedAccountTokens];
+    return [
+      { ...gasToken, balance: createEntity(getFormattedBalance(gasToken.balance.data, gasToken.decimals)) },
+      ...sortedAccountTokens
+    ];
   }
 
   return sortedAccountTokens;

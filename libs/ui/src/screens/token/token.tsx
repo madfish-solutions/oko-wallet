@@ -17,7 +17,7 @@ import { useTokenMarketInfoSelector } from '../../store/tokens-market-info/token
 import { loadAccountTokenBalanceAction, loadGasTokenBalanceAction } from '../../store/wallet/wallet.actions';
 import { useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
 import { checkIsGasToken } from '../../utils/check-is-gas-token.util';
-import { getValueInDollarToDisplay } from '../../utils/get-dollar-value-to-display.util';
+import { getFiatBalanceToDisplay } from '../../utils/get-dollar-value-to-display.util';
 import { getFormattedBalance } from '../../utils/units.utils';
 
 import { Activity } from './components/activity/activity';
@@ -55,11 +55,11 @@ export const Token: FC<Props> = ({ style }) => {
   const { name, symbol, tokenAddress, decimals, tokenId, thumbnailUri, balance } = token;
 
   const { price, usdPriceChange24h } = useTokenMarketInfoSelector(tokenAddress, chainId);
-  const { tokenBalance, valueInDollar } = useTokenBalance(tokenAddress, tokenId);
+  const { tokenBalance, fiatBalance } = useTokenBalance(tokenAddress, tokenId);
 
   const formattedBalance = getFormattedBalance(tokenBalance.toString() ?? balance.data, decimals);
   const isGasToken = checkIsGasToken(tokenAddress);
-  const valueInDollarToDisplay = getValueInDollarToDisplay(tokenBalance, valueInDollar);
+  const fiatBalanceToDisplay = getFiatBalanceToDisplay(tokenBalance, fiatBalance);
 
   const getTokenBalanceFromContract = () => {
     if (isGasToken) {
@@ -84,7 +84,7 @@ export const Token: FC<Props> = ({ style }) => {
         />
       </HeaderContainer>
 
-      <Balance balance={formattedBalance} valueInDollar={valueInDollarToDisplay} />
+      <Balance balance={formattedBalance} fiatBalance={fiatBalanceToDisplay} />
       <NavigationBar token={token} />
 
       <Divider style={styles.divider} />

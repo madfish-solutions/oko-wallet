@@ -9,13 +9,13 @@ import { styles } from './balance.styles';
 
 interface Props {
   balance: string;
-  valueInDollar: string;
+  fiatBalance: string;
 }
 
-export const Balance: FC<Props> = ({ balance, valueInDollar }) => (
+export const Balance: FC<Props> = ({ balance, fiatBalance }) => (
   <Column style={styles.root}>
     <Text style={styles.title}>Available balance</Text>
-    <Currency amount={valueInDollar} />
+    <Currency amount={fiatBalance} />
     <TokenAmount value={balance} style={styles.balance} />
   </Column>
 );

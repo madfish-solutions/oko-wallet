@@ -23,12 +23,15 @@ export const useActiveTokenList = () => {
 
   useTimerEffect(
     () => {
-      if (isDefined(currentRoute) && !SCREENS_WITHOUT_UPDATE.includes(currentRoute.name as ScreensEnum)) {
-        const debankId = getDebankId(chainId);
+      const debankId = getDebankId(chainId);
 
-        if (isDefined(debankId) && isNotEmptyString(publicKeyHash)) {
-          dispatch(getAllUserTokensAction.submit({ debankId, publicKeyHash }));
-        }
+      if (
+        isDefined(currentRoute) &&
+        isDefined(debankId) &&
+        isNotEmptyString(publicKeyHash) &&
+        !SCREENS_WITHOUT_UPDATE.includes(currentRoute.name as ScreensEnum)
+      ) {
+        dispatch(getAllUserTokensAction.submit({ debankId, publicKeyHash }));
       }
     },
     DATA_UPDATE_TIME,

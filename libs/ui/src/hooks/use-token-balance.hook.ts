@@ -34,7 +34,7 @@ export const useTokenBalance = (tokenAddress: string, tokenId?: string) => {
       ? Number(accountsGasTokens[accountGasTokenSlug]?.data)
       : Number(token?.balance.data) ?? 0;
 
-  const valueInDollar = getDollarValue({
+  const fiatBalance = getDollarValue({
     amount: tokenBalance,
     price: isDefined(allTokensMarketInfo[tokenMetadataSlug]) ? allTokensMarketInfo[tokenMetadataSlug].price : 0,
     decimals: token?.decimals ?? 0,
@@ -43,6 +43,6 @@ export const useTokenBalance = (tokenAddress: string, tokenId?: string) => {
 
   return {
     tokenBalance: new BigNumber(tokenBalance),
-    valueInDollar
+    fiatBalance: fiatBalance.toString()
   };
 };
