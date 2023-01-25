@@ -2,15 +2,21 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 
 import { Divider } from '../../components/divider/divider';
+import { Icon } from '../../components/icon/icon';
+import { IconNameEnum } from '../../components/icon/icon-name.enum';
+import { Pressable } from '../../components/pressable/pressable';
+import { Row } from '../../components/row/row';
 import { ScreenTitle } from '../../components/screen-components/header-container/components/screen-title/screen-title';
 import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { Tabs } from '../../components/tabs/tabs';
+import { Text } from '../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { useTokenMarketInfoSelector } from '../../store/tokens-market-info/token-market-info.selectors';
-import { useTokenBalanceSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
+import { useSelectedNetworkSelector, useTokenBalanceSelector } from '../../store/wallet/wallet.selectors';
+import { colors } from '../../styles/colors';
 import { checkIsGasToken } from '../../utils/check-is-gas-token.util';
 import { getDollarValue } from '../../utils/get-dollar-amount.util';
 import { getTokenSlug } from '../../utils/token.utils';
@@ -41,7 +47,7 @@ const tabs = [
 ];
 
 export const Token: FC<Props> = ({ style }) => {
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation();
   const {
     params: { token }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Token>>();
@@ -54,6 +60,8 @@ export const Token: FC<Props> = ({ style }) => {
   const formattedBalance = getFormattedBalance(balanceFromStore ?? balance.data, decimals);
   const isGasToken = checkIsGasToken(tokenAddress);
   const usdBalance = getDollarValue({ amount: balance?.data ?? 0, price, decimals });
+
+  const navigateToEditTokenScreen = () => navigate(ScreensEnum.EditToken, { token });
 
   return (
     <ScreenContainer style={[styles.root, style]}>
@@ -73,7 +81,22 @@ export const Token: FC<Props> = ({ style }) => {
 
       <Divider style={styles.divider} />
 
-      <Tabs values={tabs} />
+      <Tabs
+        values={tabs}
+        additionalTabHeader={
+          <Pressable onPress={navigateToEditTokenScreen} disabled={isGasToken} style={styles.editTokenButton}>
+            <Row>
+              <Text style={[styles.editText, isGasToken && styles.disabled]}>Edit Token</Text>
+              <Icon
+                name={IconNameEnum.EditSmall}
+                iconStyle={styles.editIcon}
+                color={isGasToken ? colors.bgGrey5 : colors.orange}
+              />
+            </Row>
+          </Pressable>
+        }
+        tabsStyle={styles.tabs}
+      />
     </ScreenContainer>
   );
 };
