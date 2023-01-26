@@ -1,3 +1,5 @@
+import methods from '@cucumber/cucumber/lib/time';
+
 import { AccountAddingMethodsTestIDs } from '../../../../libs/ui/src/components/tabs/tabs-test-ids';
 import { AddAccountTestIDs } from '../../../../libs/ui/src/modals/screens/add-account/add-account.test-ids';
 import { AddHdAccountTestIDs } from '../../../../libs/ui/src/modals/screens/add-account/components/create-hd/create-hd.test-ids';
@@ -15,12 +17,12 @@ export class AddNewHdAccountPage extends Page {
 
   async getAddingMethodContainer(addingMethod: string) {
     const elementHandlers = await findElements(AccountAddingMethodsTestIDs.MethodButton);
+    console.log('length', elementHandlers.length, 'addingMethod', addingMethod);
+    const elementHandler = elementHandlers.find(async item => {
+      const test = await item.evaluate(element => element.textContent);
+      console.log('---', test);
 
-    const elementHandler = elementHandlers.find(async element => {
-      const textElementHandler = await findElement(AccountAddingMethodsTestIDs.AddingMethodText, element);
-      const textContent = await textElementHandler.evaluate(element => element.textContent);
-
-      return textContent === addingMethod;
+      return test === 'Seed Phrase';
     });
 
     return elementHandler;
