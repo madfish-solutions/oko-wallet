@@ -1,6 +1,7 @@
 import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React, { FC, Fragment, useCallback, useEffect, useRef, useState, ReactNode } from 'react';
 import { Animated, Easing, GestureResponderEvent, LayoutChangeEvent, Pressable, View } from 'react-native';
+import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { getCustomSize } from '../../styles/format-size';
@@ -9,9 +10,10 @@ import { Divider } from '../divider/divider';
 import { Row } from '../row/row';
 import { Text } from '../text/text';
 
+import { AccountAddingMethodsTestIDs } from './tabs-test-ids';
 import { styles } from './tabs.styles';
 
-interface Props {
+interface Props extends TestIDProps {
   values: { id: number; title: string; Component: FC }[];
   tabsStyle?: ViewStyleProps;
   activeItemId?: number;
@@ -91,12 +93,18 @@ export const Tabs: FC<Props> = ({ values, tabsStyle, activeItemId, activeItemCal
           {values.map(({ id, title }, index) => (
             <Fragment key={id}>
               <Pressable
+                testID={AccountAddingMethodsTestIDs.MethodButton}
                 ref={el => (index === (activeElementId - 1 ?? 0) ? (tabRef.current = el) : null)}
                 onLayout={onTabLayout}
                 onPress={el => handleActiveItem(id, el)}
                 style={styles.element}
               >
-                <Text style={[styles.text, activeElementId === id && styles.active]}>{title}</Text>
+                <Text
+                  style={[styles.text, activeElementId === id && styles.active]}
+                  testID={AccountAddingMethodsTestIDs.AddingMethodText}
+                >
+                  {title}
+                </Text>
               </Pressable>
               {values.length - 1 !== index && <Divider style={styles.divider} />}
             </Fragment>
