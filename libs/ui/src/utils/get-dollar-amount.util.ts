@@ -15,7 +15,7 @@ interface GetDollarValueArgs {
 }
 
 export function getDollarValue(arg: {
-  amount: string | number;
+  amount: string;
   decimals: number;
   price: number | undefined;
   errorValue?: string;
@@ -23,7 +23,7 @@ export function getDollarValue(arg: {
 }): string;
 
 export function getDollarValue(arg: {
-  amount: string | number;
+  amount: string;
   decimals: number;
   price: number | undefined;
   errorValue?: BigNumber;

@@ -22,6 +22,7 @@ export const AssetsWidget: FC<TestIDProps> = ({ testID }) => {
   const { navigate } = useNavigation();
   const accountTokens = useVisibleAccountTokensAndGasTokenSelector();
   const sortedTokens = useSortAccountTokensByBalance(accountTokens);
+
   const visibleAccountTokens = useMemo(() => sortedTokens.slice(0, VISIBLE_TOKENS_NUMBER), [sortedTokens]);
 
   const navigateToTokens = () => navigate(ScreensEnum.Tokens);

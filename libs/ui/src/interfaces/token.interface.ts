@@ -5,4 +5,4 @@ export type GasTokenMetadata = Pick<TokenMetadata, 'name' | 'decimals' | 'symbol
 
 export type Token = AccountToken & TokenMetadata;
 
-export type TokenWithFiatBalance = Token & { fiatBalance: string };
+export type TokenWithFiatBalance = Token & { fiatBalance: number };

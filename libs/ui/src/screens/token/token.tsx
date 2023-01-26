@@ -16,11 +16,10 @@ import { DATA_UPDATE_TIME } from '../../constants/update-time';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useTimerEffect } from '../../hooks/use-timer-effect.hook';
-import { useTokenBalance } from '../../hooks/use-token-balance.hook';
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { useTokenMarketInfoSelector } from '../../store/tokens-market-info/token-market-info.selectors';
 import { loadAccountTokenBalanceAction, loadGasTokenBalanceAction } from '../../store/wallet/wallet.actions';
-import { useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
+import { useCurrentTokenSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
 import { colors } from '../../styles/colors';
 import { checkIsGasToken } from '../../utils/check-is-gas-token.util';
 import { getFiatBalanceToDisplay } from '../../utils/get-dollar-value-to-display.util';
@@ -53,19 +52,17 @@ const tabs = [
 export const Token: FC<Props> = ({ style }) => {
   const { goBack, navigate } = useNavigation();
   const {
-    params: { token }
+    params: { tokenAddress, tokenId }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Token>>();
   const { chainId } = useSelectedNetworkSelector();
   const dispatch = useDispatch();
 
-  const { name, symbol, tokenAddress, decimals, tokenId, thumbnailUri, balance } = token;
-
+  const token = useCurrentTokenSelector(tokenAddress, tokenId);
   const { price, usdPriceChange24h } = useTokenMarketInfoSelector(tokenAddress, chainId);
-  const { tokenBalance, fiatBalance } = useTokenBalance(tokenAddress, tokenId);
 
-  const formattedBalance = getFormattedBalance(tokenBalance.toString() ?? balance.data, decimals);
   const isGasToken = checkIsGasToken(tokenAddress);
-  const fiatBalanceToDisplay = getFiatBalanceToDisplay(tokenBalance, fiatBalance);
+  const formattedBalance = getFormattedBalance(token.balance.data, token.decimals);
+  const fiatBalanceToDisplay = getFiatBalanceToDisplay(token.balance.data, token.fiatBalance);
 
   const getTokenBalanceFromContract = () => {
     if (isGasToken) {
@@ -75,19 +72,19 @@ export const Token: FC<Props> = ({ style }) => {
     }
   };
 
-  useTimerEffect(getTokenBalanceFromContract, DATA_UPDATE_TIME, [token, chainId]);
+  useTimerEffect(getTokenBalanceFromContract, DATA_UPDATE_TIME, [chainId]);
 
   const navigateToEditTokenScreen = () => navigate(ScreensEnum.EditToken, { token });
 
   return (
     <ScreenContainer style={[styles.root, style]}>
       <HeaderContainer isSelectors>
-        <ScreenTitle title={symbol} onBackButtonPress={goBack} />
+        <ScreenTitle title={token.symbol} onBackButtonPress={goBack} />
         <HeaderSideToken
-          name={name}
+          name={token.name}
           dynamics={usdPriceChange24h}
           price={price}
-          thumbnailUri={thumbnailUri}
+          thumbnailUri={token.thumbnailUri}
           isGasToken={isGasToken}
         />
       </HeaderContainer>
