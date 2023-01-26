@@ -40,7 +40,7 @@ export const AccountsSelector: FC = () => {
   const selectedNetworkType = useSelectedNetworkTypeSelector();
   const { totalAccountsBalance, accountsBalanceInUsd } = useFiatTotalBalance();
 
-  const totalBalanceOfSelectedAccount = accountsBalanceInUsd[selectedAccount.name];
+  const totalBalanceOfSelectedAccount = accountsBalanceInUsd[selectedAccount.accountId];
 
   const handleChangeAccount = (account: AccountInterface) => {
     if (checkIsNetworkTypeKeyExist(account, selectedNetworkType)) {

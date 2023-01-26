@@ -26,6 +26,7 @@ import Document from './assets/document.svg';
 import DropdownSelector from './assets/dropdown-selector.svg';
 import DropdownIcon from './assets/dropdown.svg';
 import DropupIcon from './assets/dropup.svg';
+import EditSmall from './assets/edit-small.svg';
 import EditIcon from './assets/edit.svg';
 import EmptyCheckbox from './assets/empty-checkbox.svg';
 import EmptySearch from './assets/empty-search.svg';
@@ -118,6 +119,7 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Dropdown]: DropdownIcon,
   [IconNameEnum.Dropup]: DropupIcon,
   [IconNameEnum.Edit]: EditIcon,
+  [IconNameEnum.EditSmall]: EditSmall,
   [IconNameEnum.EyeClosed]: EyeClosedIcon,
   [IconNameEnum.EyeOpen]: EyeOpenIcon,
   [IconNameEnum.Gas]: GasIcon,

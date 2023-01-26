@@ -51,7 +51,7 @@ export const AccountsList: FC<Props> = ({
         icon={<RobotIcon seed={publicKeyHash} />}
         isActive={isAccountSelected}
         balanceTitle="Total balance"
-        balance={<ModalAccountBalance balance={accountsBalanceInUsd[item.name]} />}
+        balance={<ModalAccountBalance balance={accountsBalanceInUsd[item.accountId]} />}
         onSelectItem={() => onSelectItem(item)}
         rightBottomComponent={
           isDefined(onEdit) ? (
