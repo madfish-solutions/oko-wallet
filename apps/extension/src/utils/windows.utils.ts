@@ -1,5 +1,7 @@
 import { windows, runtime, Windows, Runtime } from 'webextension-polyfill';
 
+import { POPUP_OPEN } from '../constants/background';
+
 const popupCreateData: Windows.CreateCreateDataType = {
   type: 'popup',
   width: 360,
@@ -8,10 +10,10 @@ const popupCreateData: Windows.CreateCreateDataType = {
   left: 20
 };
 
-export const openPopup = async (params: { [x: string]: string }, port: Runtime.Port) => {
+export const openPopup = async (params: Record<string, string>, port: Runtime.Port) => {
   windows.create({
     ...popupCreateData,
     url: runtime.getURL(`popup.html?${new URLSearchParams(params).toString()}`)
   });
-  port.postMessage({ type: 'POPUP_OPEN' });
+  port.postMessage({ type: POPUP_OPEN });
 };

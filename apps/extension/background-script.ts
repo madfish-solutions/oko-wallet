@@ -3,13 +3,14 @@ import './shim.js';
 import { BackgroundMessage, BackgroundMessageType, E2eMessageType } from 'ui/background-script';
 import { Runtime, runtime, scripting, storage } from 'webextension-polyfill';
 
+import { POPUP_CLOSED, POPUP_OPEN } from './src/constants/background';
 import {
   LAST_USER_ACTIVITY_TIMESTAMP_KEY,
   LOCK_TIME_PERIOD_KEY,
   PASSWORD_HASH_KEY
 } from './src/constants/storage-keys';
 import { DAppMessage, InformMessage } from './src/interfaces/dapp-message.interface';
-import { handleMessage } from './src/utils/dApp-method.utils';
+import { handleDAppMessage } from './src/utils/dApp-method.utils';
 import { getSessionPasswordHash, setToStorage } from './src/utils/session.utils';
 import { getState } from './src/utils/state.utils';
 
@@ -48,27 +49,38 @@ runtime.onConnect.addListener(async port => {
   setToStorage({ [LOCK_TIME_PERIOD_KEY]: lockTimePeriod });
 
   let isPopupOpened = false;
-  const requestStack: { message: DAppMessage }[] = [];
+  const dAppMessagesStack: DAppMessage[] = [];
+
+  const processRequestStack = async () => {
+    while (!isPopupOpened && dAppMessagesStack.length > 0) {
+      const firstMessage = dAppMessagesStack.shift();
+      if (firstMessage) {
+        await handleDAppMessage(firstMessage, port);
+      }
+    }
+  };
 
   // listen content script messages
   port.onMessage.addListener(async (message: DAppMessage | InformMessage) => {
-    runtime.onMessage.addListener(async newMessage => {
-      if (newMessage.type === 'POPUP_CLOSED') {
-        requestStack.forEach(async item => await handleMessage(item.message, port));
-        requestStack.length = 0;
+    runtime.onMessage.addListener(async (newMessage: InformMessage) => {
+      if (newMessage.type === POPUP_CLOSED) {
+        isPopupOpened = false;
+        await processRequestStack();
       }
 
       return Promise.resolve();
     });
 
-    if ((message as InformMessage).type === 'POPUP_OPEN') {
-      isPopupOpened = true;
+    if ('type' in message) {
+      if (message.type === POPUP_OPEN) {
+        isPopupOpened = true;
+      }
 
       return Promise.resolve();
     }
-    isPopupOpened
-      ? requestStack.push({ message: message as DAppMessage })
-      : await handleMessage(message as DAppMessage, port);
+
+    dAppMessagesStack.push(message);
+    await processRequestStack();
   });
 });
 

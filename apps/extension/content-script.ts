@@ -3,6 +3,7 @@ import { WindowPostMessageStream } from '@metamask/post-message-stream';
 import pump from 'pump';
 import { runtime } from 'webextension-polyfill';
 
+import { POPUP_OPEN } from './src/constants/background';
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
 import { getWindowMetadata } from './src/utils/window.utils';
 
@@ -19,7 +20,7 @@ const pageStream = new WindowPostMessageStream({
 
 // listen background-script message and send message to dApps
 myPort.onMessage.addListener(async message => {
-  if (message.type === 'POPUP_OPEN') {
+  if (message.type === POPUP_OPEN) {
     myPort.postMessage(message);
 
     return Promise.resolve();

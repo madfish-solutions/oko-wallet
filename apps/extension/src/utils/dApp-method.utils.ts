@@ -8,7 +8,7 @@ import { createDAppNotificationResponse, getHexChanId } from './network.utils';
 import { getState } from './state.utils';
 import { openPopup } from './windows.utils';
 
-export const handleMessage = async (message: DAppMessage, port: Runtime.Port) => {
+export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port) => {
   const state = await getState();
   const data = message.data.data.data;
 
