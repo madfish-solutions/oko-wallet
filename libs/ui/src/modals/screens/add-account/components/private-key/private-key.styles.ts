@@ -16,17 +16,19 @@ export const styles = StyleSheet.create({
     marginBottom: getCustomSize(3.5)
   },
   container: {
-    position: 'relative',
-    marginBottom: getCustomSize(3.5)
+    position: 'relative'
   },
   inputContainer: {
     width: '100%'
   },
+  inputInnerContainer: {
+    height: getCustomSize(14.75)
+  },
   textarea: {
-    height: getCustomSize(14.75),
-    marginTop: getCustomSize(1.25),
-    marginBottom: getCustomSize(3),
-    paddingRight: getCustomSize()
+    height: '100%',
+    paddingRight: getCustomSize(4.25),
+    paddingTop: getCustomSize(1.75),
+    paddingBottom: getCustomSize(1.75)
   },
   clearIcon: {
     position: 'absolute',
