@@ -24,6 +24,6 @@ export const Pages = {
   RevealPrivateKey: new RevealPrivateKeyPage(),
   RevealSeedPhrase: new RevealSeedPhrasePage(),
   AccountsSelector: new AccountsSelectorPage(),
-  AddNewHdAccountPage: new AddNewHdAccountPage(),
+  AddNewHdAccount: new AddNewHdAccountPage(),
   AddNewAccountBySeed: new AddNewAccountBySeedPage()
 };
