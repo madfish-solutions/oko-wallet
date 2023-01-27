@@ -99,12 +99,7 @@ export const Tabs: FC<Props> = ({ values, tabsStyle, activeItemId, activeItemCal
                 onPress={el => handleActiveItem(id, el)}
                 style={styles.element}
               >
-                <Text
-                  style={[styles.text, activeElementId === id && styles.active]}
-                  testID={AccountAddingMethodsTestIDs.AddingMethodText}
-                >
-                  {title}
-                </Text>
+                <Text style={[styles.text, activeElementId === id && styles.active]}>{title}</Text>
               </Pressable>
               {values.length - 1 !== index && <Divider style={styles.divider} />}
             </Fragment>

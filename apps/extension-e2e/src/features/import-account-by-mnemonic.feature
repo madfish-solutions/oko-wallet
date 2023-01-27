@@ -9,5 +9,5 @@ Feature: Add imported account by mnemonic
     And I press Account Adding button on the AccountsSelector page
     
     And I select Seed Phrase as account adding method
-    
+    And I enter my 
 

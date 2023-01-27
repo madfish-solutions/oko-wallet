@@ -1,3 +1,3 @@
-export enum SeedPhraseTestIDs {
-  AddingMethodsTabs'/./3
+export enum AddBySeedPhraseTestIDs {
+  SeedPhraseContainer = 'Add new account by Seed/Seed Phrase container'
 }

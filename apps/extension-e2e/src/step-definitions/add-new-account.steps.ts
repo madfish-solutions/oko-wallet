@@ -1,5 +1,4 @@
 import { Given } from '@cucumber/cucumber';
-import { expect } from 'chai';
 
 import { Pages } from '../page-objects';
 
