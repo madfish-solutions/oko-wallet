@@ -44,16 +44,13 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=edge,branch=main
             type=edge,branch=development,suffix=-dev
             type=ref,event=tag
             type=ref,event=pr
             type=sha
-          labels: |
-            org.opencontainers.image.title=oko-wallet-backend
-            org.opencontainers.image.description="Backend for OKO wallet app."
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
@@ -61,4 +58,7 @@ jobs:
           file: ./backend.Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          labels: |
+            org.opencontainers.image.title=oko-wallet-backend
+            org.opencontainers.image.description="Backend for OKO wallet app."
+            ${{ steps.meta.outputs.labels }}
