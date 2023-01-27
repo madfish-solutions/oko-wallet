@@ -50,13 +50,15 @@ jobs:
             type=ref,event=tag
             type=ref,event=pr
             type=sha
+          labels: |
+            org.opencontainers.image.title=oko-wallet-backend
+            org.opencontainers.image.description="Backend for OKO wallet app."
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: .
-          file: backend.Dockerfile
+          file: ./backend.Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
