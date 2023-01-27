@@ -6,20 +6,20 @@ on:
       - main
       - development
     tags:
-      - v*
+      - "v*"
     paths:
-      - apps/backend/**
-      - !apps/backend/readme.md
-      - libs/backend-types/**
-      - !libs/backend-types/readme.md
+      - "apps/backend/**"
+      - "!apps/backend/readme.md"
+      - "libs/backend-types/**"
+      - "!libs/backend-types/readme.md"
   pull_request:
     branches:
       - development
     paths:
-      - apps/backend/**
-      - !apps/backend/readme.md
-      - libs/backend-types/**
-      - !libs/backend-types/readme.md
+      - "apps/backend/**"
+      - "!apps/backend/readme.md"
+      - "libs/backend-types/**"
+      - "!libs/backend-types/readme.md"
 
 env:
   REGISTRY: ghcr.io
