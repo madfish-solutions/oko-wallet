@@ -146,7 +146,7 @@ export const useGasTokenSelector = (): TokenWithFiatBalance => {
       isVisible: true,
       fiatBalance
     }),
-    [chainId, accountsGasTokens, accountGasTokenSlug, allTokensMarketInfo]
+    [chainId, accountsGasTokens, accountGasTokenSlug, fiatBalance]
   );
 };
 

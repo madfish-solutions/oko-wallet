@@ -6,7 +6,7 @@ import { TOKEN_DOLLAR_VALUE_PLUG } from '../constants/defaults';
 import { formatUnits } from './units.utils';
 
 interface GetDollarValueArgs {
-  amount: string | number;
+  amount: string;
   decimals: number;
   price: number | undefined;
   errorValue?: string | BigNumber;
