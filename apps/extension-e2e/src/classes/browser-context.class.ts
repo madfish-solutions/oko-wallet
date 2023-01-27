@@ -11,6 +11,6 @@ export class BrowserContext {
   public static browser: Browser;
   public static page: Page;
   public static seedPhrase = DEFAULT_SEED_PHRASE;
-  public static oldSeedPhrase = DEFAULT_SEED_PHRASE;
+  public static oldSeedPhrase = OLD_SEED_PHRASE;
   public static password = DEFAULT_PASSWORD;
 }

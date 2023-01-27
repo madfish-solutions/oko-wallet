@@ -162,7 +162,7 @@ export const SeedPhrase: FC = () => {
                       onBlur={handleInputBlur}
                       onChangeText={newValue => handleInputChange(newValue, index)}
                       style={[styles.mnemonicInput, isSubmitted && !isNotEmptyString(value) && styles.error]}
-                      testID={AddBySeedPhraseTestIDs.SeedPhraseContainer}
+                      testID={AddBySeedPhraseTestIDs.SeedPhraseInput}
                     />
                     <Text selectable={false} style={styles.wordIndex}>{`${index + 1}.`}</Text>
                     {isNotEmptyString(value) && isShowProtectLayout && !isSelectedInput && (
@@ -223,6 +223,7 @@ export const SeedPhrase: FC = () => {
         onSubmitPress={handleSubmit(onSubmit)}
         isSubmitDisabled={Boolean(Object.keys(errors).length) || (isSubmitSuccessful && isEmptyFieldsExist) || !!error}
         style={styles.buttons}
+        testID={AddBySeedPhraseTestIDs.ImportButton}
       />
     </>
   );

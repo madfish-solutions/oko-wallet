@@ -9,3 +9,7 @@ Given(/I select (.*) as account adding method/, async (addingMethod: string) => 
   }
   await methodSelectorContainer.click();
 });
+
+Given(/I enter old mnemonic/, async () => {
+  await Pages.AddNewAccountBySeed.enterOldMnemonicStep();
+});

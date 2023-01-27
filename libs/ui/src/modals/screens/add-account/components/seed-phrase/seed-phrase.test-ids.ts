@@ -1,3 +1,4 @@
 export enum AddBySeedPhraseTestIDs {
-  SeedPhraseContainer = 'Add new account by Seed/Seed Phrase container'
+  SeedPhraseInput = 'AddNewAccountBySeed/Seed Phrase input',
+  ImportButton = 'AddNewAccountBySeed/Import button'
 }

@@ -21,7 +21,6 @@ export class AccountsSelectorPage extends Page {
     );
     const namesArray = await Promise.all(textContents);
     result = namesArray.includes(name);
-    console.log(namesArray, 'name-', name, 'result', result);
 
     return result;
   }
