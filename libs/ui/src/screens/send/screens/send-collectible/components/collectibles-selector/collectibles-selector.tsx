@@ -15,7 +15,7 @@ import { Text } from '../../../../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../../../../enums/sreens.enum';
 import { useFilterAccountTokens } from '../../../../../../hooks/use-filter-tokens.hook';
 import { useNavigation } from '../../../../../../hooks/use-navigation.hook';
-import { TokenWithFiatBalance } from '../../../../../../interfaces/token.interface';
+import { Token } from '../../../../../../interfaces/token.interface';
 import { ModalContainer } from '../../../../../../modals/components/modal-container/modal-container';
 import {
   useCollectiblesSelector,
@@ -27,7 +27,7 @@ import { getTokenSlug } from '../../../../../../utils/token.utils';
 
 import { styles } from './collectibles-selector.styles';
 
-const keyExtractor = ({ tokenAddress, tokenId }: TokenWithFiatBalance) => getTokenSlug(tokenAddress, tokenId);
+const keyExtractor = ({ tokenAddress, tokenId }: Token) => getTokenSlug(tokenAddress, tokenId);
 
 const COLLECTIBLE_IMAGE_SIZE = getCustomSize(8.375);
 
@@ -55,7 +55,7 @@ export const CollectiblesSelector: FC = () => {
     [accountCollectibles]
   );
 
-  const renderItem = ({ item, index }: ListRenderItemInfo<TokenWithFiatBalance>) => {
+  const renderItem = ({ item, index }: ListRenderItemInfo<Token>) => {
     const isCollectibleSelected = selectedIndex === index;
     const onSelectItem = () => navigate(ScreensEnum.SendCollectible, { token: item });
 

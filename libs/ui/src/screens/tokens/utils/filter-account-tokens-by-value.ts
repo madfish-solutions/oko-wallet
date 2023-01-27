@@ -1,7 +1,7 @@
-import { Token, TokenWithFiatBalance } from '../../../interfaces/token.interface';
+import { Token } from '../../../interfaces/token.interface';
 import { checkIsGasToken } from '../../../utils/check-is-gas-token.util';
 
-export const filterAccountTokensByValue = (tokens: Token[] | TokenWithFiatBalance[], searchValue: string) =>
+export const filterAccountTokensByValue = (tokens: Token[], searchValue: string): Token[] =>
   tokens.filter(token => {
     const commonCondition =
       token.name.toLowerCase().includes(searchValue.toLowerCase()) ||

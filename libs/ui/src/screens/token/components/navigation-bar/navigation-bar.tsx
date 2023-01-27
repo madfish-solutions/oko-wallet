@@ -7,7 +7,7 @@ import { Icon } from '../../../../components/icon/icon';
 import { Row } from '../../../../components/row/row';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { TokenWithFiatBalance } from '../../../../interfaces/token.interface';
+import { Token } from '../../../../interfaces/token.interface';
 import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
 
@@ -15,7 +15,7 @@ import { TokenNavigationBarOption, tokenNavigationBar } from './constants';
 import { styles } from './navigation-bar.styles';
 
 interface Props {
-  token: TokenWithFiatBalance;
+  token: Token;
 }
 
 export const NavigationBar: FC<Props> = ({ token }) => {

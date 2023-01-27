@@ -1,4 +1,4 @@
-import { TokenWithFiatBalance } from '../interfaces/token.interface';
+import { Token } from '../interfaces/token.interface';
 import { createEntity } from '../store/utils/entity.utils';
 
 export const EMPTY_STRING = '';
@@ -23,7 +23,7 @@ export const FLOAT_ZERO_STRING = '0.0';
 
 export const TOKEN_DOLLAR_VALUE_PLUG = '---';
 
-export const EMPTY_TOKEN: TokenWithFiatBalance = {
+export const EMPTY_TOKEN: Token = {
   tokenAddress: '',
   balance: createEntity('0'),
   decimals: 0,

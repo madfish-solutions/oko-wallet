@@ -9,7 +9,7 @@ import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
 import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
-import { Token, TokenWithFiatBalance } from '../../interfaces/token.interface';
+import { Token } from '../../interfaces/token.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';
 import { getAccountTokensSlug } from '../../utils/address.util';
 import { getAllAccountsWithoutCurrent } from '../../utils/get-all-accounts-without-current.util';
@@ -121,7 +121,7 @@ export const useAccountAssetsSelector = () =>
     checkEquality
   );
 
-export const useGasTokenSelector = (): TokenWithFiatBalance => {
+export const useGasTokenSelector = (): Token => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const accountsGasTokens = useAccountsGasTokensSelector();
   const { gasTokenMetadata, chainId } = useSelectedNetworkSelector();
@@ -150,7 +150,7 @@ export const useGasTokenSelector = (): TokenWithFiatBalance => {
   );
 };
 
-export const useAccountTokensSelector = (): TokenWithFiatBalance[] => {
+export const useAccountTokensSelector = (): Token[] => {
   const assets = useAccountAssetsSelector();
   const allTokensMarketInfo = useTokensMarketInfoSelector();
   const { chainId } = useSelectedNetworkSelector();
@@ -185,7 +185,7 @@ export const useVisibleAccountTokensSelector = () => {
   return useMemo(() => accountTokens.filter(({ isVisible }) => isVisible), [accountTokens]);
 };
 
-export const useAccountTokensAndGasTokenSelector = (): TokenWithFiatBalance[] => {
+export const useAccountTokensAndGasTokenSelector = (): Token[] => {
   const allAccountTokens = useAccountTokensSelector();
   const gasToken = useGasTokenSelector();
 
@@ -203,7 +203,7 @@ export const useCurrentTokenSelector = (tokenAddress: string, tokenId?: string) 
   );
 };
 
-export const useVisibleAccountTokensAndGasTokenSelector = (): TokenWithFiatBalance[] => {
+export const useVisibleAccountTokensAndGasTokenSelector = (): Token[] => {
   const visibleAccountTokens = useVisibleAccountTokensSelector();
   const gasToken = useGasTokenSelector();
 

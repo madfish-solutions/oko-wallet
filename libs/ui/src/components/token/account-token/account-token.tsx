@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
-import { TokenWithFiatBalance } from '../../../interfaces/token.interface';
+import { Token } from '../../../interfaces/token.interface';
 import { getImageSource } from '../../../screens/wallet/components/assets-widget/utils/get-image-source.util';
 import { changeTokenVisibilityAction } from '../../../store/wallet/wallet.actions';
 import { checkIsGasToken } from '../../../utils/check-is-gas-token.util';
@@ -16,7 +16,7 @@ import { TokenItemThemesEnum } from '../token-item/enums';
 import { TokenItem } from '../token-item/token-item';
 
 interface Props {
-  token: TokenWithFiatBalance;
+  token: Token;
   showButton?: boolean;
   theme?: TokenItemThemesEnum;
 }
@@ -28,7 +28,7 @@ export const AccountToken: FC<Props> = ({ token, showButton, theme }) => {
   const { thumbnailUri, symbol, name, tokenAddress, fiatBalance } = token;
 
   const isGasToken = checkIsGasToken(tokenAddress);
-  const fiatBalanceToDispaly = getFiatBalanceToDisplay(token.balance.data, fiatBalance);
+  const fiatBalanceToDispaly = getFiatBalanceToDisplay(token.balance.data, fiatBalance ?? 0);
   const formattedBalance = getFormattedBalance(token.balance.data, token.decimals);
   const imageSource = getImageSource(thumbnailUri);
 

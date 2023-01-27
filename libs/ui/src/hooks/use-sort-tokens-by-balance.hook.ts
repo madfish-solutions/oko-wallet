@@ -2,14 +2,14 @@ import { BigNumber } from 'bignumber.js';
 import { useMemo } from 'react';
 
 import { GAS_TOKEN_ADDRESS } from '../constants/defaults';
-import { TokenWithFiatBalance } from '../interfaces/token.interface';
+import { Token } from '../interfaces/token.interface';
 import { getFormattedBalance } from '../utils/units.utils';
 
-export const useSortAccountTokensByBalance = (tokens: TokenWithFiatBalance[]): TokenWithFiatBalance[] =>
+export const useSortAccountTokensByBalance = (tokens: Token[]): Token[] =>
   useMemo(
     () =>
       tokens.sort((a, b) => {
-        const zeroBalances = new BigNumber(a.fiatBalance).eq(0) && new BigNumber(b.fiatBalance).eq(0);
+        const zeroBalances = new BigNumber(a.fiatBalance ?? 0).eq(0) && new BigNumber(b.fiatBalance ?? 0).eq(0);
 
         if (a.tokenAddress === GAS_TOKEN_ADDRESS) {
           return -1;

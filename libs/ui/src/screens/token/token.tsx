@@ -62,7 +62,7 @@ export const Token: FC<Props> = ({ style }) => {
 
   const isGasToken = checkIsGasToken(tokenAddress);
   const formattedBalance = getFormattedBalance(token.balance.data, token.decimals);
-  const fiatBalanceToDisplay = getFiatBalanceToDisplay(token.balance.data, token.fiatBalance);
+  const fiatBalanceToDisplay = getFiatBalanceToDisplay(token.balance.data, token.fiatBalance ?? 0);
 
   const getTokenBalanceFromContract = () => {
     if (isGasToken) {

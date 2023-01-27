@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
 
 import { EMPTY_STRING } from '../constants/defaults';
-import { Token, TokenWithFiatBalance } from '../interfaces/token.interface';
+import { Token } from '../interfaces/token.interface';
 import { filterAccountTokensByValue } from '../screens/tokens/utils/filter-account-tokens-by-value';
 
-export const useFilterAccountTokens = (initialAccountTokens: Token[] | TokenWithFiatBalance[]) => {
+export const useFilterAccountTokens = (initialAccountTokens: Token[]) => {
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
 
   const accountTokens = useMemo(() => {

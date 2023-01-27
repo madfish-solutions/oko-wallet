@@ -11,7 +11,7 @@ import { Token } from '../../../../../../components/token/token';
 import { ScreensEnum, ScreensParamList } from '../../../../../../enums/sreens.enum';
 import { useFilterAccountTokens } from '../../../../../../hooks/use-filter-tokens.hook';
 import { useNavigation } from '../../../../../../hooks/use-navigation.hook';
-import { TokenWithFiatBalance } from '../../../../../../interfaces/token.interface';
+import { Token as TokenType } from '../../../../../../interfaces/token.interface';
 import { ModalContainer } from '../../../../../../modals/components/modal-container/modal-container';
 import { useTokensMarketInfoSelector } from '../../../../../../store/tokens-market-info/token-market-info.selectors';
 import {
@@ -28,7 +28,7 @@ import { getFormattedBalance } from '../../../../../../utils/units.utils';
 
 import { styles } from './tokens-selector.styles';
 
-const keyExtractor = ({ tokenAddress, tokenId }: TokenWithFiatBalance) => getTokenSlug(tokenAddress, tokenId);
+const keyExtractor = ({ tokenAddress, tokenId }: TokenType) => getTokenSlug(tokenAddress, tokenId);
 
 export const TokensSelector: FC = () => {
   const allTokensMarketInfoSelector = useTokensMarketInfoSelector();
@@ -41,7 +41,7 @@ export const TokensSelector: FC = () => {
   const accountTokensWithBalance = useMemo(() => getTokensWithBalance(visibleAccountTokens), [visibleAccountTokens]);
 
   const gasToken = useGasTokenSelector();
-  const accountTokensWithBalanceAndGasToken: TokenWithFiatBalance[] = useMemo(
+  const accountTokensWithBalanceAndGasToken: TokenType[] = useMemo(
     () => [gasToken, ...accountTokensWithBalance],
     [accountTokensWithBalance, gasToken]
   );
@@ -56,7 +56,7 @@ export const TokensSelector: FC = () => {
     [accountTokens]
   );
 
-  const renderItem = ({ item, index }: ListRenderItemInfo<TokenWithFiatBalance>) => {
+  const renderItem = ({ item, index }: ListRenderItemInfo<TokenType>) => {
     const isTokenSelected = selectedIndex === index;
 
     const {
