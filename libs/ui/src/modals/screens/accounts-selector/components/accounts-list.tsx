@@ -69,6 +69,7 @@ export const AccountsList: FC<Props> = ({
             </>
           )
         }
+        testID={testID}
       />
     );
   };
