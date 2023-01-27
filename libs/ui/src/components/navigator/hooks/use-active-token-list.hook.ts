@@ -3,25 +3,38 @@ import { useDispatch } from 'react-redux';
 
 import { getDebankId } from '../../../api/utils/get-debank-id.util';
 import { DATA_UPDATE_TIME } from '../../../constants/update-time';
+import { ScreensEnum } from '../../../enums/sreens.enum';
+import { useCurrentRoute } from '../../../hooks/use-current-route.hook';
 import { useTimerEffect } from '../../../hooks/use-timer-effect.hook';
-import { addNewTokensAction } from '../../../store/wallet/wallet.actions';
+import { getAllUserTokensAction } from '../../../store/wallet/wallet.actions';
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector
 } from '../../../store/wallet/wallet.selectors';
+
+const SCREENS_WITHOUT_UPDATE = [ScreensEnum.Token];
 
 export const useActiveTokenList = () => {
   const dispatch = useDispatch();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { chainId } = useSelectedNetworkSelector();
 
-  const getActiveTokenList = () => {
-    const debankId = getDebankId(chainId);
+  const currentRoute = useCurrentRoute();
 
-    if (isDefined(debankId) && isNotEmptyString(publicKeyHash)) {
-      dispatch(addNewTokensAction.submit({ debankId, publicKeyHash }));
-    }
-  };
+  useTimerEffect(
+    () => {
+      const debankId = getDebankId(chainId);
 
-  useTimerEffect(getActiveTokenList, DATA_UPDATE_TIME, [chainId, publicKeyHash]);
+      if (
+        isDefined(currentRoute) &&
+        isDefined(debankId) &&
+        isNotEmptyString(publicKeyHash) &&
+        !SCREENS_WITHOUT_UPDATE.includes(currentRoute.name as ScreensEnum)
+      ) {
+        dispatch(getAllUserTokensAction.submit({ debankId, publicKeyHash }));
+      }
+    },
+    DATA_UPDATE_TIME,
+    [chainId, publicKeyHash, currentRoute]
+  );
 };

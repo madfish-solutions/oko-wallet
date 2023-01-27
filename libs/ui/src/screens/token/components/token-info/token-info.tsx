@@ -6,7 +6,7 @@ import { CopyText } from '../../../../components/copy-text/copy-text';
 import { InfoItem } from '../../../../components/info-item/info-item';
 import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
-import { useSelectedNetworkSelector } from '../../../../store/wallet/wallet.selectors';
+import { useCurrentTokenSelector, useSelectedNetworkSelector } from '../../../../store/wallet/wallet.selectors';
 import { getString } from '../../../../utils/get-string.utils';
 import { getTokenDetailsUrl } from '../../../../utils/get-token-details-url.util';
 
@@ -14,11 +14,11 @@ import { styles } from './token-info.styles';
 
 export const TokenInfo: FC = () => {
   const {
-    params: {
-      token: { tokenAddress, decimals }
-    }
+    params: { tokenAddress, tokenId }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Token>>();
   const { explorerUrl, networkType } = useSelectedNetworkSelector();
+
+  const token = useCurrentTokenSelector(tokenAddress, tokenId);
 
   const tokenMetadata = {
     ...(tokenAddress !== GAS_TOKEN_ADDRESS && {
@@ -34,7 +34,7 @@ export const TokenInfo: FC = () => {
     }),
     decimal: {
       name: 'Decimal',
-      value: decimals.toString(),
+      value: token.decimals.toString(),
       prompt: null
     }
   };

@@ -16,9 +16,9 @@ export const Activity: FC = () => {
   const { chainId } = useSelectedNetworkSelector();
 
   const tokenAddress =
-    getDebankId(chainId) !== 'klay' && params.token.tokenAddress === GAS_TOKEN_ADDRESS
+    getDebankId(chainId) !== 'klay' && params.tokenAddress === GAS_TOKEN_ADDRESS
       ? getDebankId(chainId)
-      : params.token.tokenAddress;
+      : params.tokenAddress;
 
   return <ActivitySectionList publicKeyHash={publicKeyHash} chainId={chainId} tokenAddress={tokenAddress} />;
 };
