@@ -4,7 +4,7 @@ import { BrowserContext } from '../classes/browser-context.class';
 import { initBrowserContext } from '../utils/browser-context.utils';
 import { getExtensionId, initBrowser } from '../utils/browser.utils';
 
-const LONG_TIMEOUT = 20 * 1000;
+const LONG_TIMEOUT = 40 * 1000;
 
 BeforeAll({ timeout: LONG_TIMEOUT }, async () => {
   const browser = await initBrowser();
