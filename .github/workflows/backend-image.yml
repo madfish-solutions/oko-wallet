@@ -23,7 +23,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: ${{ github.repository }}-backend
 
 jobs:
   build-container:
@@ -45,6 +45,9 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          labels: |
+            org.opencontainers.image.title=oko-wallet-backend
+            org.opencontainers.image.description="Backend for OKO wallet app."
           tags: |
             type=edge,branch=main
             type=edge,branch=development,suffix=-dev
@@ -58,7 +61,5 @@ jobs:
           file: ./backend.Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: |
-            org.opencontainers.image.title=oko-wallet-backend
-            org.opencontainers.image.description="Backend for OKO wallet app."
+          labels:
             ${{ steps.meta.outputs.labels }}
