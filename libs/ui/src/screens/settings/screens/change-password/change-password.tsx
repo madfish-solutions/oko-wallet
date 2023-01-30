@@ -1,5 +1,5 @@
 import { isDefined } from '@rnw-community/shared';
-import React, { FC, useMemo, useState, useCallback, useEffect, useRef } from 'react';
+import React, { FC, useMemo, useState, useCallback, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ScrollView, View } from 'react-native';
 

@@ -1,8 +1,7 @@
 import isEmpty from 'lodash/isEmpty';
-import React, { FC, Fragment, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import React, { FC, Fragment, PropsWithChildren, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 
 import { Button } from '../../../../components/button/button';
 import { CopyText } from '../../../../components/copy-text/copy-text';
