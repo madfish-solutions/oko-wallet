@@ -311,7 +311,7 @@ PODS:
     - RCTTypeSafety
     - React-Core
     - ReactCommon/turbomodule/core
-  - react-native-themis (0.14.10):
+  - react-native-themis (0.14.11):
     - React-Core
   - React-perflogger (0.71.1)
   - React-RCTActionSheet (0.71.1):
@@ -682,7 +682,7 @@ SPEC CHECKSUMS:
   react-native-flipper: 2d552a8178d839ef378220101fb7f0cd5b2a8003
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
-  react-native-themis: ca42bd4e6c8c3204805b593aea1d959cf96a7e07
+  react-native-themis: 32fd9e3bc9cc7589ffb8cf447efdc31f4ed45829
   React-perflogger: ec8eef2a8f03ecfa6361c2c5fb9197ef4a29cc85
   React-RCTActionSheet: a0c023b86cf4c862fa9c4eb0f6f91fbe878fb2de
   React-RCTAnimation: 168d53718c74153947c0109f55900faa64d79439
