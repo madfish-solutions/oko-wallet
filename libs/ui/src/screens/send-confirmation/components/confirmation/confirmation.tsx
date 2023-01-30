@@ -12,6 +12,7 @@ import { Text } from '../../../../components/text/text';
 import { TextInput } from '../../../../components/text-input/text-input';
 import { MainnetRpcEnum, TestnetRpcEnum } from '../../../../constants/rpc';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
+import { useScrollToOffset } from '../../../../hooks/use-scroll-to-element.hook';
 import { ModalActionContainer } from '../../../../modals/components/modal-action-container/modal-action-container';
 import {
   useSelectedAccountSelector,
@@ -65,8 +66,11 @@ export const Confirmation: FC<Props> = ({
     rpcUrl
   } = useSelectedNetworkSelector();
   const networkType = useSelectedNetworkTypeSelector();
+  const { scrollViewRef, scrollToOffset } = useScrollToOffset();
+
   const isKlaytnNetwork = rpcUrl === MainnetRpcEnum.Klaytn || rpcUrl === TestnetRpcEnum.KlaytnBaobab;
   const [speed, setSpeed] = useState(speedOptions[isKlaytnNetwork ? 0 : 1]);
+
   const {
     control,
     watch,
@@ -78,7 +82,6 @@ export const Confirmation: FC<Props> = ({
     mode: 'onChange',
     defaultValues
   });
-  const scrollViewRef = useRef<ScrollView>(null);
 
   const isConfirmButtonDisabled = !isEmpty(errors) || isTransactionLoading || isFeeLoading;
   const isOwnSpeedSelected = speed.value === SpeedEnum.Own;
@@ -102,9 +105,7 @@ export const Confirmation: FC<Props> = ({
 
   useEffect(() => {
     if (isOwnSpeedSelected) {
-      setTimeout(() => {
-        scrollViewRef?.current?.scrollTo({ y: 500 });
-      }, 0);
+      scrollToOffset();
     }
   }, [isOwnSpeedSelected]);
 
