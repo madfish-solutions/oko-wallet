@@ -3,7 +3,7 @@ name: build-backend
 on:
   push:
     branches:
-      - main
+      - master
       - development
     tags:
       - "v*"
