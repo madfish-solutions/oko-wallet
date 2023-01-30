@@ -15,7 +15,7 @@ export class AddNewAccountBySeedPage extends Page {
   }
 
   async enterOldMnemonicStep() {
-    const wordsArray = BrowserContext.oldSeedPhrase.split(' ');
+    const wordsArray = BrowserContext.importSeedPhrase.split(' ');
     const wordsInputs = await this.getWordsInputs();
 
     for (let i = 0; i < wordsArray.length; i++) {
