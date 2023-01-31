@@ -25,9 +25,10 @@ export const useFiatTotalBalance = () => {
 
   const accountsBalanceInUsd: Record<string, string> = accounts.reduce((acc, account) => {
     const {
-      name,
+      accountId,
       networksKeys: { EVM, Tezos }
     } = account;
+
     const evmPublicKeyHash = isDefined(EVM) && isDefined(EVM.publicKeyHash) ? EVM.publicKeyHash : '';
     const tezosPublicKeyHash = isDefined(Tezos) && isDefined(Tezos.publicKeyHash) ? Tezos.publicKeyHash : '';
 
@@ -77,7 +78,7 @@ export const useFiatTotalBalance = () => {
     const totalSumOfGasTokenAndAccountToken = tokensBalance.plus(gasTokenBalance);
     totalAccountsBalance = totalAccountsBalance.plus(totalSumOfGasTokenAndAccountToken);
 
-    return { ...acc, [name]: totalSumOfGasTokenAndAccountToken.toFixed(2) };
+    return { ...acc, [accountId]: totalSumOfGasTokenAndAccountToken.toFixed(2) };
   }, {});
 
   return { accountsBalanceInUsd, totalAccountsBalance: totalAccountsBalance.toFixed(2) };

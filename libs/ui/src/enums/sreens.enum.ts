@@ -107,7 +107,7 @@ export type ScreensParamList = {
   [ScreensEnum.AlmostDone]: { mnemonic: string; currentStep: number; stepsAmount: number };
   [ScreensEnum.Activity]?: { filterType: Option<ActivityFilterEnum> };
   [ScreensEnum.ActivityFilterSelector]: { filterType: Option<ActivityFilterEnum> };
-  [ScreensEnum.Token]: { token: Token };
+  [ScreensEnum.Token]: { tokenAddress: string; tokenId?: string };
   [ScreensEnum.CollectiblesList]: undefined;
   [ScreensEnum.CollectiblesList]: undefined;
   [ScreensEnum.NetworkChangeConfirmation]: { dAppOrigin: string; messageId: string; requestedChainId: string };

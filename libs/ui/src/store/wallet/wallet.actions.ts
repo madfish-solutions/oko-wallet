@@ -43,10 +43,10 @@ export const removeNetworkAction = createAction<{ network: NetworkInterface; isN
 );
 
 export const addNewTokenAction = createAction<TokenExtendedMetadata>('wallet/ADD_NEW_TOKEN');
-export const addNewTokensAction = createActions<
+export const getAllUserTokensAction = createActions<
   { debankId: string; publicKeyHash: string },
   { tokenList: TokenListResponse; debankGasTokenName: string }
->('wallet/ADD_NEW_TOKENS');
+>('wallet/GET_ALL_USER_TOKENS');
 export const editTokenAction = createAction<TokenFormTypes>('wallet/EDIT_TOKEN');
 export const changeTokenVisibilityAction = createAction<Token>('wallet/CHANGE_TOKEN_VISIBILITY');
 export const sortAccountTokensByVisibility = createAction('wallet/SORT_ACCOUNT_TOKENS_BY_VISIBILITY');

@@ -13,6 +13,7 @@ import { TextInput } from '../text-input/text-input';
 import { TouchableIcon } from '../touchable-icon/touchable-icon';
 
 import { styles } from './search-panel.styles';
+import { SearchPanelTestIDs } from './search-panel.test-ids';
 
 const SEARCH_FIELD = 'search';
 
@@ -101,7 +102,13 @@ export const SearchPanel: React.FC<Props> = ({
           <Row style={styles.iconsWrapper}>
             <TouchableIcon name={IconNameEnum.Search} onPress={showSearchField} />
             <Row>
-              {onPressAddIcon && <TouchableIcon name={IconNameEnum.Add} onPress={onPressAddIcon} />}
+              {onPressAddIcon && (
+                <TouchableIcon
+                  name={IconNameEnum.Add}
+                  onPress={onPressAddIcon}
+                  testID={SearchPanelTestIDs.AccountAddingIcon}
+                />
+              )}
               {onPressEditIcon && (
                 <TouchableIcon style={styles.extraIcon} name={IconNameEnum.Edit} onPress={onPressEditIcon} />
               )}
