@@ -60,7 +60,7 @@ export const DAppConnectionConfirmation: FC = () => {
     dispatch(connectDAppAction({ dAppInfo: params.dAppInfo, accountPublicKeyHash: selectedAccountPublicKeyHash }));
     sendNotificationToDApp('oko_accountsChanged', [selectedAccountPublicKeyHash], params.dAppInfo.origin);
     sendResponseToDAppAndClosePopup(params.messageId, [selectedAccountPublicKeyHash], params.dAppInfo.origin);
-    sendMessageToBackground(params.dAppInfo.origin);
+    sendMessageToBackground();
   };
 
   const navigateToAccountsSelector = () => navigate(ScreensEnum.AccountsSelector);

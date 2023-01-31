@@ -4,7 +4,11 @@ import React, { FC, PropsWithChildren } from 'react';
 
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { sendErrorToDAppAndClosePopup, sendResponseToDAppAndClosePopup } from '../../../../utils/dapp.utils';
+import {
+  sendErrorToDAppAndClosePopup,
+  sendMessageToBackground,
+  sendResponseToDAppAndClosePopup
+} from '../../../../utils/dapp.utils';
 import { EvmTransferParams } from '../../types';
 
 import { EvmConfirmationContainer } from './components/evm-confirmation-container/evm-confirmation-container';
@@ -20,6 +24,7 @@ export const EvmConfirmation: FC<Props> = ({ transferParams, params, children })
   const additionalSuccessCallback = (transactionResponse: TransactionResponse) => {
     if (isDefined(params)) {
       sendResponseToDAppAndClosePopup(params.messageId, transactionResponse.hash, params.dAppInfo.origin);
+      sendMessageToBackground();
     }
   };
 

@@ -60,17 +60,35 @@ runtime.onConnect.addListener(async port => {
     }
   };
 
-  // listen content script messages
-  port.onMessage.addListener(async (message: DAppMessage | InformMessage) => {
-    runtime.onMessage.addListener(async (newMessage: InformMessage) => {
-      if (newMessage.type === POPUP_CLOSED) {
+  runtime.onMessage.addListener(async (newMessage: BackgroundMessage | InformMessage) => {
+    switch (newMessage.type) {
+      case BackgroundMessageType.GetPasswordHash: {
+        return getSessionPasswordHash(isFullpageOpen);
+      }
+      case BackgroundMessageType.SetPasswordHash: {
+        if ('data' in newMessage) {
+          return setToStorage({ [PASSWORD_HASH_KEY]: newMessage.data.passwordHash });
+        }
+
+        return;
+      }
+      case E2eMessageType.ClearStorage: {
+        return storage.local.clear();
+      }
+      case POPUP_CLOSED: {
         isPopupOpened = false;
         await processRequestStack();
+
+        return Promise.resolve();
       }
+      default:
+        // @ts-ignore
+        return Promise.reject({ message: `Message with type ${newMessage.type} rejected.` });
+    }
+  });
 
-      return Promise.resolve();
-    });
-
+  // listen content script messages
+  port.onMessage.addListener(async (message: DAppMessage | InformMessage) => {
     if ('type' in message) {
       if (message.type === POPUP_OPEN) {
         isPopupOpened = true;
@@ -82,24 +100,6 @@ runtime.onConnect.addListener(async port => {
     dAppMessagesStack.push(message);
     await processRequestStack();
   });
-});
-
-// listen messages from UI
-runtime.onMessage.addListener((message: BackgroundMessage) => {
-  switch (message.type) {
-    case BackgroundMessageType.GetPasswordHash: {
-      return getSessionPasswordHash(isFullpageOpen);
-    }
-    case BackgroundMessageType.SetPasswordHash: {
-      return setToStorage({ [PASSWORD_HASH_KEY]: message.data.passwordHash });
-    }
-    case E2eMessageType.ClearStorage: {
-      return storage.local.clear();
-    }
-    default:
-      // @ts-ignore
-      return Promise.reject({ message: `Message with type ${message.type} rejected.` });
-  }
 });
 
 const isFullpagePort = (port: Runtime.Port) =>

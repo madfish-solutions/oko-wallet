@@ -39,11 +39,6 @@ const createDAppNotificationResponse = <T>(method: string, params: T) => ({
   target: 'oko-inpage'
 });
 
-const createMessageToBackground = (origin: string) => ({
-  origin,
-  type: 'POPUP_CLOSED'
-});
-
 const sendMessageToDAppTab = (response: unknown, origin: string) => {
   tabs.query({}).then(queryTabs => {
     const dAppTab = queryTabs.find(tab => tab.url?.includes(origin));
@@ -72,7 +67,6 @@ export const sendNotificationToDApp = <T>(method: string, result: T, origin: str
   sendMessageToDAppTab(notification, origin);
 };
 
-export const sendMessageToBackground = (origin: string) => {
-  const message = createMessageToBackground(origin);
-  runtime.sendMessage(undefined, message);
+export const sendMessageToBackground = () => {
+  runtime.sendMessage(undefined, { type: 'POPUP_CLOSED' });
 };
