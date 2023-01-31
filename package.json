@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "license": "MIT",
-  "author": "Andrii Ivaniv",
+  "author": "Andrii  Ivaniv",
   "scripts": {
     "install:all": "yarn && yarn install:extension && yarn install:extension-e2e && yarn install:mobile && yarn install:libs && yarn install:libs-be && yarn install:backend",
     "install:extension": "yarn --cwd apps/extension",
