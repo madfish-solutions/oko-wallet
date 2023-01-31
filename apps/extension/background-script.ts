@@ -10,6 +10,7 @@ import {
   PASSWORD_HASH_KEY
 } from './src/constants/storage-keys';
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
+import { openFullPage } from './src/utils/fullpage.utils';
 import { createDAppNotificationResponse, getHexChanId } from './src/utils/network.utils';
 import { getSessionPasswordHash, setToStorage } from './src/utils/session.utils';
 import { getState } from './src/utils/state.utils';
@@ -19,7 +20,6 @@ import {
   openNetworkChangeConfirmationPopup,
   openSignMessagePopup
 } from './src/utils/windows.utils';
-import { openFullPage } from './src/utils/fullpage.utils';
 
 let isFullpageOpen = false;
 
@@ -34,7 +34,7 @@ scripting.registerContentScripts([
   }
 ]);
 
-runtime.onInstalled.addListener(({ reason }) => reason === 'install' ? openFullPage() : null);
+runtime.onInstalled.addListener(({ reason }) => (reason === 'install' ? openFullPage() : null));
 
 runtime.onConnect.addListener(async port => {
   // check for time expired and max-view no opened then extension need to lock

@@ -8,7 +8,7 @@
     "start": "react-native start",
     "android": "react-native run-android",
     "android:build:aab": "cd android && ./gradlew bundleRelease",
-    "android:build:apk": "cd android && ./gradlew assembleDebug",
+    "android:build:apk": "cd android && ./gradlew assembleRelease",
     "ios": "react-native run-ios",
     "ios:pods": "cd ios && pod install",
     "clear:android": "cd android && ./gradlew clean",
@@ -40,7 +40,7 @@
     "react-native-sha256": "^1.4.9",
     "react-native-svg": "^13.7.0",
     "react-native-svg-transformer": "^1.0.0",
-    "react-native-themis": "^0.14.10",
+    "react-native-themis": "^0.14.11",
     "readable-stream": "^4.3.0",
     "rn-nodeify": "^10.3.0",
     "stream-browserify": "^3.0.0"
