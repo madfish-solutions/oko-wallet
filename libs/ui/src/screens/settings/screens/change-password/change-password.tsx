@@ -1,5 +1,5 @@
 import { isDefined } from '@rnw-community/shared';
-import React, { FC, useMemo, useState, useCallback } from 'react';
+import React, { FC, useMemo, useState, useCallback, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ScrollView, View } from 'react-native';
 
@@ -16,6 +16,7 @@ import { TextInput } from '../../../../components/text-input/text-input';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
 import { useChangePassword } from '../../../../hooks/use-change-password-hook';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
+import { useScrollToOffset } from '../../../../hooks/use-scroll-to-element.hook';
 import { useToast } from '../../../../hooks/use-toast.hook';
 import { useValidatePasswordForm } from '../../../../hooks/use-validate-password-form.hook';
 import { usePasswordValidation } from '../../../../hooks/use-validation-messages.hook';
@@ -41,6 +42,7 @@ export const ChangePassword: FC = () => {
   const [isSecureConfirmPassword, setIsSecureConfirmPassword] = useState(true);
   const [passwordMatchError, setPasswordMatchError] = useState<string>();
   const { showSuccessToast, showErrorToast } = useToast();
+  const { scrollViewRef, scrollToOffset } = useScrollToOffset();
 
   const handleTogglePasswordVisibility = () => setIsSecurePassword(prev => !prev);
   const handleToggleOldPasswordVisibility = () => setIsSecureOldPassword(prev => !prev);
@@ -55,7 +57,8 @@ export const ChangePassword: FC = () => {
     formState: { errors, dirtyFields, isDirty, isSubmitted }
   } = useForm({
     mode: 'onChange',
-    defaultValues
+    defaultValues,
+    shouldFocusError: false
   });
 
   const oldPassword = watch('oldPassword');
@@ -98,6 +101,12 @@ export const ChangePassword: FC = () => {
     confirmPasswordError: errors.confirmPassword?.message
   });
 
+  useEffect(() => {
+    if ('confirmPassword' in errors && Object.keys(errors).length === 1) {
+      scrollToOffset();
+    }
+  }, [Object.keys(errors).length]);
+
   const handleChangePassword = (formValue: FormTypes) => {
     if (!passwordIsNoValid) {
       changePassword(formValue.password, formValue.oldPassword);
@@ -115,7 +124,7 @@ export const ChangePassword: FC = () => {
       <HeaderContainer isSelectors>
         <ScreenTitle title="Change Password" onBackButtonPress={goBack} />
       </HeaderContainer>
-      <ScrollView style={styles.root}>
+      <ScrollView ref={scrollViewRef} style={styles.root}>
         <Controller
           control={control}
           name="oldPassword"
@@ -125,10 +134,10 @@ export const ChangePassword: FC = () => {
               <Row style={styles.inputWrapper}>
                 <TextInput
                   field={field}
-                  label="Password"
+                  label="Type current password"
                   secureTextEntry={isSecureOldPassword}
-                  placeholder="123456"
-                  prompt="Type your password"
+                  placeholder="Password"
+                  prompt="Current Password is used to protect the wallet"
                   containerStyle={styles.inputContainer}
                   inputStyle={styles.input}
                   clearIconStyles={styles.clearIcon}
@@ -162,10 +171,10 @@ export const ChangePassword: FC = () => {
               <Row style={styles.inputWrapper}>
                 <TextInput
                   field={field}
-                  label="Password"
+                  label="Set new password"
                   secureTextEntry={isSecurePassword}
-                  placeholder="Password12345"
-                  prompt="Set new password"
+                  placeholder="Password"
+                  prompt="Password is used to protect the wallet"
                   containerStyle={styles.inputContainer}
                   inputStyle={styles.input}
                   clearIconStyles={styles.clearIcon}
@@ -208,7 +217,7 @@ export const ChangePassword: FC = () => {
                 field={field}
                 label="New Password Confirm"
                 secureTextEntry={isSecureConfirmPassword}
-                placeholder="••••••••••"
+                placeholder="Password"
                 prompt="Repeat password"
                 error={errors.confirmPassword?.message}
                 containerStyle={styles.inputContainer}

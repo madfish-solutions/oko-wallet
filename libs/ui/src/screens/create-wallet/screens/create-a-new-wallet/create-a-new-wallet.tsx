@@ -1,9 +1,8 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { isDefined } from '@rnw-community/shared';
 import { generateMnemonic as generateMnemonicLib } from 'bip39';
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Pressable } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 
 import { Column } from '../../../../components/column/column';
 import { DropdownSelectedItem } from '../../../../components/dropdown/components/dropdown-selected-item/dropdown-selected-item';
@@ -18,6 +17,7 @@ import { SECURITY_TIME } from '../../../../constants/defaults';
 import { MnemonicLengthEnum, words } from '../../../../constants/seed-words-amount';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
+import { useScrollToOffset } from '../../../../hooks/use-scroll-to-element.hook';
 import { handleSetValueToClipboard } from '../../../../utils/copy-to-clipboard.util';
 import { WarningMessageDropdown } from '../../components/warning-message-dropdown/warning-message-dropdown';
 
@@ -27,6 +27,7 @@ import { CreateANewWalletTestIDs } from './create-a-new-wallet.test-ids';
 export const CreateANewWallet: FC = () => {
   const { params: routeParams } = useRoute<RouteProp<ScreensParamList, ScreensEnum.CreateANewWallet>>();
   const { navigate } = useNavigation();
+  const { scrollViewRef, scrollToOffset } = useScrollToOffset();
 
   const wordsState = routeParams?.wordsAmount ?? words[0];
 
@@ -51,8 +52,6 @@ export const CreateANewWallet: FC = () => {
   const [isError, setIsError] = useState(false);
   const [isShowProtectLayout, setIsShowProtectLayout] = useState(true);
   const [isOpenWarningDropdown, setIsOpenWarningDropdown] = useState(false);
-
-  const scrollViewRef = useRef<ScrollView>(null);
 
   useEffect(() => {
     if (isDefined(routeParams)) {
@@ -79,11 +78,7 @@ export const CreateANewWallet: FC = () => {
 
   const navigateToVerifyMnemonic = () => {
     if (!isSelectedCheckbox) {
-      setTimeout(() => {
-        if (scrollViewRef?.current !== null) {
-          scrollViewRef.current.scrollTo({ y: 500 });
-        }
-      }, 0);
+      scrollToOffset();
 
       return setIsError(true);
     }

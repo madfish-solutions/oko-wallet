@@ -3,7 +3,7 @@ import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import { validateMnemonic } from 'bip39';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { NativeSyntheticEvent, TextInputFocusEventData } from 'react-native';
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import { TextInput } from 'react-native-gesture-handler';
 
 import { SECURITY_TIME } from '../constants/defaults';
 import { allMnemonicLengthValue, maxWordsLength, SeedWordsAmount, words } from '../constants/seed-words-amount';
@@ -11,11 +11,13 @@ import { ScreensEnum } from '../enums/sreens.enum';
 import { handleSetValueToClipboard } from '../utils/copy-to-clipboard.util';
 
 import { useNavigation } from './use-navigation.hook';
+import { useScrollToOffset } from './use-scroll-to-element.hook';
 
 export const useImportSeedPhrase = (wordsAmountParam: SeedWordsAmount | undefined) => {
   const wordsAmountState = wordsAmountParam ?? words[0];
 
   const { navigate } = useNavigation();
+  const { scrollViewRef, scrollToOffset } = useScrollToOffset();
 
   const [wordsAmount, setWordsAmount] = useState(wordsAmountState.value);
   const [mnemonic, setMnemonic] = useState<string[]>(maxWordsLength);
@@ -24,7 +26,6 @@ export const useImportSeedPhrase = (wordsAmountParam: SeedWordsAmount | undefine
   const [error, setError] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const scrollViewRef = useRef<ScrollView>(null);
   const focusInputRef = useRef<TextInput | null>(null);
 
   useEffect(() => {
@@ -135,11 +136,7 @@ export const useImportSeedPhrase = (wordsAmountParam: SeedWordsAmount | undefine
 
   useEffect(() => {
     if (isNotEmptyString(error)) {
-      setTimeout(() => {
-        if (scrollViewRef?.current !== null) {
-          scrollViewRef.current.scrollTo({ y: 500 });
-        }
-      }, 0);
+      scrollToOffset();
     }
   }, [error]);
 
@@ -170,6 +167,7 @@ export const useImportSeedPhrase = (wordsAmountParam: SeedWordsAmount | undefine
     checkErrors,
     handlePasteMnemonicFromClipboard,
     setIsSubmitted,
+    scrollToOffset,
     isEmptyFieldsExist,
     mnemonic,
     error,
