@@ -19,6 +19,7 @@ import {
   openNetworkChangeConfirmationPopup,
   openSignMessagePopup
 } from './src/utils/windows.utils';
+import { openFullPage } from './src/utils/fullpage.utils';
 
 let isFullpageOpen = false;
 
@@ -32,6 +33,8 @@ scripting.registerContentScripts([
     world: 'MAIN'
   }
 ]);
+
+runtime.onInstalled.addListener(({ reason }) => reason === 'install' ? openFullPage() : null);
 
 runtime.onConnect.addListener(async port => {
   // check for time expired and max-view no opened then extension need to lock
