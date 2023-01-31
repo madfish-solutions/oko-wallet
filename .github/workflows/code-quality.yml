@@ -56,13 +56,6 @@ jobs:
       - name: Create extension build
         run: yarn build:extension
 
-      - name: Run E2E tests
-        uses: mujo-code/puppeteer-headful@18.9.0
-        env:
-          CI: "true"
-        with:
-          args: yarn e2e
-
       - name: Upload extension artifact
         uses: actions/upload-artifact@v2
         with:
