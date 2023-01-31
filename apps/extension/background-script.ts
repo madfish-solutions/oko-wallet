@@ -21,7 +21,7 @@ scripting.registerContentScripts([
     id: 'oko-inpage-script',
     matches: ['file://*/*', 'http://*/*', 'https://*/*'],
     js: ['scripts/inpage.js'],
-    runAt: 'document_idle',
+    runAt: 'document_start',
     // @ts-ignore
     world: 'MAIN'
   }
