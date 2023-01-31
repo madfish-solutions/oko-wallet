@@ -11,7 +11,6 @@ Before(async () => {
     // @ts-ignore
     .evaluate(message => chrome.runtime.sendMessage(undefined, message), clearStorageMessage)
     .catch(error => console.log(error));
-
   BrowserContext.seedPhrase = DEFAULT_SEED_PHRASE;
   BrowserContext.password = DEFAULT_PASSWORD;
   await BrowserContext.page.reload();
