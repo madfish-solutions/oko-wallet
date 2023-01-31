@@ -10,6 +10,7 @@ import { ModalFooterButtons } from '../../../../components/modal-footer-buttons/
 import { useAccountNameControl } from '../../hooks/use-account-name-control.hook';
 
 import { styles } from './create-hd.styles';
+import { AddHdAccountTestIDs } from './create-hd.test-ids';
 
 export const CreateHD: FC = () => {
   const { createHdAccount } = useShelter();
@@ -42,6 +43,7 @@ export const CreateHD: FC = () => {
         onSubmitPress={handleSubmit(onSubmit)}
         isSubmitDisabled={Boolean(Object.keys(errors).length) || isSubmitSuccessful}
         style={styles.buttons}
+        testID={AddHdAccountTestIDs.CreateButton}
       />
     </Column>
   );

@@ -18,7 +18,7 @@ type Props = PropsWithChildren<{
   imageSource: ImageSourcePropType;
   balance: string;
   name: string;
-  usdBalance: string;
+  fiatBalance: string;
   isGasToken?: boolean;
   theme?: TokenItemThemesEnum;
 }>;
@@ -29,7 +29,7 @@ export const TokenItem: FC<Props> = ({
   balance,
   isGasToken = false,
   name,
-  usdBalance,
+  fiatBalance,
   children,
   theme = TokenItemThemesEnum.Primary
 }) => (
@@ -57,8 +57,8 @@ export const TokenItem: FC<Props> = ({
       ) : (
         <View style={styles.text}>
           <TokenAmount value={balance} style={themeClasses[theme].text} />
-          <Text style={styles.usdBalance}>
-            {usdBalance} <Text style={styles.usdSymbol}>$</Text>
+          <Text style={styles.fiatBalance}>
+            {fiatBalance} <Text style={styles.usdSymbol}>$</Text>
           </Text>
         </View>
       )}

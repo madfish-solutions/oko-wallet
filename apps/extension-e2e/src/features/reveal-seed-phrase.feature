@@ -1,7 +1,6 @@
 Feature: Reveal Private Key
 
-@dev
-  Scenario: As a user, I'd like to import account with existing seed phrase
+  Scenario: As a user, I'd like to reveal seed phrase
     Given I have imported account
     And I press Settings button on the Navigation Bar page
 

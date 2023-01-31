@@ -1,6 +1,7 @@
 import { OnEventFn } from '@rnw-community/shared';
 import React, { FC, ReactChild } from 'react';
 import { GestureResponderEvent } from 'react-native';
+import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { Column } from '../../../components/column/column';
 import { IconWithBorder } from '../../../components/icon-with-border/icon-with-border';
@@ -10,8 +11,9 @@ import { Text } from '../../../components/text/text';
 import { ModalHeaderInterface } from '../../interfaces/modal-header.interface';
 
 import { styles } from './modal-render-item.styles';
+import { AccountTabsTestIDs } from './modal-render-item.test-ids';
 
-interface Props extends ModalHeaderInterface {
+interface Props extends ModalHeaderInterface, TestIDProps {
   isActive: boolean;
   onSelectItem: OnEventFn<GestureResponderEvent>;
   rightBottomComponent: ReactChild;
@@ -24,15 +26,17 @@ export const ModalRenderItem: FC<Props> = ({
   balanceTitle,
   balance,
   onSelectItem,
-  rightBottomComponent
+  rightBottomComponent,
+  testID
 }) => (
   <RenderItem
+    testID={testID}
     onSelectItem={onSelectItem}
     isActive={isActive}
     leftTopComponent={
       <Row style={styles.nameContainer}>
         <IconWithBorder>{icon}</IconWithBorder>
-        <Text style={styles.name} numberOfLines={1}>
+        <Text style={styles.name} numberOfLines={1} testID={AccountTabsTestIDs.AccountsNames}>
           {name}
         </Text>
       </Row>

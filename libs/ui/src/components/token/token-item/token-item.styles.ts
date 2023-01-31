@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-end',
     flex: 1
   },
-  usdBalance: {
+  fiatBalance: {
     color: colors.textGrey1,
     marginTop: getCustomSize(0.25),
     ...typography.numbersIBMPlexSansMedium11

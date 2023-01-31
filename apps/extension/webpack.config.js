@@ -13,7 +13,7 @@ const appDirectory = path.resolve(__dirname);
 
 const babelLoaderConfiguration = {
     test: /\.(js|jsx|ts|tsx|svg)$/,
-    exclude: [/node_modules\/@dicebear/],
+    exclude: [new RegExp('node_modules\\' + path.sep + '@dicebear')],
     use: {
         loader: 'babel-loader',
         options: {
