@@ -1,9 +1,14 @@
 import './shim.js';
 
-import { BackgroundMessage, BackgroundMessageType, E2eMessageType } from 'ui/background-script';
+import {
+  BackgroundMessage,
+  BackgroundMessageType,
+  E2eMessageType,
+  POPUP_OPEN,
+  POPUP_CLOSED
+} from 'ui/background-script';
 import { Runtime, runtime, scripting, storage } from 'webextension-polyfill';
 
-import { POPUP_CLOSED, POPUP_OPEN } from './src/constants/background';
 import {
   LAST_USER_ACTIVITY_TIMESTAMP_KEY,
   LOCK_TIME_PERIOD_KEY,
@@ -82,7 +87,6 @@ runtime.onConnect.addListener(async port => {
         return Promise.resolve();
       }
       default:
-        // @ts-ignore
         return Promise.reject({ message: `Message with type ${newMessage.type} rejected.` });
     }
   });

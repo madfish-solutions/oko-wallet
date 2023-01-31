@@ -26,13 +26,13 @@ export const DAppSignConfirmation: FC = () => {
   const { signMessage } = useShelter();
   useClosePopup(params.messageId, params.dAppInfo.origin);
 
-  const onDecline = () => sendErrorToDAppAndClosePopup(params.messageId, params.dAppInfo.origin);
+  const onDecline = () => sendErrorToDAppAndClosePopup(params.dAppInfo.origin, params.messageId);
 
   const onSubmit = () => {
     signMessage({
       publicKey: selectedAccount.networksKeys.EVM?.publicKeyHash ?? '',
       messageToSign: params.signInfo[0],
-      successCallback: message => sendResponseToDAppAndClosePopup(params.messageId, message, params.dAppInfo.origin)
+      successCallback: message => sendResponseToDAppAndClosePopup(params.dAppInfo.origin, params.messageId, message)
     });
     sendMessageToBackground();
   };

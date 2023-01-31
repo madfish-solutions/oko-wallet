@@ -23,14 +23,14 @@ export const EvmConfirmation: FC<Props> = ({ transferParams, params, children })
 
   const additionalSuccessCallback = (transactionResponse: TransactionResponse) => {
     if (isDefined(params)) {
-      sendResponseToDAppAndClosePopup(params.messageId, transactionResponse.hash, params.dAppInfo.origin);
+      sendResponseToDAppAndClosePopup(params.dAppInfo.origin, params.messageId, transactionResponse.hash);
       sendMessageToBackground();
     }
   };
 
   const onDecline = () => {
     if (isDefined(params)) {
-      sendErrorToDAppAndClosePopup(params.messageId, params.dAppInfo.origin);
+      sendErrorToDAppAndClosePopup(params.dAppInfo.origin, params.messageId);
     }
 
     goBack();

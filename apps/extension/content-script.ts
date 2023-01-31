@@ -1,9 +1,9 @@
 import ObjectMultiplex from '@metamask/object-multiplex';
 import { WindowPostMessageStream } from '@metamask/post-message-stream';
 import pump from 'pump';
+import { POPUP_OPEN } from 'ui/background-script';
 import { runtime } from 'webextension-polyfill';
 
-import { POPUP_OPEN } from './src/constants/background';
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
 import { getWindowMetadata } from './src/utils/window.utils';
 

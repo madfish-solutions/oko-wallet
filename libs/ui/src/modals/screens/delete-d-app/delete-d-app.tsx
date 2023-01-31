@@ -27,7 +27,7 @@ export const DeleteDApp: FC = () => {
 
   const confirmDAppDelete = () => {
     dispatch(removeDAppConnectionAction({ dAppInfo, accountPublicKeyHash: publicKeyHash }));
-    sendNotificationToDApp('oko_accountsChanged', [], params.origin);
+    sendNotificationToDApp(params.origin, 'oko_accountsChanged', []);
 
     goBack();
   };

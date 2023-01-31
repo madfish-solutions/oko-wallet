@@ -1,6 +1,9 @@
 import { isDefined } from '@rnw-community/shared';
 import { tabs, runtime } from 'webextension-polyfill';
 
+export const POPUP_CLOSED = 'POPUP_CLOSED';
+export const POPUP_OPEN = 'POPUP_OPEN';
+
 export const createDAppResponse = <T>(id: string, result: T) => ({
   data: {
     data: {
@@ -39,7 +42,7 @@ const createDAppNotificationResponse = <T>(method: string, params: T) => ({
   target: 'oko-inpage'
 });
 
-const sendMessageToDAppTab = (response: unknown, origin: string) => {
+const sendMessageToDAppTab = (origin: string, response: unknown) => {
   tabs.query({}).then(queryTabs => {
     const dAppTab = queryTabs.find(tab => tab.url?.includes(origin));
     if (isDefined(dAppTab) && isDefined(dAppTab.id)) {
@@ -48,25 +51,25 @@ const sendMessageToDAppTab = (response: unknown, origin: string) => {
   });
 };
 
-export const sendResponseToDAppAndClosePopup = <T>(id: string, result: T, origin: string) => {
+export const sendResponseToDAppAndClosePopup = <T>(origin: string, id: string, result: T) => {
   const response = createDAppResponse(id, result);
-  sendMessageToDAppTab(response, origin);
+  sendMessageToDAppTab(origin, response);
 
   setTimeout(() => close(), 1000);
 };
 
-export const sendErrorToDAppAndClosePopup = (id: string, origin: string) => {
+export const sendErrorToDAppAndClosePopup = (origin: string, id: string) => {
   const errorResponse = createErrorMessage(id);
-  sendMessageToDAppTab(errorResponse, origin);
+  sendMessageToDAppTab(origin, errorResponse);
 
   setTimeout(() => close(), 1000);
 };
 
-export const sendNotificationToDApp = <T>(method: string, result: T, origin: string) => {
+export const sendNotificationToDApp = <T>(origin: string, method: string, result: T) => {
   const notification = createDAppNotificationResponse(method, result);
-  sendMessageToDAppTab(notification, origin);
+  sendMessageToDAppTab(origin, notification);
 };
 
 export const sendMessageToBackground = () => {
-  runtime.sendMessage(undefined, { type: 'POPUP_CLOSED' });
+  runtime.sendMessage(undefined, { type: POPUP_CLOSED });
 };

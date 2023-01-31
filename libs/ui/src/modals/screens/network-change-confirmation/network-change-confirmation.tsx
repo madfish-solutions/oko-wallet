@@ -56,13 +56,13 @@ export const NetworkChangeConfirmation: FC = () => {
     if (isDefined(dappsNetwork)) {
       dispatch(changeNetworkAction(dappsNetwork?.rpcUrl));
     }
-    sendResponseToDAppAndClosePopup(params.messageId, null, params.dAppOrigin);
+    sendResponseToDAppAndClosePopup(params.dAppOrigin, params.messageId, null);
     sendMessageToBackground();
   };
   const onDecline = () => {
     dispatch(showLoaderAction());
 
-    sendErrorToDAppAndClosePopup(params.messageId, params.dAppOrigin);
+    sendErrorToDAppAndClosePopup(params.dAppOrigin, params.messageId);
   };
 
   return (

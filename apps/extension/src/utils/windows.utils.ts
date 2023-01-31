@@ -1,6 +1,5 @@
+import { POPUP_OPEN } from 'ui/background-script';
 import { windows, runtime, Windows, Runtime } from 'webextension-polyfill';
-
-import { POPUP_OPEN } from '../constants/background';
 
 const popupCreateData: Windows.CreateCreateDataType = {
   type: 'popup',
