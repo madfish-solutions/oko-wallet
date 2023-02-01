@@ -13,7 +13,7 @@ export const initBrowser = () =>
   });
 
 export const getExtensionId = async (browser: Browser) => {
-  await sleep(1000);
+  await sleep(750);
 
   const extensionTarget = browser
     .targets()
