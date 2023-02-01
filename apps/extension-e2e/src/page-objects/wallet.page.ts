@@ -10,6 +10,8 @@ export class WalletPage extends Page {
   networkSelectorButton = createPageElement(HeaderSelectorsTestIDs.NetworkSelectorButton);
 
   async isVisible() {
+    await this.assetsWidget.waitForDisplayed();
+    await this.collectiblesWidget.waitForDisplayed();
     await this.accountSelectorButton.waitForDisplayed();
     await this.networkSelectorButton.waitForDisplayed();
   }

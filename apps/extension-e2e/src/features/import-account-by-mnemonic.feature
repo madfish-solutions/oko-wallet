@@ -19,4 +19,3 @@ Feature: Add imported account by mnemonic
 
     And I am on the AccountsSelector page
     And I see Account 2 on the AccountsSelector page
-

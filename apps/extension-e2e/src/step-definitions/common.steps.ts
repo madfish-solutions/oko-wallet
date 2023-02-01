@@ -3,10 +3,12 @@ import { Given } from '@cucumber/cucumber';
 import { BrowserContext } from '../classes/browser-context.class';
 import { Pages } from '../page-objects';
 import { getInputText } from '../utils/input.utils';
+import { sleep } from '../utils/promise.utils';
 import { createPageElement } from '../utils/search.utils';
 import { enterMyMnemonicStep } from '../utils/shared-steps.utils';
 
 Given(/^I am on the (\w+) page$/, async (page: keyof typeof Pages) => {
+  await sleep(500);
   await Pages[page].isVisible();
 });
 
