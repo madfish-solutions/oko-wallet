@@ -9,10 +9,10 @@ import { styles } from './dollar-amount.styles';
 interface Props {
   amount: string;
   amountInDollar: string;
-  isReadOnly: boolean;
+  isReadOnly?: boolean;
 }
 
-export const DollarAmount: FC<Props> = ({ amount, isReadOnly, amountInDollar }) => (
+export const DollarAmount: FC<Props> = ({ amount, amountInDollar, isReadOnly = false }) => (
   <Row style={styles.root}>
     <Text style={styles.text}>≈</Text>
     <Text

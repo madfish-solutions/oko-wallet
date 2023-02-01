@@ -10,6 +10,7 @@ import {
   useSelectedNetworkSelector
 } from '../../../../../../store/wallet/wallet.selectors';
 import { getAssetType } from '../../../../../../utils/get-asset-type.util';
+import { EMPTY_GAS } from '../../../../constants';
 import { useTransactionHook } from '../../../../hooks/use-transaction.hook';
 import { EvmTransferParams, OnSend } from '../../../../types';
 import { Confirmation } from '../../../confirmation/confirmation';
@@ -25,7 +26,7 @@ type Props = PropsWithChildren<{
 }>;
 
 export const EvmConfirmationContainer: FC<Props> = ({
-  transferParams: { asset, receiverPublicKeyHash, value, data = '0x', gas = 0 },
+  transferParams: { asset, receiverPublicKeyHash, value, data = '0x', gas = EMPTY_GAS },
   onDecline,
   onConfirm,
   additionalSuccessCallback,
@@ -53,7 +54,7 @@ export const EvmConfirmationContainer: FC<Props> = ({
     gas
   });
 
-  const gasLimit = gas > 0 ? gas : Number(estimations?.gasLimit);
+  const gasLimit = gas > EMPTY_GAS ? gas : Number(estimations?.gasLimit);
 
   const { rpcUrl } = network;
   const transactionFee = isDefined(estimations?.gasPrice) ? Number(estimations?.gasPrice) * gasLimit : 0;

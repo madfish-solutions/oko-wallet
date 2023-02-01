@@ -2,7 +2,6 @@ import { isDefined } from '@rnw-community/shared';
 import { useEffect } from 'react';
 import { UseFormSetValue, UseFormTrigger, UseFormClearErrors } from 'react-hook-form/dist/types/form';
 
-import { useAccountOrNetworkChanged } from '../../../hooks/use-account-or-network-changed.hook';
 import { AccountInterface } from '../../../interfaces/account.interface';
 import { Token } from '../../../interfaces/token.interface';
 import {
@@ -27,16 +26,6 @@ export const useSendForm = ({ params, account, setValue, trigger, clearErrors, t
   const networkType = useSelectedNetworkTypeSelector();
   const allAccountsWithoutSelected = useAllAccountsWithoutSelectedSelector();
 
-  const onResetForm = () => {
-    setValue('token', undefined);
-    setValue('amount', '');
-    setValue('receiverPublicKeyHash', '');
-
-    clearErrors();
-  };
-
-  const onBackButtonPress = useAccountOrNetworkChanged(onResetForm);
-
   useEffect(() => {
     if (isDefined(params) && isDefined(params.account)) {
       setValue('account', params.account);
@@ -59,6 +48,4 @@ export const useSendForm = ({ params, account, setValue, trigger, clearErrors, t
   }, [publicKeyHash, account, allAccountsWithoutSelected]);
 
   useEffect(() => clearErrors(), [token]);
-
-  return { onBackButtonPress };
 };

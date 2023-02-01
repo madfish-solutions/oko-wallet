@@ -1,21 +1,26 @@
 import { RouteProp } from '@react-navigation/native';
 import { isDefined } from '@rnw-community/shared';
 import { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { ONE_INCH_GAS_TOKEN_ADDRESS } from '../../../../api/1inch/constants';
 import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
-import { Erc20Abi__factory } from '../../../../contract-types';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
+import { TokenMetadata } from '../../../../interfaces/token-metadata.interface';
+import { Token } from '../../../../interfaces/token.interface';
+import { addNewTokensMetadataAction } from '../../../../store/wallet/wallet.actions';
 import { useSelectedNetworkSelector, useTokensMetadataSelector } from '../../../../store/wallet/wallet.selectors';
-import { getDefaultEvmProvider } from '../../../../utils/get-default-evm-provider.utils';
 import { getTokenMetadataSlug } from '../../../../utils/token-metadata.util';
-import { TokenFromRoute } from '../types';
 
-export const useGetTokens = ({ routes, toToken }: RouteProp<ScreensParamList, ScreensEnum.SwapRoute>['params']) => {
+export const useGetRouteTokens = ({
+  routes,
+  toToken
+}: RouteProp<ScreensParamList, ScreensEnum.SwapRoute>['params']) => {
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
   const tokensMetadata = useTokensMetadataSelector();
-  const { chainId, gasTokenMetadata, rpcUrl } = useSelectedNetworkSelector();
-  const tokens = useRef<TokenFromRoute>({
+  const { chainId, gasTokenMetadata } = useSelectedNetworkSelector();
+  const tokens = useRef<Record<Token['tokenAddress'], TokenMetadata>>({
     [toToken.tokenAddress === GAS_TOKEN_ADDRESS ? ONE_INCH_GAS_TOKEN_ADDRESS : toToken.tokenAddress]: toToken
   });
 
@@ -38,22 +43,11 @@ export const useGetTokens = ({ routes, toToken }: RouteProp<ScreensParamList, Sc
     });
 
     if (tokensAddressesWithoutMetadata.length) {
-      Promise.all(
-        tokensAddressesWithoutMetadata.map(tokenAddress => {
-          const provider = getDefaultEvmProvider(rpcUrl);
-          const contract20 = Erc20Abi__factory.connect(tokenAddress, provider);
-
-          return contract20.symbol();
-        })
-      )
-        .then(symbols =>
-          symbols.forEach((symbol, index) => (tokens.current[tokensAddressesWithoutMetadata[index]] = { symbol }))
-        )
-        .finally(() => setLoading(false));
+      dispatch(addNewTokensMetadataAction.submit(tokensAddressesWithoutMetadata));
     } else {
       setLoading(false);
     }
-  }, []);
+  }, [tokensMetadata]);
 
   return { tokens: tokens.current, loading };
 };

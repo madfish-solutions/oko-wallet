@@ -4,6 +4,7 @@ import { AssetTypeEnum } from '../../../../../enums/asset-type.enum';
 import { Asset } from '../../../../../interfaces/asset.interface';
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
 import { getDefaultEvmProvider } from '../../../../../utils/get-default-evm-provider.utils';
+import { EMPTY_GAS } from '../../../constants';
 import { getGasLimit } from '../utils/get-gas-limit.util';
 import { modifyGasLimit } from '../utils/modify-gas-limit.util';
 
@@ -36,7 +37,7 @@ export const useEvmEstimations = ({
       const provider = getDefaultEvmProvider(rpcUrl);
 
       const [gasLimitPromiseResult, feePromiseResult] = await Promise.allSettled([
-        gas === 0
+        gas === EMPTY_GAS
           ? getGasLimit(asset, assetType, receiverPublicKeyHash, publicKeyHash, value, rpcUrl)
           : Promise.resolve(gas),
         provider.getFeeData()

@@ -1,10 +1,11 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
-import { parseUnits } from 'ethers/lib/utils';
+import { BigNumber } from 'bignumber.js';
 import isEmpty from 'lodash/isEmpty';
-import React, { FC, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { View } from 'react-native';
+import React, { FC, useCallback, useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Alert, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 import { REFERRER_FEE } from '../../api/1inch/constants';
 import { Button } from '../../components/button/button';
@@ -21,26 +22,50 @@ import { ScreenScrollView } from '../../components/screen-components/screen-scro
 import { Text } from '../../components/text/text';
 import { getValueWithMaxNumberOfDecimals } from '../../components/text-input/utils/get-value-with-max-number-of-decimals.util';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
-import { GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
+import { useToast } from '../../hooks/use-toast.hook';
 import { useTokenFiatBalance } from '../../hooks/use-token-fiat-balance.hook';
-import { useSlippageToleranceSelector } from '../../store/settings/settings.selectors';
+import {
+  approveAllowanceAction,
+  loadQuoteAction,
+  loadSwapDataAction,
+  loadTokenAllowanceAction,
+  resetSwapAction
+} from '../../store/swap/swap.actions';
+import {
+  useAllowanceSelector,
+  useExchangeRateSelector,
+  useOutputAmountSelector,
+  useRoutesSelector,
+  useShowLoadingOnSwapScreenSelector,
+  useSlippageToleranceSelector,
+  useSwapDataSelector
+} from '../../store/swap/swap.selectors';
 import { useGasTokenSelector } from '../../store/wallet/wallet.selectors';
+import { checkIsGasToken } from '../../utils/check-is-gas-token.util';
+import { isWeb } from '../../utils/platform.utils';
+import { parseUnits } from '../../utils/units.utils';
 import { useValidateAmountField } from '../send/hooks/use-validate-amount-field.hook';
+import { ReadOnlyTokenInput } from '../send/screens/send-token/components/read-only-token-input/read-only-token-input';
 import { TokenInput } from '../send/screens/send-token/components/token-input/token-input';
 
 import { Timer } from './components/timer/timer';
-import { useGetRoutesWithAllowance } from './hooks/use-get-routes-with-allowance.hook';
-import { useSwap } from './hooks/use-swap.hook';
 import { styles } from './swap.styles';
 import { FormTypes } from './types';
 
 export const Swap: FC = () => {
-  const { navigate, goBack } = useNavigation();
-  const slippageTolerance = useSlippageToleranceSelector();
-  const gasToken = useGasTokenSelector();
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Swap>>();
+  const { navigate, goBack } = useNavigation();
+  const { showErrorToast } = useToast();
+  const dispatch = useDispatch();
+  const gasToken = useGasTokenSelector();
+  const slippageTolerance = useSlippageToleranceSelector();
+  const allowance = useAllowanceSelector();
+  const outputAmount = useOutputAmountSelector();
+  const routes = useRoutesSelector();
+  const exchangeRate = useExchangeRateSelector();
+  const swapData = useSwapDataSelector();
 
   const defaultValues: FormTypes = {
     fromToken: params?.fromToken ?? gasToken,
@@ -55,7 +80,6 @@ export const Swap: FC = () => {
     setValue,
     clearErrors,
     handleSubmit,
-    trigger,
     formState: { errors }
   } = useForm<FormTypes>({
     mode: 'onChange',
@@ -71,31 +95,16 @@ export const Swap: FC = () => {
   const toTokenBalance = useTokenFiatBalance(toAmount, toToken, true);
 
   const fromTokenRules = useValidateAmountField(fromTokenBalance.availableBalance, true);
+  const showLoading = useShowLoadingOnSwapScreenSelector(fromToken?.tokenAddress);
 
-  const {
-    loading,
-    loadingRoutes,
-    allowance,
-    onApprovePress,
-    routes,
-    exchangeRate,
-    getAmountAndRoutes,
-    canGetAmountAndRoutes
-  } = useGetRoutesWithAllowance(fromToken, toToken, fromAmount, setValue);
-  const { onSwapPress, dataForSwapLoading } = useSwap(fromToken, toToken, fromAmount);
-
-  const showLoading = loading || dataForSwapLoading;
   const isApproveSwapButtonDisabled = !isEmpty(errors);
+  const canGetAmountAndRoutes = isDefined(fromToken) && isDefined(toToken) && Number(fromAmount) > 0;
   const showNavigationBar = !isDefined(fromToken) || !isDefined(toToken) || fromAmount === '';
-  const numberOfRoutes = routes?.flat(1).length ?? 0;
+  const numberOfRoutes = routes.data?.flat(1)?.length;
+  const isGasToken = isDefined(fromToken) && checkIsGasToken(fromToken.tokenAddress);
 
   const isNeedToApprove =
-    isDefined(allowance) &&
-    isDefined(fromToken) &&
-    fromToken.tokenAddress !== GAS_TOKEN_ADDRESS &&
-    isNotEmptyString(fromAmount) &&
-    !isNaN(Number(fromAmount)) &&
-    allowance.lt(parseUnits(fromAmount, fromToken.decimals));
+    isDefined(fromToken) && !isGasToken && new BigNumber(allowance.data).lt(parseUnits(fromAmount, fromToken.decimals));
 
   useEffect(() => {
     if (isDefined(params) && isDefined(params.fromToken)) {
@@ -120,13 +129,43 @@ export const Swap: FC = () => {
     }
   }, [params]);
 
+  const getAmountAndRoutes = useCallback(() => {
+    if (canGetAmountAndRoutes) {
+      dispatch(loadQuoteAction.submit({ fromToken, toToken, amount: fromAmount }));
+    }
+  }, [fromToken?.tokenAddress, toToken?.tokenAddress, fromAmount]);
+
+  useEffect(() => void dispatch(resetSwapAction()), []);
+
+  useEffect(() => {
+    if (isDefined(fromToken) && !isGasToken) {
+      dispatch(loadTokenAllowanceAction.submit(fromToken.tokenAddress));
+    }
+  }, [fromToken?.tokenAddress]);
+
+  useEffect(() => getAmountAndRoutes(), [getAmountAndRoutes]);
+
+  useEffect(() => setValue('toAmount', outputAmount.data), [outputAmount.data]);
+
+  useEffect(() => {
+    if (isNotEmptyString(swapData.error)) {
+      showErrorToast({ message: 'Oops', data: { description: swapData.error } });
+      dispatch(loadSwapDataAction.fail(''));
+    }
+
+    if (isNotEmptyString(routes.error)) {
+      showErrorToast({ message: 'Oops', data: { description: routes.error } });
+      dispatch(loadQuoteAction.fail(''));
+    }
+  }, [routes.error, swapData.error]);
+
   const navigateToSlippageTolerance = () => navigate(ScreensEnum.SlippageTolerance);
   const navigateToSwapRoute = () =>
-    isDefined(routes) &&
     isDefined(fromToken) &&
     isDefined(toToken) &&
-    !loadingRoutes &&
-    navigate(ScreensEnum.SwapRoute, { routes, fromToken, toToken });
+    routes.data.length &&
+    !routes.isLoading &&
+    navigate(ScreensEnum.SwapRoute, { routes: routes.data, fromToken, toToken });
 
   const swapTokenOrder = () => {
     setValue('fromAmount', toAmount);
@@ -137,8 +176,36 @@ export const Swap: FC = () => {
     clearErrors();
   };
 
+  const onApprovePress = () => {
+    const approveHandler = () => isDefined(fromToken) && dispatch(approveAllowanceAction.submit({ fromToken }));
+    const question = `Give permission to access your ${fromToken?.symbol}?`;
+
+    if (isWeb) {
+      if (confirm(question)) {
+        approveHandler();
+      }
+    } else {
+      Alert.alert(question, 'By granting permission, you are allowing the following contract to access your funds', [
+        {
+          text: 'Decline',
+          style: 'cancel'
+        },
+        {
+          text: 'Confirm',
+          style: 'destructive',
+          onPress: approveHandler
+        }
+      ]);
+    }
+  };
+
+  const onSwapPress = () =>
+    isDefined(fromToken) &&
+    isDefined(toToken) &&
+    dispatch(loadSwapDataAction.submit({ fromToken, toToken, amount: fromAmount, slippageTolerance }));
+
   const onApproveOrSwapPress = () => {
-    if (loading) {
+    if (showLoading) {
       return;
     }
 
@@ -154,42 +221,41 @@ export const Swap: FC = () => {
       <HeaderContainer isSelectors>
         <ScreenTitle title="Swap" onBackButtonPress={goBack} />
         <View style={styles.header}>
-          {canGetAmountAndRoutes && <Timer getAmountAndRoutes={getAmountAndRoutes} routes={routes} />}
+          {canGetAmountAndRoutes && <Timer getAmountAndRoutes={getAmountAndRoutes} routes={routes.data} />}
           <TouchableIcon name={IconNameEnum.Slider} onPress={navigateToSlippageTolerance} />
         </View>
       </HeaderContainer>
 
       <ScreenScrollView>
-        <TokenInput
-          setValue={setValue}
-          trigger={trigger}
-          label="From"
+        <Controller
           control={control}
           name="fromAmount"
-          token={fromToken}
-          amountInDollar={fromTokenBalance.amountInDollar}
-          tokenParam="fromToken"
-          availableFormattedBalance={fromTokenBalance.availableFormattedBalance}
-          amount={fromAmount}
           rules={fromTokenRules}
-          availableBalance={fromTokenBalance.availableBalance}
-          error={errors?.fromAmount?.message}
+          render={({ field }) => (
+            <TokenInput
+              field={field}
+              label="From"
+              token={fromToken}
+              amountInDollar={fromTokenBalance.amountInDollar}
+              availableBalance={fromTokenBalance.availableBalance}
+              tokenParam="fromToken"
+              availableFormattedBalance={fromTokenBalance.availableFormattedBalance}
+              error={errors.fromAmount?.message}
+            />
+          )}
         />
 
         <View style={styles.swapIcon}>
           <TouchableIcon name={IconNameEnum.Swap} onPress={swapTokenOrder} />
         </View>
 
-        <TokenInput
+        <ReadOnlyTokenInput
           label="To"
-          control={control}
-          name="toAmount"
           token={toToken}
-          amountInDollar={toTokenBalance.amountInDollar}
-          isReadOnly
-          tokenParam="toToken"
-          availableFormattedBalance={toTokenBalance.availableFormattedBalance}
           amount={toAmount}
+          amountInDollar={toTokenBalance.amountInDollar}
+          availableFormattedBalance={toTokenBalance.availableFormattedBalance}
+          tokenParam="toToken"
         />
 
         <Row style={styles.routeBlock}>
@@ -213,7 +279,7 @@ export const Swap: FC = () => {
         <Row style={styles.exchangeRateBlock}>
           <Text style={styles.caption11}>Exchange rate</Text>
           <Text numberOfLines={1} style={[styles.numbers13, styles.exchangeRate]}>
-            {exchangeRate}
+            {isNotEmptyString(exchangeRate.data) ? exchangeRate.data : '----'}
           </Text>
         </Row>
 

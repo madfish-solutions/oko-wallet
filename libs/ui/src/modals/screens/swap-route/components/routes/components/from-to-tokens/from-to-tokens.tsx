@@ -11,8 +11,8 @@ import { TokenMetadata } from '../../../../../../../interfaces/token-metadata.in
 import { styles } from './from-to-tokens.styles';
 
 interface Props {
-  fromToken: Pick<TokenMetadata, 'symbol' | 'thumbnailUri'>;
-  toToken: Pick<TokenMetadata, 'symbol' | 'thumbnailUri'>;
+  fromToken: TokenMetadata;
+  toToken: TokenMetadata;
 }
 
 export const FromToTokens: FC<Props> = ({ fromToken, toToken }) => (

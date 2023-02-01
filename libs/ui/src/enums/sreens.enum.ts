@@ -76,12 +76,10 @@ export type ScreensParamList = {
   [ScreensEnum.Receive]: undefined;
   [ScreensEnum.SendToken]?: SendParams;
   [ScreensEnum.SendCollectible]?: SendParams;
-  [ScreensEnum.TokensSelector]: { token?: Token; field: string; showOnlyTokenWithBalance: boolean };
+  [ScreensEnum.TokensSelector]: { token?: Token; field: string };
   [ScreensEnum.SendCollectiblesSelector]: { token?: Token };
   [ScreensEnum.SendAccountsSelector]: { account: AccountInterface };
-  [ScreensEnum.SendConfirmation]: {
-    transferParams: TransferParams;
-  };
+  [ScreensEnum.SendConfirmation]: { transferParams: TransferParams };
   [ScreensEnum.Settings]: undefined;
   [ScreensEnum.AccountsSettings]: undefined;
   [ScreensEnum.RevealPrivateKey]: { publicKeyHash: string };
@@ -133,9 +131,7 @@ export type ScreensParamList = {
   [ScreensEnum.Swap]?: { fromToken?: Token; toToken?: Token };
   [ScreensEnum.SlippageTolerance]: undefined;
   [ScreensEnum.SwapRoute]: { routes: GetQuoteResponse['protocols']; fromToken: Token; toToken: Token };
-  [ScreensEnum.SwapConfirmation]: {
-    transferParams: EvmTransferParams;
-  };
+  [ScreensEnum.SwapConfirmation]: { transferParams: EvmTransferParams };
 };
 
 export const walletStackScreens = [

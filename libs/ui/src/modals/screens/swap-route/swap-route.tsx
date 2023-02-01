@@ -15,14 +15,14 @@ import { ModalContainer } from '../../components/modal-container/modal-container
 
 import { Routes } from './components/routes/routes';
 import { VerticalLine } from './components/vertical-line/vertical-line';
-import { useGetTokens } from './hooks/use-get-tokens';
+import { useGetRouteTokens } from './hooks/use-get-route-tokens';
 import { styles } from './swap-route.styles';
 
 export const SwapRoute: FC = () => {
   const [contentHeight, setContentHeight] = useState(getCustomSize(12));
   const { goBack } = useNavigation();
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SwapRoute>>();
-  const { loading, tokens } = useGetTokens(params);
+  const { loading, tokens } = useGetRouteTokens(params);
 
   const handleLayout = (event: LayoutChangeEvent) =>
     setContentHeight(event.nativeEvent.layout.height - getCustomSize(3));

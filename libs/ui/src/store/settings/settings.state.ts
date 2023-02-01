@@ -9,13 +9,11 @@ export interface SettingsState {
   isBiometricEnabled: boolean;
   showLoader: boolean;
   lockTimePeriod: number;
-  slippageTolerance: string;
 }
 
 export const settingsInitialState: SettingsState = {
   isAnalyticsEnabled: true,
   isBiometricEnabled: false,
   showLoader: false,
-  lockTimePeriod: lockTimes[0].value,
-  slippageTolerance: '0.5'
+  lockTimePeriod: lockTimes[0].value
 };

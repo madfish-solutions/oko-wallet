@@ -115,8 +115,8 @@ export const Confirmation: FC<Props> = ({
     }
   }, [initialTransactionFee, storageFee, isTezosNetwork, gasTokenDecimals]);
 
-  const handleSpeedChange = (speedOption: { title: string; value: string }) => {
-    setSpeed(speedOption as SpeedOption);
+  const handleSpeedChange = (speedOption: SpeedOption) => {
+    setSpeed(speedOption);
     clearErrors();
   };
 

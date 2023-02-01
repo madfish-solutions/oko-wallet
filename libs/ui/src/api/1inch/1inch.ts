@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Token } from '../../interfaces/token.interface';
 
 import { REFERRER_FEE, REFERRER_ADDRESS } from './constants';
-import { GetApproveDataResponse, GetQuoteResponse, GetSwapDataResponse } from './types';
+import { GetApproveDataResponse, GetQuoteResponse, GetSwapDataResponse, SwapData } from './types';
 import { get1inchTokenAddress } from './utils/get-1inch-token-address.util';
 
 const oneInchApiRequest = axios.create({
@@ -38,7 +38,7 @@ export const getSwapData = (
   toToken: Token,
   amount: string,
   slippage: string
-) =>
+): Promise<SwapData> =>
   oneInchApiRequest
     .get<GetSwapDataResponse>(`${chainId}/swap`, {
       params: {

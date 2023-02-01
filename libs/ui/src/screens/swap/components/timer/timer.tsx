@@ -13,7 +13,7 @@ interface Props {
   routes?: GetQuoteResponse['protocols'];
 }
 
-const initialSecondsState = '30';
+const initialSecondsState = 30;
 
 export const Timer: FC<Props> = ({ getAmountAndRoutes, routes }) => {
   const [seconds, setSeconds] = useState(initialSecondsState);
@@ -21,14 +21,13 @@ export const Timer: FC<Props> = ({ getAmountAndRoutes, routes }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setSeconds(currentSeconds => {
-        if (Number(currentSeconds) === 0) {
-          getAmountAndRoutes();
+        if (currentSeconds === 0) {
           clearInterval(interval);
 
-          return '00';
+          return 0;
         }
 
-        return `0${Number(currentSeconds) - 1}`.slice(-2);
+        return currentSeconds - 1;
       });
     }, 1000);
 
@@ -38,11 +37,17 @@ export const Timer: FC<Props> = ({ getAmountAndRoutes, routes }) => {
     };
   }, [getAmountAndRoutes, routes]);
 
+  useEffect(() => {
+    if (seconds === 0) {
+      getAmountAndRoutes();
+    }
+  }, [seconds]);
+
   return (
     <Row style={styles.root}>
       <Text style={styles.rateUpdates}>Rates update in</Text>
       <View style={styles.timeBlock}>
-        <Text style={styles.time}>00:{seconds}</Text>
+        <Text style={styles.time}>00:{`0${seconds}`.slice(-2)}</Text>
       </View>
     </Row>
   );

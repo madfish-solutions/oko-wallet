@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import isEmpty from 'lodash/isEmpty';
 import React, { FC, useEffect } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
 import { ScreenTitle } from '../../../../components/screen-components/header-container/components/screen-title/screen-title';
@@ -12,6 +12,7 @@ import { ScreenScrollView } from '../../../../components/screen-components/scree
 import { getValueWithMaxNumberOfDecimals } from '../../../../components/text-input/utils/get-value-with-max-number-of-decimals.util';
 import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useToast } from '../../../../hooks/use-toast.hook';
 import { useTokenFiatBalance } from '../../../../hooks/use-token-fiat-balance.hook';
 import { Asset } from '../../../../interfaces/asset.interface';
@@ -37,6 +38,7 @@ export const SendToken: FC = () => {
   const { showErrorToast } = useToast();
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendToken>>();
 
+  const { goBack } = useNavigation();
   const dispatch = useDispatch();
   const gasToken = useGasTokenSelector();
   const networkType = useSelectedNetworkTypeSelector();
@@ -67,7 +69,8 @@ export const SendToken: FC = () => {
   const account = watch('account');
   const amount = watch('amount');
 
-  const { onBackButtonPress } = useSendForm({ params, account, setValue, trigger, clearErrors, token });
+  useSendForm({ params, account, setValue, trigger, clearErrors, token });
+
   const { availableBalance, availableUsdBalance, amountInDollar, availableFormattedBalance } = useTokenFiatBalance(
     amount,
     token
@@ -117,7 +120,7 @@ export const SendToken: FC = () => {
       <HeaderContainer isSelectors>
         <ScreenTitle
           title={`Send ${isTokenSelected ? token.symbol : ''}`}
-          onBackButtonPress={onBackButtonPress}
+          onBackButtonPress={goBack}
           numberOfLines={1}
           titleStyle={styles.screenTitle}
         />
@@ -133,17 +136,20 @@ export const SendToken: FC = () => {
 
       <ScreenScrollView>
         <GasTokenWarning />
-        <TokenInput
-          label="Asset"
-          rules={amountRules}
-          error={errors?.amount?.message}
-          token={token}
-          amountInDollar={amountInDollar}
+        <Controller
           control={control}
           name="amount"
-          tokenParam="token"
-          amount={amount}
-          selectTokensWithBalance={false}
+          rules={amountRules}
+          render={({ field }) => (
+            <TokenInput
+              field={field}
+              label="Asset"
+              token={token}
+              amountInDollar={amountInDollar}
+              tokenParam="token"
+              error={errors?.amount?.message}
+            />
+          )}
         />
 
         <FormProvider {...methods}>

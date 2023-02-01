@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -9,8 +9,8 @@ import { Text } from '../../../components/text/text';
 import { TextInput } from '../../../components/text-input/text-input';
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
-import { setSlippageToleranceAction } from '../../../store/settings/settings.actions';
-import { useSlippageToleranceSelector } from '../../../store/settings/settings.selectors';
+import { setSlippageToleranceAction } from '../../../store/swap/swap.actions';
+import { useSlippageToleranceSelector } from '../../../store/swap/swap.selectors';
 import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';
 
 import { slippageOptions, ownSlippageRules, OWN } from './constatns';
@@ -23,36 +23,40 @@ export const SlippageSettings: FC = () => {
   const { goBack, navigate } = useNavigation();
   const slippageTolerance = useSlippageToleranceSelector();
 
-  const [slippage, setSlippage] = useState(findSlippageOption(slippageTolerance));
-
   const {
     control,
     formState: { errors },
     handleSubmit,
-    clearErrors,
-    watch
+    watch,
+    setValue
   } = useForm<FormTypes>({
     mode: 'onChange',
     defaultValues: {
-      ownSlippage: slippageTolerance
+      slippageOption: findSlippageOption(slippageTolerance),
+      slippageInput: slippageTolerance
     }
   });
-  const ownSlippageTolerance = watch('ownSlippage');
+  const slippageOption = watch('slippageOption');
+  const slippageInput = watch('slippageInput');
 
-  const isOwnSlippageSelected = slippage.title === OWN;
-  const showWarning = isOwnSlippageSelected && Number(ownSlippageTolerance) >= 4 && Number(ownSlippageTolerance) <= 50;
+  const isOwnSlippageSelected = slippageOption.title === OWN;
+  const showWarning = isOwnSlippageSelected && Number(slippageInput) >= 4 && Number(slippageInput) <= 50;
   const isSubmitDisabled = Object.keys(errors).length > 0;
 
   const onSelect = (option: { title: string; value: string }) => {
-    setSlippage(option);
+    setValue('slippageOption', option);
 
-    if (option.value !== OWN) {
-      clearErrors();
+    if (option.title !== OWN) {
+      setValue('slippageInput', option.value, { shouldValidate: true });
     }
   };
 
-  const onSubmit = ({ ownSlippage }: FormTypes) => {
-    dispatch(setSlippageToleranceAction(isOwnSlippageSelected ? Number(ownSlippage).toString() : slippage.value));
+  const onSubmit = (fields: FormTypes) => {
+    dispatch(
+      setSlippageToleranceAction(
+        isOwnSlippageSelected ? Number(fields.slippageInput).toString() : fields.slippageOption.value
+      )
+    );
     navigate(ScreensEnum.Swap);
   };
 
@@ -70,19 +74,19 @@ export const SlippageSettings: FC = () => {
           If the price changes unfavorably more than the rate below, your trade will be canceled
         </Text>
         <View style={styles.selectorBlock}>
-          <FragmentSelector options={slippageOptions} selectedItem={slippage} onSelect={onSelect} />
+          <FragmentSelector options={slippageOptions} selectedItem={slippageOption} onSelect={onSelect} />
         </View>
         {isOwnSlippageSelected && (
           <Controller
             control={control}
-            name="ownSlippage"
+            name="slippageInput"
             rules={ownSlippageRules}
             render={({ field }) => (
               <TextInput
                 field={field}
                 placeholder="0"
                 keyboardType="numeric"
-                error={errors?.ownSlippage?.message}
+                error={errors?.slippageInput?.message}
                 decimals={2}
               />
             )}
@@ -91,7 +95,7 @@ export const SlippageSettings: FC = () => {
 
         {showWarning && (
           <Warning
-            text={`You may receive ${ownSlippageTolerance}% less with this level of slippage tolerance`}
+            text={`You may receive ${slippageInput}% less with this level of slippage tolerance`}
             style={styles.warning}
           />
         )}

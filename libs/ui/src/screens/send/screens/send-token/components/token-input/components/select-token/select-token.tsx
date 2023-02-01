@@ -17,23 +17,20 @@ import { styles } from './select-token.styles';
 interface Props {
   token?: TokenType;
   tokenParam: string;
-  isReadOnly: boolean;
-  showOnlyTokenWithBalance: boolean;
+  isReadOnly?: boolean;
   availableBalance?: string;
 }
 
-export const SelectToken: FC<Props> = ({
-  token,
-  tokenParam,
-  isReadOnly,
-  availableBalance,
-  showOnlyTokenWithBalance
-}) => {
+export const SelectToken: FC<Props> = ({ token, tokenParam, isReadOnly = false, availableBalance }) => {
   const { navigate } = useNavigation();
   const navigateToTokensSelector = () =>
-    navigate(ScreensEnum.TokensSelector, { token, field: tokenParam, showOnlyTokenWithBalance });
+    navigate(ScreensEnum.TokensSelector, {
+      token,
+      field: tokenParam
+    });
 
   const isToken = isDefined(token);
+  const showAvailableBalance = isDefined(availableBalance) && isToken;
 
   return (
     <Row style={[styles.root, isReadOnly && styles.readOnlyBlock]}>
@@ -49,7 +46,7 @@ export const SelectToken: FC<Props> = ({
           <Icon name={IconNameEnum.Dropdown} size={getCustomSize(2)} />
         </Row>
       </Pressable>
-      {isDefined(availableBalance) && isToken && (
+      {showAvailableBalance && (
         <View style={styles.availableBalanceBlock}>
           <Text style={styles.availableBalanceText}>Available balance</Text>
           <Row>

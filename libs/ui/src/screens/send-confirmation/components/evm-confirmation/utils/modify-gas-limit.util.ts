@@ -1,11 +1,10 @@
 import { BigNumberish } from 'ethers';
 
+import { GAS_LIMIT_MULTIPLIER, EMPTY_GAS } from '../../../constants';
 import { DEFAULT_GAS_LIMIT } from '../constants/ethereum-gas-limit';
 
-const GAS_LIMIT_MULTIPLIER = 1.2;
-
 export const modifyGasLimit = (gasLimit: BigNumberish | undefined | void, gas: number) => {
-  if (gas > 0) {
+  if (gas > EMPTY_GAS) {
     return gas;
   }
 

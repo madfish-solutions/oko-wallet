@@ -47,6 +47,9 @@ export const addNewTokensAction = createActions<
   { debankId: string; publicKeyHash: string },
   { tokenList: TokenListResponse; debankGasTokenName: string }
 >('wallet/ADD_NEW_TOKENS');
+export const addNewTokensMetadataAction = createActions<Token['tokenAddress'][], TokenFormTypes[]>(
+  'wallet/ADD_NEW_TOKENS_METADATA'
+);
 export const editTokenAction = createAction<TokenFormTypes>('wallet/EDIT_TOKEN');
 export const changeTokenVisibilityAction = createAction<Token>('wallet/CHANGE_TOKEN_VISIBILITY');
 export const sortAccountTokensByVisibility = createAction('wallet/SORT_ACCOUNT_TOKENS_BY_VISIBILITY');

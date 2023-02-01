@@ -1,18 +1,4 @@
 export interface GetQuoteResponse {
-  fromToken: {
-    symbol: string;
-    name: string;
-    address: string;
-    decimals: number;
-    logoURI: string;
-  };
-  toToken: {
-    symbol: string;
-    name: string;
-    address: string;
-    decimals: number;
-    logoURI: string;
-  };
   toTokenAmount: string;
   fromTokenAmount: string;
   protocols: {
@@ -41,3 +27,5 @@ export interface GetSwapDataResponse {
     gas: number;
   };
 }
+
+export type SwapData = Omit<GetSwapDataResponse['tx'], 'gas'> & { gasLimit: number };

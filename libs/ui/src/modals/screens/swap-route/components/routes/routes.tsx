@@ -3,8 +3,8 @@ import { View } from 'react-native';
 
 import { GetQuoteResponse } from '../../../../../api/1inch/types';
 import { Text } from '../../../../../components/text/text';
-import { Token as TokenType } from '../../../../../interfaces/token.interface';
-import { TokenFromRoute } from '../../types';
+import { TokenMetadata } from '../../../../../interfaces/token-metadata.interface';
+import { Token } from '../../../../../interfaces/token.interface';
 
 import { FromToTokens } from './components/from-to-tokens/from-to-tokens';
 import { Protocol } from './components/protocol/protocol';
@@ -12,8 +12,8 @@ import { styles } from './routes.styles';
 
 interface Props {
   routes: GetQuoteResponse['protocols'];
-  tokens: TokenFromRoute;
-  fromToken: TokenType;
+  tokens: Record<Token['tokenAddress'], TokenMetadata>;
+  fromToken: Token;
 }
 
 export const Routes: FC<Props> = ({ routes, tokens, fromToken }) => (

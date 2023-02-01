@@ -34,21 +34,18 @@ const keyExtractor = ({ tokenAddress, tokenId }: TokenType) => getTokenSlug(toke
 export const TokensSelector: FC = () => {
   const allTokensMarketInfoSelector = useTokensMarketInfoSelector();
   const {
-    params: { token, field, showOnlyTokenWithBalance }
+    params: { token, field }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.TokensSelector>>();
   const { navigate } = useNavigation();
   const { chainId } = useSelectedNetworkSelector();
   const visibleAccountTokens = useVisibleAccountTokensSelector();
-  const accountTokens = useMemo(
-    () => (showOnlyTokenWithBalance ? getTokensWithBalance(visibleAccountTokens) : visibleAccountTokens),
-    [visibleAccountTokens, showOnlyTokenWithBalance]
-  );
   const previousScreen = usePreviousScreenName();
+  const showOnlyTokenWithBalance = previousScreen === ScreensEnum.SendToken;
 
   const gasToken = useGasTokenSelector();
   const accountTokensWithBalanceAndGasToken: TokenType[] = useMemo(
-    () => [gasToken, ...accountTokens],
-    [accountTokens, gasToken]
+    () => [gasToken, ...(showOnlyTokenWithBalance ? getTokensWithBalance(visibleAccountTokens) : visibleAccountTokens)],
+    [gasToken, visibleAccountTokens, showOnlyTokenWithBalance]
   );
 
   const { accountTokens: filteredAccountTokens, setSearchValue } = useFilterAccountTokens(

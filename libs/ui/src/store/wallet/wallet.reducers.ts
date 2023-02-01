@@ -17,6 +17,7 @@ import {
   addNewNetworkAction,
   addNewTokenAction,
   addNewTokensAction,
+  addNewTokensMetadataAction,
   addTransactionAction,
   changeAccountAction,
   changeAccountVisibilityAction,
@@ -200,6 +201,29 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
           ...state.accountsTokens,
           [accountTokensSlug]: [...(state.accountsTokens[accountTokensSlug] ?? []), ...accountTokens]
         },
+        tokensMetadata: {
+          ...state.tokensMetadata,
+          ...tokensMetadata
+        }
+      };
+    })
+    .addCase(addNewTokensMetadataAction.success, (state, { payload: tokensMetadataList }) => {
+      const chainId = getSelectedNetworkChainId(state);
+      const tokensMetadata = tokensMetadataList.reduce((acc, token) => {
+        const tokenMetadataSlug = getTokenMetadataSlug(chainId, token.tokenAddress);
+
+        return {
+          ...acc,
+          [tokenMetadataSlug]: {
+            name: token.name,
+            symbol: token.symbol,
+            decimals: Number(token.decimals)
+          }
+        };
+      }, {});
+
+      return {
+        ...state,
         tokensMetadata: {
           ...state.tokensMetadata,
           ...tokensMetadata

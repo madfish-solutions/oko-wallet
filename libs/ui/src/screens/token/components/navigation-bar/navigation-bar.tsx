@@ -4,10 +4,9 @@ import { Pressable } from 'react-native';
 import { Divider } from '../../../../components/divider/divider';
 import { Icon } from '../../../../components/icon/icon';
 import { Row } from '../../../../components/row/row';
-import { modernCivilizationDidNotReachThisNetwork } from '../../../../components/toast/constants/toas-messages';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { useToast } from '../../../../hooks/use-toast.hook';
+import { useShowSwapDisabledToast } from '../../../../hooks/use-show-swap-disabled-toast';
 import { Token } from '../../../../interfaces/token.interface';
 import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
@@ -22,17 +21,12 @@ interface Props {
 export const NavigationBar: FC<Props> = ({ token }) => {
   const { navigate } = useNavigation();
   const tokenNavigationBar = useTokenNavigationBar();
-  const { showInfoToast } = useToast();
+  const showSwapDisabledToast = useShowSwapDisabledToast();
 
   const navigateToRoute = (screen: TokenNavigationBarOption['routeName'], disabled?: boolean) => {
     if (disabled === true) {
       if (screen === ScreensEnum.Swap) {
-        showInfoToast({
-          message: 'Oops!',
-          data: {
-            description: modernCivilizationDidNotReachThisNetwork
-          }
-        });
+        showSwapDisabledToast();
       }
 
       return;

@@ -1,5 +1,5 @@
 import { OnEventFn } from '@rnw-community/shared';
-import React, { Fragment, FC } from 'react';
+import React, { Fragment } from 'react';
 
 import { Button } from '../button/button';
 import { Divider } from '../divider/divider';
@@ -7,17 +7,21 @@ import { Row } from '../row/row';
 
 import { styles } from './fragment-selector.styles';
 
-interface Option {
-  title: string;
+interface Option<OptionTitle> {
+  title: OptionTitle;
   value: string;
 }
-interface Props {
-  selectedItem: Option;
-  onSelect: OnEventFn<Option>;
-  options: Option[];
+interface Props<OptionTitle> {
+  selectedItem: Option<OptionTitle>;
+  onSelect: OnEventFn<Option<OptionTitle>>;
+  options: Option<OptionTitle>[];
 }
 
-export const FragmentSelector: FC<Props> = ({ selectedItem, onSelect, options }) => (
+export const FragmentSelector = <OptionTitle extends string>({
+  selectedItem,
+  onSelect,
+  options
+}: Props<OptionTitle>) => (
   <Row style={styles.root}>
     {options.map(({ title, value }, index) => (
       <Fragment key={title}>

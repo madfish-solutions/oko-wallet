@@ -5,7 +5,6 @@ import {
   setAppLockTimePeriod,
   setIsAnalyticsEnabled,
   setIsBiometricEnabled,
-  setSlippageToleranceAction,
   showLoaderAction
 } from './settings.actions';
 import { settingsInitialState, SettingsState } from './settings.state';
@@ -31,9 +30,5 @@ export const settingsReducers = createReducer<SettingsState>(settingsInitialStat
     .addCase(setAppLockTimePeriod, (state, { payload: lockTimePeriod }) => ({
       ...state,
       lockTimePeriod
-    }))
-    .addCase(setSlippageToleranceAction, (state, { payload: slippageTolerance }) => ({
-      ...state,
-      slippageTolerance
     }));
 });

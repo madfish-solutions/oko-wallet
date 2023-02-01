@@ -1,3 +1,4 @@
 export interface FormTypes {
-  ownSlippage: string;
+  slippageInput: string;
+  slippageOption: { title: string; value: string };
 }

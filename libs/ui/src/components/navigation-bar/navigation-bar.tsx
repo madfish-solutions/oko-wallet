@@ -9,11 +9,10 @@ import {
   swapStackScreens,
   walletStackScreens
 } from '../../enums/sreens.enum';
+import { useShowSwapDisabledToast } from '../../hooks/use-show-swap-disabled-toast';
 import { useSwapSupported } from '../../hooks/use-swap-supported.hook';
-import { useToast } from '../../hooks/use-toast.hook';
 import { IconNameEnum } from '../icon/icon-name.enum';
 import { Row } from '../row/row';
-import { modernCivilizationDidNotReachThisNetwork } from '../toast/constants/toas-messages';
 
 import { TabBarButton } from './components/tab-bar-button/tab-bar-button';
 import { styles } from './navigation-bar.styles';
@@ -24,15 +23,7 @@ export const NavigationBar = () => {
   const currentRoute = routes[routes.length - 1].name as ScreensEnum;
   const isStackFocused = (screensStack: ScreensEnum[]) => screensStack.includes(currentRoute);
   const isSwapSupported = useSwapSupported();
-  const { showInfoToast } = useToast();
-
-  const onDisabledSwapPress = () =>
-    showInfoToast({
-      message: 'Oops!',
-      data: {
-        description: modernCivilizationDidNotReachThisNetwork
-      }
-    });
+  const showSwapDisabledToast = useShowSwapDisabledToast();
 
   return (
     <Row style={styles.root}>
@@ -55,7 +46,7 @@ export const NavigationBar = () => {
         name={IconNameEnum.Swap}
         focused={isStackFocused(swapStackScreens)}
         disabled={!isSwapSupported}
-        onDisabledPress={onDisabledSwapPress}
+        onDisabledPress={showSwapDisabledToast}
         testID={NavigationBarTestIDs.SwapButton}
       />
 
