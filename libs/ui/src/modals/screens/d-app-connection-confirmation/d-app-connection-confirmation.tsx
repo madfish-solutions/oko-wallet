@@ -27,6 +27,7 @@ import {
 import { getCustomSize } from '../../../styles/format-size';
 import {
   sendErrorToDAppAndClosePopup,
+  sendMessageToBackground,
   sendNotificationToDApp,
   sendResponseToDAppAndClosePopup
 } from '../../../utils/dapp.utils';
@@ -51,18 +52,19 @@ export const DAppConnectionConfirmation: FC = () => {
 
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DAppConnectionConfirmation>>();
 
-  useClosePopup(params.messageId);
+  useClosePopup(params.messageId, params.dAppInfo.origin);
 
   const gasBalance = getFormattedBalance(balance.data, decimals);
 
   const sendMessage = () => {
     dispatch(connectDAppAction({ dAppInfo: params.dAppInfo, accountPublicKeyHash: selectedAccountPublicKeyHash }));
-    sendNotificationToDApp('oko_accountsChanged', [selectedAccountPublicKeyHash]);
-    sendResponseToDAppAndClosePopup(params.messageId, [selectedAccountPublicKeyHash]);
+    sendNotificationToDApp(params.dAppInfo.origin, 'oko_accountsChanged', [selectedAccountPublicKeyHash]);
+    sendResponseToDAppAndClosePopup(params.dAppInfo.origin, params.messageId, [selectedAccountPublicKeyHash]);
+    sendMessageToBackground();
   };
 
   const navigateToAccountsSelector = () => navigate(ScreensEnum.AccountsSelector);
-  const declineConnection = () => sendErrorToDAppAndClosePopup(params.messageId);
+  const declineConnection = () => sendErrorToDAppAndClosePopup(params.dAppInfo.origin, params.messageId);
 
   return (
     <ModalContainer screenTitle="Confirm operation">

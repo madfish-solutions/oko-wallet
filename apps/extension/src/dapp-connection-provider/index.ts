@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/strict-boolean-expressions */
+
 import { Duplex } from 'stream';
 
 import { InpageProvider, InpageProviderOptions } from './inpage-provider';
+import { shimWeb3 } from './shim-web3';
 
 interface InitializeProviderOptions extends InpageProviderOptions {
   /**
@@ -36,16 +39,20 @@ export function initializeProvider({
   maxEventListeners = 100,
   shouldSetOnWindow = true
 }: InitializeProviderOptions): InpageProvider {
+  const anotherProvider = (window as Record<string, any>).ethereum ? [(window as Record<string, any>).ethereum] : [];
   const provider = new InpageProvider(connectionStream, {
     jsonRpcStreamName,
     logger,
-    maxEventListeners
+    maxEventListeners,
+    anotherProvider
   });
 
   const proxiedProvider = new Proxy(provider, {
     // some common libraries, e.g. web3@1.x, mess with our API
     deleteProperty: () => true
   });
+
+  shimWeb3(proxiedProvider);
 
   if (shouldSetOnWindow) {
     setGlobalProvider(proxiedProvider);
@@ -61,7 +68,6 @@ export function initializeProvider({
  * @param providerInstance - The provider instance.
  */
 export function setGlobalProvider(providerInstance: InpageProvider): void {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (window as Record<string, any>).ethereum = providerInstance;
   window.dispatchEvent(new Event('ethereum#initialized'));
 }

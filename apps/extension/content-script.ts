@@ -1,6 +1,7 @@
 import ObjectMultiplex from '@metamask/object-multiplex';
 import { WindowPostMessageStream } from '@metamask/post-message-stream';
 import pump from 'pump';
+import { POPUP_OPEN } from 'ui/background-script';
 import { runtime } from 'webextension-polyfill';
 
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
@@ -19,6 +20,11 @@ const pageStream = new WindowPostMessageStream({
 
 // listen background-script message and send message to dApps
 myPort.onMessage.addListener(async message => {
+  if (message.type === POPUP_OPEN) {
+    myPort.postMessage(message);
+
+    return Promise.resolve();
+  }
   window.postMessage(message, '*');
 
   return Promise.resolve();
