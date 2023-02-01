@@ -16,6 +16,7 @@ import {
 } from './src/constants/storage-keys';
 import { DAppMessage, InformMessage } from './src/interfaces/dapp-message.interface';
 import { handleDAppMessage } from './src/utils/dApp-method.utils';
+import { openFullPage } from './src/utils/fullpage.utils';
 import { getSessionPasswordHash, setToStorage } from './src/utils/session.utils';
 import { getState } from './src/utils/state.utils';
 
@@ -31,6 +32,8 @@ scripting.registerContentScripts([
     world: 'MAIN'
   }
 ]);
+
+runtime.onInstalled.addListener(({ reason }) => (reason === 'install' ? openFullPage() : null));
 
 runtime.onConnect.addListener(async port => {
   // check for time expired and max-view no opened then extension need to lock

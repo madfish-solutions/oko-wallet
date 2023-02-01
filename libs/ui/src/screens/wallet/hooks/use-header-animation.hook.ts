@@ -1,8 +1,8 @@
 import { useNavigationState } from '@react-navigation/native';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 
+import { useScrollToOffset } from '../../../hooks/use-scroll-to-element.hook';
 import { isFullpage } from '../../../utils/location.utils';
 import { isWeb } from '../../../utils/platform.utils';
 import { HIDE_QR_CODE, MIDDLE_VALUE, SHOW_QR_CODE } from '../constants/dimensions';
@@ -11,7 +11,7 @@ export const useHeaderAnimation = () => {
   const [contentOffsetY, setContentOffsetY] = useState(isWeb ? HIDE_QR_CODE : SHOW_QR_CODE);
   const routeIndex = useNavigationState(state => state.index);
 
-  const scrollViewRef = useRef<ScrollView>(null);
+  const { scrollViewRef, scrollToOffset } = useScrollToOffset();
 
   const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = e.nativeEvent.contentOffset.y;
@@ -60,9 +60,7 @@ export const useHeaderAnimation = () => {
   const hideQrCode = (animated?: boolean) => animateScroll(HIDE_QR_CODE, animated);
 
   const animateScroll = (y: number, animated = true) => {
-    if (scrollViewRef?.current !== null) {
-      scrollViewRef.current.scrollTo({ y, animated });
-    }
+    scrollToOffset(y, animated);
   };
 
   return {
