@@ -50,6 +50,7 @@ export const SeedPhrase: FC = () => {
     handleInputBlur,
     handleInputChange,
     handleShowLayout,
+    scrollToOffset,
     handlePasteMnemonicFromClipboard
   } = useImportSeedPhrase(routeParams?.wordsAmount);
 
@@ -62,7 +63,6 @@ export const SeedPhrase: FC = () => {
     handleSubmit,
     clearErrors,
     watch,
-    setFocus,
     setError,
     formState: { errors, isSubmitSuccessful }
   } = useForm({
@@ -70,7 +70,8 @@ export const SeedPhrase: FC = () => {
     defaultValues: {
       name: defaultValue,
       derivationPath: derivationPathByNetworkType[networkType](0)
-    }
+    },
+    shouldFocusError: false
   });
 
   const accountName = watch('name');
@@ -78,20 +79,6 @@ export const SeedPhrase: FC = () => {
   useEffect(() => {
     clearErrors();
   }, [accountName, mnemonic]);
-
-  useEffect(() => {
-    setFocus('name');
-  }, [errors.name]);
-
-  useEffect(() => {
-    if (isNotEmptyString(errors.derivationPath?.message)) {
-      setTimeout(() => {
-        if (scrollViewRef?.current !== null) {
-          scrollViewRef.current.scrollTo({ y: 500 });
-        }
-      }, 0);
-    }
-  }, [errors.derivationPath?.message]);
 
   const onSubmit = async ({ name, derivationPath }: { name: string; derivationPath: string }) => {
     setIsSubmitted(true);
@@ -106,7 +93,9 @@ export const SeedPhrase: FC = () => {
 
       for (const account of accounts) {
         if (account.networksKeys[networkType]?.publicKey === hdAccount.publicKey) {
-          return setError('derivationPath', { message: 'This account already imported!' });
+          scrollToOffset();
+
+          return setError('derivationPath', { message: 'This account already imported!' }, { shouldFocus: false });
         }
       }
 

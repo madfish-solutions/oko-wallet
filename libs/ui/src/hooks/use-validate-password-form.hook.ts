@@ -28,12 +28,6 @@ export const useValidatePasswordForm = <FormFields extends { confirmPassword: st
     }
   };
 
-  const changePasswordCheck = (currentValue: string) => {
-    if (currentValue !== password) {
-      return PASSWORD_DOES_NOT_MATCH;
-    }
-  };
-
   const confirmPasswordRules = {
     required: requiredFieldError,
     validate: { ...commonRules.validate, matchPassword }
@@ -41,7 +35,7 @@ export const useValidatePasswordForm = <FormFields extends { confirmPassword: st
 
   const changePasswordRules = {
     required: requiredFieldError,
-    validate: { ...commonRules.validate, changePasswordCheck }
+    validate: { ...commonRules.validate, matchPassword }
   };
 
   useEffect(() => {
