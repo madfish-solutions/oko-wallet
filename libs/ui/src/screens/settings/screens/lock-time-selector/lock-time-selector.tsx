@@ -7,7 +7,6 @@ import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { ModalContainer } from '../../../../modals/components/modal-container/modal-container';
 import { setAppLockTimePeriod } from '../../../../store/settings/settings.actions';
 import { useLockTimePeriodSelector } from '../../../../store/settings/settings.selectors';
-import { isWeb } from '../../../../utils/platform.utils';
 
 import { lockTimes } from './constants';
 
@@ -17,9 +16,7 @@ export const LockTimeSelector: FC = () => {
   const lockTimePeriod = useLockTimePeriodSelector();
 
   const onSelect = ({ value }: Option<number>) => {
-    if (isWeb) {
-      dispatch(setAppLockTimePeriod(value));
-    }
+    dispatch(setAppLockTimePeriod(value));
     goBack();
   };
 
