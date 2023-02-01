@@ -68,7 +68,6 @@ import { FullScreenLoader } from '../loader/components/full-screen-loader/full-s
 
 import { ComponentWithNavigationContext } from './components/component-with-navigation-context/component-with-navigation-context';
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
-import { useActiveTokenList } from './hooks/use-active-token-list.hook';
 import { useLoadSentCollectiblesBalance } from './hooks/use-load-sent-collectibles-balance.hook';
 import { useResetLoading } from './hooks/use-reset-loading.hook';
 import { useShowSecurityScreen } from './hooks/use-show-security-sceen.hook';
@@ -84,7 +83,6 @@ export const Navigator: FC = () => {
   const showSecurityScreen = useShowSecurityScreen();
 
   useLockApp(isReady);
-  useActiveTokenList();
   useTokensPriceInfo();
   useLoadSentCollectiblesBalance();
   useResetLoading();

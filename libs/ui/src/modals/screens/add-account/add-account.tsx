@@ -7,6 +7,7 @@ import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { ModalTabContainer } from '../../components/modal-tab-container/modal-tab-container';
 
 import { styles } from './add-account.styles';
+import { AddAccountTestIDs } from './add-account.test-ids';
 import { CreateHD } from './components/create-hd/create-hd';
 import { PrivateKey } from './components/private-key/private-key';
 import { SeedPhrase } from './components/seed-phrase/seed-phrase';
@@ -36,7 +37,7 @@ export const AddAccount: FC = () => {
   const setParams = (id: number) => navigate(ScreensEnum.AddAccount, { activeId: id });
 
   return (
-    <ModalTabContainer screenTitle="Add new account">
+    <ModalTabContainer screenTitle="Add new account" testID={AddAccountTestIDs.AddNewAccountTitle}>
       <Tabs values={tabs} activeItemId={routeParams?.activeId} activeItemCallback={setParams} tabsStyle={styles.tabs} />
     </ModalTabContainer>
   );

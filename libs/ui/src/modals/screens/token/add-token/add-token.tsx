@@ -11,6 +11,7 @@ import {
   editTokenAction
 } from '../../../../store/wallet/wallet.actions';
 import { useAccountAssetsSelector } from '../../../../store/wallet/wallet.selectors';
+import { getCurrentToken } from '../../../../utils/get-current-token.util';
 import { getTokenSlug } from '../../../../utils/token.utils';
 import { useTokenFieldsRules } from '../../../hooks/use-validate-add-token-fields.hook';
 import { TokenContainer } from '../components/token-container/token-container';
@@ -81,9 +82,7 @@ export const AddNewToken: FC = () => {
   const rules = useTokenFieldsRules();
 
   const onSubmit = (fields: TokenFormTypes) => {
-    const currentToken = accountTokens.find(
-      token => getTokenSlug(token.tokenAddress, token.tokenId) === getTokenSlug(fields.tokenAddress, fields.tokenId)
-    );
+    const currentToken = getCurrentToken(accountTokens, getTokenSlug(fields.tokenAddress, fields.tokenId));
 
     if (isDefined(currentToken) && currentToken.isVisible) {
       if (isNotEmptyString(fields.tokenId)) {

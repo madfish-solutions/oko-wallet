@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { Button } from '../../../components/button/button';
 import { ButtonSizeEnum, ButtonThemesEnum } from '../../../components/button/enums';
@@ -8,7 +9,7 @@ import { ViewStyleProps } from '../../../interfaces/style.interface';
 import { FooterButtons } from './modal-footer-buttons.interface';
 import { styles } from './modal-footer-buttons.styles';
 
-interface Props extends FooterButtons {
+interface Props extends FooterButtons, TestIDProps {
   style?: ViewStyleProps;
 }
 
@@ -19,7 +20,8 @@ export const ModalFooterButtons: FC<Props> = ({
   cancelTitle = 'Cancel',
   onSubmitPress,
   onCancelPress,
-  style
+  style,
+  testID
 }) => (
   <Row style={[styles.root, style]}>
     <Button
@@ -37,6 +39,7 @@ export const ModalFooterButtons: FC<Props> = ({
       title={submitTitle}
       onPress={onSubmitPress}
       style={styles.button}
+      testID={testID}
     />
   </Row>
 );

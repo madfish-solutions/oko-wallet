@@ -16,9 +16,10 @@ import { RobotIcon } from '../../../../robot-icon/robot-icon';
 import { Row } from '../../../../row/row';
 import { Text } from '../../../../text/text';
 
-import { styles } from './selectors.styles';
+import { styles } from './header-selectors.styles';
+import { HeaderSelectorsTestIDs } from './header-selectors.test-ids';
 
-export const Selectors: FC = () => {
+export const HeaderSelectors: FC = () => {
   const { iconName } = useSelectedNetworkSelector();
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const { name } = useSelectedAccountSelector();
@@ -29,7 +30,11 @@ export const Selectors: FC = () => {
 
   return (
     <Row style={styles.root}>
-      <TouchableOpacity onPress={selectAccount} style={styles.accountContainer}>
+      <TouchableOpacity
+        onPress={selectAccount}
+        style={styles.accountContainer}
+        testID={HeaderSelectorsTestIDs.AccountSelectorButton}
+      >
         <Row>
           <View style={styles.button}>
             <IconWithBorder>
@@ -46,7 +51,11 @@ export const Selectors: FC = () => {
         <View style={styles.addressWrapper}>
           <CopyText text={publicKeyHash} />
         </View>
-        <TouchableOpacity onPress={selectNetwork} style={styles.button}>
+        <TouchableOpacity
+          onPress={selectNetwork}
+          style={styles.button}
+          testID={HeaderSelectorsTestIDs.NetworkSelectorButton}
+        >
           <IconWithBorder>
             <Icon name={iconName ?? IconNameEnum.NetworkFallback} />
           </IconWithBorder>

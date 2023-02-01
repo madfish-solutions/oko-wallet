@@ -16,7 +16,6 @@ import {
   addNewCollectibleAction,
   addNewNetworkAction,
   addNewTokenAction,
-  addNewTokensAction,
   addNewTokensMetadataAction,
   addTransactionAction,
   changeAccountAction,
@@ -37,7 +36,8 @@ import {
   setSelectedAccountAction,
   sortAccountTokensByVisibility,
   deleteTransactionAction,
-  deleteCollectibleAction
+  deleteCollectibleAction,
+  getAllUserTokensAction
 } from './wallet.actions';
 import { walletInitialState, WalletState } from './wallet.state';
 import {
@@ -153,7 +153,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         }
       };
     })
-    .addCase(addNewTokensAction.success, (state, { payload: { tokenList, debankGasTokenName } }) => {
+    .addCase(getAllUserTokensAction.success, (state, { payload: { tokenList, debankGasTokenName } }) => {
       if (!tokenList.length) {
         return state;
       }
@@ -161,45 +161,83 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
       const { selectedAccountPublicKeyHash } = state;
       const chainId = getSelectedNetworkChainId(state);
       const accountTokensSlug = getAccountTokensSlug(chainId, selectedAccountPublicKeyHash);
-      const defaultAccountTokens = { [debankGasTokenName]: true };
-      const prevAccountTokens: Record<string, boolean> =
-        state.accountsTokens[accountTokensSlug]?.reduce(
-          (acc, accountToken) => ({ ...acc, [accountToken.tokenAddress]: true }),
-          defaultAccountTokens
-        ) ?? defaultAccountTokens;
 
-      const newTokens = tokenList.filter(token => !prevAccountTokens[token.id]);
+      const stateAccountsTokens: AccountToken[] = [...(state.accountsTokens[accountTokensSlug] ?? [])];
 
-      const accountTokens: AccountToken[] = newTokens.map(token => ({
-        tokenAddress: token.id,
-        name: token.name,
-        symbol: token.symbol,
-        isVisible: true,
-        balance: createEntity(token.raw_amount.toString())
-      }));
-      const tokensMetadata = newTokens.reduce((acc, token) => {
-        const tokenMetadataSlug = getTokenMetadataSlug(chainId, token.id);
+      const prevAccountTokens = stateAccountsTokens.filter(
+        accountToken =>
+          !tokenList.find(
+            tokenFormDebank =>
+              getTokenSlug(tokenFormDebank.id) === getTokenSlug(accountToken.tokenAddress, accountToken.tokenId)
+          )
+      );
 
-        if (isDefined(state.tokensMetadata[tokenMetadataSlug])) {
-          return { ...acc };
-        }
+      const { gasTokenBalance, tokens, tokensMetadata } = tokenList.reduce(
+        (
+          acc: {
+            gasTokenBalance: string;
+            tokens: AccountToken[];
+            tokensMetadata: Record<string, TokenMetadata>;
+          },
+          tokenFromDebank
+        ) => {
+          const stateAccountToken = stateAccountsTokens.find(
+            accountToken =>
+              getTokenSlug(accountToken.tokenAddress, accountToken.tokenId) === getTokenSlug(tokenFromDebank.id)
+          );
 
-        return {
-          ...acc,
-          [tokenMetadataSlug]: {
-            name: token.name,
-            symbol: token.symbol,
-            decimals: token.decimals,
-            thumbnailUri: token.logo_url
+          const tokenMetadataSlug = getTokenMetadataSlug(chainId, tokenFromDebank.id);
+
+          if (tokenFromDebank.id === debankGasTokenName) {
+            return {
+              ...acc,
+              gasTokenBalance: tokenFromDebank.raw_amount.toString() ?? '0'
+            };
           }
-        };
-      }, {});
+
+          if (isDefined(stateAccountToken)) {
+            return {
+              ...acc,
+              tokens: [
+                ...acc.tokens,
+                {
+                  ...stateAccountToken,
+                  balance: createEntity(tokenFromDebank.raw_amount.toString())
+                }
+              ]
+            };
+          }
+
+          return {
+            ...acc,
+            tokens: [
+              ...acc.tokens,
+              {
+                tokenAddress: tokenFromDebank.id,
+                isVisible: true,
+                balance: createEntity(tokenFromDebank.raw_amount.toString())
+              }
+            ],
+            tokensMetadata: {
+              ...acc.tokensMetadata,
+              [tokenMetadataSlug]: {
+                name: tokenFromDebank.name,
+                symbol: tokenFromDebank.symbol,
+                decimals: tokenFromDebank.decimals,
+                thumbnailUri: tokenFromDebank.logo_url ?? undefined
+              }
+            }
+          };
+        },
+        { gasTokenBalance: '0', tokens: [], tokensMetadata: {} }
+      );
 
       return {
         ...state,
+        ...updateAccountsGasTokensState(state, { balance: gasTokenBalance }),
         accountsTokens: {
           ...state.accountsTokens,
-          [accountTokensSlug]: [...(state.accountsTokens[accountTokensSlug] ?? []), ...accountTokens]
+          [accountTokensSlug]: [...prevAccountTokens, ...tokens]
         },
         tokensMetadata: {
           ...state.tokensMetadata,

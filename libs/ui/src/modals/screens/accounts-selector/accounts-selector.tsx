@@ -28,6 +28,7 @@ import { ModalContainer } from '../../components/modal-container/modal-container
 import { ModalHeader } from '../../components/modal-header/modal-header';
 
 import { styles } from './accounts-selector.styles';
+import { AccountsSelectorTestIDs } from './accounts-selector.test-ids';
 import { AccountsList } from './components/accounts-list';
 
 export const AccountsSelector: FC = () => {
@@ -57,7 +58,7 @@ export const AccountsSelector: FC = () => {
   const onAccountSettings = () => navigate(ScreensEnum.AccountsSettings);
 
   return (
-    <ModalContainer screenTitle="Accounts">
+    <ModalContainer screenTitle="Accounts" testID={AccountsSelectorTestIDs.AccountsScreenTitle}>
       <Column style={styles.headerWrapper}>
         <ModalHeader
           name={selectedAccount.name}
@@ -94,6 +95,7 @@ export const AccountsSelector: FC = () => {
         onPressAddIcon={onAddAccount}
         selectedAccount={selectedAccount}
         accounts={accounts}
+        testID={AccountsSelectorTestIDs.AccountsTabs}
       />
     </ModalContainer>
   );
