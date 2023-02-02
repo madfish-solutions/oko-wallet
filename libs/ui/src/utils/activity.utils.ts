@@ -23,23 +23,33 @@ export const isGasTokenTransaction = (transaction: TransactionResponse) =>
   transaction.token_approve === null;
 
 export const getTransactionType = (transaction: TransactionResponse, isGasToken: boolean, publicKeyHash: string) => {
-  const isGasTokenSent = isGasTokenSentTransaction(publicKeyHash, transaction);
+  const isGasTokenSent =
+    isGasToken && isGasTokenSentTransaction(publicKeyHash, transaction) && isGasTokenTransaction(transaction);
 
-  if (transaction.cate_id === TransactionTypeEnum.Send || (isGasToken && isGasTokenSent)) {
+  if (transaction.cate_id === TransactionTypeEnum.Send || isGasTokenSent) {
     return {
       type: TransactionTypeEnum.Send,
-      label: TransactionLabelEnum.Send
+      label:
+        isDefined(transaction.tx) && isNotEmptyString(transaction.tx.name)
+          ? transaction.tx.name
+          : TransactionLabelEnum.Send
     };
   }
-  if (transaction.cate_id === TransactionTypeEnum.Receive || (isGasToken && !isGasTokenSent)) {
+  if (transaction.cate_id === TransactionTypeEnum.Receive || isGasTokenSent) {
     return {
       type: TransactionTypeEnum.Receive,
-      label: TransactionLabelEnum.Received
+      label:
+        isDefined(transaction.tx) && isNotEmptyString(transaction.tx.name)
+          ? transaction.tx.name
+          : TransactionLabelEnum.Received
     };
   }
 
   return {
     type: TransactionTypeEnum.ContractCalls,
-    label: isNotEmptyString(transaction.tx.name) ? transaction.tx.name : TransactionLabelEnum.ContractInteraction
+    label:
+      isDefined(transaction.tx) && isNotEmptyString(transaction.tx.name)
+        ? transaction.tx.name
+        : TransactionLabelEnum.ContractInteraction
   };
 };
