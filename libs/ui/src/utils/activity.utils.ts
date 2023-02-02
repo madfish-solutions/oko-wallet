@@ -23,21 +23,20 @@ export const isGasTokenTransaction = (transaction: TransactionResponse) =>
   transaction.token_approve === null;
 
 export const getTransactionType = (transaction: TransactionResponse, isGasToken: boolean, publicKeyHash: string) => {
-  const isGasTokenSent =
-    isGasToken && isGasTokenSentTransaction(publicKeyHash, transaction) && isGasTokenTransaction(transaction);
+  const isGasTokenSent = isGasTokenSentTransaction(publicKeyHash, transaction);
 
   const transactionName = isDefined(transaction.tx) && isNotEmptyString(transaction.tx.name) ? transaction.tx.name : '';
 
-  if (transaction.cate_id === TransactionTypeEnum.Send || isGasTokenSent) {
+  if (transaction.cate_id === TransactionTypeEnum.Send || (isGasToken && isGasTokenSent)) {
     return {
       type: TransactionTypeEnum.Send,
-      label: transactionName || TransactionLabelEnum.Send
+      label: TransactionLabelEnum.Send
     };
   }
-  if (transaction.cate_id === TransactionTypeEnum.Receive || isGasTokenSent) {
+  if (transaction.cate_id === TransactionTypeEnum.Receive || (isGasToken && !isGasTokenSent)) {
     return {
       type: TransactionTypeEnum.Receive,
-      label: transactionName || TransactionLabelEnum.Received
+      label: TransactionLabelEnum.Received
     };
   }
 
