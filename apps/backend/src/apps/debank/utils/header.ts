@@ -1,6 +1,6 @@
 import { IncomingHttpHeaders } from 'http';
 
-import { DeBankConfiguration } from '../../config';
+import { DeBankConfiguration } from '../../../config';
 
 export function formDeBankHeaderWithKey(config: DeBankConfiguration): IncomingHttpHeaders {
   const headers = {
