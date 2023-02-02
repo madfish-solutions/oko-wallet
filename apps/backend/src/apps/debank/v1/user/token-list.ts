@@ -1,7 +1,7 @@
 import { types } from 'backend';
 import { NextFunction, Request, Response, Router } from 'express';
 
-import { deBankCache, proxyDeBankRequest, rateLimiterMiddleware } from '../../utils';
+import { deBankCache, proxyDeBankRequest } from '../../utils';
 
 const getUserTokenList = (req: Request, res: Response, next: NextFunction) =>
   proxyDeBankRequest<types.TokenListResponse>('user/token_list', req.query, next).then(data =>
@@ -17,7 +17,6 @@ export const tokenListRoute = Router().get(
       xxx: 1
     }
   }),
-  rateLimiterMiddleware,
   getUserTokenList
 );
 

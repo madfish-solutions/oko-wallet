@@ -1,7 +1,7 @@
 import { types } from 'backend';
 import { NextFunction, Request, Response, Router } from 'express';
 
-import { deBankCache, proxyDeBankRequest, rateLimiterMiddleware } from '../../utils';
+import { deBankCache, proxyDeBankRequest } from '../../utils';
 
 const getUserNFTList = (req: Request, res: Response, next: NextFunction) =>
   proxyDeBankRequest<types.NftListResponse>('user/nft_list', req.query, next).then(data => res.status(200).send(data));
@@ -15,7 +15,6 @@ export const nftListRoute = Router().get(
       xxx: 1
     }
   }),
-  rateLimiterMiddleware,
   getUserNFTList
 );
 

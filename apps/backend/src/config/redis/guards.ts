@@ -1,4 +1,5 @@
 import process from 'process';
+
 import { RedisConfig } from './types';
 
 const redisHostGuard = (env = process.env): string => {

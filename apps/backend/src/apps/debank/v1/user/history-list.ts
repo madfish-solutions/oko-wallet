@@ -1,10 +1,12 @@
 import { interfaces } from 'backend';
 import { NextFunction, Request, Response, Router } from 'express';
 
-import { deBankCache, proxyDeBankRequest, rateLimiterMiddleware } from '../../utils';
+import { deBankCache, proxyDeBankRequest } from '../../utils';
 
 const getUserHistoryList = (req: Request, res: Response, next: NextFunction) =>
-  proxyDeBankRequest<interfaces.ActivityResponse>('user/history_list', req.query, next).then(data => res.status(200).send(data));
+  proxyDeBankRequest<interfaces.ActivityResponse>('user/history_list', req.query, next).then(data =>
+    res.status(200).send(data)
+  );
 
 export const historyListRoute = Router().get(
   '/history_list',
@@ -20,7 +22,6 @@ export const historyListRoute = Router().get(
       xxx: 1
     }
   }),
-  rateLimiterMiddleware,
   getUserHistoryList
 );
 
