@@ -26,30 +26,23 @@ export const getTransactionType = (transaction: TransactionResponse, isGasToken:
   const isGasTokenSent =
     isGasToken && isGasTokenSentTransaction(publicKeyHash, transaction) && isGasTokenTransaction(transaction);
 
+  const transactionName = isDefined(transaction.tx) && isNotEmptyString(transaction.tx.name) ? transaction.tx.name : '';
+
   if (transaction.cate_id === TransactionTypeEnum.Send || isGasTokenSent) {
     return {
       type: TransactionTypeEnum.Send,
-      label:
-        isDefined(transaction.tx) && isNotEmptyString(transaction.tx.name)
-          ? transaction.tx.name
-          : TransactionLabelEnum.Send
+      label: transactionName || TransactionLabelEnum.Send
     };
   }
   if (transaction.cate_id === TransactionTypeEnum.Receive || isGasTokenSent) {
     return {
       type: TransactionTypeEnum.Receive,
-      label:
-        isDefined(transaction.tx) && isNotEmptyString(transaction.tx.name)
-          ? transaction.tx.name
-          : TransactionLabelEnum.Received
+      label: transactionName || TransactionLabelEnum.Received
     };
   }
 
   return {
     type: TransactionTypeEnum.ContractCalls,
-    label:
-      isDefined(transaction.tx) && isNotEmptyString(transaction.tx.name)
-        ? transaction.tx.name
-        : TransactionLabelEnum.ContractInteraction
+    label: transactionName || TransactionLabelEnum.ContractInteraction
   };
 };
