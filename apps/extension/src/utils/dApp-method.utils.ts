@@ -110,7 +110,7 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
 
       case 'eth_estimateGas': {
         if (data.params !== undefined) {
-          const result = await provider.estimateGas(data.params[0].data);
+          const result = await provider.estimateGas(data.params[0]);
           const response = createDAppResponse(id, result._hex);
 
           port.postMessage(response);
