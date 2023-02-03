@@ -33,17 +33,13 @@ export const useTransactionHook = (
   const [isTransactionLoading, setIsTransactionLoading] = useState(false);
 
   const successCallback = (transactionResponse: TransactionResponse | BatchOperation) => {
-    const onBlockchainExplorerPress = () => {
-      const isEvmNetwork = networkType === NetworkTypeEnum.EVM;
+    const isEvmNetwork = networkType === NetworkTypeEnum.EVM;
 
+    const onBlockchainExplorerPress = () => {
       if (isString(explorerUrl)) {
         const tx = isEvmNetwork ? '/tx/' : '/t';
 
         return Linking.openURL(`${explorerUrl}${tx}${transactionResponse.hash}`);
-      }
-
-      if (isEvmNetwork) {
-        additionalSuccessCallback?.(transactionResponse as TransactionResponse);
       }
     };
 
@@ -75,6 +71,10 @@ export const useTransactionHook = (
 
     setIsTransactionLoading(false);
     navigate(ScreensEnum.Wallet);
+
+    if (isEvmNetwork) {
+      additionalSuccessCallback?.(transactionResponse as TransactionResponse);
+    }
   };
 
   const errorCallback = () => {
