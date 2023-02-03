@@ -8,23 +8,11 @@ export const useSlippageToleranceSelector = () =>
 export const useAllowanceSelector = () =>
   useSelector<SwapRootState, SwapState['allowance']>(({ swap }) => swap.allowance);
 
-export const useOutputAmountSelector = () =>
-  useSelector<SwapRootState, SwapState['outputAmount']>(({ swap }) => swap.outputAmount);
+export const useQuoteSelector = () => useSelector<SwapRootState, SwapState['quote']>(({ swap }) => swap.quote);
 
-export const useRoutesSelector = () => useSelector<SwapRootState, SwapState['routes']>(({ swap }) => swap.routes);
-
-export const useExchangeRateSelector = () =>
-  useSelector<SwapRootState, SwapState['exchangeRate']>(({ swap }) => swap.exchangeRate);
-
-export const useShowLoadingOnSwapScreenSelector = (tokenAddress = '') =>
+export const useShowLoadingOnSwapScreenSelector = () =>
   useSelector<SwapRootState, boolean>(
-    ({ swap }) =>
-      swap.allowance.isLoading ||
-      swap.exchangeRate.isLoading ||
-      swap.outputAmount.isLoading ||
-      swap.routes.isLoading ||
-      swap.swapData.isLoading ||
-      Boolean(swap.approveAllowanceLoading[tokenAddress])
+    ({ swap }) => swap.allowance.isLoading || swap.quote.isLoading || swap.swapData.isLoading
   );
 
 export const useSwapDataSelector = () => useSelector<SwapRootState, SwapState['swapData']>(({ swap }) => swap.swapData);

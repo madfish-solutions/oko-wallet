@@ -1,5 +1,7 @@
 import { useCallback } from 'react';
 
+import { modernCivilizationDidNotReachThisNetwork } from '../components/toast/constants/toast-messages';
+
 import { useToast } from './use-toast.hook';
 
 export const useShowSwapDisabledToast = () => {
@@ -10,8 +12,7 @@ export const useShowSwapDisabledToast = () => {
       showInfoToast({
         message: 'Oops!',
         data: {
-          description:
-            'Modern civilization didn’t reach this network, and the feature isn’t available here. We are on the way to colonize it!'
+          description: modernCivilizationDidNotReachThisNetwork
         }
       }),
     []

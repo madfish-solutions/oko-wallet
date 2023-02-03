@@ -27,7 +27,6 @@ import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useToast } from '../../hooks/use-toast.hook';
 import { useTokenFiatBalance } from '../../hooks/use-token-fiat-balance.hook';
 import {
-  approveAllowanceAction,
   loadQuoteAction,
   loadSwapDataAction,
   loadTokenAllowanceAction,
@@ -35,9 +34,7 @@ import {
 } from '../../store/swap/swap.actions';
 import {
   useAllowanceSelector,
-  useExchangeRateSelector,
-  useOutputAmountSelector,
-  useRoutesSelector,
+  useQuoteSelector,
   useShowLoadingOnSwapScreenSelector,
   useSlippageToleranceSelector,
   useSwapDataSelector
@@ -51,6 +48,8 @@ import { ReadOnlyTokenInput } from '../send/screens/send-token/components/read-o
 import { TokenInput } from '../send/screens/send-token/components/token-input/token-input';
 
 import { Timer } from './components/timer/timer';
+import { GREATER_THAN_ZERO_SWAP_ERROR, UNDER_AVAILABLE_BALANCE_SWAP_ERROR } from './constants';
+import { useApproveAllowance } from './hooks/use-approve-allowance.hook';
 import { styles } from './swap.styles';
 import { FormTypes } from './types';
 
@@ -62,10 +61,11 @@ export const Swap: FC = () => {
   const gasToken = useGasTokenSelector();
   const slippageTolerance = useSlippageToleranceSelector();
   const allowance = useAllowanceSelector();
-  const outputAmount = useOutputAmountSelector();
-  const routes = useRoutesSelector();
-  const exchangeRate = useExchangeRateSelector();
   const swapData = useSwapDataSelector();
+  const quote = useQuoteSelector();
+  const { approveHandler, isApproveAllowanceLoading } = useApproveAllowance();
+
+  const { routes, exchangeRate, outputAmount } = quote.data;
 
   const defaultValues: FormTypes = {
     fromToken: params?.fromToken ?? gasToken,
@@ -94,14 +94,19 @@ export const Swap: FC = () => {
   const fromTokenBalance = useTokenFiatBalance(fromAmount, fromToken, true);
   const toTokenBalance = useTokenFiatBalance(toAmount, toToken, true);
 
-  const fromTokenRules = useValidateAmountField(fromTokenBalance.availableBalance, true);
-  const showLoading = useShowLoadingOnSwapScreenSelector(fromToken?.tokenAddress);
+  const fromTokenRules = useValidateAmountField(
+    fromTokenBalance.availableBalance,
+    GREATER_THAN_ZERO_SWAP_ERROR,
+    UNDER_AVAILABLE_BALANCE_SWAP_ERROR
+  );
+  const isSomeLoading = useShowLoadingOnSwapScreenSelector();
+  const isLoading = isSomeLoading || isApproveAllowanceLoading;
 
   const isApproveSwapButtonDisabled = !isEmpty(errors);
-  const canGetAmountAndRoutes = isDefined(fromToken) && isDefined(toToken) && Number(fromAmount) > 0;
-  const showNavigationBar = !isDefined(fromToken) || !isDefined(toToken) || fromAmount === '';
-  const numberOfRoutes = routes.data?.flat(1)?.length;
+  const isPossibleToGetAmountAndRoutes = isDefined(fromToken) && isDefined(toToken) && Number(fromAmount) > 0;
+  const isNavigationBar = !isDefined(fromToken) || !isDefined(toToken) || fromAmount === '';
   const isGasToken = isDefined(fromToken) && checkIsGasToken(fromToken.tokenAddress);
+  const numberOfRoutes = routes?.flat(1)?.length;
 
   const isNeedToApprove =
     isDefined(fromToken) && !isGasToken && new BigNumber(allowance.data).lt(parseUnits(fromAmount, fromToken.decimals));
@@ -130,7 +135,7 @@ export const Swap: FC = () => {
   }, [params]);
 
   const getAmountAndRoutes = useCallback(() => {
-    if (canGetAmountAndRoutes) {
+    if (isPossibleToGetAmountAndRoutes) {
       dispatch(loadQuoteAction.submit({ fromToken, toToken, amount: fromAmount }));
     }
   }, [fromToken?.tokenAddress, toToken?.tokenAddress, fromAmount]);
@@ -143,9 +148,9 @@ export const Swap: FC = () => {
     }
   }, [fromToken?.tokenAddress]);
 
-  useEffect(() => getAmountAndRoutes(), [getAmountAndRoutes]);
+  useEffect(() => getAmountAndRoutes(), [fromToken?.tokenAddress, toToken?.tokenAddress, fromAmount]);
 
-  useEffect(() => setValue('toAmount', outputAmount.data), [outputAmount.data]);
+  useEffect(() => setValue('toAmount', outputAmount), [outputAmount]);
 
   useEffect(() => {
     if (isNotEmptyString(swapData.error)) {
@@ -153,19 +158,19 @@ export const Swap: FC = () => {
       dispatch(loadSwapDataAction.fail(''));
     }
 
-    if (isNotEmptyString(routes.error)) {
-      showErrorToast({ message: 'Oops', data: { description: routes.error } });
+    if (isNotEmptyString(quote.error)) {
+      showErrorToast({ message: 'Oops', data: { description: quote.error } });
       dispatch(loadQuoteAction.fail(''));
     }
-  }, [routes.error, swapData.error]);
+  }, [quote.error, swapData.error]);
 
   const navigateToSlippageTolerance = () => navigate(ScreensEnum.SlippageTolerance);
   const navigateToSwapRoute = () =>
     isDefined(fromToken) &&
     isDefined(toToken) &&
-    routes.data.length &&
-    !routes.isLoading &&
-    navigate(ScreensEnum.SwapRoute, { routes: routes.data, fromToken, toToken });
+    routes.length &&
+    !quote.isLoading &&
+    navigate(ScreensEnum.SwapRoute, { routes, fromToken, toToken });
 
   const swapTokenOrder = () => {
     setValue('fromAmount', toAmount);
@@ -177,12 +182,15 @@ export const Swap: FC = () => {
   };
 
   const onApprovePress = () => {
-    const approveHandler = () => isDefined(fromToken) && dispatch(approveAllowanceAction.submit({ fromToken }));
     const question = `Give permission to access your ${fromToken?.symbol}?`;
+
+    if (!isDefined(fromToken)) {
+      return;
+    }
 
     if (isWeb) {
       if (confirm(question)) {
-        approveHandler();
+        approveHandler(fromToken);
       }
     } else {
       Alert.alert(question, 'By granting permission, you are allowing the following contract to access your funds', [
@@ -193,7 +201,7 @@ export const Swap: FC = () => {
         {
           text: 'Confirm',
           style: 'destructive',
-          onPress: approveHandler
+          onPress: () => approveHandler(fromToken)
         }
       ]);
     }
@@ -205,7 +213,7 @@ export const Swap: FC = () => {
     dispatch(loadSwapDataAction.submit({ fromToken, toToken, amount: fromAmount, slippageTolerance }));
 
   const onApproveOrSwapPress = () => {
-    if (showLoading) {
+    if (isLoading) {
       return;
     }
 
@@ -221,7 +229,7 @@ export const Swap: FC = () => {
       <HeaderContainer isSelectors>
         <ScreenTitle title="Swap" onBackButtonPress={goBack} />
         <View style={styles.header}>
-          {canGetAmountAndRoutes && <Timer getAmountAndRoutes={getAmountAndRoutes} routes={routes.data} />}
+          {isPossibleToGetAmountAndRoutes && <Timer getAmountAndRoutes={getAmountAndRoutes} routes={routes} />}
           <TouchableIcon name={IconNameEnum.Slider} onPress={navigateToSlippageTolerance} />
         </View>
       </HeaderContainer>
@@ -238,7 +246,7 @@ export const Swap: FC = () => {
               token={fromToken}
               amountInDollar={fromTokenBalance.amountInDollar}
               availableBalance={fromTokenBalance.availableBalance}
-              tokenParam="fromToken"
+              navigationKey="fromToken"
               availableFormattedBalance={fromTokenBalance.availableFormattedBalance}
               error={errors.fromAmount?.message}
             />
@@ -255,7 +263,7 @@ export const Swap: FC = () => {
           amount={toAmount}
           amountInDollar={toTokenBalance.amountInDollar}
           availableFormattedBalance={toTokenBalance.availableFormattedBalance}
-          tokenParam="toToken"
+          navigationKey="toToken"
         />
 
         <Row style={styles.routeBlock}>
@@ -279,7 +287,7 @@ export const Swap: FC = () => {
         <Row style={styles.exchangeRateBlock}>
           <Text style={styles.caption11}>Exchange rate</Text>
           <Text numberOfLines={1} style={[styles.numbers13, styles.exchangeRate]}>
-            {isNotEmptyString(exchangeRate.data) ? exchangeRate.data : '----'}
+            {isNotEmptyString(exchangeRate) ? exchangeRate : '----'}
           </Text>
         </Row>
 
@@ -291,7 +299,7 @@ export const Swap: FC = () => {
         </Row>
       </ScreenScrollView>
 
-      {showNavigationBar ? (
+      {isNavigationBar ? (
         <NavigationBar />
       ) : (
         <View style={styles.swapButton}>
@@ -300,7 +308,7 @@ export const Swap: FC = () => {
             onPress={handleSubmit(onApproveOrSwapPress)}
             disabled={isApproveSwapButtonDisabled}
             theme={ButtonThemesEnum.Secondary}
-            loading={showLoading}
+            loading={isLoading}
           />
         </View>
       )}

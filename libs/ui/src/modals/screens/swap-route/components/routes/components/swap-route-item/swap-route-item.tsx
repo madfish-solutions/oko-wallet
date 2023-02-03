@@ -8,14 +8,14 @@ import { Row } from '../../../../../../../components/row/row';
 import { Token } from '../../../../../../../components/token/token';
 import { TokenMetadata } from '../../../../../../../interfaces/token-metadata.interface';
 
-import { styles } from './from-to-tokens.styles';
+import { styles } from './swap-route-item.styles';
 
 interface Props {
   fromToken: TokenMetadata;
   toToken: TokenMetadata;
 }
 
-export const FromToTokens: FC<Props> = ({ fromToken, toToken }) => (
+export const SwapRouteItem: FC<Props> = ({ fromToken, toToken }) => (
   <Row style={styles.root}>
     <View style={styles.square}>
       <View style={styles.greySquare} />

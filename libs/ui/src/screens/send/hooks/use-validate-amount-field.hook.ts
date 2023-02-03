@@ -1,20 +1,12 @@
 import { requiredFieldError } from '../../../constants/form-errors';
 
-export const useValidateAmountField = (available: string, isSwapScreen = false) => {
-  const isGreaterThanZero = (value: string) => {
-    if (Number(value) > 0) {
-      return true;
-    }
-
-    return isSwapScreen ? 'Nothing-to-nothing exchanges are forbidden.' : 'Should be greater than 0';
-  };
-  const isCorrectAmount = (value: string) => {
-    if (Number(value) <= Number(available)) {
-      return true;
-    }
-
-    return isSwapScreen ? 'Hold on, bro, top-up your account first.' : 'Should be less or equal than available amount';
-  };
+export const useValidateAmountField = (
+  available: string,
+  greaterThanZeroError = 'Should be greater than 0',
+  underAvailableBalanceError = 'Should be less or equal than available amount'
+) => {
+  const isGreaterThanZero = (value: string) => Number(value) > 0 || greaterThanZeroError;
+  const isCorrectAmount = (value: string) => Number(value) <= Number(available) || underAvailableBalanceError;
 
   return {
     required: requiredFieldError,

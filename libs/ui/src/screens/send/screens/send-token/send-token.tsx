@@ -146,7 +146,7 @@ export const SendToken: FC = () => {
               label="Asset"
               token={token}
               amountInDollar={amountInDollar}
-              tokenParam="token"
+              navigationKey="token"
               error={errors?.amount?.message}
             />
           )}

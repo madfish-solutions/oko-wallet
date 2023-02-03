@@ -4,7 +4,6 @@ import React, { FC, PropsWithChildren, useCallback } from 'react';
 
 import { AssetTypeEnum } from '../../../../../../enums/asset-type.enum';
 import { useShelter } from '../../../../../../hooks/use-shelter.hook';
-import { TransactionParams } from '../../../../../../shelter/interfaces/get-evm-signer-params.interface';
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector
@@ -16,19 +15,18 @@ import { EvmTransferParams, OnSend } from '../../../../types';
 import { Confirmation } from '../../../confirmation/confirmation';
 import { useEvmEstimations } from '../../hooks/use-evm-estimations.hook';
 import { getAmount } from '../../utils/get-amount.util';
+import { getTransactionParams } from '../../utils/get-transaction-params.util';
 
 type Props = PropsWithChildren<{
   transferParams: EvmTransferParams;
   messageID?: string;
   onDecline: OnEventFn<void>;
   additionalSuccessCallback?: OnEventFn<TransactionResponse>;
-  onConfirm?: (successCallback: OnEventFn<TransactionResponse>, gasPrice: number) => void;
 }>;
 
 export const EvmConfirmationContainer: FC<Props> = ({
-  transferParams: { asset, receiverPublicKeyHash, value, data = '0x', gas = EMPTY_GAS },
+  transferParams: { asset, receiverPublicKeyHash, value, data, gas = EMPTY_GAS },
   onDecline,
-  onConfirm,
   additionalSuccessCallback,
   children
 }) => {
@@ -36,10 +34,11 @@ export const EvmConfirmationContainer: FC<Props> = ({
   const network = useSelectedNetworkSelector();
   const { sendEvmTransaction } = useShelter();
 
-  const { tokenAddress, tokenId, decimals, symbol, standard } = asset;
+  const { decimals, symbol } = asset;
   const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } = useTransactionHook(
     receiverPublicKeyHash,
-    asset
+    asset,
+    additionalSuccessCallback
   );
 
   const assetType = getAssetType(asset);
@@ -61,44 +60,31 @@ export const EvmConfirmationContainer: FC<Props> = ({
 
   const onSend: OnSend = useCallback(
     gasPriceCoefficient => {
-      const onSuccessTransaction = (transactionResponse: TransactionResponse) => {
-        successCallback(transactionResponse);
-
-        additionalSuccessCallback?.(transactionResponse);
-      };
-
       if (isDefined(estimations?.gasPrice) && typeof gasPriceCoefficient === 'number') {
         setIsTransactionLoading(true);
+
         const gasPrice = Math.trunc(Number(estimations?.gasPrice) * gasPriceCoefficient);
+        const valueToSend =
+          assetType === AssetTypeEnum.GasToken || assetType === AssetTypeEnum.Token
+            ? getAmount(value, decimals)
+            : value;
 
-        if (isDefined(onConfirm)) {
-          onConfirm(onSuccessTransaction, gasPrice);
-        } else {
-          const valueToSend =
-            assetType === AssetTypeEnum.GasToken || assetType === AssetTypeEnum.Token
-              ? getAmount(value, decimals)
-              : value;
+        const transactionParams = getTransactionParams(
+          asset,
+          assetType,
+          receiverPublicKeyHash,
+          publicKeyHash,
+          valueToSend,
+          data
+        );
 
-          const transactionParams: TransactionParams = {
-            gasPrice,
-            gasLimit,
-            receiverPublicKeyHash,
-            tokenAddress,
-            tokenId,
-            data,
-            value: valueToSend
-          };
-
-          sendEvmTransaction({
-            rpcUrl,
-            transactionParams,
-            publicKeyHash,
-            assetType,
-            successCallback: onSuccessTransaction,
-            errorCallback,
-            standard
-          });
-        }
+        sendEvmTransaction({
+          transactionParams: { ...transactionParams, gasLimit, gasPrice },
+          rpcUrl,
+          publicKeyHash,
+          successCallback,
+          errorCallback
+        });
       }
     },
     [estimations]

@@ -76,7 +76,7 @@ export type ScreensParamList = {
   [ScreensEnum.Receive]: undefined;
   [ScreensEnum.SendToken]?: SendParams;
   [ScreensEnum.SendCollectible]?: SendParams;
-  [ScreensEnum.TokensSelector]: { token?: Token; field: string };
+  [ScreensEnum.TokensSelector]: { token?: Token; navigationKey: string };
   [ScreensEnum.SendCollectiblesSelector]: { token?: Token };
   [ScreensEnum.SendAccountsSelector]: { account: AccountInterface };
   [ScreensEnum.SendConfirmation]: { transferParams: TransferParams };

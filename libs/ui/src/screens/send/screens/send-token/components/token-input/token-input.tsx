@@ -20,7 +20,7 @@ interface Props<TFieldValues extends FieldValues, TName extends FieldPath<TField
   error?: string;
   token?: TokenType;
   amountInDollar: string;
-  tokenParam: string;
+  navigationKey: string;
   availableFormattedBalance?: string;
   availableBalance?: string;
 }
@@ -35,7 +35,7 @@ export const TokenInput = <
   amountInDollar,
   label,
   availableFormattedBalance,
-  tokenParam,
+  navigationKey,
   availableBalance
 }: Props<TFieldValues, TName>) => {
   const showMaxButton = isDefined(token) && isDefined(availableBalance);
@@ -57,7 +57,7 @@ export const TokenInput = <
         editable={isDefined(token)}
       >
         <View>
-          <SelectToken token={token} tokenParam={tokenParam} availableBalance={availableFormattedBalance} />
+          <SelectToken token={token} navigationKey={navigationKey} availableBalance={availableFormattedBalance} />
           <DollarAmount amount={field.value} amountInDollar={amountInDollar} />
         </View>
       </TextInput>

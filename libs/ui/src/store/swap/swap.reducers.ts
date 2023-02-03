@@ -7,7 +7,6 @@ import {
   setSlippageToleranceAction,
   loadTokenAllowanceAction,
   loadQuoteAction,
-  approveAllowanceAction,
   loadSwapDataAction,
   resetSwapAction
 } from './swap.actions';
@@ -29,15 +28,11 @@ export const swapReducers = createReducer<SwapState>(swapInitialState, builder =
     }))
     .addCase(loadQuoteAction.submit, state => ({
       ...state,
-      exchangeRate: createEntity(state.exchangeRate.data, true),
-      outputAmount: createEntity(state.outputAmount.data, true),
-      routes: createEntity(state.routes.data, true)
+      quote: createEntity(state.quote.data, true)
     }))
     .addCase(loadQuoteAction.fail, (state, { payload: error }) => ({
       ...state,
-      exchangeRate: createEntity(state.exchangeRate.data, false),
-      outputAmount: createEntity(state.outputAmount.data, false),
-      routes: createEntity(state.routes.data, false, error)
+      quote: createEntity(state.quote.data, false, error)
     }))
     .addCase(
       loadQuoteAction.success,
@@ -49,28 +44,14 @@ export const swapReducers = createReducer<SwapState>(swapInitialState, builder =
 
         return {
           ...state,
-          outputAmount: createEntity(outputAmount),
-          exchangeRate: createEntity(`1 ${fromToken.symbol} = ${exchangeRate} ${toToken.symbol}`),
-          routes: createEntity(protocols)
+          quote: createEntity({
+            outputAmount,
+            routes: protocols,
+            exchangeRate: `1 ${fromToken.symbol} = ${exchangeRate} ${toToken.symbol}`
+          })
         };
       }
     )
-    .addCase(approveAllowanceAction.submit, (state, { payload: { fromToken } }) => ({
-      ...state,
-      approveAllowanceLoading: {
-        ...state.approveAllowanceLoading,
-        [fromToken.tokenAddress]: true
-      }
-    }))
-    .addCase(approveAllowanceAction.success, (state, { payload: tokenAddress }) => {
-      const approveAllowanceLoadingCopy = { ...state.approveAllowanceLoading };
-      delete approveAllowanceLoadingCopy[tokenAddress];
-
-      return {
-        ...state,
-        approveAllowanceLoadingCopy
-      };
-    })
     .addCase(loadSwapDataAction.submit, state => ({
       ...state,
       swapData: createEntity(state.swapData, true)

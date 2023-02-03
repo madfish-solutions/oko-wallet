@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 
 import { IconNameEnum } from '../../../../../components/icon/icon-name.enum';
+import { modernCivilizationDidNotReachThisNetwork } from '../../../../../components/toast/constants/toast-messages';
 import { ScreensEnum } from '../../../../../enums/sreens.enum';
 import { useSwapSupported } from '../../../../../hooks/use-swap-supported.hook';
 
@@ -9,6 +10,7 @@ export interface TokenNavigationBarOption {
   iconName: IconNameEnum;
   routeName: ScreensEnum.SendToken | ScreensEnum.Receive | ScreensEnum.Swap;
   disabled?: boolean;
+  disabledMessage?: string;
 }
 
 export const useTokenNavigationBar = (): TokenNavigationBarOption[] => {
@@ -20,7 +22,8 @@ export const useTokenNavigationBar = (): TokenNavigationBarOption[] => {
         id: 1,
         iconName: IconNameEnum.Swap,
         routeName: ScreensEnum.Swap,
-        disabled: !isSwapSupported
+        disabled: !isSwapSupported,
+        disabledMessage: modernCivilizationDidNotReachThisNetwork
       },
       {
         id: 2,

@@ -1,5 +1,5 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider';
-import { isNotEmptyString, isString } from '@rnw-community/shared';
+import { isNotEmptyString, isString, OnEventFn } from '@rnw-community/shared';
 import { BatchOperation } from '@taquito/taquito';
 import React, { useState } from 'react';
 import { Linking } from 'react-native';
@@ -18,7 +18,11 @@ import {
   useSelectedNetworkTypeSelector
 } from '../../../store/wallet/wallet.selectors';
 
-export const useTransactionHook = (receiverPublicKeyHash: string, asset: Asset) => {
+export const useTransactionHook = (
+  receiverPublicKeyHash: string,
+  asset: Asset,
+  additionalSuccessCallback?: OnEventFn<TransactionResponse>
+) => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
   const { showSuccessToast, showErrorToast } = useToast();
@@ -30,10 +34,16 @@ export const useTransactionHook = (receiverPublicKeyHash: string, asset: Asset) 
 
   const successCallback = (transactionResponse: TransactionResponse | BatchOperation) => {
     const onBlockchainExplorerPress = () => {
+      const isEvmNetwork = networkType === NetworkTypeEnum.EVM;
+
       if (isString(explorerUrl)) {
-        const tx = networkType === NetworkTypeEnum.Tezos ? '/' : '/tx/';
+        const tx = isEvmNetwork ? '/tx/' : '/t';
 
         return Linking.openURL(`${explorerUrl}${tx}${transactionResponse.hash}`);
+      }
+
+      if (isEvmNetwork) {
+        additionalSuccessCallback?.(transactionResponse as TransactionResponse);
       }
     };
 

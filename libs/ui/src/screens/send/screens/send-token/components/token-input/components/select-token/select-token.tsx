@@ -16,17 +16,17 @@ import { styles } from './select-token.styles';
 
 interface Props {
   token?: TokenType;
-  tokenParam: string;
+  navigationKey: string;
   isReadOnly?: boolean;
   availableBalance?: string;
 }
 
-export const SelectToken: FC<Props> = ({ token, tokenParam, isReadOnly = false, availableBalance }) => {
+export const SelectToken: FC<Props> = ({ token, navigationKey, isReadOnly = false, availableBalance }) => {
   const { navigate } = useNavigation();
   const navigateToTokensSelector = () =>
     navigate(ScreensEnum.TokensSelector, {
       token,
-      field: tokenParam
+      navigationKey
     });
 
   const isToken = isDefined(token);

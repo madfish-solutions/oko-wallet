@@ -1,5 +1,4 @@
-import { GetQuoteResponse, SwapData } from '../../api/1inch/types';
-import { Token } from '../../interfaces/token.interface';
+import { GetQuoteResponse } from '../../api/1inch/types';
 import { LoadableEntityState } from '../interfaces/loadable-entity-state.interface';
 import { createEntity } from '../utils/entity.utils';
 
@@ -10,19 +9,21 @@ export interface SwapRootState {
 export interface SwapState {
   slippageTolerance: string;
   allowance: LoadableEntityState<string>;
-  exchangeRate: LoadableEntityState<string>;
-  outputAmount: LoadableEntityState<string>;
-  routes: LoadableEntityState<GetQuoteResponse['protocols']>;
-  approveAllowanceLoading: Record<Token['tokenAddress'], boolean>;
-  swapData: LoadableEntityState<SwapData | object>;
+  quote: LoadableEntityState<{
+    exchangeRate: string;
+    outputAmount: string;
+    routes: GetQuoteResponse['protocols'];
+  }>;
+  swapData: LoadableEntityState<object>;
 }
 
 export const swapInitialState: SwapState = {
   slippageTolerance: '0.5',
   allowance: createEntity(''),
-  exchangeRate: createEntity(''),
-  outputAmount: createEntity(''),
-  routes: createEntity([]),
-  approveAllowanceLoading: {},
+  quote: createEntity({
+    exchangeRate: '',
+    outputAmount: '',
+    routes: []
+  }),
   swapData: createEntity({})
 };

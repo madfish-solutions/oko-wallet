@@ -15,10 +15,6 @@ export const loadQuoteAction = createActions<
   GetQuoteResponse & { fromToken: Token; toToken: Token }
 >('swap/LOAD_QUOTE');
 
-export const approveAllowanceAction = createActions<{ fromToken: Token }, Token['tokenAddress']>(
-  'swap/APPROVE_ALLOWANCE'
-);
-
 export const loadSwapDataAction = createActions<{
   fromToken: Token;
   toToken: Token;

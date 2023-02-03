@@ -13,7 +13,7 @@ import { styles } from './read-only-token-input.styles';
 interface Props {
   label: string;
   token?: Token;
-  tokenParam: string;
+  navigationKey: string;
   amount: string;
   amountInDollar: string;
   availableFormattedBalance: string;
@@ -22,7 +22,7 @@ interface Props {
 export const ReadOnlyTokenInput: FC<Props> = ({
   label,
   token,
-  tokenParam,
+  navigationKey,
   amount,
   amountInDollar,
   availableFormattedBalance
@@ -31,7 +31,12 @@ export const ReadOnlyTokenInput: FC<Props> = ({
     <Label title={label} />
     <View style={styles.root}>
       <View style={styles.select}>
-        <SelectToken token={token} tokenParam={tokenParam} isReadOnly availableBalance={availableFormattedBalance} />
+        <SelectToken
+          token={token}
+          navigationKey={navigationKey}
+          isReadOnly
+          availableBalance={availableFormattedBalance}
+        />
       </View>
       <View style={styles.input}>
         <DollarAmount amount={amount} amountInDollar={amountInDollar} isReadOnly />

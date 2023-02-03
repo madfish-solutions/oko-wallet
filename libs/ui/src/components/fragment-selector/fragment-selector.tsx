@@ -7,21 +7,17 @@ import { Row } from '../row/row';
 
 import { styles } from './fragment-selector.styles';
 
-interface Option<OptionTitle> {
-  title: OptionTitle;
+interface Option<T> {
+  title: T;
   value: string;
 }
-interface Props<OptionTitle> {
-  selectedItem: Option<OptionTitle>;
-  onSelect: OnEventFn<Option<OptionTitle>>;
-  options: Option<OptionTitle>[];
+interface Props<T> {
+  selectedItem: Option<T>;
+  onSelect: OnEventFn<Option<T>>;
+  options: Option<T>[];
 }
 
-export const FragmentSelector = <OptionTitle extends string>({
-  selectedItem,
-  onSelect,
-  options
-}: Props<OptionTitle>) => (
+export const FragmentSelector = <T extends string>({ selectedItem, onSelect, options }: Props<T>) => (
   <Row style={styles.root}>
     {options.map(({ title, value }, index) => (
       <Fragment key={title}>

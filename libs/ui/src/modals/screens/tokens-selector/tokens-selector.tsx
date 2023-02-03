@@ -34,7 +34,7 @@ const keyExtractor = ({ tokenAddress, tokenId }: TokenType) => getTokenSlug(toke
 export const TokensSelector: FC = () => {
   const allTokensMarketInfoSelector = useTokensMarketInfoSelector();
   const {
-    params: { token, field }
+    params: { token, navigationKey }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.TokensSelector>>();
   const { navigate } = useNavigation();
   const { chainId } = useSelectedNetworkSelector();
@@ -78,7 +78,7 @@ export const TokensSelector: FC = () => {
 
     const onSelectItem = () => {
       if (previousScreen === ScreensEnum.Swap || previousScreen === ScreensEnum.SendToken) {
-        navigate(previousScreen, { [field]: item });
+        navigate(previousScreen, { [navigationKey]: item });
       }
     };
 

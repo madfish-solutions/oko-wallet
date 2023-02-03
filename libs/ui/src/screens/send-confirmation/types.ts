@@ -9,7 +9,6 @@ export interface EvmTransferParams {
   value: string;
   data?: string;
   gas?: number;
-  dataToSign?: object;
 }
 
 export interface TezosTransferParams {

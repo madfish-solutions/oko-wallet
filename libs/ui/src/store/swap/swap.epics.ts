@@ -1,24 +1,21 @@
 import { parseUnits } from 'ethers/lib/utils';
 import { combineEpics } from 'redux-observable';
-import { Observable, of, from, switchMap } from 'rxjs';
+import { Observable, of, from } from 'rxjs';
 import { catchError, concatMap, debounceTime, map } from 'rxjs/operators';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
-import { getApproveData, getQuote, getSwapData } from '../../api/1inch/1inch';
+import { getQuote, getSwapData } from '../../api/1inch/1inch';
 import { DEBOUNCE_TIME } from '../../constants/defaults';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { Asset } from '../../interfaces/asset.interface';
-import { getAmount } from '../../screens/send-confirmation/components/evm-confirmation/utils/get-amount.util';
-import { Shelter } from '../../shelter/shelter';
-import { getDefaultEvmProvider } from '../../utils/get-default-evm-provider.utils';
 import { withSelectedAccount, withSelectedNetwork } from '../../utils/wallet.util';
 import { navigateAction } from '../root-state.actions';
 import { RootState } from '../store';
 import { getPublicKeyHash } from '../wallet/wallet.utils';
 
-import { approveAllowanceAction, loadQuoteAction, loadSwapDataAction, loadTokenAllowanceAction } from './swap.actions';
+import { loadQuoteAction, loadSwapDataAction, loadTokenAllowanceAction } from './swap.actions';
 import { loadTokenAllowance$ } from './swap.utils';
 
 const getTokenAllowanceEpic = (action$: Observable<Action>, state$: Observable<RootState>) =>
@@ -51,28 +48,6 @@ const getQuoteEpic = (action$: Observable<Action>, state$: Observable<RootState>
     )
   );
 
-const approveAllowanceEpic = (action$: Observable<Action>, state$: Observable<RootState>) =>
-  action$.pipe(
-    ofType(approveAllowanceAction.submit),
-    toPayload(),
-    withSelectedAccount(state$),
-    withSelectedNetwork(state$),
-    concatMap(([[{ fromToken }, account], selectedNetwork]) =>
-      from(getApproveData(selectedNetwork.chainId, fromToken.tokenAddress)).pipe(
-        switchMap(approveDataResponse =>
-          Shelter.signEvmData$(
-            getPublicKeyHash(account, NetworkTypeEnum.EVM),
-            getDefaultEvmProvider(selectedNetwork.rpcUrl),
-            approveDataResponse
-          )
-        ),
-        switchMap(response => getDefaultEvmProvider(selectedNetwork.rpcUrl).waitForTransaction(response.hash, 1)),
-        map(() => approveAllowanceAction.success(fromToken.tokenAddress)),
-        catchError(error => of(approveAllowanceAction.fail(error.response?.data?.description)))
-      )
-    )
-  );
-
 const getSwapDataEpic = (action$: Observable<Action>, state$: Observable<RootState>) =>
   action$.pipe(
     ofType(loadSwapDataAction.submit),
@@ -96,7 +71,7 @@ const getSwapDataEpic = (action$: Observable<Action>, state$: Observable<RootSta
               receiverPublicKeyHash: swapDataResponse.to,
               value: amount,
               asset: fromToken as Asset,
-              dataToSign: { ...swapDataResponse, value: getAmount(amount, fromToken.decimals) },
+              data: swapDataResponse.data,
               gas: swapDataResponse.gasLimit
             }
           }),
@@ -107,4 +82,4 @@ const getSwapDataEpic = (action$: Observable<Action>, state$: Observable<RootSta
     )
   );
 
-export const swapEpics = combineEpics(getTokenAllowanceEpic, getQuoteEpic, approveAllowanceEpic, getSwapDataEpic);
+export const swapEpics = combineEpics(getTokenAllowanceEpic, getQuoteEpic, getSwapDataEpic);

@@ -1,3 +1,4 @@
+import { isDefined } from '@rnw-community/shared';
 import React, { FC, Fragment } from 'react';
 import { Pressable } from 'react-native';
 
@@ -6,7 +7,7 @@ import { Icon } from '../../../../components/icon/icon';
 import { Row } from '../../../../components/row/row';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { useShowSwapDisabledToast } from '../../../../hooks/use-show-swap-disabled-toast';
+import { useToast } from '../../../../hooks/use-toast.hook';
 import { Token } from '../../../../interfaces/token.interface';
 import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
@@ -21,12 +22,21 @@ interface Props {
 export const NavigationBar: FC<Props> = ({ token }) => {
   const { navigate } = useNavigation();
   const tokenNavigationBar = useTokenNavigationBar();
-  const showSwapDisabledToast = useShowSwapDisabledToast();
+  const { showInfoToast } = useToast();
 
-  const navigateToRoute = (screen: TokenNavigationBarOption['routeName'], disabled?: boolean) => {
+  const navigateToRoute = (
+    screen: TokenNavigationBarOption['routeName'],
+    disabled?: boolean,
+    disabledMessage?: string
+  ) => {
     if (disabled === true) {
-      if (screen === ScreensEnum.Swap) {
-        showSwapDisabledToast();
+      if (isDefined(disabledMessage)) {
+        showInfoToast({
+          message: 'Oops!',
+          data: {
+            description: disabledMessage
+          }
+        });
       }
 
       return;
@@ -43,10 +53,10 @@ export const NavigationBar: FC<Props> = ({ token }) => {
 
   return (
     <Row style={styles.root}>
-      {tokenNavigationBar.map(({ id, routeName, iconName, disabled }) => (
+      {tokenNavigationBar.map(({ id, routeName, iconName, disabled, disabledMessage }) => (
         <Fragment key={id}>
           <Pressable
-            onPress={() => navigateToRoute(routeName, disabled)}
+            onPress={() => navigateToRoute(routeName, disabled, disabledMessage)}
             style={[styles.button, disabled === true && styles.buttonDisabled]}
           >
             <Icon name={iconName} color={disabled === true ? colors.bgGrey5 : colors.orange} />
