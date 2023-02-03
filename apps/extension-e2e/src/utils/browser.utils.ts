@@ -1,6 +1,8 @@
 import * as path from 'path';
 import { Browser, launch } from 'puppeteer';
 
+import { sleep } from './promise.utils';
+
 const EXTENSION_PATH = path.resolve(__dirname, '../../../extension/dist');
 
 export const initBrowser = () =>
@@ -11,18 +13,22 @@ export const initBrowser = () =>
   });
 
 export const getExtensionId = async (browser: Browser) => {
-  const [page] = await browser.pages();
-  // Needed to catch service worker
-  await page.goto('https://www.google.com/');
+  await sleep(750);
 
-  const extensionTarget = browser.targets().find(target => target.type() === 'service_worker');
+  const extensionTarget = browser
+    .targets()
+    .find(
+      targetParam =>
+        targetParam.url().startsWith('chrome-extension://') &&
+        ['service_worker', 'background_page'].includes(targetParam.type())
+    );
 
-  if (extensionTarget === undefined) {
-    throw Error('Extension not found');
-  } else {
-    const backgroundScriptUrl = extensionTarget.url();
-    const [, , extensionId] = backgroundScriptUrl.split('/');
-
-    return extensionId;
+  if (extensionTarget == null) {
+    throw new Error('Extension not found');
   }
+
+  const backgroundScriptUrl = extensionTarget.url();
+  const [, , extensionId] = backgroundScriptUrl.split('/');
+
+  return extensionId;
 };

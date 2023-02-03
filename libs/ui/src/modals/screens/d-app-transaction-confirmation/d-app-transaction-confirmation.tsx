@@ -20,7 +20,7 @@ export const DAppTransactionConfirmation: FC = () => {
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DAppTransactionConfirmation>>();
   const network = useSelectedNetworkSelector();
   const allAvailableTokens = useAccountTokensSelector();
-  useClosePopup(params.messageId);
+  useClosePopup(params.messageId, params.dAppInfo.origin);
 
   const transactionData = parseTransactionData(params.transactionInfo.data);
 
@@ -54,7 +54,7 @@ export const DAppTransactionConfirmation: FC = () => {
   }, []);
 
   return (
-    <EvmConfirmation transferParams={transferParams} messageID={params.messageId}>
+    <EvmConfirmation transferParams={transferParams} params={params}>
       <DAppHeader favicon={params.dAppInfo.favicon} origin={params.dAppInfo.origin} />
 
       {transactionData && transactionData.name === 'approve' && (
