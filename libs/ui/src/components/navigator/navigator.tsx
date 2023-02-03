@@ -2,6 +2,7 @@ import { NavigationContainer, NavigationContainerRef, DarkTheme } from '@react-n
 import React, { FC, createRef } from 'react';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
+import { useAppLockTimer } from '../../hooks/use-app-lock-timer.hook';
 import { useLockApp } from '../../hooks/use-lock-app.hook';
 import { usePersistedNavigationState } from '../../hooks/use-persisted-navigation-state.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
@@ -82,6 +83,7 @@ export const Navigator: FC = () => {
   useTokensPriceInfo();
   useLoadSentCollectiblesBalance();
   useResetLoading();
+  useAppLockTimer();
 
   if (!isReady) {
     return <SplashScreen />;
