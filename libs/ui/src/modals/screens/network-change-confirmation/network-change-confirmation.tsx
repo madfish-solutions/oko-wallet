@@ -19,7 +19,11 @@ import { showLoaderAction } from '../../../store/settings/settings.actions';
 import { useShowLoaderSelector } from '../../../store/settings/settings.selectors';
 import { changeNetworkAction } from '../../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
-import { sendErrorToDAppAndClosePopup, sendResponseToDAppAndClosePopup } from '../../../utils/dapp.utils';
+import {
+  sendErrorToDAppAndClosePopup,
+  sendMessageToBackground,
+  sendResponseToDAppAndClosePopup
+} from '../../../utils/dapp.utils';
 import { eraseProtocol } from '../../../utils/string.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 import { DAppImage } from '../d-app-connection-confirmation/d-app-image/d-app-image';
@@ -52,13 +56,13 @@ export const NetworkChangeConfirmation: FC = () => {
     if (isDefined(dappsNetwork)) {
       dispatch(changeNetworkAction(dappsNetwork?.rpcUrl));
     }
-
-    sendResponseToDAppAndClosePopup(params.messageId, null);
+    sendResponseToDAppAndClosePopup(params.dAppOrigin, params.messageId, null);
+    sendMessageToBackground();
   };
   const onDecline = () => {
     dispatch(showLoaderAction());
 
-    sendErrorToDAppAndClosePopup(params.messageId);
+    sendErrorToDAppAndClosePopup(params.dAppOrigin, params.messageId);
   };
 
   return (

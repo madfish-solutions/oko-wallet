@@ -55,6 +55,7 @@ const transformApiData = (
     const { type, label } = getTransactionType(transaction, isGasToken, publicKeyHash);
     activityData.type = type;
     activityData.label = label;
+    activityData.projectName = getTransactionProjectName(userProjectsMetadata, transaction);
 
     switch (type) {
       case TransactionTypeEnum.Send: {
@@ -82,7 +83,6 @@ const transformApiData = (
         break;
       }
       case TransactionTypeEnum.ContractCalls: {
-        activityData.projectName = getTransactionProjectName(userProjectsMetadata, transaction);
         activityData.transfer = {
           sends: [
             ...transaction.sends.map(item => ({

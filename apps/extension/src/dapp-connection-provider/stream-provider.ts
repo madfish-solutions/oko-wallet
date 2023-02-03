@@ -1,5 +1,5 @@
 import ObjectMultiplex from '@metamask/object-multiplex';
-import EventEmitter from 'events';
+import SafeEventEmitter from '@metamask/safe-event-emitter';
 import { duplex as isDuplex } from 'is-stream';
 import type { JsonRpcMiddleware } from 'json-rpc-engine';
 import { createStreamMiddleware } from 'json-rpc-middleware-stream';
@@ -17,7 +17,7 @@ export interface StreamProviderOptions extends BaseProviderOptions {
 }
 
 export interface JsonRpcConnection {
-  events: EventEmitter;
+  events: SafeEventEmitter;
   middleware: JsonRpcMiddleware<unknown, unknown>;
   stream: Duplex;
 }
@@ -30,7 +30,7 @@ export interface JsonRpcConnection {
  * to initialize the provider's state.
  */
 export abstract class AbstractStreamProvider extends BaseProvider {
-  protected _jsonRpcConnection: JsonRpcConnection;
+  _jsonRpcConnection: JsonRpcConnection;
 
   /**
    * @param connectionStream - A Node.js duplex stream
@@ -42,9 +42,9 @@ export abstract class AbstractStreamProvider extends BaseProvider {
    */
   constructor(
     connectionStream: Duplex,
-    { jsonRpcStreamName, logger, maxEventListeners, rpcMiddleware }: StreamProviderOptions
+    { jsonRpcStreamName, logger, maxEventListeners, rpcMiddleware, anotherProvider }: StreamProviderOptions
   ) {
-    super({ logger, maxEventListeners, rpcMiddleware });
+    super({ logger, maxEventListeners, rpcMiddleware, anotherProvider });
 
     if (!isDuplex(connectionStream)) {
       throw new Error('invalid duplex stream');
@@ -78,6 +78,13 @@ export abstract class AbstractStreamProvider extends BaseProvider {
         this._handleUnlockStateChanged(params);
       } else if (method === 'oko_chainChanged') {
         this._handleChainChanged(params);
+      } else if (method === 'eth_subscription') {
+        this.emit('message', {
+          type: method,
+          data: params
+        });
+      } else if (method === 'METAMASK_STREAM_FAILURE') {
+        connectionStream.destroy(new Error('disconnected'));
       }
     });
   }
@@ -93,7 +100,7 @@ export abstract class AbstractStreamProvider extends BaseProvider {
    * {@link BaseProvider._initializeState}. Logs an error if getting initial state
    * fails. Throws if called after initialization has completed.
    */
-  protected async _initializeStateAsync() {
+  async _initializeStateAsync() {
     let initialState: Parameters<BaseProvider['_initializeState']>[0];
 
     try {
@@ -150,5 +157,11 @@ export abstract class AbstractStreamProvider extends BaseProvider {
     } else {
       super._handleChainChanged({ chainId });
     }
+  }
+}
+
+export class StreamProvider extends AbstractStreamProvider {
+  async initialize() {
+    return this._initializeStateAsync();
   }
 }
