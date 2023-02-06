@@ -16,11 +16,10 @@ import { useAllActivity } from '../../hooks/use-activity.hook';
 import { useTimerEffect } from '../../hooks/use-timer-effect.hook';
 import { ActivityData, SectionListActivityData } from '../../interfaces/activity-data.interface';
 import { ActivityFilterEnum } from '../../modals/screens/activity-filter-selector/activity-filter.enum';
-import { ActivityItem } from '../../screens/activity/components/activity-item';
+import ActivityItem from '../../screens/activity/components/activity-item';
 import { getCustomSize } from '../../styles/format-size';
 import { getFilteredActivity } from '../../utils/filter-activity.util';
-import { getItemLayoutSectionList } from '../../utils/get-item-layout-section-list.util';
-import { isWeb } from '../../utils/platform.utils';
+import { isMobile, isWeb } from '../../utils/platform.utils';
 import { EmptySearchIcon } from '../icon/components/empty-search-icon/empty-search-icon';
 import { LoaderSizeEnum } from '../loader/enums';
 import { Loader } from '../loader/loader';
@@ -36,9 +35,7 @@ interface Props {
   tokenAddress?: string;
 }
 
-const keyExtractor = ({ hash, timestamp }: ActivityData) => `${hash}_${timestamp}`;
-
-const getItemLayout = getItemLayoutSectionList<ActivityData, SectionListActivityData>(getCustomSize(9));
+const keyExtractor = ({ hash }: ActivityData) => hash;
 
 const renderSectionHeader = (item: { section: SectionListData<ActivityData, SectionListActivityData> }) => (
   <Row style={styles.dateWrapper}>
@@ -46,9 +43,25 @@ const renderSectionHeader = (item: { section: SectionListData<ActivityData, Sect
   </Row>
 );
 
+const renderItem: SectionListRenderItem<ActivityData, SectionListActivityData> = ({ item }) => (
+  <ActivityItem
+    key={item.hash}
+    hash={item.hash}
+    label={item.label}
+    status={item.status}
+    timestamp={item.timestamp}
+    amount={item.amount}
+    projectName={item.projectName}
+    symbol={item.symbol}
+    transfer={item.transfer}
+    type={item.type}
+  />
+);
+
 const emptyIconSize = getCustomSize(isWeb ? 30 : 36);
 
 const MAX_ACTIVITY_ATTEMPTS = 10;
+const API_RESPONSE_LENGTH = 20;
 let numberOfAttempts = 0;
 
 export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterTypeName, tokenAddress = '' }) => {
@@ -56,6 +69,16 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
   const { activity: allActivity, fetch, isLoading } = useAllActivity(publicKeyHash, getDebankId(chainId), tokenAddress);
 
   const activity = useMemo(() => getFilteredActivity(allActivity, filterTypeName), [allActivity, filterTypeName]);
+
+  const activityLengthForUpdate = useMemo(() => {
+    let sum = 0;
+
+    for (const { data } of activity) {
+      sum += data.length;
+    }
+
+    return sum;
+  }, [activity]);
 
   useEffect(() => {
     if (
@@ -72,31 +95,27 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
   }, [filterTypeName, allActivity, activity]);
 
   const handleFetchData = () => {
-    if (offsetY === 0) {
+    if (offsetY === 0 && activityLengthForUpdate <= API_RESPONSE_LENGTH) {
       fetch(0);
       numberOfAttempts = 0;
     }
   };
 
-  useTimerEffect(handleFetchData, DATA_UPDATE_TIME, [publicKeyHash, chainId, offsetY]);
+  useTimerEffect(handleFetchData, DATA_UPDATE_TIME, [publicKeyHash, chainId, offsetY, activityLengthForUpdate]);
 
-  const handleScrollWeb = debounce((event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    setOffsetY(event.nativeEvent.contentOffset.y);
-  }, DEBOUNCE_TIME);
+  const handleScroll = debounce(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => setOffsetY(event.nativeEvent.contentOffset.y),
+    DEBOUNCE_TIME
+  );
 
-  const handleScrollMobile = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+  const handleScrollMobile = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
     event.persist();
-    debounce(() => setOffsetY(event.nativeEvent.contentOffset.y), DEBOUNCE_TIME);
-  };
+    handleScroll(event);
+  }, []);
 
   const handleEndReached = () => {
     fetch();
   };
-
-  const renderItem: SectionListRenderItem<ActivityData, SectionListActivityData> = useCallback(
-    ({ item }) => <ActivityItem transaction={item} address={publicKeyHash} chainName={getDebankId(chainId)} />,
-    [publicKeyHash, chainId]
-  );
 
   const renderListFooterComponent = () => (
     <>
@@ -115,10 +134,10 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
       sections={activity}
       renderItem={renderItem}
       renderSectionHeader={renderSectionHeader}
+      initialNumToRender={isMobile ? 10 : 3}
       ListFooterComponent={renderListFooterComponent}
       keyExtractor={keyExtractor}
-      onScroll={isWeb ? handleScrollWeb : handleScrollMobile}
-      getItemLayout={getItemLayout}
+      onScroll={isWeb ? handleScroll : handleScrollMobile}
       ListEmptyComponent={renderListEmptyComponent}
       onEndReachedThreshold={0.1}
       onEndReached={handleEndReached}

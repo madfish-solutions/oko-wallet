@@ -1,5 +1,5 @@
 import { isDefined } from '@rnw-community/shared';
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, memo } from 'react';
 import { Linking, TouchableOpacity, View } from 'react-native';
 
 import { Column } from '../../../components/column/column';
@@ -18,15 +18,9 @@ import { formatBalances } from '../../../utils/units.utils';
 import { styles } from './activity-item.styles';
 import { transformTimestampToTime } from './activity-item.utils';
 
-interface Props {
-  transaction: ActivityData;
-  address: string;
-  chainName: string;
-}
+type Props = Omit<ActivityData, 'tokenId' | 'isCollectible'>;
 
-export const ActivityItem: FC<Props> = ({
-  transaction: { type, hash, timestamp, label, status, symbol, amount, projectName, transfer }
-}) => {
+const ActivityItem: FC<Props> = ({ type, hash, timestamp, label, status, symbol, amount, projectName, transfer }) => {
   const { explorerUrl } = useSelectedNetworkSelector();
 
   const onBlockchainExplorerPress = () => Linking.openURL(`${explorerUrl}/tx/${hash}`);
@@ -108,3 +102,5 @@ export const ActivityItem: FC<Props> = ({
     </Column>
   );
 };
+
+export default memo(ActivityItem);
