@@ -12,6 +12,8 @@ const deBankRequest = axios.create({
   }
 });
 
-export async function proxyDeBankRequest<T>(method: string, params: Query): Promise<T> {
-  return deBankRequest.get<T>(`v1/${method}`, { params }).then(response => response.data);
+export async function proxyDeBankRequest<ReqT, ResV>(method: string, queryParams: Query): Promise<ResV> {
+  const params = <ReqT>queryParams;
+
+  return deBankRequest.get<ResV>(`v1/${method}`, { params }).then(response => response.data);
 }

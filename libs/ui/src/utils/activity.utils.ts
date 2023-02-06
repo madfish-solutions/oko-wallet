@@ -1,8 +1,7 @@
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
+import { ActivityResponse, TransactionResponse } from 'backend-types';
 
-import { ActivityResponse } from '../interfaces/activity-response.interface';
 import { TransactionLabelEnum, TransactionTypeEnum } from '../interfaces/activity.enum';
-import { TransactionResponse } from '../interfaces/transaction-response.interface';
 
 export const getTokenSymbol = (userTokensMetadata: ActivityResponse['token_dict'], address: string) =>
   userTokensMetadata[address].optimized_symbol ?? userTokensMetadata[address].name;

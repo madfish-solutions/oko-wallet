@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
+import { NftListResponse, TokenListResponse } from 'backend-types';
 
-import { NftListResponse, TokenListResponse } from '../../api/types';
 import { AccountInterface, PendingTransaction } from '../../interfaces/account.interface';
 import { DappConnectionInfo } from '../../interfaces/dapp-connection.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';

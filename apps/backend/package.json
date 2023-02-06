@@ -25,6 +25,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-redis-cache": "^1.1.3",
+    "express-validator": "^6.14.3",
     "rate-limiter-flexible": "^2.4.1"
   },
   "devDependencies": {
