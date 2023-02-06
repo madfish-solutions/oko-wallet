@@ -184,9 +184,12 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
     setIsLoading(false);
   };
 
-  const fetch = debounce((startTime?: number) => {
-    fetchActivity(isDefined(startTime) ? startTime : lastTimestamp[publicKeyHash] ?? 0);
-  }, DEBOUNCE_TIME);
+  const fetch = (test: number, startTime?: number) => {
+    if (!isLoading) {
+      fetchActivity(isDefined(startTime) ? startTime : lastTimestamp[publicKeyHash] ?? 0);
+      console.log(test, 'fetching . ... ', isDefined(startTime) ? startTime : lastTimestamp[publicKeyHash] ?? 0);
+    }
+  };
 
   return { activity, fetch, isLoading };
 };

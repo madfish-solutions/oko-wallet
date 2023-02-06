@@ -20,8 +20,6 @@ import { transformTimestampToTime } from './activity-item.utils';
 
 interface Props {
   transaction: ActivityData;
-  address: string;
-  chainName: string;
 }
 
 export const ActivityItem: FC<Props> = ({

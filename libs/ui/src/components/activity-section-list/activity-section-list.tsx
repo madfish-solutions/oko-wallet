@@ -19,7 +19,6 @@ import { ActivityFilterEnum } from '../../modals/screens/activity-filter-selecto
 import { ActivityItem } from '../../screens/activity/components/activity-item';
 import { getCustomSize } from '../../styles/format-size';
 import { getFilteredActivity } from '../../utils/filter-activity.util';
-import { getItemLayoutSectionList } from '../../utils/get-item-layout-section-list.util';
 import { isWeb } from '../../utils/platform.utils';
 import { EmptySearchIcon } from '../icon/components/empty-search-icon/empty-search-icon';
 import { LoaderSizeEnum } from '../loader/enums';
@@ -38,7 +37,9 @@ interface Props {
 
 const keyExtractor = ({ hash, timestamp }: ActivityData) => `${hash}_${timestamp}`;
 
-const getItemLayout = getItemLayoutSectionList<ActivityData, SectionListActivityData>(getCustomSize(9));
+const renderItem: SectionListRenderItem<ActivityData, SectionListActivityData> = ({ item }) => (
+  <ActivityItem transaction={item} />
+);
 
 const renderSectionHeader = (item: { section: SectionListData<ActivityData, SectionListActivityData> }) => (
   <Row style={styles.dateWrapper}>
@@ -54,8 +55,13 @@ let numberOfAttempts = 0;
 export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterTypeName, tokenAddress = '' }) => {
   const [offsetY, setOffsetY] = useState(0);
   const { activity: allActivity, fetch, isLoading } = useAllActivity(publicKeyHash, getDebankId(chainId), tokenAddress);
+  const extraData = useMemo(() => [publicKeyHash, chainId], [publicKeyHash, chainId]);
 
   const activity = useMemo(() => getFilteredActivity(allActivity, filterTypeName), [allActivity, filterTypeName]);
+
+  useEffect(() => {
+    console.log('activity', activity);
+  }, [activity]);
 
   useEffect(() => {
     if (
@@ -66,37 +72,34 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
     ) {
       const lastDate = allActivity.slice(-1)[0].data.slice(-1)[0].timestamp;
 
-      fetch(lastDate);
+      fetch(1, lastDate);
       numberOfAttempts += 1;
     }
   }, [filterTypeName, allActivity, activity]);
 
   const handleFetchData = () => {
     if (offsetY === 0) {
-      fetch(0);
+      fetch(2, 0);
       numberOfAttempts = 0;
     }
   };
 
   useTimerEffect(handleFetchData, DATA_UPDATE_TIME, [publicKeyHash, chainId, offsetY]);
 
-  const handleScrollWeb = debounce((event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    setOffsetY(event.nativeEvent.contentOffset.y);
-  }, DEBOUNCE_TIME);
+  const handleScrollWeb = useCallback(
+    debounce((event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      console.log('debounce', event.nativeEvent.contentOffset.y);
+      setOffsetY(event.nativeEvent.contentOffset.y);
+    }, DEBOUNCE_TIME),
+    []
+  );
 
   const handleScrollMobile = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     event.persist();
     debounce(() => setOffsetY(event.nativeEvent.contentOffset.y), DEBOUNCE_TIME);
   };
 
-  const handleEndReached = () => {
-    fetch();
-  };
-
-  const renderItem: SectionListRenderItem<ActivityData, SectionListActivityData> = useCallback(
-    ({ item }) => <ActivityItem transaction={item} address={publicKeyHash} chainName={getDebankId(chainId)} />,
-    [publicKeyHash, chainId]
-  );
+  const handleEndReached = () => fetch(3);
 
   const renderListFooterComponent = () => (
     <>
@@ -113,12 +116,20 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
   return (
     <SectionList
       sections={activity}
+      extraData={extraData}
       renderItem={renderItem}
       renderSectionHeader={renderSectionHeader}
-      ListFooterComponent={renderListFooterComponent}
+      // ListFooterComponent={renderListFooterComponent}
       keyExtractor={keyExtractor}
-      onScroll={isWeb ? handleScrollWeb : handleScrollMobile}
-      getItemLayout={getItemLayout}
+      onScroll={
+        isWeb
+          ? event => {
+              console.log('onScroll', event.nativeEvent.contentOffset.y);
+              handleScrollWeb(event);
+            }
+          : handleScrollMobile
+      }
+      // getItemLayout={getItemLayout}
       ListEmptyComponent={renderListEmptyComponent}
       onEndReachedThreshold={0.1}
       onEndReached={handleEndReached}
