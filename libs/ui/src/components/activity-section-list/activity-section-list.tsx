@@ -61,7 +61,7 @@ const renderItem: SectionListRenderItem<ActivityData, SectionListActivityData> =
 const emptyIconSize = getCustomSize(isWeb ? 30 : 36);
 
 const MAX_ACTIVITY_ATTEMPTS = 10;
-const API_RESPONSE_LENGTH = 20;
+const API_MAX_RESPONSE_LENGTH = 20;
 let numberOfAttempts = 0;
 
 export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterTypeName, tokenAddress = '' }) => {
@@ -70,7 +70,7 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
 
   const activity = useMemo(() => getFilteredActivity(allActivity, filterTypeName), [allActivity, filterTypeName]);
 
-  const activityLengthForUpdate = useMemo(() => {
+  const activityDataLength = useMemo(() => {
     let sum = 0;
 
     for (const { data } of activity) {
@@ -95,13 +95,13 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
   }, [filterTypeName, allActivity, activity]);
 
   const handleFetchData = () => {
-    if (offsetY === 0 && activityLengthForUpdate <= API_RESPONSE_LENGTH) {
+    if (offsetY === 0 && activityDataLength <= API_MAX_RESPONSE_LENGTH) {
       fetch(0);
       numberOfAttempts = 0;
     }
   };
 
-  useTimerEffect(handleFetchData, DATA_UPDATE_TIME, [publicKeyHash, chainId, offsetY, activityLengthForUpdate]);
+  useTimerEffect(handleFetchData, DATA_UPDATE_TIME, [publicKeyHash, chainId, offsetY, activityDataLength]);
 
   const handleScroll = debounce(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => setOffsetY(event.nativeEvent.contentOffset.y),
