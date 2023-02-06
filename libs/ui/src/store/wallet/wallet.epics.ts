@@ -1,6 +1,6 @@
 import { combineEpics } from 'redux-observable';
 import { forkJoin, from, Observable, of } from 'rxjs';
-import { catchError, map, switchMap, concatMap } from 'rxjs/operators';
+import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
@@ -18,13 +18,13 @@ import { RootState } from '../store';
 import { createEntity } from '../utils/entity.utils';
 
 import {
-  loadGasTokenBalanceAction,
-  loadAccountTokenBalanceAction,
-  sendAssetAction,
-  getAllUserTokensAction,
-  getAllUserNftAction,
+  addNewTokensMetadataAction,
   deleteCollectibleAction,
-  addNewTokensMetadataAction
+  getAllUserNftAction,
+  getAllUserTokensAction,
+  loadAccountTokenBalanceAction,
+  loadGasTokenBalanceAction,
+  sendAssetAction
 } from './wallet.actions';
 
 const getGasTokenBalanceEpic = (action$: Observable<Action>, state$: Observable<RootState>) =>
@@ -79,7 +79,7 @@ const sendAssetEpic = (action$: Observable<Action>, state$: Observable<RootState
         );
       }
 
-      return getEvmTransferParams$(sendAssetPayload);
+      return getEvmTransferParams$(sendAssetPayload, sender);
     }),
     map(transferParams =>
       navigateAction(ScreensEnum.SendConfirmation, {

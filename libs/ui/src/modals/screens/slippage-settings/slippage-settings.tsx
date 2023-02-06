@@ -88,16 +88,14 @@ export const SlippageSettings: FC = () => {
                 keyboardType="numeric"
                 error={errors?.slippageInput?.message}
                 decimals={2}
+                containerStyle={styles.inputContainer}
               />
             )}
           />
         )}
 
         {showWarning && (
-          <Warning
-            text={`You may receive ${slippageInput}% less with this level of slippage tolerance`}
-            style={styles.warning}
-          />
+          <Warning text={`You may receive ${slippageInput}% less with this level of slippage tolerance`} />
         )}
       </>
     </ModalActionContainer>

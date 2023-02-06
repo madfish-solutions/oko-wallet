@@ -1,23 +1,21 @@
-import { isDefined } from '@rnw-community/shared';
-
 import { Erc1155Abi__factory, Erc20Abi__factory, Erc721Abi__factory } from '../../../../../contract-types';
 import { AssetTypeEnum } from '../../../../../enums/asset-type.enum';
 import { Asset } from '../../../../../interfaces/asset.interface';
 import { checkIsErc721Collectible } from '../../../../../utils/check-is-erc721-collectible.util';
+import { getAssetType } from '../../../../../utils/get-asset-type.util';
+
+import { getAmount } from './get-amount.util';
 
 export const getTransactionParams = (
   asset: Asset,
-  assetType: AssetTypeEnum,
   receiverPublicKeyHash: string,
   publicKeyHash: string,
-  value: string,
-  data?: string
+  amount: string
 ) => {
-  const { tokenId, tokenAddress } = asset;
-
-  if (isDefined(data)) {
-    return { data, to: receiverPublicKeyHash, value };
-  }
+  const { tokenId, tokenAddress, decimals } = asset;
+  const assetType = getAssetType(asset);
+  const value =
+    assetType === AssetTypeEnum.GasToken || assetType === AssetTypeEnum.Token ? getAmount(amount, decimals) : amount;
 
   switch (assetType) {
     case AssetTypeEnum.GasToken:

@@ -29,7 +29,7 @@ export const getApproveData = (chainId: string, tokenAddress: string) =>
         tokenAddress
       }
     })
-    .then(({ data }) => data);
+    .then(({ data: { data, value, to } }) => ({ data, value, to }));
 
 export const getSwapData = (
   chainId: string,

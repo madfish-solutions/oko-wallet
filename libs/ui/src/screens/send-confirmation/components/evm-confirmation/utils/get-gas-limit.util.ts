@@ -2,19 +2,20 @@ import { Erc1155Abi__factory, Erc20Abi__factory, Erc721Abi__factory } from '../.
 import { AssetTypeEnum } from '../../../../../enums/asset-type.enum';
 import { Asset } from '../../../../../interfaces/asset.interface';
 import { checkIsErc721Collectible } from '../../../../../utils/check-is-erc721-collectible.util';
+import { getAssetType } from '../../../../../utils/get-asset-type.util';
 import { getDefaultEvmProvider } from '../../../../../utils/get-default-evm-provider.utils';
 
 import { getAmount } from './get-amount.util';
 
 export const getGasLimit = (
   asset: Asset,
-  assetType: AssetTypeEnum,
   receiverPublicKeyHash: string,
   publicKeyHash: string,
   value: string,
   rpcUrl: string
 ) => {
   const { decimals, tokenId, tokenAddress } = asset;
+  const assetType = getAssetType(asset);
 
   switch (assetType) {
     case AssetTypeEnum.GasToken:

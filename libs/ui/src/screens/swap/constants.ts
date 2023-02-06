@@ -8,5 +8,5 @@ export const GAS_CONSUMPTION_FOR_SWAP: Record<string, number> = {
   [EvmChainId.Klaytn]: 0.03
 };
 
-export const GREATER_THAN_ZERO_SWAP_ERROR = 'Nothing-to-nothing exchanges are forbidden.';
-export const UNDER_AVAILABLE_BALANCE_SWAP_ERROR = 'Hold on, bro, top-up your account first.';
+export const GREATER_THAN_ZERO_SWAP_ERROR = 'Nothing-to-nothing exchanges are forbidden';
+export const UNDER_AVAILABLE_BALANCE_SWAP_ERROR = 'Hold on, bro, top-up your account first';

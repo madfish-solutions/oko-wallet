@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { AssetTypeEnum } from '../../../../../enums/asset-type.enum';
 import { Asset } from '../../../../../interfaces/asset.interface';
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
 import { getDefaultEvmProvider } from '../../../../../utils/get-default-evm-provider.utils';
@@ -14,7 +13,6 @@ interface UseEvmEstimationsArgs {
   receiverPublicKeyHash: string;
   value: string;
   publicKeyHash: string;
-  assetType: AssetTypeEnum;
   gas: number;
 }
 
@@ -24,7 +22,6 @@ export const useEvmEstimations = ({
   receiverPublicKeyHash,
   value,
   publicKeyHash,
-  assetType,
   gas
 }: UseEvmEstimationsArgs) => {
   const [estimations, setEstimations] = useState<{ gasLimit: number; gasPrice: number } | null>(null);
@@ -38,7 +35,7 @@ export const useEvmEstimations = ({
 
       const [gasLimitPromiseResult, feePromiseResult] = await Promise.allSettled([
         gas === EMPTY_GAS
-          ? getGasLimit(asset, assetType, receiverPublicKeyHash, publicKeyHash, value, rpcUrl)
+          ? getGasLimit(asset, receiverPublicKeyHash, publicKeyHash, value, rpcUrl)
           : Promise.resolve(gas),
         provider.getFeeData()
       ]);

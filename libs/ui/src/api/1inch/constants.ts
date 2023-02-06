@@ -13,7 +13,7 @@ export const SUPPORTED_SWAP_CHAIN_IDS: string[] = [
   EvmChainId.Aurora
 ];
 
-export const REFERRER_FEE = 0.5;
+export const REFERRER_FEE = 0.01;
 export const REFERRER_ADDRESS = '0xF0e72ECf2eD61Fa678Ef17C16ced9537B4BD9C4D';
 
 export const ONE_INCH_GAS_TOKEN_ADDRESS = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';

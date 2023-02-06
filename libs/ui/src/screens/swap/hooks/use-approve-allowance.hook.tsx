@@ -1,3 +1,4 @@
+import { BigNumber } from 'ethers';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { of, from, switchMap, Subject } from 'rxjs';
@@ -37,7 +38,10 @@ export const useApproveAllowance = () => {
               of(
                 sendEvmTransaction({
                   rpcUrl,
-                  transactionParams: approveDataResponse,
+                  transactionParams: {
+                    ...approveDataResponse,
+                    value: BigNumber.from(approveDataResponse.value).toHexString()
+                  },
                   publicKeyHash,
                   successCallback: response =>
                     getDefaultEvmProvider(rpcUrl)

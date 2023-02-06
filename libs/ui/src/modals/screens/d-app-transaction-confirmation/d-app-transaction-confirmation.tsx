@@ -39,6 +39,8 @@ export const DAppTransactionConfirmation: FC = () => {
       return FLOAT_ZERO_STRING;
     };
 
+    const { data, gas, from, to, value } = params.transactionInfo;
+
     return {
       asset: {
         decimals: network.gasTokenMetadata.decimals,
@@ -48,8 +50,13 @@ export const DAppTransactionConfirmation: FC = () => {
       },
       receiverPublicKeyHash: params.transactionInfo.to,
       value: getValue(),
-      data: params.transactionInfo.data,
-      gas: isDefined(params.transactionInfo?.gas) ? parseInt(params.transactionInfo.gas, 16) : EMPTY_GAS
+      gas: isDefined(gas) ? parseInt(gas, 16) : EMPTY_GAS,
+      transactionParams: {
+        data,
+        from,
+        to,
+        value
+      }
     };
   }, []);
 

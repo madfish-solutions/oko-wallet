@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     marginTop: getCustomSize(),
     marginBottom: getCustomSize(2)
   },
-  warning: {
-    marginTop: getCustomSize(3)
+  inputContainer: {
+    marginBottom: getCustomSize(3)
   }
 });

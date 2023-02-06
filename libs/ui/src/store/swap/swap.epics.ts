@@ -1,3 +1,4 @@
+import { BigNumber } from 'ethers';
 import { parseUnits } from 'ethers/lib/utils';
 import { combineEpics } from 'redux-observable';
 import { Observable, of, from } from 'rxjs';
@@ -71,7 +72,7 @@ const getSwapDataEpic = (action$: Observable<Action>, state$: Observable<RootSta
               receiverPublicKeyHash: swapDataResponse.to,
               value: amount,
               asset: fromToken as Asset,
-              data: swapDataResponse.data,
+              transactionParams: { ...swapDataResponse, value: BigNumber.from(swapDataResponse.value).toHexString() },
               gas: swapDataResponse.gasLimit
             }
           }),
