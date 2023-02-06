@@ -59,6 +59,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           file: ./backend.Dockerfile
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels:
