@@ -9,7 +9,7 @@ import {
 } from 'ui/background-script';
 import { Runtime, runtime, scripting, storage } from 'webextension-polyfill';
 
-import { CONTENT_SCRIPT_PORT_NAME } from './src/constants/content-script.js';
+import { CONTENT_SCRIPT_PORT_NAME } from './src/constants/content-script';
 import {
   LAST_USER_ACTIVITY_TIMESTAMP_KEY,
   LOCK_TIME_PERIOD_KEY,
