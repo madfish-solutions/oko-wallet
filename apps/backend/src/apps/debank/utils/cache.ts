@@ -2,10 +2,10 @@ import * as console from 'console';
 import expressRedisCache, { ExpressRedisCache } from 'express-redis-cache';
 import { createClient } from 'redis';
 
-import { getRedisConfig } from '../../../config/redis';
+import config from '../../../config';
 
 export const deBankCache: ExpressRedisCache = expressRedisCache({
-  client: createClient(getRedisConfig()),
+  client: createClient(config.REDIS_CONFIG),
   prefix: 'deBank-requests'
 });
 

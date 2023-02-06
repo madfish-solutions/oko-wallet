@@ -2,10 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 import { RateLimiterRedis, RateLimiterRes } from 'rate-limiter-flexible';
 import { createClient } from 'redis';
 
-import { getRedisConfig } from '../../../config/redis';
+import config from '../../../config';
 
 const rateLimiter = new RateLimiterRedis({
-  storeClient: createClient(getRedisConfig()),
+  storeClient: createClient(config.REDIS_CONFIG),
   keyPrefix: 'deBank-rate-limit',
   points: 20, // 20 requests
   duration: 3 // per 3 seconds by IP
