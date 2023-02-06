@@ -6,3 +6,7 @@ export interface DAppMessage {
   data: DAppMessageData;
   sender: DAppInfo;
 }
+
+export interface InformMessage {
+  type: string;
+}

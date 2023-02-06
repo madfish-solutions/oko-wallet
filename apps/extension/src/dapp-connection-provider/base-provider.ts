@@ -10,6 +10,7 @@ import {
   JsonRpcMiddleware
 } from 'json-rpc-engine';
 
+import { InpageProvider } from './inpage-provider';
 import { ConsoleLike } from './types/console-like.type';
 import { Maybe } from './types/maybe.type';
 import { getRpcPromiseCallback } from './utils/rpc.utils';
@@ -40,6 +41,8 @@ export interface BaseProviderOptions {
    * order immediately after engine initialization.
    */
   rpcMiddleware?: JsonRpcMiddleware<unknown, unknown>[];
+
+  anotherProvider?: InpageProvider[];
 }
 
 export interface RequestArguments {
@@ -91,13 +94,20 @@ export abstract class BaseProvider extends SafeEventEmitter {
 
   public selectedAddress: string | null;
 
+  public anotherProvider: InpageProvider[];
+
   /**
    * @param options - An options bag
    * @param options.logger - The logging API to use. Default: console
    * @param options.maxEventListeners - The maximum number of event
    * listeners. Default: 100
    */
-  constructor({ logger = console, maxEventListeners = 100, rpcMiddleware = [] }: BaseProviderOptions = {}) {
+  constructor({
+    logger = console,
+    maxEventListeners = 100,
+    rpcMiddleware = [],
+    anotherProvider
+  }: BaseProviderOptions = {}) {
     super();
 
     this._log = logger;
@@ -121,6 +131,7 @@ export abstract class BaseProvider extends SafeEventEmitter {
     this._handleUnlockStateChanged = this._handleUnlockStateChanged.bind(this);
     this._rpcRequest = this._rpcRequest.bind(this);
     this.request = this.request.bind(this);
+    this.anotherProvider = anotherProvider ?? [];
 
     // Handle RPC requests via dapp-side RPC engine.
     //
@@ -178,6 +189,10 @@ export abstract class BaseProvider extends SafeEventEmitter {
 
     return new Promise<T>((resolve, reject) => {
       this._rpcRequest({ method, params }, getRpcPromiseCallback(resolve, reject));
+
+      if (method === 'eth_requestAccounts' && this.anotherProvider.length > 0 && this.selectedAddress === null) {
+        this.anotherProvider[0]._rpcRequest({ method, params }, getRpcPromiseCallback(resolve, reject));
+      }
     });
   }
 
@@ -198,7 +213,7 @@ export abstract class BaseProvider extends SafeEventEmitter {
    * @emits BaseProvider#_initialized
    * @emits BaseProvider#connect - If `initialState` is defined.
    */
-  protected _initializeState(initialState?: {
+  _initializeState(initialState?: {
     accounts: string[];
     chainId: string;
     isUnlocked: boolean;
@@ -263,7 +278,7 @@ export abstract class BaseProvider extends SafeEventEmitter {
    * @param chainId - The ID of the newly connected chain.
    * @emits InpageProvider#connect
    */
-  protected _handleConnect(chainId: string) {
+  _handleConnect(chainId: string) {
     if (!this._state.isConnected) {
       this._state.isConnected = true;
       this.emit('connect', { chainId });
@@ -281,7 +296,7 @@ export abstract class BaseProvider extends SafeEventEmitter {
    * @param errorMessage - A custom error message.
    * @emits BaseProvider#disconnect
    */
-  protected _handleDisconnect(isRecoverable: boolean, errorMessage?: string) {
+  _handleDisconnect(isRecoverable: boolean, errorMessage?: string) {
     if (this._state.isConnected || (!this._state.isPermanentlyDisconnected && !isRecoverable)) {
       this._state.isConnected = false;
 
@@ -395,7 +410,7 @@ export abstract class BaseProvider extends SafeEventEmitter {
    * @param opts.accounts - The exposed accounts, if any.
    * @param opts.isUnlocked - The latest isUnlocked value.
    */
-  protected _handleUnlockStateChanged({ accounts, isUnlocked }: { accounts?: string[]; isUnlocked?: boolean } = {}) {
+  _handleUnlockStateChanged({ accounts, isUnlocked }: { accounts?: string[]; isUnlocked?: boolean } = {}) {
     if (typeof isUnlocked !== 'boolean') {
       this._log.error('Received invalid isUnlocked parameter. Please report this bug.');
 

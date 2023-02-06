@@ -6606,10 +6606,10 @@ react-native-svg@^13.7.0:
     css-select "^5.1.0"
     css-tree "^1.1.3"
 
-react-native-themis@^0.14.10:
-  version "0.14.10"
-  resolved "https://registry.yarnpkg.com/react-native-themis/-/react-native-themis-0.14.10.tgz#80ff885f17b0f51fd7656fa1374582856c672a57"
-  integrity sha512-i0Y4XTRWC5igGwC5UsFDjtQISImORZ/Fen9BHpM8fR4TcqB5IDaSqA2ncds/ki6ToekrwYXlPV9rya/wIqtsig==
+react-native-themis@^0.14.11:
+  version "0.14.11"
+  resolved "https://registry.yarnpkg.com/react-native-themis/-/react-native-themis-0.14.11.tgz#85be622b8b49181df228e7776a2194bb290a6304"
+  integrity sha512-v5L95gklSZe+JaDFOvUB7my3y9NC0xsJbhx7Pox6tsN6RzMumPbPtpUu79CfpMDDYI/EiQSSjm8KoXckeyI5Ag==
   dependencies:
     buffer "^6.0.3"
 

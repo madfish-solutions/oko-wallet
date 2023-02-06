@@ -11,5 +11,5 @@ export type { RootState } from './store/store';
 export { BackgroundMessageType } from './messagers/enums/background-message-type.enum';
 export { E2eMessageType } from './messagers/enums/e2e-message-type.enum';
 export { INITIAL_PASSWORD_HASH } from './shelter/shelter';
-export { createDAppResponse } from './utils/dapp.utils';
+export { createDAppResponse, POPUP_CLOSED, POPUP_OPEN } from './utils/dapp.utils';
 export { LocalStorage } from './utils/local-storage.util';

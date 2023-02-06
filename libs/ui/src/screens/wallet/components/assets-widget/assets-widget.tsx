@@ -29,8 +29,8 @@ export const AssetsWidget: FC<TestIDProps> = ({ testID }) => {
   const navigateToActivity = () => navigate(ScreensEnum.Activity);
 
   return (
-    <WidgetContainer style={styles.widgetStyles} iconName={IconNameEnum.Assets} title="Tokens" testID={testID}>
-      <View style={styles.root}>
+    <WidgetContainer style={styles.root} iconName={IconNameEnum.Assets} title="Tokens" testID={testID}>
+      <View style={styles.widgetContainer}>
         {visibleAccountTokens.map(token => (
           <AccountToken key={getTokenSlug(token.tokenAddress, token.tokenId)} token={token} />
         ))}
