@@ -44,7 +44,6 @@ function connectPort() {
   });
 
   myPort.onDisconnect.addListener(() => {
-    console.log('PORT DISCONNECTED');
     connectPort();
   });
 
