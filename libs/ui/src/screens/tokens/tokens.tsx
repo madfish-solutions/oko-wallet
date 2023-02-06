@@ -18,18 +18,16 @@ import { TokenItemThemesEnum } from '../../components/token/token-item/enums';
 import { EMPTY_STRING } from '../../constants/defaults';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
+import { useSortAccountTokensByBalance } from '../../hooks/use-sort-tokens-by-balance.hook';
 import { Token } from '../../interfaces/token.interface';
-import { useTokensMarketInfoSelector } from '../../store/tokens-market-info/token-market-info.selectors';
 import { sortAccountTokensByVisibility } from '../../store/wallet/wallet.actions';
 import {
   useAccountTokensSelector,
-  useSelectedNetworkSelector,
   useVisibleAccountTokensSelector,
   useAccountTokensAndGasTokenSelector,
   useVisibleAccountTokensAndGasTokenSelector
 } from '../../store/wallet/wallet.selectors';
 import { getTokensWithBalance } from '../../utils/get-tokens-with-balance.util';
-import { getTokenMetadataSlug } from '../../utils/token-metadata.util';
 import { getTokenSlug } from '../../utils/token.utils';
 
 import { styles } from './tokens.styles';
@@ -39,14 +37,12 @@ import { getListOfTokensAddresses } from './utils/get-list-of-tokens-adresses.ut
 const keyExtractor = ({ tokenAddress, tokenId }: Token) => getTokenSlug(tokenAddress, tokenId);
 
 export const Tokens: FC = () => {
-  const { chainId } = useSelectedNetworkSelector();
   const dispatch = useDispatch();
   const { navigate, goBack } = useNavigation();
-  const allAccountTokens = useAccountTokensSelector();
-  const visibleAccountTokens = useVisibleAccountTokensSelector();
-  const allTokensMarketInfo = useTokensMarketInfoSelector();
 
+  const allAccountTokens = useAccountTokensSelector();
   const allAccountTokensWithGasToken = useAccountTokensAndGasTokenSelector();
+  const visibleAccountTokens = useVisibleAccountTokensSelector();
   const visibleAccountTokensWithGasToken = useVisibleAccountTokensAndGasTokenSelector();
 
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
@@ -75,6 +71,8 @@ export const Tokens: FC = () => {
     return isHideZeroBalance ? allAccountTokensWithBalance : visibleAccountTokensWithGasToken;
   }, [searchValue, allAccountTokens, visibleAccountTokensWithGasToken, isHideZeroBalance, allAccountTokensWithBalance]);
 
+  const sortedTokens = useSortAccountTokensByBalance(accountTokens);
+
   const navigateToAddNewToken = () => navigate(ScreensEnum.AddNewToken);
   const navigateToManageTokens = () => navigate(ScreensEnum.ManageTokens);
   const onPressActivityIcon = () => navigate(ScreensEnum.Activity);
@@ -96,19 +94,9 @@ export const Tokens: FC = () => {
 
   const renderItem = useCallback(
     ({ item: token }: ListRenderItemInfo<Token>) => {
-      const tokenMetadataSlug = getTokenMetadataSlug(chainId, token.tokenAddress);
-
       const showButton = !token.isVisible || !tokensAddresses.includes(token.tokenAddress);
 
-      return (
-        <AccountToken
-          token={token}
-          loadBalance={!searchValue}
-          showButton={showButton}
-          theme={TokenItemThemesEnum.Secondary}
-          marketInfo={allTokensMarketInfo[tokenMetadataSlug]}
-        />
-      );
+      return <AccountToken token={token} showButton={showButton} theme={TokenItemThemesEnum.Secondary} />;
     },
     [tokensAddresses, searchValue]
   );
@@ -127,7 +115,7 @@ export const Tokens: FC = () => {
           onPressActivityIcon={onPressActivityIcon}
           setSearchValue={setSearchValue}
           onSearchClose={onSearchClose}
-          isEmptyList={!accountTokens.length}
+          isEmptyList={!sortedTokens.length}
         />
 
         <Pressable onPress={onPressHideZeroBalances} style={styles.checkboxContainer}>
@@ -138,7 +126,7 @@ export const Tokens: FC = () => {
         </Pressable>
 
         <FlatList
-          data={accountTokens}
+          data={sortedTokens}
           showsVerticalScrollIndicator={false}
           renderItem={renderItem}
           keyExtractor={keyExtractor}

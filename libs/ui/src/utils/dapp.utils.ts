@@ -1,4 +1,8 @@
-import { tabs } from 'webextension-polyfill';
+import { isDefined } from '@rnw-community/shared';
+import { tabs, runtime } from 'webextension-polyfill';
+
+export const POPUP_CLOSED = 'POPUP_CLOSED';
+export const POPUP_OPEN = 'POPUP_OPEN';
 
 const INPAGE = 'oko-inpage';
 const PROVIDER = 'oko-provider';
@@ -30,26 +34,6 @@ const createErrorMessage = (id: string) => ({
   target: INPAGE
 });
 
-export const sendResponseToDAppAndClosePopup = <T>(messageID: string, result: T) => {
-  tabs.query({ active: true }).then(queryTabs => {
-    if (queryTabs[0].id !== undefined) {
-      tabs.sendMessage(queryTabs[0].id, createDAppResponse(messageID, result));
-    }
-  });
-
-  setTimeout(() => close(), 1000);
-};
-
-export const sendErrorToDAppAndClosePopup = (id: string) => {
-  tabs.query({ active: true }).then(queryTabs => {
-    if (queryTabs[0].id !== undefined) {
-      tabs.sendMessage(queryTabs[0].id, createErrorMessage(id));
-    }
-  });
-
-  setTimeout(() => close(), 1000);
-};
-
 const createDAppNotificationResponse = <T>(method: string, params: T) => ({
   data: {
     data: {
@@ -61,10 +45,34 @@ const createDAppNotificationResponse = <T>(method: string, params: T) => ({
   target: INPAGE
 });
 
-export const sendNotificationToDApp = <T>(method: string, result: T) => {
-  tabs.query({ active: true }).then(queryTabs => {
-    if (queryTabs[0].id !== undefined) {
-      tabs.sendMessage(queryTabs[0].id, createDAppNotificationResponse(method, result));
+const sendMessageToDAppTab = (origin: string, response: unknown) => {
+  tabs.query({}).then(queryTabs => {
+    const dAppTab = queryTabs.find(tab => tab.url?.includes(origin));
+    if (isDefined(dAppTab) && isDefined(dAppTab.id)) {
+      tabs.sendMessage(dAppTab.id, response);
     }
   });
+};
+
+export const sendResponseToDAppAndClosePopup = <T>(origin: string, id: string, result: T) => {
+  const response = createDAppResponse(id, result);
+  sendMessageToDAppTab(origin, response);
+
+  setTimeout(() => close(), 1000);
+};
+
+export const sendErrorToDAppAndClosePopup = (origin: string, id: string) => {
+  const errorResponse = createErrorMessage(id);
+  sendMessageToDAppTab(origin, errorResponse);
+
+  setTimeout(() => close(), 1000);
+};
+
+export const sendNotificationToDApp = <T>(origin: string, method: string, result: T) => {
+  const notification = createDAppNotificationResponse(method, result);
+  sendMessageToDAppTab(origin, notification);
+};
+
+export const sendMessageToBackground = () => {
+  runtime.sendMessage(undefined, { type: POPUP_CLOSED });
 };

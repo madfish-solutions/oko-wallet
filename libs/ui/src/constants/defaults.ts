@@ -1,3 +1,6 @@
+import { Token } from '../interfaces/token.interface';
+import { createEntity } from '../store/utils/entity.utils';
+
 export const EMPTY_STRING = '';
 
 export const SINGLE_NFTS_KEY = 'single_nfts';
@@ -17,3 +20,15 @@ export const EXTENSION_WIDTH = 360;
 export const HIDE_SPLASH_SCREEN_TIMEOUT = 100;
 
 export const FLOAT_ZERO_STRING = '0.0';
+
+export const TOKEN_DOLLAR_VALUE_PLUG = '---';
+
+export const EMPTY_TOKEN: Token = {
+  tokenAddress: '',
+  balance: createEntity('0'),
+  decimals: 0,
+  fiatBalance: 0,
+  isVisible: true,
+  name: '',
+  symbol: ''
+};

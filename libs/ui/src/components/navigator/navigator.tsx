@@ -2,6 +2,7 @@ import { NavigationContainer, NavigationContainerRef, DarkTheme } from '@react-n
 import React, { FC, createRef } from 'react';
 
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
+import { useAppLockTimer } from '../../hooks/use-app-lock-timer.hook';
 import { useLockApp } from '../../hooks/use-lock-app.hook';
 import { usePersistedNavigationState } from '../../hooks/use-persisted-navigation-state.hook';
 import { AccountsSelector } from '../../modals/screens/accounts-selector/accounts-selector';
@@ -64,7 +65,6 @@ import { FullScreenLoader } from '../loader/components/full-screen-loader/full-s
 
 import { ComponentWithNavigationContext } from './components/component-with-navigation-context/component-with-navigation-context';
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
-import { useActiveTokenList } from './hooks/use-active-token-list.hook';
 import { useLoadSentCollectiblesBalance } from './hooks/use-load-sent-collectibles-balance.hook';
 import { useResetLoading } from './hooks/use-reset-loading.hook';
 import { useShowSecurityScreen } from './hooks/use-show-security-sceen.hook';
@@ -80,10 +80,10 @@ export const Navigator: FC = () => {
   const showSecurityScreen = useShowSecurityScreen();
 
   useLockApp(isReady);
-  useActiveTokenList();
   useTokensPriceInfo();
   useLoadSentCollectiblesBalance();
   useResetLoading();
+  useAppLockTimer();
 
   if (!isReady) {
     return <SplashScreen />;

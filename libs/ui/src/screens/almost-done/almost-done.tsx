@@ -14,6 +14,7 @@ import { TextInput } from '../../components/text-input/text-input';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
 import { WalletCreationContainer } from '../../components/wallet-creation-container/wallet-creation-container';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
+import { useScrollToOffset } from '../../hooks/use-scroll-to-element.hook';
 import { useShelter } from '../../hooks/use-shelter.hook';
 import { useValidatePasswordForm } from '../../hooks/use-validate-password-form.hook';
 import { usePasswordValidation } from '../../hooks/use-validation-messages.hook';
@@ -46,6 +47,7 @@ export const AlmostDone: FC = () => {
 
   const { importWallet } = useShelter();
   const dispatch = useDispatch();
+  const { scrollViewRef, scrollToOffset } = useScrollToOffset();
 
   const [isSecurePassword, setIsSecurePassword] = useState(true);
   const [isSecureConfirmPassword, setIsSecureConfirmPassword] = useState(true);
@@ -88,6 +90,10 @@ export const AlmostDone: FC = () => {
   const handleCreateAccount = (formValue: FormTypes) => {
     const accountName = isNotEmptyString(formValue.name.trim()) ? formValue.name.trim() : defaultAccountName;
 
+    if (!isAcceptTerms) {
+      return scrollToOffset();
+    }
+
     if (!passwordIsNoValid && isAcceptTerms) {
       importWallet({
         seedPhrase: mnemonic,
@@ -108,6 +114,7 @@ export const AlmostDone: FC = () => {
 
   return (
     <WalletCreationContainer
+      scrollViewRef={scrollViewRef}
       title="Almost Done"
       currentStep={currentStep}
       stepsAmount={stepsAmount}

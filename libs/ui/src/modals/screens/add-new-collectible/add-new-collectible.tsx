@@ -26,6 +26,7 @@ import {
 import { getCustomSize } from '../../../styles/format-size';
 import { getCollectibleBalance } from '../../../utils/by-network-types/token.utils.evm';
 import { formatUri } from '../../../utils/formatUrl.util';
+import { getCurrentToken } from '../../../utils/get-current-token.util';
 import { getTokenSlug } from '../../../utils/token.utils';
 import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';
 
@@ -119,9 +120,7 @@ export const AddNewCollectible: FC = () => {
   }, []);
 
   const onSubmit = async (fields: AddNewCollectibleFormTypes) => {
-    const currentToken = accountTokens.find(
-      token => getTokenSlug(token.tokenAddress, token.tokenId) === getTokenSlug(fields.tokenAddress, fields.tokenId)
-    );
+    const currentToken = getCurrentToken(accountTokens, getTokenSlug(fields.tokenAddress, fields.tokenId));
 
     if (isDefined(currentToken)) {
       if (isNotEmptyString(fields.tokenId)) {

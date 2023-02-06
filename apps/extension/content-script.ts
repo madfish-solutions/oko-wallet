@@ -1,5 +1,6 @@
 import ObjectMultiplex from '@metamask/object-multiplex';
 import pump from 'pump';
+import { POPUP_OPEN } from 'ui/background-script';
 import { runtime } from 'webextension-polyfill';
 
 import { CONTENT_SCRIPT, PROVIDER } from './src/constants/content-script';
@@ -12,6 +13,11 @@ function connectPort() {
 
   // listen background-script message and send message to dApps
   myPort.onMessage.addListener(async message => {
+    if (message.type === POPUP_OPEN) {
+      myPort.postMessage(message);
+
+      return Promise.resolve();
+    }
     window.postMessage(message, '*');
 
     return Promise.resolve();
@@ -38,6 +44,7 @@ function connectPort() {
   });
 
   myPort.onDisconnect.addListener(() => {
+    console.log('PORT DISCONNECTED');
     connectPort();
   });
 

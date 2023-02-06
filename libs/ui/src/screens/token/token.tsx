@@ -1,19 +1,28 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { Divider } from '../../components/divider/divider';
+import { Icon } from '../../components/icon/icon';
+import { IconNameEnum } from '../../components/icon/icon-name.enum';
+import { Pressable } from '../../components/pressable/pressable';
+import { Row } from '../../components/row/row';
 import { ScreenTitle } from '../../components/screen-components/header-container/components/screen-title/screen-title';
 import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { Tabs } from '../../components/tabs/tabs';
+import { Text } from '../../components/text/text';
+import { DATA_UPDATE_TIME } from '../../constants/update-time';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
+import { useTimerEffect } from '../../hooks/use-timer-effect.hook';
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { useTokenMarketInfoSelector } from '../../store/tokens-market-info/token-market-info.selectors';
-import { useTokenBalanceSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
+import { loadAccountTokenBalanceAction, loadGasTokenBalanceAction } from '../../store/wallet/wallet.actions';
+import { useCurrentTokenSelector, useSelectedNetworkSelector } from '../../store/wallet/wallet.selectors';
+import { colors } from '../../styles/colors';
 import { checkIsGasToken } from '../../utils/check-is-gas-token.util';
-import { getDollarValue } from '../../utils/get-dollar-amount.util';
-import { getTokenSlug } from '../../utils/token.utils';
+import { getFiatBalanceToDisplay } from '../../utils/get-dollar-value-to-display.util';
 import { getFormattedBalance } from '../../utils/units.utils';
 
 import { Activity } from './components/activity/activity';
@@ -41,39 +50,66 @@ const tabs = [
 ];
 
 export const Token: FC<Props> = ({ style }) => {
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation();
   const {
-    params: { token }
+    params: { tokenAddress, tokenId }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.Token>>();
   const { chainId } = useSelectedNetworkSelector();
+  const dispatch = useDispatch();
 
-  const { name, symbol, tokenAddress, decimals, tokenId, thumbnailUri, balance } = token;
+  const token = useCurrentTokenSelector(tokenAddress, tokenId);
   const { price, usdPriceChange24h } = useTokenMarketInfoSelector(tokenAddress, chainId);
 
-  const balanceFromStore = useTokenBalanceSelector(getTokenSlug(tokenAddress, tokenId));
-  const formattedBalance = getFormattedBalance(balanceFromStore ?? balance.data, decimals);
   const isGasToken = checkIsGasToken(tokenAddress);
-  const usdBalance = getDollarValue({ amount: balance?.data ?? 0, price, decimals });
+  const formattedBalance = getFormattedBalance(token.balance.data, token.decimals);
+  const fiatBalanceToDisplay = getFiatBalanceToDisplay(token.balance.data, token.fiatBalance ?? 0);
+
+  const getTokenBalanceFromContract = () => {
+    if (isGasToken) {
+      dispatch(loadGasTokenBalanceAction.submit());
+    } else {
+      dispatch(loadAccountTokenBalanceAction.submit({ token }));
+    }
+  };
+
+  useTimerEffect(getTokenBalanceFromContract, DATA_UPDATE_TIME, [chainId]);
+
+  const navigateToEditTokenScreen = () => navigate(ScreensEnum.EditToken, { token });
 
   return (
     <ScreenContainer style={[styles.root, style]}>
       <HeaderContainer isSelectors>
-        <ScreenTitle title={symbol} onBackButtonPress={goBack} />
+        <ScreenTitle title={token.symbol} onBackButtonPress={goBack} />
         <HeaderSideToken
-          name={name}
+          name={token.name}
           dynamics={usdPriceChange24h}
           price={price}
-          thumbnailUri={thumbnailUri}
+          thumbnailUri={token.thumbnailUri}
           isGasToken={isGasToken}
         />
       </HeaderContainer>
 
-      <Balance balance={formattedBalance} usdBalance={usdBalance} />
+      <Balance balance={formattedBalance} fiatBalance={fiatBalanceToDisplay} />
       <NavigationBar token={token} />
 
       <Divider style={styles.divider} />
 
-      <Tabs values={tabs} />
+      <Tabs
+        values={tabs}
+        additionalTabHeader={
+          <Pressable onPress={navigateToEditTokenScreen} disabled={isGasToken} style={styles.editTokenButton}>
+            <Row>
+              <Text style={[styles.editText, isGasToken && styles.disabled]}>Edit Token</Text>
+              <Icon
+                name={IconNameEnum.EditSmall}
+                iconStyle={styles.editIcon}
+                color={isGasToken ? colors.bgGrey5 : colors.orange}
+              />
+            </Row>
+          </Pressable>
+        }
+        tabsStyle={styles.tabs}
+      />
     </ScreenContainer>
   );
 };

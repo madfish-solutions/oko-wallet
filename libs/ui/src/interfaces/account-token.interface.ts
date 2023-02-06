@@ -5,4 +5,5 @@ export interface AccountToken {
   tokenId?: string;
   isVisible: boolean;
   balance: LoadableEntityState<string>;
+  fiatBalance?: number;
 }
