@@ -9,6 +9,7 @@ import {
 } from 'ui/background-script';
 import { Runtime, runtime, scripting, storage } from 'webextension-polyfill';
 
+import { CONTENT_SCRIPT_PORT_NAME } from './src/constants/content-script.js';
 import {
   LAST_USER_ACTIVITY_TIMESTAMP_KEY,
   LOCK_TIME_PERIOD_KEY,
@@ -53,7 +54,7 @@ runtime.onConnect.addListener(async port => {
     });
   }
 
-  if (port.name === 'port-from-cs') {
+  if (port.name === CONTENT_SCRIPT_PORT_NAME) {
     port.onDisconnect.addListener(disconnectedPort => disconnectedPort.disconnect());
   }
 

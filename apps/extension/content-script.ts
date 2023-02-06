@@ -1,15 +1,15 @@
 import ObjectMultiplex from '@metamask/object-multiplex';
 import pump from 'pump';
-import { POPUP_OPEN } from 'ui/background-script';
+import { POPUP_OPEN, CONTENT_SCRIPT, PROVIDER } from 'ui/background-script';
 import { runtime } from 'webextension-polyfill';
 
-import { CONTENT_SCRIPT, PROVIDER } from './src/constants/content-script';
+import { CONTENT_SCRIPT_PORT_NAME } from './src/constants/content-script';
 import { pageStream } from './src/constants/page-streams';
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
 import { getWindowMetadata } from './src/utils/window.utils';
 
 function connectPort() {
-  const myPort = runtime.connect({ name: 'port-from-cs' });
+  const myPort = runtime.connect({ name: CONTENT_SCRIPT_PORT_NAME });
 
   // listen background-script message and send message to dApps
   myPort.onMessage.addListener(async message => {

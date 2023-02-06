@@ -4,8 +4,9 @@ import { tabs, runtime } from 'webextension-polyfill';
 export const POPUP_CLOSED = 'POPUP_CLOSED';
 export const POPUP_OPEN = 'POPUP_OPEN';
 
-const INPAGE = 'oko-inpage';
-const PROVIDER = 'oko-provider';
+export const INPAGE = 'oko-inpage';
+export const PROVIDER = 'oko-provider';
+export const CONTENT_SCRIPT = 'oko-contentscript';
 
 export const createDAppResponse = <T>(id: string, result: T) => ({
   data: {

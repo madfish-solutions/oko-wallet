@@ -1,6 +1,5 @@
 import { WindowPostMessageStream } from '@metamask/post-message-stream';
-
-import { CONTENT_SCRIPT, INPAGE } from './content-script';
+import { CONTENT_SCRIPT, INPAGE } from 'ui/background-script';
 
 export const pageStream = new WindowPostMessageStream({
   name: CONTENT_SCRIPT,
