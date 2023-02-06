@@ -161,6 +161,60 @@
   resolved "https://registry.yarnpkg.com/@cucumber/tag-expressions/-/tag-expressions-4.1.0.tgz#9a91b0e0dd2f2ba703e3038c52b49b9ac06c2c6f"
   integrity sha512-chTnjxV3vryL75N90wJIMdMafXmZoO2JgNJLYpsfcALL2/IQrRiny3vM9DgD5RDCSt1LNloMtb7rGey9YWxCsA==
 
+"@ffmpeg-installer/darwin-arm64@4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@ffmpeg-installer/darwin-arm64/-/darwin-arm64-4.1.5.tgz#b7b5c262dd96d1aea4807514e1cdcf6e11f82743"
+  integrity sha512-hYqTiP63mXz7wSQfuqfFwfLOfwwFChUedeCVKkBtl/cliaTM7/ePI9bVzfZ2c+dWu3TqCwLDRWNSJ5pqZl8otA==
+
+"@ffmpeg-installer/darwin-x64@4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@ffmpeg-installer/darwin-x64/-/darwin-x64-4.1.0.tgz#48e1706c690e628148482bfb64acb67472089aaa"
+  integrity sha512-Z4EyG3cIFjdhlY8wI9aLUXuH8nVt7E9SlMVZtWvSPnm2sm37/yC2CwjUzyCQbJbySnef1tQwGG2Sx+uWhd9IAw==
+
+"@ffmpeg-installer/ffmpeg@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@ffmpeg-installer/ffmpeg/-/ffmpeg-1.1.0.tgz#87fdb9e7d180e8d78f7903f9441e36f978938a90"
+  integrity sha512-Uq4rmwkdGxIa9A6Bd/VqqYbT7zqh1GrT5/rFwCwKM70b42W5gIjWeVETq6SdcL0zXqDtY081Ws/iJWhr1+xvQg==
+  optionalDependencies:
+    "@ffmpeg-installer/darwin-arm64" "4.1.5"
+    "@ffmpeg-installer/darwin-x64" "4.1.0"
+    "@ffmpeg-installer/linux-arm" "4.1.3"
+    "@ffmpeg-installer/linux-arm64" "4.1.4"
+    "@ffmpeg-installer/linux-ia32" "4.1.0"
+    "@ffmpeg-installer/linux-x64" "4.1.0"
+    "@ffmpeg-installer/win32-ia32" "4.1.0"
+    "@ffmpeg-installer/win32-x64" "4.1.0"
+
+"@ffmpeg-installer/linux-arm64@4.1.4":
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/@ffmpeg-installer/linux-arm64/-/linux-arm64-4.1.4.tgz#7219f3f901bb67f7926cb060b56b6974a6cad29f"
+  integrity sha512-dljEqAOD0oIM6O6DxBW9US/FkvqvQwgJ2lGHOwHDDwu/pX8+V0YsDL1xqHbj1DMX/+nP9rxw7G7gcUvGspSoKg==
+
+"@ffmpeg-installer/linux-arm@4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@ffmpeg-installer/linux-arm/-/linux-arm-4.1.3.tgz#c554f105ed5f10475ec25d7bec94926ce18db4c1"
+  integrity sha512-NDf5V6l8AfzZ8WzUGZ5mV8O/xMzRag2ETR6+TlGIsMHp81agx51cqpPItXPib/nAZYmo55Bl2L6/WOMI3A5YRg==
+
+"@ffmpeg-installer/linux-ia32@4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@ffmpeg-installer/linux-ia32/-/linux-ia32-4.1.0.tgz#adad70b0d0d9d8d813983d6e683c5a338a75e442"
+  integrity sha512-0LWyFQnPf+Ij9GQGD034hS6A90URNu9HCtQ5cTqo5MxOEc7Rd8gLXrJvn++UmxhU0J5RyRE9KRYstdCVUjkNOQ==
+
+"@ffmpeg-installer/linux-x64@4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@ffmpeg-installer/linux-x64/-/linux-x64-4.1.0.tgz#b4a5d89c4e12e6d9306dbcdc573df716ec1c4323"
+  integrity sha512-Y5BWhGLU/WpQjOArNIgXD3z5mxxdV8c41C+U15nsE5yF8tVcdCGet5zPs5Zy3Ta6bU7haGpIzryutqCGQA/W8A==
+
+"@ffmpeg-installer/win32-ia32@4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@ffmpeg-installer/win32-ia32/-/win32-ia32-4.1.0.tgz#6eac4fb691b64c02e7a116c1e2d167f3e9b40638"
+  integrity sha512-FV2D7RlaZv/lrtdhaQ4oETwoFUsUjlUiasiZLDxhEUPdNDWcH1OU9K1xTvqz+OXLdsmYelUDuBS/zkMOTtlUAw==
+
+"@ffmpeg-installer/win32-x64@4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@ffmpeg-installer/win32-x64/-/win32-x64-4.1.0.tgz#17e8699b5798d4c60e36e2d6326a8ebe5e95a2c5"
+  integrity sha512-Drt5u2vzDnIONf4ZEkKtFlbvwj6rI3kxw1Ck9fpudmtgaZIHD4ucsWB2lCZBXRxJgXR+2IMSti+4rtM4C4rXgg==
+
 "@jridgewell/resolve-uri@^3.0.3":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@jridgewell/resolve-uri/-/resolve-uri-3.1.0.tgz#2203b118c157721addfe69d47b70465463066d78"
@@ -311,6 +365,11 @@ assertion-error@^1.1.0:
   resolved "https://registry.yarnpkg.com/assertion-error/-/assertion-error-1.1.0.tgz#e60b6b0e8f301bd97e5375215bda406c85118c0b"
   integrity sha512-jgsaNduz+ndvGyFt3uSuWqvy4lCnIJiovtouQN5JZHOKCS2QuhEdbcQHFhVksz2N2U9hXJo8odG7ETyWlEeuDw==
 
+async@>=0.2.9:
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/async/-/async-3.2.4.tgz#2d22e00f8cddeb5fde5dd33522b56d1cf569a81c"
+  integrity sha512-iAB+JbDEGXhyIUavoDl9WP/Jj106Kz9DEn1DPgYw5ruDn0e3Wgi3sKFm55sASdGBNOQB8F59d9qQ7deqrHA8wQ==
+
 balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
@@ -404,6 +463,11 @@ check-error@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/check-error/-/check-error-1.0.2.tgz#574d312edd88bb5dd8912e9286dd6c0aed4aac82"
   integrity sha512-BrgHpW9NURQgzoNyjfq0Wu6VFO6D7IZEmJNdtgNqpzGG8RuNFHt2jQxWlAs4HMe119chBnv+34syEZtc6IhLtA==
+
+child-process@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/child-process/-/child-process-1.0.2.tgz#98974dc7ed1ee4c6229f8e305fa7313a6885a7f2"
+  integrity sha512-e45+JmjvkV2XQsJ9rUJghiYJ7/9Uk8fyYi1UwfP071VmGKBu/oD1OIwuD0+jSwjMtQkV0a0FVpPTEW+XGlbSdw==
 
 chownr@^1.1.1:
   version "1.1.4"
@@ -590,6 +654,14 @@ figures@^3.2.0:
   dependencies:
     escape-string-regexp "^1.0.5"
 
+fluent-ffmpeg@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/fluent-ffmpeg/-/fluent-ffmpeg-2.1.2.tgz#c952de2240f812ebda0aa8006d7776ee2acf7d74"
+  integrity sha512-IZTB4kq5GK0DPp7sGQ0q/BWurGHffRtQQwVkiqDgeO6wYJLLV5ZhgNOQ65loZxxuPMKZKZcICCUnaGtlxBiR0Q==
+  dependencies:
+    async ">=0.2.9"
+    which "^1.1.1"
+
 fs-constants@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fs-constants/-/fs-constants-1.0.0.tgz#6be0de9be998ce16af8afc24497b9ee9b7ccd9ad"
@@ -599,6 +671,11 @@ fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
   integrity sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
+
+fs@0.0.1-security:
+  version "0.0.1-security"
+  resolved "https://registry.yarnpkg.com/fs/-/fs-0.0.1-security.tgz#8a7bd37186b6dddf3813f23858b57ecaaf5e41d4"
+  integrity sha512-3XY9e1pP0CVEUCdj5BmfIZxRBTSDycnbqhIOGec9QYtmVH2fbLpj86CFWkrNOkt/Fvty4KZG5lTglL9j/gJ87w==
 
 get-func-name@^2.0.0:
   version "2.0.0"
@@ -687,6 +764,11 @@ inherits@2, inherits@^2.0.3, inherits@^2.0.4:
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
+inherits@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
+  integrity sha512-x00IRNXNy63jwGkJmzPigoySHbaqpNuzKbBOmzK+g2OdZpQ9w+sxCN+VSB3ja7IAge2OP2qpfxTjeNcyjmW1uw==
+
 ini@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ini/-/ini-2.0.0.tgz#e5fd556ecdd5726be978fa1001862eacb0a94bc5"
@@ -719,6 +801,11 @@ is-stream@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-2.0.1.tgz#fac1e3d53b97ad5a9d0ae9cef2389f5810a5c077"
   integrity sha512-hFoiJiTl63nn+kstHGBtewWSKnQLpyb155KHheA1l39uvtO9nWIop1p3udqPcUd/xbF1VLMO4n7OI6p7RbngDg==
+
+isexe@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
+  integrity sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==
 
 js-tokens@^4.0.0:
   version "4.0.0"
@@ -892,6 +979,14 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
+path@^0.12.7:
+  version "0.12.7"
+  resolved "https://registry.yarnpkg.com/path/-/path-0.12.7.tgz#d4dc2a506c4ce2197eb481ebfcd5b36c0140b10f"
+  integrity sha512-aXXC6s+1w7otVF9UletFkFcDsJeO7lSZBPUQhtb5O0xJe8LtYhj/GxldoL09bBj9+ZmE2hNoHqQSFMN5fikh4Q==
+  dependencies:
+    process "^0.11.1"
+    util "^0.10.3"
+
 pathval@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/pathval/-/pathval-1.1.1.tgz#8534e77a77ce7ac5a2512ea21e0fdb8fcf6c3d8d"
@@ -901,6 +996,11 @@ pend@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/pend/-/pend-1.2.0.tgz#7a57eb550a6783f9115331fcf4663d5c8e007a50"
   integrity sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==
+
+process@^0.11.1:
+  version "0.11.10"
+  resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
+  integrity sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==
 
 progress@2.0.3, progress@^2.0.3:
   version "2.0.3"
@@ -940,6 +1040,33 @@ puppeteer-core@19.5.2:
     tar-fs "2.1.1"
     unbzip2-stream "1.4.3"
     ws "8.11.0"
+
+puppeteer-mass-screenshots@^1.0.14:
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/puppeteer-mass-screenshots/-/puppeteer-mass-screenshots-1.0.15.tgz#0f1b67fcab5ad2161b1d86f5010a1cd2f13c7c22"
+  integrity sha512-QasQ6pxkXocZTyVkgIx2uXM5VOTUhXvHw44TJNgoQ2I/pj+DOKqXI0TD5VUOiKAWkjJhCtsJaL9ImQFBJrPWPg==
+  dependencies:
+    fs "0.0.1-security"
+    path "^0.12.7"
+
+puppeteer-screen-recorder@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/puppeteer-screen-recorder/-/puppeteer-screen-recorder-2.1.2.tgz#7f88b175a662803c59f0984d9c1827ff5f364d0b"
+  integrity sha512-vR7zB8XiJ/UQxZybdmaTBtiuohyvySamP+lEa7Vp+j2f1AGEznZGvrJTJjq7TqemdWzq9YJ0gEOZroPU4pzNZQ==
+  dependencies:
+    fluent-ffmpeg "^2.1.2"
+  optionalDependencies:
+    "@ffmpeg-installer/ffmpeg" "^1.1.0"
+
+puppeteer-video-recorder@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/puppeteer-video-recorder/-/puppeteer-video-recorder-1.0.5.tgz#290f2feedac5f0c8ef9f839210f51c5fad0456a1"
+  integrity sha512-bulReIiRpf8j9davQwtMcUePW++znA1kpXfA1LP3P+nvpCHW7vuUToXuYXXXYyDQBkaAF7NWroEuoIjW8IENKA==
+  dependencies:
+    child-process "^1.0.2"
+    fs "0.0.1-security"
+    path "^0.12.7"
+    puppeteer-mass-screenshots "^1.0.14"
 
 puppeteer@^19.5.0:
   version "19.5.2"
@@ -1207,6 +1334,13 @@ util-deprecate@^1.0.1:
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
 
+util@^0.10.3:
+  version "0.10.4"
+  resolved "https://registry.yarnpkg.com/util/-/util-0.10.4.tgz#3aa0125bfe668a4672de58857d3ace27ecb76901"
+  integrity sha512-0Pm9hTQ3se5ll1XihRic3FDIku70C+iHUdT/W926rSgHV5QgXsYbKZN8MSC3tJtSkhuROzvsQjAaFENRXr+19A==
+  dependencies:
+    inherits "2.0.3"
+
 uuid@9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-9.0.0.tgz#592f550650024a38ceb0c562f2f6aa435761efb5"
@@ -1238,6 +1372,13 @@ whatwg-url@^5.0.0:
   dependencies:
     tr46 "~0.0.3"
     webidl-conversions "^3.0.0"
+
+which@^1.1.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/which/-/which-1.3.1.tgz#a45043d54f5805316da8d62f9f50918d3da70b0a"
+  integrity sha512-HxJdYWq1MTIQbJ3nw0cqssHoTNU267KlrDuGZ1WYlxDStUtKUhOaJmh112/TZmHxxUfuJqPXSOm7tDyas0OSIQ==
+  dependencies:
+    isexe "^2.0.0"
 
 wrappy@1:
   version "1.0.2"
