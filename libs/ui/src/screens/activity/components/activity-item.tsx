@@ -65,7 +65,9 @@ export const ActivityItem: FC<Props> = ({
             </TouchableOpacity>
           </Row>
           <Column style={styles.amountContainer}>
-            {isDefined(projectName) && <Text style={styles.projectName}>{projectName}</Text>}
+            {isDefined(projectName) && (
+              <Text style={[styles.projectName, isDefined(amount) && styles.projectNameMargin]}>{projectName}</Text>
+            )}
             {isDefined(amount) && (
               <TokenAmount
                 value={formatBalances(amount)}
@@ -75,9 +77,9 @@ export const ActivityItem: FC<Props> = ({
               />
             )}
             {isDefined(transfer) && (transfer.sends.length > 0 || transfer.receives.length > 0) && (
-              <Column style={styles.transfer}>
+              <Column style={[styles.transfer, isDefined(projectName) && styles.transferMargin]}>
                 {transfer.sends.length > 0 && (
-                  <Row style={styles.transferItem}>
+                  <Row>
                     <Text style={styles.minus}>–</Text>
                     <TokenAmount
                       value={formatBalances(transfer.sends[0].amount)}
@@ -88,7 +90,7 @@ export const ActivityItem: FC<Props> = ({
                   </Row>
                 )}
                 {transfer.receives.length > 0 && (
-                  <Row>
+                  <Row style={styles.transferItem}>
                     <Text style={styles.plus}>+</Text>
                     <TokenAmount
                       value={formatBalances(transfer.receives[0].amount)}
