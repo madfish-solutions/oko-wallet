@@ -15,7 +15,7 @@
     "url": "git+https://github.com/madfish-solutions/oko-wallet.git"
   },
   "author": "Madfish",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/madfish-solutions/oko-wallet/issues"
   },
