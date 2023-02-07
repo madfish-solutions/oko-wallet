@@ -30,6 +30,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Build and push to GH registry
+        uses: ./.github/workflows/backend
+        with:
+          repository: madfish-solutions
+          img_name: oko-wallet-backend
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push to Prod registry
         if: github.ref == format('refs/heads/{0}', 'master')
         uses: ./.github/workflows/backend
