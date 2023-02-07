@@ -1,3 +1,4 @@
+import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { OnEventFn } from '@rnw-community/shared';
 import { ParamsWithKind } from '@taquito/taquito/dist/types/operations/types';
 
@@ -7,8 +8,8 @@ export interface EvmTransferParams {
   receiverPublicKeyHash: string;
   asset: Asset;
   value: string;
-  data?: string;
-  gas?: string;
+  gas?: number;
+  transactionParams: TransactionRequest;
 }
 
 export interface TezosTransferParams {
