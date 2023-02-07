@@ -28,6 +28,8 @@ jobs:
       contents: read
       packages: write
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
       - name: Build and push to Prod registry
         if: github.ref == format('refs/heads/{0}', 'master')
         uses: ./.github/workflows/backend
