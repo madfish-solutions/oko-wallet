@@ -6,7 +6,12 @@ import { query } from 'express-validator';
 import { validateRequestMiddleware, routeCache } from '../../../../utils';
 import { proxyDeBankRequest } from '../../utils';
 
-const validationHandlers = [query('chain_id').isString(), query('id').isEthereumAddress(), validateRequestMiddleware];
+const validationHandlers = [
+  query('id').notEmpty().exists().isEthereumAddress(),
+  query('chain_id').notEmpty().exists().isString(),
+  query('is_all').optional().isBoolean().default(true),
+  validateRequestMiddleware
+];
 
 const expire: ExpirationConfig = {
   200: 15, // OK loaded response

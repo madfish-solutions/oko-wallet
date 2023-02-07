@@ -2,15 +2,15 @@ import { ActivityResponse, HistoryListRequest } from 'backend';
 import { NextFunction, Request, Response, Router } from 'express';
 import { query } from 'express-validator';
 
-import { validateRequestMiddleware, routeCache } from '../../../../utils';
+import { validateRequestMiddleware, routeCache, minMaxValidator } from '../../../../utils';
 import { proxyDeBankRequest } from '../../utils';
 
 const validationHandlers = [
-  query('chain_id').isString().exists(),
-  query('id').isEthereumAddress().exists(),
-  query('page_count').default(20).isInt(),
-  query('start_time').isInt().exists(),
-  query('token_id').isEthereumAddress().optional(),
+  query('id').notEmpty().exists().isEthereumAddress(),
+  query('chain_id').notEmpty().exists().isString(),
+  query('page_count').default(20).isInt().custom(minMaxValidator(0, 20)),
+  query('start_time').optional().default(0).isInt(),
+  query('token_id').optional().isEthereumAddress(),
   validateRequestMiddleware
 ];
 
