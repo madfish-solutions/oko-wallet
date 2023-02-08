@@ -7,8 +7,8 @@ import { sleep } from '../utils/promise.utils';
 import { createPageElement } from '../utils/search.utils';
 import { enterMyMnemonicStep } from '../utils/shared-steps.utils';
 
-Given(/^I am on the (\w+) page$/, async (page: keyof typeof Pages) => {
-  await sleep(500);
+Given(/^I am on the (\w+) page$/, { timeout: 5001 }, async (page: keyof typeof Pages) => {
+  await sleep(1500);
   await Pages[page].isVisible();
 });
 

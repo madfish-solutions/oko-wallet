@@ -10,6 +10,6 @@ BeforeAll({ timeout: LONG_TIMEOUT }, async () => {
   const browser = await initBrowser();
 
   await initBrowserContext(browser);
-  const SavePath = '../video-reports/demo.mp4';
+  const SavePath = 'video-reports/demo.mp4';
   await BrowserContext.recorder.start(SavePath);
 });
