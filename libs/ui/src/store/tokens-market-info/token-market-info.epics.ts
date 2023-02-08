@@ -4,7 +4,7 @@ import { map, concatMap } from 'rxjs/operators';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
-import { getTokensPriceInfo, getGasTokenPriceInfo } from '../../api/coin-gecko';
+import { getTokensPriceInfo, getGasTokenPriceInfo } from '../../api/coin-gecko/coin-gecko';
 
 import { loadTokensPriceInfo } from './tokens-market-info.actions';
 

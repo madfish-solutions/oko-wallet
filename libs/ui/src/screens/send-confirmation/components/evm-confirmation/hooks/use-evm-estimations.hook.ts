@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { AssetTypeEnum } from '../../../../../enums/asset-type.enum';
 import { Asset } from '../../../../../interfaces/asset.interface';
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
 import { getDefaultEvmProvider } from '../../../../../utils/get-default-evm-provider.utils';
+import { EMPTY_GAS } from '../../../constants';
 import { getGasLimit } from '../utils/get-gas-limit.util';
 import { modifyGasLimit } from '../utils/modify-gas-limit.util';
 
@@ -13,7 +13,7 @@ interface UseEvmEstimationsArgs {
   receiverPublicKeyHash: string;
   value: string;
   publicKeyHash: string;
-  assetType: AssetTypeEnum;
+  gas: number;
 }
 
 export const useEvmEstimations = ({
@@ -22,7 +22,7 @@ export const useEvmEstimations = ({
   receiverPublicKeyHash,
   value,
   publicKeyHash,
-  assetType
+  gas
 }: UseEvmEstimationsArgs) => {
   const [estimations, setEstimations] = useState<{ gasLimit: number; gasPrice: number } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -34,13 +34,15 @@ export const useEvmEstimations = ({
       const provider = getDefaultEvmProvider(rpcUrl);
 
       const [gasLimitPromiseResult, feePromiseResult] = await Promise.allSettled([
-        getGasLimit(asset, assetType, receiverPublicKeyHash, publicKeyHash, value, rpcUrl),
+        gas === EMPTY_GAS
+          ? getGasLimit(asset, receiverPublicKeyHash, publicKeyHash, value, rpcUrl)
+          : Promise.resolve(gas),
         provider.getFeeData()
       ]);
       const gasLimit = gasLimitPromiseResult.status === 'fulfilled' ? gasLimitPromiseResult.value : undefined;
       const gasPrice = feePromiseResult.status === 'fulfilled' ? feePromiseResult.value.gasPrice?.toNumber() ?? 0 : 0;
 
-      setEstimations({ gasLimit: modifyGasLimit(gasLimit), gasPrice });
+      setEstimations({ gasLimit: modifyGasLimit(gasLimit, gas), gasPrice });
       setIsLoading(false);
     };
 

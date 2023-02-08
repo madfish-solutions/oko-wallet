@@ -12,7 +12,7 @@ import { HeaderCloseButtonTestIDs } from './header-close-button.test-ids';
 
 const goBackRoutes = [
   ScreensEnum.SendAccountsSelector,
-  ScreensEnum.SendTokensSelector,
+  ScreensEnum.TokensSelector,
   ScreensEnum.SendCollectiblesSelector,
   ScreensEnum.WordsAmountSelector,
   ScreensEnum.Collectible,
@@ -23,7 +23,9 @@ const goBackRoutes = [
   ScreensEnum.SettingsResetWalletConfirm,
   ScreensEnum.SettingsLockTimeSelector,
   ScreensEnum.EditAccount,
-  ScreensEnum.ActivityFilterSelector
+  ScreensEnum.ActivityFilterSelector,
+  ScreensEnum.SlippageTolerance,
+  ScreensEnum.SwapRoute
 ];
 
 interface Props {

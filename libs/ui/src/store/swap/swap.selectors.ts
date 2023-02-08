@@ -1,0 +1,18 @@
+import { useSelector } from 'react-redux';
+
+import { SwapRootState, SwapState } from './swap.state';
+
+export const useSlippageToleranceSelector = () =>
+  useSelector<SwapRootState, SwapState['slippageTolerance']>(({ swap }) => swap.slippageTolerance);
+
+export const useAllowanceSelector = () =>
+  useSelector<SwapRootState, SwapState['allowance']>(({ swap }) => swap.allowance);
+
+export const useQuoteSelector = () => useSelector<SwapRootState, SwapState['quote']>(({ swap }) => swap.quote);
+
+export const useShowLoadingOnSwapScreenSelector = () =>
+  useSelector<SwapRootState, boolean>(
+    ({ swap }) => swap.allowance.isLoading || swap.quote.isLoading || swap.swapData.isLoading
+  );
+
+export const useSwapDataSelector = () => useSelector<SwapRootState, SwapState['swapData']>(({ swap }) => swap.swapData);
