@@ -3,9 +3,7 @@ import axios from 'axios';
 import {
   ActivityResponse,
   TokenListResponse,
-  NftListResponse,
-  HistoryListRequest,
-  ChainUserRequest
+  NftListResponse
 } from 'backend-types';
 
 import { GAS_TOKEN_ADDRESS } from '../constants/defaults';
@@ -33,7 +31,7 @@ export const getHistoryList = memoize(
           page_count: 20,
           start_time: startTime,
           token_id: tokenAddress === GAS_TOKEN_ADDRESS ? undefined : tokenAddress
-        } as HistoryListRequest
+        }
       })
       .then(result => result.data)
       .catch(e => console.log(e)),
@@ -55,7 +53,7 @@ export const getTokenList = memoize(
         params: {
           id: publicKeyHash,
           chain_id: chainId
-        } as ChainUserRequest
+        }
       })
       .then(({ data }) => data)
       .catch(() => []),
@@ -70,7 +68,7 @@ export const getAllUserNftList = memoize(
         params: {
           id: publicKeyHash,
           chain_id: chainId
-        } as ChainUserRequest
+        }
       })
       .then(({ data }) => data)
       .catch(() => []),
