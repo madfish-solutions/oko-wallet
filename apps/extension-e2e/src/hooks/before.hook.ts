@@ -15,5 +15,5 @@ Before(async () => {
   BrowserContext.seedPhrase = DEFAULT_SEED_PHRASE;
   BrowserContext.password = DEFAULT_PASSWORD;
   await BrowserContext.page.reload();
-  await sleep(750);
+  await sleep(1250);
 });
