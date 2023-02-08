@@ -18,6 +18,9 @@ export class AddNewAccountBySeedPage extends Page {
     const wordsArray = BrowserContext.importSeedPhrase.split(' ');
     const wordsInputs = await this.getWordsInputs();
 
+    console.log('wordsArray', wordsArray);
+    console.log('wordsInputs', wordsInputs.length);
+
     for (let i = 0; i < wordsArray.length; i++) {
       const word = wordsArray[i];
       const input = wordsInputs[i];
