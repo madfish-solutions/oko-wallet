@@ -13,6 +13,5 @@ export class BrowserContext {
   public static page: Page;
   public static recorder: PuppeteerScreenRecorder;
   public static seedPhrase = DEFAULT_SEED_PHRASE;
-  public static importSeedPhrase = SEED_PHRASE_FOR_IMPORT;
   public static password = DEFAULT_PASSWORD;
 }

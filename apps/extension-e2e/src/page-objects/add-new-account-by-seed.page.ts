@@ -1,5 +1,5 @@
 import { AddBySeedPhraseTestIDs } from '../../../../libs/ui/src/modals/screens/add-account/components/seed-phrase/seed-phrase.test-ids';
-import { BrowserContext } from '../classes/browser-context.class';
+import { SEED_PHRASE_FOR_IMPORT} from '../classes/browser-context.class';
 import { Page } from '../classes/page.class';
 import { createPageElement, findElements } from '../utils/search.utils';
 
@@ -15,11 +15,8 @@ export class AddNewAccountBySeedPage extends Page {
   }
 
   async enterOldMnemonicStep() {
-    const wordsArray = BrowserContext.importSeedPhrase.split(' ');
+    const wordsArray = SEED_PHRASE_FOR_IMPORT.split(' ');
     const wordsInputs = await this.getWordsInputs();
-
-    console.log('wordsArray', wordsArray);
-    console.log('wordsInputs', wordsInputs.length);
 
     for (let i = 0; i < wordsArray.length; i++) {
       const word = wordsArray[i];
