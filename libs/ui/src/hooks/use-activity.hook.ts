@@ -7,6 +7,7 @@ import { TransactionStatusEnum } from '../enums/transactions.enum';
 import { ActivityData, SectionListActivityData } from '../interfaces/activity-data.interface';
 import { ActivityResponse } from '../interfaces/activity-response.interface';
 import { TransactionTypeEnum } from '../interfaces/activity.enum';
+import { ActivityFilterEnum } from '../modals/screens/activity-filter-selector/activity-filter.enum';
 import { checkIsDayLabelNeeded, transformTimestampToDate } from '../screens/activity/components/activity-item.utils';
 import {
   getTokenSymbol,
@@ -116,7 +117,12 @@ const transformApiData = (
   return result;
 };
 
-export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAddress?: string) => {
+export const useAllActivity = (
+  publicKeyHash: string,
+  chainName: string,
+  filterTypeName?: ActivityFilterEnum,
+  tokenAddress?: string
+) => {
   const [lastTimestamp, setLastTimestamp] = useState<Record<string, number>>({});
   const [activity, setActivity] = useState<SectionListActivityData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -127,7 +133,7 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
     setActivity([]);
     setLastTimestamp({ [publicKeyHash]: 0 });
     prevFetchingDate.current = 1;
-  }, [publicKeyHash, chainName]);
+  }, [publicKeyHash, chainName, filterTypeName]);
 
   const fetchActivity = async (startTime: number) => {
     if (prevFetchingDate.current === startTime) {
@@ -152,6 +158,7 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
         setActivity(prev => {
           if (
             activityData.length &&
+            prev.length &&
             prev.slice(-1)[0].data.slice(-1)[0].timestamp !== activityData.slice(-1)[0].data.slice(-1)[0].timestamp
           ) {
             let groupingAllDataByDates: Record<string, ActivityData[]> = {};

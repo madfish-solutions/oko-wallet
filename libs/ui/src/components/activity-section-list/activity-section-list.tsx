@@ -23,7 +23,6 @@ import { isMobile, isWeb } from '../../utils/platform.utils';
 import { EmptySearchIcon } from '../icon/components/empty-search-icon/empty-search-icon';
 import { LoaderSizeEnum } from '../loader/enums';
 import { Loader } from '../loader/loader';
-import { Row } from '../row/row';
 import { Text } from '../text/text';
 
 import { styles } from './activity-section-list.styles';
@@ -38,9 +37,7 @@ interface Props {
 const keyExtractor = ({ hash }: ActivityData) => hash;
 
 const renderSectionHeader = (item: { section: SectionListData<ActivityData, SectionListActivityData> }) => (
-  <Row style={styles.dateWrapper}>
-    <Text style={styles.dateText}>{item.section.title}</Text>
-  </Row>
+  <Text style={styles.date}>{item.section.title}</Text>
 );
 
 const renderItem: SectionListRenderItem<ActivityData, SectionListActivityData> = ({ item }) => (
@@ -61,20 +58,26 @@ const renderItem: SectionListRenderItem<ActivityData, SectionListActivityData> =
 const emptyIconSize = getCustomSize(isWeb ? 30 : 36);
 
 const MAX_ACTIVITY_ATTEMPTS = 10;
-const API_MAX_RESPONSE_LENGTH = 20;
+const DEFAULT_VISIBILITY_VALUE = 5;
 let numberOfAttempts = 0;
 
 export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterTypeName, tokenAddress = '' }) => {
   const [offsetY, setOffsetY] = useState(0);
-  const { activity: allActivity, fetch, isLoading } = useAllActivity(publicKeyHash, getDebankId(chainId), tokenAddress);
+  const {
+    activity: allActivity,
+    fetch,
+    isLoading
+  } = useAllActivity(publicKeyHash, getDebankId(chainId), filterTypeName, tokenAddress);
 
   const activity = useMemo(() => getFilteredActivity(allActivity, filterTypeName), [allActivity, filterTypeName]);
 
   const activityDataLength = useMemo(() => {
     let sum = 0;
 
-    for (const { data } of activity) {
-      sum += data.length;
+    if (sum <= DEFAULT_VISIBILITY_VALUE) {
+      for (const { data } of activity) {
+        sum += data.length;
+      }
     }
 
     return sum;
@@ -84,7 +87,7 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
     if (
       filterTypeName !== ActivityFilterEnum.AllActivity &&
       allActivity.length > 0 &&
-      activity.length === 0 &&
+      activityDataLength <= DEFAULT_VISIBILITY_VALUE &&
       numberOfAttempts <= MAX_ACTIVITY_ATTEMPTS
     ) {
       const lastDate = allActivity.slice(-1)[0].data.slice(-1)[0].timestamp;
@@ -92,25 +95,27 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
       fetch(lastDate);
       numberOfAttempts += 1;
     }
-  }, [filterTypeName, allActivity, activity]);
+  }, [filterTypeName, allActivity, activityDataLength]);
 
-  const handleFetchData = () => {
-    if (offsetY === 0 && activityDataLength <= API_MAX_RESPONSE_LENGTH) {
+  const handleFetchData = useCallback(() => {
+    if (offsetY === 0) {
       fetch(0);
       numberOfAttempts = 0;
     }
-  };
+  }, [offsetY]);
 
-  useTimerEffect(handleFetchData, DATA_UPDATE_TIME, [publicKeyHash, chainId, offsetY, activityDataLength]);
+  useTimerEffect(handleFetchData, DATA_UPDATE_TIME, [publicKeyHash, chainId, offsetY, filterTypeName]);
 
-  const handleScroll = debounce(
+  const debounceContentOffset = debounce(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => setOffsetY(event.nativeEvent.contentOffset.y),
     DEBOUNCE_TIME
   );
 
-  const handleScrollMobile = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    event.persist();
-    handleScroll(event);
+  const handleScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (isMobile) {
+      event.persist();
+    }
+    debounceContentOffset(event);
   }, []);
 
   const handleEndReached = () => {
@@ -134,14 +139,14 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
       sections={activity}
       renderItem={renderItem}
       renderSectionHeader={renderSectionHeader}
-      initialNumToRender={isMobile ? 10 : 3}
+      initialNumToRender={isMobile || offsetY === 0 ? 5 : 3}
       ListFooterComponent={renderListFooterComponent}
       keyExtractor={keyExtractor}
-      onScroll={isWeb ? handleScroll : handleScrollMobile}
+      onScroll={handleScroll}
       ListEmptyComponent={renderListEmptyComponent}
       onEndReachedThreshold={0.1}
       onEndReached={handleEndReached}
-      stickySectionHeadersEnabled
+      stickySectionHeadersEnabled={isWeb}
     />
   );
 };
