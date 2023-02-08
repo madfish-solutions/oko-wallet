@@ -1,22 +1,17 @@
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
-import { ethers } from 'ethers';
-import debounce from 'lodash/debounce';
-import React, { FC, useEffect, useState, useRef } from 'react';
+import React, { FC, useEffect, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
-import { EVM_TOKEN_METADATA_ABI } from '../../../../constants/abi/evm-tokens-metadata-abi';
-import { DEBOUNCE_TIME } from '../../../../constants/defaults';
+import { useGetTokenMetadata } from '../../../../hooks/use-get-token-metadata.hook';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import {
   addNewTokenAction,
   changeTokenVisibilityAction,
   editTokenAction
 } from '../../../../store/wallet/wallet.actions';
-import { useAccountAssetsSelector, useSelectedNetworkSelector } from '../../../../store/wallet/wallet.selectors';
+import { useAccountAssetsSelector } from '../../../../store/wallet/wallet.selectors';
 import { getCurrentToken } from '../../../../utils/get-current-token.util';
-import { getDefaultEvmProvider } from '../../../../utils/get-default-evm-provider.utils';
-import { isEvmAddressValid } from '../../../../utils/is-evm-address-valid.util';
 import { getTokenSlug } from '../../../../utils/token.utils';
 import { useTokenFieldsRules } from '../../../hooks/use-validate-add-token-fields.hook';
 import { TokenContainer } from '../components/token-container/token-container';
@@ -34,11 +29,9 @@ const defaultValues: TokenFormTypes = {
 export const AddNewToken: FC = () => {
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
-  const { rpcUrl } = useSelectedNetworkSelector();
 
   const accountTokens = useAccountAssetsSelector();
 
-  const [isLoadingMetadata, setIsLoadingMetadata] = useState(false);
   const {
     control,
     handleSubmit,
@@ -64,9 +57,21 @@ export const AddNewToken: FC = () => {
   const watchTokenId = watch('tokenId');
   const watchSymbol = watch('symbol');
 
+  const onLoadMetadata = useCallback((loadedMetadata: TokenFormTypes) => {
+    setValue('symbol', loadedMetadata.symbol);
+    setValue('decimals', loadedMetadata.decimals);
+    setValue('name', loadedMetadata.name);
+
+    clearErrors();
+  }, []);
+
+  const { getTokenMetadata, isLoadingMetadata } = useGetTokenMetadata(onLoadMetadata);
+
   useEffect(() => {
     if (!isNotEmptyString(watchAddressUrl.trim())) {
       resetDynamicFields();
+    } else {
+      getTokenMetadata(watchAddressUrl);
     }
   }, [watchAddressUrl]);
 
@@ -75,45 +80,6 @@ export const AddNewToken: FC = () => {
   }, [watchTokenId]);
 
   const rules = useTokenFieldsRules();
-
-  const getEvmTokenMetadata = useRef(
-    debounce(async (address: string) => {
-      if (isNotEmptyString(address)) {
-        const provider = getDefaultEvmProvider(rpcUrl);
-
-        const contract = new ethers.Contract(address, EVM_TOKEN_METADATA_ABI, provider);
-        const [name, symbol, decimals] = await Promise.all([
-          contract.name().catch(() => {
-            resetField('name');
-          }),
-          contract.symbol().catch(() => {
-            resetField('symbol');
-          }),
-          contract.decimals().catch(() => {
-            setValue('decimals', '0');
-          })
-        ]).finally(() => {
-          setIsLoadingMetadata(false);
-        });
-
-        setValue('symbol', symbol);
-        setValue('decimals', decimals.toString());
-        setValue('name', name);
-        clearErrors();
-      }
-    }, DEBOUNCE_TIME)
-  ).current;
-
-  useEffect(() => {
-    if (isEvmAddressValid(watchAddressUrl)) {
-      getEvmTokenMetadata(watchAddressUrl);
-      setIsLoadingMetadata(true);
-    }
-
-    return () => {
-      getEvmTokenMetadata.cancel();
-    };
-  }, [getEvmTokenMetadata, watchAddressUrl]);
 
   const onSubmit = (fields: TokenFormTypes) => {
     const currentToken = getCurrentToken(accountTokens, getTokenSlug(fields.tokenAddress, fields.tokenId));

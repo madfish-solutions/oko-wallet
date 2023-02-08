@@ -46,7 +46,7 @@ const COLLECTIBLE_IMAGE_SIZE = getCustomSize(11.75);
 export const SendCollectible: FC = () => {
   const [isFocusedInput, setIsFocusedInput] = useState(false);
   const { showErrorToast } = useToast();
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendCollectible>>();
 
   const dispatch = useDispatch();
@@ -85,7 +85,7 @@ export const SendCollectible: FC = () => {
   const isSendButtonDisabled = !isEmpty(errors);
   const isAmountInputError = isNotEmptyString(errors?.amount?.message);
 
-  const { onBackButtonPress } = useSendForm({ params, account, setValue, trigger, clearErrors, token });
+  useSendForm({ params, account, setValue, trigger, clearErrors, token });
 
   useEffect(() => {
     if (isCollectibleSelected) {
@@ -133,7 +133,7 @@ export const SendCollectible: FC = () => {
       <HeaderContainer isSelectors>
         <ScreenTitle
           title={`Send ${isCollectibleSelected ? token.name : ''}`}
-          onBackButtonPress={onBackButtonPress}
+          onBackButtonPress={goBack}
           numberOfLines={1}
           titleStyle={styles.screenTitle}
         />

@@ -53,6 +53,8 @@ export const NetworksList = () => {
       if (!checkIsNetworkTypeKeyExist(selectedAccount, networkType)) {
         createHdAccountForNewNetworkType(selectedAccount, networkType);
       }
+
+      navigate(ScreensEnum.Wallet);
     },
     [selectedAccount]
   );

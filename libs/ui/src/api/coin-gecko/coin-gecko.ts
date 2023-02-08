@@ -1,11 +1,11 @@
 import { isDefined } from '@rnw-community/shared';
 import axios from 'axios';
 
-import { DATA_UPDATE_TIME } from '../constants/update-time';
-import { getSlug } from '../utils/getSlug.uitl';
-import { memoize } from '../utils/memoize.util';
+import { DATA_UPDATE_TIME } from '../../constants/update-time';
+import { getSlug } from '../../utils/getSlug.uitl';
+import { memoize } from '../../utils/memoize.util';
 
-import { coinGeckoGasTokenId, coinGeckoId } from './constants/coin-gecko-id';
+import { coinGeckoGasTokenId, coinGeckoId } from './constants';
 import { TokensPriceInfoResponse } from './types';
 
 const coinGeckoApiRequest = axios.create({

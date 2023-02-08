@@ -7,6 +7,7 @@ import AddChain from './assets/add-chain.svg';
 import AddSmallIcon from './assets/add-small.svg';
 import AddIcon from './assets/add.svg';
 import ArrowLeftIcon from './assets/arrow-left.svg';
+import ArrowRightSmall from './assets/arrow-right-small.svg';
 import ArrowRightIcon from './assets/arrow-right.svg';
 import AssetsIcon from './assets/assets.svg';
 import CheckDoneIcon from './assets/check-done.svg';
@@ -110,6 +111,7 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.AddSmall]: AddSmallIcon,
   [IconNameEnum.ArrowLeft]: ArrowLeftIcon,
   [IconNameEnum.ArrowRight]: ArrowRightIcon,
+  [IconNameEnum.ArrowRightSmall]: ArrowRightSmall,
   [IconNameEnum.Assets]: AssetsIcon,
   [IconNameEnum.CheckDone]: CheckDoneIcon,
   [IconNameEnum.CheckEmpty]: CheckEmptyIcon,

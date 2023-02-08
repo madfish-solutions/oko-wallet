@@ -9,6 +9,7 @@ import { FLOAT_ZERO_STRING } from '../../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useClosePopup } from '../../../hooks/use-close-popup';
 import { EvmConfirmation } from '../../../screens/send-confirmation/components/evm-confirmation/evm-confirmation';
+import { EMPTY_GAS } from '../../../screens/send-confirmation/constants';
 import { useAccountTokensSelector, useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
 import { DAppHeader } from '../d-app-connection-confirmation/d-app-header/d-app-header';
 
@@ -38,6 +39,8 @@ export const DAppTransactionConfirmation: FC = () => {
       return FLOAT_ZERO_STRING;
     };
 
+    const { data, gas, from, to, value } = params.transactionInfo;
+
     return {
       asset: {
         decimals: network.gasTokenMetadata.decimals,
@@ -47,8 +50,13 @@ export const DAppTransactionConfirmation: FC = () => {
       },
       receiverPublicKeyHash: params.transactionInfo.to,
       value: getValue(),
-      data: params.transactionInfo.data,
-      gas: params.transactionInfo?.gas
+      gas: isDefined(gas) ? parseInt(gas, 16) : EMPTY_GAS,
+      transactionParams: {
+        data,
+        from,
+        to,
+        value
+      }
     };
   }, []);
 

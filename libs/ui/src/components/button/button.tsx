@@ -3,6 +3,9 @@ import { Pressable, PressableProps, View } from 'react-native';
 
 import { ViewStyleProps, TextStyleProps } from '../../interfaces/style.interface';
 import { TestIDProps } from '../../interfaces/test-id.props';
+import { colors } from '../../styles/colors';
+import { LoaderSizeEnum } from '../loader/enums';
+import { Loader } from '../loader/loader';
 import { Text } from '../text/text';
 
 import { styles } from './button.styles';
@@ -16,6 +19,7 @@ interface Props extends PressableProps, TestIDProps {
   style?: ViewStyleProps;
   styleText?: TextStyleProps;
   disabled?: boolean;
+  loading?: boolean;
 }
 
 export const Button: FC<Props> = ({
@@ -24,6 +28,7 @@ export const Button: FC<Props> = ({
   size = ButtonSizeEnum.Large,
   style,
   disabled = false,
+  loading = false,
   styleText,
   testID,
   ...restProps
@@ -35,7 +40,11 @@ export const Button: FC<Props> = ({
     testID={testID}
   >
     <View style={styles.wrapper}>
-      <Text style={[styles.text, themeClasses[theme].text, disabled && styles.disabledText, styleText]}>{title}</Text>
+      {loading ? (
+        <Loader color={colors.textGrey1} size={LoaderSizeEnum.Medium} />
+      ) : (
+        <Text style={[styles.text, themeClasses[theme].text, disabled && styles.disabledText, styleText]}>{title}</Text>
+      )}
     </View>
   </Pressable>
 );

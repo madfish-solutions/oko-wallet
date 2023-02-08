@@ -1,16 +1,12 @@
 import { isNotEmptyString } from '@rnw-community/shared';
 import axios from 'axios';
-import {
-  ActivityResponse,
-  TokenListResponse,
-  NftListResponse
-} from 'backend-types';
+import { ActivityResponse, NftListResponse, TokenListResponse } from 'backend-types';
 
-import { GAS_TOKEN_ADDRESS } from '../constants/defaults';
-import { DATA_UPDATE_TIME } from '../constants/update-time';
-import { BACKEND_URL } from '../utils/env.utils';
-import { getSlug } from '../utils/getSlug.uitl';
-import { memoize } from '../utils/memoize.util';
+import { GAS_TOKEN_ADDRESS } from '../../constants/defaults';
+import { DATA_UPDATE_TIME } from '../../constants/update-time';
+import { BACKEND_URL } from '../../utils/env.utils';
+import { getSlug } from '../../utils/getSlug.uitl';
+import { memoize } from '../../utils/memoize.util';
 
 const debankApiRequest = axios.create({
   baseURL: `${BACKEND_URL}/debank/`
@@ -64,12 +60,7 @@ export const getTokenList = memoize(
 export const getAllUserNftList = memoize(
   (publicKeyHash: string, chainId: string) =>
     debankApiRequest
-      .get<NftListResponse[]>('v1/user/nft_list', {
-        params: {
-          id: publicKeyHash,
-          chain_id: chainId
-        }
-      })
+      .get<NftListResponse[]>('v1/user/nft_list', { params: { id: publicKeyHash, chain_id: chainId } })
       .then(({ data }) => data)
       .catch(() => []),
   (publicKeyHash, chainId) => getSlug(publicKeyHash, chainId, 'nft-list'),

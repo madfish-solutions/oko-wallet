@@ -1,4 +1,4 @@
-import { TokensPriceInfoResponse } from '../../api/types';
+import { TokensPriceInfoResponse } from '../../api/coin-gecko/types';
 import { createActions } from '../utils/action.utils';
 
 export const loadTokensPriceInfo = createActions<
