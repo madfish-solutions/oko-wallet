@@ -6,8 +6,11 @@ import {
   ScreensEnum,
   sendStackScreens,
   settingsStackScreens,
+  swapStackScreens,
   walletStackScreens
 } from '../../enums/sreens.enum';
+import { useShowSwapDisabledToast } from '../../hooks/use-show-swap-disabled-toast';
+import { useSwapSupported } from '../../hooks/use-swap-supported.hook';
 import { IconNameEnum } from '../icon/icon-name.enum';
 import { Row } from '../row/row';
 
@@ -19,6 +22,8 @@ export const NavigationBar = () => {
   const routes = useNavigationState(state => state.routes);
   const currentRoute = routes[routes.length - 1].name as ScreensEnum;
   const isStackFocused = (screensStack: ScreensEnum[]) => screensStack.includes(currentRoute);
+  const isSwapSupported = useSwapSupported();
+  const showSwapDisabledToast = useShowSwapDisabledToast();
 
   return (
     <Row style={styles.root}>
@@ -34,6 +39,15 @@ export const NavigationBar = () => {
         name={IconNameEnum.Receive}
         focused={isStackFocused(receiveStackScreens)}
         testID={NavigationBarTestIDs.ReceiveButton}
+      />
+
+      <TabBarButton
+        routeName={ScreensEnum.Swap}
+        name={IconNameEnum.Swap}
+        focused={isStackFocused(swapStackScreens)}
+        disabled={!isSwapSupported}
+        onDisabledPress={showSwapDisabledToast}
+        testID={NavigationBarTestIDs.SwapButton}
       />
 
       <TabBarButton

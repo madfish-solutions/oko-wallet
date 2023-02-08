@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import { NftListResponse, TokenListResponse } from '../../api/types';
+import { NftListResponse, TokenListResponse } from '../../api/debank/types';
 import { AccountInterface, PendingTransaction } from '../../interfaces/account.interface';
 import { DappConnectionInfo } from '../../interfaces/dapp-connection.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
@@ -47,6 +47,9 @@ export const getAllUserTokensAction = createActions<
   { debankId: string; publicKeyHash: string },
   { tokenList: TokenListResponse; debankGasTokenName: string }
 >('wallet/GET_ALL_USER_TOKENS');
+export const addNewTokensMetadataAction = createActions<Token['tokenAddress'][], TokenFormTypes[]>(
+  'wallet/ADD_NEW_TOKENS_METADATA'
+);
 export const editTokenAction = createAction<TokenFormTypes>('wallet/EDIT_TOKEN');
 export const changeTokenVisibilityAction = createAction<Token>('wallet/CHANGE_TOKEN_VISIBILITY');
 export const sortAccountTokensByVisibility = createAction('wallet/SORT_ACCOUNT_TOKENS_BY_VISIBILITY');

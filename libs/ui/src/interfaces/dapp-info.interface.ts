@@ -11,4 +11,5 @@ export interface DAppTransactionInfo {
   gasPrice: string;
   to: string;
   value: string;
+  type: string;
 }
