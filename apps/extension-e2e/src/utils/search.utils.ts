@@ -10,7 +10,7 @@ type ElementHandler = Pick<ElementHandle<Element>, 'waitForSelector'>;
 export const findElement = async (testID: string, eventHandler: ElementHandler = BrowserContext.page) => {
   const selector = getSelector(testID);
 
-  const element = await eventHandler.waitForSelector(selector, { visible: true, timeout: 5000 });
+  const element = await eventHandler.waitForSelector(selector, { visible: true, timeout: 3000 });
 
   if (isDefined(element)) {
     return element;

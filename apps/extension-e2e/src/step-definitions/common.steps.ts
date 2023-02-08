@@ -6,7 +6,7 @@ import { getInputText } from '../utils/input.utils';
 import { createPageElement } from '../utils/search.utils';
 import { enterMyMnemonicStep } from '../utils/shared-steps.utils';
 
-Given(/^I am on the (\w+) page$/, { timeout: 5001 }, async (page: keyof typeof Pages) => {
+Given(/^I am on the (\w+) page$/, async (page: keyof typeof Pages) => {
   await Pages[page].isVisible();
 });
 
