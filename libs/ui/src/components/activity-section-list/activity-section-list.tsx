@@ -1,5 +1,5 @@
 import debounce from 'lodash/debounce';
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -20,6 +20,7 @@ import ActivityItem from '../../screens/activity/components/activity-item';
 import { getCustomSize } from '../../styles/format-size';
 import { getFilteredActivity } from '../../utils/filter-activity.util';
 import { isMobile, isWeb } from '../../utils/platform.utils';
+import { sleep } from '../../utils/sleep.util';
 import { EmptySearchIcon } from '../icon/components/empty-search-icon/empty-search-icon';
 import { LoaderSizeEnum } from '../loader/enums';
 import { Loader } from '../loader/loader';
@@ -63,11 +64,14 @@ let numberOfAttempts = 0;
 
 export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterTypeName, tokenAddress = '' }) => {
   const [offsetY, setOffsetY] = useState(0);
+
   const {
     activity: allActivity,
     fetch,
     isLoading
   } = useAllActivity(publicKeyHash, getDebankId(chainId), filterTypeName, tokenAddress);
+
+  const sectionListRef = useRef<SectionList<ActivityData, SectionListActivityData>>(null);
 
   const activity = useMemo(() => getFilteredActivity(allActivity, filterTypeName), [allActivity, filterTypeName]);
 
@@ -118,8 +122,22 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
     debounceContentOffset(event);
   }, []);
 
-  const handleEndReached = () => {
-    fetch();
+  const handleEndReached = async ({ distanceFromEnd }: { distanceFromEnd: number }) => {
+    if (distanceFromEnd >= 0) {
+      fetch();
+    }
+
+    await sleep(100);
+
+    if (activity.length && distanceFromEnd < 1 && distanceFromEnd >= 0 && sectionListRef.current !== null) {
+      sectionListRef.current?.scrollToLocation({
+        animated: true,
+        itemIndex:
+          activity[activity.length - 1].data.length - 1 === 0 ? 1 : activity[activity.length - 1].data.length - 1,
+        sectionIndex: activity.length - 1,
+        viewOffset: -300
+      });
+    }
   };
 
   const renderListFooterComponent = () => (
@@ -136,6 +154,7 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
 
   return (
     <SectionList
+      ref={sectionListRef}
       sections={activity}
       renderItem={renderItem}
       renderSectionHeader={renderSectionHeader}
@@ -143,10 +162,11 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
       ListFooterComponent={renderListFooterComponent}
       keyExtractor={keyExtractor}
       onScroll={handleScroll}
+      scrollEnabled={!isLoading}
       ListEmptyComponent={renderListEmptyComponent}
-      onEndReachedThreshold={0.1}
+      onEndReachedThreshold={0.01}
       onEndReached={handleEndReached}
-      stickySectionHeadersEnabled={isWeb}
+      stickySectionHeadersEnabled
     />
   );
 };

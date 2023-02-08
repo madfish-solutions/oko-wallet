@@ -154,37 +154,35 @@ export const useAllActivity = (
 
       if (startTime === 0) {
         setActivity(activityData);
-      } else if (activityData.length > 0) {
-        setActivity(prev => {
-          if (
-            activityData.length &&
-            prev.length &&
-            prev.slice(-1)[0].data.slice(-1)[0].timestamp !== activityData.slice(-1)[0].data.slice(-1)[0].timestamp
-          ) {
-            let groupingAllDataByDates: Record<string, ActivityData[]> = {};
+      }
+      if (
+        startTime > 0 &&
+        activityData.length > 0 &&
+        activity.length > 0 &&
+        activity.slice(-1)[0].data.slice(-1)[0].timestamp !== activityData[0].data[0].timestamp
+      ) {
+        let groupingAllDataByDates: Record<string, ActivityData[]> = {};
 
-            for (const element of [...prev, ...activityData]) {
-              if (!groupingAllDataByDates.hasOwnProperty(element.title)) {
-                groupingAllDataByDates = {
-                  ...groupingAllDataByDates,
-                  [element.title]: element.data
-                };
-              } else {
-                groupingAllDataByDates = {
-                  ...groupingAllDataByDates,
-                  [element.title]: [...groupingAllDataByDates[element.title], ...element.data]
-                };
-              }
-            }
-
-            return Object.keys(groupingAllDataByDates).map(title => ({
-              title,
-              data: groupingAllDataByDates[title]
-            }));
+        for (const element of [...activity, ...activityData]) {
+          if (!groupingAllDataByDates.hasOwnProperty(element.title)) {
+            groupingAllDataByDates = {
+              ...groupingAllDataByDates,
+              [element.title]: element.data
+            };
+          } else {
+            groupingAllDataByDates = {
+              ...groupingAllDataByDates,
+              [element.title]: [...groupingAllDataByDates[element.title], ...element.data]
+            };
           }
+        }
 
-          return prev;
-        });
+        const newData = Object.keys(groupingAllDataByDates).map(title => ({
+          title,
+          data: groupingAllDataByDates[title]
+        }));
+
+        setActivity(newData);
       }
 
       if (activityData.length > 0) {
