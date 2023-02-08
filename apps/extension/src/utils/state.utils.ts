@@ -1,4 +1,3 @@
-import { isDefined } from '@rnw-community/shared';
 import { RootState, LocalStorage, initialRootState } from 'ui/background-script';
 
 export const getState = async () => {
@@ -7,7 +6,7 @@ export const getState = async () => {
 
   const serializedState: string | undefined = await LocalStorage.getItem('persist:root');
 
-  if (!isDefined(serializedState)) {
+  if (serializedState === undefined) {
     return initialRootState;
   }
 
