@@ -1,0 +1,58 @@
+name: Build backend image
+
+on:
+  push:
+    branches:
+      - master
+      - development
+    tags:
+      - "v*"
+    paths:
+      - "apps/backend/**"
+      - "!apps/backend/readme.md"
+      - "libs/backend-types/**"
+      - "!libs/backend-types/readme.md"
+  pull_request:
+    branches:
+      - development
+    paths:
+      - "apps/backend/**"
+      - "!apps/backend/readme.md"
+      - "libs/backend-types/**"
+      - "!libs/backend-types/readme.md"
+
+jobs:
+  build-container:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Build and push to GH registry
+        uses: ./.github/workflows/backend
+        with:
+          repository: madfish-solutions
+          img_name: oko-wallet-backend
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push to Prod registry
+        if: github.ref == format('refs/heads/{0}', 'master')
+        uses: ./.github/workflows/backend
+        with:
+          repository: oko-wallet
+          img_name: oko-wallet-backend
+          registry: registry.digitalocean.com
+          username: ${{ secrets.DIGITAL_OCEAN_TOKEN_PROD }}
+          password: ${{ secrets.DIGITAL_OCEAN_TOKEN_PROD }}
+      - name: Build and push to Stage registry
+        if: github.ref != format('refs/heads/{0}', 'master')
+        uses: ./.github/workflows/backend
+        with:
+          repository: okowallet
+          img_name: oko-wallet-backend
+          registry: registry.digitalocean.com
+          username: ${{ secrets.DIGITAL_OCEAN_TOKEN_STAGE }}
+          password: ${{ secrets.DIGITAL_OCEAN_TOKEN_STAGE }}

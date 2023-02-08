@@ -1,11 +1,10 @@
 import isEmpty from 'lodash/isEmpty';
-import React, { FC, Fragment, PropsWithChildren, useEffect, useState } from 'react';
+import React, { FC, PropsWithChildren, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { View } from 'react-native';
 
-import { Button } from '../../../../components/button/button';
 import { CopyText } from '../../../../components/copy-text/copy-text';
-import { Divider } from '../../../../components/divider/divider';
+import { FragmentSelector } from '../../../../components/fragment-selector/fragment-selector';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 import { TextInput } from '../../../../components/text-input/text-input';
@@ -183,19 +182,9 @@ export const Confirmation: FC<Props> = ({
                 <Text style={styles.speedOfTransactionText}>Speed of transaction</Text>
                 <ProgressBar status={progressStatus} />
               </Row>
-              <Row style={styles.speedContainer}>
-                {speedOptions.map(({ title, value }, index) => (
-                  <Fragment key={title}>
-                    <Button
-                      title={title}
-                      onPress={() => handleSpeedChange({ title, value })}
-                      style={[styles.speedItem, speed.value === value && styles.activeSpeedItem]}
-                      styleText={styles.speedItemText}
-                    />
-                    {speedOptions.length - 1 !== index && <Divider style={styles.borderRight} />}
-                  </Fragment>
-                ))}
-              </Row>
+              <View style={styles.selectorBlock}>
+                <FragmentSelector options={speedOptions} onSelect={handleSpeedChange} selectedItem={speed} />
+              </View>
             </>
           )}
           {isTezosNetwork && (

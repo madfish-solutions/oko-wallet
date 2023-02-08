@@ -1,6 +1,6 @@
 import { isDefined } from '@rnw-community/shared';
 
-import { getDebankId } from '../api/utils/get-debank-id.util';
+import { getDebankId } from '../api/debank/utils/get-debank-id.util';
 import { NetworkTypeEnum } from '../enums/network-type.enum';
 
 interface TokenDetails {

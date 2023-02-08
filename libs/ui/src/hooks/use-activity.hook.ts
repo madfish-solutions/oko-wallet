@@ -1,7 +1,7 @@
 import { isDefined } from '@rnw-community/shared';
 import { useEffect, useRef, useState } from 'react';
 
-import { getHistoryList } from '../api/debank';
+import { getHistoryList } from '../api/debank/debank';
 import { GAS_TOKEN_ADDRESS } from '../constants/defaults';
 import { TransactionStatusEnum } from '../enums/transactions.enum';
 import { ActivityData, SectionListActivityData } from '../interfaces/activity-data.interface';

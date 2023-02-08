@@ -6,5 +6,7 @@ export enum EvmChainId {
   Arbitrum = '42161',
   Avalanche = '43114',
   Optimism = '10',
-  Fantom = '250'
+  Fantom = '250',
+  Gnosis = '100',
+  Aurora = '1313161554'
 }

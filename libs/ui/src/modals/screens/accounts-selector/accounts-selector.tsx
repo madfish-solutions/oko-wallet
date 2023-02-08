@@ -49,6 +49,7 @@ export const AccountsSelector: FC = () => {
     } else {
       createHdAccountForNewNetworkType(account, selectedNetworkType);
     }
+
     navigate(ScreensEnum.Wallet);
   };
 

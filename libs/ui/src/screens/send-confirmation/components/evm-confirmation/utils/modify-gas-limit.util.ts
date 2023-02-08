@@ -1,8 +1,14 @@
-import { BigNumber } from 'ethers';
+import { BigNumberish } from 'ethers';
 
+import { GAS_LIMIT_MULTIPLIER, EMPTY_GAS } from '../../../constants';
 import { DEFAULT_GAS_LIMIT } from '../constants/ethereum-gas-limit';
 
-const GAS_LIMIT_MULTIPLIER = 1.2;
+export const modifyGasLimit = (gasLimit: BigNumberish | undefined | void, gas: number) => {
+  if (gas > EMPTY_GAS) {
+    return gas;
+  }
 
-export const modifyGasLimit = (gasLimit: BigNumber | undefined | void) =>
-  gasLimit === undefined ? DEFAULT_GAS_LIMIT : Math.floor(Number(gasLimit) * GAS_LIMIT_MULTIPLIER);
+  const calculatedGasLimit = Math.floor(Number(gasLimit) * GAS_LIMIT_MULTIPLIER);
+
+  return gasLimit === undefined ? DEFAULT_GAS_LIMIT : calculatedGasLimit;
+};

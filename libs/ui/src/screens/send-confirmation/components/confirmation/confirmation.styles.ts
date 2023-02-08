@@ -59,35 +59,8 @@ export const styles = StyleSheet.create({
     ...typography.captionInterRegular11,
     color: colors.textGrey3
   },
-  speedContainer: {
-    height: getCustomSize(4.5),
-    borderRadius: getCustomSize(2),
-    backgroundColor: colors.bgGrey4,
-    paddingVertical: getCustomSize(1.25),
-    paddingHorizontal: getCustomSize(0.25),
-    justifyContent: 'space-between',
+  selectorBlock: {
     marginBottom: getCustomSize(2.5)
-  },
-  speedItem: {
-    height: getCustomSize(4),
-    borderWidth: getCustomSize(0.25),
-    borderColor: 'transparent',
-    borderRadius: getCustomSize(1.75),
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '23%'
-  },
-  speedItemText: {
-    ...typography.taglineInterSemiBoldUppercase13,
-    color: colors.textGrey1
-  },
-  activeSpeedItem: {
-    borderColor: colors.orange
-  },
-  borderRight: {
-    width: getCustomSize(0.0625),
-    height: '100%',
-    backgroundColor: colors.bgGrey3
   },
   footerMargin: {
     marginBottom: getCustomSize(3.625)
