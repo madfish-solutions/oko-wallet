@@ -1,4 +1,5 @@
 import { Before } from '@cucumber/cucumber';
+import { sleep } from 'src/utils/promise.utils';
 
 import { E2eMessageType } from '../../../../libs/ui/src/messagers/enums/e2e-message-type.enum';
 import { BackgroundMessage } from '../../../../libs/ui/src/messagers/types/background-message.type';
@@ -11,6 +12,7 @@ Before(async () => {
     // @ts-ignore
     .evaluate(message => chrome.runtime.sendMessage(undefined, message), clearStorageMessage)
     .catch(error => console.log(error));
+  await sleep(500);
   BrowserContext.seedPhrase = DEFAULT_SEED_PHRASE;
   BrowserContext.password = DEFAULT_PASSWORD;
   await BrowserContext.page.reload();
