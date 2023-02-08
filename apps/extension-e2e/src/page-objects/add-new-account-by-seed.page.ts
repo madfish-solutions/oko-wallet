@@ -1,5 +1,5 @@
 import { AddBySeedPhraseTestIDs } from '../../../../libs/ui/src/modals/screens/add-account/components/seed-phrase/seed-phrase.test-ids';
-import { SEED_PHRASE_FOR_IMPORT} from '../classes/browser-context.class';
+import { SEED_PHRASE_FOR_IMPORT } from '../classes/browser-context.class';
 import { Page } from '../classes/page.class';
 import { createPageElement, findElements } from '../utils/search.utils';
 
