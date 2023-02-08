@@ -63,6 +63,14 @@ jobs:
         with:
           args: yarn e2e
 
+      - name: Upload E2E tests video
+        uses: actions/upload-artifact@v2
+        with:
+          name: e2e-video-report
+          path: apps/extension-e2e/src/video-reports
+          if-no-files-found: error
+          retention-days: 30
+
       - name: Upload extension artifact
         uses: actions/upload-artifact@v2
         with:
