@@ -1,0 +1,57 @@
+name: Build backend image
+
+description: Build and push image to container registry
+
+inputs:
+  img_name:
+    description: "Image name"
+    required: true
+  repository:
+    description: "Container repository"
+    required: true
+  registry:
+    description: "Container Registry"
+    required: true
+  username:
+    description: "User of registry"
+    required: true
+  password:
+    description: "Password for registry"
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    - name: Log in to the Stage Container registry
+      uses: docker/login-action@v2
+      with:
+        registry: ${{ inputs.registry }}
+        username: ${{ inputs.username }}
+        password: ${{ inputs.password }}
+
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        images: ${{ inputs.registry }}/${{ inputs.repository }}/${{ inputs.img_name }}
+        labels: |
+          org.opencontainers.image.title=oko-wallet-backend
+          org.opencontainers.image.description="Backend for OKO wallet app."
+        tags: |
+          type=edge,branch=master
+          type=edge,branch=development,suffix=-dev
+          type=ref,event=tag
+          type=ref,event=pr
+          type=sha
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v3
+      with:
+        file: ./backend.Dockerfile
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels:
+          ${{ steps.meta.outputs.labels }}
