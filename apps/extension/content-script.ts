@@ -1,10 +1,10 @@
 import ObjectMultiplex from '@metamask/object-multiplex';
 import pump from 'pump';
 import { POPUP_OPEN } from 'ui/background-script';
-import { PROVIDER, CONTENT_SCRIPT } from 'ui/inpage';
+import { PROVIDER } from 'ui/inpage';
 import { runtime } from 'webextension-polyfill';
 
-import { CONTENT_SCRIPT_PORT_NAME } from './src/constants/content-script';
+import { CONTENT_SCRIPT, CONTENT_SCRIPT_PORT_NAME } from './src/constants/content-script';
 import { pageStream } from './src/constants/page-streams';
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
 import { getWindowMetadata } from './src/utils/window.utils';
