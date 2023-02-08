@@ -1,4 +1,4 @@
-import { INPAGE, PROVIDER } from '../constants/content-script';
+import { INPAGE, PROVIDER } from 'ui/inpage';
 
 export const getHexChanId = (chainId: string) => `0x${Number(chainId).toString(16)}`;
 

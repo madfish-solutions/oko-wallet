@@ -1,6 +1,7 @@
 import ObjectMultiplex from '@metamask/object-multiplex';
 import pump from 'pump';
-import { POPUP_OPEN, CONTENT_SCRIPT, PROVIDER } from 'ui/background-script';
+import { POPUP_OPEN } from 'ui/background-script';
+import { PROVIDER, CONTENT_SCRIPT } from 'ui/inpage';
 import { runtime } from 'webextension-polyfill';
 
 import { CONTENT_SCRIPT_PORT_NAME } from './src/constants/content-script';

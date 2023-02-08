@@ -1,12 +1,10 @@
 import { isDefined } from '@rnw-community/shared';
 import { tabs, runtime } from 'webextension-polyfill';
 
+import { INPAGE, PROVIDER } from '../inpage';
+
 export const POPUP_CLOSED = 'POPUP_CLOSED';
 export const POPUP_OPEN = 'POPUP_OPEN';
-
-export const INPAGE = 'oko-inpage';
-export const PROVIDER = 'oko-provider';
-export const CONTENT_SCRIPT = 'oko-contentscript';
 
 export const createDAppResponse = <T>(id: string, result: T) => ({
   data: {

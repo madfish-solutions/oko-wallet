@@ -1,8 +1,7 @@
 import { ethErrors } from 'eth-rpc-errors';
 import { JsonRpcRequest, JsonRpcResponse, PendingJsonRpcResponse } from 'json-rpc-engine';
 import type { Duplex } from 'stream';
-
-import { PROVIDER } from '../constants/content-script';
+import { PROVIDER } from 'ui/inpage';
 
 import type { UnvalidatedJsonRpcRequest } from './base-provider';
 import { StreamProvider, StreamProviderOptions } from './stream-provider';
