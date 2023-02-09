@@ -1,6 +1,8 @@
 import { isDefined } from '@rnw-community/shared';
 import { tabs, runtime } from 'webextension-polyfill';
 
+import { INPAGE, PROVIDER } from '../inpage';
+
 export const POPUP_CLOSED = 'POPUP_CLOSED';
 export const POPUP_OPEN = 'POPUP_OPEN';
 
@@ -11,9 +13,9 @@ export const createDAppResponse = <T>(id: string, result: T) => ({
       jsonrpc: '2.0',
       result
     },
-    name: 'oko-provider'
+    name: PROVIDER
   },
-  target: 'oko-inpage'
+  target: INPAGE
 });
 
 const createErrorMessage = (id: string) => ({
@@ -26,9 +28,9 @@ const createErrorMessage = (id: string) => ({
         code: 4001
       }
     },
-    name: 'oko-provider'
+    name: PROVIDER
   },
-  target: 'oko-inpage'
+  target: INPAGE
 });
 
 const createDAppNotificationResponse = <T>(method: string, params: T) => ({
@@ -37,9 +39,9 @@ const createDAppNotificationResponse = <T>(method: string, params: T) => ({
       method,
       params
     },
-    name: 'oko-provider'
+    name: PROVIDER
   },
-  target: 'oko-inpage'
+  target: INPAGE
 });
 
 const sendMessageToDAppTab = (origin: string, response: unknown) => {
