@@ -16,7 +16,7 @@ import { useAllActivity } from '../../hooks/use-activity.hook';
 import { useTimerEffect } from '../../hooks/use-timer-effect.hook';
 import { ActivityData, SectionListActivityData } from '../../interfaces/activity-data.interface';
 import { ActivityFilterEnum } from '../../modals/screens/activity-filter-selector/activity-filter.enum';
-import ActivityItem from '../../screens/activity/components/activity-item';
+import { ActivityItem } from '../../screens/activity/components/activity-item';
 import { getCustomSize } from '../../styles/format-size';
 import { getFilteredActivity } from '../../utils/filter-activity.util';
 import { isMobile, isWeb } from '../../utils/platform.utils';
@@ -58,6 +58,7 @@ const renderItem: SectionListRenderItem<ActivityData, SectionListActivityData> =
 
 const emptyIconSize = getCustomSize(isWeb ? 30 : 36);
 
+const SCROLLING_DOWN_TO_LOADER = -300;
 const MAX_ACTIVITY_ATTEMPTS = 10;
 const DEFAULT_VISIBILITY_VALUE = 5;
 let numberOfAttempts = 0;
@@ -130,12 +131,13 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
     await sleep(100);
 
     if (activity.length && distanceFromEnd < 1 && distanceFromEnd >= 0 && sectionListRef.current !== null) {
+      const lastItemIndex = activity[activity.length - 1].data.length - 1;
+
       sectionListRef.current?.scrollToLocation({
         animated: true,
-        itemIndex:
-          activity[activity.length - 1].data.length - 1 === 0 ? 1 : activity[activity.length - 1].data.length - 1,
+        itemIndex: lastItemIndex === 0 ? 1 : lastItemIndex,
         sectionIndex: activity.length - 1,
-        viewOffset: -300
+        viewOffset: SCROLLING_DOWN_TO_LOADER
       });
     }
   };
