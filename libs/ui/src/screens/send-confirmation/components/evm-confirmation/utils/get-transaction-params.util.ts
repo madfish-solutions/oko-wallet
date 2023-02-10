@@ -1,10 +1,10 @@
+import { parseUnits } from 'ethers/lib/utils';
+
 import { Erc1155Abi__factory, Erc20Abi__factory, Erc721Abi__factory } from '../../../../../contract-types';
 import { AssetTypeEnum } from '../../../../../enums/asset-type.enum';
 import { Token } from '../../../../../interfaces/token.interface';
 import { checkIsErc721Collectible } from '../../../../../utils/check-is-erc721-collectible.util';
 import { getAssetType } from '../../../../../utils/get-asset-type.util';
-
-import { getAmount } from './get-amount.util';
 
 export const getTransactionParams = (
   token: Token,
@@ -15,7 +15,9 @@ export const getTransactionParams = (
   const { tokenId = '', tokenAddress, decimals } = token;
   const assetType = getAssetType(token);
   const value =
-    assetType === AssetTypeEnum.GasToken || assetType === AssetTypeEnum.Token ? getAmount(amount, decimals) : amount;
+    assetType === AssetTypeEnum.GasToken || assetType === AssetTypeEnum.Token
+      ? parseUnits(amount, decimals).toString()
+      : amount;
 
   switch (assetType) {
     case AssetTypeEnum.GasToken:
