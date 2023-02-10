@@ -1,7 +1,6 @@
 import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React, { FC, Fragment, useCallback, useEffect, useRef, useState, ReactNode } from 'react';
 import { Animated, Easing, GestureResponderEvent, LayoutChangeEvent, Pressable, View } from 'react-native';
-import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { getCustomSize } from '../../styles/format-size';
@@ -13,7 +12,7 @@ import { Text } from '../text/text';
 import { AccountAddingMethodsTestIDs } from './tabs-test-ids';
 import { styles } from './tabs.styles';
 
-interface Props extends TestIDProps {
+interface Props {
   values: { id: number; title: string; Component: FC }[];
   tabsStyle?: ViewStyleProps;
   activeItemId?: number;

@@ -2,7 +2,6 @@ import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm, Controller, ControllerRenderProps, FieldValues, FieldPath } from 'react-hook-form';
 import { GestureResponderEvent } from 'react-native';
-import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { EMPTY_STRING } from '../../constants/defaults';
 import { ViewStyleProps } from '../../interfaces/style.interface';
@@ -18,7 +17,7 @@ import { SearchPanelTestIDs } from './search-panel.test-ids';
 
 const SEARCH_FIELD = 'search';
 
-interface Props extends TestIDProps {
+interface Props {
   isEmptyList: boolean;
   setSearchValue: OnEventFn<string>;
   onPressAddIcon?: OnEventFn<GestureResponderEvent>;
