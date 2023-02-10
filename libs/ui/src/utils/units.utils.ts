@@ -1,6 +1,8 @@
 import { BigNumber } from 'bignumber.js';
 import { BigNumberish } from 'ethers';
 
+import { MAX_UINT_256_STRING } from '../api/1inch/constants';
+
 export const formatUnits = (value: BigNumberish, decimals: number) => {
   const correctedValue = value ?? 0;
   const bigNum = new BigNumber(correctedValue?.toString());
@@ -12,7 +14,7 @@ export const formatUnits = (value: BigNumberish, decimals: number) => {
   return bigNum.integerValue().div(new BigNumber(10).pow(decimals));
 };
 
-const formatUnitsToString = (value: BigNumberish, decimals: number) => formatUnits(value, decimals).toString(10);
+export const formatUnitsToString = (value: BigNumberish, decimals: number) => formatUnits(value, decimals).toString(10);
 
 export const parseUnits = (value: BigNumberish, decimals: number) => {
   const bigNum = new BigNumber(value.toString());
@@ -44,3 +46,8 @@ export const formatBalances = (amount: number | string): string => {
 
 export const getFormattedBalance = (amount: BigNumberish, decimals: number) =>
   formatBalances(formatUnitsToString(amount, decimals));
+
+export const getFormattedAllowance = (amount: BigNumberish, decimals: number) =>
+  amount === MAX_UINT_256_STRING
+    ? formatUnits(amount, decimals).toExponential(10).toString()
+    : formatUnitsToString(amount, decimals);

@@ -15,14 +15,15 @@ import { SelectToken } from './components/select-token/select-token';
 import { styles } from './token-input.styles';
 
 interface Props<TFieldValues extends FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> {
-  label: string;
+  label?: string;
   field: ControllerRenderProps<TFieldValues, TName>;
   error?: string;
   token?: TokenType;
   amountInDollar: string;
-  navigationKey: string;
+  navigationKey?: string;
   availableFormattedBalance?: string;
   availableBalance?: string;
+  maxButtonTitle?: string;
 }
 
 export const TokenInput = <
@@ -36,7 +37,8 @@ export const TokenInput = <
   label,
   availableFormattedBalance,
   navigationKey,
-  availableBalance
+  availableBalance,
+  maxButtonTitle = 'Max'
 }: Props<TFieldValues, TName>) => {
   const showMaxButton = isDefined(token) && isDefined(availableBalance);
 
@@ -63,7 +65,12 @@ export const TokenInput = <
       </TextInput>
 
       {showMaxButton && (
-        <Button title="Max" onPress={onMaxButtonPress} theme={ButtonThemesEnum.Ternary} style={styles.maxButton} />
+        <Button
+          title={maxButtonTitle}
+          onPress={onMaxButtonPress}
+          theme={ButtonThemesEnum.Ternary}
+          style={styles.maxButton}
+        />
       )}
     </View>
   );

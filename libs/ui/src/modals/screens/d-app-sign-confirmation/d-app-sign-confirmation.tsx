@@ -1,9 +1,8 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { ethers } from 'ethers';
 import React, { FC } from 'react';
-import { View } from 'react-native';
 
-import { Text } from '../../../components/text/text';
+import { InfoBox } from '../../../components/info-box/info-box';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useClosePopup } from '../../../hooks/use-close-popup';
 import { useShelter } from '../../../hooks/use-shelter.hook';
@@ -15,10 +14,8 @@ import {
   sendMessageToBackground,
   sendResponseToDAppAndClosePopup
 } from '../../../utils/dapp.utils';
-import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';
+import { ModalActionsContainer } from '../../components/modal-actions-container/modal-actions-container';
 import { DAppHeader } from '../d-app-connection-confirmation/d-app-header/d-app-header';
-
-import { styles } from './d-app-sign-confirmation.styles';
 
 export const DAppSignConfirmation: FC = () => {
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DAppSignConfirmation>>();
@@ -38,7 +35,7 @@ export const DAppSignConfirmation: FC = () => {
   };
 
   return (
-    <ModalActionContainer
+    <ModalActionsContainer
       screenTitle="Confirm Sign"
       submitTitle="Sign"
       cancelTitle="Decline"
@@ -47,12 +44,12 @@ export const DAppSignConfirmation: FC = () => {
       isBackButton={false}
     >
       <DAppHeader favicon={params.dAppInfo.favicon} origin={params.dAppInfo.origin} />
-      <View style={styles.messageBlock}>
-        <Text style={styles.mainText}>Message to sign</Text>
-        <Text style={styles.text}>{ethers.utils.toUtf8String(params.signInfo[0])}</Text>
-      </View>
+
+      <InfoBox title="Message to sign" description={ethers.utils.toUtf8String(params.signInfo[0])} />
+
       <FromAccount account={selectedAccount} />
+
       <SelectedNetwork />
-    </ModalActionContainer>
+    </ModalActionsContainer>
   );
 };

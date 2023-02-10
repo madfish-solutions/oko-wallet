@@ -11,7 +11,7 @@ import { Token } from '../../../components/token/token';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useFilterAccountTokens } from '../../../hooks/use-filter-tokens.hook';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
-import { usePreviousScreenName } from '../../../hooks/use-previous-screen.hook';
+import { usePreviousScreenName } from '../../../hooks/use-previous-screen-name.hook';
 import { Token as TokenType } from '../../../interfaces/token.interface';
 import { useTokensMarketInfoSelector } from '../../../store/tokens-market-info/token-market-info.selectors';
 import {

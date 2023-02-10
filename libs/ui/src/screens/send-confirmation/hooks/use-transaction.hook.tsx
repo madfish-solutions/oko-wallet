@@ -10,17 +10,21 @@ import { NetworkTypeEnum } from '../../../enums/network-type.enum';
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useToast } from '../../../hooks/use-toast.hook';
-import { Asset } from '../../../interfaces/asset.interface';
+import { Token } from '../../../interfaces/token.interface';
+import { waitForApproveTxToBeSuccessAction } from '../../../store/swap/swap.actions';
 import { addTransactionAction } from '../../../store/wallet/wallet.actions';
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector,
   useSelectedNetworkTypeSelector
 } from '../../../store/wallet/wallet.selectors';
+import { OperationsEnum } from '../enums';
 
 export const useTransactionHook = (
   receiverPublicKeyHash: string,
-  asset: Asset,
+  token: Token,
+  operation: OperationsEnum,
+  isDAppOperation: boolean,
   additionalSuccessCallback?: OnEventFn<TransactionResponse>
 ) => {
   const dispatch = useDispatch();
@@ -37,7 +41,7 @@ export const useTransactionHook = (
 
     const onBlockchainExplorerPress = () => {
       if (isString(explorerUrl)) {
-        const tx = isEvmNetwork ? '/tx/' : '/t';
+        const tx = isEvmNetwork ? '/tx/' : '/';
 
         return Linking.openURL(`${explorerUrl}${tx}${transactionResponse.hash}`);
       }
@@ -56,24 +60,29 @@ export const useTransactionHook = (
       }
     });
 
-    const { tokenAddress, tokenId, standard } = asset;
-
-    if (isNotEmptyString(tokenAddress) && isNotEmptyString(tokenId)) {
+    if (isNotEmptyString(token.tokenAddress) && isNotEmptyString(token.tokenId)) {
       dispatch(
         addTransactionAction({
           from: publicKeyHash,
           to: receiverPublicKeyHash,
           transactionHash: transactionResponse.hash,
-          asset: { tokenAddress, tokenId, standard }
+          token
         })
       );
     }
 
     setIsTransactionLoading(false);
-    navigate(ScreensEnum.Wallet);
 
     if (isEvmNetwork) {
       additionalSuccessCallback?.(transactionResponse as TransactionResponse);
+    }
+
+    if (operation === OperationsEnum.Approve && !isDAppOperation) {
+      navigate(ScreensEnum.Swap);
+
+      dispatch(waitForApproveTxToBeSuccessAction.submit({ token, txHash: transactionResponse.hash }));
+    } else {
+      navigate(ScreensEnum.Wallet);
     }
   };
 

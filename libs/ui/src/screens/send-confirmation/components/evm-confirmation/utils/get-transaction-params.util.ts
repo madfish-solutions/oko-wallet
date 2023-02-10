@@ -1,19 +1,19 @@
 import { Erc1155Abi__factory, Erc20Abi__factory, Erc721Abi__factory } from '../../../../../contract-types';
 import { AssetTypeEnum } from '../../../../../enums/asset-type.enum';
-import { Asset } from '../../../../../interfaces/asset.interface';
+import { Token } from '../../../../../interfaces/token.interface';
 import { checkIsErc721Collectible } from '../../../../../utils/check-is-erc721-collectible.util';
 import { getAssetType } from '../../../../../utils/get-asset-type.util';
 
 import { getAmount } from './get-amount.util';
 
 export const getTransactionParams = (
-  asset: Asset,
+  token: Token,
   receiverPublicKeyHash: string,
   publicKeyHash: string,
   amount: string
 ) => {
-  const { tokenId, tokenAddress, decimals } = asset;
-  const assetType = getAssetType(asset);
+  const { tokenId = '', tokenAddress, decimals } = token;
+  const assetType = getAssetType(token);
   const value =
     assetType === AssetTypeEnum.GasToken || assetType === AssetTypeEnum.Token ? getAmount(amount, decimals) : amount;
 
@@ -22,7 +22,7 @@ export const getTransactionParams = (
       return { to: receiverPublicKeyHash, value };
 
     case AssetTypeEnum.Collectible:
-      const isErc721 = checkIsErc721Collectible(asset);
+      const isErc721 = checkIsErc721Collectible(token);
 
       return isErc721
         ? getCollectible721TransactionParams(publicKeyHash, receiverPublicKeyHash, tokenAddress, tokenId)

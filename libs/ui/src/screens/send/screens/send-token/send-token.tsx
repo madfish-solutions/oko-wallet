@@ -10,12 +10,10 @@ import { HeaderContainer } from '../../../../components/screen-components/header
 import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
 import { ScreenScrollView } from '../../../../components/screen-components/screen-scroll-view/screen-scroll-view';
 import { getValueWithMaxNumberOfDecimals } from '../../../../components/text-input/utils/get-value-with-max-number-of-decimals.util';
-import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useToast } from '../../../../hooks/use-toast.hook';
 import { useTokenFiatBalance } from '../../../../hooks/use-token-fiat-balance.hook';
-import { Asset } from '../../../../interfaces/asset.interface';
 import { sendAssetAction } from '../../../../store/wallet/wallet.actions';
 import {
   useAllAccountsWithoutSelectedSelector,
@@ -94,17 +92,9 @@ export const SendToken: FC = () => {
     }
 
     if (isDefined(formValue.token)) {
-      const { decimals, tokenAddress, tokenId, symbol } = formValue.token;
-      const assetToSend: Asset = {
-        decimals,
-        tokenAddress: tokenAddress === GAS_TOKEN_ADDRESS ? '' : tokenAddress,
-        tokenId: tokenId ?? '',
-        symbol
-      };
-
       dispatch(
         sendAssetAction.submit({
-          asset: assetToSend,
+          token: formValue.token,
           amount: formValue.amount,
           receiverPublicKeyHash:
             formValue.isTransferBetweenAccounts && formValue.account

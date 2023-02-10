@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 
 import { ScreensEnum, ScreensParamList } from '../../../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../../../hooks/use-navigation.hook';
-import { usePreviousScreenName } from '../../../../../../hooks/use-previous-screen.hook';
+import { usePreviousScreenName } from '../../../../../../hooks/use-previous-screen-name.hook';
 import { useShelter } from '../../../../../../hooks/use-shelter.hook';
 import { AccountInterface } from '../../../../../../interfaces/account.interface';
 import { ModalContainer } from '../../../../../../modals/components/modal-container/modal-container';

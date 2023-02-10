@@ -1,32 +1,24 @@
-import { BigNumber } from 'ethers';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { of, from, switchMap, Subject } from 'rxjs';
+import { from, Subject, map } from 'rxjs';
 import { concatMap, tap } from 'rxjs/operators';
 
 import { getApproveData } from '../../../api/1inch/1inch';
-import { useShelter } from '../../../hooks/use-shelter.hook';
-import { useToast } from '../../../hooks/use-toast.hook';
+import { ONE_INCH_ICON, ONE_INCH_ROUTER_ADDRESS, ONE_INCH_SITE } from '../../../api/1inch/constants';
+import { ScreensEnum } from '../../../enums/sreens.enum';
+import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { Token } from '../../../interfaces/token.interface';
-import { loadTokenAllowanceAction } from '../../../store/swap/swap.actions';
-import {
-  useSelectedAccountPublicKeyHashSelector,
-  useSelectedNetworkSelector
-} from '../../../store/wallet/wallet.selectors';
-import { getDefaultEvmProvider } from '../../../utils/get-default-evm-provider.utils';
+import { useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
+import { OperationsEnum } from '../../send-confirmation/enums';
 
 export const useApproveAllowance = () => {
-  const { sendEvmTransaction } = useShelter();
-  const { rpcUrl, chainId } = useSelectedNetworkSelector();
-  const { showErrorToast, showSuccessToast } = useToast();
-  const dispatch = useDispatch();
-  const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
+  const { chainId } = useSelectedNetworkSelector();
+  const { navigate } = useNavigation();
 
   const [isApproveAllowanceLoading, setIsApproveAllowanceLoading] = useState(false);
 
   const approveAllowance$ = useMemo(() => new Subject<Token>(), []);
 
-  const approveHandler = useCallback((token: Token) => approveAllowance$.next(token), []);
+  const onApprovePress = useCallback((token: Token) => approveAllowance$.next(token), []);
 
   useEffect(() => {
     const subscription = approveAllowance$
@@ -34,34 +26,33 @@ export const useApproveAllowance = () => {
         tap(() => setIsApproveAllowanceLoading(true)),
         concatMap(token =>
           from(getApproveData(chainId, token.tokenAddress)).pipe(
-            switchMap(approveDataResponse =>
-              of(
-                sendEvmTransaction({
-                  rpcUrl,
-                  transactionParams: {
-                    ...approveDataResponse,
-                    value: BigNumber.from(approveDataResponse.value).toHexString()
-                  },
-                  publicKeyHash,
-                  successCallback: response =>
-                    getDefaultEvmProvider(rpcUrl)
-                      .waitForTransaction(response.hash, 1)
-                      .then(() => {
-                        setIsApproveAllowanceLoading(false);
-                        showSuccessToast({ message: `Allowance for ${token.symbol} was added` });
-                        dispatch(loadTokenAllowanceAction.submit(token.tokenAddress));
-                      }),
-                  errorCallback: () => showErrorToast({ message: 'Something went wrong with approve allowance' })
-                })
-              )
+            map(approveDataResponse =>
+              navigate(ScreensEnum.SendConfirmation, {
+                transferParams: {
+                  token,
+                  transactionParams: approveDataResponse,
+                  receiverPublicKeyHash: approveDataResponse.to,
+                  value: approveDataResponse.value,
+                  operation: OperationsEnum.Approve,
+                  dAppInfo: {
+                    origin: ONE_INCH_SITE,
+                    name: ONE_INCH_ROUTER_ADDRESS,
+                    favicon: ONE_INCH_ICON
+                  }
+                }
+              })
             )
           )
-        )
+        ),
+        tap(() => setIsApproveAllowanceLoading(false))
       )
       .subscribe();
 
     return () => subscription.unsubscribe();
   }, []);
 
-  return { approveHandler, isApproveAllowanceLoading };
+  return {
+    onApprovePress,
+    isApproveAllowanceLoading
+  };
 };

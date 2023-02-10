@@ -14,7 +14,9 @@ import CheckDoneIcon from './assets/check-done.svg';
 import CheckEmptyIcon from './assets/check-empty.svg';
 import SelectedSquareCheckbox from './assets/check-ok.svg';
 import ChevronRight from './assets/chevron-right.svg';
+import ChevronUp from './assets/chevron-up.svg';
 import Chevron from './assets/chevron.svg';
+import Circle from './assets/circle.svg';
 import Clear from './assets/clear.svg';
 import Close from './assets/close.svg';
 import CopyIcon from './assets/copy.svg';
@@ -63,6 +65,7 @@ import PixelShit from './assets/pixel-shit.svg';
 import QrScanner from './assets/qr-scanner.svg';
 import QrIcon from './assets/qr.svg';
 import QrscanIcon from './assets/qrscan.svg';
+import RadioOn from './assets/radio-on.svg';
 import ReceiveSmallIcon from './assets/receive-small.svg';
 import ReceiveIcon from './assets/receive.svg';
 import Reddit from './assets/reddit.svg';
@@ -167,6 +170,7 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Error]: Error,
   [IconNameEnum.QrScanner]: QrScanner,
   [IconNameEnum.Chevron]: Chevron,
+  [IconNameEnum.ChevronUp]: ChevronUp,
   [IconNameEnum.DropdownSelector]: DropdownSelector,
   [IconNameEnum.Refresh]: Refresh,
   [IconNameEnum.Info]: Info,
@@ -204,5 +208,7 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.InfoToast]: InfoToast,
   [IconNameEnum.FilterNo]: FilterNo,
   [IconNameEnum.FilterYes]: FilterYes,
-  [IconNameEnum.Document]: Document
+  [IconNameEnum.Document]: Document,
+  [IconNameEnum.Circle]: Circle,
+  [IconNameEnum.RadioOn]: RadioOn
 };

@@ -18,11 +18,9 @@ import { Text } from '../../../../components/text/text';
 import { ErrorField } from '../../../../components/text-input/components/error-field/error-field';
 import { Label } from '../../../../components/text-input/components/label/label';
 import { TextInput } from '../../../../components/text-input/text-input';
-import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useToast } from '../../../../hooks/use-toast.hook';
-import { Asset } from '../../../../interfaces/asset.interface';
 import { sendAssetAction } from '../../../../store/wallet/wallet.actions';
 import {
   useAllAccountsWithoutSelectedSelector,
@@ -106,18 +104,9 @@ export const SendCollectible: FC = () => {
     }
 
     if (isDefined(formValue.token)) {
-      const { decimals, tokenAddress, tokenId, name, standard } = formValue.token;
-      const assetToSend: Asset = {
-        decimals,
-        tokenAddress: tokenAddress === GAS_TOKEN_ADDRESS ? '' : tokenAddress,
-        tokenId: tokenId ?? '',
-        symbol: name,
-        standard
-      };
-
       dispatch(
         sendAssetAction.submit({
-          asset: assetToSend,
+          token: formValue.token,
           amount: formValue.amount,
           receiverPublicKeyHash:
             formValue.isTransferBetweenAccounts && formValue.account
