@@ -21,6 +21,11 @@ on:
       - "libs/backend-types/**"
       - "!libs/backend-types/readme.md"
 
+env:
+  IMAGE_NAME: oko-wallet-backend
+  GHCR: ghcr.io
+  DOCR: registry.digitalocean.com
+
 jobs:
   build-container:
     runs-on: ubuntu-latest
@@ -34,25 +39,25 @@ jobs:
         uses: ./.github/workflows/backend
         with:
           repository: madfish-solutions
-          img_name: oko-wallet-backend
-          registry: ghcr.io
+          img_name: ${{ env.IMAGE_NAME }}
+          registry: ${{ env.GHCR }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push to Prod registry
         if: github.ref == format('refs/heads/{0}', 'master')
         uses: ./.github/workflows/backend
         with:
-          repository: oko-wallet
-          img_name: oko-wallet-backend
-          registry: registry.digitalocean.com
+          repository: madfish-prod
+          img_name: ${{ env.IMAGE_NAME }}
+          registry: ${{ env.DOCR }}
           username: ${{ secrets.DIGITAL_OCEAN_TOKEN_PROD }}
           password: ${{ secrets.DIGITAL_OCEAN_TOKEN_PROD }}
       - name: Build and push to Stage registry
         if: github.ref != format('refs/heads/{0}', 'master')
         uses: ./.github/workflows/backend
         with:
-          repository: okowallet
-          img_name: oko-wallet-backend
-          registry: registry.digitalocean.com
+          repository: madfish-stage
+          img_name: ${{ env.IMAGE_NAME }}
+          registry: ${{ env.DOCR }}
           username: ${{ secrets.DIGITAL_OCEAN_TOKEN_STAGE }}
           password: ${{ secrets.DIGITAL_OCEAN_TOKEN_STAGE }}
