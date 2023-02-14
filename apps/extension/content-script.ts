@@ -1,55 +1,56 @@
 import ObjectMultiplex from '@metamask/object-multiplex';
-import { WindowPostMessageStream } from '@metamask/post-message-stream';
 import pump from 'pump';
 import { POPUP_OPEN } from 'ui/background-script';
+import { PROVIDER } from 'ui/inpage';
 import { runtime } from 'webextension-polyfill';
 
+import { CONTENT_SCRIPT, CONTENT_SCRIPT_PORT_NAME } from './src/constants/content-script';
+import { pageStream } from './src/constants/page-streams';
 import { DAppMessage } from './src/interfaces/dapp-message.interface';
 import { getWindowMetadata } from './src/utils/window.utils';
 
-const myPort = runtime.connect({ name: 'port-from-cs' });
+function connectPort() {
+  const myPort = runtime.connect({ name: CONTENT_SCRIPT_PORT_NAME });
 
-const CONTENT_SCRIPT = 'oko-contentscript';
-const INPAGE = 'oko-inpage';
-const PROVIDER = 'oko-provider';
+  // listen background-script message and send message to dApps
+  myPort.onMessage.addListener(async message => {
+    if (message.type === POPUP_OPEN) {
+      myPort.postMessage(message);
 
-const pageStream = new WindowPostMessageStream({
-  name: CONTENT_SCRIPT,
-  target: INPAGE
-});
-
-// listen background-script message and send message to dApps
-myPort.onMessage.addListener(async message => {
-  if (message.type === POPUP_OPEN) {
-    myPort.postMessage(message);
+      return Promise.resolve();
+    }
+    window.postMessage(message, '*');
 
     return Promise.resolve();
-  }
-  window.postMessage(message, '*');
+  });
 
-  return Promise.resolve();
-});
+  // listen dApps and send message to background-script
+  window.addEventListener('message', async message => {
+    if (message.data?.target === CONTENT_SCRIPT) {
+      const windowMetadata = await getWindowMetadata();
+      const dAppMessage: DAppMessage = {
+        data: message.data,
+        sender: {
+          origin: message.origin,
+          name: windowMetadata.name,
+          favicon: windowMetadata.favicon
+        }
+      };
 
-// listen dApps and send message to background-script
-window.addEventListener('message', async message => {
-  console.log(message.data);
-  if (message.data?.target === 'oko-contentscript') {
-    const windowMetadata = await getWindowMetadata();
+      myPort.postMessage(dAppMessage);
 
-    const dAppMessage: DAppMessage = {
-      data: message.data,
-      sender: {
-        origin: message.origin,
-        name: windowMetadata.name,
-        favicon: windowMetadata.favicon
-      }
-    };
+      return Promise.resolve();
+    }
+  });
 
-    myPort.postMessage(dAppMessage);
+  myPort.onDisconnect.addListener(() => {
+    connectPort();
+  });
 
-    return Promise.resolve();
-  }
-});
+  return myPort;
+}
+
+connectPort();
 
 // listen UI and send message to dApps
 runtime.onMessage.addListener(async message => {

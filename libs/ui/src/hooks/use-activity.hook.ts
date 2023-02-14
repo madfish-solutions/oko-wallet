@@ -1,13 +1,13 @@
 import { isDefined } from '@rnw-community/shared';
-import debounce from 'lodash/debounce';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { getHistoryList } from '../api/debank/debank';
-import { DEBOUNCE_TIME, GAS_TOKEN_ADDRESS } from '../constants/defaults';
+import { GAS_TOKEN_ADDRESS } from '../constants/defaults';
 import { TransactionStatusEnum } from '../enums/transactions.enum';
 import { ActivityData, SectionListActivityData } from '../interfaces/activity-data.interface';
 import { ActivityResponse } from '../interfaces/activity-response.interface';
 import { TransactionTypeEnum } from '../interfaces/activity.enum';
+import { ActivityFilterEnum } from '../modals/screens/activity-filter-selector/activity-filter.enum';
 import { checkIsDayLabelNeeded, transformTimestampToDate } from '../screens/activity/components/activity-item.utils';
 import {
   getTokenSymbol,
@@ -117,17 +117,31 @@ const transformApiData = (
   return result;
 };
 
-export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAddress?: string) => {
+export const useAllActivity = (
+  publicKeyHash: string,
+  chainName: string,
+  filterTypeName?: ActivityFilterEnum,
+  tokenAddress?: string
+) => {
   const [lastTimestamp, setLastTimestamp] = useState<Record<string, number>>({});
   const [activity, setActivity] = useState<SectionListActivityData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const prevFetchingDate = useRef(1);
+
   useEffect(() => {
     setActivity([]);
     setLastTimestamp({ [publicKeyHash]: 0 });
-  }, [publicKeyHash, chainName]);
+    prevFetchingDate.current = 1;
+  }, [publicKeyHash, chainName, filterTypeName]);
 
   const fetchActivity = async (startTime: number) => {
+    if (prevFetchingDate.current === startTime) {
+      return;
+    }
+
+    prevFetchingDate.current = startTime;
+
     setIsLoading(true);
 
     const response = await getHistoryList(publicKeyHash, chainName, startTime, tokenAddress);
@@ -140,43 +154,41 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
 
       if (startTime === 0) {
         setActivity(activityData);
-      } else if (activityData.length > 0) {
-        setActivity(prev => {
-          if (
-            activityData.length &&
-            prev.slice(-1)[0].data.slice(-1)[0].timestamp !== activityData.slice(-1)[0].data.slice(-1)[0].timestamp
-          ) {
-            const groupingAllDataByDates = [...prev, ...activityData].reduce(
-              (acc: Record<string, ActivityData[]>, currentItem) => {
-                if (!acc.hasOwnProperty(currentItem.title)) {
-                  return {
-                    ...acc,
-                    [currentItem.title]: currentItem.data
-                  };
-                }
+      }
+      if (
+        startTime > 0 &&
+        activityData.length > 0 &&
+        activity.length > 0 &&
+        activity.slice(-1)[0].data.slice(-1)[0].timestamp !== activityData[0].data[0].timestamp
+      ) {
+        let groupingAllDataByDates: Record<string, ActivityData[]> = {};
 
-                return {
-                  ...acc,
-                  [currentItem.title]: [...acc[currentItem.title], ...currentItem.data]
-                };
-              },
-              {}
-            );
-
-            return Object.keys(groupingAllDataByDates).map(title => ({
-              title,
-              data: groupingAllDataByDates[title]
-            }));
+        for (const element of [...activity, ...activityData]) {
+          if (!groupingAllDataByDates.hasOwnProperty(element.title)) {
+            groupingAllDataByDates = {
+              ...groupingAllDataByDates,
+              [element.title]: element.data
+            };
+          } else {
+            groupingAllDataByDates = {
+              ...groupingAllDataByDates,
+              [element.title]: [...groupingAllDataByDates[element.title], ...element.data]
+            };
           }
+        }
 
-          return prev;
-        });
+        const newData = Object.keys(groupingAllDataByDates).map(title => ({
+          title,
+          data: groupingAllDataByDates[title]
+        }));
+
+        setActivity(newData);
       }
 
       if (activityData.length > 0) {
         setLastTimestamp(prev => ({
           ...prev,
-          [publicKeyHash]: activityData[activityData.length - 1].data.slice(-1)[0].timestamp
+          [publicKeyHash]: activityData.slice(-1)[0].data.slice(-1)[0].timestamp
         }));
       }
     }
@@ -184,9 +196,9 @@ export const useAllActivity = (publicKeyHash: string, chainName: string, tokenAd
     setIsLoading(false);
   };
 
-  const fetch = debounce((startTime?: number) => {
+  const fetch = (startTime?: number) => {
     fetchActivity(isDefined(startTime) ? startTime : lastTimestamp[publicKeyHash] ?? 0);
-  }, DEBOUNCE_TIME);
+  };
 
   return { activity, fetch, isLoading };
 };

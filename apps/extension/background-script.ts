@@ -9,6 +9,7 @@ import {
 } from 'ui/background-script';
 import { Runtime, runtime, scripting, storage } from 'webextension-polyfill';
 
+import { CONTENT_SCRIPT_PORT_NAME } from './src/constants/content-script';
 import {
   LAST_USER_ACTIVITY_TIMESTAMP_KEY,
   LOCK_TIME_PERIOD_KEY,
@@ -51,6 +52,10 @@ runtime.onConnect.addListener(async port => {
 
       return setToStorage({ [LAST_USER_ACTIVITY_TIMESTAMP_KEY]: Date.now() });
     });
+  }
+
+  if (port.name === CONTENT_SCRIPT_PORT_NAME) {
+    port.onDisconnect.addListener(disconnectedPort => disconnectedPort.disconnect());
   }
 
   const lockTimePeriod = await getState().then(result => result.settings.lockTimePeriod);

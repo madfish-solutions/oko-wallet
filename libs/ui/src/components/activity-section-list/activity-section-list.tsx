@@ -1,5 +1,5 @@
 import debounce from 'lodash/debounce';
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -19,12 +19,11 @@ import { ActivityFilterEnum } from '../../modals/screens/activity-filter-selecto
 import { ActivityItem } from '../../screens/activity/components/activity-item';
 import { getCustomSize } from '../../styles/format-size';
 import { getFilteredActivity } from '../../utils/filter-activity.util';
-import { getItemLayoutSectionList } from '../../utils/get-item-layout-section-list.util';
-import { isWeb } from '../../utils/platform.utils';
+import { isMobile, isWeb } from '../../utils/platform.utils';
+import { sleep } from '../../utils/sleep.util';
 import { EmptySearchIcon } from '../icon/components/empty-search-icon/empty-search-icon';
 import { LoaderSizeEnum } from '../loader/enums';
 import { Loader } from '../loader/loader';
-import { Row } from '../row/row';
 import { Text } from '../text/text';
 
 import { styles } from './activity-section-list.styles';
@@ -36,32 +35,64 @@ interface Props {
   tokenAddress?: string;
 }
 
-const keyExtractor = ({ hash, timestamp }: ActivityData) => `${hash}_${timestamp}`;
-
-const getItemLayout = getItemLayoutSectionList<ActivityData, SectionListActivityData>(getCustomSize(9));
+const keyExtractor = ({ hash }: ActivityData) => hash;
 
 const renderSectionHeader = (item: { section: SectionListData<ActivityData, SectionListActivityData> }) => (
-  <Row style={styles.dateWrapper}>
-    <Text style={styles.dateText}>{item.section.title}</Text>
-  </Row>
+  <Text style={styles.date}>{item.section.title}</Text>
+);
+
+const renderItem: SectionListRenderItem<ActivityData, SectionListActivityData> = ({ item }) => (
+  <ActivityItem
+    key={item.hash}
+    hash={item.hash}
+    label={item.label}
+    status={item.status}
+    timestamp={item.timestamp}
+    amount={item.amount}
+    projectName={item.projectName}
+    symbol={item.symbol}
+    transfer={item.transfer}
+    type={item.type}
+  />
 );
 
 const emptyIconSize = getCustomSize(isWeb ? 30 : 36);
 
+const SCROLLING_DOWN_TO_LOADER = -300;
 const MAX_ACTIVITY_ATTEMPTS = 10;
+const DEFAULT_VISIBILITY_VALUE = 5;
 let numberOfAttempts = 0;
 
 export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterTypeName, tokenAddress = '' }) => {
   const [offsetY, setOffsetY] = useState(0);
-  const { activity: allActivity, fetch, isLoading } = useAllActivity(publicKeyHash, getDebankId(chainId), tokenAddress);
+
+  const {
+    activity: allActivity,
+    fetch,
+    isLoading
+  } = useAllActivity(publicKeyHash, getDebankId(chainId), filterTypeName, tokenAddress);
+
+  const sectionListRef = useRef<SectionList<ActivityData, SectionListActivityData>>(null);
 
   const activity = useMemo(() => getFilteredActivity(allActivity, filterTypeName), [allActivity, filterTypeName]);
+
+  const activityDataLength = useMemo(() => {
+    let sum = 0;
+
+    if (sum <= DEFAULT_VISIBILITY_VALUE) {
+      for (const { data } of activity) {
+        sum += data.length;
+      }
+    }
+
+    return sum;
+  }, [activity]);
 
   useEffect(() => {
     if (
       filterTypeName !== ActivityFilterEnum.AllActivity &&
       allActivity.length > 0 &&
-      activity.length === 0 &&
+      activityDataLength <= DEFAULT_VISIBILITY_VALUE &&
       numberOfAttempts <= MAX_ACTIVITY_ATTEMPTS
     ) {
       const lastDate = allActivity.slice(-1)[0].data.slice(-1)[0].timestamp;
@@ -69,34 +100,47 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
       fetch(lastDate);
       numberOfAttempts += 1;
     }
-  }, [filterTypeName, allActivity, activity]);
+  }, [filterTypeName, allActivity, activityDataLength]);
 
-  const handleFetchData = () => {
+  const handleFetchData = useCallback(() => {
     if (offsetY === 0) {
       fetch(0);
       numberOfAttempts = 0;
     }
-  };
+  }, [offsetY]);
 
-  useTimerEffect(handleFetchData, DATA_UPDATE_TIME, [publicKeyHash, chainId, offsetY]);
+  useTimerEffect(handleFetchData, DATA_UPDATE_TIME, [publicKeyHash, chainId, offsetY, filterTypeName]);
 
-  const handleScrollWeb = debounce((event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    setOffsetY(event.nativeEvent.contentOffset.y);
-  }, DEBOUNCE_TIME);
-
-  const handleScrollMobile = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    event.persist();
-    debounce(() => setOffsetY(event.nativeEvent.contentOffset.y), DEBOUNCE_TIME);
-  };
-
-  const handleEndReached = () => {
-    fetch();
-  };
-
-  const renderItem: SectionListRenderItem<ActivityData, SectionListActivityData> = useCallback(
-    ({ item }) => <ActivityItem transaction={item} address={publicKeyHash} chainName={getDebankId(chainId)} />,
-    [publicKeyHash, chainId]
+  const debounceContentOffset = debounce(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => setOffsetY(event.nativeEvent.contentOffset.y),
+    DEBOUNCE_TIME
   );
+
+  const handleScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (isMobile) {
+      event.persist();
+    }
+    debounceContentOffset(event);
+  }, []);
+
+  const handleEndReached = async ({ distanceFromEnd }: { distanceFromEnd: number }) => {
+    if (distanceFromEnd >= 0) {
+      fetch();
+    }
+
+    await sleep(100);
+
+    if (activity.length && distanceFromEnd < 1 && distanceFromEnd >= 0 && sectionListRef.current !== null) {
+      const lastItemIndex = activity[activity.length - 1].data.length - 1;
+
+      sectionListRef.current?.scrollToLocation({
+        animated: true,
+        itemIndex: lastItemIndex === 0 ? 1 : lastItemIndex,
+        sectionIndex: activity.length - 1,
+        viewOffset: SCROLLING_DOWN_TO_LOADER
+      });
+    }
+  };
 
   const renderListFooterComponent = () => (
     <>
@@ -112,15 +156,17 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
 
   return (
     <SectionList
+      ref={sectionListRef}
       sections={activity}
       renderItem={renderItem}
       renderSectionHeader={renderSectionHeader}
+      initialNumToRender={isMobile || offsetY === 0 ? 5 : 3}
       ListFooterComponent={renderListFooterComponent}
       keyExtractor={keyExtractor}
-      onScroll={isWeb ? handleScrollWeb : handleScrollMobile}
-      getItemLayout={getItemLayout}
+      onScroll={handleScroll}
+      scrollEnabled={!isLoading}
       ListEmptyComponent={renderListEmptyComponent}
-      onEndReachedThreshold={0.1}
+      onEndReachedThreshold={0.01}
       onEndReached={handleEndReached}
       stickySectionHeadersEnabled
     />

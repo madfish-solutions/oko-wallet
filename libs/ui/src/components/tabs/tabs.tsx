@@ -9,6 +9,7 @@ import { Divider } from '../divider/divider';
 import { Row } from '../row/row';
 import { Text } from '../text/text';
 
+import { AccountAddingMethodsTestIDs } from './tabs-test-ids';
 import { styles } from './tabs.styles';
 
 interface Props {
@@ -91,6 +92,7 @@ export const Tabs: FC<Props> = ({ values, tabsStyle, activeItemId, activeItemCal
           {values.map(({ id, title }, index) => (
             <Fragment key={id}>
               <Pressable
+                testID={AccountAddingMethodsTestIDs.MethodButton}
                 ref={el => (index === (activeElementId - 1 ?? 0) ? (tabRef.current = el) : null)}
                 onLayout={onTabLayout}
                 onPress={el => handleActiveItem(id, el)}

@@ -1,6 +1,7 @@
 import { ethErrors } from 'eth-rpc-errors';
 import { JsonRpcRequest, JsonRpcResponse, PendingJsonRpcResponse } from 'json-rpc-engine';
 import type { Duplex } from 'stream';
+import { PROVIDER } from 'ui/inpage';
 
 import type { UnvalidatedJsonRpcRequest } from './base-provider';
 import { StreamProvider, StreamProviderOptions } from './stream-provider';
@@ -43,7 +44,7 @@ interface SentWarningsState {
 /**
  * The name of the stream consumed by {@link InpageProvider}.
  */
-export const InpageProviderStreamName = 'oko-provider';
+export const InpageProviderStreamName = PROVIDER;
 
 export class InpageProvider extends StreamProvider {
   protected _sentWarnings: SentWarningsState = {
