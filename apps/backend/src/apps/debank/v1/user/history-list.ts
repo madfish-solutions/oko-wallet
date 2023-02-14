@@ -1,5 +1,6 @@
 import { ActivityResponse, HistoryListRequest } from 'backend';
 import { NextFunction, Request, Response, Router } from 'express';
+import { ExpirationConfig } from 'express-redis-cache';
 import { query } from 'express-validator';
 
 import { validateRequestMiddleware, routeCache, minMaxValidator } from '../../../../utils';
@@ -14,7 +15,7 @@ const validationHandlers = [
   validateRequestMiddleware
 ];
 
-const expire = {
+const expire: ExpirationConfig = {
   200: routeCache.FOREVER,
   304: routeCache.FOREVER,
   xxx: 1
