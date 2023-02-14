@@ -16,9 +16,9 @@ export const enum DAppMethodEnum {
   ETH_BLOCK_NUMBER = 'eth_blockNumber',
   ETH_SIGN = 'eth_sign',
   ETH_PERSONAL_SIGN = 'personal_sign',
-  //PERSONAL_EC_RECOVER = 'personal_ecRecover',
-  // EHT_GET_ENCRYPTION_PUBLIC_KEY = 'eth_getEncryptionPublicKey',
-  // ETH_DECRYPT = "eth_decrypt",
+  //PERSONAL_EC_RECOVER = 'personal_ecRecover', --- high priority
+  // EHT_GET_ENCRYPTION_PUBLIC_KEY = 'eth_getEncryptionPublicKey', --- high priority
+  // ETH_DECRYPT = "eth_decrypt", --- high priority
   //WALLET_WATCH_ASSET = 'wallet_watchAsset',
   //METAMASK_WATCH_ASSET = 'metamask_watchAsset',
   WEB3_CLIENT_VERSION = 'web3_clientVersion',
@@ -38,5 +38,5 @@ export const enum DAppMethodEnum {
   WALLET_ADD_ETHEREUM_CHAIN = 'wallet_addEthereumChain',
   WALLET_SWITCH_ETHEREUM_CHAIN = 'wallet_switchEthereumChain',
   WALLET_REQUEST_PERMISSIONS = 'wallet_requestPermissions'
-  //   WALLET_GET_PERMISSIONS = 'wallet_getPermissions'
+  //   WALLET_GET_PERMISSIONS = 'wallet_getPermissions' --- high priority
 }
