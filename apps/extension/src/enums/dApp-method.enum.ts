@@ -17,8 +17,8 @@ export const enum DAppMethodEnum {
   ETH_SIGN = 'eth_sign',
   ETH_PERSONAL_SIGN = 'personal_sign',
   //PERSONAL_EC_RECOVER = 'personal_ecRecover', --- high priority
-  // EHT_GET_ENCRYPTION_PUBLIC_KEY = 'eth_getEncryptionPublicKey', --- high priority
-  // ETH_DECRYPT = "eth_decrypt", --- high priority
+  // EHT_GET_ENCRYPTION_PUBLIC_KEY = 'eth_getEncryptionPublicKey',
+  // ETH_DECRYPT = "eth_decrypt",
   //WALLET_WATCH_ASSET = 'wallet_watchAsset',
   //METAMASK_WATCH_ASSET = 'metamask_watchAsset',
   WEB3_CLIENT_VERSION = 'web3_clientVersion',
