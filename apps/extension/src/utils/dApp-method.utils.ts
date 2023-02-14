@@ -212,6 +212,24 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
         return Promise.resolve();
       }
 
+      case DAppMethodEnum.WALLET_GET_PERMISSIONS: {
+        const caveats = [{ type: 'restrictReturnedAccounts', value: dAppState.allowedAccounts }];
+        const result = [
+          {
+            parentCapability: DAppMethodEnum.ETH_ACCOUNTS,
+            invoker: dAppInfo.origin,
+            caveats,
+            date: Date.now()
+          }
+        ];
+
+        const response = createDAppResponse(id, result);
+
+        port.postMessage(response);
+
+        return Promise.resolve();
+      }
+
       default: {
         return Promise.reject();
       }

@@ -32,6 +32,7 @@ myPort.onMessage.addListener(async message => {
 
 // listen dApps and send message to background-script
 window.addEventListener('message', async message => {
+  console.log(message.data);
   if (message.data?.target === 'oko-contentscript') {
     const windowMetadata = await getWindowMetadata();
 

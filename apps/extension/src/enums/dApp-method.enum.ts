@@ -37,6 +37,6 @@ export const enum DAppMethodEnum {
   //   params = 'params',
   WALLET_ADD_ETHEREUM_CHAIN = 'wallet_addEthereumChain',
   WALLET_SWITCH_ETHEREUM_CHAIN = 'wallet_switchEthereumChain',
-  WALLET_REQUEST_PERMISSIONS = 'wallet_requestPermissions'
-  //   WALLET_GET_PERMISSIONS = 'wallet_getPermissions' --- high priority
+  WALLET_REQUEST_PERMISSIONS = 'wallet_requestPermissions',
+  WALLET_GET_PERMISSIONS = 'wallet_getPermissions'
 }
