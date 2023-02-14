@@ -9,6 +9,7 @@
     "ts": "tsc --pretty"
   },
   "dependencies": {
+    "@metamask/eth-sig-util": "^5.0.2",
     "@metamask/object-multiplex": "^1.2.0",
     "@metamask/post-message-stream": "^6.1.0",
     "@rnw-community/shared": "^0.48.0",
@@ -20,10 +21,10 @@
     "json-rpc-middleware-stream": "^4.2.1",
     "path-browserify": "^1.0.1",
     "pump": "^3.0.0",
-    "react-native-web": "^0.18.10",
     "react": "^18.2.0",
-    "react-scripts": "^5.0.1",
     "react-dom": "^18.2.0",
+    "react-native-web": "^0.18.10",
+    "react-scripts": "^5.0.1",
     "webextension-polyfill": "^0.10.0"
   },
   "devDependencies": {

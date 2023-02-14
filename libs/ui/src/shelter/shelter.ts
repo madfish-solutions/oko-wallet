@@ -127,7 +127,7 @@ export class Shelter {
 
                 return {
                   privateData: {
-                    [address]: privateKey
+                    [address.toLowerCase()]: privateKey
                   },
                   publicData: {
                     name,
@@ -136,7 +136,7 @@ export class Shelter {
                     networksKeys: {
                       [NetworkTypeEnum.EVM]: {
                         publicKey,
-                        publicKeyHash: address
+                        publicKeyHash: address.toLowerCase()
                       }
                     },
                     isVisible: true

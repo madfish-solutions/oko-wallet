@@ -1,3 +1,4 @@
+import { recoverPersonalSignature } from '@metamask/eth-sig-util';
 import { getDefaultProvider } from 'ethers';
 import { createDAppResponse } from 'ui/background-script';
 import { Runtime, runtime } from 'webextension-polyfill';
@@ -223,6 +224,15 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
           }
         ];
 
+        const response = createDAppResponse(id, result);
+
+        port.postMessage(response);
+
+        return Promise.resolve();
+      }
+
+      case DAppMethodEnum.PERSONAL_EC_RECOVER: {
+        const result = recoverPersonalSignature({ data: data?.params?.[0], signature: data?.params?.[1] });
         const response = createDAppResponse(id, result);
 
         port.postMessage(response);

@@ -16,7 +16,7 @@ export const enum DAppMethodEnum {
   ETH_BLOCK_NUMBER = 'eth_blockNumber',
   ETH_SIGN = 'eth_sign',
   ETH_PERSONAL_SIGN = 'personal_sign',
-  //PERSONAL_EC_RECOVER = 'personal_ecRecover', --- high priority
+  PERSONAL_EC_RECOVER = 'personal_ecRecover',
   // EHT_GET_ENCRYPTION_PUBLIC_KEY = 'eth_getEncryptionPublicKey',
   // ETH_DECRYPT = "eth_decrypt",
   //WALLET_WATCH_ASSET = 'wallet_watchAsset',
