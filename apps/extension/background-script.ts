@@ -7,7 +7,7 @@ import {
   POPUP_OPEN,
   POPUP_CLOSED
 } from 'ui/background-script';
-import { Runtime, runtime, scripting, storage } from 'webextension-polyfill';
+import { Runtime, runtime, storage } from 'webextension-polyfill';
 
 import {
   LAST_USER_ACTIVITY_TIMESTAMP_KEY,
@@ -21,17 +21,6 @@ import { getSessionPasswordHash, setToStorage } from './src/utils/session.utils'
 import { getState } from './src/utils/state.utils';
 
 let isFullpageOpen = false;
-
-scripting.registerContentScripts([
-  {
-    id: 'oko-inpage-script',
-    matches: ['file://*/*', 'http://*/*', 'https://*/*'],
-    js: ['scripts/inpage.js'],
-    runAt: 'document_idle',
-    // @ts-ignore
-    world: 'MAIN'
-  }
-]);
 
 runtime.onInstalled.addListener(({ reason }) => (reason === 'install' ? openFullPage() : null));
 
