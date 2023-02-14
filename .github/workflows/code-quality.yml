@@ -24,6 +24,7 @@ jobs:
           DEFAULT_SEED_PHRASE: ${{ secrets.DEFAULT_SEED_PHRASE }}
           DEFAULT_PASSWORD: ${{ secrets.DEFAULT_PASSWORD }}
           DEFAULT_HD_ACCOUNT_PRIVATE_KEY: ${{ secrets.DEFAULT_HD_ACCOUNT_PRIVATE_KEY }}
+          SEED_PHRASE_FOR_IMPORT: ${{ secrets.SEED_PHRASE_FOR_IMPORT }}
           BACKEND_URL: ${{ secrets.BACKEND_URL }}
 
       - name: Get yarn cache directory path
