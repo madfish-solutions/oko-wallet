@@ -13,3 +13,4 @@ export { E2eMessageType } from 'shelter/src/messagers/enums/e2e-message-type.enu
 export { INITIAL_PASSWORD_HASH } from 'shelter/src/shelter';
 export { createDAppResponse, POPUP_CLOSED, POPUP_OPEN } from './utils/dapp.utils';
 export { LocalStorage } from 'shelter/src/utils/local-storage.util';
+export { initialRootState } from './store/root-state.initial-state';

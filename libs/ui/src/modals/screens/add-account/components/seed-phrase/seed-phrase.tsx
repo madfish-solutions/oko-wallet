@@ -25,6 +25,7 @@ import { ModalFooterButtons } from '../../../../components/modal-footer-buttons/
 import { useAccountFieldRules } from '../../../../hooks/use-validate-account-field.hook';
 
 import { styles } from './seed-phrase.styles';
+import { AddBySeedPhraseTestIDs } from './seed-phrase.test-ids';
 
 export const SeedPhrase: FC = () => {
   const { params: routeParams } = useRoute<RouteProp<ScreensParamList, ScreensEnum.AddAccount>>();
@@ -150,6 +151,7 @@ export const SeedPhrase: FC = () => {
                       onBlur={handleInputBlur}
                       onChangeText={newValue => handleInputChange(newValue, index)}
                       style={[styles.mnemonicInput, isSubmitted && !isNotEmptyString(value) && styles.error]}
+                      testID={AddBySeedPhraseTestIDs.SeedPhraseInput}
                     />
                     <Text selectable={false} style={styles.wordIndex}>{`${index + 1}.`}</Text>
                     {isNotEmptyString(value) && isShowProtectLayout && !isSelectedInput && (
@@ -210,6 +212,7 @@ export const SeedPhrase: FC = () => {
         onSubmitPress={handleSubmit(onSubmit)}
         isSubmitDisabled={Boolean(Object.keys(errors).length) || (isSubmitSuccessful && isEmptyFieldsExist) || !!error}
         style={styles.buttons}
+        testID={AddBySeedPhraseTestIDs.ImportButton}
       />
     </>
   );

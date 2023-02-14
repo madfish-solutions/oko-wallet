@@ -26,6 +26,9 @@
       ],
       "ui/background-script": [
         "../../libs/ui/src/background-script"
+      ],
+      "ui/inpage": [
+        "../../libs/ui/src/inpage"
       ]
     }
   },

@@ -15,6 +15,9 @@ inputs:
   DEFAULT_HD_ACCOUNT_PRIVATE_KEY:
     description: "First account private key for E2E tests"
     required: false
+  SEED_PHRASE_FOR_IMPORT:
+    description: "Seed phrase for account import for E2E tests"
+    required: false
 
 runs:
   using: 'composite'
@@ -26,6 +29,8 @@ runs:
         DEFAULT_SEED_PHRASE=${{ inputs.DEFAULT_SEED_PHRASE }}
         DEFAULT_PASSWORD=${{ inputs.DEFAULT_PASSWORD }}
         DEFAULT_HD_ACCOUNT_PRIVATE_KEY=${{ inputs.DEFAULT_HD_ACCOUNT_PRIVATE_KEY }}
+        
+        SEED_PHRASE_FOR_IMPORT=${{ inputs.SEED_PHRASE_FOR_IMPORT }}
         EOF
 
     - name: Create apps/extension/.env file
