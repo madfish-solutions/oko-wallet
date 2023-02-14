@@ -228,6 +228,6 @@ export class Shelter {
 
   static signMessage$ = (publicKeyHash: string, messageToSign: string) =>
     Shelter.revealPrivateKey$(publicKeyHash).pipe(
-      switchMap(privateKey => new ethers.Wallet(privateKey).signMessage(ethers.utils.toUtf8String(messageToSign)))
+      switchMap(privateKey => new ethers.Wallet(privateKey).signMessage(messageToSign))
     );
 }

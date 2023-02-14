@@ -195,7 +195,10 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
 
       case DAppMethodEnum.ETH_SIGN:
       case DAppMethodEnum.ETH_PERSONAL_SIGN: {
-        await openPopup({ id, signInfo: JSON.stringify(data.params), dAppInfo: JSON.stringify(dAppInfo) }, port);
+        await openPopup(
+          { id, signInfo: JSON.stringify(data.params), dAppInfo: JSON.stringify(dAppInfo), method },
+          port
+        );
 
         return Promise.resolve();
       }
