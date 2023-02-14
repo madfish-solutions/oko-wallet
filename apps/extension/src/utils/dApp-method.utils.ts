@@ -2,6 +2,7 @@ import { getDefaultProvider } from 'ethers';
 import { createDAppResponse } from 'ui/background-script';
 import { Runtime } from 'webextension-polyfill';
 
+import { DAppMethodEnum } from '../enums/dApp-method.enum';
 import { DAppMessage } from '../interfaces/dapp-message.interface';
 
 import { createDAppNotificationResponse, getHexChanId } from './network.utils';
@@ -29,8 +30,8 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
     const provider = getDefaultProvider(selectedRpcUrl);
 
     switch (method) {
-      case 'wallet_requestPermissions':
-      case 'eth_requestAccounts': {
+      case DAppMethodEnum.WALLET_REQUEST_PERMISSIONS:
+      case DAppMethodEnum.ETH_REQUEST_ACCOUNTS: {
         if (isPermissionGranted) {
           const result = [selectedAccountPublicKeyHash];
           const response = createDAppResponse(id, result);
@@ -44,7 +45,7 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
 
         return Promise.resolve();
       }
-      case 'eth_accounts': {
+      case DAppMethodEnum.ETH_ACCOUNTS: {
         if (isPermissionGranted) {
           const result = [selectedAccountPublicKeyHash];
           const response = createDAppResponse(id, result);
@@ -60,8 +61,8 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
 
         return Promise.resolve();
       }
-      case 'wallet_addEthereumChain':
-      case 'wallet_switchEthereumChain': {
+      case DAppMethodEnum.WALLET_SWITCH_ETHEREUM_CHAIN:
+      case DAppMethodEnum.WALLET_ADD_ETHEREUM_CHAIN: {
         if (data.params?.[0]?.chainId === getHexChanId(selectedNetworkChainId)) {
           const response = createDAppResponse(id, null);
           const params = { chainId: getHexChanId(selectedNetworkChainId), networkVersion: selectedNetworkChainId };
@@ -75,7 +76,7 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
 
         return Promise.resolve();
       }
-      case 'oko_getProviderState': {
+      case DAppMethodEnum.OKO_GET_PROVIDER_STATE: {
         const result = {
           accounts: isPermissionGranted ? [selectedAccountPublicKeyHash] : [],
           chainId: getHexChanId(selectedNetworkChainId),
@@ -88,7 +89,7 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
 
         return Promise.resolve();
       }
-      case 'eth_chainId': {
+      case DAppMethodEnum.ETH_CHAIN_ID: {
         const result = getHexChanId(selectedNetworkChainId);
         const response = createDAppResponse(id, result);
         const params = { chainId: getHexChanId(selectedNetworkChainId), networkVersion: selectedNetworkChainId };
@@ -99,7 +100,7 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
 
         return Promise.resolve();
       }
-      case 'eth_gasPrice': {
+      case DAppMethodEnum.ETH_GAS_PRICE: {
         const result = await provider.getGasPrice();
         const response = createDAppResponse(id, result);
 
@@ -108,7 +109,7 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
         return Promise.resolve();
       }
 
-      case 'eth_estimateGas': {
+      case DAppMethodEnum.ETH_ESTIMATE_GAS: {
         if (data.params !== undefined) {
           const result = await provider.estimateGas(data.params[0]);
           const response = createDAppResponse(id, result._hex);
@@ -119,7 +120,7 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
         return Promise.resolve();
       }
 
-      case 'eth_call': {
+      case DAppMethodEnum.ETH_CALL: {
         if (data.params !== undefined) {
           const result = await provider.call({ to: data.params[0].to, data: data.params[0].data });
           const response = createDAppResponse(id, result);
@@ -130,7 +131,7 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
         return Promise.resolve();
       }
 
-      case 'eth_getBlockByNumber': {
+      case DAppMethodEnum.ETH_GET_BLOCK_BY_NUMBER: {
         const result = await provider.getBlock(data.params?.[0]);
         const response = createDAppResponse(id, result);
 
@@ -139,7 +140,7 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
         return Promise.resolve();
       }
 
-      case 'eth_blockNumber': {
+      case DAppMethodEnum.ETH_BLOCK_NUMBER: {
         const result = await provider.getBlockNumber();
         const response = createDAppResponse(id, result.toString());
 
@@ -148,7 +149,7 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
         return Promise.resolve();
       }
 
-      case 'eth_getBalance': {
+      case DAppMethodEnum.ETH_GET_BALANCE: {
         const result = await provider.getBalance(data.params?.[0], data.params?.[1] ?? 'latest');
         const response = createDAppResponse(id, result._hex);
 
@@ -157,7 +158,7 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
         return Promise.resolve();
       }
 
-      case 'eth_sendTransaction': {
+      case DAppMethodEnum.ETH_SEND_TRANSACTION: {
         await openPopup(
           { id, transactionInfo: JSON.stringify(data.params?.[0]), dAppInfo: JSON.stringify(dAppInfo) },
           port
@@ -166,7 +167,7 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
         return Promise.resolve();
       }
 
-      case 'eth_getTransactionByHash': {
+      case DAppMethodEnum.ETH_GET_TRANSACTION_BY_HASH: {
         const txReceipt = await provider.getTransaction(data.params?.[0]);
         const response = createDAppResponse(id, txReceipt);
 
@@ -175,7 +176,7 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
         return Promise.resolve();
       }
 
-      case 'eth_getTransactionReceipt': {
+      case DAppMethodEnum.ETH_GET_TRANSACTION_RECEIPT: {
         const txReceipt = await provider.getTransactionReceipt(data.params?.[0]);
         const response = createDAppResponse(id, txReceipt);
 
@@ -184,7 +185,7 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
         return Promise.resolve();
       }
 
-      case 'net_version': {
+      case DAppMethodEnum.NET_VERSION: {
         const response = createDAppResponse(id, selectedNetworkChainId);
 
         port.postMessage(response);
@@ -192,8 +193,8 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
         return Promise.resolve();
       }
 
-      case 'eth_sign':
-      case 'personal_sign': {
+      case DAppMethodEnum.ETH_SIGN:
+      case DAppMethodEnum.ETH_PERSONAL_SIGN: {
         await openPopup({ id, signInfo: JSON.stringify(data.params), dAppInfo: JSON.stringify(dAppInfo) }, port);
 
         return Promise.resolve();
