@@ -1,6 +1,6 @@
 import { secureCellSealWithPassphraseDecrypt64 } from 'react-native-themis';
 
-import { getStoredValue } from '../utils/store.util.native';
+import { getStoredValue } from '../utils/store.util';
 
 interface StoredSensitiveData {
   symmetricKey: string;

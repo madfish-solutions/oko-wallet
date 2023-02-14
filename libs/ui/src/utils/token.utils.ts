@@ -1,14 +1,14 @@
 import { isNotEmptyString } from '@rnw-community/shared';
 import { Observable } from 'rxjs';
+import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
+import { AccountInterface } from 'ui-types/interfaces/account.interface';
 
-import { NetworkTypeEnum } from '../enums/network-type.enum';
-import { AccountInterface } from '../interfaces/account.interface';
 import { NetworkInterface } from '../interfaces/network.interface';
 import { Token } from '../interfaces/token.interface';
+import { getString } from '../utils/get-string.utils';
 
 import { loadEvmGasTokenBalance$, loadEvmTokenBalance$ } from './by-network-types/token.utils.evm';
 import { loadTezosGasTokenBalance$, loadTezosTokenBalance$ } from './by-network-types/token.utils.tezos';
-import { getString } from './get-string.utils';
 import { getNetworkType } from './network.util';
 
 export const getGasTokenBalance$ = (network: NetworkInterface, account: AccountInterface): Observable<string> => {

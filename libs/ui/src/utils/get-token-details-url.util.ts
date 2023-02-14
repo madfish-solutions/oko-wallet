@@ -1,7 +1,7 @@
 import { isDefined } from '@rnw-community/shared';
+import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
 
 import { getDebankId } from '../api/debank/utils/get-debank-id.util';
-import { NetworkTypeEnum } from '../enums/network-type.enum';
 
 interface TokenDetails {
   address: string;

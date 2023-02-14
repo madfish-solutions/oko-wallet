@@ -4,9 +4,9 @@ import debounce from 'lodash/debounce';
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
+import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
 
 import { CHAINS_JSON, DEBOUNCE_TIME } from '../../../../constants/defaults';
-import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useToast } from '../../../../hooks/use-toast.hook';

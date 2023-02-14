@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
+import { isMobile, isWeb } from 'shelter/src/utils/platform.utils';
 
 import { getCustomSize } from '../../styles/format-size';
-import { isMobile, isWeb } from '../../utils/platform.utils';
 
 import { contentHeight } from './constants/dimensions';
 

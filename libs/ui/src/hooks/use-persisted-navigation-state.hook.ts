@@ -2,12 +2,12 @@ import { InitialState, NavigationState } from '@react-navigation/native';
 import { isDefined } from '@rnw-community/shared';
 import { parse } from 'query-string';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { isWeb } from 'shelter/src/utils/platform.utils';
+import { getStoredValue, setStoredValue } from 'shelter/src/utils/store.util';
 
 import { ScreensEnum } from '../enums/sreens.enum';
 import { Mutable } from '../types/mutable.type';
 import { createNavigationRoute } from '../utils/navigation.utils';
-import { isWeb } from '../utils/platform.utils';
-import { getStoredValue, setStoredValue } from '../utils/store.util';
 
 const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 

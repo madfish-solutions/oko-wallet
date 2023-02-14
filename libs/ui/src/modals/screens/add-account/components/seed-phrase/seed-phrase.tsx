@@ -3,6 +3,8 @@ import { isNotEmptyString } from '@rnw-community/shared';
 import React, { FC, useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { View, ScrollView, TextInput } from 'react-native';
+import { derivationPathByNetworkType, generateHdAccount } from 'shelter/src/utils/generate-hd-account.util';
+import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
 
 import { Announcement } from '../../../../../components/announcement/announcement';
 import { Column } from '../../../../../components/column/column';
@@ -13,14 +15,12 @@ import { Pressable } from '../../../../../components/pressable/pressable';
 import { Row } from '../../../../../components/row/row';
 import { Text } from '../../../../../components/text/text';
 import { TextInput as CustomTextInput } from '../../../../../components/text-input/text-input';
-import { NetworkTypeEnum } from '../../../../../enums/network-type.enum';
 import { ScreensEnum, ScreensParamList } from '../../../../../enums/sreens.enum';
 import { useImportSeedPhrase } from '../../../../../hooks/use-import-seed-phrase.hook';
 import { useNavigation } from '../../../../../hooks/use-navigation.hook';
-import { useShelter } from '../../../../../hooks/use-shelter.hook';
+import { useCreateImportedAccount } from '../../../../../shelter/hooks/use-create-imported-account.hook';
 import { useAllAccountsSelector, useSelectedNetworkTypeSelector } from '../../../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../../../styles/format-size';
-import { derivationPathByNetworkType, generateHdAccount } from '../../../../../utils/generate-hd-account.util';
 import { ModalFooterButtons } from '../../../../components/modal-footer-buttons/modal-footer-buttons';
 import { useAccountFieldRules } from '../../../../hooks/use-validate-account-field.hook';
 
@@ -31,7 +31,7 @@ export const SeedPhrase: FC = () => {
 
   const networkType = useSelectedNetworkTypeSelector();
   const accounts = useAllAccountsSelector();
-  const { createImportedAccount } = useShelter();
+  const createImportedAccount = useCreateImportedAccount();
   const { goBack } = useNavigation();
   const {
     mnemonic,

@@ -5,10 +5,10 @@ import { Observable, of, from } from 'rxjs';
 import { catchError, concatMap, debounceTime, map } from 'rxjs/operators';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
+import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
 
 import { getQuote, getSwapData } from '../../api/1inch/1inch';
 import { DEBOUNCE_TIME } from '../../constants/defaults';
-import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { Asset } from '../../interfaces/asset.interface';
 import { withSelectedAccount, withSelectedNetwork } from '../../utils/wallet.util';

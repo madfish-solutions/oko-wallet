@@ -1,6 +1,5 @@
 import { isAddress as isEvmAddressValid } from 'ethers/lib/utils';
-
-import { NetworkTypeEnum } from '../enums/network-type.enum';
+import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
 
 import { isTezosAddressValid } from './is-tezos-address-valid.util';
 

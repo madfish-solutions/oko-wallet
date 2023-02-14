@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "../",
     "target": "es6",
     "module": "es6",
     "lib": [
@@ -16,6 +16,12 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
-  }
+    "resolveJsonModule": true,
+    "paths": {
+      "ui-types/*": ["ui-types/src/*"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+  ],
 }

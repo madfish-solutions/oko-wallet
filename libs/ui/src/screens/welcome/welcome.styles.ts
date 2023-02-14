@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
+import { isMobile } from 'shelter/src/utils/platform.utils';
 
 import { extensionHeight, maximiseViewStyles } from '../../components/navigator/utils/maximise-view-options';
 import { colors } from '../../styles/colors';
 import { EXTENSION_FULL_SIZE, getCustomSize } from '../../styles/format-size';
 import { isFullpage } from '../../utils/location.utils';
-import { isMobile } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {

@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
+import { getDefaultEvmProvider } from 'shelter/src/utils/get-default-evm-provider.utils';
 
 import { Asset } from '../../../../../interfaces/asset.interface';
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
-import { getDefaultEvmProvider } from '../../../../../utils/get-default-evm-provider.utils';
 import { EMPTY_GAS } from '../../../constants';
 import { getGasLimit } from '../utils/get-gas-limit.util';
 import { modifyGasLimit } from '../utils/modify-gas-limit.util';

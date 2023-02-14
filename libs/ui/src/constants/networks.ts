@@ -1,5 +1,6 @@
+import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
+
 import { IconNameEnum } from '../components/icon/icon-name.enum';
-import { NetworkTypeEnum } from '../enums/network-type.enum';
 import { NetworkChainIdsByNetworkType, NetworkInterface } from '../interfaces/network.interface';
 
 import { EvmChainId } from './chain-ids';
@@ -119,8 +120,6 @@ export const NETWORKS_DEFAULT_LIST: NetworkInterface[] = [
     iconName: IconNameEnum.Fantom
   }
 ];
-
-export const DEFAULT_NETWORK_TYPE: NetworkTypeEnum = NetworkTypeEnum.EVM;
 
 enum TezosChainId {
   Mainnet = 'NetXdQprcVkpaWU',

@@ -1,6 +1,7 @@
+import { isWeb } from 'shelter/src/utils/platform.utils';
+
 import { windowHeight } from '../../../constants/dimensions';
 import { getCustomSize } from '../../../styles/format-size';
-import { isWeb } from '../../../utils/platform.utils';
 
 export const SHOW_QR_CODE = 0;
 export const HIDE_QR_CODE = getCustomSize(20);

@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
+import { isWeb } from 'shelter/src/utils/platform.utils';
 
 import { colors } from '../../../../../../styles/colors';
 import { getCustomSize } from '../../../../../../styles/format-size';
 import { typography } from '../../../../../../styles/typography';
-import { isWeb } from '../../../../../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {

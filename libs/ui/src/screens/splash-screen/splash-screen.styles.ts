@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
+import { isMobile, isWeb } from 'shelter/src/utils/platform.utils';
 
 import { maximiseViewStyles } from '../../components/navigator/utils/maximise-view-options';
 import { colors } from '../../styles/colors';
-import { isMobile, isWeb } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {

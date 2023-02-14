@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { View, Animated } from 'react-native';
 import QRCodeLibrary from 'react-native-qrcode-svg';
+import { isMobile } from 'shelter/src/utils/platform.utils';
 
 import { Column } from '../../../../components/column/column';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
@@ -11,7 +12,6 @@ import { useSelectedAccountPublicKeyHashSelector } from '../../../../store/walle
 import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
 import { handleSetValueToClipboard } from '../../../../utils/copy-to-clipboard.util';
-import { isMobile } from '../../../../utils/platform.utils';
 import { share } from '../../../../utils/share.util';
 
 import { styles } from './qr-code.styles';

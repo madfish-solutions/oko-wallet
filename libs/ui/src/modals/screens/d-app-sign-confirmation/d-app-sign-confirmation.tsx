@@ -6,9 +6,9 @@ import { View } from 'react-native';
 import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useClosePopup } from '../../../hooks/use-close-popup';
-import { useShelter } from '../../../hooks/use-shelter.hook';
 import { FromAccount } from '../../../screens/send-confirmation/components/confirmation/components/from-account/from-account';
 import { SelectedNetwork } from '../../../screens/send-confirmation/components/confirmation/components/selected-network/selected-network';
+import { useSignMessage } from '../../../shelter/hooks/use-sign-message.hook';
 import { useSelectedAccountSelector } from '../../../store/wallet/wallet.selectors';
 import {
   sendErrorToDAppAndClosePopup,
@@ -23,7 +23,7 @@ import { styles } from './d-app-sign-confirmation.styles';
 export const DAppSignConfirmation: FC = () => {
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DAppSignConfirmation>>();
   const selectedAccount = useSelectedAccountSelector();
-  const { signMessage } = useShelter();
+  const signMessage = useSignMessage();
   useClosePopup(params.messageId, params.dAppInfo.origin);
 
   const onDecline = () => sendErrorToDAppAndClosePopup(params.dAppInfo.origin, params.messageId);

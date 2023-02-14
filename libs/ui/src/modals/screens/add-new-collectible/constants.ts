@@ -1,7 +1,8 @@
+import { isMobile } from 'shelter/src/utils/platform.utils';
+
 import { EXTENSION_WIDTH } from '../../../constants/defaults';
 import { windowWidth } from '../../../constants/dimensions';
 import { getCustomSize } from '../../../styles/format-size';
-import { isMobile } from '../../../utils/platform.utils';
 
 const COLLECTIBLE_SIZE_MOBILE = windowWidth - getCustomSize(4);
 const COLLECTIBLE_SIZE_WEB = EXTENSION_WIDTH - getCustomSize(4);

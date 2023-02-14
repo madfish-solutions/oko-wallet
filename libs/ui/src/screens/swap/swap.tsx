@@ -6,6 +6,7 @@ import React, { FC, useCallback, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Alert, View } from 'react-native';
 import { useDispatch } from 'react-redux';
+import { isWeb } from 'shelter/src/utils/platform.utils';
 
 import { REFERRER_FEE } from '../../api/1inch/constants';
 import { Button } from '../../components/button/button';
@@ -41,7 +42,6 @@ import {
 } from '../../store/swap/swap.selectors';
 import { useGasTokenSelector } from '../../store/wallet/wallet.selectors';
 import { checkIsGasToken } from '../../utils/check-is-gas-token.util';
-import { isWeb } from '../../utils/platform.utils';
 import { parseUnits } from '../../utils/units.utils';
 import { useValidateAmountField } from '../send/hooks/use-validate-amount-field.hook';
 import { ReadOnlyTokenInput } from '../send/screens/send-token/components/read-only-token-input/read-only-token-input';

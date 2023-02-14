@@ -23,6 +23,7 @@ import {
   useSelectedNetworkTypeSelector
 } from '../../../../store/wallet/wallet.selectors';
 import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
+import { getString } from '../../../../utils/get-string.utils';
 import { GasTokenWarning } from '../../components/gas-token-warning/gas-token-warning';
 import { SendButton } from '../../components/send-button/send-button';
 import { TransferBetweenMyAccounts } from '../../components/transfer-between-my-accounts/transfer-between-my-accounts';
@@ -82,7 +83,7 @@ export const SendToken: FC = () => {
 
   useEffect(() => {
     if (isTokenSelected && isNotEmptyString(amount)) {
-      setValue('amount', getValueWithMaxNumberOfDecimals(amount, token.decimals));
+      setValue('amount', getValueWithMaxNumberOfDecimals(amount, token?.decimals ?? 0));
     }
   }, [token]);
 
@@ -119,7 +120,7 @@ export const SendToken: FC = () => {
     <ScreenContainer>
       <HeaderContainer isSelectors>
         <ScreenTitle
-          title={`Send ${isTokenSelected ? token.symbol : ''}`}
+          title={`Send ${isTokenSelected ? token?.symbol : ''}`}
           onBackButtonPress={goBack}
           numberOfLines={1}
           titleStyle={styles.screenTitle}
@@ -127,7 +128,7 @@ export const SendToken: FC = () => {
 
         {isTokenSelected && (
           <HeaderSideBalance
-            symbol={token.symbol}
+            symbol={getString(token?.symbol)}
             balance={availableFormattedBalance}
             usdBalance={availableUsdBalance}
           />

@@ -1,9 +1,9 @@
 import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { View, Pressable } from 'react-native';
-import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
+import { TestIDProps } from '../../../../interfaces/test-id.props';
 import { Row } from '../../../row/row';
 import { Text } from '../../../text/text';
 import { HeaderBackButton } from '../header-back-button/header-back-button';

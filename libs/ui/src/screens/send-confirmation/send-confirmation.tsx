@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
+import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
 
-import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useSelectedNetworkTypeSelector } from '../../store/wallet/wallet.selectors';
 

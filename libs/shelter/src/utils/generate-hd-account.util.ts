@@ -1,5 +1,6 @@
+import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
+
 import { TEZOS_BIP44_COINTYPE } from '../constants/cointype';
-import { NetworkTypeEnum } from '../enums/network-type.enum';
 
 import { getEtherDerivationPath, getTezosDerivationPath } from './derivation-path.utils';
 import { generateEvmHdAccount } from './generate-ethereum-hd-account.util';

@@ -8,7 +8,9 @@
       "./apps/extension-e2e/tsconfig.json",
       "./apps/mobile/tsconfig.json",
       "./libs/ui/tsconfig.json",
-      "./libs/backend-types/tsconfig.json"
+      "./libs/backend-types/tsconfig.json",
+      "./libs/shelter/tsconfig.json",
+      "./libs/ui-types/tsconfig.json"
     ]
   },
   "extends": [

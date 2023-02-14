@@ -3,6 +3,8 @@ import { isDefined, isEmptyString, isNotEmptyString } from '@rnw-community/share
 import React, { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Pressable, View } from 'react-native';
+import { isMobile } from 'shelter/src/utils/platform.utils';
+import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
 
 import { Button } from '../../../../components/button/button';
 import { ButtonSizeEnum, ButtonThemesEnum } from '../../../../components/button/enums';
@@ -14,18 +16,16 @@ import { Label } from '../../../../components/text-input/components/label/label'
 import { Prompt } from '../../../../components/text-input/components/prompt/prompt';
 import { TextInput } from '../../../../components/text-input/text-input';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
-import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { useToast } from '../../../../hooks/use-toast.hook';
+import { useCreateHdAccountForNewNetworkType } from '../../../../shelter/hooks/use-create-hd-account-for-new-network-type.hook';
 import {
   useAllAccountsWithoutSelectedSelector,
   useSelectedNetworkTypeSelector
 } from '../../../../store/wallet/wallet.selectors';
 import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
 import { colors } from '../../../../styles/colors';
-import { isMobile } from '../../../../utils/platform.utils';
 import { useValidateAddressField } from '../../hooks/use-validate-address-field.hook';
 import { FormTypes } from '../../types';
 import { SelectedAccount } from '../selected-account/selected-account';
@@ -36,7 +36,7 @@ const MAXIMUM_ADDRESS_LENGTH = 64;
 
 export const TransferBetweenMyAccounts: FC = () => {
   const { showWarningToast } = useToast();
-  const { createHdAccountForNewNetworkType } = useShelter();
+  const createHdAccountForNewNetworkType = useCreateHdAccountForNewNetworkType();
   const allAccountsWithoutSelected = useAllAccountsWithoutSelectedSelector();
   const isTransferBetweenAccountsDisabled = allAccountsWithoutSelected.length === 0;
   const networkType = useSelectedNetworkTypeSelector();

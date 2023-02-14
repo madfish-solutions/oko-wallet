@@ -4,6 +4,7 @@ import React, { FC, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
+import { isMobile } from 'shelter/src/utils/platform.utils';
 
 import { Checkbox } from '../../components/checkbox/checkbox';
 import { Column } from '../../components/column/column';
@@ -15,12 +16,11 @@ import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
 import { WalletCreationContainer } from '../../components/wallet-creation-container/wallet-creation-container';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useScrollToOffset } from '../../hooks/use-scroll-to-element.hook';
-import { useShelter } from '../../hooks/use-shelter.hook';
 import { useValidatePasswordForm } from '../../hooks/use-validate-password-form.hook';
 import { usePasswordValidation } from '../../hooks/use-validation-messages.hook';
 import { useAccountFieldRules } from '../../modals/hooks/use-validate-account-field.hook';
+import { useImportWallet } from '../../shelter/hooks/use-import-wallet.hook';
 import { setIsAnalyticsEnabled, setIsBiometricEnabled } from '../../store/settings/settings.actions';
-import { isMobile } from '../../utils/platform.utils';
 import { goToTermsOfUse, goToPrivatePolicy } from '../settings/screens/about-us/utils/go-to-oko-links.utils';
 
 import { styles } from './almost-done.styles';
@@ -45,7 +45,7 @@ export const AlmostDone: FC = () => {
     params: { mnemonic, currentStep, stepsAmount }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.AlmostDone>>();
 
-  const { importWallet } = useShelter();
+  const importWallet = useImportWallet();
   const dispatch = useDispatch();
   const { scrollViewRef, scrollToOffset } = useScrollToOffset();
 

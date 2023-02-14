@@ -1,12 +1,12 @@
 import { combineEpics } from 'redux-observable';
 import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
+import { Shelter } from 'shelter/src/shelter';
+import { resetStore$ } from 'shelter/src/utils/keychain.utils';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
 import { globalNavigationRef } from '../components/navigator/navigator';
-import { Shelter } from '../shelter/shelter';
-import { resetStore$ } from '../utils/keychain.utils';
 
 import { resetApplicationAction, untypedNavigateAction } from './root-state.actions';
 

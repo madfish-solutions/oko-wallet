@@ -1,13 +1,13 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
+import { AccountInterface } from 'ui-types/interfaces/account.interface';
 
 import { ScreensEnum, ScreensParamList } from '../../../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../../../hooks/use-navigation.hook';
 import { usePreviousScreenName } from '../../../../../../hooks/use-previous-screen.hook';
-import { useShelter } from '../../../../../../hooks/use-shelter.hook';
-import { AccountInterface } from '../../../../../../interfaces/account.interface';
 import { ModalContainer } from '../../../../../../modals/components/modal-container/modal-container';
 import { AccountsList } from '../../../../../../modals/screens/accounts-selector/components/accounts-list';
+import { useCreateHdAccountForNewNetworkType } from '../../../../../../shelter/hooks/use-create-hd-account-for-new-network-type.hook';
 import {
   useAllVisibleAccountsSelector,
   useSelectedAccountSelector,
@@ -16,7 +16,7 @@ import {
 import { checkIsNetworkTypeKeyExist } from '../../../../../../utils/check-is-network-type-key-exist';
 
 export const AccountsSelector: FC = () => {
-  const { createHdAccountForNewNetworkType } = useShelter();
+  const createHdAccountForNewNetworkType = useCreateHdAccountForNewNetworkType();
   const { navigate } = useNavigation();
   const route = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendAccountsSelector>>();
   const selectedNetworkType = useSelectedNetworkTypeSelector();

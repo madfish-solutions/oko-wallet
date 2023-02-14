@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
+import { isWeb } from 'shelter/src/utils/platform.utils';
 
 import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
-import { isWeb } from '../../../../utils/platform.utils';
 import { maximiseViewStyles } from '../../../navigator/utils/maximise-view-options';
 
 export const styles = StyleSheet.create({

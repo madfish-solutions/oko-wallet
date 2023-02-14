@@ -1,13 +1,13 @@
 import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { GestureResponderEvent } from 'react-native';
+import { isMobile } from 'shelter/src/utils/platform.utils';
 
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';
 import { HeaderAccountBalance } from '../../../../components/screen-components/header-container/components/header-account-balance/header-account-balance';
 import { HeaderContainer } from '../../../../components/screen-components/header-container/header-container';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
-import { isMobile } from '../../../../utils/platform.utils';
 
 import { styles } from './header.styles';
 

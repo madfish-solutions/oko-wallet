@@ -9,8 +9,8 @@ import { TouchableIcon } from '../../../../components/touchable-icon/touchable-i
 import { EMPTY_STRING } from '../../../../constants/defaults';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
+import { useCreateHdAccountForNewNetworkType } from '../../../../shelter/hooks/use-create-hd-account-for-new-network-type.hook';
 import { changeNetworkAction } from '../../../../store/wallet/wallet.actions';
 import {
   useAccountsGasTokensSelector,
@@ -30,7 +30,7 @@ const keyExtractor = (item: NetworkInterface) => item.rpcUrl;
 export const NetworksList = () => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
-  const { createHdAccountForNewNetworkType } = useShelter();
+  const createHdAccountForNewNetworkType = useCreateHdAccountForNewNetworkType();
 
   const networks = useAllNetworksSelector();
   const selectedNetwork = useSelectedNetworkSelector();

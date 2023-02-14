@@ -2,7 +2,7 @@ import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React, { FC, PropsWithChildren, useCallback } from 'react';
 
-import { useShelter } from '../../../../../../hooks/use-shelter.hook';
+import { useSendEvmTransaction } from '../../../../../../shelter/hooks/use-send-evm-transaction.hook';
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector
@@ -28,7 +28,7 @@ export const EvmConfirmationContainer: FC<Props> = ({
 }) => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const network = useSelectedNetworkSelector();
-  const { sendEvmTransaction } = useShelter();
+  const sendEvmTransaction = useSendEvmTransaction();
 
   const { symbol } = asset;
   const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } = useTransactionHook(

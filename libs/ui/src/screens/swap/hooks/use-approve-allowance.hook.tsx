@@ -3,20 +3,20 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { of, from, switchMap, Subject } from 'rxjs';
 import { concatMap, tap } from 'rxjs/operators';
+import { getDefaultEvmProvider } from 'shelter/src/utils/get-default-evm-provider.utils';
 
 import { getApproveData } from '../../../api/1inch/1inch';
-import { useShelter } from '../../../hooks/use-shelter.hook';
 import { useToast } from '../../../hooks/use-toast.hook';
 import { Token } from '../../../interfaces/token.interface';
+import { useSendEvmTransaction } from '../../../shelter/hooks/use-send-evm-transaction.hook';
 import { loadTokenAllowanceAction } from '../../../store/swap/swap.actions';
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector
 } from '../../../store/wallet/wallet.selectors';
-import { getDefaultEvmProvider } from '../../../utils/get-default-evm-provider.utils';
 
 export const useApproveAllowance = () => {
-  const { sendEvmTransaction } = useShelter();
+  const sendEvmTransaction = useSendEvmTransaction();
   const { rpcUrl, chainId } = useSelectedNetworkSelector();
   const { showErrorToast, showSuccessToast } = useToast();
   const dispatch = useDispatch();

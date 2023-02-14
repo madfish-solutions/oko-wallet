@@ -1,11 +1,11 @@
 import { forkJoin, from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { getDefaultEvmProvider } from 'shelter/src/utils/get-default-evm-provider.utils';
+import { TokenStandardEnum } from 'ui-types/enums/token-standard.enum';
 
 import { Erc1155Abi__factory, Erc165Abi__factory, Erc721Abi__factory } from '../../../../contract-types';
-import { TokenStandardEnum } from '../../../../enums/token-standard.enum';
 import { TokenMetadata } from '../../../../interfaces/token-metadata.interface';
 import { formatUri } from '../../../../utils/formatUrl.util';
-import { getDefaultEvmProvider } from '../../../../utils/get-default-evm-provider.utils';
 
 const Erc721InterfaceId = '0x80ac58cd';
 

@@ -2,6 +2,7 @@ import isEmpty from 'lodash/isEmpty';
 import React, { FC, PropsWithChildren, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { View } from 'react-native';
+import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
 
 import { CopyText } from '../../../../components/copy-text/copy-text';
 import { FragmentSelector } from '../../../../components/fragment-selector/fragment-selector';
@@ -9,7 +10,6 @@ import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 import { TextInput } from '../../../../components/text-input/text-input';
 import { MainnetRpcEnum, TestnetRpcEnum } from '../../../../constants/rpc';
-import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { useScrollToOffset } from '../../../../hooks/use-scroll-to-element.hook';
 import { ModalActionContainer } from '../../../../modals/components/modal-action-container/modal-action-container';
 import {

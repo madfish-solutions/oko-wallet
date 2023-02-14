@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
+import { isAndroid } from 'shelter/src/utils/platform.utils';
 
 import { getCustomSize } from '../../../../../../styles/format-size';
 import { typography } from '../../../../../../styles/typography';
-import { isAndroid } from '../../../../../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   assetContainer: {

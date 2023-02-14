@@ -1,12 +1,13 @@
 import { createAction } from '@reduxjs/toolkit';
+import { AccountInterface } from 'ui-types/interfaces/account.interface';
 
 import { NftListResponse, TokenListResponse } from '../../api/debank/types';
-import { AccountInterface, PendingTransaction } from '../../interfaces/account.interface';
 import { DappConnectionInfo } from '../../interfaces/dapp-connection.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
 import { TokenExtendedMetadata } from '../../interfaces/token-extended-metadata.interface';
 import { Token } from '../../interfaces/token.interface';
+import { PendingTransaction } from '../../interfaces/transaction.interfaces';
 import { TokenFormTypes } from '../../modals/screens/token/types/form-types.interface';
 import { createActions } from '../utils/action.utils';
 

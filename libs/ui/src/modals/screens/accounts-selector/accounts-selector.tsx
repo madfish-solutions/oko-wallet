@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
+import { AccountInterface } from 'ui-types/interfaces/account.interface';
 
 import { ButtonWithIcon } from '../../../components/button-with-icon/button-with-icon';
 import { ButtonWithIconSizeEnum, ButtonWithIconThemesEnum } from '../../../components/button-with-icon/enums';
@@ -12,8 +13,7 @@ import { Text } from '../../../components/text/text';
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useFiatTotalBalance } from '../../../hooks/use-fiat-total-balance.hook';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
-import { useShelter } from '../../../hooks/use-shelter.hook';
-import { AccountInterface } from '../../../interfaces/account.interface';
+import { useCreateHdAccountForNewNetworkType } from '../../../shelter/hooks/use-create-hd-account-for-new-network-type.hook';
 import { changeAccountAction } from '../../../store/wallet/wallet.actions';
 import {
   useAllVisibleAccountsSelector,
@@ -32,7 +32,7 @@ import { AccountsSelectorTestIDs } from './accounts-selector.test-ids';
 import { AccountsList } from './components/accounts-list';
 
 export const AccountsSelector: FC = () => {
-  const { createHdAccountForNewNetworkType } = useShelter();
+  const createHdAccountForNewNetworkType = useCreateHdAccountForNewNetworkType();
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
   const selectedAccount = useSelectedAccountSelector();

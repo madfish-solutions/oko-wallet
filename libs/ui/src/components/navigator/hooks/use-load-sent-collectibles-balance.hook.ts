@@ -1,6 +1,7 @@
 import { isDefined } from '@rnw-community/shared';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { getDefaultEvmProvider } from 'shelter/src/utils/get-default-evm-provider.utils';
 
 import { useTimerEffect } from '../../../hooks/use-timer-effect.hook';
 import { Token } from '../../../interfaces/token.interface';
@@ -9,7 +10,6 @@ import {
   usePendingCollectiblesTransactionsSelector,
   useSelectedNetworkSelector
 } from '../../../store/wallet/wallet.selectors';
-import { getDefaultEvmProvider } from '../../../utils/get-default-evm-provider.utils';
 
 export const useLoadSentCollectiblesBalance = () => {
   const dispatch = useDispatch();

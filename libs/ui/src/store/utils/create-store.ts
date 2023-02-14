@@ -6,8 +6,8 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import { PersistConfig } from 'redux-persist/lib/types';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { LocalStorage } from 'shelter/src/utils/local-storage.util';
 
-import { LocalStorage } from '../../utils/local-storage.util';
 import { rootStateReducer } from '../root-state.reducers';
 
 import { addFlipperDebugger } from './filpper.util';

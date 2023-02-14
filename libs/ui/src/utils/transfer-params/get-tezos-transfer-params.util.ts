@@ -1,14 +1,14 @@
 import { TransferParams } from '@taquito/taquito/dist/types/operations/types';
 import { from, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { createReadOnlyTezosToolkit } from 'shelter/src/utils/tezos-toolkit.utils';
+import { getString } from 'ui/src/utils/get-string.utils';
+import { AccountInterface } from 'ui-types/interfaces/account.interface';
 
 import { AssetTypeEnum } from '../../enums/asset-type.enum';
-import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
 import { getAssetType } from '../get-asset-type.util';
-import { getString } from '../get-string.utils';
-import { createReadOnlyTezosToolkit } from '../tezos-toolkit.utils';
 import { parseUnits } from '../units.utils';
 
 export const getTezosTransferParams$ = (

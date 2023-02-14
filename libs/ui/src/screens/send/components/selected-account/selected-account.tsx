@@ -3,6 +3,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { AccountInterface } from 'ui-types/interfaces/account.interface';
 
 import { CopyText } from '../../../../components/copy-text/copy-text';
 import { Icon } from '../../../../components/icon/icon';
@@ -14,7 +15,6 @@ import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { AccountInterface } from '../../../../interfaces/account.interface';
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
 import { ModalGasToken } from '../../../../modals/components/modal-gas-token/modal-gas-token';
 import { useSelectedNetworkSelector, useSelectedNetworkTypeSelector } from '../../../../store/wallet/wallet.selectors';

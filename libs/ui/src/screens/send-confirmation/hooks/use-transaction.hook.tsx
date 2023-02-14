@@ -4,13 +4,13 @@ import { BatchOperation } from '@taquito/taquito';
 import React, { useState } from 'react';
 import { Linking } from 'react-native';
 import { useDispatch } from 'react-redux';
+import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
 
+import { Asset } from '../../..//interfaces/asset.interface';
 import { ToastDescription } from '../../../components/toast-description/toast-description';
-import { NetworkTypeEnum } from '../../../enums/network-type.enum';
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useToast } from '../../../hooks/use-toast.hook';
-import { Asset } from '../../../interfaces/asset.interface';
 import { addTransactionAction } from '../../../store/wallet/wallet.actions';
 import {
   useSelectedAccountPublicKeyHashSelector,

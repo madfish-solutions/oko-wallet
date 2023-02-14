@@ -2,6 +2,7 @@ import { isDefined } from '@rnw-community/shared';
 import React, { FC, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, NativeSyntheticEvent, Pressable, TextInputKeyPressEventData, View } from 'react-native';
+import { isMobile, isIOS, isWeb } from 'shelter/src/utils/platform.utils';
 
 import { Button } from '../../components/button/button';
 import { ButtonThemesEnum } from '../../components/button/enums';
@@ -17,7 +18,6 @@ import { useUnlock } from '../../hooks/use-unlock.hook';
 import { useBiometricEnabledSelector } from '../../store/settings/settings.selectors';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
-import { isMobile, isIOS, isWeb } from '../../utils/platform.utils';
 import { MadFishLogo } from '../settings/components/mad-fish-logo/mad-fish-logo';
 
 import { styles } from './unlock.styles';

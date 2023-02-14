@@ -1,9 +1,9 @@
 import { OnEventFn } from '@rnw-community/shared';
 import React, { FC, ReactChild } from 'react';
 import { GestureResponderEvent, Pressable } from 'react-native';
-import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
+import { TestIDProps } from '../../../../interfaces/test-id.props';
 import { Icon } from '../../../icon/icon';
 import { IconNameEnum } from '../../../icon/icon-name.enum';
 import { Row } from '../../../row/row';

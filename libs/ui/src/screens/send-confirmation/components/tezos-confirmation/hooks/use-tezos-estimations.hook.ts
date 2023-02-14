@@ -2,11 +2,11 @@ import { Estimate, ParamsWithKind } from '@taquito/taquito';
 import { useEffect, useState, useMemo } from 'react';
 import { from, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { createReadOnlyTezosToolkit } from 'shelter/src/utils/tezos-toolkit.utils';
+import { AccountInterface } from 'ui-types/interfaces/account.interface';
 
-import { AccountInterface } from '../../../../../interfaces/account.interface';
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
 import { getPublicKeyHash } from '../../../../../store/wallet/wallet.utils';
-import { createReadOnlyTezosToolkit } from '../../../../../utils/tezos-toolkit.utils';
 
 export interface EstimationInterface extends Pick<Estimate, 'suggestedFeeMutez' | 'gasLimit' | 'storageLimit'> {
   minimalFeePerStorageByteMutez: number;

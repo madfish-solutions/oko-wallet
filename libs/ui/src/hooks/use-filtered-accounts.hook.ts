@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
+import { AccountInterface } from 'ui-types/interfaces/account.interface';
 
 import { EMPTY_STRING } from '../constants/defaults';
-import { AccountInterface } from '../interfaces/account.interface';
 import { useSelectedNetworkTypeSelector } from '../store/wallet/wallet.selectors';
 
 export const useFilteredAccounts = (accounts: AccountInterface[], selectedAccount: AccountInterface) => {
