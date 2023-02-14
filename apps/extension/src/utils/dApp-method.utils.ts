@@ -1,6 +1,6 @@
 import { getDefaultProvider } from 'ethers';
 import { createDAppResponse } from 'ui/background-script';
-import { Runtime } from 'webextension-polyfill';
+import { Runtime, runtime } from 'webextension-polyfill';
 
 import { DAppMethodEnum } from '../enums/dApp-method.enum';
 import { DAppMessage } from '../interfaces/dapp-message.interface';
@@ -196,6 +196,15 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
       case DAppMethodEnum.ETH_SIGN:
       case DAppMethodEnum.ETH_PERSONAL_SIGN: {
         await openPopup({ id, signInfo: JSON.stringify(data.params), dAppInfo: JSON.stringify(dAppInfo) }, port);
+
+        return Promise.resolve();
+      }
+
+      case DAppMethodEnum.WEB3_CLIENT_VERSION: {
+        const version = 'v' + runtime.getManifest().version;
+        const response = createDAppResponse(id, 'Oko/' + version);
+
+        port.postMessage(response);
 
         return Promise.resolve();
       }

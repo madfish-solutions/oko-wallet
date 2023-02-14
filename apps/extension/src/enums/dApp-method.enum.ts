@@ -21,7 +21,7 @@ export const enum DAppMethodEnum {
   // ETH_DECRYPT = "eth_decrypt",
   //WALLET_WATCH_ASSET = 'wallet_watchAsset',
   //METAMASK_WATCH_ASSET = 'metamask_watchAsset',
-  //WEB3_CLIENT_VERSION = 'web3_clientVersion',
+  WEB3_CLIENT_VERSION = 'web3_clientVersion',
   //ETH_SUBSCRIBE = 'eth_subscribe',
   //ETH_UNSUBSCRIBE = "eth_unsubscribe";
   //NEW_HEADS = 'newHeads',
