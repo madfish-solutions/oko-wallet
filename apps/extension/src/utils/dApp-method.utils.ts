@@ -1,9 +1,8 @@
 import { recoverPersonalSignature } from '@metamask/eth-sig-util';
 import { getDefaultProvider } from 'ethers';
-import { createDAppResponse } from 'ui/background-script';
+import { createDAppResponse, DAppMethodEnum } from 'ui/background-script';
 import { Runtime, runtime } from 'webextension-polyfill';
 
-import { DAppMethodEnum } from '../enums/dApp-method.enum';
 import { DAppMessage } from '../interfaces/dapp-message.interface';
 
 import { createDAppNotificationResponse, getHexChanId } from './network.utils';
