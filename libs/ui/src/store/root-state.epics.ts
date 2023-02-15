@@ -1,8 +1,8 @@
 import { combineEpics } from 'redux-observable';
 import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
-import { Shelter } from 'shelter/src/shelter';
-import { resetStore$ } from 'shelter/src/utils/keychain.utils';
+import { Shelter } from 'shelter';
+import { resetStore$ } from 'shelter/utils/keychain.utils';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 

@@ -1,7 +1,7 @@
 import { OnEventFn } from '@rnw-community/shared';
 import React, { FC, PropsWithChildren } from 'react';
 import { StyleProp, View, ViewStyle } from 'react-native';
-import { isWeb } from 'shelter/src/utils/platform.utils';
+import { isWeb } from 'shelter/utils/platform.utils';
 
 import { HeaderTitle } from '../../../components/navigator/components/header-title/header-title';
 import { TestIDProps } from '../../../interfaces/test-id.props';

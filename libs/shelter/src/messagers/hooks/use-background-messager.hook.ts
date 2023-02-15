@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { Shelter } from '../../shelter';
+import { Shelter } from '../..';
 import { BackgroundMessager } from '../background-messager';
 
 export const useBackgroundMessager = () => {

@@ -3,8 +3,8 @@ import { isNotEmptyString, OnEventFn } from '@rnw-community/shared';
 import { useCallback, useEffect, useMemo } from 'react';
 import { of, Subject } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { Shelter } from 'shelter/src/shelter';
-import { getDefaultEvmProvider } from 'shelter/src/utils/get-default-evm-provider.utils';
+import { Shelter } from 'shelter';
+import { getDefaultEvmProvider } from 'shelter/utils/get-default-evm-provider.utils';
 
 interface SubjectParams {
   publicKeyHash: string;

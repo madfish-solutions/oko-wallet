@@ -2,7 +2,7 @@ import { from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
 import { AccountInterface } from 'shared/interfaces/account.interface';
-import { createReadOnlyTezosToolkit } from 'shelter/src/utils/tezos-toolkit.utils';
+import { createReadOnlyTezosToolkit } from 'shelter/utils/tezos-toolkit.utils';
 
 import { TezosTokenTypeEnum } from '../../enums/tezos-token-type.enum';
 import { NetworkInterface } from '../../interfaces/network.interface';

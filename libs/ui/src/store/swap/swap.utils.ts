@@ -1,5 +1,5 @@
 import { from } from 'rxjs';
-import { getDefaultEvmProvider } from 'shelter/src/utils/get-default-evm-provider.utils';
+import { getDefaultEvmProvider } from 'shelter/utils/get-default-evm-provider.utils';
 
 import { ONE_INCH_ROUTER_ADDRESS } from '../../api/1inch/constants';
 import { Erc20Abi__factory } from '../../contract-types';

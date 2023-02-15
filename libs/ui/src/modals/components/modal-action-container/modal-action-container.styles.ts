@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { isMobile } from 'shelter/src/utils/platform.utils';
+import { isMobile } from 'shelter/utils/platform.utils';
 
 import { getCustomSize } from '../../../styles/format-size';
 

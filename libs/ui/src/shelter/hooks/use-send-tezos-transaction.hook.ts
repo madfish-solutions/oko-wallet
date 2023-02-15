@@ -3,8 +3,8 @@ import { ParamsWithKind, BatchOperation } from '@taquito/taquito';
 import { useCallback, useEffect, useMemo } from 'react';
 import { of, Subject } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { Shelter } from 'shelter/src/shelter';
-import { createTezosToolkit } from 'shelter/src/utils/tezos-toolkit.utils';
+import { Shelter } from 'shelter';
+import { createTezosToolkit } from 'shelter/utils/tezos-toolkit.utils';
 
 interface SubjectParams {
   publicKeyHash: string;

@@ -1,4 +1,4 @@
-import { isMobile } from 'shelter/src/utils/platform.utils';
+import { isMobile } from 'shelter/utils/platform.utils';
 
 import { EXTENSION_WIDTH } from '../../../constants/defaults';
 import { windowWidth } from '../../../constants/dimensions';

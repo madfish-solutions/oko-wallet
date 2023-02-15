@@ -1,7 +1,7 @@
 {
   "name": "shelter",
   "version": "1.0.0",
-  "main": "src/shelter.ts",
+  "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
     "ts": "tsc --pretty"

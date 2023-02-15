@@ -18,7 +18,8 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "paths": {
-      "shared/*": ["shared/src/*"]
+      "shared/*": ["shared/src/*"],
+      "shelter/*": ["shelter/src/*"]
     }
   },
   "exclude": [

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { Shelter } from 'shelter/src/shelter';
+import { Shelter } from 'shelter';
 
 export const useUnlock = () => {
   const [isLocked, setIsLocked] = useState(() => Shelter.getIsLocked());

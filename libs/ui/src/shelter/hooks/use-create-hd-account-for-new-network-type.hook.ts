@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { catchError, map, of, Subject, switchMap, tap } from 'rxjs';
 import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
 import { AccountInterface } from 'shared/interfaces/account.interface';
-import { Shelter } from 'shelter/src/shelter';
+import { Shelter } from 'shelter';
 
 import { useToast } from '../../hooks/use-toast.hook';
 import { hideLoaderAction, showLoaderAction } from '../../store/settings/settings.actions';

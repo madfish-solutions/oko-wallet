@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Linking, View } from 'react-native';
-import { isIOS, isWeb } from 'shelter/src/utils/platform.utils';
+import { isIOS, isWeb } from 'shelter/utils/platform.utils';
 
 import { Divider } from '../../components/divider/divider';
 import { Icon } from '../../components/icon/icon';

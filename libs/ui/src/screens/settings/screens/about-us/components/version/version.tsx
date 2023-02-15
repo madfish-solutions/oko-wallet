@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { isMobile } from 'shelter/src/utils/platform.utils';
+import { isMobile } from 'shelter/utils/platform.utils';
 
 import { Text } from '../../../../../../components/text/text';
 import { Item } from '../../../../components/item/item';

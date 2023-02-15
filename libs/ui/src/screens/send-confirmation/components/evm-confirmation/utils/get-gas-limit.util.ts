@@ -1,4 +1,4 @@
-import { getDefaultEvmProvider } from 'shelter/src/utils/get-default-evm-provider.utils';
+import { getDefaultEvmProvider } from 'shelter/utils/get-default-evm-provider.utils';
 
 import { Erc1155Abi__factory, Erc20Abi__factory, Erc721Abi__factory } from '../../../../../contract-types';
 import { AssetTypeEnum } from '../../../../../enums/asset-type.enum';

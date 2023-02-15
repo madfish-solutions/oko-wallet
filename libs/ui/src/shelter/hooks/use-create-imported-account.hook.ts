@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { catchError, of, Subject, switchMap, tap } from 'rxjs';
 import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
 import { HdAccount } from 'shared/interfaces/hd-account.interfaces';
-import { Shelter } from 'shelter/src/shelter';
+import { Shelter } from 'shelter';
 
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
