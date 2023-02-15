@@ -74,12 +74,15 @@ module.exports = {
     resolve: {
         mainFields: ['browser', 'main', 'module'],
         alias: {
-            'react-native$': 'react-native-web'
+            'react-native$': 'react-native-web',
+            'shared': path.resolve(__dirname, '../../libs/shared/src'),
+            'shelter': path.resolve(__dirname, '../../libs/shelter/src'),
         },
         plugins: [new TsconfigPathsPlugin()],
         modules: [
             path.resolve(__dirname, 'node_modules'),
-            path.resolve(__dirname, '../../libs/ui/node_modules')
+            path.resolve(__dirname, '../../libs/ui/node_modules'),
+            path.resolve(__dirname, '../../libs/shelter/node_modules'),
         ],
         extensions: ['.web.ts', '.web.tsx', '.web.mjs', '.web.js', '.web.jsx', '.ts', '.tsx', '.mjs', '.js', '.jsx'],
         fallback: {
@@ -118,7 +121,7 @@ module.exports = {
                         ]
                     }
                 },
-                {from: '../../libs/ui/node_modules/wasm-themis/src/libthemis.wasm', to: 'scripts/libthemis.wasm'}
+                {from: '../../libs/shelter/node_modules/wasm-themis/src/libthemis.wasm', to: 'scripts/libthemis.wasm'}
             ]
         }),
         new HtmlWebpackPlugin({
