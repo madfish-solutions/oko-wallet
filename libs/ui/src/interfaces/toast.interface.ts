@@ -1,6 +1,6 @@
 import { ToastProps } from 'react-native-toast-notifications/lib/typescript/toast';
 
-interface ToastData {
+export interface ToastData {
   description?: string | JSX.Element;
   isShowTimerLine?: boolean;
 }
