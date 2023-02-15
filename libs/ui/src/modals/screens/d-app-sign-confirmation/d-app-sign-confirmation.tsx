@@ -20,6 +20,8 @@ import { DAppHeader } from '../d-app-connection-confirmation/d-app-header/d-app-
 import { styles } from './d-app-sign-confirmation.styles';
 import { prepareSignData } from './utils/prepare-sign-data';
 
+const PERSONAL_SIGN_METHOD = 'personal_sign';
+
 export const DAppSignConfirmation: FC = () => {
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DAppSignConfirmation>>();
   const selectedAccount = useSelectedAccountSelector();
@@ -28,7 +30,7 @@ export const DAppSignConfirmation: FC = () => {
 
   const onDecline = () => sendErrorToDAppAndClosePopup(params.dAppInfo.origin, params.messageId);
 
-  const messageToSign = params.method === 'personal_sign' ? params.signInfo[0] : params.signInfo[1];
+  const messageToSign = params.method === PERSONAL_SIGN_METHOD ? params.signInfo[0] : params.signInfo[1];
 
   const onSubmit = () => {
     signMessage({

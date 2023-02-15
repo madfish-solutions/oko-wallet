@@ -124,10 +124,11 @@ export class Shelter {
             from(generateHdAccount(seedPhrase, getEtherDerivationPath(hdAccountId))).pipe(
               map(({ privateKey, publicKey, address }) => {
                 const name = accountName ?? `Account ${hdAccountId + 1}`;
+                const publicKeyHash = address.toLowerCase();
 
                 return {
                   privateData: {
-                    [address.toLowerCase()]: privateKey
+                    [publicKeyHash]: privateKey
                   },
                   publicData: {
                     name,
@@ -136,7 +137,7 @@ export class Shelter {
                     networksKeys: {
                       [NetworkTypeEnum.EVM]: {
                         publicKey,
-                        publicKeyHash: address.toLowerCase()
+                        publicKeyHash
                       }
                     },
                     isVisible: true
