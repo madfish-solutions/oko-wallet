@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
-import { AccountInterface } from 'ui-types/interfaces/account.interface';
+import { AccountInterface } from 'shared/interfaces/account.interface';
 
 import { ScreensEnum, ScreensParamList } from '../../../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../../../hooks/use-navigation.hook';

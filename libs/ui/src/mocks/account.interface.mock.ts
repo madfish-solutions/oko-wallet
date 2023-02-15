@@ -1,6 +1,6 @@
-import { AccountTypeEnum } from 'ui-types/enums/account-type.enum';
-import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
-import { AccountInterface } from 'ui-types/interfaces/account.interface';
+import { AccountTypeEnum } from 'shared/enums/account-type.enum';
+import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
+import { AccountInterface } from 'shared/interfaces/account.interface';
 
 export const initialAccount: AccountInterface = {
   name: '',

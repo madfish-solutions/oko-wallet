@@ -5,10 +5,10 @@ import { generateMnemonic } from 'bip39';
 import { ethers } from 'ethers';
 import { forkJoin, of, Observable, from, BehaviorSubject } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { AccountTypeEnum } from 'ui-types/enums/account-type.enum';
-import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
-import { AccountInterface } from 'ui-types/interfaces/account.interface';
-import { HdAccount } from 'ui-types/interfaces/hd-account.interfaces';
+import { AccountTypeEnum } from 'shared/enums/account-type.enum';
+import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
+import { AccountInterface } from 'shared/interfaces/account.interface';
+import { HdAccount } from 'shared/interfaces/hd-account.interfaces';
 
 import { BackgroundMessager } from './messagers/background-messager';
 import { decrypt } from './themis/decrypt';

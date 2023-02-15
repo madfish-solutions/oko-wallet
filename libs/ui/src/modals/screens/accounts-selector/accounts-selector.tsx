@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
-import { AccountInterface } from 'ui-types/interfaces/account.interface';
+import { AccountInterface } from 'shared/interfaces/account.interface';
 
 import { ButtonWithIcon } from '../../../components/button-with-icon/button-with-icon';
 import { ButtonWithIconSizeEnum, ButtonWithIconThemesEnum } from '../../../components/button-with-icon/enums';

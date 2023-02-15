@@ -1,6 +1,6 @@
 import { isDefined } from '@rnw-community/shared';
 import { BigNumber } from 'bignumber.js';
-import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
+import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
 
 import { GAS_TOKEN_ADDRESS } from '../constants/defaults';
 import { useTokensMarketInfoSelector } from '../store/tokens-market-info/token-market-info.selectors';

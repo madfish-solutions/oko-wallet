@@ -18,7 +18,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "paths": {
-      "ui-types/*": ["ui-types/src/*"]
+      "shared/*": ["shared/src/*"]
     }
   },
   "exclude": [

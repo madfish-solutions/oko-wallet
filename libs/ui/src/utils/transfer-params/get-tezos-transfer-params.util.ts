@@ -1,9 +1,9 @@
 import { TransferParams } from '@taquito/taquito/dist/types/operations/types';
 import { from, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AccountInterface } from 'shared/interfaces/account.interface';
 import { createReadOnlyTezosToolkit } from 'shelter/src/utils/tezos-toolkit.utils';
 import { getString } from 'ui/src/utils/get-string.utils';
-import { AccountInterface } from 'ui-types/interfaces/account.interface';
 
 import { AssetTypeEnum } from '../../enums/asset-type.enum';
 import { NetworkInterface } from '../../interfaces/network.interface';

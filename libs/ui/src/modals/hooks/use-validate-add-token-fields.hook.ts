@@ -1,5 +1,5 @@
 import { isNotEmptyString } from '@rnw-community/shared';
-import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
+import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
 
 import { requiredFieldError, onlySpacesError } from '../../constants/form-errors';
 import { useSelectedNetworkTypeSelector } from '../../store/wallet/wallet.selectors';

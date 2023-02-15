@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
+import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
 
 import { ButtonWithIcon } from '../../../../components/button-with-icon/button-with-icon';
 import { ButtonWithIconSizeEnum } from '../../../../components/button-with-icon/enums';

@@ -2,7 +2,7 @@ import isEmpty from 'lodash/isEmpty';
 import React, { FC, PropsWithChildren, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { View } from 'react-native';
-import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
+import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
 
 import { CopyText } from '../../../../components/copy-text/copy-text';
 import { FragmentSelector } from '../../../../components/fragment-selector/fragment-selector';

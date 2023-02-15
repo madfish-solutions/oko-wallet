@@ -3,9 +3,9 @@ import { parseUnits } from 'ethers/lib/utils';
 import { combineEpics } from 'redux-observable';
 import { Observable, of, from } from 'rxjs';
 import { catchError, concatMap, debounceTime, map } from 'rxjs/operators';
+import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
-import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
 
 import { getQuote, getSwapData } from '../../api/1inch/1inch';
 import { DEBOUNCE_TIME } from '../../constants/defaults';

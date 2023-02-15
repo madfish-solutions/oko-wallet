@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Subject, switchMap, tap } from 'rxjs';
-import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
+import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
+import { Shelter } from 'shelter/src/shelter';
 
-import { Shelter } from '../../../../shelter/src/shelter';
 import { hideLoaderAction, showLoaderAction } from '../../store/settings/settings.actions';
 import { createHdAccountAction, setSelectedAccountAction } from '../../store/wallet/wallet.actions';
 import { getString } from '../../utils/get-string.utils';

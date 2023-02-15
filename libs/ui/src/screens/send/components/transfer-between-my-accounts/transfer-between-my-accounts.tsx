@@ -3,8 +3,8 @@ import { isDefined, isEmptyString, isNotEmptyString } from '@rnw-community/share
 import React, { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Pressable, View } from 'react-native';
+import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
 import { isMobile } from 'shelter/src/utils/platform.utils';
-import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
 
 import { Button } from '../../../../components/button/button';
 import { ButtonSizeEnum, ButtonThemesEnum } from '../../../../components/button/enums';

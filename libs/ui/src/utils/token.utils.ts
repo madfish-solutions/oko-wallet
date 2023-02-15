@@ -1,7 +1,7 @@
 import { isNotEmptyString } from '@rnw-community/shared';
 import { Observable } from 'rxjs';
-import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
-import { AccountInterface } from 'ui-types/interfaces/account.interface';
+import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
+import { AccountInterface } from 'shared/interfaces/account.interface';
 
 import { NetworkInterface } from '../interfaces/network.interface';
 import { Token } from '../interfaces/token.interface';

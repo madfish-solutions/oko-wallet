@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { View } from 'react-native';
-import { AccountInterface } from 'ui-types/interfaces/account.interface';
+import { AccountInterface } from 'shared/interfaces/account.interface';
 
 import { Text } from '../../../../../../components/text/text';
 import { SelectedAccount } from '../../../../../send/components/selected-account/selected-account';

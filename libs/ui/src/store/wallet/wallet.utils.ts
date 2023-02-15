@@ -1,6 +1,6 @@
 import { isDefined } from '@rnw-community/shared';
-import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
-import { AccountInterface } from 'ui-types/interfaces/account.interface';
+import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
+import { AccountInterface } from 'shared/interfaces/account.interface';
 
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { TOKENS_DEFAULT_LIST } from '../../constants/tokens';

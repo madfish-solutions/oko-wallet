@@ -2,8 +2,8 @@ import { Estimate, ParamsWithKind } from '@taquito/taquito';
 import { useEffect, useState, useMemo } from 'react';
 import { from, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { AccountInterface } from 'shared/interfaces/account.interface';
 import { createReadOnlyTezosToolkit } from 'shelter/src/utils/tezos-toolkit.utils';
-import { AccountInterface } from 'ui-types/interfaces/account.interface';
 
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
 import { getPublicKeyHash } from '../../../../../store/wallet/wallet.utils';

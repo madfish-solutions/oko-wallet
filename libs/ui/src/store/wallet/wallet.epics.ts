@@ -1,9 +1,9 @@
 import { combineEpics } from 'redux-observable';
 import { forkJoin, from, Observable, of } from 'rxjs';
 import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
+import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
-import { NetworkTypeEnum } from 'ui-types/enums/network-type.enum';
 
 import { getAllUserNftList, getTokenList } from '../../api/debank/debank';
 import { ScreensEnum } from '../../enums/sreens.enum';

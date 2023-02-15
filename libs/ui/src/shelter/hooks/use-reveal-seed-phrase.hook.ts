@@ -1,8 +1,7 @@
 import { OnEventFn } from '@rnw-community/shared';
 import { useCallback, useEffect, useMemo } from 'react';
 import { map, Subject, switchMap } from 'rxjs';
-
-import { Shelter } from '../../../../shelter/src/shelter';
+import { Shelter } from 'shelter/src/shelter';
 
 interface SubjectParams {
   successCallback: OnEventFn<string>;
