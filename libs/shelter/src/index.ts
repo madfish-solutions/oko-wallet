@@ -9,6 +9,7 @@ import { AccountTypeEnum } from 'shared/enums/account-type.enum';
 import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
 import { AccountInterface } from 'shared/interfaces/account.interface';
 import { HdAccount } from 'shared/interfaces/hd-account.interfaces';
+import { isWeb } from 'shared/utils/platform.utils';
 
 import { BackgroundMessager } from './messagers/background-messager';
 import { decrypt } from './themis/decrypt';
@@ -16,7 +17,6 @@ import { encrypt } from './themis/encrypt';
 import { getEtherDerivationPath } from './utils/derivation-path.utils';
 import { derivationPathByNetworkType, generateHdAccount } from './utils/generate-hd-account.util';
 import { generateHash$ } from './utils/hash.utils';
-import { isWeb } from './utils/platform.utils';
 import { setStoredValue } from './utils/store.util';
 
 export const PASSWORD_CHECK_KEY = 'app-password';

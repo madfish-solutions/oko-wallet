@@ -1,7 +1,7 @@
 import { useNavigationState } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
-import { isWeb } from 'shelter/utils/platform.utils';
+import { isWeb } from 'shared/utils/platform.utils';
 
 import { useScrollToOffset } from '../../../hooks/use-scroll-to-element.hook';
 import { isFullpage } from '../../../utils/location.utils';

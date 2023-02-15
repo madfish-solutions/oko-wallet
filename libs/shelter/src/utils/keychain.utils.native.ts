@@ -1,7 +1,6 @@
 import Keychain from 'react-native-keychain';
 import { of } from 'rxjs';
-
-import { isAndroid } from './platform.utils';
+import { isAndroid } from 'shared/utils/platform.utils';
 
 const APP_IDENTIFIER = 'com.madfish.klaytn-wallet';
 

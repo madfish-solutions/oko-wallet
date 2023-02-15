@@ -4,7 +4,7 @@ import React, { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Pressable, View } from 'react-native';
 import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
-import { isMobile } from 'shelter/utils/platform.utils';
+import { isMobile } from 'shared/utils/platform.utils';
 
 import { Button } from '../../../../components/button/button';
 import { ButtonSizeEnum, ButtonThemesEnum } from '../../../../components/button/enums';

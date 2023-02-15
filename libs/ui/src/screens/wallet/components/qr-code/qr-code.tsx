@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { View, Animated } from 'react-native';
 import QRCodeLibrary from 'react-native-qrcode-svg';
-import { isMobile } from 'shelter/utils/platform.utils';
+import { isMobile } from 'shared/utils/platform.utils';
 
 import { Column } from '../../../../components/column/column';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';

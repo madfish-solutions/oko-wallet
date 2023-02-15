@@ -1,7 +1,7 @@
 import { OnEventFn } from '@rnw-community/shared';
 import React, { FC, useEffect } from 'react';
 import { GestureResponderEvent, TouchableOpacity } from 'react-native';
-import { isMobile } from 'shelter/utils/platform.utils';
+import { isMobile } from 'shared/utils/platform.utils';
 
 import { isFullpage } from '../../utils/location.utils';
 import { openFullViewPage } from '../../utils/open-maximise-screen.util';

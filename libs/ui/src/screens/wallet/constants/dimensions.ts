@@ -1,4 +1,4 @@
-import { isWeb } from 'shelter/utils/platform.utils';
+import { isWeb } from 'shared/utils/platform.utils';
 
 import { windowHeight } from '../../../constants/dimensions';
 import { getCustomSize } from '../../../styles/format-size';
