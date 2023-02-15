@@ -1,5 +1,6 @@
 import { AccountsSelectorPage } from './accounts-selector.page';
 import { AccountsSettingsPage } from './accounts-settings.page';
+import { AddNewAccountByPrivateKeyPage } from './add-new-account-by-private-key.page';
 import { AddNewAccountBySeedPage } from './add-new-account-by-seed.page';
 import { AddNewHdAccountPage } from './add-new-hd-account.page';
 import { AlmostDonePage } from './almost-done.page';
@@ -25,5 +26,6 @@ export const Pages = {
   RevealSeedPhrase: new RevealSeedPhrasePage(),
   AccountsSelector: new AccountsSelectorPage(),
   AddNewHdAccount: new AddNewHdAccountPage(),
-  AddNewAccountBySeed: new AddNewAccountBySeedPage()
+  AddNewAccountBySeed: new AddNewAccountBySeedPage(),
+  AddNewAccountByPrivateKey: new AddNewAccountByPrivateKeyPage()
 };

@@ -16,6 +16,7 @@ import { ModalFooterButtons } from '../../../../components/modal-footer-buttons/
 import { useAccountFieldRules } from '../../../../hooks/use-validate-account-field.hook';
 
 import { styles } from './private-key.styles';
+import { AddByPrivateKeyTestIDs } from './private-key.test-ids';
 
 interface FormTypes {
   name: string;
@@ -137,6 +138,7 @@ export const PrivateKey: FC = () => {
                 inputInnerContainerStyle={styles.inputInnerContainer}
                 inputStyle={styles.textarea}
                 clearIconStyles={styles.clearIcon}
+                testID={AddByPrivateKeyTestIDs.PrivateKeyInput}
               />
             )}
           />
@@ -151,6 +153,7 @@ export const PrivateKey: FC = () => {
         onSubmitPress={handleSubmit(onSubmit)}
         isSubmitDisabled={Boolean(Object.keys(errors).length)}
         style={styles.buttons}
+        testID={AddByPrivateKeyTestIDs.ImportButton}
       />
     </>
   );
