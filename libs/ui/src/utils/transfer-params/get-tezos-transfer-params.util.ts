@@ -3,11 +3,11 @@ import { from, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AccountInterface } from 'shared/interfaces/account.interface';
 import { createReadOnlyTezosToolkit } from 'shelter/utils/tezos-toolkit.utils';
-import { getString } from 'ui/src/utils/get-string.utils';
 
 import { AssetTypeEnum } from '../../enums/asset-type.enum';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
+import { getString } from '../../utils/get-string.utils';
 import { getAssetType } from '../get-asset-type.util';
 import { parseUnits } from '../units.utils';
 

@@ -3616,7 +3616,7 @@ create-hash@^1.1.0, create-hash@^1.1.2:
     ripemd160 "^2.0.1"
     sha.js "^2.4.0"
 
-create-hmac@1.1.7, create-hmac@^1.1.4:
+create-hmac@^1.1.4:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/create-hmac/-/create-hmac-1.1.7.tgz#69170c78b3ab957147b2b8b04572e47ead2243ff"
   integrity sha512-MJG9liiZ+ogc4TzUwuvbER1JRdgvUFSB5+VR/g5h82fGaIRWMWddtKBHi7/sVhfjQZ6SehlyhvQYrcYkaUIpLg==
@@ -3843,14 +3843,6 @@ domutils@^3.0.1:
     dom-serializer "^2.0.0"
     domelementtype "^2.3.0"
     domhandler "^5.0.1"
-
-ed25519-hd-key@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/ed25519-hd-key/-/ed25519-hd-key-1.3.0.tgz#e0bd2be4c07e15c753d5ed3aca30744e321b7c78"
-  integrity sha512-IWwAyiiuJQhgu3L8NaHb68eJxTu2pgCwxIBdgpLJdKpYZM46+AXePSVTr7fkNKaUOfOL4IrjEUaQvyVRIDP7fg==
-  dependencies:
-    create-hmac "1.1.7"
-    tweetnacl "1.0.3"
 
 ee-first@1.1.1:
   version "1.1.1"
@@ -6575,11 +6567,6 @@ react-native-haptic-feedback@^1.14.0:
   resolved "https://registry.yarnpkg.com/react-native-haptic-feedback/-/react-native-haptic-feedback-1.14.0.tgz#b50f49dedda4980b3c37c5780823f753cf3ee717"
   integrity sha512-dSXZ6gAzl+W/L7BPjOpnT0bx0cgQiSr0sB3DjyDJbGIdVr4ISaktZC6gC9xYFTv2kMq0+KtbKi+dpd0WtxYZMw==
 
-react-native-keychain@^8.1.1:
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-8.1.1.tgz#3bb5e37946b964a7bcf7df2fe470dd244e01a340"
-  integrity sha512-8fxgeHKwGcL657eAYpdBTkDIxNhbIHI+kyyO0Yac2dgVAN184JoIwQcW2z6snahwDaCObQOu0biLFHnsH+4KSg==
-
 react-native-qrcode-svg@^6.1.2:
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/react-native-qrcode-svg/-/react-native-qrcode-svg-6.1.2.tgz#a7cb6c10199ab01418a7f7700ce17a6a014f544e"
@@ -6592,11 +6579,6 @@ react-native-safe-area-context@^4.4.1:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-4.4.1.tgz#239c60b8a9a80eac70a38a822b04c0f1d15ffc01"
   integrity sha512-N9XTjiuD73ZpVlejHrUWIFZc+6Z14co1K/p1IFMkImU7+avD69F3y+lhkqA2hN/+vljdZrBSiOwXPkuo43nFQA==
-
-react-native-sha256@^1.4.9:
-  version "1.4.9"
-  resolved "https://registry.yarnpkg.com/react-native-sha256/-/react-native-sha256-1.4.9.tgz#39760f50513deb5cdd9fd872cf632f9889e68c92"
-  integrity sha512-J5NPOAQmqlmBAtEkN3FBrmCwdTGw+5t+Q82YQlujbhx17qMe/7EL47c8boHNE6K+BIsd48NOhbP0quGUiJvOLQ==
 
 react-native-svg@^13.7.0:
   version "13.7.0"
@@ -7569,11 +7551,6 @@ tslib@~2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
   integrity sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
-
-tweetnacl@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-1.0.3.tgz#ac0af71680458d8a6378d0d0d050ab1407d35596"
-  integrity sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==
 
 type-detect@4.0.8:
   version "4.0.8"
