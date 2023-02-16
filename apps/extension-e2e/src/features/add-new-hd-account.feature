@@ -1,6 +1,5 @@
 Feature: Add HD Account
 
-@dev
   Scenario: As a user, I'd like to add new hd account
     Given I have imported account
     And I press Accounts Selector button on the Wallet page
@@ -16,5 +15,3 @@ Feature: Add HD Account
 
     And I am on the AccountsSelector page
     And I see Account 2 on the AccountsSelector page
-
-

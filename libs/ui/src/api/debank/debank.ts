@@ -1,14 +1,12 @@
 import { isNotEmptyString } from '@rnw-community/shared';
 import axios from 'axios';
+import { ActivityResponse, NftListResponse, TokenListResponse } from 'backend-types';
 
 import { GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { DATA_UPDATE_TIME } from '../../constants/update-time';
-import { ActivityResponse } from '../../interfaces/activity-response.interface';
 import { BACKEND_URL } from '../../utils/env.utils';
 import { getSlug } from '../../utils/getSlug.uitl';
 import { memoize } from '../../utils/memoize.util';
-
-import { NftListResponse, TokenListResponse } from './types';
 
 const debankApiRequest = axios.create({
   baseURL: `${BACKEND_URL}/debank/`

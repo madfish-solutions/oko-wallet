@@ -13,3 +13,5 @@ export { E2eMessageType } from './messagers/enums/e2e-message-type.enum';
 export { INITIAL_PASSWORD_HASH } from './shelter/shelter';
 export { createDAppResponse, POPUP_CLOSED, POPUP_OPEN } from './utils/dapp.utils';
 export { LocalStorage } from './utils/local-storage.util';
+export { initialRootState } from './store/root-state.initial-state';
+export { DAppMethodEnum } from './enums/dApp-method.enum';
