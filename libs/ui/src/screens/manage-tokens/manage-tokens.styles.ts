@@ -19,8 +19,5 @@ export const styles = StyleSheet.create({
   borderBottom: {
     borderBottomWidth: getCustomSize(0.125),
     borderBottomColor: colors.border2
-  },
-  editIcon: {
-    marginRight: getCustomSize(2)
   }
 });
