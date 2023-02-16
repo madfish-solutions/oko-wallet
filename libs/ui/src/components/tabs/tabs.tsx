@@ -1,5 +1,5 @@
 import { isDefined, OnEventFn } from '@rnw-community/shared';
-import React, { FC, Fragment, useCallback, useEffect, useRef, useState, ReactNode } from 'react';
+import React, { FC, Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { Animated, Easing, GestureResponderEvent, LayoutChangeEvent, Pressable, View } from 'react-native';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
@@ -17,10 +17,9 @@ interface Props {
   tabsStyle?: ViewStyleProps;
   activeItemId?: number;
   activeItemCallback?: OnEventFn<number>;
-  additionalTabHeader?: ReactNode;
 }
 
-export const Tabs: FC<Props> = ({ values, tabsStyle, activeItemId, activeItemCallback, additionalTabHeader }) => {
+export const Tabs: FC<Props> = ({ values, tabsStyle, activeItemId, activeItemCallback }) => {
   const [activeElementId, setActiveElementId] = useState(isDefined(activeItemId) ? activeItemId : values[0].id);
 
   const [tabsXOffsetForAndroid, setTabsXOffsetForAndroid] = useState<number[]>([]);
@@ -88,26 +87,23 @@ export const Tabs: FC<Props> = ({ values, tabsStyle, activeItemId, activeItemCal
   return (
     <View style={styles.root}>
       <Row style={[styles.tabs, tabsStyle]}>
-        <Row>
-          {values.map(({ id, title }, index) => (
-            <Fragment key={id}>
-              <Pressable
-                testID={AccountAddingMethodsTestIDs.MethodButton}
-                ref={el => (index === (activeElementId - 1 ?? 0) ? (tabRef.current = el) : null)}
-                onLayout={onTabLayout}
-                onPress={el => handleActiveItem(id, el)}
-                style={styles.element}
-              >
-                <Text style={[styles.text, activeElementId === id && styles.active]}>{title}</Text>
-              </Pressable>
-              {values.length - 1 !== index && <Divider style={styles.divider} />}
-            </Fragment>
-          ))}
-          <Animated.View
-            style={[styles.border, { width: getCustomSize(4), transform: [{ translateX: offsetXElement }] }]}
-          />
-        </Row>
-        {additionalTabHeader}
+        {values.map(({ id, title }, index) => (
+          <Fragment key={id}>
+            <Pressable
+              testID={AccountAddingMethodsTestIDs.MethodButton}
+              ref={el => (index === (activeElementId - 1 ?? 0) ? (tabRef.current = el) : null)}
+              onLayout={onTabLayout}
+              onPress={el => handleActiveItem(id, el)}
+              style={styles.element}
+            >
+              <Text style={[styles.text, activeElementId === id && styles.active]}>{title}</Text>
+            </Pressable>
+            {values.length - 1 !== index && <Divider style={styles.divider} />}
+          </Fragment>
+        ))}
+        <Animated.View
+          style={[styles.border, { width: getCustomSize(4), transform: [{ translateX: offsetXElement }] }]}
+        />
       </Row>
 
       <View style={styles.component}>
