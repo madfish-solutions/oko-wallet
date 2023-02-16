@@ -127,7 +127,7 @@ export type ScreensParamList = {
     transactionInfo: DAppTransactionInfo;
     dAppInfo: DAppInfo;
   };
-  [ScreensEnum.DAppSignConfirmation]: { messageId: string; signInfo: string[]; dAppInfo: DAppInfo };
+  [ScreensEnum.DAppSignConfirmation]: { messageId: string; signInfo: string[]; dAppInfo: DAppInfo; method: string };
   [ScreensEnum.Swap]?: { fromToken?: Token; toToken?: Token };
   [ScreensEnum.SlippageTolerance]: undefined;
   [ScreensEnum.SwapRoute]: { routes: GetQuoteResponse['protocols']; fromToken: Token; toToken: Token };

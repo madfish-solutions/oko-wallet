@@ -28,7 +28,6 @@ function connectPort() {
   window.addEventListener('message', async message => {
     if (message.data?.target === CONTENT_SCRIPT) {
       const windowMetadata = await getWindowMetadata();
-
       const dAppMessage: DAppMessage = {
         data: message.data,
         sender: {
