@@ -19,8 +19,7 @@ export const styles = StyleSheet.create({
         height: getCustomSize(0.125)
       },
       shadowOpacity: getCustomSize(0.0275),
-      shadowRadius: getCustomSize(0.2775),
-      elevation: getCustomSize(0.375)
+      shadowRadius: getCustomSize(0.2775)
     })
   },
   title: {
