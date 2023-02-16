@@ -5,6 +5,7 @@ const backgroundColors = {
   bgGrey4: '#1D2129',
   bgGrey5: '#2F3031',
   bgGrey6: '#23241D',
+  bgGrey7: '#000000',
   bgBrown: '#ED3D2514',
   bgNavyGreen: '#142621',
   bgNavyRed: '#231A1D',
