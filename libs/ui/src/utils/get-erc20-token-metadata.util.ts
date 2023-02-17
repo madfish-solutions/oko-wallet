@@ -1,6 +1,6 @@
 import { forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { getDefaultEvmProvider } from 'shelter/utils/get-default-evm-provider.utils';
+import { getDefaultEvmProvider } from 'shelter';
 
 import { Erc20Abi__factory } from '../contract-types';
 

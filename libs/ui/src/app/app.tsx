@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { useBackgroundMessager } from 'shelter/messagers/hooks/use-background-messager.hook';
+import { useBackgroundMessager } from 'shelter';
 
 import { Navigator } from '../components/navigator/navigator';
 import { ToastProvider } from '../components/toast-provider/toast-provider';

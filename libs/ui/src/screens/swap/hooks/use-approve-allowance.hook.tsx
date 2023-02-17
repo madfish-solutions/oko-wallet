@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { of, from, switchMap, Subject } from 'rxjs';
 import { concatMap, tap } from 'rxjs/operators';
-import { getDefaultEvmProvider } from 'shelter/utils/get-default-evm-provider.utils';
+import { getDefaultEvmProvider } from 'shelter';
 
 import { getApproveData } from '../../../api/1inch/1inch';
 import { useToast } from '../../../hooks/use-toast.hook';

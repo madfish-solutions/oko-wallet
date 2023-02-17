@@ -3,7 +3,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { from, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AccountInterface } from 'shared';
-import { createReadOnlyTezosToolkit } from 'shelter/utils/tezos-toolkit.utils';
+import { createReadOnlyTezosToolkit } from 'shelter';
 
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
 import { getPublicKeyHash } from '../../../../../store/wallet/wallet.utils';

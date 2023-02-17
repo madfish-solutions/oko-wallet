@@ -1,7 +1,7 @@
 import { isDefined } from '@rnw-community/shared';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { getDefaultEvmProvider } from 'shelter/utils/get-default-evm-provider.utils';
+import { getDefaultEvmProvider } from 'shelter';
 
 import { useTimerEffect } from '../../../hooks/use-timer-effect.hook';
 import { Token } from '../../../interfaces/token.interface';

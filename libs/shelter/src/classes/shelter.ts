@@ -7,16 +7,13 @@ import { forkJoin, of, Observable, from, BehaviorSubject } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { AccountTypeEnum, NetworkTypeEnum, AccountInterface, HdAccount, isWeb, setStoredValue } from 'shared';
 
+import { INITIAL_PASSWORD_HASH, PASSWORD_CHECK_KEY, SEED_PHRASE_KEY } from '../constants/defaults';
 import { BackgroundMessager } from '../messagers/background-messager';
 import { decrypt } from '../themis/decrypt';
 import { encrypt } from '../themis/encrypt';
 import { getEtherDerivationPath } from '../utils/derivation-path.utils';
 import { derivationPathByNetworkType, generateHdAccount } from '../utils/generate-hd-account.util';
 import { generateHash$ } from '../utils/hash.utils';
-
-export const PASSWORD_CHECK_KEY = 'app-password';
-export const SEED_PHRASE_KEY = 'seedPhrase';
-export const INITIAL_PASSWORD_HASH = '';
 
 export class Shelter {
   static _passwordHash$ = new BehaviorSubject(INITIAL_PASSWORD_HASH);

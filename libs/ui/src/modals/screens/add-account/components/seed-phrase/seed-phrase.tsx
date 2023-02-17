@@ -4,7 +4,7 @@ import React, { FC, useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { View, ScrollView, TextInput } from 'react-native';
 import { NetworkTypeEnum } from 'shared';
-import { derivationPathByNetworkType, generateHdAccount } from 'shelter/utils/generate-hd-account.util';
+import { derivationPathByNetworkType, generateHdAccount } from 'shelter';
 
 import { Announcement } from '../../../../../components/announcement/announcement';
 import { Column } from '../../../../../components/column/column';

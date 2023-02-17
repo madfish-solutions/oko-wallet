@@ -1,6 +1,6 @@
 import { Wallet } from 'ethers';
 import { NetworkTypeEnum } from 'shared';
-import { getKeys } from 'shelter/utils/generate-tezos-hd-account.util';
+import { getKeys } from 'shelter';
 
 export const generateHdAccountFromPrivateKey = async (privateKeyParam: string, networkType: NetworkTypeEnum) => {
   switch (networkType) {
