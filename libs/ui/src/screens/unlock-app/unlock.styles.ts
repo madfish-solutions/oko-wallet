@@ -26,19 +26,6 @@ export const styles = StyleSheet.create({
       borderRadius: maximiseViewStyles.borderRadius
     })
   },
-  icon: {
-    margin: getCustomSize()
-  },
-  iconContainer: {
-    backgroundColor: colors.bgGrey4,
-    alignSelf: 'flex-end',
-    marginBottom: getCustomSize(3.625),
-    borderRadius: getCustomSize(),
-    marginLeft: getCustomSize()
-  },
-  button: {
-    marginBottom: getCustomSize(2)
-  },
   bottomBlock: {
     backgroundColor: colors.navGrey1,
     paddingHorizontal: getCustomSize(2),
@@ -48,14 +35,9 @@ export const styles = StyleSheet.create({
       borderRadius: maximiseViewStyles.borderRadius
     })
   },
-  madLogo: {
-    marginBottom: getCustomSize(4.25),
-    marginTop: getCustomSize(5)
-  },
-  eyeIcon: {
-    position: 'absolute',
-    top: getCustomSize(1.5),
-    right: getCustomSize()
+  password: {
+    position: 'relative',
+    width: '100%'
   },
   inputContainer: {
     position: 'relative',
@@ -65,19 +47,18 @@ export const styles = StyleSheet.create({
     paddingTop: getCustomSize(2.125),
     marginBottom: getCustomSize(3.625)
   },
-  input: {
-    width: '100%'
+  iconContainer: {
+    backgroundColor: colors.bgGrey4,
+    alignSelf: 'flex-end',
+    marginBottom: getCustomSize(3.625),
+    borderRadius: getCustomSize(),
+    marginLeft: getCustomSize()
   },
-  label: {
-    marginBottom: getCustomSize(1.25)
+  icon: {
+    margin: getCustomSize()
   },
-  password: {
-    position: 'relative',
-    width: '100%'
-  },
-  clearIcon: {
-    position: 'relative',
-    right: getCustomSize(4)
+  button: {
+    marginBottom: getCustomSize(2)
   },
   textContainer: {
     justifyContent: 'center'
@@ -89,5 +70,9 @@ export const styles = StyleSheet.create({
   linkText: {
     color: colors.orange,
     textDecorationLine: 'underline'
+  },
+  madLogo: {
+    marginBottom: getCustomSize(4.25),
+    marginTop: getCustomSize(5)
   }
 });

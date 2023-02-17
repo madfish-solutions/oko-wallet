@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { NetworkTypeEnum } from 'shared';
 
 import { CHAINS_JSON, DEBOUNCE_TIME } from '../../../../constants/defaults';
+import { httpsRegx } from '../../../../constants/regex-validation';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useToast } from '../../../../hooks/use-toast.hook';
@@ -72,11 +73,13 @@ export const AddNetwork: FC = () => {
 
   const getNetworkChainId = useRef(
     debounce(async (newRpcUrl: string) => {
-      if (isNotEmptyString(newRpcUrl.trim())) {
+      const trimmedNewRpcUrl = newRpcUrl.trim();
+
+      if (isNotEmptyString(trimmedNewRpcUrl) && Boolean(httpsRegx.test(trimmedNewRpcUrl))) {
         let currentChainId = null;
 
         try {
-          const provider = getDefaultProvider(newRpcUrl.trim());
+          const provider = getDefaultProvider(trimmedNewRpcUrl);
 
           const currentProvider = await provider.getNetwork().catch(() => {
             resetDynamicFields();

@@ -116,10 +116,11 @@ export class Shelter {
             from(generateHdAccount(seedPhrase, getEtherDerivationPath(hdAccountId))).pipe(
               map(({ privateKey, publicKey, address }) => {
                 const name = accountName ?? `Account ${hdAccountId + 1}`;
+                const publicKeyHash = address.toLowerCase();
 
                 return {
                   privateData: {
-                    [address]: privateKey
+                    [publicKeyHash]: privateKey
                   },
                   publicData: {
                     name,
@@ -128,7 +129,7 @@ export class Shelter {
                     networksKeys: {
                       [NetworkTypeEnum.EVM]: {
                         publicKey,
-                        publicKeyHash: address
+                        publicKeyHash
                       }
                     },
                     isVisible: true
@@ -220,6 +221,6 @@ export class Shelter {
 
   static signMessage$ = (publicKeyHash: string, messageToSign: string) =>
     Shelter.revealPrivateKey$(publicKeyHash).pipe(
-      switchMap(privateKey => new ethers.Wallet(privateKey).signMessage(ethers.utils.toUtf8String(messageToSign)))
+      switchMap(privateKey => new ethers.Wallet(privateKey).signMessage(messageToSign))
     );
 }

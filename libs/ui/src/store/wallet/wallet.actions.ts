@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
+import { NftListResponse, TokenListResponse } from 'backend-types';
 import { AccountInterface } from 'shared';
 
-import { NftListResponse, TokenListResponse } from '../../api/debank/types';
 import { DappConnectionInfo } from '../../interfaces/dapp-connection.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';

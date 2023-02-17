@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { isMobile, isWeb } from 'shared';
+import { isMobile } from 'shared';
 
 import { colors } from '../../../../styles/colors';
 import { getCustomSize } from '../../../../styles/format-size';
@@ -9,40 +9,16 @@ export const styles = StyleSheet.create({
   root: {
     paddingHorizontal: getCustomSize(2)
   },
-  controllerOffset: {
-    marginBottom: getCustomSize(3.5)
-  },
-  passwordContainer: {
-    marginBottom: getCustomSize(1.5)
-  },
   oldPasswordContainer: {
     marginBottom: getCustomSize(3.75),
     marginTop: getCustomSize(2.125)
   },
-  inputWrapper: {
-    position: 'relative',
-    width: '100%'
-  },
-  inputContainer: {
-    width: '100%'
-  },
-  input: {
-    width: isWeb ? '80%' : '82%'
-  },
   errorInput: {
     borderColor: colors.red
   },
-  clearIcon: {
-    position: 'relative',
-    right: getCustomSize(4)
-  },
-  eyeIcon: {
-    position: 'absolute',
-    top: getCustomSize(1.5),
-    right: getCustomSize()
-  },
   passwordValidationContainer: {
-    marginTop: getCustomSize(0.5)
+    marginTop: getCustomSize(0.5),
+    marginBottom: getCustomSize(1.5)
   },
   passwordValidationText: {
     ...typography.captionInterRegular11,
@@ -54,8 +30,8 @@ export const styles = StyleSheet.create({
   noValid: {
     color: colors.red
   },
-  label: {
-    marginBottom: getCustomSize(1.25)
+  controllerOffset: {
+    marginBottom: getCustomSize(3.5)
   },
   saveButtonContainer: {
     height: getCustomSize(5),

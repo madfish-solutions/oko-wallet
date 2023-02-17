@@ -16,3 +16,4 @@ export type { RootState } from './store/store';
 
 export { createDAppResponse, POPUP_CLOSED, POPUP_OPEN } from './utils/dapp.utils';
 export { initialRootState } from './store/root-state.initial-state';
+export { DAppMethodEnum } from './enums/dApp-method.enum';

@@ -8,11 +8,10 @@ import { isMobile } from 'shared';
 
 import { Checkbox } from '../../components/checkbox/checkbox';
 import { Column } from '../../components/column/column';
-import { IconNameEnum } from '../../components/icon/icon-name.enum';
 import { Row } from '../../components/row/row';
 import { Text } from '../../components/text/text';
+import { PasswordInput } from '../../components/text-input/components/password-input/password-input';
 import { TextInput } from '../../components/text-input/text-input';
-import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
 import { WalletCreationContainer } from '../../components/wallet-creation-container/wallet-creation-container';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useScrollToOffset } from '../../hooks/use-scroll-to-element.hook';
@@ -49,8 +48,6 @@ export const AlmostDone: FC = () => {
   const dispatch = useDispatch();
   const { scrollViewRef, scrollToOffset } = useScrollToOffset();
 
-  const [isSecurePassword, setIsSecurePassword] = useState(true);
-  const [isSecureConfirmPassword, setIsSecureConfirmPassword] = useState(true);
   const [isUseFaceId, setIsUseFaceId] = useState(false);
   const [isAcceptTerms, setIsAcceptTerms] = useState(false);
   const [isAllowUseAnalytics, setIsAllowUseAnalytics] = useState(true);
@@ -107,9 +104,6 @@ export const AlmostDone: FC = () => {
     }
   };
 
-  const handleTogglePasswordVisibility = () => setIsSecurePassword(prev => !prev);
-  const handleToggleConfirmPasswordVisibility = () => setIsSecureConfirmPassword(prev => !prev);
-
   const isValidationError = (Object.keys(errors).length > 0 || !isAcceptTerms) && isSubmitted;
 
   return (
@@ -138,95 +132,57 @@ export const AlmostDone: FC = () => {
           />
         )}
       />
+
       <Controller
         control={control}
         name="password"
         rules={commonRules}
         render={({ field }) => (
-          <Column style={styles.passwordContainer}>
-            <Row style={styles.inputWrapper}>
-              <TextInput
-                field={field}
-                label="Password"
-                secureTextEntry={isSecurePassword}
-                placeholder="Password"
-                prompt="Password is used to protect the wallet"
-                containerStyle={styles.inputContainer}
-                inputStyle={styles.input}
-                clearIconStyles={styles.clearIcon}
-                inputContainerStyle={
-                  ((isDefined(passwordIsNoValid) && passwordIsNoValid) || isDefined(errors.password?.message)) &&
-                  styles.errorInput
-                }
-                testID={AlmostDoneTestIDs.PasswordInput}
-              />
-              {isSecurePassword ? (
-                <TouchableIcon
-                  name={IconNameEnum.EyeOpen}
-                  onPress={handleTogglePasswordVisibility}
-                  iconStyle={styles.eyeIcon}
-                />
-              ) : (
-                <TouchableIcon
-                  name={IconNameEnum.EyeClosed}
-                  onPress={handleTogglePasswordVisibility}
-                  iconStyle={styles.eyeIcon}
-                />
-              )}
-            </Row>
-
-            <Column style={styles.passwordValidationContainer}>
-              {passwordValidationMessages.map(({ id, message, valid, optional }) => (
-                <Text
-                  key={id}
-                  style={[
-                    styles.passwordValidationText,
-                    (isDefined(dirtyFields.password) || isDefined(errors.password?.message)) &&
-                      (valid ? styles.valid : !isDefined(optional) && styles.noValid)
-                  ]}
-                >{`${valid ? '✓' : '✗'} ${message}`}</Text>
-              ))}
-            </Column>
-          </Column>
+          <PasswordInput
+            field={field}
+            label="Password"
+            prompt="Password is used to protect the wallet"
+            inputContainerStyle={
+              ((isDefined(passwordIsNoValid) && passwordIsNoValid) || isDefined(errors.password?.message)) &&
+              styles.errorInput
+            }
+            testID={AlmostDoneTestIDs.PasswordInput}
+          />
         )}
       />
-      <Controller
-        control={control}
-        name="confirmPassword"
-        rules={confirmPasswordRules}
-        render={({ field }) => (
-          <Row style={[styles.inputWrapper, styles.controllerOffset]}>
-            <TextInput
+      <Column style={styles.passwordValidationContainer}>
+        {passwordValidationMessages.map(({ id, message, valid, optional }) => (
+          <Text
+            key={id}
+            style={[
+              styles.passwordValidationText,
+              (isDefined(dirtyFields.password) || isDefined(errors.password?.message)) &&
+                (valid ? styles.valid : !isDefined(optional) && styles.noValid)
+            ]}
+          >{`${valid ? '✓' : '✗'} ${message}`}</Text>
+        ))}
+      </Column>
+
+      <Column style={styles.controllerOffset}>
+        <Controller
+          control={control}
+          name="confirmPassword"
+          rules={confirmPasswordRules}
+          render={({ field }) => (
+            <PasswordInput
               field={field}
               label="Password Confirm"
-              secureTextEntry={isSecureConfirmPassword}
-              placeholder="Password"
               prompt="Password is used to protect the wallet"
               error={errors.confirmPassword?.message}
-              containerStyle={styles.inputContainer}
-              inputStyle={styles.input}
-              clearIconStyles={styles.clearIcon}
               testID={AlmostDoneTestIDs.PasswordConfirmInput}
             />
-            {isSecureConfirmPassword ? (
-              <TouchableIcon
-                name={IconNameEnum.EyeOpen}
-                onPress={handleToggleConfirmPasswordVisibility}
-                iconStyle={styles.eyeIcon}
-              />
-            ) : (
-              <TouchableIcon
-                name={IconNameEnum.EyeClosed}
-                onPress={handleToggleConfirmPasswordVisibility}
-                iconStyle={styles.eyeIcon}
-              />
-            )}
-          </Row>
-        )}
-      />
+          )}
+        />
+      </Column>
       {isMobile && (
         <Checkbox text="Use Face ID" selected={isUseFaceId} onSelect={setIsUseFaceId} style={styles.checkbox} />
       )}
+
       <Checkbox
         text="Accept terms"
         selected={isAcceptTerms}

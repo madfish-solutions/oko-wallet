@@ -1,23 +1,11 @@
-import axios from 'axios';
-import { Request, Response, NextFunction, Router } from 'express';
+import { Router } from 'express';
 
-import config from '../../config';
+import { getRateLimiterMiddleware } from '../../utils';
 
-import { formDeBankHeaderWithKey } from './header';
+import { debankAPIv1 } from './v1';
 
-const debankRequest = axios.create({
-  baseURL: config.DEBANK.API_URL,
-  headers: formDeBankHeaderWithKey(config.DEBANK)
-});
+export const deBankProxy = Router()
+  .use(getRateLimiterMiddleware({ keyPrefix: 'deBank-RL', points: 20, duration: 3 }))
+  .use('/v1', debankAPIv1);
 
-const debank = Router();
-
-debank.get('/*', (req: Request, res: Response, next: NextFunction) =>
-  debankRequest
-    .get(req.params[0], {
-      params: req.query
-    })
-    .then(response => res.send(response.data))
-    .catch(next)
-);
-export default debank;
+export default deBankProxy;
