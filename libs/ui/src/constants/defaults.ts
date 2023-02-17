@@ -15,6 +15,8 @@ export const GAS_TOKEN_ADDRESS = 'gas_token_address';
 
 export const SECURITY_TIME = 30000;
 
+export const OVERLAY_SHOW_TIMEOUT = 10000;
+
 export const EXTENSION_WIDTH = 360;
 
 export const HIDE_SPLASH_SCREEN_TIMEOUT = 100;
