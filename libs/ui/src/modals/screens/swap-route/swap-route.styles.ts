@@ -5,13 +5,11 @@ import { getCustomSize } from '../../../styles/format-size';
 import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
-  contentContainerStyle: {
+  root: {
     flex: 1
   },
   loader: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    flex: 1
   },
   fromToken: {
     marginBottom: getCustomSize(),

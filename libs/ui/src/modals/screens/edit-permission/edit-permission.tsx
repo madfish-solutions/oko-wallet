@@ -2,6 +2,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { isNotEmptyString } from '@rnw-community/shared';
 import React, { FC, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { ControllerRenderProps } from 'react-hook-form/dist/types/controller';
 import { Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
 
@@ -12,7 +13,6 @@ import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { InfoBox } from '../../../components/info-box/info-box';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
-import { requiredFieldError } from '../../../constants/form-errors';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useScrollToOffset } from '../../../hooks/use-scroll-to-element.hook';
@@ -25,8 +25,9 @@ import { eraseProtocol } from '../../../utils/string.util';
 import { parseUnits, getFormattedAllowance } from '../../../utils/units.utils';
 import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';
 
-import { INFINITE_AMOUNT } from './constatns';
+import { INFINITE_AMOUNT, ALLOWANCE_RULES } from './constatns';
 import { styles } from './edit-permission.styles';
+import { FormTypes } from './types';
 import { checkIsMaxUintString } from './utils/check-is-max-uint-string.util';
 import { getAllowanceInDollar } from './utils/get-allowance-amount-in-dollar.util';
 
@@ -45,7 +46,7 @@ export const EditPermission: FC = () => {
     formState: { errors },
     handleSubmit,
     clearErrors
-  } = useForm({
+  } = useForm<FormTypes>({
     mode: 'onChange',
     defaultValues: {
       isCustomAllowanceSelected: !checkIsMaxUintString(allowanceAmount),
@@ -83,6 +84,20 @@ export const EditPermission: FC = () => {
     [errors?.customAllowance?.message]
   );
 
+  const modifyCustomAllowanceField = (field: ControllerRenderProps<FormTypes, 'customAllowance'>) => ({
+    ...field,
+    onChange: (newValue: string) => {
+      const correctedValue = checkIsMaxUintString(customAllowance) ? '' : newValue;
+
+      if (correctedValue === MAX_UINT_256_STRING) {
+        onCustomLimitSelect();
+      }
+
+      field.onChange(correctedValue);
+    },
+    value: checkIsMaxUintString(field.value) ? getFormattedAllowance(MAX_UINT_256_STRING, token.decimals) : field.value
+  });
+
   return (
     <ModalActionContainer
       screenTitle="Edit permission"
@@ -118,21 +133,7 @@ export const EditPermission: FC = () => {
           name="customAllowance"
           render={({ field }) => (
             <TokenInput
-              field={{
-                ...field,
-                onChange: newValue => {
-                  const correctedValue = checkIsMaxUintString(customAllowance) ? '' : newValue;
-
-                  if (correctedValue === MAX_UINT_256_STRING) {
-                    onCustomLimitSelect();
-                  }
-
-                  field.onChange(correctedValue);
-                },
-                value: checkIsMaxUintString(field.value)
-                  ? getFormattedAllowance(MAX_UINT_256_STRING, token.decimals)
-                  : field.value
-              }}
+              field={modifyCustomAllowanceField(field)}
               token={token}
               amountInDollar={getAllowanceInDollar(customAllowance, customAllowanceBalance.amountInDollar)}
               availableBalance={MAX_UINT_256_STRING}
@@ -141,15 +142,7 @@ export const EditPermission: FC = () => {
               error={errors?.customAllowance?.message}
             />
           )}
-          rules={{
-            validate: (value, formValues) => {
-              if (!formValues.isCustomAllowanceSelected) {
-                return true;
-              }
-
-              return isNotEmptyString(value) || requiredFieldError;
-            }
-          }}
+          rules={ALLOWANCE_RULES}
         />
       </Pressable>
     </ModalActionContainer>

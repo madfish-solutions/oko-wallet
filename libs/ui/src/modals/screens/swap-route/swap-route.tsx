@@ -2,8 +2,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC, useState } from 'react';
 import { LayoutChangeEvent, View } from 'react-native';
 
-import { LoaderSizeEnum } from '../../../components/loader/enums';
-import { Loader } from '../../../components/loader/loader';
+import { WrappedLoader } from '../../../components/loader/components/wrapped-loader/wrapped-loader';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
 import { Token } from '../../../components/token/token';
@@ -31,12 +30,10 @@ export const SwapRoute: FC = () => {
       screenTitle="Route"
       buttonTitle="Close"
       onPress={goBack}
-      contentContainerStyle={loading ? styles.contentContainerStyle : undefined}
+      contentContainerStyle={loading ? styles.root : undefined}
     >
       {loading ? (
-        <View style={styles.loader}>
-          <Loader size={LoaderSizeEnum.Large} />
-        </View>
+        <WrappedLoader style={styles.loader} />
       ) : (
         <View onLayout={handleLayout}>
           <VerticalLine height={contentHeight} />
