@@ -7,7 +7,9 @@
       "module-resolver",
       {
         "alias": {
-          "ui": "../../libs/ui/src"
+          "ui": "../../libs/ui/src",
+          "shared": "../../libs/shared/src",
+          "shelter": "../../libs/shelter/src"
         }
       }
     ],

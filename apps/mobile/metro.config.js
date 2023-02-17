@@ -19,12 +19,15 @@ module.exports = (async () => {
     },
     watchFolders: [
         path.resolve(__dirname, '../../libs/ui'),
+        path.resolve(__dirname, '../../libs/shared/src'),
+        path.resolve(__dirname, '../../libs/shelter/src'),
     ],
     resolver: {
         disableHierarchicalLookup: true,
         nodeModulesPaths: [
             path.resolve(__dirname, 'node_modules'),
-            path.resolve(__dirname, '../../libs/ui/node_modules')
+            path.resolve(__dirname, '../../libs/ui/node_modules'),
+            path.resolve(__dirname, '../../libs/shelter/node_modules'),
         ],
         extraNodeModules: new Proxy(
             {},
