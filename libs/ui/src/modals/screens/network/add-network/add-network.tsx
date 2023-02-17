@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
 import { CHAINS_JSON, DEBOUNCE_TIME } from '../../../../constants/defaults';
+import { httpsRegx } from '../../../../constants/regex-validation';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
@@ -72,11 +73,13 @@ export const AddNetwork: FC = () => {
 
   const getNetworkChainId = useRef(
     debounce(async (newRpcUrl: string) => {
-      if (isNotEmptyString(newRpcUrl.trim())) {
+      const trimmedNewRpcUrl = newRpcUrl.trim();
+
+      if (isNotEmptyString(trimmedNewRpcUrl) && Boolean(httpsRegx.test(trimmedNewRpcUrl))) {
         let currentChainId = null;
 
         try {
-          const provider = getDefaultProvider(newRpcUrl.trim());
+          const provider = getDefaultProvider(trimmedNewRpcUrl);
 
           const currentProvider = await provider.getNetwork().catch(() => {
             resetDynamicFields();

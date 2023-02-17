@@ -7,6 +7,11 @@
       "es2017",
       "dom"
     ],
+    "paths": {
+      "backend-types": [
+        "../backend-types"
+      ]
+    },
     "allowJs": true,
     "jsx": "react-native",
     "noEmit": true,

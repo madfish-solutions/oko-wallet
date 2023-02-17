@@ -84,12 +84,14 @@ export const usePersistedNavigationState = () => {
           if (
             typeof query.id === 'string' &&
             typeof query.signInfo === 'string' &&
-            typeof query.dAppInfo === 'string'
+            typeof query.dAppInfo === 'string' &&
+            typeof query.method === 'string'
           ) {
             const route = createNavigationRoute(ScreensEnum.DAppSignConfirmation, {
               messageId: query.id,
               signInfo: JSON.parse(query.signInfo),
-              dAppInfo: JSON.parse(query.dAppInfo)
+              dAppInfo: JSON.parse(query.dAppInfo),
+              method: query.method
             });
 
             storedInitialState.routes.push(route);
