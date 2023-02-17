@@ -16,10 +16,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "paths": {
-      "shared/*": ["shared/src/*"]
-    }
+    "resolveJsonModule": true
   },
   "exclude": [
     "node_modules",
