@@ -6,17 +6,20 @@ inputs:
   BACKEND_URL:
     description: "Backend API url"
     required: true
-  DEFAULT_SEED_PHRASE:
+  DEFAULT_HD_ACCOUNT_SEED_PHRASE:
     description: "Seed phrase for E2E tests"
     required: false
   DEFAULT_PASSWORD:
     description: "Wallet password for E2E tests"
     required: false
-  DEFAULT_HD_ACCOUNT_PRIVATE_KEY:
+  DEFAULT_HD_ACCOUNT_FIRST_PRIVATE_KEY:
     description: "First account private key for E2E tests"
     required: false
   SEED_PHRASE_FOR_IMPORT:
     description: "Seed phrase for account import for E2E tests"
+    required: false
+  PRIVATE_KEY_FOR_IMPORT:
+    description: "Private key for account import for E2E tests"
     required: false
 
 runs:
@@ -26,11 +29,11 @@ runs:
       shell: bash
       run: |
         cat << EOF > apps/extension-e2e/.env
-        DEFAULT_SEED_PHRASE=${{ inputs.DEFAULT_SEED_PHRASE }}
+        DEFAULT_HD_ACCOUNT_SEED_PHRASE=${{ inputs.DEFAULT_HD_ACCOUNT_SEED_PHRASE }}
         DEFAULT_PASSWORD=${{ inputs.DEFAULT_PASSWORD }}
-        DEFAULT_HD_ACCOUNT_PRIVATE_KEY=${{ inputs.DEFAULT_HD_ACCOUNT_PRIVATE_KEY }}
-        
+        DEFAULT_HD_ACCOUNT_FIRST_PRIVATE_KEY=${{ inputs.DEFAULT_HD_ACCOUNT_FIRST_PRIVATE_KEY }}
         SEED_PHRASE_FOR_IMPORT=${{ inputs.SEED_PHRASE_FOR_IMPORT }}
+        PRIVATE_KEY_FOR_IMPORT=${{ inputs.PRIVATE_KEY_FOR_IMPORT }}
         EOF
 
     - name: Create apps/extension/.env file

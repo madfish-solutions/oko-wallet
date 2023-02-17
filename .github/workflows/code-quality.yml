@@ -21,10 +21,11 @@ jobs:
       - name: Secrets setup
         uses: ./.github/workflows/secrets-setup
         with:
-          DEFAULT_SEED_PHRASE: ${{ secrets.DEFAULT_SEED_PHRASE }}
+          DEFAULT_HD_ACCOUNT_SEED_PHRASE: ${{ secrets.DEFAULT_HD_ACCOUNT_SEED_PHRASE }}
           DEFAULT_PASSWORD: ${{ secrets.DEFAULT_PASSWORD }}
-          DEFAULT_HD_ACCOUNT_PRIVATE_KEY: ${{ secrets.DEFAULT_HD_ACCOUNT_PRIVATE_KEY }}
+          DEFAULT_HD_ACCOUNT_FIRST_PRIVATE_KEY: ${{ secrets.DEFAULT_HD_ACCOUNT_FIRST_PRIVATE_KEY }}
           SEED_PHRASE_FOR_IMPORT: ${{ secrets.SEED_PHRASE_FOR_IMPORT }}
+          PRIVATE_KEY_FOR_IMPORT: ${{secrets.PRIVATE_KEY_FOR_IMPORT}}
           BACKEND_URL: ${{ secrets.BACKEND_URL }}
 
       - name: Get yarn cache directory path
