@@ -1,4 +1,3 @@
-import { isDefined } from '@rnw-community/shared';
 import React, { FC, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, NativeSyntheticEvent, Pressable, TextInputKeyPressEventData, View } from 'react-native';
@@ -20,6 +19,7 @@ import { getCustomSize } from '../../styles/format-size';
 import { isMobile, isIOS, isWeb } from '../../utils/platform.utils';
 import { MadFishLogo } from '../settings/components/mad-fish-logo/mad-fish-logo';
 
+import { usePasswordLock } from './hooks/use-password-lock.hook';
 import { styles } from './unlock.styles';
 
 interface Password {
@@ -34,7 +34,7 @@ export const UnlockApp: FC = () => {
   const isBiometricEnabled = useBiometricEnabledSelector();
   const [isSecurePassword, setIsSecurePassword] = useState(true);
   const handleTogglePasswordVisibility = () => setIsSecurePassword(prev => !prev);
-  const { unlock, unlockError, setUnlockError, isLocked } = useUnlock();
+  const { unlock, isLocked } = useUnlock();
   const { navigate, goBack } = useNavigation();
 
   const {
@@ -42,11 +42,12 @@ export const UnlockApp: FC = () => {
     watch,
     handleSubmit,
     setFocus,
-    formState: { errors, isSubmitted }
+    formState: { isSubmitted }
   } = useForm<Password>({
     mode: 'onChange',
     defaultValues
   });
+  const { error, isDisabled, onPasswordChange } = usePasswordLock(isSubmitted);
 
   useEffect(() => void (!isLocked && goBack()), [isLocked]);
 
@@ -56,8 +57,6 @@ export const UnlockApp: FC = () => {
 
   const onUnlock = () => unlock(password);
   const onResetWallet = () => navigate(ScreensEnum.SettingsResetWalletConfirm);
-
-  const isSubmitDisabled = (Object.keys(errors).length > 0 && isSubmitted) || isDefined(unlockError);
 
   const onEnterPress = (event: NativeSyntheticEvent<TextInputKeyPressEventData>) =>
     isWeb ? event.nativeEvent.key === 'Enter' && onUnlock() : undefined;
@@ -83,10 +82,10 @@ export const UnlockApp: FC = () => {
                   containerStyle={styles.input}
                   clearIconStyles={styles.clearIcon}
                   labelContainerStyle={styles.label}
-                  error={unlockError}
+                  error={error}
                   onKeyPress={onEnterPress}
                   onSubmitEditing={onUnlock}
-                  onChange={() => setUnlockError(undefined)}
+                  onChange={onPasswordChange}
                 />
                 <TouchableIcon
                   name={isSecurePassword ? IconNameEnum.EyeOpen : IconNameEnum.EyeClosed}
@@ -107,7 +106,7 @@ export const UnlockApp: FC = () => {
           theme={ButtonThemesEnum.Secondary}
           style={styles.button}
           onPress={handleSubmit(onUnlock)}
-          disabled={isSubmitDisabled}
+          disabled={isDisabled}
         />
         <Row style={styles.textContainer}>
           <Text style={styles.commonText}>
