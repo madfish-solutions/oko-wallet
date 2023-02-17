@@ -1,5 +1,5 @@
 import { AccountInterface } from 'shared';
-import { PASSWORD_CHECK_KEY, SEED_PHRASE_KEY } from 'shelter';
+import { PASSWORD_CHECK_KEY, SEED_PHRASE_KEY } from 'shelter/classes/shelter';
 
 export const getSensitiveDataKeys = (accounts: AccountInterface[]) => {
   const sensitiveKeys = [PASSWORD_CHECK_KEY, SEED_PHRASE_KEY];

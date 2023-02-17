@@ -10,7 +10,7 @@ export type { RootState } from './store/store';
 
 export { BackgroundMessageType } from 'shelter/messagers/enums/background-message-type.enum';
 export { E2eMessageType } from 'shelter/messagers/enums/e2e-message-type.enum';
-export { INITIAL_PASSWORD_HASH } from 'shelter';
+export { INITIAL_PASSWORD_HASH } from 'shelter/classes/shelter';
 export { createDAppResponse, POPUP_CLOSED, POPUP_OPEN } from './utils/dapp.utils';
 export { LocalStorage } from 'shelter/utils/local-storage.util';
 export { initialRootState } from './store/root-state.initial-state';
