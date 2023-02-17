@@ -1,5 +1,7 @@
 import { BrowserContext } from '../classes/browser-context.class';
 
+import { PRIVATE_KEY_FOR_IMPORT } from './env.utils';
+
 export const getInputText = (inputType: string) => {
   let inputText = '';
 
@@ -11,7 +13,7 @@ export const getInputText = (inputType: string) => {
       inputText = BrowserContext.password;
       break;
     case 'private key':
-      inputText = BrowserContext.privateKey;
+      inputText = PRIVATE_KEY_FOR_IMPORT;
       break;
   }
 

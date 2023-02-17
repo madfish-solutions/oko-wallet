@@ -2,7 +2,8 @@ import { Before } from '@cucumber/cucumber';
 
 import { E2eMessageType } from '../../../../libs/ui/src/messagers/enums/e2e-message-type.enum';
 import { BackgroundMessage } from '../../../../libs/ui/src/messagers/types/background-message.type';
-import { BrowserContext, DEFAULT_PASSWORD, DEFAULT_SEED_PHRASE } from '../classes/browser-context.class';
+import { BrowserContext } from '../classes/browser-context.class';
+import { DEFAULT_PASSWORD, DEFAULT_SEED_PHRASE } from '../utils/env.utils';
 
 const clearStorageMessage: BackgroundMessage = { type: E2eMessageType.ClearStorage };
 
