@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { isAndroid } from 'shared/utils/platform.utils';
+import { isAndroid } from 'shared';
 
 import { getCustomSize } from '../../../../../../styles/format-size';
 import { typography } from '../../../../../../styles/typography';

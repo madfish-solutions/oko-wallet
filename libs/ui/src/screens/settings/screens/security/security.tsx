@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
-import { isMobile } from 'shared/utils/platform.utils';
+import { isMobile } from 'shared';
 
 import { Divider } from '../../../../components/divider/divider';
 import { DropdownSelectedItem } from '../../../../components/dropdown/components/dropdown-selected-item/dropdown-selected-item';

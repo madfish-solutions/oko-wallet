@@ -1,7 +1,7 @@
 import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { GestureResponderEvent } from 'react-native';
-import { isMobile } from 'shared/utils/platform.utils';
+import { isMobile } from 'shared';
 
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';

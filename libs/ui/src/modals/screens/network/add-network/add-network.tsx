@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce';
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
+import { NetworkTypeEnum } from 'shared';
 
 import { CHAINS_JSON, DEBOUNCE_TIME } from '../../../../constants/defaults';
 import { ScreensEnum } from '../../../../enums/sreens.enum';

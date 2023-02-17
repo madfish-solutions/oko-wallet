@@ -4,7 +4,7 @@ import { BatchOperation } from '@taquito/taquito';
 import React, { useState } from 'react';
 import { Linking } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
+import { NetworkTypeEnum } from 'shared';
 
 import { Asset } from '../../..//interfaces/asset.interface';
 import { ToastDescription } from '../../../components/toast-description/toast-description';

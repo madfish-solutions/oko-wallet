@@ -1,4 +1,4 @@
-import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
+import { NetworkTypeEnum } from 'shared';
 
 import { requiredFieldError } from '../../../constants/form-errors';
 import { isAddressValid } from '../../../utils/is-address-valid.utils';

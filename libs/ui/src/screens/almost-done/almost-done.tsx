@@ -4,7 +4,7 @@ import React, { FC, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { isMobile } from 'shared/utils/platform.utils';
+import { isMobile } from 'shared';
 
 import { Checkbox } from '../../components/checkbox/checkbox';
 import { Column } from '../../components/column/column';

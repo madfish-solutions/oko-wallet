@@ -1,7 +1,7 @@
 import { isDefined, OnEventFn, isNotEmptyString } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { ListRenderItemInfo, View } from 'react-native';
-import { AccountInterface } from 'shared/interfaces/account.interface';
+import { AccountInterface } from 'shared';
 
 import { CopyText } from '../../../../components/copy-text/copy-text';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';

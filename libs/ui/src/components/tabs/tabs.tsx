@@ -1,7 +1,7 @@
 import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React, { FC, Fragment, useCallback, useEffect, useRef, useState, ReactNode } from 'react';
 import { Animated, Easing, GestureResponderEvent, LayoutChangeEvent, Pressable, View } from 'react-native';
-import { isAndroid } from 'shared/utils/platform.utils';
+import { isAndroid } from 'shared';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
 import { getCustomSize } from '../../styles/format-size';

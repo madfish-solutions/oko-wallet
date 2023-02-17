@@ -1,4 +1,4 @@
-import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
+import { NetworkTypeEnum } from 'shared';
 
 import { IconNameEnum } from '../components/icon/icon-name.enum';
 

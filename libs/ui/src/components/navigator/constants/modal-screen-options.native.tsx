@@ -1,6 +1,6 @@
 import { TransitionPresets, StackNavigationOptions } from '@react-navigation/stack';
 import React from 'react';
-import { isAndroid } from 'shared/utils/platform.utils';
+import { isAndroid } from 'shared';
 
 import { colors } from '../../../styles/colors';
 import { getCustomSize } from '../../../styles/format-size';

@@ -1,6 +1,6 @@
 import { forkJoin, from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { TokenStandardEnum } from 'shared/enums/token-standard.enum';
+import { TokenStandardEnum } from 'shared';
 import { getDefaultEvmProvider } from 'shelter/utils/get-default-evm-provider.utils';
 
 import { Erc1155Abi__factory, Erc165Abi__factory, Erc721Abi__factory } from '../../../../contract-types';

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { isWeb, isMobile } from 'shared/utils/platform.utils';
+import { isWeb, isMobile } from 'shared';
 
 import { maximiseViewStyles } from '../../../components/navigator/utils/maximise-view-options';
 import { colors } from '../../../styles/colors';

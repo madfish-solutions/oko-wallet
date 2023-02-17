@@ -1,5 +1,4 @@
-import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
-import { AccountInterface } from 'shared/interfaces/account.interface';
+import { NetworkTypeEnum, AccountInterface } from 'shared';
 
 export const checkIsNetworkTypeKeyExist = (account: AccountInterface, networkType: NetworkTypeEnum): boolean =>
   account.networksKeys.hasOwnProperty(networkType);

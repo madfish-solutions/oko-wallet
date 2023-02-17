@@ -1,6 +1,6 @@
 import { SymmetricKey, initialized, SecureCellSeal } from 'wasm-themis';
 
-import { getStoredValue } from '../utils/store.util';
+import { getStoredValue } from '../../../shared/src/utils/store.util';
 
 interface StoredSensitiveData {
   symmetricKey: SymmetricKey;

@@ -1,4 +1,4 @@
-import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
+import { NetworkTypeEnum } from 'shared';
 
 import { NETWORK_CHAIN_IDS_BY_NETWORK_TYPE } from '../constants/networks';
 import { NetworkInterface } from '../interfaces/network.interface';

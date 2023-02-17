@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { isMobile } from 'shared/utils/platform.utils';
+import { isMobile } from 'shared';
 
 import { Text } from '../../../../../../components/text/text';
 import { Item } from '../../../../components/item/item';

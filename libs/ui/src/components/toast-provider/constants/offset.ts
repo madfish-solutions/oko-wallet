@@ -1,4 +1,4 @@
-import { isMobile, isWeb } from 'shared/utils/platform.utils';
+import { isMobile, isWeb } from 'shared';
 
 import { isFullpage } from '../../../utils/location.utils';
 import { extensionHeight } from '../../navigator/utils/maximise-view-options';

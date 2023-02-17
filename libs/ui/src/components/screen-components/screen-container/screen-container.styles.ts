@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { isMobile } from 'shared/utils/platform.utils';
+import { isMobile } from 'shared';
 
 import { colors } from '../../../styles/colors';
 import { EXTENSION_FULL_SIZE } from '../../../styles/format-size';

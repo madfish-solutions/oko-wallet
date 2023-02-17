@@ -2,7 +2,7 @@ import { isDefined } from '@rnw-community/shared';
 import React, { FC, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, NativeSyntheticEvent, Pressable, TextInputKeyPressEventData, View } from 'react-native';
-import { isMobile, isIOS, isWeb } from 'shared/utils/platform.utils';
+import { isMobile, isIOS, isWeb } from 'shared';
 
 import { Button } from '../../components/button/button';
 import { ButtonThemesEnum } from '../../components/button/enums';

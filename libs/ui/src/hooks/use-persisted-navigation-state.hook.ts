@@ -2,8 +2,7 @@ import { InitialState, NavigationState } from '@react-navigation/native';
 import { isDefined } from '@rnw-community/shared';
 import { parse } from 'query-string';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { isWeb } from 'shared/utils/platform.utils';
-import { getStoredValue, setStoredValue } from 'shelter/utils/store.util';
+import { isWeb, getStoredValue, setStoredValue } from 'shared';
 
 import { ScreensEnum } from '../enums/sreens.enum';
 import { Mutable } from '../types/mutable.type';

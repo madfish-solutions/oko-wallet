@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
-import { isMobile } from 'shared/utils/platform.utils';
+import { isMobile } from 'shared';
 
 import { Column } from '../../components/column/column';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';

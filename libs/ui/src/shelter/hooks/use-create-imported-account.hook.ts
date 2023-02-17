@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { catchError, of, Subject, switchMap, tap } from 'rxjs';
-import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
-import { HdAccount } from 'shared/interfaces/hd-account.interfaces';
+import { NetworkTypeEnum, HdAccount } from 'shared';
 import { Shelter } from 'shelter';
 
 import { ScreensEnum } from '../../enums/sreens.enum';

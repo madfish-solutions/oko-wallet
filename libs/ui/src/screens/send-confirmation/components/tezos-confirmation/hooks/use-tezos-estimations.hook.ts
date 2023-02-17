@@ -2,7 +2,7 @@ import { Estimate, ParamsWithKind } from '@taquito/taquito';
 import { useEffect, useState, useMemo } from 'react';
 import { from, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { AccountInterface } from 'shared/interfaces/account.interface';
+import { AccountInterface } from 'shared';
 import { createReadOnlyTezosToolkit } from 'shelter/utils/tezos-toolkit.utils';
 
 import { NetworkInterface } from '../../../../../interfaces/network.interface';

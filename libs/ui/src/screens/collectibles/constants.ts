@@ -1,4 +1,4 @@
-import { isMobile } from 'shared/utils/platform.utils';
+import { isMobile } from 'shared';
 
 import { windowWidth } from '../../constants/dimensions';
 

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { isWeb } from 'shared/utils/platform.utils';
+import { isWeb } from 'shared';
 
 import { colors } from '../../../styles/colors';
 import { getCustomSize } from '../../../styles/format-size';

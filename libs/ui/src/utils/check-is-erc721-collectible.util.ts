@@ -1,4 +1,4 @@
-import { TokenStandardEnum } from 'shared/enums/token-standard.enum';
+import { TokenStandardEnum } from 'shared';
 
 export const checkIsErc721Collectible = <Token extends { standard?: TokenStandardEnum }>(token: Token) =>
   token.standard === TokenStandardEnum.ERC721;

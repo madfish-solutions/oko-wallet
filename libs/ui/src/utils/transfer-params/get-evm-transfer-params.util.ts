@@ -1,6 +1,5 @@
 import { of } from 'rxjs';
-import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
-import { AccountInterface } from 'shared/interfaces/account.interface';
+import { NetworkTypeEnum, AccountInterface } from 'shared';
 
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
 import { getTransactionParams } from '../../screens/send-confirmation/components/evm-confirmation/utils/get-transaction-params.util';

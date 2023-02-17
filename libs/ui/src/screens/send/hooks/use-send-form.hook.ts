@@ -1,7 +1,7 @@
 import { isDefined } from '@rnw-community/shared';
 import { useEffect } from 'react';
 import { UseFormSetValue, UseFormTrigger, UseFormClearErrors } from 'react-hook-form/dist/types/form';
-import { AccountInterface } from 'shared/interfaces/account.interface';
+import { AccountInterface } from 'shared';
 
 import { Token } from '../../../interfaces/token.interface';
 import {

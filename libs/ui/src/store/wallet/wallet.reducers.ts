@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
-import { TokenStandardEnum } from 'shared/enums/token-standard.enum';
+import { TokenStandardEnum } from 'shared';
 
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
 import { AccountToken } from '../../interfaces/account-token.interface';

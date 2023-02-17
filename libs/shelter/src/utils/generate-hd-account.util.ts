@@ -1,4 +1,4 @@
-import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
+import { NetworkTypeEnum } from 'shared';
 
 import { TEZOS_BIP44_COINTYPE } from '../constants/cointype';
 

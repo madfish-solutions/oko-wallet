@@ -8,7 +8,7 @@ import {
   SectionListRenderItem,
   View
 } from 'react-native';
-import { isWeb, isMobile } from 'shared/utils/platform.utils';
+import { isWeb, isMobile } from 'shared';
 
 import { getDebankId } from '../../api/debank/utils/get-debank-id.util';
 import { DEBOUNCE_TIME } from '../../constants/defaults';

@@ -1,4 +1,4 @@
-import { AccountInterface } from 'shared/interfaces/account.interface';
+import { AccountInterface } from 'shared';
 import { PASSWORD_CHECK_KEY, SEED_PHRASE_KEY } from 'shelter';
 
 export const getSensitiveDataKeys = (accounts: AccountInterface[]) => {

@@ -3,7 +3,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AccountInterface } from 'shared/interfaces/account.interface';
+import { AccountInterface } from 'shared';
 
 import { CopyText } from '../../../../components/copy-text/copy-text';
 import { Icon } from '../../../../components/icon/icon';

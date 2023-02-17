@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { AccountInterface } from 'shared/interfaces/account.interface';
+import { AccountInterface } from 'shared';
 
 import { NftListResponse, TokenListResponse } from '../../api/debank/types';
 import { DappConnectionInfo } from '../../interfaces/dapp-connection.interface';

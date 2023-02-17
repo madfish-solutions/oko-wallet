@@ -1,6 +1,6 @@
 import * as Keychain from 'react-native-keychain';
 
-import { getKeychainOptions } from './keychain.utils.native';
+import { getKeychainOptions } from './keychain.util.native';
 
 export const getStoredValue = async <T>(key: string): Promise<T> => {
   const rawKeychainData = await Keychain.getGenericPassword(getKeychainOptions(key));

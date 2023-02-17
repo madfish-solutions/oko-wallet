@@ -2,7 +2,7 @@ import { isDefined, OnEventFn } from '@rnw-community/shared';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { catchError, map, of, Subject, switchMap, tap } from 'rxjs';
-import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
+import { NetworkTypeEnum } from 'shared';
 import { Shelter } from 'shelter';
 
 import { useToast } from '../../hooks/use-toast.hook';

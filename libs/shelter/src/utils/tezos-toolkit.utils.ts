@@ -1,6 +1,5 @@
 import { TezosToolkit } from '@taquito/taquito';
-import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
-import { AccountInterface } from 'shared/interfaces/account.interface';
+import { NetworkTypeEnum, AccountInterface } from 'shared';
 
 import { ReadOnlyTezosSigner } from './read-only-tezos-signer.utils';
 

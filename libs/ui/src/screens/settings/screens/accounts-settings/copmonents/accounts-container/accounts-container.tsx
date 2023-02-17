@@ -2,7 +2,7 @@ import { isEmptyString } from '@rnw-community/shared';
 import React, { FC, PropsWithChildren } from 'react';
 import { FlatList, ListRenderItemInfo, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { AccountInterface } from 'shared/interfaces/account.interface';
+import { AccountInterface } from 'shared';
 
 import { Button } from '../../../../../../components/button/button';
 import { ButtonSizeEnum, ButtonThemesEnum } from '../../../../../../components/button/enums';

@@ -3,7 +3,7 @@ import { parseUnits } from 'ethers/lib/utils';
 import { combineEpics } from 'redux-observable';
 import { Observable, of, from } from 'rxjs';
 import { catchError, concatMap, debounceTime, map } from 'rxjs/operators';
-import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
+import { NetworkTypeEnum } from 'shared';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 

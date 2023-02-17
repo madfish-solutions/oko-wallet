@@ -1,4 +1,4 @@
-import { AccountInterface } from 'shared/interfaces/account.interface';
+import { AccountInterface } from 'shared';
 
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { defaultTokensMetadata } from '../../constants/tokens';

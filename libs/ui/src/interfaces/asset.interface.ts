@@ -1,4 +1,4 @@
-import { TokenStandardEnum } from 'shared/enums/token-standard.enum';
+import { TokenStandardEnum } from 'shared';
 
 export interface Asset {
   decimals: number;

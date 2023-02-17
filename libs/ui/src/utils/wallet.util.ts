@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { withLatestFrom } from 'rxjs/operators';
-import { AccountInterface } from 'shared/interfaces/account.interface';
+import { AccountInterface } from 'shared';
 
 import { NETWORKS_DEFAULT_LIST } from '../constants/networks';
 import { NetworkInterface } from '../interfaces/network.interface';

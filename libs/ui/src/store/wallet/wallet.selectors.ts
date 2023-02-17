@@ -1,9 +1,7 @@
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { AccountTypeEnum } from 'shared/enums/account-type.enum';
-import { NetworkTypeEnum } from 'shared/enums/network-type.enum';
-import { AccountInterface } from 'shared/interfaces/account.interface';
+import { AccountTypeEnum, NetworkTypeEnum, AccountInterface } from 'shared';
 
 import { EMPTY_TOKEN, GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';

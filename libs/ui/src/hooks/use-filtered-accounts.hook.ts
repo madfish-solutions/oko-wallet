@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { AccountInterface } from 'shared/interfaces/account.interface';
+import { AccountInterface } from 'shared';
 
 import { EMPTY_STRING } from '../constants/defaults';
 import { useSelectedNetworkTypeSelector } from '../store/wallet/wallet.selectors';

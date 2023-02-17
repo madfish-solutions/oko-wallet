@@ -5,6 +5,7 @@
   "license": "MIT",
   "author": "Andrii Ivaniv",
   "scripts": {
+    "check:all": "yarn ts && yarn lint && yarn test && yarn e2e",
     "install:all": "yarn && yarn install:extension && yarn install:extension-e2e && yarn install:mobile && yarn install:libs && yarn install:libs-be && yarn install:backend && yarn install:shelter && yarn install:shared",
     "install:extension": "yarn --cwd apps/extension",
     "install:extension-e2e": "yarn --cwd apps/extension-e2e",

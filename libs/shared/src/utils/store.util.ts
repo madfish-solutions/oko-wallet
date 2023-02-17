@@ -1,6 +1,6 @@
 import { isDefined } from '@rnw-community/shared';
 
-import { LocalStorage } from './local-storage.util';
+import { LocalStorage } from '../../../shelter/src/utils/local-storage.util';
 
 export const getStoredValue = async <T>(key: string): Promise<T> => {
   const encryptedData: string | null = await LocalStorage.getItem(key);
