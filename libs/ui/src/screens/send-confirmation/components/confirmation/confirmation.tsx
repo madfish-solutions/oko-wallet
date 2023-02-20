@@ -98,7 +98,7 @@ export const Confirmation: FC<Props> = ({
   const isEvmNetwork = networkType === NetworkTypeEnum.EVM;
 
   const progressStatus = isOwnSpeedSelected
-    ? getProgressStatus(initialTransactionFeeWithDecimals, Number(ownGasFee))
+    ? getProgressStatus(initialTransactionFeeWithDecimals, ownGasFee)
     : speed.title;
 
   useEffect(() => {
