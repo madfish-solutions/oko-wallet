@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 
 import { wrongPasswordError } from '../../../constants/form-errors';
-import { MAX_PASSWORD_ATTEMPTS, WRONG_PASSWORD_LOCK_TIME } from '../../../constants/security';
+import {
+  INITIAL_ENTER_WRONG_PASSWORD_ATTEMPTS,
+  MAX_PASSWORD_ATTEMPTS,
+  WRONG_PASSWORD_LOCK_TIME
+} from '../../../constants/security';
 import {
   usePasswordLockTimeSelector,
   usePasswordWrongAttemptsSelector
@@ -11,9 +15,9 @@ import { getTimeLeft } from '../utils/password.util';
 export const usePasswordLock = (isFormSubmitted: boolean) => {
   const passwordLockTime = usePasswordLockTimeSelector();
   const passwordWrongAttempts = usePasswordWrongAttemptsSelector();
-  const lockLevel = WRONG_PASSWORD_LOCK_TIME * Math.floor(passwordWrongAttempts / MAX_PASSWORD_ATTEMPTS);
+  const disableDuration = WRONG_PASSWORD_LOCK_TIME * Math.floor(passwordWrongAttempts / MAX_PASSWORD_ATTEMPTS);
   const [error, setError] = useState<string>();
-  const isDisabled = Date.now() - passwordLockTime <= lockLevel;
+  const isDisabled = Date.now() - passwordLockTime <= disableDuration;
 
   const onPasswordChange = () => !isDisabled && setError(undefined);
 
@@ -21,7 +25,8 @@ export const usePasswordLock = (isFormSubmitted: boolean) => {
     () =>
       void (
         isFormSubmitted &&
-        (passwordWrongAttempts === 1 || passwordWrongAttempts === 2) &&
+        passwordWrongAttempts > INITIAL_ENTER_WRONG_PASSWORD_ATTEMPTS &&
+        passwordWrongAttempts < MAX_PASSWORD_ATTEMPTS &&
         setError(wrongPasswordError)
       ),
     [passwordWrongAttempts, isFormSubmitted]
@@ -31,8 +36,8 @@ export const usePasswordLock = (isFormSubmitted: boolean) => {
     if (isDisabled) {
       const errorHandler = () => {
         const newError =
-          Date.now() - passwordLockTime <= lockLevel
-            ? `${wrongPasswordError} in ${getTimeLeft(passwordLockTime, lockLevel)}`
+          Date.now() - passwordLockTime <= disableDuration
+            ? `${wrongPasswordError} in ${getTimeLeft(passwordLockTime, disableDuration)}`
             : wrongPasswordError;
         setError(newError);
       };
@@ -40,7 +45,7 @@ export const usePasswordLock = (isFormSubmitted: boolean) => {
       errorHandler();
 
       const intervalId = setInterval(() => {
-        if (Date.now() - passwordLockTime >= lockLevel) {
+        if (Date.now() - passwordLockTime >= disableDuration) {
           clearInterval(intervalId);
         }
 
@@ -49,7 +54,7 @@ export const usePasswordLock = (isFormSubmitted: boolean) => {
 
       return () => clearInterval(intervalId);
     }
-  }, [passwordLockTime, lockLevel, isDisabled]);
+  }, [passwordLockTime, disableDuration, isDisabled]);
 
   return { isDisabled, error, onPasswordChange };
 };
