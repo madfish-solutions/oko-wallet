@@ -7,7 +7,7 @@ import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { Token } from '../../../interfaces/token.interface';
 import { getImageSource } from '../../../screens/wallet/components/assets-widget/utils/get-image-source.util';
-import { changeTokenVisibilityAction } from '../../../store/wallet/wallet.actions';
+import { addNewTokenAction, changeTokenVisibilityAction } from '../../../store/wallet/wallet.actions';
 import { checkIsGasToken } from '../../../utils/check-is-gas-token.util';
 import { getFiatBalanceToDisplay } from '../../../utils/get-dollar-value-to-display.util';
 import { getFormattedBalance } from '../../../utils/units.utils';
@@ -18,24 +18,38 @@ import { TokenItem } from '../token-item/token-item';
 interface Props {
   token: Token;
   showButton?: boolean;
+  isNewToken?: boolean;
   theme?: TokenItemThemesEnum;
 }
 
-export const AccountToken: FC<Props> = ({ token, showButton, theme }) => {
+export const AccountToken: FC<Props> = ({ token, showButton, isNewToken = false, theme }) => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
 
-  const { thumbnailUri, symbol, name, tokenAddress, fiatBalance } = token;
+  const { thumbnailUri, symbol, name, tokenAddress, fiatBalance, decimals } = token;
 
   const isGasToken = checkIsGasToken(tokenAddress);
   const fiatBalanceToDispaly = getFiatBalanceToDisplay(token.balance.data, fiatBalance ?? 0);
-  const formattedBalance = getFormattedBalance(token.balance.data, token.decimals);
+  const formattedBalance = getFormattedBalance(token.balance.data, decimals);
   const imageSource = getImageSource(thumbnailUri);
 
   const handleTokenVisibility = () => dispatch(changeTokenVisibilityAction(token));
 
-  const navigateToTokenDetails = () =>
+  const navigateToTokenDetails = () => {
+    if (isNewToken) {
+      dispatch(
+        addNewTokenAction({
+          name,
+          symbol,
+          tokenAddress,
+          decimals,
+          thumbnailUri
+        })
+      );
+    }
+
     navigate(ScreensEnum.Token, { tokenAddress: token.tokenAddress, tokenId: token.tokenId });
+  };
 
   return (
     <Pressable onPress={navigateToTokenDetails}>

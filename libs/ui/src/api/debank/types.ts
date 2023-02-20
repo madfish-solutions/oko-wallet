@@ -1,14 +1,14 @@
-export type TokenListResponse<
-  Token = {
-    decimals: number;
-    id: string;
-    logo_url: string | null;
-    name: string;
-    raw_amount: number;
-    symbol: string;
-    chain: string;
-  }
-> = Token[];
+export interface TokenResponse {
+  decimals: number;
+  id: string;
+  logo_url: string | null;
+  name: string;
+  raw_amount: number;
+  symbol: string;
+  chain: string;
+}
+
+export type TokenListResponse<Token = TokenResponse> = Token[];
 
 export interface NftListResponse {
   id: string;

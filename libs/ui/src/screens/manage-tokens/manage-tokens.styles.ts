@@ -4,12 +4,12 @@ import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 
 export const styles = StyleSheet.create({
-  root: {
-    paddingVertical: 0
-  },
   searchPanel: {
     paddingHorizontal: getCustomSize(2),
     marginBottom: getCustomSize(3)
+  },
+  container: {
+    paddingVertical: 0
   },
   token: {
     justifyContent: 'space-between',

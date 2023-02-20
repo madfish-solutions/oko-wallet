@@ -8,11 +8,21 @@ import { BACKEND_URL } from '../../utils/env.utils';
 import { getSlug } from '../../utils/getSlug.uitl';
 import { memoize } from '../../utils/memoize.util';
 
-import { NftListResponse, TokenListResponse } from './types';
+import { NftListResponse, TokenListResponse, TokenResponse } from './types';
 
 const debankApiRequest = axios.create({
   baseURL: `${BACKEND_URL}/debank/`
 });
+
+export const getTokenInfo = memoize(
+  (tokenAddress: string, chainId: string) =>
+    debankApiRequest
+      .get<TokenResponse>('v1/token', { params: { id: tokenAddress, chain_id: chainId } })
+      .then(({ data }) => data)
+      .catch(() => null),
+  (tokenAddress, chainId) => getSlug(tokenAddress, chainId, 'token-info'),
+  DATA_UPDATE_TIME
+);
 
 export const getHistoryList = memoize(
   async (

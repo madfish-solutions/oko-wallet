@@ -1,9 +1,13 @@
+import { isDefined } from '@rnw-community/shared';
+import { isAddress } from 'ethers/lib/utils';
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { FlatList, ListRenderItemInfo, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { Icon } from '../../components/icon/icon';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
+import { LoaderSizeEnum } from '../../components/loader/enums';
+import { Loader } from '../../components/loader/loader';
 import { NavigationBar } from '../../components/navigation-bar/navigation-bar';
 import { Pressable } from '../../components/pressable/pressable';
 import { Row } from '../../components/row/row';
@@ -17,9 +21,12 @@ import { AccountToken } from '../../components/token/account-token/account-token
 import { TokenItemThemesEnum } from '../../components/token/token-item/enums';
 import { EMPTY_STRING } from '../../constants/defaults';
 import { ScreensEnum } from '../../enums/sreens.enum';
+import { useGetTokenMetadata } from '../../hooks/use-get-token-metadata.hook';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useSortAccountTokensByBalance } from '../../hooks/use-sort-tokens-by-balance.hook';
 import { Token } from '../../interfaces/token.interface';
+import { TokenFormTypes } from '../../modals/screens/token/types/form-types.interface';
+import { createEntity } from '../../store/utils/entity.utils';
 import { sortAccountTokensByVisibility } from '../../store/wallet/wallet.actions';
 import {
   useAccountTokensSelector,
@@ -27,6 +34,7 @@ import {
   useAccountTokensAndGasTokenSelector,
   useVisibleAccountTokensAndGasTokenSelector
 } from '../../store/wallet/wallet.selectors';
+import { colors } from '../../styles/colors';
 import { getTokensWithBalance } from '../../utils/get-tokens-with-balance.util';
 import { getTokenSlug } from '../../utils/token.utils';
 
@@ -48,6 +56,8 @@ export const Tokens: FC = () => {
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
   const [tokensAddresses, setTokensAddresses] = useState<string[]>([]);
   const [isHideZeroBalance, setIsHideZeroBalance] = useState(false);
+  const [newToken, setNewToken] = useState<Token | null>(null);
+  const [isManageTokensActive, setIsManageTokensActive] = useState(false);
 
   const allAccountTokensWithBalance = useMemo(
     () => getTokensWithBalance(visibleAccountTokensWithGasToken),
@@ -60,8 +70,46 @@ export const Tokens: FC = () => {
     }
   }, [visibleAccountTokens, searchValue.length]);
 
-  const accountTokens = useMemo(() => {
-    if (searchValue && visibleAccountTokensWithGasToken.length) {
+  const handleLoadNewTokenMetadata = useCallback((metadata: TokenFormTypes) => {
+    setNewToken({
+      tokenAddress: metadata.tokenAddress,
+      decimals: Number(metadata.decimals),
+      isVisible: true,
+      name: metadata.name,
+      symbol: metadata.symbol,
+      balance: createEntity('0')
+    });
+  }, []);
+
+  const { getTokenMetadata, isLoadingMetadata } = useGetTokenMetadata(handleLoadNewTokenMetadata);
+
+  const isTokenExistOnAccount = useMemo(
+    () =>
+      isDefined(
+        allAccountTokensWithGasToken.find(
+          token =>
+            token.tokenAddress.toLowerCase().includes(searchValue.toLowerCase()) ||
+            token.symbol.toLowerCase().includes(searchValue.toLowerCase()) ||
+            token.name.toLowerCase().includes(searchValue.toLowerCase())
+        )
+      ),
+    [searchValue, allAccountTokensWithGasToken]
+  );
+
+  useEffect(() => {
+    if (isAddress(searchValue) && !isTokenExistOnAccount) {
+      getTokenMetadata(searchValue);
+    } else {
+      setNewToken(null);
+    }
+  }, [searchValue, isTokenExistOnAccount]);
+
+  const filteredAccountTokens = useMemo(() => {
+    if (isDefined(newToken) && isAddress(searchValue)) {
+      return [newToken];
+    }
+
+    if (searchValue && isTokenExistOnAccount && visibleAccountTokensWithGasToken.length) {
       return filterAccountTokensByValue(
         isHideZeroBalance ? allAccountTokensWithBalance : allAccountTokensWithGasToken,
         searchValue
@@ -69,12 +117,18 @@ export const Tokens: FC = () => {
     }
 
     return isHideZeroBalance ? allAccountTokensWithBalance : visibleAccountTokensWithGasToken;
-  }, [searchValue, allAccountTokens, visibleAccountTokensWithGasToken, isHideZeroBalance, allAccountTokensWithBalance]);
+  }, [
+    newToken,
+    searchValue,
+    allAccountTokens,
+    isTokenExistOnAccount,
+    visibleAccountTokensWithGasToken,
+    isHideZeroBalance,
+    allAccountTokensWithBalance
+  ]);
 
-  const sortedTokens = useSortAccountTokensByBalance(accountTokens);
+  const sortedTokens = useSortAccountTokensByBalance(filteredAccountTokens);
 
-  const navigateToAddNewToken = () => navigate(ScreensEnum.AddNewToken);
-  const navigateToManageTokens = () => navigate(ScreensEnum.ManageTokens);
   const onPressActivityIcon = () => navigate(ScreensEnum.Activity);
   const onPressHideZeroBalances = () => setIsHideZeroBalance(!isHideZeroBalance);
 
@@ -94,11 +148,19 @@ export const Tokens: FC = () => {
 
   const renderItem = useCallback(
     ({ item: token }: ListRenderItemInfo<Token>) => {
-      const showButton = !token.isVisible || !tokensAddresses.includes(token.tokenAddress);
+      const isNewToken = token.tokenAddress === newToken?.tokenAddress;
+      const showButton = isNewToken ? false : !token.isVisible || !tokensAddresses.includes(token.tokenAddress);
 
-      return <AccountToken token={token} showButton={showButton} theme={TokenItemThemesEnum.Secondary} />;
+      return (
+        <AccountToken
+          token={token}
+          showButton={showButton}
+          isNewToken={isNewToken}
+          theme={TokenItemThemesEnum.Secondary}
+        />
+      );
     },
-    [tokensAddresses, searchValue]
+    [tokensAddresses, searchValue, newToken]
   );
 
   return (
@@ -110,27 +172,35 @@ export const Tokens: FC = () => {
 
       <View style={styles.root}>
         <SearchPanel
-          onPressAddIcon={navigateToAddNewToken}
-          onPressEditIcon={navigateToManageTokens}
+          onPressEditIcon={setIsManageTokensActive}
           onPressActivityIcon={onPressActivityIcon}
           setSearchValue={setSearchValue}
           onSearchClose={onSearchClose}
           isEmptyList={!sortedTokens.length}
         />
 
-        <Pressable onPress={onPressHideZeroBalances} style={styles.checkboxContainer}>
+        <Pressable onPress={onPressHideZeroBalances} disabled={isDefined(newToken)} style={styles.checkboxContainer}>
           <Row>
-            <Icon name={isHideZeroBalance ? IconNameEnum.SelectedSquareCheckbox : IconNameEnum.EmptySquareCheckbox} />
+            <Icon
+              name={isHideZeroBalance ? IconNameEnum.SelectedSquareCheckbox : IconNameEnum.EmptySquareCheckbox}
+              color={isDefined(newToken) ? colors.grey : colors.orange}
+            />
             <Text style={styles.checkboxText}>Hide 0 balances</Text>
           </Row>
         </Pressable>
 
-        <FlatList
-          data={sortedTokens}
-          showsVerticalScrollIndicator={false}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-        />
+        {isLoadingMetadata ? (
+          <View style={styles.loading}>
+            <Loader size={LoaderSizeEnum.Large} />
+          </View>
+        ) : (
+          <FlatList
+            data={sortedTokens}
+            showsVerticalScrollIndicator={false}
+            renderItem={renderItem}
+            keyExtractor={keyExtractor}
+          />
+        )}
       </View>
 
       <NavigationBar />

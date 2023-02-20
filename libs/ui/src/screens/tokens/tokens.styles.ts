@@ -19,5 +19,10 @@ export const styles = StyleSheet.create({
     ...typography.captionInterSemiBold11,
     color: colors.textGrey2,
     marginLeft: getCustomSize(0.5)
+  },
+  loading: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingTop: getCustomSize(2)
   }
 });
