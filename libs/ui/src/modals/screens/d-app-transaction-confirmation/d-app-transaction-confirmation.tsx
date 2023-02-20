@@ -22,9 +22,9 @@ export const DAppTransactionConfirmation: FC = () => {
 
   const transactionData = parseTransactionData(params.transactionInfo.data);
 
-  const permissionNeededToken = allAvailableTokens.find(
-    token => token.tokenAddress?.toLowerCase() === params.transactionInfo?.to?.toLowerCase()
-  );
+  const permissionNeededToken =
+    allAvailableTokens.find(token => token.tokenAddress?.toLowerCase() === params.transactionInfo?.to?.toLowerCase()) ??
+    gasToken;
 
   const transferParams = useMemo(() => {
     const getValue = () => {
@@ -40,7 +40,7 @@ export const DAppTransactionConfirmation: FC = () => {
     const { data, gas, from, to, value } = params.transactionInfo;
 
     return {
-      token: permissionNeededToken ?? gasToken,
+      token: permissionNeededToken,
       receiverPublicKeyHash: params.transactionInfo.to,
       value: getValue(),
       gas: isDefined(gas) ? parseInt(gas, 16) : EMPTY_GAS,

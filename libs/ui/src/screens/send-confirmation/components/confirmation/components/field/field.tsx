@@ -14,14 +14,14 @@ import { styles } from './field.styles';
 
 interface Props {
   loading?: boolean;
-  amount?: number | string;
+  amount: number;
   title: string;
   symbol: string;
   iconName?: IconNameEnum;
   onIconPress?: OnEventFn<GestureResponderEvent>;
 }
 
-export const Field: FC<Props> = ({ loading = false, title, amount = '', symbol, onIconPress, iconName }) => (
+export const Field: FC<Props> = ({ loading = false, title, amount, symbol, onIconPress, iconName }) => (
   <Row style={styles.root}>
     <Text style={styles.title}>{title}</Text>
     {loading ? (

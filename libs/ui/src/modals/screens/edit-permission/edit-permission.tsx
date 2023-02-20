@@ -1,5 +1,6 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { isNotEmptyString } from '@rnw-community/shared';
+import { parseUnits } from 'ethers/lib/utils';
 import React, { FC, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ControllerRenderProps } from 'react-hook-form/dist/types/controller';
@@ -22,7 +23,7 @@ import { TokenInput } from '../../../screens/send/screens/send-token/components/
 import { getEncodedApproveTokenData } from '../../../screens/send-confirmation/components/evm-confirmation/utils/get-approve-token-data.util';
 import { changeApproveAllowanceDataAction } from '../../../store/swap/swap.actions';
 import { eraseProtocol } from '../../../utils/string.util';
-import { parseUnits, getFormattedAllowance } from '../../../utils/units.utils';
+import { getFormattedAllowance } from '../../../utils/units.utils';
 import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';
 
 import { INFINITE_AMOUNT, ALLOWANCE_RULES } from './constatns';
@@ -34,7 +35,7 @@ import { getAllowanceInDollar } from './utils/get-allowance-amount-in-dollar.uti
 export const EditPermission: FC = () => {
   const { goBack } = useNavigation();
   const {
-    params: { origin, token, allowanceAmount, spender }
+    params: { origin, token, proposedAllowanceAmount, spender, customAllowanceAmount }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.EditPermission>>();
   const dispatch = useDispatch();
   const { scrollViewRef, scrollToOffset } = useScrollToOffset();
@@ -49,10 +50,10 @@ export const EditPermission: FC = () => {
   } = useForm<FormTypes>({
     mode: 'onChange',
     defaultValues: {
-      isCustomAllowanceSelected: !checkIsMaxUintString(allowanceAmount),
-      customAllowance: checkIsMaxUintString(allowanceAmount)
-        ? ''
-        : getFormattedAllowance(allowanceAmount, token.decimals)
+      isCustomAllowanceSelected: isNotEmptyString(customAllowanceAmount),
+      customAllowance: isNotEmptyString(customAllowanceAmount)
+        ? getFormattedAllowance(customAllowanceAmount, token.decimals)
+        : ''
     }
   });
 
@@ -68,10 +69,12 @@ export const EditPermission: FC = () => {
   const onCustomLimitSelect = () => setValue('isCustomAllowanceSelected', true);
 
   const onSubmit = () => {
-    const allowanceToSign = isCustomLimitSelected ? customAllowance : MAX_UINT_256_STRING;
-    const allowanceToEncode = checkIsMaxUintString(allowanceToSign)
-      ? allowanceToSign
-      : parseUnits(customAllowance, token.decimals).toString();
+    const allowanceToSign = isCustomLimitSelected ? customAllowance : proposedAllowanceAmount;
+
+    const allowanceToEncode =
+      isCustomLimitSelected && !checkIsMaxUintString(allowanceToSign)
+        ? parseUnits(allowanceToSign, token.decimals).toHexString()
+        : allowanceToSign;
 
     const data = getEncodedApproveTokenData(spender, allowanceToEncode);
 
@@ -87,16 +90,16 @@ export const EditPermission: FC = () => {
   const modifyCustomAllowanceField = (field: ControllerRenderProps<FormTypes, 'customAllowance'>) => ({
     ...field,
     onChange: (newValue: string) => {
-      const correctedValue = checkIsMaxUintString(customAllowance) ? '' : newValue;
-
-      if (correctedValue === MAX_UINT_256_STRING) {
+      if (newValue === MAX_UINT_256_STRING) {
         onCustomLimitSelect();
       }
 
-      field.onChange(correctedValue);
+      field.onChange(newValue);
     },
     value: checkIsMaxUintString(field.value) ? getFormattedAllowance(MAX_UINT_256_STRING, token.decimals) : field.value
   });
+
+  const onFocus = () => checkIsMaxUintString(customAllowance) && setValue('customAllowance', '');
 
   return (
     <ModalActionContainer
@@ -118,7 +121,7 @@ export const EditPermission: FC = () => {
         </Row>
         <ReadOnlyTokenInput
           token={token}
-          amount={getFormattedAllowance(MAX_UINT_256_STRING, token.decimals)}
+          amount={getFormattedAllowance(proposedAllowanceAmount, token.decimals)}
           amountInDollar={INFINITE_AMOUNT}
         />
       </Pressable>
@@ -139,6 +142,7 @@ export const EditPermission: FC = () => {
               availableBalance={MAX_UINT_256_STRING}
               availableFormattedBalance={customAllowanceBalance.availableFormattedBalance}
               maxButtonTitle="Unlimited"
+              onFocus={onFocus}
               error={errors?.customAllowance?.message}
             />
           )}

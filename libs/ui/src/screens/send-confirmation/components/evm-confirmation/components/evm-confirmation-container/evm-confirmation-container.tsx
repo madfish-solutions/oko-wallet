@@ -1,9 +1,8 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider';
-import { isDefined, OnEventFn } from '@rnw-community/shared';
+import { isDefined, isNotEmptyString, OnEventFn } from '@rnw-community/shared';
 import React, { FC, PropsWithChildren, useCallback } from 'react';
 
 import { useShelter } from '../../../../../../hooks/use-shelter.hook';
-import { DAppInfo } from '../../../../../../interfaces/dapp-info.interface';
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector
@@ -85,7 +84,9 @@ export const EvmConfirmationContainer: FC<Props> = ({
     [estimations]
   );
 
-  return operation === OperationsEnum.Approve ? (
+  return operation === OperationsEnum.Approve &&
+    isDefined(transferParams.dAppInfo) &&
+    isNotEmptyString(transactionParams.data) ? (
     <ApproveToken
       isFeeLoading={isLoading}
       onSend={onSend}
@@ -93,8 +94,8 @@ export const EvmConfirmationContainer: FC<Props> = ({
       isTransactionLoading={isTransactionLoading}
       initialTransactionFee={transactionFee}
       token={token}
-      data={transactionParams.data as string}
-      dAppInfo={transferParams.dAppInfo as DAppInfo}
+      data={transactionParams.data}
+      dAppInfo={transferParams.dAppInfo}
     />
   ) : (
     <Confirmation

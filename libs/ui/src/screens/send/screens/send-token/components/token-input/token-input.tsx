@@ -1,4 +1,4 @@
-import { isDefined } from '@rnw-community/shared';
+import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
 import { FieldPath } from 'react-hook-form/dist/types';
@@ -24,6 +24,7 @@ interface Props<TFieldValues extends FieldValues, TName extends FieldPath<TField
   availableFormattedBalance?: string;
   availableBalance?: string;
   maxButtonTitle?: string;
+  onFocus?: OnEventFn;
 }
 
 export const TokenInput = <
@@ -38,7 +39,8 @@ export const TokenInput = <
   availableFormattedBalance,
   navigationKey,
   availableBalance,
-  maxButtonTitle = 'Max'
+  maxButtonTitle = 'Max',
+  onFocus
 }: Props<TFieldValues, TName>) => {
   const showMaxButton = isDefined(token) && isDefined(availableBalance);
 
@@ -57,6 +59,7 @@ export const TokenInput = <
         keyboardType="numeric"
         showClearIcon={false}
         editable={isDefined(token)}
+        onFocus={onFocus}
       >
         <View>
           <SelectToken token={token} navigationKey={navigationKey} availableBalance={availableFormattedBalance} />

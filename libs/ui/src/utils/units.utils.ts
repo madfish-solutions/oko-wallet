@@ -1,7 +1,7 @@
 import { BigNumber } from 'bignumber.js';
 import { BigNumberish } from 'ethers';
 
-import { MAX_UINT_256_STRING } from '../api/1inch/constants';
+import { checkIsMaxUintString } from '../modals/screens/edit-permission/utils/check-is-max-uint-string.util';
 
 export const formatUnits = (value: BigNumberish, decimals: number) => {
   const correctedValue = value ?? 0;
@@ -48,6 +48,6 @@ export const getFormattedBalance = (amount: BigNumberish, decimals: number) =>
   formatBalances(formatUnitsToString(amount, decimals));
 
 export const getFormattedAllowance = (amount: BigNumberish, decimals: number) =>
-  amount === MAX_UINT_256_STRING
+  checkIsMaxUintString(amount.toString())
     ? formatUnits(amount, decimals).toExponential(10).toString()
     : formatUnitsToString(amount, decimals);

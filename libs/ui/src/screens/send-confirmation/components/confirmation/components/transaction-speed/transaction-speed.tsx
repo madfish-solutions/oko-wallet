@@ -25,7 +25,7 @@ export const TransactionSpeed: FC<Props> = ({
   initialTransactionFeeWithDecimals,
   ownGasFee
 }) => {
-  const isOwnSpeedSelected = speed.value === SpeedEnum.Own;
+  const isOwnSpeedSelected = speed.title === SpeedEnum.Own;
   const progressStatus = isOwnSpeedSelected
     ? getProgressStatus(initialTransactionFeeWithDecimals, Number(ownGasFee))
     : speed.title;

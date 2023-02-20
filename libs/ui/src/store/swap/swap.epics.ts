@@ -97,7 +97,8 @@ const waitForApproveTxToBeSuccessEpic = (action$: Observable<Action>, state$: Ob
         concatMap(() => [
           waitForApproveTxToBeSuccessAction.success(token.tokenAddress),
           loadTokenAllowanceAction.submit(token.tokenAddress)
-        ])
+        ]),
+        catchError(() => of(waitForApproveTxToBeSuccessAction.success(token.tokenAddress)))
       )
     )
   );

@@ -133,7 +133,13 @@ export type ScreensParamList = {
   [ScreensEnum.SlippageTolerance]: undefined;
   [ScreensEnum.SwapRoute]: { routes: GetQuoteResponse['protocols']; fromToken: Token; toToken: Token };
   [ScreensEnum.SwapConfirmation]: { transferParams: EvmTransferParams };
-  [ScreensEnum.EditPermission]: { origin: string; token: Token; allowanceAmount: string; spender: string };
+  [ScreensEnum.EditPermission]: {
+    origin: string;
+    token: Token;
+    proposedAllowanceAmount: string;
+    customAllowanceAmount: string;
+    spender: string;
+  };
 };
 
 export const walletStackScreens = [

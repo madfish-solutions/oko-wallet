@@ -59,7 +59,8 @@ export const ApproveToken: FC<Props> = ({
   const { explorerUrl } = useSelectedNetworkSelector();
   const gasToken = useGasTokenSelector();
 
-  const { spender, allowanceAmount } = useMemo(() => getDecodedApproveTokenData(data as string), [data]);
+  const { spender, allowanceAmount } = useMemo(() => getDecodedApproveTokenData(data), [data]);
+  const proposedAllowanceAmount = useMemo(() => allowanceAmount, []);
 
   const {
     control,
@@ -105,7 +106,8 @@ export const ApproveToken: FC<Props> = ({
     navigate(ScreensEnum.EditPermission, {
       origin: dAppInfo.origin,
       token,
-      allowanceAmount,
+      proposedAllowanceAmount,
+      customAllowanceAmount: proposedAllowanceAmount === allowanceAmount ? '' : allowanceAmount,
       spender
     });
 
@@ -143,7 +145,7 @@ export const ApproveToken: FC<Props> = ({
 
       <Field
         title="Approved amount"
-        amount={getFormattedAllowance(allowanceAmount, token.decimals)}
+        amount={Number(getFormattedAllowance(allowanceAmount, token.decimals))}
         symbol={token.symbol}
         iconName={IconNameEnum.EditSmall}
         onIconPress={navigateToEditPermission}
@@ -162,32 +164,32 @@ export const ApproveToken: FC<Props> = ({
         })}
       />
 
-      <View style={styles.transactionSpeed}>
-        {!isKlaytnNetwork && isGasPickerSelected && (
+      {!isKlaytnNetwork && isGasPickerSelected && (
+        <View style={styles.transactionSpeed}>
           <TransactionSpeed
             speed={speed}
             handleSpeedChange={handleSpeedChange}
             initialTransactionFeeWithDecimals={initialTransactionFeeWithDecimals}
             ownGasFee={ownGasFee}
           />
-        )}
-        {isOwnSpeedSelected && isGasPickerSelected && (
-          <Controller
-            control={control}
-            name="ownGasFee"
-            rules={ownGasFeeRules}
-            render={({ field }) => (
-              <TextInput
-                field={field}
-                placeholder={`${initialTransactionFeeWithDecimals ?? 0}`}
-                keyboardType="numeric"
-                error={errors?.ownGasFee?.message}
-                decimals={gasToken.decimals}
-              />
-            )}
-          />
-        )}
-      </View>
+          {isOwnSpeedSelected && (
+            <Controller
+              control={control}
+              name="ownGasFee"
+              rules={ownGasFeeRules}
+              render={({ field }) => (
+                <TextInput
+                  field={field}
+                  placeholder={`${initialTransactionFeeWithDecimals ?? 0}`}
+                  keyboardType="numeric"
+                  error={errors?.ownGasFee?.message}
+                  decimals={gasToken.decimals}
+                />
+              )}
+            />
+          )}
+        </View>
+      )}
     </ModalActionsContainer>
   );
 };
