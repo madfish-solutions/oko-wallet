@@ -11,7 +11,7 @@ Before(async () => {
   await BrowserContext.page
     // @ts-ignore
     .evaluate(message => chrome.runtime.sendMessage(undefined, message), clearStorageMessage)
-    .catch(error => console.log(error));
+    .catch(() => void 0);
   BrowserContext.seedPhrase = DEFAULT_HD_ACCOUNT_SEED_PHRASE;
   BrowserContext.password = DEFAULT_PASSWORD;
   await BrowserContext.page.reload();

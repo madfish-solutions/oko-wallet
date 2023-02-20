@@ -76,6 +76,7 @@ export const AccountsSelector: FC = () => {
             onPress={onAccountSettings}
             rightIcon={IconNameEnum.User}
             style={styles.button}
+            testID={AccountsSelectorTestIDs.AccountsSettingsButton}
           />
         </Row>
       </Column>

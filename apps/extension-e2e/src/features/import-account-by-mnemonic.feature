@@ -1,5 +1,6 @@
 Feature: Add imported account by mnemonic
 
+@dev
   Scenario: As a user, I'd like to add imported account by mnemonic
     Given I have imported account
     And I press Accounts Selector button on the Wallet page
@@ -18,3 +19,4 @@ Feature: Add imported account by mnemonic
 
     And I am on the AccountsSelector page
     And I see Account 2 on the AccountsSelector page
+    And I press Account Settings button on the AccountsSelector page

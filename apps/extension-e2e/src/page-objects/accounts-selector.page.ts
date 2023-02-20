@@ -7,10 +7,12 @@ import { createPageElement, findElements } from '../utils/search.utils';
 export class AccountsSelectorPage extends Page {
   accountsScreenTitle = createPageElement(AccountsSelectorTestIDs.AccountsScreenTitle);
   accountAddingButton = createPageElement(SearchPanelTestIDs.AccountAddingIcon);
+  accountsSettinButton = createPageElement(AccountsSelectorTestIDs.AccountsSettingsButton);
 
   async isVisible() {
     await this.accountsScreenTitle.waitForDisplayed();
     await this.accountAddingButton.waitForDisplayed();
+    await this.accountsSettinButton.waitForDisplayed();
   }
 
   async isAccountNameDisplayed(name: string) {

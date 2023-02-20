@@ -1,6 +1,5 @@
 Feature: Add imported account by private key
 
-  @dev
   Scenario: As a user, I'd like to add imported account by private key
     Given I have imported account
     And I press Accounts Selector button on the Wallet page
