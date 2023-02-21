@@ -6,8 +6,7 @@ import { DappConnectionInfo } from '../../interfaces/dapp-connection.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
 import { TokenExtendedMetadata } from '../../interfaces/token-extended-metadata.interface';
-import { Token } from '../../interfaces/token.interface';
-import { TokenFormTypes } from '../../modals/screens/token/types/form-types.interface';
+import { Token, TokenFormType } from '../../interfaces/token.interface';
 import { createActions } from '../utils/action.utils';
 
 export const createHdAccountAction = createAction<AccountInterface>('wallet/CREATE_HD_ACCOUNT');
@@ -47,10 +46,10 @@ export const getAllUserTokensAction = createActions<
   { debankId: string; publicKeyHash: string },
   { tokenList: TokenListResponse; debankGasTokenName: string }
 >('wallet/GET_ALL_USER_TOKENS');
-export const addNewTokensMetadataAction = createActions<Token['tokenAddress'][], TokenFormTypes[]>(
+export const addNewTokensMetadataAction = createActions<Token['tokenAddress'][], TokenFormType[]>(
   'wallet/ADD_NEW_TOKENS_METADATA'
 );
-export const editTokenAction = createAction<TokenFormTypes>('wallet/EDIT_TOKEN');
+export const editTokenAction = createAction<TokenFormType>('wallet/EDIT_TOKEN');
 export const changeTokenVisibilityAction = createAction<Token>('wallet/CHANGE_TOKEN_VISIBILITY');
 export const sortAccountTokensByVisibility = createAction('wallet/SORT_ACCOUNT_TOKENS_BY_VISIBILITY');
 

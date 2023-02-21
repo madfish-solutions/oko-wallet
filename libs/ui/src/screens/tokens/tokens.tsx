@@ -15,8 +15,7 @@ import { EMPTY_STRING } from '../../constants/defaults';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useGetTokenMetadata } from '../../hooks/use-get-token-metadata.hook';
 import { useNavigation } from '../../hooks/use-navigation.hook';
-import { Token as TokenInterface } from '../../interfaces/token.interface';
-import { TokenFormTypes } from '../../modals/screens/token/types/form-types.interface';
+import { Token as TokenInterface, TokenFormType } from '../../interfaces/token.interface';
 import { createEntity } from '../../store/utils/entity.utils';
 import { useAccountTokensAndGasTokenSelector } from '../../store/wallet/wallet.selectors';
 
@@ -35,7 +34,7 @@ export const Tokens: FC = () => {
   const [isEmptyTokensList, setIsEmptyTokensList] = useState(false);
   const [isShowManageTokens, setIsShowManageTokens] = useState(false);
 
-  const handleLoadNewTokenMetadata = useCallback((metadata: TokenFormTypes) => {
+  const handleLoadNewTokenMetadata = useCallback((metadata: TokenFormType) => {
     setNewToken({
       tokenAddress: metadata.tokenAddress,
       decimals: Number(metadata.decimals),

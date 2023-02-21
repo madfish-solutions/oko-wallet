@@ -7,11 +7,11 @@ import { debounceTime, filter, map, tap } from 'rxjs/operators';
 import { getTokenInfo } from '../api/debank/debank';
 import { getDebankId } from '../api/debank/utils/get-debank-id.util';
 import { DEBOUNCE_TIME } from '../constants/defaults';
-import { TokenFormTypes } from '../modals/screens/token/types/form-types.interface';
+import { TokenFormType } from '../interfaces/token.interface';
 import { useSelectedNetworkSelector } from '../store/wallet/wallet.selectors';
 import { getErc20TokenMetadata$ } from '../utils/get-erc20-token-metadata.util';
 
-export const useGetTokenMetadata = (onLoadMetadata: OnEventFn<TokenFormTypes>) => {
+export const useGetTokenMetadata = (onLoadMetadata: OnEventFn<TokenFormType>) => {
   const { rpcUrl, chainId } = useSelectedNetworkSelector();
   const [isLoadingMetadata, setIsLoadingMetadata] = useState(false);
 
@@ -28,7 +28,10 @@ export const useGetTokenMetadata = (onLoadMetadata: OnEventFn<TokenFormTypes>) =
         switchMap(tokenAddress =>
           forkJoin([getErc20TokenMetadata$(tokenAddress, rpcUrl), getTokenInfo(tokenAddress, getDebankId(chainId))])
         ),
-        map(([metadata, debankData]) => ({ ...metadata, thumbnailUri: debankData?.logo_url ?? '' })),
+        map(([metadata, debankData]) => ({
+          ...metadata,
+          thumbnailUri: debankData?.logo_url ?? ''
+        })),
         tap(() => setIsLoadingMetadata(false))
       )
       .subscribe(onLoadMetadata);
