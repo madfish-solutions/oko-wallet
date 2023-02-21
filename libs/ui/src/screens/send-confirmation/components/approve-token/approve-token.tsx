@@ -100,7 +100,7 @@ export const ApproveToken: FC<Props> = ({
 
   const onConfirmPress = () => onSend(gasPriceCoefficient);
 
-  const goToExplorer = () => Linking.openURL(`${explorerUrl}/tx/${spender}`);
+  const goToExplorer = () => Linking.openURL(`${explorerUrl}/address/${spender}`);
 
   const navigateToEditPermission = () =>
     navigate(ScreensEnum.EditPermission, {
