@@ -29,12 +29,32 @@ export const DAppSignConfirmation: FC = () => {
 
   const onDecline = () => sendErrorToDAppAndClosePopup(params.dAppInfo.origin, params.messageId);
 
-  const messageToSign = params.method === DAppMethodEnum.ETH_PERSONAL_SIGN ? params.signInfo[0] : params.signInfo[1];
+  const messageToSign = (method: string) => {
+    switch (method) {
+      case DAppMethodEnum.ETH_PERSONAL_SIGN: {
+        return params.signInfo[0];
+      }
+      case DAppMethodEnum.ETH_SIGN_TYPED_DATA: {
+        return JSON.stringify(params.signInfo[0]);
+      }
+      case DAppMethodEnum.ETH_SIGN_TYPED_DATA_V3:
+      case DAppMethodEnum.ETH_SIGN_TYPED_DATA_V4: {
+        return params.signInfo[1];
+      }
+      case DAppMethodEnum.ETH_SIGN: {
+        return params.signInfo[1];
+      }
+      default: {
+        throw Error('method is not acceptable');
+      }
+    }
+  };
 
   const onSubmit = () => {
     signMessage({
       publicKey: selectedAccount.networksKeys.EVM?.publicKeyHash ?? '',
-      messageToSign: prepareSignData(messageToSign),
+      messageToSign: prepareSignData(messageToSign(params.method)),
+      method: params.method,
       successCallback: message => sendResponseToDAppAndClosePopup(params.dAppInfo.origin, params.messageId, message)
     });
     sendMessageToBackground();
@@ -52,7 +72,7 @@ export const DAppSignConfirmation: FC = () => {
       <DAppHeader favicon={params.dAppInfo.favicon} origin={params.dAppInfo.origin} />
       <View style={styles.messageBlock}>
         <Text style={styles.mainText}>Message to sign</Text>
-        <Text style={styles.text}>{prepareSignData(messageToSign)}</Text>
+        <Text style={styles.text}>{prepareSignData(messageToSign(params.method))}</Text>
       </View>
       <FromAccount account={selectedAccount} />
       <SelectedNetwork />
