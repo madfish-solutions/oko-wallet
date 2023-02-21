@@ -76,6 +76,7 @@ export const Tokens: FC = () => {
           setSearchValue={setSearchValue}
           isEmptyList={isEmptyTokensList && !isLoadingMetadata}
           setIsShowManageTokens={setIsShowManageTokens}
+          isShowManageTokensIcon
         />
 
         {isLoadingMetadata ? (

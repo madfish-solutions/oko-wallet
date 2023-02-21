@@ -28,6 +28,7 @@ interface Props {
   isSearchInitiallyOpened?: boolean;
   setIsShowManageTokens?: OnEventFn<boolean>;
   emptyIconStyle?: ViewStyleProps;
+  isShowManageTokensIcon?: boolean;
   style?: ViewStyleProps;
 }
 
@@ -47,6 +48,7 @@ export const SearchPanel: React.FC<Props> = ({
   onPressActivityIcon,
   setIsShowManageTokens,
   emptyIconStyle,
+  isShowManageTokensIcon = false,
   style
 }) => {
   const [isShowSearchField, setIsShowSearchField] = useState(isSearchInitiallyOpened);
@@ -123,7 +125,9 @@ export const SearchPanel: React.FC<Props> = ({
                   testID={SearchPanelTestIDs.AccountAddingIcon}
                 />
               )}
-              <TouchableIcon style={styles.extraIcon} name={IconNameEnum.Slider} onPress={handlePressManageIcon} />
+              {isShowManageTokensIcon && (
+                <TouchableIcon style={styles.extraIcon} name={IconNameEnum.Slider} onPress={handlePressManageIcon} />
+              )}
             </Row>
           </Row>
         )}
