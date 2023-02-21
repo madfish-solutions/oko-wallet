@@ -237,7 +237,9 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
         ...updateAccountsGasTokensState(state, { balance: gasTokenBalance }),
         accountsTokens: {
           ...state.accountsTokens,
-          [accountTokensSlug]: [...prevAccountTokens, ...tokens]
+          [accountTokensSlug]: [...prevAccountTokens, ...tokens].sort(
+            (a, b) => Number(b.isVisible) - Number(a.isVisible)
+          )
         },
         tokensMetadata: {
           ...state.tokensMetadata,

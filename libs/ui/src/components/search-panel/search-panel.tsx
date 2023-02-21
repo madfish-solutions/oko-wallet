@@ -1,3 +1,4 @@
+import { useNavigationState } from '@react-navigation/native';
 import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm, Controller, ControllerRenderProps, FieldValues, FieldPath } from 'react-hook-form';
@@ -21,13 +22,13 @@ interface Props {
   isEmptyList: boolean;
   setSearchValue: OnEventFn<string>;
   onPressAddIcon?: OnEventFn<GestureResponderEvent>;
-  onPressEditIcon?: OnEventFn<boolean>;
   onPressActivityIcon?: OnEventFn<GestureResponderEvent>;
   selectedItemName?: string;
   onSearchClose?: () => void;
   isSearchInitiallyOpened?: boolean;
-  style?: ViewStyleProps;
+  setIsShowManageTokens?: OnEventFn<boolean>;
   emptyIconStyle?: ViewStyleProps;
+  style?: ViewStyleProps;
 }
 
 const renderTextInput = <
@@ -41,15 +42,16 @@ export const SearchPanel: React.FC<Props> = ({
   isEmptyList,
   setSearchValue,
   selectedItemName,
-  onSearchClose,
   isSearchInitiallyOpened = false,
   onPressAddIcon,
-  onPressEditIcon,
   onPressActivityIcon,
-  style,
-  emptyIconStyle
+  setIsShowManageTokens,
+  emptyIconStyle,
+  style
 }) => {
   const [isShowSearchField, setIsShowSearchField] = useState(isSearchInitiallyOpened);
+  const routeIndex = useNavigationState(state => state.index);
+
   const initialSelectedItemName = useRef(selectedItemName);
 
   const { control, resetField, watch, setFocus } = useForm({
@@ -71,14 +73,22 @@ export const SearchPanel: React.FC<Props> = ({
     }
   }, [isShowSearchField]);
 
+  useEffect(() => {
+    hideSearchField();
+  }, [routeIndex]);
+
   const hideSearchField = useCallback(() => {
     setIsShowSearchField(false);
     resetField(SEARCH_FIELD);
-
-    onSearchClose?.();
-  }, [onSearchClose]);
+    setIsShowManageTokens?.(false);
+  }, []);
 
   const showSearchField = () => setIsShowSearchField(true);
+
+  const handlePressManageIcon = () => {
+    showSearchField();
+    setIsShowManageTokens?.(true);
+  };
 
   useEffect(() => {
     if (isDefined(selectedItemName) && selectedItemName !== initialSelectedItemName.current) {
@@ -113,9 +123,7 @@ export const SearchPanel: React.FC<Props> = ({
                   testID={SearchPanelTestIDs.AccountAddingIcon}
                 />
               )}
-              {onPressEditIcon && (
-                <TouchableIcon style={styles.extraIcon} name={IconNameEnum.Slider} onPress={onPressEditIcon} />
-              )}
+              <TouchableIcon style={styles.extraIcon} name={IconNameEnum.Slider} onPress={handlePressManageIcon} />
             </Row>
           </Row>
         )}

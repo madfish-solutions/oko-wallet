@@ -1,4 +1,4 @@
-import { isDefined, OnEventFn } from '@rnw-community/shared';
+import { OnEventFn } from '@rnw-community/shared';
 import { isAddress } from 'ethers/lib/utils';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { forkJoin, Subject, switchMap } from 'rxjs';
@@ -22,9 +22,9 @@ export const useGetTokenMetadata = (onLoadMetadata: OnEventFn<TokenFormTypes>) =
   useEffect(() => {
     const subscription = getTokenMetadata$
       .pipe(
+        tap(() => setIsLoadingMetadata(true)),
         debounceTime(DEBOUNCE_TIME),
         filter(tokenAddress => isAddress(tokenAddress)),
-        tap(() => setIsLoadingMetadata(true)),
         switchMap(tokenAddress =>
           forkJoin([getErc20TokenMetadata$(tokenAddress, rpcUrl), getTokenInfo(tokenAddress, getDebankId(chainId))])
         ),

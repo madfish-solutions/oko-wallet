@@ -1,13 +1,11 @@
-import { isDefined } from '@rnw-community/shared';
+import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
-import { Pressable } from 'react-native';
+import { GestureResponderEvent, Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { ScreensEnum } from '../../../enums/sreens.enum';
-import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { Token } from '../../../interfaces/token.interface';
 import { getImageSource } from '../../../screens/wallet/components/assets-widget/utils/get-image-source.util';
-import { addNewTokenAction, changeTokenVisibilityAction } from '../../../store/wallet/wallet.actions';
+import { changeTokenVisibilityAction } from '../../../store/wallet/wallet.actions';
 import { checkIsGasToken } from '../../../utils/check-is-gas-token.util';
 import { getFiatBalanceToDisplay } from '../../../utils/get-dollar-value-to-display.util';
 import { getFormattedBalance } from '../../../utils/units.utils';
@@ -20,11 +18,11 @@ interface Props {
   showButton?: boolean;
   isNewToken?: boolean;
   theme?: TokenItemThemesEnum;
+  onPress?: OnEventFn<GestureResponderEvent>;
 }
 
-export const AccountToken: FC<Props> = ({ token, showButton, isNewToken = false, theme }) => {
+export const AccountToken: FC<Props> = ({ token, showButton, theme, onPress }) => {
   const dispatch = useDispatch();
-  const { navigate } = useNavigation();
 
   const { thumbnailUri, symbol, name, tokenAddress, fiatBalance, decimals } = token;
 
@@ -35,24 +33,8 @@ export const AccountToken: FC<Props> = ({ token, showButton, isNewToken = false,
 
   const handleTokenVisibility = () => dispatch(changeTokenVisibilityAction(token));
 
-  const navigateToTokenDetails = () => {
-    if (isNewToken) {
-      dispatch(
-        addNewTokenAction({
-          name,
-          symbol,
-          tokenAddress,
-          decimals,
-          thumbnailUri
-        })
-      );
-    }
-
-    navigate(ScreensEnum.Token, { tokenAddress: token.tokenAddress, tokenId: token.tokenId });
-  };
-
   return (
-    <Pressable onPress={navigateToTokenDetails}>
+    <Pressable onPress={onPress}>
       <TokenItem
         imageSource={imageSource}
         balance={formattedBalance}

@@ -36,7 +36,6 @@ import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps'
 import { CreateANewWallet } from '../../screens/create-wallet/screens/create-a-new-wallet/create-a-new-wallet';
 import { VerifyMnemonic } from '../../screens/create-wallet/screens/verify-mnemonic/verify-mnemonic';
 import { ImportWallet } from '../../screens/import-wallet/import-wallet';
-import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
 import { ScanQrCode } from '../../screens/scan-qr-code/scan-qr-code';
 import { CollectiblesSelector as SendCollectiblesSelector } from '../../screens/send/screens/send-collectible/components/collectibles-selector/collectibles-selector';
@@ -114,7 +113,6 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.SendToken} component={SendToken} />
               <Stack.Screen name={ScreensEnum.SendCollectible} component={SendCollectible} />
               <Stack.Screen name={ScreensEnum.Swap} component={Swap} />
-              <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
               <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
               <Stack.Screen name={ScreensEnum.Tokens} component={Tokens} />
               <Stack.Screen name={ScreensEnum.ScanQrCode} component={ScanQrCode} />

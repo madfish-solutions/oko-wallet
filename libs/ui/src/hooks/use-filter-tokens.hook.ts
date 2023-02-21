@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 
 import { EMPTY_STRING } from '../constants/defaults';
 import { Token } from '../interfaces/token.interface';
-import { filterAccountTokensByValue } from '../screens/tokens/utils/filter-account-tokens-by-value';
+import { filterAccountTokensByValue } from '../screens/tokens/utils/filter-account-tokens-by-value.util';
 
 export const useFilterAccountTokens = (initialAccountTokens: Token[]) => {
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
