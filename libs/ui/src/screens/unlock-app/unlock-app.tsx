@@ -52,7 +52,7 @@ export const UnlockApp: FC = () => {
 
   const password = watch('password');
 
-  const onUnlock = () => unlock(password);
+  const onUnlock = () => !isDisabled && unlock(password);
   const onResetWallet = () => navigate(ScreensEnum.SettingsResetWalletConfirm);
 
   const onEnterPress = (event: NativeSyntheticEvent<TextInputKeyPressEventData>) =>
