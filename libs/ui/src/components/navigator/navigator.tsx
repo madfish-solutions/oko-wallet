@@ -24,8 +24,6 @@ import { RevealSeedPhrase } from '../../modals/screens/reveal-seed-phrase/reveal
 import { SlippageSettings } from '../../modals/screens/slippage-settings/slippage-settings';
 import { SwapConfirmation } from '../../modals/screens/swap-confirmation/swap-confirmation';
 import { SwapRoute } from '../../modals/screens/swap-route/swap-route';
-import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
-import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { TokensSelector } from '../../modals/screens/tokens-selector/tokens-selector';
 import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
 import { Activity } from '../../screens/activity/activity';
@@ -240,12 +238,6 @@ export const Navigator: FC = () => {
                 options={{ title: 'Edit network' }}
                 component={EditNetwork}
               />
-              <Stack.Screen
-                name={ScreensEnum.AddNewToken}
-                options={{ title: 'Add new token' }}
-                component={AddNewToken}
-              />
-              <Stack.Screen name={ScreensEnum.EditToken} options={{ title: 'Edit token' }} component={EditToken} />
               <Stack.Screen
                 name={ScreensEnum.AddNewCollectible}
                 options={{ title: 'Add new Collectible' }}
