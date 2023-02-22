@@ -1,2 +1,1 @@
-export * from './nft-list-response';
-export * from './token-list-response';
+export type { NftListResponse, TokenListResponse, TokenResponse } from './types';
