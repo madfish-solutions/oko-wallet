@@ -24,7 +24,7 @@ export const DAppHeader: FC<Props> = ({ favicon, origin }) => (
       <DAppImage imageUri={favicon} />
     </Row>
     <Row style={styles.addressRow}>
-      <Text style={styles.smallText}>Address</Text>
+      <Text style={styles.smallText}>DAPP</Text>
       <Row>
         <Text style={styles.explorerLink} onPress={() => Linking.openURL(origin)} numberOfLines={1}>
           {eraseProtocol(origin)}

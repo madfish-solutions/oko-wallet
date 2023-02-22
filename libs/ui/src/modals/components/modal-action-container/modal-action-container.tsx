@@ -1,48 +1,41 @@
+import { OnEventFn } from '@rnw-community/shared';
 import React, { FC, PropsWithChildren, RefObject } from 'react';
-import { View, ScrollView } from 'react-native';
+import { GestureResponderEvent, ScrollView, View } from 'react-native';
 
+import { Button } from '../../../components/button/button';
+import { ButtonThemesEnum } from '../../../components/button/enums';
 import { ViewStyleProps } from '../../../interfaces/style.interface';
 import { ModalContainer } from '../modal-container/modal-container';
-import { ModalFooterButtons } from '../modal-footer-buttons/modal-footer-buttons';
-import { FooterButtons } from '../modal-footer-buttons/modal-footer-buttons.interface';
 
 import { styles } from './modal-action-container.styles';
 
 type Props = PropsWithChildren<{
   screenTitle: string;
+  buttonTitle: string;
+  onPress: OnEventFn<GestureResponderEvent>;
+  buttonTheme?: ButtonThemesEnum;
+  contentContainerStyle?: ViewStyleProps;
   isBackButton?: boolean;
-  style?: ViewStyleProps;
   scrollViewRef?: RefObject<ScrollView>;
-}> &
-  FooterButtons;
+}>;
 
 export const ModalActionContainer: FC<Props> = ({
   screenTitle,
-  submitTitle,
-  cancelTitle,
-  isSubmitDisabled,
-  isCancelDisabled,
-  onSubmitPress,
-  onCancelPress,
-  isBackButton = true,
+  onPress,
+  buttonTitle,
+  buttonTheme = ButtonThemesEnum.Primary,
+  children,
+  contentContainerStyle,
   scrollViewRef,
-  style,
-  children
+  isBackButton = false
 }) => (
   <ModalContainer screenTitle={screenTitle} isBackButton={isBackButton}>
-    <View style={[styles.root, style]}>
-      <ScrollView ref={scrollViewRef} style={styles.content}>
-        {children}
-      </ScrollView>
+    <ScrollView ref={scrollViewRef} contentContainerStyle={contentContainerStyle} style={styles.root}>
+      <View style={styles.children}>{children}</View>
+    </ScrollView>
 
-      <ModalFooterButtons
-        submitTitle={submitTitle}
-        onCancelPress={onCancelPress}
-        onSubmitPress={onSubmitPress}
-        isSubmitDisabled={isSubmitDisabled}
-        isCancelDisabled={isCancelDisabled}
-        cancelTitle={cancelTitle}
-      />
+    <View style={styles.button}>
+      <Button title={buttonTitle} onPress={onPress} theme={buttonTheme} />
     </View>
   </ModalContainer>
 );

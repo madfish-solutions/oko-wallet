@@ -44,7 +44,7 @@ export const SpecificCollectiblesList: FC = () => {
   const renderItem = useCallback(
     ({ item: collectible, index }: ListRenderItemInfo<Token>) => {
       const pendingTransaction = pendingCollectiblesTransactions.find(
-        ({ asset: { tokenId, tokenAddress } }) =>
+        ({ token: { tokenId, tokenAddress } }) =>
           tokenAddress === collectible.tokenAddress && tokenId === collectible.tokenId
       );
 

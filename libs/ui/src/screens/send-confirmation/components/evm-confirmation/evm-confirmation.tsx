@@ -20,16 +20,17 @@ type Props = PropsWithChildren<{
 
 export const EvmConfirmation: FC<Props> = ({ transferParams, params, children }) => {
   const { goBack } = useNavigation();
+  const isDAppOperation = isDefined(params);
 
   const additionalSuccessCallback = (transactionResponse: TransactionResponse) => {
-    if (isDefined(params)) {
+    if (isDAppOperation) {
       sendResponseToDAppAndClosePopup(params.dAppInfo.origin, params.messageId, transactionResponse.hash);
       sendMessageToBackground();
     }
   };
 
   const onDecline = () => {
-    if (isDefined(params)) {
+    if (isDAppOperation) {
       sendErrorToDAppAndClosePopup(params.dAppInfo.origin, params.messageId);
     }
 
@@ -42,6 +43,7 @@ export const EvmConfirmation: FC<Props> = ({ transferParams, params, children })
       onDecline={onDecline}
       additionalSuccessCallback={additionalSuccessCallback}
       children={children}
+      isDAppOperation={isDAppOperation}
     />
   );
 };

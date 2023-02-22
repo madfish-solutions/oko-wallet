@@ -1,7 +1,6 @@
-import { BigNumber } from 'ethers';
 import { parseUnits } from 'ethers/lib/utils';
 import { combineEpics } from 'redux-observable';
-import { Observable, of, from } from 'rxjs';
+import { Observable, of, from, switchMap } from 'rxjs';
 import { catchError, concatMap, debounceTime, map } from 'rxjs/operators';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
@@ -10,13 +9,18 @@ import { getQuote, getSwapData } from '../../api/1inch/1inch';
 import { DEBOUNCE_TIME } from '../../constants/defaults';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
-import { Asset } from '../../interfaces/asset.interface';
+import { getDefaultEvmProvider } from '../../utils/get-default-evm-provider.utils';
 import { withSelectedAccount, withSelectedNetwork } from '../../utils/wallet.util';
 import { navigateAction } from '../root-state.actions';
 import { RootState } from '../store';
 import { getPublicKeyHash } from '../wallet/wallet.utils';
 
-import { loadQuoteAction, loadSwapDataAction, loadTokenAllowanceAction } from './swap.actions';
+import {
+  loadQuoteAction,
+  loadSwapDataAction,
+  loadTokenAllowanceAction,
+  waitForApproveTxToBeSuccessAction
+} from './swap.actions';
 import { loadTokenAllowance$ } from './swap.utils';
 
 const getTokenAllowanceEpic = (action$: Observable<Action>, state$: Observable<RootState>) =>
@@ -71,8 +75,8 @@ const getSwapDataEpic = (action$: Observable<Action>, state$: Observable<RootSta
             transferParams: {
               receiverPublicKeyHash: swapDataResponse.to,
               value: amount,
-              asset: fromToken as Asset,
-              transactionParams: { ...swapDataResponse, value: BigNumber.from(swapDataResponse.value).toHexString() },
+              token: fromToken,
+              transactionParams: swapDataResponse,
               gas: swapDataResponse.gasLimit
             }
           }),
@@ -83,4 +87,25 @@ const getSwapDataEpic = (action$: Observable<Action>, state$: Observable<RootSta
     )
   );
 
-export const swapEpics = combineEpics(getTokenAllowanceEpic, getQuoteEpic, getSwapDataEpic);
+const waitForApproveTxToBeSuccessEpic = (action$: Observable<Action>, state$: Observable<RootState>) =>
+  action$.pipe(
+    ofType(waitForApproveTxToBeSuccessAction.submit),
+    toPayload(),
+    withSelectedNetwork(state$),
+    switchMap(([{ token, txHash }, selectedNetwork]) =>
+      from(getDefaultEvmProvider(selectedNetwork.rpcUrl).waitForTransaction(txHash, 1)).pipe(
+        concatMap(() => [
+          waitForApproveTxToBeSuccessAction.success(token.tokenAddress),
+          loadTokenAllowanceAction.submit(token.tokenAddress)
+        ]),
+        catchError(() => of(waitForApproveTxToBeSuccessAction.success(token.tokenAddress)))
+      )
+    )
+  );
+
+export const swapEpics = combineEpics(
+  getTokenAllowanceEpic,
+  getQuoteEpic,
+  getSwapDataEpic,
+  waitForApproveTxToBeSuccessEpic
+);

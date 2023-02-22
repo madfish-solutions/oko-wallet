@@ -27,5 +27,8 @@ export const styles = StyleSheet.create({
   symbol: {
     color: colors.textGrey2,
     marginLeft: getCustomSize(0.25)
+  },
+  icon: {
+    marginLeft: getCustomSize()
   }
 });

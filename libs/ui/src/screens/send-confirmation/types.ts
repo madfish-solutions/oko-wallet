@@ -2,19 +2,25 @@ import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { OnEventFn } from '@rnw-community/shared';
 import { ParamsWithKind } from '@taquito/taquito/dist/types/operations/types';
 
-import { Asset } from '../../interfaces/asset.interface';
+import { DAppInfo } from '../../interfaces/dapp-info.interface';
+import { Token } from '../../interfaces/token.interface';
+
+import { OperationsEnum } from './enums';
 
 export interface EvmTransferParams {
   receiverPublicKeyHash: string;
-  asset: Asset;
+  token: Token;
   value: string;
   gas?: number;
   transactionParams: TransactionRequest;
+  operation?: OperationsEnum;
+  dAppInfo?: DAppInfo;
 }
 
 export interface TezosTransferParams {
   transferParams: ParamsWithKind[];
-  asset: Asset;
+  token: Token;
+  operation?: OperationsEnum;
 }
 
 type OnSendEvmArg = number;

@@ -7,8 +7,7 @@ import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { Icon } from '../icon/icon';
 import { IconNameEnum } from '../icon/icon-name.enum';
-import { LoaderSizeEnum } from '../loader/enums';
-import { Loader } from '../loader/loader';
+import { WrappedLoader } from '../loader/components/wrapped-loader/wrapped-loader';
 import { Text } from '../text/text';
 
 import { styles } from './collectible-image.styles';
@@ -58,16 +57,10 @@ export const CollectibleImage: FC<Props> = ({
           />
         )}
       </Pressable>
-      {!imageIsLoaded && (
-        <View style={[styles.layout, containerStyle]}>
-          <Loader size={LoaderSizeEnum.Large} />
-        </View>
-      )}
+      {!imageIsLoaded && <WrappedLoader style={[styles.layout, containerStyle]} />}
       {isPending && imageIsLoaded && (
         <>
-          <View style={styles.pendingLoader}>
-            <Loader size={LoaderSizeEnum.Large} color={colors.white} />
-          </View>
+          <WrappedLoader color={colors.white} style={styles.pendingLoader} />
           <View style={styles.pendingTextBlock}>
             <Text style={styles.pendingText}>Pending</Text>
           </View>
