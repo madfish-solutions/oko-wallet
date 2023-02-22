@@ -76,7 +76,9 @@ export const SearchPanel: React.FC<Props> = ({
   }, [isShowSearchField]);
 
   useEffect(() => {
-    hideSearchField();
+    if (!isSearchInitiallyOpened) {
+      hideSearchField();
+    }
   }, [routeIndex]);
 
   const hideSearchField = useCallback(() => {

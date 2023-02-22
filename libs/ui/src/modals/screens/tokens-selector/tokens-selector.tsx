@@ -55,7 +55,9 @@ export const TokensSelector: FC = () => {
   const selectedIndex = useMemo(
     () =>
       filteredAccountTokens.findIndex(
-        accountToken => accountToken.tokenAddress === token?.tokenAddress && accountToken.tokenId === token?.tokenId
+        accountToken =>
+          getTokenSlug(accountToken.tokenAddress, accountToken.tokenId) ===
+          getTokenSlug(token?.tokenAddress ?? '', token?.tokenId)
       ),
     [filteredAccountTokens]
   );
