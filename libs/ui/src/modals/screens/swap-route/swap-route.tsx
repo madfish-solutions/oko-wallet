@@ -31,9 +31,7 @@ export const SwapRoute: FC = () => {
     <ModalContainer screenTitle="Route">
       <View style={styles.root}>
         {loading ? (
-          <View style={styles.loader}>
-            <Loader size={LoaderSizeEnum.Large} />
-          </View>
+          <Loader size={LoaderSizeEnum.Large} />
         ) : (
           <ScrollView style={styles.content}>
             <View onLayout={handleLayout}>

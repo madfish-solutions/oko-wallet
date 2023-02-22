@@ -1,6 +1,4 @@
-import { isDefined } from '@rnw-community/shared';
-import { isAddress } from 'ethers/lib/utils';
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { View } from 'react-native';
 
 import { LoaderSizeEnum } from '../../components/loader/enums';
@@ -11,55 +9,24 @@ import { ScreenTitle } from '../../components/screen-components/header-container
 import { HeaderContainer } from '../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { SearchPanel } from '../../components/search-panel/search-panel';
-import { EMPTY_STRING } from '../../constants/defaults';
 import { ScreensEnum } from '../../enums/sreens.enum';
-import { useGetTokenMetadata } from '../../hooks/use-get-token-metadata.hook';
 import { useNavigation } from '../../hooks/use-navigation.hook';
-import { Token as TokenInterface, TokenFormType } from '../../interfaces/token.interface';
-import { createEntity } from '../../store/utils/entity.utils';
+import { useSearchNewToken } from '../../hooks/use-search-new-token.hook';
 import { useAccountTokensAndGasTokenSelector } from '../../store/wallet/wallet.selectors';
 
 import { AccountTokens } from './components/account-tokens/account-tokens';
 import { ManageTokens } from './components/manage-tokens/manage-tokens';
 import { styles } from './tokens.styles';
-import { compare } from './utils/compare.util';
 
 export const Tokens: FC = () => {
   const { navigate, goBack } = useNavigation();
 
   const allAccountTokensWithGasToken = useAccountTokensAndGasTokenSelector();
 
-  const [searchValue, setSearchValue] = useState(EMPTY_STRING);
-  const [newToken, setNewToken] = useState<TokenInterface | null>(null);
   const [isEmptyTokensList, setIsEmptyTokensList] = useState(false);
   const [isShowManageTokens, setIsShowManageTokens] = useState(false);
 
-  const handleLoadNewTokenMetadata = useCallback((metadata: TokenFormType) => {
-    setNewToken({
-      tokenAddress: metadata.tokenAddress,
-      decimals: Number(metadata.decimals),
-      isVisible: false,
-      name: metadata.name,
-      symbol: metadata.symbol,
-      balance: createEntity('0'),
-      thumbnailUri: metadata.thumbnailUri
-    });
-  }, []);
-
-  const { getTokenMetadata, isLoadingMetadata } = useGetTokenMetadata(handleLoadNewTokenMetadata);
-
-  const isTokenExistOnAccount = useMemo(
-    () => isDefined(allAccountTokensWithGasToken.find(token => compare(token, searchValue))),
-    [searchValue, allAccountTokensWithGasToken]
-  );
-
-  useEffect(() => {
-    if (isAddress(searchValue) && !isTokenExistOnAccount) {
-      getTokenMetadata(searchValue);
-    } else {
-      setNewToken(null);
-    }
-  }, [searchValue, isTokenExistOnAccount]);
+  const { newToken, isLoadingMetadata, searchValue, setSearchValue } = useSearchNewToken(allAccountTokensWithGasToken);
 
   const onPressActivityIcon = () => navigate(ScreensEnum.Activity);
 
@@ -80,9 +47,7 @@ export const Tokens: FC = () => {
         />
 
         {isLoadingMetadata ? (
-          <View style={styles.loading}>
-            <Loader size={LoaderSizeEnum.Large} />
-          </View>
+          <Loader size={LoaderSizeEnum.Large} style={styles.loader} />
         ) : isShowManageTokens ? (
           <ManageTokens searchValue={searchValue} newToken={newToken} setIsEmptyTokensList={setIsEmptyTokensList} />
         ) : (

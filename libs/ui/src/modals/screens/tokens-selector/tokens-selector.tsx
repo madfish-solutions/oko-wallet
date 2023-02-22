@@ -1,6 +1,7 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC, useMemo } from 'react';
 import { ListRenderItemInfo, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 import { IconWithBorderEnum } from '../../../components/icon-with-border/enums';
 import { Row } from '../../../components/row/row';
@@ -12,16 +13,18 @@ import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useFilterAccountTokens } from '../../../hooks/use-filter-tokens.hook';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { usePreviousScreenName } from '../../../hooks/use-previous-screen.hook';
+import { useSearchNewToken } from '../../../hooks/use-search-new-token.hook';
+import { useSortAccountTokensByBalance } from '../../../hooks/use-sort-tokens-by-balance.hook';
 import { Token as TokenType } from '../../../interfaces/token.interface';
 import { useTokensMarketInfoSelector } from '../../../store/tokens-market-info/token-market-info.selectors';
+import { addNewTokenAction } from '../../../store/wallet/wallet.actions';
 import {
   useGasTokenSelector,
   useSelectedNetworkSelector,
-  useVisibleAccountTokensSelector
+  useVisibleAccountTokensAndGasTokenSelector
 } from '../../../store/wallet/wallet.selectors';
 import { checkIsGasToken } from '../../../utils/check-is-gas-token.util';
 import { getDollarValue } from '../../../utils/get-dollar-amount.util';
-import { getTokensWithBalance } from '../../../utils/get-tokens-with-balance.util';
 import { getTokenMetadataSlug } from '../../../utils/token-metadata.util';
 import { getTokenSlug } from '../../../utils/token.utils';
 import { getFormattedBalance } from '../../../utils/units.utils';
@@ -32,38 +35,37 @@ import { styles } from './tokens-selector.styles';
 const keyExtractor = ({ tokenAddress, tokenId }: TokenType) => getTokenSlug(tokenAddress, tokenId);
 
 export const TokensSelector: FC = () => {
-  const allTokensMarketInfoSelector = useTokensMarketInfoSelector();
+  const dispatch = useDispatch();
   const {
     params: { token, navigationKey }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.TokensSelector>>();
   const { navigate } = useNavigation();
-  const { chainId } = useSelectedNetworkSelector();
-  const visibleAccountTokens = useVisibleAccountTokensSelector();
   const previousScreen = usePreviousScreenName();
-  const showOnlyTokenWithBalance = previousScreen === ScreensEnum.SendToken;
 
+  const allTokensMarketInfoSelector = useTokensMarketInfoSelector();
   const gasToken = useGasTokenSelector();
-  const accountTokensWithBalanceAndGasToken: TokenType[] = useMemo(
-    () => [gasToken, ...(showOnlyTokenWithBalance ? getTokensWithBalance(visibleAccountTokens) : visibleAccountTokens)],
-    [gasToken, visibleAccountTokens, showOnlyTokenWithBalance]
-  );
+  const { chainId } = useSelectedNetworkSelector();
+  const visibleAccountTokens = useVisibleAccountTokensAndGasTokenSelector();
 
-  const { accountTokens: filteredAccountTokens, setSearchValue } = useFilterAccountTokens(
-    accountTokensWithBalanceAndGasToken
-  );
+  const { newToken, searchValue, setSearchValue, isLoadingMetadata } = useSearchNewToken(visibleAccountTokens);
+
+  const { accountTokens: filteredAccountTokens } = useFilterAccountTokens(visibleAccountTokens, searchValue, newToken);
+
+  const sortedTokens = useSortAccountTokensByBalance(filteredAccountTokens);
 
   const selectedIndex = useMemo(
     () =>
-      filteredAccountTokens.findIndex(
+      sortedTokens.findIndex(
         accountToken =>
           getTokenSlug(accountToken.tokenAddress, accountToken.tokenId) ===
           getTokenSlug(token?.tokenAddress ?? '', token?.tokenId)
       ),
-    [filteredAccountTokens]
+    [sortedTokens]
   );
 
   const renderItem = ({ item, index }: ListRenderItemInfo<TokenType>) => {
     const isTokenSelected = selectedIndex === index;
+    const isNewToken = item.tokenAddress === newToken?.tokenAddress;
 
     const {
       tokenAddress,
@@ -79,6 +81,18 @@ export const TokensSelector: FC = () => {
     const amountInDollar = getDollarValue({ amount, price, decimals });
 
     const onSelectItem = () => {
+      if (isNewToken) {
+        dispatch(
+          addNewTokenAction({
+            name: item.name,
+            symbol: item.symbol,
+            tokenAddress: item.tokenAddress,
+            decimals: item.decimals,
+            thumbnailUri: item.thumbnailUri
+          })
+        );
+      }
+
       if (previousScreen === ScreensEnum.Swap || previousScreen === ScreensEnum.SendToken) {
         navigate(previousScreen, { [navigationKey]: item });
       }
@@ -116,12 +130,13 @@ export const TokensSelector: FC = () => {
   return (
     <ModalContainer screenTitle="Select Token">
       <Selector
-        data={filteredAccountTokens}
+        data={sortedTokens}
         renderItem={renderItem}
         setSearchValue={setSearchValue}
         selectedIndex={selectedIndex}
         selectedItemName={gasToken.symbol}
         keyExtractor={keyExtractor}
+        isLoading={isLoadingMetadata}
         isSearchInitiallyOpened
       />
     </ModalContainer>

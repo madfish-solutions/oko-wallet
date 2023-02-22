@@ -2,6 +2,8 @@ import { OnEventFn } from '@rnw-community/shared';
 import React from 'react';
 import { View, FlatList, FlatListProps, GestureResponderEvent } from 'react-native';
 
+import { LoaderSizeEnum } from '../loader/enums';
+import { Loader } from '../loader/loader';
 import { SearchPanel } from '../search-panel/search-panel';
 
 import { useFlatListRef } from './hooks/use-flat-list-ref.hook';
@@ -15,6 +17,7 @@ interface Props<T extends object> extends Pick<FlatListProps<T>, 'renderItem' | 
   data: T[];
   selectedIndex: number;
   isSearchInitiallyOpened?: boolean;
+  isLoading?: boolean;
   isEmptyList?: boolean;
 }
 
@@ -27,6 +30,7 @@ export const Selector = <T extends object>({
   selectedItemName,
   selectedIndex,
   isSearchInitiallyOpened,
+  isLoading = false,
   isEmptyList = !data.length,
   getItemLayout = getItemLayoutBase
 }: Props<T>) => {
@@ -39,17 +43,21 @@ export const Selector = <T extends object>({
         setSearchValue={setSearchValue}
         selectedItemName={selectedItemName}
         isSearchInitiallyOpened={isSearchInitiallyOpened}
-        isEmptyList={isEmptyList}
+        isEmptyList={isEmptyList && !isLoading}
       />
 
-      <FlatList
-        ref={flatListRef}
-        getItemLayout={getItemLayout}
-        data={data}
-        showsVerticalScrollIndicator={false}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-      />
+      {isLoading ? (
+        <Loader size={LoaderSizeEnum.Large} style={styles.loader} />
+      ) : (
+        <FlatList
+          ref={flatListRef}
+          getItemLayout={getItemLayout}
+          data={data}
+          showsVerticalScrollIndicator={false}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+        />
+      )}
     </View>
   );
 };

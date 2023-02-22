@@ -142,15 +142,8 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
     }
   };
 
-  const renderListFooterComponent = () => (
-    <>
-      {isLoading && (
-        <View style={styles.loading}>
-          <Loader size={LoaderSizeEnum.Large} />
-        </View>
-      )}
-    </>
-  );
+  const renderListFooterComponent = () =>
+    isLoading ? <Loader size={LoaderSizeEnum.Large} style={styles.loading} /> : null;
 
   const renderListEmptyComponent = () => <>{!isLoading && <EmptySearchIcon size={emptyIconSize} />}</>;
 
