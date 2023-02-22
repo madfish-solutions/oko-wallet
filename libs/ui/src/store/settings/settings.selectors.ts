@@ -13,3 +13,6 @@ export const useShowLoaderSelector = () =>
 
 export const useLockTimePeriodSelector = () =>
   useSelector<SettingsRootState, number>(({ settings }) => settings.lockTimePeriod);
+
+export const useFirstAppLaunchSelector = () =>
+  useSelector<SettingsRootState, boolean>(({ settings }) => settings.isFirstAppLaunch);

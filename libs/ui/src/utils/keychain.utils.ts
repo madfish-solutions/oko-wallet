@@ -1,7 +1,4 @@
-import { of } from 'rxjs';
+import { from } from 'rxjs';
+import { storage } from 'webextension-polyfill';
 
-export const resetStore$ = () => {
-  localStorage.clear();
-
-  return of(0);
-};
+export const resetStore$ = () => from(storage.local.clear());

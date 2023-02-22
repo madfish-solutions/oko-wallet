@@ -1,5 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 
+import { resetKeychainOnInstallAction } from '../root-state.actions';
+
 import {
   hideLoaderAction,
   setAppLockTimePeriod,
@@ -11,6 +13,10 @@ import { settingsInitialState, SettingsState } from './settings.state';
 
 export const settingsReducers = createReducer<SettingsState>(settingsInitialState, builder => {
   builder
+    .addCase(resetKeychainOnInstallAction.success, state => ({
+      ...state,
+      isFirstAppLaunch: false
+    }))
     .addCase(setIsAnalyticsEnabled, (state, { payload: isAnalyticsEnabled }) => ({
       ...state,
       isAnalyticsEnabled
