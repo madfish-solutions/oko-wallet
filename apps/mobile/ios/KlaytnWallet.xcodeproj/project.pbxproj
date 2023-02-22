@@ -521,10 +521,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Q43Z9C99M9;
+				DEVELOPMENT_TEAM = D653UWS37K;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = D653UWS37K;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "KlaytnWallet/Debug-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Oko Wallet";
@@ -539,9 +540,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.madfish.klaytn-wallet-custom";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.madfish.klaytn-wallet";
 				PRODUCT_NAME = KlaytnWallet;
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.madfish.klaytn-wallet";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AppStore com. madfish.klaytn-wallet";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
