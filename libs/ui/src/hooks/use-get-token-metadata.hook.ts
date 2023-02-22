@@ -26,13 +26,17 @@ export const useGetTokenMetadata = (onLoadMetadata: OnEventFn<TokenFormType>) =>
         debounceTime(DEBOUNCE_TIME),
         filter(tokenAddress => isAddress(tokenAddress)),
         switchMap(tokenAddress =>
-          forkJoin([getErc20TokenMetadata$(tokenAddress, rpcUrl), getTokenInfo(tokenAddress, getDebankId(chainId))])
-        ),
-        map(([metadata, debankData]) => ({
-          ...metadata,
-          thumbnailUri: debankData?.logo_url ?? ''
-        })),
-        tap(() => setIsLoadingMetadata(false))
+          forkJoin([
+            getErc20TokenMetadata$(tokenAddress, rpcUrl),
+            getTokenInfo(tokenAddress, getDebankId(chainId))
+          ]).pipe(
+            map(([metadata, debankData]) => ({
+              ...metadata,
+              thumbnailUri: debankData?.logo_url ?? ''
+            })),
+            tap(() => setIsLoadingMetadata(false))
+          )
+        )
       )
       .subscribe(onLoadMetadata);
 

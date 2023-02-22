@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { EMPTY_STRING } from '../constants/defaults';
 import { Token, TokenFormType } from '../interfaces/token.interface';
-import { compare } from '../screens/tokens/utils/compare.util';
+import { checkTokenOnExist } from '../screens/tokens/utils/compare.util';
 import { createEntity } from '../store/utils/entity.utils';
 
 import { useGetTokenMetadata } from './use-get-token-metadata.hook';
@@ -14,25 +14,23 @@ export const useSearchNewToken = (tokens: Token[]) => {
   const [newToken, setNewToken] = useState<Token | null>(null);
 
   const handleLoadNewTokenMetadata = useCallback((metadata: TokenFormType) => {
-    if (isDefined(metadata)) {
-      if (!isEmptyString(metadata.name) && !isEmptyString(metadata.symbol)) {
-        setNewToken({
-          tokenAddress: metadata.tokenAddress,
-          decimals: Number(metadata.decimals),
-          isVisible: false,
-          name: metadata.name,
-          symbol: metadata.symbol,
-          balance: createEntity('0'),
-          thumbnailUri: metadata.thumbnailUri
-        });
-      }
+    if (isDefined(metadata) && !isEmptyString(metadata.name) && !isEmptyString(metadata.symbol)) {
+      setNewToken({
+        tokenAddress: metadata.tokenAddress,
+        decimals: Number(metadata.decimals),
+        isVisible: false,
+        name: metadata.name,
+        symbol: metadata.symbol,
+        balance: createEntity('0'),
+        thumbnailUri: metadata.thumbnailUri
+      });
     }
   }, []);
 
   const { getTokenMetadata, isLoadingMetadata } = useGetTokenMetadata(handleLoadNewTokenMetadata);
 
   const isTokenExistOnAccount = useMemo(
-    () => isDefined(tokens.find(token => compare(token, searchValue))),
+    () => isDefined(tokens.find(token => checkTokenOnExist(token, searchValue))),
     [searchValue, tokens]
   );
 
