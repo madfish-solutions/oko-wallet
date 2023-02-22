@@ -12,7 +12,7 @@ import { ScreenContainer } from '../../components/screen-components/screen-conta
 
 // import { ScreensEnum } from '../../enums/sreens.enum';
 // import { useNavigation } from '../../hooks/use-navigation.hook';
-// import { usePreviousScreenName } from '../../hooks/use-previous-screen.hook';
+// import { usePreviousScreenName } from '../../hooks/use-previous-screen-name.hook';
 // import { useToast } from '../../hooks/use-toast.hook';
 // import { useSelectedNetworkTypeSelector } from '../../store/wallet/wallet.selectors';
 // import { getCustomSize } from '../../styles/format-size';

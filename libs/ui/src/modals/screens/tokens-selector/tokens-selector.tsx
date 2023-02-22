@@ -12,7 +12,7 @@ import { Token } from '../../../components/token/token';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useFilterAccountTokens } from '../../../hooks/use-filter-tokens.hook';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
-import { usePreviousScreenName } from '../../../hooks/use-previous-screen.hook';
+import { usePreviousScreenName } from '../../../hooks/use-previous-screen-name.hook';
 import { useSearchNewToken } from '../../../hooks/use-search-new-token.hook';
 import { useSortAccountTokensByBalance } from '../../../hooks/use-sort-tokens-by-balance.hook';
 import { Token as TokenType } from '../../../interfaces/token.interface';

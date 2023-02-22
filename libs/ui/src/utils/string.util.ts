@@ -1,1 +1,1 @@
-export const eraseProtocol = (website: string) => website.replace(/(https:\/\/)/, '');
+export const eraseProtocol = (website = '') => website.replace(/(https:\/\/)/, '');

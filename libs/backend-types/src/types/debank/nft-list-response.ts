@@ -10,7 +10,7 @@ export interface TokenResponse {
 
 export type TokenListResponse<Token = TokenResponse> = Token[];
 
-export interface NftListResponse {
+export declare interface NftListResponse {
   id: string;
   contract_id: string;
   inner_id: string;

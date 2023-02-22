@@ -28,7 +28,7 @@ import { getCollectibleBalance } from '../../../utils/by-network-types/token.uti
 import { formatUri } from '../../../utils/formatUrl.util';
 import { getCurrentToken } from '../../../utils/get-current-token.util';
 import { getTokenSlug } from '../../../utils/token.utils';
-import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';
+import { ModalActionsContainer } from '../../components/modal-actions-container/modal-actions-container';
 
 import { styles } from './add-new-collectible.styles';
 import { COLLECTIBLE_SIZE } from './constants';
@@ -153,7 +153,7 @@ export const AddNewCollectible: FC = () => {
   };
 
   return (
-    <ModalActionContainer
+    <ModalActionsContainer
       screenTitle="Add new Collectible"
       submitTitle="Add"
       isSubmitDisabled={Boolean(Object.keys(errors).length) || isLoadingMetadata || isSubmitting}
@@ -209,6 +209,6 @@ export const AddNewCollectible: FC = () => {
           </View>
         </View>
       </View>
-    </ModalActionContainer>
+    </ModalActionsContainer>
   );
 };

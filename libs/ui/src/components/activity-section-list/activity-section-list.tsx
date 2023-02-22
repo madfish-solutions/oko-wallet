@@ -5,8 +5,7 @@ import {
   NativeSyntheticEvent,
   SectionList,
   SectionListData,
-  SectionListRenderItem,
-  View
+  SectionListRenderItem
 } from 'react-native';
 
 import { getDebankId } from '../../api/debank/utils/get-debank-id.util';

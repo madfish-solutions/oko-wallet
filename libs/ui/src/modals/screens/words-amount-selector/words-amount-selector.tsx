@@ -5,7 +5,7 @@ import { Dropdown } from '../../../components/dropdown/dropdown';
 import { SeedWordsAmount, words } from '../../../constants/seed-words-amount';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
-import { usePreviousScreenName } from '../../../hooks/use-previous-screen.hook';
+import { usePreviousScreenName } from '../../../hooks/use-previous-screen-name.hook';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
 import { WordsAmountSelectorTestIDs } from './words-amount-selector.test-ids';

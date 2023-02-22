@@ -11,7 +11,7 @@ import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { setSlippageToleranceAction } from '../../../store/swap/swap.actions';
 import { useSlippageToleranceSelector } from '../../../store/swap/swap.selectors';
-import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';
+import { ModalActionsContainer } from '../../components/modal-actions-container/modal-actions-container';
 
 import { slippageOptions, ownSlippageRules, OWN } from './constatns';
 import { styles } from './slippage-settings.styles';
@@ -36,6 +36,7 @@ export const SlippageSettings: FC = () => {
       slippageInput: slippageTolerance
     }
   });
+
   const slippageOption = watch('slippageOption');
   const slippageInput = watch('slippageInput');
 
@@ -61,7 +62,7 @@ export const SlippageSettings: FC = () => {
   };
 
   return (
-    <ModalActionContainer
+    <ModalActionsContainer
       screenTitle="Slippage Tolerance"
       submitTitle="Save"
       onSubmitPress={handleSubmit(onSubmit)}
@@ -98,6 +99,6 @@ export const SlippageSettings: FC = () => {
           <Warning text={`You may receive ${slippageInput}% less with this level of slippage tolerance`} />
         )}
       </>
-    </ModalActionContainer>
+    </ModalActionsContainer>
   );
 };

@@ -15,6 +15,7 @@ import { DAppSignConfirmation } from '../../modals/screens/d-app-sign-confirmati
 import { DAppTransactionConfirmation } from '../../modals/screens/d-app-transaction-confirmation/d-app-transaction-confirmation';
 import { DeleteDApp } from '../../modals/screens/delete-d-app/delete-d-app';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
+import { EditPermission } from '../../modals/screens/edit-permission/edit-permission';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
 import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
 import { NetworkChangeConfirmation } from '../../modals/screens/network-change-confirmation/network-change-confirmation';
@@ -262,6 +263,11 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.ActivityFilterSelector}
                 options={{ title: 'Activity Filter' }}
                 component={ActivityFilterSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.EditPermission}
+                options={{ title: 'Edit permission' }}
+                component={EditPermission}
               />
             </Stack.Group>
           </>

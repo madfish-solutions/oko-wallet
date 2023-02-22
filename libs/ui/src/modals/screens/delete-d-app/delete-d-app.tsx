@@ -14,7 +14,7 @@ import { useSelectedAccountPublicKeyHashSelector } from '../../../store/wallet/w
 import { getCustomSize } from '../../../styles/format-size';
 import { sendNotificationToDApp } from '../../../utils/dapp.utils';
 import { eraseProtocol } from '../../../utils/string.util';
-import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';
+import { ModalActionsContainer } from '../../components/modal-actions-container/modal-actions-container';
 
 import { styles } from './delete-d-app.styles';
 
@@ -33,7 +33,7 @@ export const DeleteDApp: FC = () => {
   };
 
   return (
-    <ModalActionContainer
+    <ModalActionsContainer
       screenTitle="Confirm disconnection"
       submitTitle="YES"
       cancelTitle="NO"
@@ -48,6 +48,6 @@ export const DeleteDApp: FC = () => {
         <Text style={styles.label}>Are you sure?</Text>
         <Text style={styles.text}>You wanna remove connection with this DApp, Confirm it?</Text>
       </View>
-    </ModalActionContainer>
+    </ModalActionsContainer>
   );
 };

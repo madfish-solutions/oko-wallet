@@ -21,3 +21,5 @@ export const ONE_INCH_ROUTER_ADDRESS = '0x1111111254eeb25477b68fb85ed929f73a9605
 
 export const ONE_INCH_SITE = 'https://1inch.io';
 export const ONE_INCH_ICON = 'https://cdn.1inch.io/liquidity-sources-logo/1inch.png';
+
+export const MAX_UINT_256_STRING = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
