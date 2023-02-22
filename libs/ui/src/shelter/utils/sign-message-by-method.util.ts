@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 
 import { DAppMethodEnum } from '../../enums/dApp-method.enum';
 
-export function signMessageByMethod(privateKey: string, messageToSign: string, method: string) {
+export const signMessageByMethod = (privateKey: string, messageToSign: string, method: string) => {
   switch (method) {
     case DAppMethodEnum.ETH_SIGN:
     case DAppMethodEnum.ETH_PERSONAL_SIGN: {
@@ -16,17 +16,24 @@ export function signMessageByMethod(privateKey: string, messageToSign: string, m
       const version = method.split('_')[2] ? method.split('_')[2].toUpperCase() : SignTypedDataVersion.V1;
       const data = JSON.parse(messageToSign);
       const privateKeyBuffer = Buffer.from(privateKey.slice(2), 'hex');
-      const signedMessage = signTypedData({
-        privateKey: privateKeyBuffer,
-        data,
-        version: version as SignTypedDataVersion
-      });
+      if (
+        version === SignTypedDataVersion.V1 ||
+        version === SignTypedDataVersion.V3 ||
+        version === SignTypedDataVersion.V4
+      ) {
+        const signedMessage = signTypedData({
+          privateKey: privateKeyBuffer,
+          data,
+          version
+        });
 
-      return of(signedMessage);
+        return of(signedMessage);
+      }
+      throw Error('this version is not supported by sign');
     }
 
     default: {
       throw Error('this method is not supported by sign');
     }
   }
-}
+};

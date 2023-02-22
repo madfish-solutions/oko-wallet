@@ -3,7 +3,6 @@ import React, { FC } from 'react';
 import { View } from 'react-native';
 
 import { Text } from '../../../components/text/text';
-import { DAppMethodEnum } from '../../../enums/dApp-method.enum';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useClosePopup } from '../../../hooks/use-close-popup';
 import { useShelter } from '../../../hooks/use-shelter.hook';
@@ -19,7 +18,7 @@ import { ModalActionContainer } from '../../components/modal-action-container/mo
 import { DAppHeader } from '../d-app-connection-confirmation/d-app-header/d-app-header';
 
 import { styles } from './d-app-sign-confirmation.styles';
-import { prepareSignData } from './utils/prepare-sign-data';
+import { getMessageToSign } from './utils/prepare-sign-data';
 
 export const DAppSignConfirmation: FC = () => {
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DAppSignConfirmation>>();
@@ -29,31 +28,12 @@ export const DAppSignConfirmation: FC = () => {
 
   const onDecline = () => sendErrorToDAppAndClosePopup(params.dAppInfo.origin, params.messageId);
 
-  const messageToSign = (method: string) => {
-    switch (method) {
-      case DAppMethodEnum.ETH_PERSONAL_SIGN: {
-        return params.signInfo[0];
-      }
-      case DAppMethodEnum.ETH_SIGN_TYPED_DATA: {
-        return JSON.stringify(params.signInfo[0]);
-      }
-      case DAppMethodEnum.ETH_SIGN_TYPED_DATA_V3:
-      case DAppMethodEnum.ETH_SIGN_TYPED_DATA_V4: {
-        return params.signInfo[1];
-      }
-      case DAppMethodEnum.ETH_SIGN: {
-        return params.signInfo[1];
-      }
-      default: {
-        throw Error('method is not acceptable');
-      }
-    }
-  };
+  const messageToSign = getMessageToSign(params.method, params.signInfo);
 
   const onSubmit = () => {
     signMessage({
       publicKey: selectedAccount.networksKeys.EVM?.publicKeyHash ?? '',
-      messageToSign: prepareSignData(messageToSign(params.method)),
+      messageToSign,
       method: params.method,
       successCallback: message => sendResponseToDAppAndClosePopup(params.dAppInfo.origin, params.messageId, message)
     });
@@ -72,7 +52,7 @@ export const DAppSignConfirmation: FC = () => {
       <DAppHeader favicon={params.dAppInfo.favicon} origin={params.dAppInfo.origin} />
       <View style={styles.messageBlock}>
         <Text style={styles.mainText}>Message to sign</Text>
-        <Text style={styles.text}>{prepareSignData(messageToSign(params.method))}</Text>
+        <Text style={styles.text}>{messageToSign}</Text>
       </View>
       <FromAccount account={selectedAccount} />
       <SelectedNetwork />
