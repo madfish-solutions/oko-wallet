@@ -1,8 +1,10 @@
 import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
-import { GestureResponderEvent, Pressable } from 'react-native';
+import { Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import { ScreensEnum } from '../../../enums/sreens.enum';
+import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { Token } from '../../../interfaces/token.interface';
 import { getImageSource } from '../../../screens/wallet/components/assets-widget/utils/get-image-source.util';
 import { changeTokenVisibilityAction } from '../../../store/wallet/wallet.actions';
@@ -18,11 +20,12 @@ interface Props {
   showButton?: boolean;
   isNewToken?: boolean;
   theme?: TokenItemThemesEnum;
-  onPress?: OnEventFn<GestureResponderEvent>;
+  onPress?: OnEventFn<void>;
 }
 
 export const AccountToken: FC<Props> = ({ token, showButton, theme, onPress }) => {
   const dispatch = useDispatch();
+  const { navigate } = useNavigation();
 
   const { thumbnailUri, symbol, name, tokenAddress, fiatBalance, decimals } = token;
 
@@ -33,8 +36,13 @@ export const AccountToken: FC<Props> = ({ token, showButton, theme, onPress }) =
 
   const handleTokenVisibility = () => dispatch(changeTokenVisibilityAction(token));
 
+  const navigateToTokenDetails = () => {
+    onPress?.();
+    navigate(ScreensEnum.Token, { tokenAddress: token.tokenAddress, tokenId: token.tokenId });
+  };
+
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={navigateToTokenDetails}>
       <TokenItem
         imageSource={imageSource}
         balance={formattedBalance}

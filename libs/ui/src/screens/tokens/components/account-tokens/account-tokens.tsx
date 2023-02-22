@@ -11,8 +11,6 @@ import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 import { AccountToken } from '../../../../components/token/account-token/account-token';
 import { TokenItemThemesEnum } from '../../../../components/token/token-item/enums';
-import { ScreensEnum } from '../../../../enums/sreens.enum';
-import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useSortAccountTokensByBalance } from '../../../../hooks/use-sort-tokens-by-balance.hook';
 import { Token as TokenInterface } from '../../../../interfaces/token.interface';
 import { addNewTokenAction } from '../../../../store/wallet/wallet.actions';
@@ -37,7 +35,6 @@ interface Props {
 
 export const AccountTokens: FC<Props> = ({ searchValue, newToken, setIsEmptyTokensList }) => {
   const dispatch = useDispatch();
-  const { navigate } = useNavigation();
 
   const allAccountTokens = useAccountTokensSelector();
   const allAccountTokensWithGasToken = useAccountTokensAndGasTokenSelector();
@@ -90,7 +87,6 @@ export const AccountTokens: FC<Props> = ({ searchValue, newToken, setIsEmptyToke
         })
       );
     }
-    navigate(ScreensEnum.Token, { tokenAddress: token.tokenAddress, tokenId: token.tokenId });
   };
 
   const renderItem = useCallback(

@@ -1,4 +1,4 @@
-import { isDefined } from '@rnw-community/shared';
+import { isDefined, isEmptyString } from '@rnw-community/shared';
 import { isAddress } from 'ethers/lib/utils';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -14,15 +14,19 @@ export const useSearchNewToken = (tokens: Token[]) => {
   const [newToken, setNewToken] = useState<Token | null>(null);
 
   const handleLoadNewTokenMetadata = useCallback((metadata: TokenFormType) => {
-    setNewToken({
-      tokenAddress: metadata.tokenAddress,
-      decimals: Number(metadata.decimals),
-      isVisible: false,
-      name: metadata.name,
-      symbol: metadata.symbol,
-      balance: createEntity('0'),
-      thumbnailUri: metadata.thumbnailUri
-    });
+    if (isDefined(metadata)) {
+      if (!isEmptyString(metadata.name) && !isEmptyString(metadata.symbol)) {
+        setNewToken({
+          tokenAddress: metadata.tokenAddress,
+          decimals: Number(metadata.decimals),
+          isVisible: false,
+          name: metadata.name,
+          symbol: metadata.symbol,
+          balance: createEntity('0'),
+          thumbnailUri: metadata.thumbnailUri
+        });
+      }
+    }
   }, []);
 
   const { getTokenMetadata, isLoadingMetadata } = useGetTokenMetadata(handleLoadNewTokenMetadata);
