@@ -34,11 +34,3 @@ export const EMPTY_TOKEN: Token = {
   name: '',
   symbol: ''
 };
-
-export const EMPTY_METADATA: TokenFormType = {
-  tokenAddress: '',
-  name: '',
-  symbol: '',
-  decimals: '0',
-  thumbnailUri: ''
-};
