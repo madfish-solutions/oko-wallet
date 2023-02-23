@@ -262,7 +262,7 @@ export const usePendingCollectiblesTransactionsSelector = () => {
   return useMemo(
     () =>
       pendingTransactions.filter(
-        ({ asset: { tokenAddress, tokenId } }) => isNotEmptyString(tokenAddress) && isNotEmptyString(tokenId)
+        ({ token: { tokenAddress, tokenId } }) => isNotEmptyString(tokenAddress) && isNotEmptyString(tokenId)
       ),
     [pendingTransactions]
   );
@@ -275,7 +275,7 @@ export const useIsPendingCollectibleTransaction = (tokenAddress: string, tokenId
     () =>
       isDefined(
         pendingCollectiblesTransactions.find(
-          ({ asset }) => tokenAddress === asset.tokenAddress && tokenId === asset.tokenId
+          ({ token }) => tokenAddress === token.tokenAddress && tokenId === token.tokenId
         )
       ),
     [pendingCollectiblesTransactions]

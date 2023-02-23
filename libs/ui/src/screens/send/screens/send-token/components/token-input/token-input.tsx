@@ -1,4 +1,4 @@
-import { isDefined } from '@rnw-community/shared';
+import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
 import { FieldPath } from 'react-hook-form/dist/types';
@@ -15,14 +15,16 @@ import { SelectToken } from './components/select-token/select-token';
 import { styles } from './token-input.styles';
 
 interface Props<TFieldValues extends FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> {
-  label: string;
+  label?: string;
   field: ControllerRenderProps<TFieldValues, TName>;
   error?: string;
   token?: TokenType;
   amountInDollar: string;
-  navigationKey: string;
+  navigationKey?: string;
   availableFormattedBalance?: string;
   availableBalance?: string;
+  maxButtonTitle?: string;
+  onFocus?: OnEventFn;
 }
 
 export const TokenInput = <
@@ -36,7 +38,9 @@ export const TokenInput = <
   label,
   availableFormattedBalance,
   navigationKey,
-  availableBalance
+  availableBalance,
+  maxButtonTitle = 'Max',
+  onFocus
 }: Props<TFieldValues, TName>) => {
   const showMaxButton = isDefined(token) && isDefined(availableBalance);
 
@@ -55,6 +59,7 @@ export const TokenInput = <
         keyboardType="numeric"
         showClearIcon={false}
         editable={isDefined(token)}
+        onFocus={onFocus}
       >
         <View>
           <SelectToken token={token} navigationKey={navigationKey} availableBalance={availableFormattedBalance} />
@@ -63,7 +68,12 @@ export const TokenInput = <
       </TextInput>
 
       {showMaxButton && (
-        <Button title="Max" onPress={onMaxButtonPress} theme={ButtonThemesEnum.Ternary} style={styles.maxButton} />
+        <Button
+          title={maxButtonTitle}
+          onPress={onMaxButtonPress}
+          theme={ButtonThemesEnum.Ternary}
+          style={styles.maxButton}
+        />
       )}
     </View>
   );

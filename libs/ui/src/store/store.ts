@@ -1,6 +1,8 @@
 import { dAppsReducers } from './d-apps/d-apps.reducers';
 import { DAppsRootState } from './d-apps/d-apps.state';
 import { rootStateEpics } from './root-state.epics';
+import { securityReducers } from './security/security-reducers';
+import { SecurityRootState } from './security/security-state';
 import { settingsReducers } from './settings/settings.reducers';
 import { SettingsRootState } from './settings/settings.state';
 import { swapEpics } from './swap/swap.epics';
@@ -18,7 +20,8 @@ export type RootState = WalletRootState &
   DAppsRootState &
   TokensMarketInfoRootState &
   SettingsRootState &
-  SwapRootState;
+  SwapRootState &
+  SecurityRootState;
 
 export const { store, persistor } = createStore<RootState>({
   reducers: {
@@ -26,7 +29,8 @@ export const { store, persistor } = createStore<RootState>({
     dApps: dAppsReducers,
     tokensMarketInfo: tokensMarketInfoReducers,
     settings: settingsReducers,
-    swap: swapReducers
+    swap: swapReducers,
+    security: securityReducers
   },
   epics: [walletEpics, rootStateEpics, tokenMarketInfoEpics, swapEpics]
 });

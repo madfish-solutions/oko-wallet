@@ -61,6 +61,7 @@ export enum IconNameEnum {
   Error = 'Error',
   QrScanner = 'QrScanner',
   Chevron = 'Chevron',
+  ChevronUp = 'ChevronUp',
   DropdownSelector = 'DropdownSelector',
   Refresh = 'Refresh',
   Info = 'Info',
@@ -98,5 +99,7 @@ export enum IconNameEnum {
   Close = 'Close',
   FilterNo = 'FilterNo',
   FilterYes = 'FilterYes',
-  Document = 'Document'
+  Document = 'Document',
+  Circle = 'Circle',
+  RadioOn = 'RadioOn'
 }

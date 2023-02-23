@@ -1,4 +1,3 @@
-import { isDefined } from '@rnw-community/shared';
 import React, { FC, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, NativeSyntheticEvent, Pressable, TextInputKeyPressEventData, View } from 'react-native';
@@ -19,6 +18,7 @@ import { getCustomSize } from '../../styles/format-size';
 import { isMobile, isIOS, isWeb } from '../../utils/platform.utils';
 import { MadFishLogo } from '../settings/components/mad-fish-logo/mad-fish-logo';
 
+import { usePasswordLock } from './hooks/use-password-lock.hook';
 import { styles } from './unlock.styles';
 
 interface Password {
@@ -31,7 +31,7 @@ const behavior = isIOS ? 'padding' : 'height';
 
 export const UnlockApp: FC = () => {
   const isBiometricEnabled = useBiometricEnabledSelector();
-  const { unlock, unlockError, setUnlockError, isLocked } = useUnlock();
+  const { unlock, isLocked } = useUnlock();
   const { navigate, goBack } = useNavigation();
 
   const {
@@ -39,11 +39,12 @@ export const UnlockApp: FC = () => {
     watch,
     handleSubmit,
     setFocus,
-    formState: { errors, isSubmitted }
+    formState: { isSubmitted }
   } = useForm<Password>({
     mode: 'onChange',
     defaultValues
   });
+  const { error, isDisabled, onPasswordChange } = usePasswordLock(isSubmitted);
 
   useEffect(() => void (!isLocked && goBack()), [isLocked]);
 
@@ -51,10 +52,8 @@ export const UnlockApp: FC = () => {
 
   const password = watch('password');
 
-  const onUnlock = () => unlock(password);
+  const onUnlock = () => !isDisabled && unlock(password);
   const onResetWallet = () => navigate(ScreensEnum.SettingsResetWalletConfirm);
-
-  const isSubmitDisabled = (Object.keys(errors).length > 0 && isSubmitted) || isDefined(unlockError);
 
   const onEnterPress = (event: NativeSyntheticEvent<TextInputKeyPressEventData>) =>
     isWeb ? event.nativeEvent.key === 'Enter' && onUnlock() : undefined;
@@ -74,10 +73,10 @@ export const UnlockApp: FC = () => {
                 field={field}
                 label="Password"
                 prompt="Enter your password to unlock wallet"
-                error={unlockError}
+                error={error}
                 onKeyPress={onEnterPress}
                 onSubmitEditing={onUnlock}
-                onChange={() => setUnlockError(undefined)}
+                onChange={onPasswordChange}
                 style={styles.inputContainer}
               />
             )}
@@ -93,7 +92,7 @@ export const UnlockApp: FC = () => {
           theme={ButtonThemesEnum.Secondary}
           style={styles.button}
           onPress={handleSubmit(onUnlock)}
-          disabled={isSubmitDisabled}
+          disabled={isDisabled}
         />
         <Row style={styles.textContainer}>
           <Text style={styles.commonText}>

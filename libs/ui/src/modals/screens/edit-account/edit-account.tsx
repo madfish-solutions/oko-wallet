@@ -7,7 +7,7 @@ import { TextInput } from '../../../components/text-input/text-input';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { editAccountNameAction } from '../../../store/wallet/wallet.actions';
-import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';
+import { ModalActionsContainer } from '../../components/modal-actions-container/modal-actions-container';
 import { useAccountFieldRules } from '../../hooks/use-validate-account-field.hook';
 
 import { styles } from './edit-account.styles';
@@ -55,7 +55,7 @@ export const EditAccount: FC = () => {
   };
 
   return (
-    <ModalActionContainer
+    <ModalActionsContainer
       screenTitle="Edit Account"
       submitTitle="Save"
       isSubmitDisabled={Boolean(Object.keys(errors).length)}
@@ -76,6 +76,6 @@ export const EditAccount: FC = () => {
           />
         )}
       />
-    </ModalActionContainer>
+    </ModalActionsContainer>
   );
 };

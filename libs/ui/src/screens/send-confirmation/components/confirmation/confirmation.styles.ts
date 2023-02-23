@@ -50,18 +50,6 @@ export const styles = StyleSheet.create({
   receiverBlock: {
     justifyContent: 'space-between'
   },
-  speedBlock: {
-    height: getCustomSize(3),
-    justifyContent: 'space-between',
-    marginBottom: getCustomSize(0.5)
-  },
-  speedOfTransactionText: {
-    ...typography.captionInterRegular11,
-    color: colors.textGrey3
-  },
-  selectorBlock: {
-    marginBottom: getCustomSize(2.5)
-  },
   footerMargin: {
     marginBottom: getCustomSize(3.625)
   },
