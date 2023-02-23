@@ -29,9 +29,9 @@ export const enum DAppMethodEnum {
   OKO_GET_PROVIDER_STATE = 'oko_getProviderState',
   // LOGS =  "logs",
 
-  //   ETH_SUGN_TYPED_DATA = 'eth_signTypedData',
-  //   ETH_SUGN_TYPED_DATA_V3 = 'eth_signTypedData_v3',
-  //   ETH_SUGN_TYPED_DATA_V4 = 'eth_signTypedData_v4'
+  ETH_SIGN_TYPED_DATA = 'eth_signTypedData',
+  ETH_SIGN_TYPED_DATA_V3 = 'eth_signTypedData_v3',
+  ETH_SIGN_TYPED_DATA_V4 = 'eth_signTypedData_v4',
   //   ID = 'id',
   //   METHOD = 'method',
   //   params = 'params',

@@ -2,7 +2,6 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 
 import { InfoBox } from '../../../components/info-box/info-box';
-import { DAppMethodEnum } from '../../../enums/dApp-method.enum';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useClosePopup } from '../../../hooks/use-close-popup';
 import { useShelter } from '../../../hooks/use-shelter.hook';
@@ -17,7 +16,7 @@ import {
 import { ModalActionsContainer } from '../../components/modal-actions-container/modal-actions-container';
 import { DAppHeader } from '../d-app-connection-confirmation/d-app-header/d-app-header';
 
-import { prepareSignData } from './utils/prepare-sign-data';
+import { getMessageToSign } from './utils/prepare-sign-data';
 
 export const DAppSignConfirmation: FC = () => {
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DAppSignConfirmation>>();
@@ -27,12 +26,13 @@ export const DAppSignConfirmation: FC = () => {
 
   const onDecline = () => sendErrorToDAppAndClosePopup(params.dAppInfo.origin, params.messageId);
 
-  const messageToSign = params.method === DAppMethodEnum.ETH_PERSONAL_SIGN ? params.signInfo[0] : params.signInfo[1];
+  const messageToSign = getMessageToSign(params.method, params.signInfo);
 
   const onSubmit = () => {
     signMessage({
       publicKey: selectedAccount.networksKeys.EVM?.publicKeyHash ?? '',
-      messageToSign: prepareSignData(messageToSign),
+      messageToSign,
+      method: params.method,
       successCallback: message => sendResponseToDAppAndClosePopup(params.dAppInfo.origin, params.messageId, message)
     });
     sendMessageToBackground();
@@ -49,8 +49,7 @@ export const DAppSignConfirmation: FC = () => {
     >
       <DAppHeader favicon={params.dAppInfo.favicon} origin={params.dAppInfo.origin} />
 
-      <InfoBox title="Message to sign" description={prepareSignData(messageToSign)} />
-
+      <InfoBox title="Message to sign" description={messageToSign} />
       <FromAccount account={selectedAccount} />
 
       <SelectedNetwork />

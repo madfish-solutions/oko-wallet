@@ -6,8 +6,10 @@ import { Shelter } from '../shelter';
 export const signMessageSubscription = (signMessage$: Subject<SignedMessageParams>) =>
   signMessage$
     .pipe(
-      switchMap(({ publicKey, messageToSign, successCallback }) =>
-        Shelter.signMessage$(publicKey, messageToSign).pipe(map(signedMessage => ({ successCallback, signedMessage })))
+      switchMap(({ publicKey, messageToSign, method, successCallback }) =>
+        Shelter.signMessage$(publicKey, messageToSign, method).pipe(
+          map(signedMessage => ({ successCallback, signedMessage }))
+        )
       )
     )
     .subscribe(({ successCallback, signedMessage }) => {
