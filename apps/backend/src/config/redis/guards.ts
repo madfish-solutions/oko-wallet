@@ -2,25 +2,6 @@ import process from 'process';
 
 import { RedisConfig } from './types';
 
-const stringToBoolean = stringValue => {
-  switch (stringValue?.toLowerCase()?.trim()) {
-    case 'true':
-    case 'yes':
-    case '1':
-      return true;
-
-    case 'false':
-    case 'no':
-    case '0':
-    case null:
-    case undefined:
-      return false;
-
-    default:
-      return JSON.parse(stringValue);
-  }
-};
-
 const redisHostGuard = (env = process.env): string => {
   if (!('REDIS_HOST' in env)) {
     throw new Error('REDIS_HOST not defined');
@@ -42,8 +23,8 @@ export const redisConfigGuard = (env = process.env): RedisConfig => {
   if ('REDIS_DB' in env) {
     config.db = env.REDIS_DB;
   }
-  if (stringToBoolean(env.REDIS_TLS)) {
-    config.tls = stringToBoolean(env.REDIS_TLS);
+  if (env.REDIS_TLS === 'true') {
+    config.tls = true;
   }
 
   return config;
