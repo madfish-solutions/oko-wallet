@@ -1,4 +1,4 @@
-import { useNavigationState } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm, Controller, ControllerRenderProps, FieldValues, FieldPath } from 'react-hook-form';
@@ -52,7 +52,7 @@ export const SearchPanel: React.FC<Props> = ({
   style
 }) => {
   const [isShowSearchField, setIsShowSearchField] = useState(isSearchInitiallyOpened);
-  const routeIndex = useNavigationState(state => state.index);
+  const isScreenFocused = useIsFocused();
 
   const initialSelectedItemName = useRef(selectedItemName);
 
@@ -79,7 +79,7 @@ export const SearchPanel: React.FC<Props> = ({
     if (!isSearchInitiallyOpened) {
       hideSearchField();
     }
-  }, [routeIndex]);
+  }, [isScreenFocused]);
 
   const hideSearchField = useCallback(() => {
     setIsShowSearchField(false);

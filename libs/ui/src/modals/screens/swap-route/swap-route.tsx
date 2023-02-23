@@ -34,7 +34,7 @@ export const SwapRoute: FC = () => {
       contentContainerStyle={loading ? styles.root : undefined}
     >
       {loading ? (
-        <Loader size={LoaderSizeEnum.Large} />
+        <Loader size={LoaderSizeEnum.Large} style={styles.loader} />
       ) : (
         <View onLayout={handleLayout}>
           <VerticalLine height={contentHeight} />

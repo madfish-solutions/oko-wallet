@@ -18,7 +18,6 @@ import { TokenItem } from '../token-item/token-item';
 interface Props {
   token: Token;
   showButton?: boolean;
-  isNewToken?: boolean;
   theme?: TokenItemThemesEnum;
   onPress?: OnEventFn<void>;
 }

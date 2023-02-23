@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { NftListResponse, TokenListResponse } from 'backend-types';
+import { NftListResponse, TokenResponse } from 'backend-types';
 
 import { AccountInterface, PendingTransaction } from '../../interfaces/account.interface';
 import { DappConnectionInfo } from '../../interfaces/dapp-connection.interface';
@@ -44,7 +44,7 @@ export const removeNetworkAction = createAction<{ network: NetworkInterface; isN
 export const addNewTokenAction = createAction<TokenExtendedMetadata>('wallet/ADD_NEW_TOKEN');
 export const getAllUserTokensAction = createActions<
   { debankId: string; publicKeyHash: string },
-  { tokenList: TokenListResponse; debankGasTokenName: string }
+  { tokenList: TokenResponse[]; debankGasTokenName: string }
 >('wallet/GET_ALL_USER_TOKENS');
 export const addNewTokensMetadataAction = createActions<Token['tokenAddress'][], TokenFormType[]>(
   'wallet/ADD_NEW_TOKENS_METADATA'

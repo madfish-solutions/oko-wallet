@@ -8,8 +8,6 @@ export interface TokenResponse {
   chain: string;
 }
 
-export type TokenListResponse<Token = TokenResponse> = Token[];
-
 export declare interface NftListResponse {
   id: string;
   contract_id: string;

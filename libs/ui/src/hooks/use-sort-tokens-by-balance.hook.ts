@@ -16,11 +16,14 @@ export const useSortAccountTokensByBalance = (tokens: Token[]): Token[] =>
           return 1;
         }
 
-        const zeroBalances = new BigNumber(a.fiatBalance ?? 0).eq(0) && new BigNumber(b.fiatBalance ?? 0).eq(0);
+        const bigNumberA = new BigNumber(a.fiatBalance ?? 0);
+        const bigNumberB = new BigNumber(b.fiatBalance ?? 0);
+
+        const zeroBalances = bigNumberA.eq(0) && bigNumberB.eq(0);
         const isVisibleToken = a.isVisible && b.isVisible;
 
         if (!zeroBalances && isVisibleToken) {
-          return Number(b.fiatBalance) - Number(a.fiatBalance);
+          return bigNumberB.comparedTo(bigNumberA);
         }
 
         if (zeroBalances && isVisibleToken) {
