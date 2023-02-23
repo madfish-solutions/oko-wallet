@@ -1,4 +1,4 @@
-import { Token, TokenFormType } from '../interfaces/token.interface';
+import { Token } from '../interfaces/token.interface';
 import { createEntity } from '../store/utils/entity.utils';
 
 export const EMPTY_STRING = '';
