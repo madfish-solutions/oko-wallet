@@ -1,4 +1,4 @@
-export declare interface HistoryListRequest {
+export interface HistoryListRequest {
   chain_id: string;
   id: string;
   page_count: number;
