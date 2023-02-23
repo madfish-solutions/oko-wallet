@@ -18,7 +18,7 @@ import { useGroupedCollectibles } from '../../../collectibles/hooks/use-grouped-
 
 import { styles } from './collectibles.styles';
 
-const RECEIVE_СOLLECTIBLE = 'Receive';
+const RECEIVE_COLLECTIBLE = 'Receive';
 const ADD_COLLECTIBLE = 'Add';
 const COLLECTIBLES = 'Collectibles';
 const RECEIVE = 'RECEIVE';
@@ -39,7 +39,7 @@ export const CollectiblesWidget: FC<TestIDProps> = ({ testID }) => {
       {isEmptyArray(collectionList) ? (
         <Row>
           <ButtonWithIcon
-            title={RECEIVE_СOLLECTIBLE}
+            title={RECEIVE_COLLECTIBLE}
             onPress={navigateToReceive}
             size={ButtonWithIconSizeEnum.Medium}
             theme={ButtonWithIconThemesEnum.Tertiary}

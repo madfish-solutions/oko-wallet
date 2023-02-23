@@ -5,7 +5,7 @@ import { GestureResponderEvent } from 'react-native';
 
 import { TextInput } from '../../../../../components/text-input/text-input';
 import { useNavigation } from '../../../../../hooks/use-navigation.hook';
-import { ModalActionContainer } from '../../../../components/modal-action-container/modal-action-container';
+import { ModalActionsContainer } from '../../../../components/modal-actions-container/modal-actions-container';
 import { FooterButtons } from '../../../../components/modal-footer-buttons/modal-footer-buttons.interface';
 import { FormTypes } from '../../types/form-types.interface';
 
@@ -39,7 +39,7 @@ export const NetworkContainer: FC<Props> = ({
   const { goBack } = useNavigation();
 
   return (
-    <ModalActionContainer
+    <ModalActionsContainer
       screenTitle={screenTitle}
       submitTitle={submitTitle}
       isSubmitDisabled={Boolean(Object.keys(errors).length)}
@@ -123,6 +123,6 @@ export const NetworkContainer: FC<Props> = ({
       />
 
       {children}
-    </ModalActionContainer>
+    </ModalActionsContainer>
   );
 };

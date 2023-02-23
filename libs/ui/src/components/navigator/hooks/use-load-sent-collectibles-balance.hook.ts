@@ -3,7 +3,6 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useTimerEffect } from '../../../hooks/use-timer-effect.hook';
-import { Token } from '../../../interfaces/token.interface';
 import { loadAccountTokenBalanceAction, deleteTransactionAction } from '../../../store/wallet/wallet.actions';
 import {
   usePendingCollectiblesTransactionsSelector,
@@ -18,12 +17,12 @@ export const useLoadSentCollectiblesBalance = () => {
 
   const checkPendingCollectiblesTransactions = useCallback(() => {
     if (pendingCollectiblesTransactions.length) {
-      pendingCollectiblesTransactions.forEach(async ({ asset, transactionHash }) => {
+      pendingCollectiblesTransactions.forEach(async ({ token, transactionHash }) => {
         const provider = getDefaultEvmProvider(rpcUrl);
         const transaction = await provider.getTransactionReceipt(transactionHash);
 
         if (isDefined(transaction?.status)) {
-          dispatch(loadAccountTokenBalanceAction.submit({ token: asset as Token, deleteZeroBalance: true }));
+          dispatch(loadAccountTokenBalanceAction.submit({ token, deleteZeroBalance: true }));
           dispatch(deleteTransactionAction(transactionHash));
         }
       });

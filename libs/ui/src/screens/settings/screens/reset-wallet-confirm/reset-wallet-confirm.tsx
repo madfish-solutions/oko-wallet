@@ -6,7 +6,7 @@ import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Text } from '../../../../components/text/text';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { ModalActionContainer } from '../../../../modals/components/modal-action-container/modal-action-container';
+import { ModalActionsContainer } from '../../../../modals/components/modal-actions-container/modal-actions-container';
 import { resetApplicationAction } from '../../../../store/root-state.actions';
 import { getCustomSize } from '../../../../styles/format-size';
 
@@ -19,7 +19,7 @@ export const ResetWalletConfirm: FC = () => {
   const onReset = () => dispatch(resetApplicationAction.submit());
 
   return (
-    <ModalActionContainer
+    <ModalActionsContainer
       screenTitle="Reset Wallet"
       submitTitle="Yes"
       cancelTitle="No"
@@ -39,6 +39,6 @@ export const ResetWalletConfirm: FC = () => {
           You wanna reset Oko Wallet. As a result, all your data will be deleted. Confirm it?
         </Text>
       </View>
-    </ModalActionContainer>
+    </ModalActionsContainer>
   );
 };

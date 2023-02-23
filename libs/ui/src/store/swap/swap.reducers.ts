@@ -8,7 +8,9 @@ import {
   loadTokenAllowanceAction,
   loadQuoteAction,
   loadSwapDataAction,
-  resetSwapAction
+  resetSwapAction,
+  changeApproveAllowanceDataAction,
+  waitForApproveTxToBeSuccessAction
 } from './swap.actions';
 import { swapInitialState, SwapState } from './swap.state';
 
@@ -64,6 +66,26 @@ export const swapReducers = createReducer<SwapState>(swapInitialState, builder =
       ...state,
       swapData: createEntity(state.swapData, false, error)
     }))
+    .addCase(changeApproveAllowanceDataAction, (state, { payload: approveAllowanceData }) => ({
+      ...state,
+      approveAllowanceData
+    }))
+    .addCase(waitForApproveTxToBeSuccessAction.submit, (state, { payload: { token } }) => ({
+      ...state,
+      approveAllowanceTxLoading: {
+        ...state.approveAllowanceTxLoading,
+        [token.tokenAddress]: true
+      }
+    }))
+    .addCase(waitForApproveTxToBeSuccessAction.success, (state, { payload: tokenAddress }) => {
+      const approveAllowanceTxLoading = { ...state.approveAllowanceTxLoading };
+      delete approveAllowanceTxLoading[tokenAddress];
+
+      return {
+        ...state,
+        approveAllowanceTxLoading
+      };
+    })
     .addCase(resetSwapAction, state => ({
       ...swapInitialState,
       slippageTolerance: state.slippageTolerance

@@ -22,4 +22,9 @@ export const loadSwapDataAction = createActions<{
   slippageTolerance: string;
 }>('swap/LOAD_SWAP_DATA');
 
+export const changeApproveAllowanceDataAction = createAction<string>('swap/CHANGE_APPROVE_ALLOWANCE_DATA');
+export const waitForApproveTxToBeSuccessAction = createActions<{ token: Token; txHash: string }, Token['tokenAddress']>(
+  'swap/WAIT_FOR_APPROVE_TX_TO_BE_SUCCESS'
+);
+
 export const resetSwapAction = createAction('swap/RESET_SWAP');
