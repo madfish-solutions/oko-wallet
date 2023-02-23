@@ -6,10 +6,12 @@ import { EMPTY_STRING } from '../constants/defaults';
 import { Token, TokenFormType } from '../interfaces/token.interface';
 import { checkTokenOnExist } from '../screens/tokens/utils/compare.util';
 import { createEntity } from '../store/utils/entity.utils';
+import { useAccountTokensAndGasTokenSelector } from '../store/wallet/wallet.selectors';
 
 import { useGetTokenMetadata } from './use-get-token-metadata.hook';
 
-export const useSearchNewToken = (tokens: Token[]) => {
+export const useSearchNewToken = () => {
+  const tokens = useAccountTokensAndGasTokenSelector();
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
   const [newToken, setNewToken] = useState<Token | null>(null);
 

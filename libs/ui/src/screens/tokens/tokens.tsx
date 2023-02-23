@@ -12,7 +12,6 @@ import { SearchPanel } from '../../components/search-panel/search-panel';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useSearchNewToken } from '../../hooks/use-search-new-token.hook';
-import { useAccountTokensAndGasTokenSelector } from '../../store/wallet/wallet.selectors';
 
 import { AccountTokens } from './components/account-tokens/account-tokens';
 import { ManageTokens } from './components/manage-tokens/manage-tokens';
@@ -21,12 +20,10 @@ import { styles } from './tokens.styles';
 export const Tokens: FC = () => {
   const { navigate, goBack } = useNavigation();
 
-  const allAccountTokensWithGasToken = useAccountTokensAndGasTokenSelector();
-
   const [isEmptyTokensList, setIsEmptyTokensList] = useState(false);
   const [isShowManageTokens, setIsShowManageTokens] = useState(false);
 
-  const { newToken, isLoadingMetadata, searchValue, setSearchValue } = useSearchNewToken(allAccountTokensWithGasToken);
+  const { newToken, isLoadingMetadata, searchValue, setSearchValue } = useSearchNewToken();
 
   const onPressActivityIcon = () => navigate(ScreensEnum.Activity);
 

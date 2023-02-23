@@ -47,7 +47,7 @@ export const TokensSelector: FC = () => {
   const { chainId } = useSelectedNetworkSelector();
   const visibleAccountTokens = useVisibleAccountTokensAndGasTokenSelector();
 
-  const { newToken, searchValue, setSearchValue, isLoadingMetadata } = useSearchNewToken(visibleAccountTokens);
+  const { newToken, searchValue, setSearchValue, isLoadingMetadata } = useSearchNewToken();
 
   const { accountTokens: filteredAccountTokens } = useFilterAccountTokens(visibleAccountTokens, searchValue, newToken);
 
