@@ -12,10 +12,14 @@ import { SearchPanel } from '../../components/search-panel/search-panel';
 import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useSearchNewToken } from '../../hooks/use-search-new-token.hook';
+import { Token } from '../../interfaces/token.interface';
+import { getTokenSlug } from '../../utils/token.utils';
 
 import { AccountTokens } from './components/account-tokens/account-tokens';
 import { ManageTokens } from './components/manage-tokens/manage-tokens';
 import { styles } from './tokens.styles';
+
+const keyExtractor = ({ tokenAddress, tokenId }: Token) => getTokenSlug(tokenAddress, tokenId);
 
 export const Tokens: FC = () => {
   const { navigate, goBack } = useNavigation();
@@ -46,9 +50,19 @@ export const Tokens: FC = () => {
         {isLoadingMetadata ? (
           <Loader size={LoaderSizeEnum.Large} style={styles.loader} />
         ) : isShowManageTokens ? (
-          <ManageTokens searchValue={searchValue} newToken={newToken} setIsEmptyTokensList={setIsEmptyTokensList} />
+          <ManageTokens
+            searchValue={searchValue}
+            newToken={newToken}
+            setIsEmptyTokensList={setIsEmptyTokensList}
+            keyExtractor={keyExtractor}
+          />
         ) : (
-          <AccountTokens searchValue={searchValue} newToken={newToken} setIsEmptyTokensList={setIsEmptyTokensList} />
+          <AccountTokens
+            searchValue={searchValue}
+            newToken={newToken}
+            setIsEmptyTokensList={setIsEmptyTokensList}
+            keyExtractor={keyExtractor}
+          />
         )}
       </View>
 

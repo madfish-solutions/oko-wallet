@@ -1,21 +1,18 @@
 import { isDefined, OnEventFn } from '@rnw-community/shared';
 import { isAddress } from 'ethers/lib/utils';
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useCallback, useEffect, useMemo } from 'react';
+import { FlatList, ListRenderItemInfo } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { Row } from '../../../../components/row/row';
-import { ScreenScrollView } from '../../../../components/screen-components/screen-scroll-view/screen-scroll-view';
 import { Switch } from '../../../../components/switch/switch';
 import { Token } from '../../../../components/token/token';
 import { Token as TokenInterface } from '../../../../interfaces/token.interface';
-import {
-  addNewTokenAction,
-  changeTokenVisibilityAction,
-  sortAccountTokensByVisibility
-} from '../../../../store/wallet/wallet.actions';
+import { changeTokenVisibilityAction, sortAccountTokensByVisibility } from '../../../../store/wallet/wallet.actions';
 import { useAccountTokensAndGasTokenSelector } from '../../../../store/wallet/wallet.selectors';
 import { checkIsGasToken } from '../../../../utils/check-is-gas-token.util';
 import { getTokenSlug } from '../../../../utils/token.utils';
+import { useAddNewTokenToAccount } from '../../hooks/use-add-new-token-to-account.hook';
 import { filterAccountTokensByValue } from '../../utils/filter-account-tokens-by-value.util';
 
 import { styles } from './manage-tokens.styles';
@@ -24,10 +21,12 @@ interface Props {
   searchValue: string;
   newToken: TokenInterface | null;
   setIsEmptyTokensList: OnEventFn<boolean>;
+  keyExtractor: (token: TokenInterface) => string;
 }
 
-export const ManageTokens: FC<Props> = ({ searchValue, newToken, setIsEmptyTokensList }) => {
+export const ManageTokens: FC<Props> = ({ searchValue, newToken, setIsEmptyTokensList, keyExtractor }) => {
   const dispatch = useDispatch();
+  const { addNewTokenToAccount } = useAddNewTokenToAccount();
 
   const accountTokensAndGasToken = useAccountTokensAndGasTokenSelector();
 
@@ -45,45 +44,37 @@ export const ManageTokens: FC<Props> = ({ searchValue, newToken, setIsEmptyToken
 
   useEffect(() => void setIsEmptyTokensList(accountTokens.length === 0), [accountTokens]);
 
-  const handleTokenVisibility = (token: TokenInterface, isNewToken: boolean) => {
-    dispatch(changeTokenVisibilityAction(token));
-
-    if (isNewToken) {
-      dispatch(
-        addNewTokenAction({
-          name: token.name,
-          symbol: token.symbol,
-          tokenAddress: token.tokenAddress,
-          decimals: token.decimals,
-          thumbnailUri: token.thumbnailUri
-        })
-      );
-    }
-  };
-
   useEffect(() => {
     if (searchValue.length === 0) {
       dispatch(sortAccountTokensByVisibility());
     }
   }, [searchValue.length]);
 
-  return (
-    <ScreenScrollView style={styles.root}>
-      {accountTokens.map(token => {
-        const isGasToken = checkIsGasToken(token.tokenAddress);
-        const isNewToken = token.tokenAddress === newToken?.tokenAddress;
+  const renderItem = useCallback(
+    ({ item: token }: ListRenderItemInfo<TokenInterface>) => {
+      const isGasToken = checkIsGasToken(token.tokenAddress);
+      const isNewToken = token.tokenAddress === newToken?.tokenAddress;
 
-        return (
-          <Row key={getTokenSlug(token.tokenAddress, token.tokenId)} style={styles.token}>
-            <Token uri={token.thumbnailUri} symbol={token.symbol} name={token.name} gasToken={isGasToken} />
-            <Switch
-              onPress={() => handleTokenVisibility(token, isNewToken)}
-              isActive={token.isVisible}
-              disabled={isGasToken}
-            />
-          </Row>
-        );
-      })}
-    </ScreenScrollView>
+      return (
+        <Row key={getTokenSlug(token.tokenAddress, token.tokenId)} style={styles.token}>
+          <Token uri={token.thumbnailUri} symbol={token.symbol} name={token.name} gasToken={isGasToken} />
+          <Switch
+            onPress={() => addNewTokenToAccount(token, isNewToken, () => dispatch(changeTokenVisibilityAction(token)))}
+            isActive={token.isVisible}
+            disabled={isGasToken}
+          />
+        </Row>
+      );
+    },
+    [searchValue, newToken]
+  );
+
+  return (
+    <FlatList
+      data={accountTokens}
+      showsVerticalScrollIndicator={false}
+      renderItem={renderItem}
+      keyExtractor={keyExtractor}
+    />
   );
 };

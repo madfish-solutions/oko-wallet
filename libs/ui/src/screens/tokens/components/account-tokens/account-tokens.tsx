@@ -2,7 +2,6 @@ import { isDefined, OnEventFn } from '@rnw-community/shared';
 import { isAddress } from 'ethers/lib/utils';
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { FlatList, ListRenderItemInfo } from 'react-native';
-import { useDispatch } from 'react-redux';
 
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
@@ -13,28 +12,26 @@ import { AccountToken } from '../../../../components/token/account-token/account
 import { TokenItemThemesEnum } from '../../../../components/token/token-item/enums';
 import { useSortAccountTokensByBalance } from '../../../../hooks/use-sort-tokens-by-balance.hook';
 import { Token as TokenInterface } from '../../../../interfaces/token.interface';
-import { addNewTokenAction } from '../../../../store/wallet/wallet.actions';
 import {
   useAccountTokensSelector,
   useAccountTokensAndGasTokenSelector,
   useVisibleAccountTokensAndGasTokenSelector
 } from '../../../../store/wallet/wallet.selectors';
 import { getTokensWithBalance } from '../../../../utils/get-tokens-with-balance.util';
-import { getTokenSlug } from '../../../../utils/token.utils';
+import { useAddNewTokenToAccount } from '../../hooks/use-add-new-token-to-account.hook';
 import { filterAccountTokensByValue } from '../../utils/filter-account-tokens-by-value.util';
 
 import { styles } from './account-tokens.styles';
-
-const keyExtractor = ({ tokenAddress, tokenId }: TokenInterface) => getTokenSlug(tokenAddress, tokenId);
 
 interface Props {
   searchValue: string;
   newToken: TokenInterface | null;
   setIsEmptyTokensList: OnEventFn<boolean>;
+  keyExtractor: (token: TokenInterface) => string;
 }
 
-export const AccountTokens: FC<Props> = ({ searchValue, newToken, setIsEmptyTokensList }) => {
-  const dispatch = useDispatch();
+export const AccountTokens: FC<Props> = ({ searchValue, newToken, setIsEmptyTokensList, keyExtractor }) => {
+  const { addNewTokenToAccount } = useAddNewTokenToAccount();
 
   const allAccountTokens = useAccountTokensSelector();
   const allAccountTokensWithGasToken = useAccountTokensAndGasTokenSelector();
@@ -75,20 +72,6 @@ export const AccountTokens: FC<Props> = ({ searchValue, newToken, setIsEmptyToke
 
   const onPressHideZeroBalances = () => setIsHideZeroBalance(!isHideZeroBalance);
 
-  const handleTokenPress = (token: TokenInterface, isNewToken: boolean) => {
-    if (isNewToken) {
-      dispatch(
-        addNewTokenAction({
-          name: token.name,
-          symbol: token.symbol,
-          tokenAddress: token.tokenAddress,
-          decimals: token.decimals,
-          thumbnailUri: token.thumbnailUri
-        })
-      );
-    }
-  };
-
   const renderItem = useCallback(
     ({ item: token }: ListRenderItemInfo<TokenInterface>) => {
       const isNewToken = token.tokenAddress === newToken?.tokenAddress;
@@ -99,12 +82,19 @@ export const AccountTokens: FC<Props> = ({ searchValue, newToken, setIsEmptyToke
           token={token}
           showButton={showButton}
           theme={TokenItemThemesEnum.Secondary}
-          onPress={() => handleTokenPress(token, isNewToken)}
+          onPress={() => addNewTokenToAccount(token, isNewToken)}
         />
       );
     },
     [searchValue, newToken]
   );
+
+  <FlatList
+    data={sortedTokens}
+    showsVerticalScrollIndicator={false}
+    renderItem={renderItem}
+    keyExtractor={keyExtractor}
+  />;
 
   return (
     <>
