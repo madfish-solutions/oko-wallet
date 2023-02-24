@@ -6,7 +6,6 @@ import React, { FC, useCallback, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { isWeb } from 'shared';
 
 import { REFERRER_FEE } from '../../api/1inch/constants';
 import { Button } from '../../components/button/button';

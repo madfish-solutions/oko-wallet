@@ -3,13 +3,13 @@ import { combineEpics } from 'redux-observable';
 import { Observable, of, from, switchMap } from 'rxjs';
 import { catchError, concatMap, debounceTime, map } from 'rxjs/operators';
 import { NetworkTypeEnum } from 'shared';
+import { getDefaultEvmProvider } from 'shelter';
 import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
 import { getQuote, getSwapData } from '../../api/1inch/1inch';
 import { DEBOUNCE_TIME } from '../../constants/defaults';
 import { ScreensEnum } from '../../enums/sreens.enum';
-import { getDefaultEvmProvider } from '../../utils/get-default-evm-provider.utils';
 import { withSelectedAccount, withSelectedNetwork } from '../../utils/wallet.util';
 import { navigateAction } from '../root-state.actions';
 import { RootState } from '../store';

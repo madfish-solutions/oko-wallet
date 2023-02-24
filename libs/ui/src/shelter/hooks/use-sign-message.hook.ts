@@ -6,6 +6,7 @@ import { Shelter } from 'shelter';
 interface SubjectParams {
   publicKey: string;
   messageToSign: string;
+  method: string;
   successCallback: OnEventFn<string>;
 }
 
@@ -15,8 +16,8 @@ export const useSignMessage = () => {
   useEffect(() => {
     const subscription = subject$
       .pipe(
-        switchMap(({ publicKey, messageToSign, successCallback }) =>
-          Shelter.signMessage$(publicKey, messageToSign).pipe(
+        switchMap(({ publicKey, messageToSign, method, successCallback }) =>
+          Shelter.signMessage$(publicKey, messageToSign, method).pipe(
             map(signedMessage => ({ successCallback, signedMessage }))
           )
         )
