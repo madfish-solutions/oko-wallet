@@ -15,6 +15,7 @@ import { isMobile } from '../../../../utils/platform.utils';
 import { share } from '../../../../utils/share.util';
 
 import { styles } from './qr-code.styles';
+import { QrCodeTestIDs } from './qr-code.test-ids';
 
 interface Props {
   contentOffsetY: number;
@@ -39,7 +40,7 @@ export const QrCode: FC<Props> = ({ contentOffsetY }) => {
       <Animated.View style={[styles.animatedView, { opacity: animationOpacity }]}>
         <Column style={styles.wrapper}>
           <Text style={styles.address} numberOfLines={3}>
-            {publicKeyHash}
+            {publicKeyHash} testID={QrCodeTestIDs.PublicKeyText}
           </Text>
           <Row style={styles.iconsWrapper}>
             <TouchableIcon name={IconNameEnum.Copy} onPress={copyAddress} />

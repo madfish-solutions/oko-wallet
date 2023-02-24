@@ -6,6 +6,7 @@ import { AddNewHdAccountPage } from './add-new-hd-account.page';
 import { AlmostDonePage } from './almost-done.page';
 import { CreateNewWalletPage } from './create-new-wallet.page';
 import { ImportExistingWalletPage } from './import-existing-wallet.page';
+import { ReceivePage } from './receive.page';
 import { RevealPrivateKeyPage } from './reveal-private-key.page';
 import { RevealSeedPhrasePage } from './reveal-seed-phrase.page';
 import { SettingsPage } from './settings.page';
@@ -27,5 +28,6 @@ export const Pages = {
   AccountsSelector: new AccountsSelectorPage(),
   AddNewHdAccount: new AddNewHdAccountPage(),
   AddNewAccountBySeed: new AddNewAccountBySeedPage(),
-  AddNewAccountByPrivateKey: new AddNewAccountByPrivateKeyPage()
+  AddNewAccountByPrivateKey: new AddNewAccountByPrivateKeyPage(),
+  Receive: new ReceivePage()
 };

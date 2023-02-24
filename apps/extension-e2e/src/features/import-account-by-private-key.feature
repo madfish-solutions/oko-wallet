@@ -18,3 +18,8 @@ Feature: Add imported account by private key
 
     And I am on the AccountsSelector page
     And I see Account 2 on the AccountsSelector page
+    And I press Close button on the HeaderTitle page
+
+    And I am on the Wallet page
+    And I press Receive button on the NavigationBar page
+    And I verify imported by private key public key
