@@ -1,33 +1,30 @@
+import { OnEventFn } from '@rnw-community/shared';
 import isEmpty from 'lodash/isEmpty';
-import React, { FC, PropsWithChildren, useEffect, useState } from 'react';
+import React, { FC, PropsWithChildren, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { View } from 'react-native';
 
 import { CopyText } from '../../../../components/copy-text/copy-text';
-import { FragmentSelector } from '../../../../components/fragment-selector/fragment-selector';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 import { TextInput } from '../../../../components/text-input/text-input';
-import { MainnetRpcEnum, TestnetRpcEnum } from '../../../../constants/rpc';
 import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
-import { useScrollToOffset } from '../../../../hooks/use-scroll-to-element.hook';
-import { ModalActionContainer } from '../../../../modals/components/modal-action-container/modal-action-container';
+import { ModalActionsContainer } from '../../../../modals/components/modal-actions-container/modal-actions-container';
 import {
+  useGasTokenSelector,
   useSelectedAccountSelector,
-  useSelectedNetworkSelector,
   useSelectedNetworkTypeSelector
 } from '../../../../store/wallet/wallet.selectors';
-import { formatUnits, parseUnits } from '../../../../utils/units.utils';
+import { formatUnitsToString, parseUnits } from '../../../../utils/units.utils';
+import { useTransactionSpeed } from '../../hooks/use-transaction-speed.hook';
 import { OnSend } from '../../types';
 
-import { FeeItem } from './components/fee-item/fee-item';
+import { Field } from './components/field/field';
 import { FromAccount } from './components/from-account/from-account';
-import { ProgressBar } from './components/progress-bar/progress-bar';
 import { SelectedNetwork } from './components/selected-network/selected-network';
+import { TransactionSpeed } from './components/transaction-speed/transaction-speed';
 import { styles } from './confirmation.styles';
-import { ownGasFeeRules, requiredFieldRule, SpeedOption, speedOptions } from './constants';
-import { SpeedEnum } from './enums';
-import { getProgressStatus } from './utils/get-progress-status.util';
+import { ownGasFeeRules, requiredFieldRule } from './constants';
 
 type Props = PropsWithChildren<{
   isFeeLoading: boolean;
@@ -59,15 +56,8 @@ export const Confirmation: FC<Props> = ({
   children
 }) => {
   const account = useSelectedAccountSelector();
-  const {
-    gasTokenMetadata: { symbol: gasTokenSymbol, decimals: gasTokenDecimals },
-    rpcUrl
-  } = useSelectedNetworkSelector();
+  const gasToken = useGasTokenSelector();
   const networkType = useSelectedNetworkTypeSelector();
-  const { scrollViewRef, scrollToOffset } = useScrollToOffset();
-
-  const isKlaytnNetwork = rpcUrl === MainnetRpcEnum.Klaytn || rpcUrl === TestnetRpcEnum.KlaytnBaobab;
-  const [speed, setSpeed] = useState(speedOptions[isKlaytnNetwork ? 0 : 1]);
 
   const {
     control,
@@ -82,60 +72,46 @@ export const Confirmation: FC<Props> = ({
   });
 
   const isConfirmButtonDisabled = !isEmpty(errors) || isTransactionLoading || isFeeLoading;
-  const isOwnSpeedSelected = speed.value === SpeedEnum.Own;
 
   const ownGasFee = watch('ownGasFee');
   const ownsStorageFee = watch('ownStorageFee');
 
-  const initialTransactionFeeWithDecimals = formatUnits(initialTransactionFee, gasTokenDecimals).toNumber();
+  const {
+    isOwnSpeedSelected,
+    correctedTransactionFee,
+    gasPriceCoefficient,
+    isKlaytnNetwork,
+    initialTransactionFeeWithDecimals,
+    handleSpeedChange,
+    speed,
+    scrollViewRef
+  } = useTransactionSpeed(ownGasFee, initialTransactionFee, clearErrors as OnEventFn<void>);
 
-  const correctedTransactionFee = isOwnSpeedSelected
-    ? Number(ownGasFee)
-    : formatUnits(initialTransactionFee * Number(speed.value), gasTokenDecimals).toNumber();
   const correctedStorageFee = isOwnSpeedSelected ? Number(ownsStorageFee) : storageFee;
 
   const isTezosNetwork = networkType === NetworkTypeEnum.Tezos;
   const isEvmNetwork = networkType === NetworkTypeEnum.EVM;
 
-  const progressStatus = isOwnSpeedSelected
-    ? getProgressStatus(initialTransactionFeeWithDecimals, Number(ownGasFee))
-    : speed.title;
-
   useEffect(() => {
-    if (isOwnSpeedSelected) {
-      scrollToOffset();
-    }
-  }, [isOwnSpeedSelected]);
-
-  useEffect(() => {
-    setValue('ownGasFee', formatUnits(initialTransactionFee, gasTokenDecimals).toString());
+    setValue('ownGasFee', formatUnitsToString(initialTransactionFee, gasToken.decimals));
 
     if (isTezosNetwork) {
       setValue('ownStorageFee', storageFee.toString());
     }
-  }, [initialTransactionFee, storageFee, isTezosNetwork, gasTokenDecimals]);
-
-  const handleSpeedChange = (speedOption: SpeedOption) => {
-    setSpeed(speedOption);
-    clearErrors();
-  };
+  }, [initialTransactionFee, storageFee, isTezosNetwork, gasToken.decimals]);
 
   const onConfirmPress = () => {
     if (isTezosNetwork) {
-      const gasFeeToSend = parseUnits(correctedTransactionFee, gasTokenDecimals).toNumber();
+      const gasFeeToSend = parseUnits(correctedTransactionFee, gasToken.decimals).toNumber();
 
       onSend({ storageFee: correctedStorageFee, gasFee: gasFeeToSend });
     } else {
-      const gasPriceCoefficient = isOwnSpeedSelected
-        ? Number(ownGasFee) / initialTransactionFeeWithDecimals
-        : Number(speed.value);
-
       onSend(gasPriceCoefficient);
     }
   };
 
   return (
-    <ModalActionContainer
+    <ModalActionsContainer
       screenTitle="Confirm Operation"
       submitTitle="Confirm"
       cancelTitle="Decline"
@@ -174,21 +150,23 @@ export const Confirmation: FC<Props> = ({
         <View>
           <Text style={styles.title}>Transactions Details</Text>
           {isEvmNetwork && (
-            <FeeItem title="Max Gas" loading={isFeeLoading} fee={correctedTransactionFee} symbol={gasTokenSymbol} />
+            <Field
+              title="Max Gas fee"
+              loading={isFeeLoading}
+              amount={correctedTransactionFee}
+              symbol={gasToken.symbol}
+            />
           )}
           {!isKlaytnNetwork && (
-            <>
-              <Row style={styles.speedBlock}>
-                <Text style={styles.speedOfTransactionText}>Speed of transaction</Text>
-                <ProgressBar status={progressStatus} />
-              </Row>
-              <View style={styles.selectorBlock}>
-                <FragmentSelector options={speedOptions} onSelect={handleSpeedChange} selectedItem={speed} />
-              </View>
-            </>
+            <TransactionSpeed
+              speed={speed}
+              handleSpeedChange={handleSpeedChange}
+              initialTransactionFeeWithDecimals={initialTransactionFeeWithDecimals}
+              ownGasFee={ownGasFee}
+            />
           )}
           {isTezosNetwork && (
-            <FeeItem title="Gas" loading={isFeeLoading} fee={correctedTransactionFee} symbol={gasTokenSymbol} />
+            <Field title="Gas fee" loading={isFeeLoading} amount={correctedTransactionFee} symbol={gasToken.symbol} />
           )}
 
           {isOwnSpeedSelected && (
@@ -202,7 +180,7 @@ export const Confirmation: FC<Props> = ({
                   placeholder={`${initialTransactionFeeWithDecimals ?? 0}`}
                   keyboardType="numeric"
                   error={errors?.ownGasFee?.message}
-                  decimals={gasTokenDecimals}
+                  decimals={gasToken.decimals}
                   {...(isEvmNetwork && { containerStyle: styles.footerMargin })}
                 />
               )}
@@ -210,7 +188,7 @@ export const Confirmation: FC<Props> = ({
           )}
           {isTezosNetwork && (
             <View style={[isOwnSpeedSelected && styles.storageFeeInputContainer]}>
-              <FeeItem title="Storage" loading={isFeeLoading} fee={correctedStorageFee} symbol={symbol} />
+              <Field title="Storage fee" loading={isFeeLoading} amount={correctedStorageFee} symbol={symbol} />
 
               {isOwnSpeedSelected && (
                 <Controller
@@ -222,7 +200,7 @@ export const Confirmation: FC<Props> = ({
                       field={field}
                       placeholder={`${storageFee}`}
                       keyboardType="numeric"
-                      decimals={gasTokenDecimals}
+                      decimals={gasToken.decimals}
                       error={errors?.ownStorageFee?.message}
                       containerStyle={styles.footerMargin}
                     />
@@ -233,6 +211,6 @@ export const Confirmation: FC<Props> = ({
           )}
         </View>
       </View>
-    </ModalActionContainer>
+    </ModalActionsContainer>
   );
 };

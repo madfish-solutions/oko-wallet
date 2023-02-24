@@ -13,7 +13,8 @@ export const styles = StyleSheet.create({
   },
   container: {
     paddingHorizontal: getCustomSize(8),
-    paddingVertical: getCustomSize(1.5)
+    paddingTop: getCustomSize(1.5),
+    paddingBottom: getCustomSize(4)
   },
   imageContainer: {
     height: getCustomSize(8),

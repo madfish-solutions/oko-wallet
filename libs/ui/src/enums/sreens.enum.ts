@@ -67,7 +67,8 @@ export enum ScreensEnum {
   Swap = 'Swap',
   SwapRoute = 'SwapRoute',
   SlippageTolerance = 'SlippageTolerance',
-  SwapConfirmation = 'SwapConfirmation'
+  SwapConfirmation = 'SwapConfirmation',
+  EditPermission = 'EditPermission'
 }
 
 export type ScreensParamList = {
@@ -127,11 +128,18 @@ export type ScreensParamList = {
     transactionInfo: DAppTransactionInfo;
     dAppInfo: DAppInfo;
   };
-  [ScreensEnum.DAppSignConfirmation]: { messageId: string; signInfo: string[]; dAppInfo: DAppInfo };
+  [ScreensEnum.DAppSignConfirmation]: { messageId: string; signInfo: string[]; dAppInfo: DAppInfo; method: string };
   [ScreensEnum.Swap]?: { fromToken?: Token; toToken?: Token };
   [ScreensEnum.SlippageTolerance]: undefined;
   [ScreensEnum.SwapRoute]: { routes: GetQuoteResponse['protocols']; fromToken: Token; toToken: Token };
   [ScreensEnum.SwapConfirmation]: { transferParams: EvmTransferParams };
+  [ScreensEnum.EditPermission]: {
+    origin: string;
+    token: Token;
+    proposedAllowanceAmount: string;
+    customAllowanceAmount: string;
+    spender: string;
+  };
 };
 
 export const walletStackScreens = [

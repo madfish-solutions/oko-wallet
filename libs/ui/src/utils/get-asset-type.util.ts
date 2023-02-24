@@ -1,15 +1,16 @@
-import { isDefined, isString } from '@rnw-community/shared';
+import { isNotEmptyString } from '@rnw-community/shared';
 
 import { AssetTypeEnum } from '../enums/asset-type.enum';
-import { Asset } from '../interfaces/asset.interface';
 import { Token } from '../interfaces/token.interface';
 
-export const getAssetType = ({ tokenId, tokenAddress }: Asset | Token) => {
-  if (tokenAddress?.length === 0 || !isDefined(tokenAddress)) {
+import { checkIsGasToken } from './check-is-gas-token.util';
+
+export const getAssetType = ({ tokenId, tokenAddress }: Token) => {
+  if (checkIsGasToken(tokenAddress)) {
     return AssetTypeEnum.GasToken;
   }
 
-  if (isString(tokenId) && tokenId.length > 0) {
+  if (isNotEmptyString(tokenId)) {
     return AssetTypeEnum.Collectible;
   }
 

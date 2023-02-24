@@ -1,6 +1,7 @@
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 
 import { onlySpacesError, requiredFieldError } from '../../constants/form-errors';
+import { httpsRegx } from '../../constants/regex-validation';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { removeTrailingSlash } from '../../utils/remove-trailing-slash.util';
 import { FormTypes } from '../screens/network/types/form-types.interface';
@@ -25,6 +26,8 @@ export const useNetworkFieldsRules = ({ networks, chainId, defaultValues }: Netw
     }
   };
 
+  const checkIsHttpsLink = (currentValue: string) => httpsRegx.test(currentValue) || 'Only HTTPS are allowed';
+
   const isChainIdDifferentOfRpcValue = (currentChainId: string) => {
     if (isNotEmptyString(chainId) && currentChainId !== chainId) {
       return `The RPC URL returned a different chain ID (${chainId})`;
@@ -44,7 +47,7 @@ export const useNetworkFieldsRules = ({ networks, chainId, defaultValues }: Netw
 
   const rpcUrlRules = {
     required: commonRules.required,
-    validate: { ...commonRules.validate, isNetworkRpcUrlAlreadyExist }
+    validate: { ...commonRules.validate, isNetworkRpcUrlAlreadyExist, checkIsHttpsLink }
   };
   const chainIdRules = {
     ...commonRules,

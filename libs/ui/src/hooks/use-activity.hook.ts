@@ -1,11 +1,11 @@
 import { isDefined } from '@rnw-community/shared';
+import { ActivityResponse } from 'backend-types';
 import { useEffect, useRef, useState } from 'react';
 
 import { getHistoryList } from '../api/debank/debank';
 import { GAS_TOKEN_ADDRESS } from '../constants/defaults';
 import { TransactionStatusEnum } from '../enums/transactions.enum';
 import { ActivityData, SectionListActivityData } from '../interfaces/activity-data.interface';
-import { ActivityResponse } from '../interfaces/activity-response.interface';
 import { TransactionTypeEnum } from '../interfaces/activity.enum';
 import { ActivityFilterEnum } from '../modals/screens/activity-filter-selector/activity-filter.enum';
 import { checkIsDayLabelNeeded, transformTimestampToDate } from '../screens/activity/components/activity-item.utils';

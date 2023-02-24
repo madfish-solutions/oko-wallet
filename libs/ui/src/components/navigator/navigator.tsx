@@ -15,6 +15,7 @@ import { DAppSignConfirmation } from '../../modals/screens/d-app-sign-confirmati
 import { DAppTransactionConfirmation } from '../../modals/screens/d-app-transaction-confirmation/d-app-transaction-confirmation';
 import { DeleteDApp } from '../../modals/screens/delete-d-app/delete-d-app';
 import { EditAccount } from '../../modals/screens/edit-account/edit-account';
+import { EditPermission } from '../../modals/screens/edit-permission/edit-permission';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
 import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
 import { NetworkChangeConfirmation } from '../../modals/screens/network-change-confirmation/network-change-confirmation';
@@ -70,6 +71,7 @@ import { FullScreenLoader } from '../loader/components/full-screen-loader/full-s
 import { ComponentWithNavigationContext } from './components/component-with-navigation-context/component-with-navigation-context';
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
 import { useLoadSentCollectiblesBalance } from './hooks/use-load-sent-collectibles-balance.hook';
+import { useResetKeychainOnInstall } from './hooks/use-reset-keychain-on-install.hook';
 import { useResetLoading } from './hooks/use-reset-loading.hook';
 import { useShowSecurityScreen } from './hooks/use-show-security-sceen.hook';
 import { useTokensPriceInfo } from './hooks/use-tokens-price-info.hook';
@@ -88,6 +90,7 @@ export const Navigator: FC = () => {
   useLoadSentCollectiblesBalance();
   useResetLoading();
   useAppLockTimer();
+  useResetKeychainOnInstall();
 
   if (!isReady) {
     return <SplashScreen />;
@@ -272,6 +275,11 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.ActivityFilterSelector}
                 options={{ title: 'Activity Filter' }}
                 component={ActivityFilterSelector}
+              />
+              <Stack.Screen
+                name={ScreensEnum.EditPermission}
+                options={{ title: 'Edit permission' }}
+                component={EditPermission}
               />
             </Stack.Group>
           </>

@@ -12,15 +12,15 @@ import { createReadOnlyTezosToolkit } from '../tezos-toolkit.utils';
 import { parseUnits } from '../units.utils';
 
 export const getTezosTransferParams$ = (
-  { receiverPublicKeyHash, amount, asset }: SendAssetPayload,
+  { receiverPublicKeyHash, amount, token }: SendAssetPayload,
   selectedNetwork: NetworkInterface,
   sender: AccountInterface
 ): Observable<TransferParams> => {
-  const { tokenId, tokenAddress, decimals } = asset;
+  const { tokenId, tokenAddress, decimals } = token;
   const { rpcUrl, networkType } = selectedNetwork;
   const senderPublicKeyHash = getString(sender.networksKeys[networkType]?.publicKeyHash);
   const amountBN = parseUnits(amount, decimals);
-  const assetType = getAssetType(asset);
+  const assetType = getAssetType(token);
 
   return assetType === AssetTypeEnum.GasToken
     ? of({

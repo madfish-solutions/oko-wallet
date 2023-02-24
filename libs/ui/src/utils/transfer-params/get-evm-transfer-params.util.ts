@@ -7,15 +7,15 @@ import { getTransactionParams } from '../../screens/send-confirmation/components
 import { getPublicKeyHash } from '../../store/wallet/wallet.utils';
 
 export const getEvmTransferParams$ = (
-  { receiverPublicKeyHash, amount, asset }: SendAssetPayload,
+  { receiverPublicKeyHash, amount, token }: SendAssetPayload,
   sender: AccountInterface
 ) => {
   const transactionParams = getTransactionParams(
-    asset,
+    token,
     receiverPublicKeyHash,
     getPublicKeyHash(sender, NetworkTypeEnum.EVM),
     amount
   );
 
-  return of({ value: amount, receiverPublicKeyHash, asset, transactionParams });
+  return of({ value: amount, receiverPublicKeyHash, token, transactionParams });
 };
