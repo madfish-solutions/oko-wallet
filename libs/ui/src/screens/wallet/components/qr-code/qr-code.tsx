@@ -39,8 +39,8 @@ export const QrCode: FC<Props> = ({ contentOffsetY }) => {
       <View style={styles.layout} />
       <Animated.View style={[styles.animatedView, { opacity: animationOpacity }]}>
         <Column style={styles.wrapper}>
-          <Text style={styles.address} numberOfLines={3}>
-            {publicKeyHash} testID={QrCodeTestIDs.PublicKeyText}
+          <Text style={styles.address} numberOfLines={3} testID={QrCodeTestIDs.PublicKeyText}>
+            {publicKeyHash}
           </Text>
           <Row style={styles.iconsWrapper}>
             <TouchableIcon name={IconNameEnum.Copy} onPress={copyAddress} />
