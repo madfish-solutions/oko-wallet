@@ -126,6 +126,7 @@ export const TokensSelector: FC = () => {
         selectedItemName={gasToken.symbol}
         keyExtractor={keyExtractor}
         isLoading={isLoadingMetadata}
+        placeholder="Search by name or address"
         isSearchInitiallyOpened
       />
     </ModalContainer>

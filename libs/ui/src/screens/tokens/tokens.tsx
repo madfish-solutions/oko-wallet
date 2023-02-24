@@ -44,6 +44,7 @@ export const Tokens: FC = () => {
           setSearchValue={setSearchValue}
           isEmptyList={isEmptyTokensList && !isLoadingMetadata}
           setIsShowManageTokens={setIsShowManageTokens}
+          placeholder="Search by name or address"
           isShowManageTokensIcon
         />
 

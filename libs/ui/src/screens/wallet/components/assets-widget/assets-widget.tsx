@@ -12,6 +12,7 @@ import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useSortAccountTokensByBalance } from '../../../../hooks/use-sort-tokens-by-balance.hook';
 import { TestIDProps } from '../../../../interfaces/test-id.props';
+import { Token } from '../../../../interfaces/token.interface';
 import { useVisibleAccountTokensAndGasTokenSelector } from '../../../../store/wallet/wallet.selectors';
 import { getTokenSlug } from '../../../../utils/token.utils';
 
@@ -27,12 +28,18 @@ export const AssetsWidget: FC<TestIDProps> = ({ testID }) => {
 
   const navigateToTokens = () => navigate(ScreensEnum.Tokens);
   const navigateToActivity = () => navigate(ScreensEnum.Activity);
+  const navigateToTokenDetails = (token: Token) =>
+    navigate(ScreensEnum.Token, { tokenAddress: token.tokenAddress, tokenId: token.tokenId });
 
   return (
     <WidgetContainer style={styles.root} iconName={IconNameEnum.Assets} title="Tokens" testID={testID}>
       <View style={styles.widgetContainer}>
         {visibleAccountTokens.map(token => (
-          <AccountToken key={getTokenSlug(token.tokenAddress, token.tokenId)} token={token} />
+          <AccountToken
+            key={getTokenSlug(token.tokenAddress, token.tokenId)}
+            token={token}
+            onPress={() => navigateToTokenDetails(token)}
+          />
         ))}
         <Row>
           <ButtonWithIcon

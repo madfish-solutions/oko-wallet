@@ -29,6 +29,7 @@ interface Props {
   setIsShowManageTokens?: OnEventFn<boolean>;
   emptyIconStyle?: ViewStyleProps;
   isShowManageTokensIcon?: boolean;
+  placeholder?: string;
   style?: ViewStyleProps;
 }
 
@@ -36,8 +37,16 @@ const renderTextInput = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >(
-  field: ControllerRenderProps<TFieldValues, TName>
-) => <TextInput field={field} placeholder="Search" containerStyle={styles.inputContainer} inputStyle={styles.input} />;
+  field: ControllerRenderProps<TFieldValues, TName>,
+  placeholder?: string
+) => (
+  <TextInput
+    field={field}
+    placeholder={placeholder ?? 'Search'}
+    containerStyle={styles.inputContainer}
+    inputStyle={styles.input}
+  />
+);
 
 export const SearchPanel: React.FC<Props> = ({
   isEmptyList,
@@ -49,6 +58,7 @@ export const SearchPanel: React.FC<Props> = ({
   setIsShowManageTokens,
   emptyIconStyle,
   isShowManageTokensIcon = false,
+  placeholder,
   style
 }) => {
   const [isShowSearchField, setIsShowSearchField] = useState(isSearchInitiallyOpened);
@@ -107,7 +117,11 @@ export const SearchPanel: React.FC<Props> = ({
       <Row style={styles.wrapper}>
         {isShowSearchField ? (
           <Row style={styles.searchWrapper}>
-            <Controller control={control} name={SEARCH_FIELD} render={({ field }) => renderTextInput(field)} />
+            <Controller
+              control={control}
+              name={SEARCH_FIELD}
+              render={({ field }) => renderTextInput(field, placeholder)}
+            />
             {!isSearchInitiallyOpened && (
               <TouchableIcon name={IconNameEnum.X} onPress={hideSearchField} style={styles.close} />
             )}

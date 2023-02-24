@@ -10,6 +10,8 @@ import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 import { AccountToken } from '../../../../components/token/account-token/account-token';
 import { TokenItemThemesEnum } from '../../../../components/token/token-item/enums';
+import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useSortAccountTokensByBalance } from '../../../../hooks/use-sort-tokens-by-balance.hook';
 import { Token as TokenInterface } from '../../../../interfaces/token.interface';
 import {
@@ -32,6 +34,7 @@ interface Props {
 
 export const AccountTokens: FC<Props> = ({ searchValue, newToken, setIsEmptyTokensList, keyExtractor }) => {
   const { addNewTokenToAccount } = useAddNewTokenToAccount();
+  const { navigate } = useNavigation();
 
   const allAccountTokens = useAccountTokensSelector();
   const allAccountTokensWithGasToken = useAccountTokensAndGasTokenSelector();
@@ -72,17 +75,25 @@ export const AccountTokens: FC<Props> = ({ searchValue, newToken, setIsEmptyToke
 
   const onPressHideZeroBalances = () => setIsHideZeroBalance(!isHideZeroBalance);
 
+  const handleTokenPress = (token: TokenInterface, isNewToken: boolean) => {
+    if (!isNewToken) {
+      navigate(ScreensEnum.Token, { tokenAddress: token.tokenAddress, tokenId: token.tokenId });
+    }
+  };
+
   const renderItem = useCallback(
     ({ item: token }: ListRenderItemInfo<TokenInterface>) => {
       const isNewToken = token.tokenAddress === newToken?.tokenAddress;
-      const showButton = isNewToken ? false : !token.isVisible;
+      const showButton = isNewToken ? true : !token.isVisible;
 
       return (
         <AccountToken
           token={token}
           showButton={showButton}
+          isNewToken={isNewToken}
           theme={TokenItemThemesEnum.Secondary}
-          onPress={() => addNewTokenToAccount(token, isNewToken)}
+          onPress={() => handleTokenPress(token, isNewToken)}
+          onPressSwitch={() => addNewTokenToAccount(token, isNewToken)}
         />
       );
     },
