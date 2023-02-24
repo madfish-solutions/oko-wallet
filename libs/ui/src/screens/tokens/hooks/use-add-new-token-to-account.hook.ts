@@ -6,9 +6,7 @@ import { addNewTokenAction } from '../../../store/wallet/wallet.actions';
 export const useAddNewTokenToAccount = () => {
   const dispatch = useDispatch();
 
-  const addNewTokenToAccount = (token: Token, isNewToken: boolean, onPress?: () => void) => {
-    onPress?.();
-
+  const addNewTokenToAccount = (token: Token, isNewToken: boolean) => {
     if (isNewToken) {
       dispatch(addNewTokenAction(token));
     }

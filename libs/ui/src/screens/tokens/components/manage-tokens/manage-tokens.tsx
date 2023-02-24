@@ -50,6 +50,14 @@ export const ManageTokens: FC<Props> = ({ searchValue, newToken, setIsEmptyToken
     }
   }, [searchValue.length]);
 
+  const handlePressToken = (token: TokenInterface, isNewToken: boolean) => {
+    if (!isNewToken) {
+      dispatch(changeTokenVisibilityAction(token));
+    }
+
+    addNewTokenToAccount(token, isNewToken);
+  };
+
   const renderItem = useCallback(
     ({ item: token }: ListRenderItemInfo<TokenInterface>) => {
       const isGasToken = checkIsGasToken(token.tokenAddress);
@@ -59,7 +67,7 @@ export const ManageTokens: FC<Props> = ({ searchValue, newToken, setIsEmptyToken
         <Row key={getTokenSlug(token.tokenAddress, token.tokenId)} style={styles.token}>
           <Token uri={token.thumbnailUri} symbol={token.symbol} name={token.name} gasToken={isGasToken} />
           <Switch
-            onPress={() => addNewTokenToAccount(token, isNewToken, () => dispatch(changeTokenVisibilityAction(token)))}
+            onPress={() => handlePressToken(token, isNewToken)}
             isActive={token.isVisible}
             disabled={isGasToken}
           />

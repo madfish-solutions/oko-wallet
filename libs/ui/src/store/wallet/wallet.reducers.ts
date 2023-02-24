@@ -146,8 +146,8 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
             {
               tokenId,
               tokenAddress,
-              isVisible,
-              balance
+              balance,
+              isVisible: !isVisible
             }
           ]
         }

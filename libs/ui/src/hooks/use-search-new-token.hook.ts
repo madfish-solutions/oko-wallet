@@ -31,7 +31,7 @@ export const useSearchNewToken = () => {
         name: metadata.name,
         symbol: metadata.symbol,
         thumbnailUri: metadata.thumbnailUri,
-        isVisible: true,
+        isVisible: false,
         balance: createEntity('0')
       });
     }
@@ -45,17 +45,17 @@ export const useSearchNewToken = () => {
   );
 
   useEffect(() => {
-    if (isAddress(searchValue)) {
+    if (isAddress(searchValue) && !isTokenExistOnAccount) {
       const metadataKey = getSlug(chainId, getTokenSlug(searchValue));
 
-      if (!isTokenExistOnAccount && metadataKey in allTokensMetadata) {
+      if (metadataKey in allTokensMetadata) {
         setNewToken({
           ...allTokensMetadata[metadataKey],
           tokenAddress: searchValue,
-          isVisible: true,
+          isVisible: false,
           balance: createEntity('0')
         });
-      } else if (!isTokenExistOnAccount) {
+      } else {
         getTokenMetadata(searchValue);
       }
     } else {
