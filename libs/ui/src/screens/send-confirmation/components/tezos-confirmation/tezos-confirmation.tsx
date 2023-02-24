@@ -9,6 +9,7 @@ import {
   useSelectedAccountPublicKeyHashSelector
 } from '../../../../store/wallet/wallet.selectors';
 import { formatUnits, parseUnits } from '../../../../utils/units.utils';
+import { OperationsEnum } from '../../enums';
 import { useTransactionHook } from '../../hooks/use-transaction.hook';
 import { OnSend, TezosTransferParams } from '../../types';
 import { Confirmation } from '../confirmation/confirmation';
@@ -20,7 +21,9 @@ interface Props {
   transferParams: TezosTransferParams;
 }
 
-export const TezosConfirmation: FC<Props> = ({ transferParams: { transferParams, asset } }) => {
+export const TezosConfirmation: FC<Props> = ({
+  transferParams: { transferParams, token, operation = OperationsEnum.Send }
+}) => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const sender = useSelectedAccountSelector();
   const network = useSelectedNetworkSelector();
@@ -35,10 +38,11 @@ export const TezosConfirmation: FC<Props> = ({ transferParams: { transferParams,
   // @ts-ignore
   const [{ to, amount }] = transferParams;
 
-  const { symbol } = asset;
   const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } = useTransactionHook(
     to,
-    asset
+    token,
+    operation,
+    false
   );
 
   const minimalFeePerStorageByteMutez = estimations[0]?.minimalFeePerStorageByteMutez ?? 0;
@@ -101,7 +105,7 @@ export const TezosConfirmation: FC<Props> = ({ transferParams: { transferParams,
       storageFee={storageFee}
       receiverPublicKeyHash={to}
       amount={amount}
-      symbol={symbol}
+      symbol={token.symbol}
       initialTransactionFee={gasFeeSum}
     />
   );

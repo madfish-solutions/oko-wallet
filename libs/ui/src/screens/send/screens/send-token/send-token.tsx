@@ -3,26 +3,16 @@ import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import isEmpty from 'lodash/isEmpty';
 import React, { FC, useEffect } from 'react';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 
 import { ScreenTitle } from '../../../../components/screen-components/header-container/components/screen-title/screen-title';
 import { HeaderContainer } from '../../../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
 import { ScreenScrollView } from '../../../../components/screen-components/screen-scroll-view/screen-scroll-view';
 import { getValueWithMaxNumberOfDecimals } from '../../../../components/text-input/utils/get-value-with-max-number-of-decimals.util';
-import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { useToast } from '../../../../hooks/use-toast.hook';
 import { useTokenFiatBalance } from '../../../../hooks/use-token-fiat-balance.hook';
-import { Asset } from '../../../../interfaces/asset.interface';
-import { sendAssetAction } from '../../../../store/wallet/wallet.actions';
-import {
-  useAllAccountsWithoutSelectedSelector,
-  useGasTokenSelector,
-  useSelectedNetworkTypeSelector
-} from '../../../../store/wallet/wallet.selectors';
-import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
+import { useAllAccountsWithoutSelectedSelector, useGasTokenSelector } from '../../../../store/wallet/wallet.selectors';
 import { getString } from '../../../../utils/get-string.utils';
 import { GasTokenWarning } from '../../components/gas-token-warning/gas-token-warning';
 import { SendButton } from '../../components/send-button/send-button';
@@ -36,13 +26,9 @@ import { TokenInput } from './components/token-input/token-input';
 import { styles } from './send-token.styles';
 
 export const SendToken: FC = () => {
-  const { showErrorToast } = useToast();
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendToken>>();
-
   const { goBack } = useNavigation();
-  const dispatch = useDispatch();
   const gasToken = useGasTokenSelector();
-  const networkType = useSelectedNetworkTypeSelector();
   const allAccountsWithoutSelected = useAllAccountsWithoutSelectedSelector();
 
   const defaultValues: FormTypes = {
@@ -70,7 +56,7 @@ export const SendToken: FC = () => {
   const account = watch('account');
   const amount = watch('amount');
 
-  useSendForm({ params, account, setValue, trigger, clearErrors, token });
+  const onSubmit = useSendForm({ params, account, setValue, trigger, clearErrors, token });
 
   const { availableBalance, availableUsdBalance, amountInDollar, availableFormattedBalance } = useTokenFiatBalance(
     amount,
@@ -86,35 +72,6 @@ export const SendToken: FC = () => {
       setValue('amount', getValueWithMaxNumberOfDecimals(amount, token?.decimals ?? 0));
     }
   }, [token]);
-
-  const onSubmit = (formValue: FormTypes) => {
-    const isGasTokenZeroBalance = Number(gasToken.balance.data) === 0;
-
-    if (isGasTokenZeroBalance) {
-      return showErrorToast({ message: 'Not enough gas' });
-    }
-
-    if (isDefined(formValue.token)) {
-      const { decimals, tokenAddress, tokenId, symbol } = formValue.token;
-      const assetToSend: Asset = {
-        decimals,
-        tokenAddress: tokenAddress === GAS_TOKEN_ADDRESS ? '' : tokenAddress,
-        tokenId: tokenId ?? '',
-        symbol
-      };
-
-      dispatch(
-        sendAssetAction.submit({
-          asset: assetToSend,
-          amount: formValue.amount,
-          receiverPublicKeyHash:
-            formValue.isTransferBetweenAccounts && formValue.account
-              ? getPublicKeyHash(formValue.account, networkType)
-              : formValue.receiverPublicKeyHash
-        })
-      );
-    }
-  };
 
   return (
     <ScreenContainer>

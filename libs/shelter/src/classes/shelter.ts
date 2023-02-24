@@ -14,6 +14,7 @@ import { encrypt } from '../themis/encrypt';
 import { getEtherDerivationPath } from '../utils/derivation-path.utils';
 import { derivationPathByNetworkType, generateHdAccount } from '../utils/generate-hd-account.util';
 import { generateHash$ } from '../utils/hash.utils';
+import { signMessageByMethod } from '../utils/sign-message-by-method.util';
 
 export class Shelter {
   static _passwordHash$ = new BehaviorSubject(INITIAL_PASSWORD_HASH);
@@ -219,8 +220,8 @@ export class Shelter {
   static getTezosSigner$ = (publicKeyHash: string) =>
     Shelter.revealPrivateKey$(publicKeyHash).pipe(map(privateKey => new InMemorySigner(privateKey)));
 
-  static signMessage$ = (publicKeyHash: string, messageToSign: string) =>
+  static signMessage$ = (publicKeyHash: string, messageToSign: string, method: string) =>
     Shelter.revealPrivateKey$(publicKeyHash).pipe(
-      switchMap(privateKey => new ethers.Wallet(privateKey).signMessage(messageToSign))
+      switchMap(privateKey => from(signMessageByMethod(privateKey, messageToSign, method)))
     );
 }

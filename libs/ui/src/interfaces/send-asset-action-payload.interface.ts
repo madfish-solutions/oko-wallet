@@ -1,7 +1,7 @@
-import { Asset } from '../interfaces/asset.interface';
+import { Token } from './token.interface';
 
 export interface SendAssetPayload {
   receiverPublicKeyHash: string;
   amount: string;
-  asset: Asset;
+  token: Token;
 }

@@ -5,8 +5,7 @@ import {
   NativeSyntheticEvent,
   SectionList,
   SectionListData,
-  SectionListRenderItem,
-  View
+  SectionListRenderItem
 } from 'react-native';
 import { isWeb, isMobile } from 'shared';
 
@@ -22,8 +21,7 @@ import { getCustomSize } from '../../styles/format-size';
 import { getFilteredActivity } from '../../utils/filter-activity.util';
 import { sleep } from '../../utils/sleep.util';
 import { EmptySearchIcon } from '../icon/components/empty-search-icon/empty-search-icon';
-import { LoaderSizeEnum } from '../loader/enums';
-import { Loader } from '../loader/loader';
+import { WrappedLoader } from '../loader/components/wrapped-loader/wrapped-loader';
 import { Text } from '../text/text';
 
 import { styles } from './activity-section-list.styles';
@@ -142,15 +140,7 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
     }
   };
 
-  const renderListFooterComponent = () => (
-    <>
-      {isLoading && (
-        <View style={styles.loading}>
-          <Loader size={LoaderSizeEnum.Large} />
-        </View>
-      )}
-    </>
-  );
+  const renderListFooterComponent = () => <>{isLoading && <WrappedLoader style={styles.loading} />}</>;
 
   const renderListEmptyComponent = () => <>{!isLoading && <EmptySearchIcon size={emptyIconSize} />}</>;
 

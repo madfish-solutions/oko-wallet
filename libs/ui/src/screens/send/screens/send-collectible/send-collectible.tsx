@@ -4,7 +4,6 @@ import isEmpty from 'lodash/isEmpty';
 import React, { FC, useEffect, useState } from 'react';
 import { FormProvider, useForm, Controller } from 'react-hook-form';
 import { Pressable, View } from 'react-native';
-import { useDispatch } from 'react-redux';
 
 import { CollectibleImage } from '../../../../components/collectible-image/collectible-image';
 import { Icon } from '../../../../components/icon/icon';
@@ -18,18 +17,9 @@ import { Text } from '../../../../components/text/text';
 import { ErrorField } from '../../../../components/text-input/components/error-field/error-field';
 import { Label } from '../../../../components/text-input/components/label/label';
 import { TextInput } from '../../../../components/text-input/text-input';
-import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { useToast } from '../../../../hooks/use-toast.hook';
-import { Asset } from '../../../../interfaces/asset.interface';
-import { sendAssetAction } from '../../../../store/wallet/wallet.actions';
-import {
-  useAllAccountsWithoutSelectedSelector,
-  useGasTokenSelector,
-  useSelectedNetworkTypeSelector
-} from '../../../../store/wallet/wallet.selectors';
-import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
+import { useAllAccountsWithoutSelectedSelector } from '../../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../../styles/format-size';
 import { checkIsErc721Collectible } from '../../../../utils/check-is-erc721-collectible.util';
 import { GasTokenWarning } from '../../components/gas-token-warning/gas-token-warning';
@@ -45,13 +35,8 @@ const COLLECTIBLE_IMAGE_SIZE = getCustomSize(11.75);
 
 export const SendCollectible: FC = () => {
   const [isFocusedInput, setIsFocusedInput] = useState(false);
-  const { showErrorToast } = useToast();
   const { navigate, goBack } = useNavigation();
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendCollectible>>();
-
-  const dispatch = useDispatch();
-  const gasToken = useGasTokenSelector();
-  const networkType = useSelectedNetworkTypeSelector();
   const allAccountsWithoutSelected = useAllAccountsWithoutSelectedSelector();
 
   const defaultValues: FormTypes = {
@@ -85,7 +70,7 @@ export const SendCollectible: FC = () => {
   const isSendButtonDisabled = !isEmpty(errors);
   const isAmountInputError = isNotEmptyString(errors?.amount?.message);
 
-  useSendForm({ params, account, setValue, trigger, clearErrors, token });
+  const onSubmit = useSendForm({ params, account, setValue, trigger, clearErrors, token });
 
   useEffect(() => {
     if (isCollectibleSelected) {
@@ -96,36 +81,6 @@ export const SendCollectible: FC = () => {
   const navigateToNftSelectors = () => {
     clearErrors('amount');
     navigate(ScreensEnum.SendCollectiblesSelector, { token });
-  };
-
-  const onSubmit = (formValue: FormTypes) => {
-    const isGasTokenZeroBalance = Number(gasToken.balance.data) === 0;
-
-    if (isGasTokenZeroBalance) {
-      return showErrorToast({ message: 'Not enough gas' });
-    }
-
-    if (isDefined(formValue.token)) {
-      const { decimals, tokenAddress, tokenId, name, standard } = formValue.token;
-      const assetToSend: Asset = {
-        decimals,
-        tokenAddress: tokenAddress === GAS_TOKEN_ADDRESS ? '' : tokenAddress,
-        tokenId: tokenId ?? '',
-        symbol: name,
-        standard
-      };
-
-      dispatch(
-        sendAssetAction.submit({
-          asset: assetToSend,
-          amount: formValue.amount,
-          receiverPublicKeyHash:
-            formValue.isTransferBetweenAccounts && formValue.account
-              ? getPublicKeyHash(formValue.account, networkType)
-              : formValue.receiverPublicKeyHash
-        })
-      );
-    }
   };
 
   return (

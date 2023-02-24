@@ -4,7 +4,7 @@ import { AccountInterface } from 'shared';
 
 import { ScreensEnum, ScreensParamList } from '../../../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../../../hooks/use-navigation.hook';
-import { usePreviousScreenName } from '../../../../../../hooks/use-previous-screen.hook';
+import { usePreviousScreenName } from '../../../../../../hooks/use-previous-screen-name.hook';
 import { ModalContainer } from '../../../../../../modals/components/modal-container/modal-container';
 import { AccountsList } from '../../../../../../modals/screens/accounts-selector/components/accounts-list';
 import { useCreateHdAccountForNewNetworkType } from '../../../../../../shelter/hooks/use-create-hd-account-for-new-network-type.hook';

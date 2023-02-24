@@ -7,20 +7,10 @@ import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
-    flex: 1,
-    paddingTop: getCustomSize(2),
-    paddingBottom: getCustomSize(isMobile ? 4 : 2),
-    justifyContent: 'space-between'
+    flex: 1
   },
   loader: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  content: {
-    flex: 1,
-    marginBottom: getCustomSize(2),
-    paddingHorizontal: getCustomSize(2)
+    flex: 1
   },
   fromToken: {
     marginBottom: getCustomSize(),
@@ -46,8 +36,5 @@ export const styles = StyleSheet.create({
   destination: {
     ...typography.captionInterRegular11,
     color: colors.textGrey2
-  },
-  button: {
-    paddingHorizontal: getCustomSize(2)
   }
 });

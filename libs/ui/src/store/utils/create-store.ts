@@ -1,16 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { Action, AnyAction, Middleware, ReducersMapObject } from 'redux';
 import { combineEpics, createEpicMiddleware, Epic, StateObservable } from 'redux-observable';
-import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
+import { persistReducer, persistStore } from 'redux-persist';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import { PersistConfig } from 'redux-persist/lib/types';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { LocalStorage } from 'shelter';
 
+import { IGNORED_ACTIONS } from '../constants/ignored-actions';
 import { rootStateReducer } from '../root-state.reducers';
 
 import { addFlipperDebugger } from './filpper.util';
+import { stateSyncMiddleware, initStateMessageListener } from './state-sync-middleware';
 
 export const createStore = <S extends object, A extends Action = AnyAction>({
   reducers,
@@ -20,7 +22,7 @@ export const createStore = <S extends object, A extends Action = AnyAction>({
   epics: Epic[];
 }) => {
   const epicMiddleware = createEpicMiddleware();
-  const middlewares: Array<Middleware<string, S>> = addFlipperDebugger<S>([epicMiddleware]);
+  const middlewares: Array<Middleware<string, S>> = addFlipperDebugger<S>([epicMiddleware]).concat(stateSyncMiddleware);
 
   const persistConfig: PersistConfig<S> = {
     key: 'root',
@@ -48,10 +50,12 @@ export const createStore = <S extends object, A extends Action = AnyAction>({
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware({
         serializableCheck: {
-          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+          ignoredActions: IGNORED_ACTIONS
         }
       }).concat(middlewares)
   });
+
+  initStateMessageListener(store);
 
   const persistor = persistStore(store);
 

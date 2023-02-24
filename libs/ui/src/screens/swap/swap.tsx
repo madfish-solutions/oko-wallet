@@ -4,7 +4,7 @@ import { BigNumber } from 'bignumber.js';
 import isEmpty from 'lodash/isEmpty';
 import React, { FC, useCallback, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Alert, View } from 'react-native';
+import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { isWeb } from 'shared';
 
@@ -21,6 +21,7 @@ import { HeaderContainer } from '../../components/screen-components/header-conta
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { ScreenScrollView } from '../../components/screen-components/screen-scroll-view/screen-scroll-view';
 import { Text } from '../../components/text/text';
+import { Label } from '../../components/text-input/components/label/label';
 import { getValueWithMaxNumberOfDecimals } from '../../components/text-input/utils/get-value-with-max-number-of-decimals.util';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
@@ -63,7 +64,7 @@ export const Swap: FC = () => {
   const allowance = useAllowanceSelector();
   const swapData = useSwapDataSelector();
   const quote = useQuoteSelector();
-  const { approveHandler, isApproveAllowanceLoading } = useApproveAllowance();
+  const { onApprovePress, isApproveAllowanceLoading } = useApproveAllowance();
 
   const { routes, exchangeRate, outputAmount } = quote.data;
 
@@ -99,7 +100,7 @@ export const Swap: FC = () => {
     GREATER_THAN_ZERO_SWAP_ERROR,
     UNDER_AVAILABLE_BALANCE_SWAP_ERROR
   );
-  const isSomeLoading = useShowLoadingOnSwapScreenSelector();
+  const isSomeLoading = useShowLoadingOnSwapScreenSelector(fromToken?.tokenAddress);
   const isLoading = isSomeLoading || isApproveAllowanceLoading;
 
   const isApproveSwapButtonDisabled = !isEmpty(errors);
@@ -181,32 +182,6 @@ export const Swap: FC = () => {
     clearErrors();
   };
 
-  const onApprovePress = () => {
-    const question = `Give permission to access your ${fromToken?.symbol}?`;
-
-    if (!isDefined(fromToken)) {
-      return;
-    }
-
-    if (isWeb) {
-      if (confirm(question)) {
-        approveHandler(fromToken);
-      }
-    } else {
-      Alert.alert(question, 'By granting permission, you are allowing the following contract to access your funds', [
-        {
-          text: 'Decline',
-          style: 'cancel'
-        },
-        {
-          text: 'Confirm',
-          style: 'destructive',
-          onPress: () => approveHandler(fromToken)
-        }
-      ]);
-    }
-  };
-
   const onSwapPress = () =>
     isDefined(fromToken) &&
     isDefined(toToken) &&
@@ -218,7 +193,7 @@ export const Swap: FC = () => {
     }
 
     if (isNeedToApprove) {
-      return onApprovePress();
+      return onApprovePress(fromToken);
     }
 
     onSwapPress();
@@ -257,8 +232,8 @@ export const Swap: FC = () => {
           <TouchableIcon name={IconNameEnum.Swap} onPress={swapTokenOrder} />
         </View>
 
+        <Label title="To" />
         <ReadOnlyTokenInput
-          label="To"
           token={toToken}
           amount={toAmount}
           amountInDollar={toTokenBalance.amountInDollar}

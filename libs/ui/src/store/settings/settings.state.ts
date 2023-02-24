@@ -5,6 +5,7 @@ export interface SettingsRootState {
 }
 
 export interface SettingsState {
+  isFirstAppLaunch: boolean;
   isAnalyticsEnabled: boolean;
   isBiometricEnabled: boolean;
   showLoader: boolean;
@@ -12,6 +13,7 @@ export interface SettingsState {
 }
 
 export const settingsInitialState: SettingsState = {
+  isFirstAppLaunch: true,
   isAnalyticsEnabled: true,
   isBiometricEnabled: false,
   showLoader: false,

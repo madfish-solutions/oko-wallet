@@ -4,4 +4,6 @@ export declare type RedisConfig = {
   password?: string;
   db?: string | number;
   enable_offline_queue: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  tls?: any;
 };

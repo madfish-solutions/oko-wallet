@@ -13,6 +13,7 @@ type NavigationArgsType<
   : [RouteName, ParamList[RouteName]];
 
 export const resetApplicationAction = createActions('root/RESET_APPLICATION');
+export const resetKeychainOnInstallAction = createActions('root/RESET_KEYCHAIN_ON_INSTALL');
 
 export const untypedNavigateAction =
   createAction<NavigationArgsType<ScreensParamList, keyof ScreensParamList>>('navigation/NAVIGATE');

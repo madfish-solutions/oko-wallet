@@ -2,10 +2,10 @@
   "name": "oko-wallet-backend",
   "version": "1.0.0",
   "description": "Backend server for OKO wallet",
-  "main": "dist/index.js",
+  "main": "dist/apps/backend/src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "backend": "node dist/index.js",
+    "backend": "node dist/apps/backend/src/index.js",
     "backend:dev": "ts-node-dev --files --quiet src/index.ts",
     "build": "tsc --skipLibCheck",
     "ts": "tsc --pretty"

@@ -1,7 +1,7 @@
+import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { useEffect, useMemo, useState } from 'react';
 import { getDefaultEvmProvider } from 'shelter';
 
-import { Asset } from '../../../../../interfaces/asset.interface';
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
 import { EMPTY_GAS } from '../../../constants';
 import { getGasLimit } from '../utils/get-gas-limit.util';
@@ -9,20 +9,16 @@ import { modifyGasLimit } from '../utils/modify-gas-limit.util';
 
 interface UseEvmEstimationsArgs {
   network: NetworkInterface;
-  asset: Asset;
-  receiverPublicKeyHash: string;
-  value: string;
   publicKeyHash: string;
   gas: number;
+  transactionParams: TransactionRequest;
 }
 
 export const useEvmEstimations = ({
   network: { rpcUrl },
-  asset,
-  receiverPublicKeyHash,
-  value,
   publicKeyHash,
-  gas
+  gas,
+  transactionParams
 }: UseEvmEstimationsArgs) => {
   const [estimations, setEstimations] = useState<{ gasLimit: number; gasPrice: number } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -34,9 +30,7 @@ export const useEvmEstimations = ({
       const provider = getDefaultEvmProvider(rpcUrl);
 
       const [gasLimitPromiseResult, feePromiseResult] = await Promise.allSettled([
-        gas === EMPTY_GAS
-          ? getGasLimit(asset, receiverPublicKeyHash, publicKeyHash, value, rpcUrl)
-          : Promise.resolve(gas),
+        gas === EMPTY_GAS ? getGasLimit(publicKeyHash, rpcUrl, transactionParams) : Promise.resolve(gas),
         provider.getFeeData()
       ]);
       const gasLimit = gasLimitPromiseResult.status === 'fulfilled' ? gasLimitPromiseResult.value : undefined;
@@ -47,7 +41,7 @@ export const useEvmEstimations = ({
     };
 
     getEstimations();
-  }, [rpcUrl, asset.tokenAddress]);
+  }, [rpcUrl, transactionParams]);
 
   return useMemo(() => ({ estimations, isLoading }), [estimations, isLoading]);
 };

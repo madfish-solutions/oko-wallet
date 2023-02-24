@@ -1,5 +1,5 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider';
-import { isDefined, OnEventFn } from '@rnw-community/shared';
+import { isDefined, isNotEmptyString, OnEventFn } from '@rnw-community/shared';
 import React, { FC, PropsWithChildren, useCallback } from 'react';
 
 import { useSendEvmTransaction } from '../../../../../../shelter/hooks/use-send-evm-transaction.hook';
@@ -8,43 +8,57 @@ import {
   useSelectedNetworkSelector
 } from '../../../../../../store/wallet/wallet.selectors';
 import { EMPTY_GAS } from '../../../../constants';
+import { OperationsEnum } from '../../../../enums';
 import { useTransactionHook } from '../../../../hooks/use-transaction.hook';
 import { EvmTransferParams, OnSend } from '../../../../types';
+import { ApproveToken } from '../../../approve-token/approve-token';
 import { Confirmation } from '../../../confirmation/confirmation';
 import { useEvmEstimations } from '../../hooks/use-evm-estimations.hook';
+import { useModifyEvmTransactionParams } from '../../hooks/use-modify-evm-transaction-params.hook';
 
 type Props = PropsWithChildren<{
   transferParams: EvmTransferParams;
   messageID?: string;
   onDecline: OnEventFn<void>;
   additionalSuccessCallback?: OnEventFn<TransactionResponse>;
+  isDAppOperation?: boolean;
 }>;
 
 export const EvmConfirmationContainer: FC<Props> = ({
-  transferParams: { asset, receiverPublicKeyHash, value, transactionParams, gas = EMPTY_GAS },
+  transferParams,
   onDecline,
   additionalSuccessCallback,
-  children
+  children,
+  isDAppOperation = false
 }) => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const network = useSelectedNetworkSelector();
-  const sendEvmTransaction = useSendEvmTransaction();
-
-  const { symbol } = asset;
-  const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } = useTransactionHook(
+  const {
+    token,
     receiverPublicKeyHash,
-    asset,
-    additionalSuccessCallback
-  );
+    value,
+    transactionParams: initialTransactionParams,
+    gas = EMPTY_GAS,
+    operation = OperationsEnum.Send
+  } = transferParams;
+
+  const transactionParams = useModifyEvmTransactionParams(initialTransactionParams);
+  const sendEvmTransaction = useSendEvmTransaction();
 
   const { estimations, isLoading } = useEvmEstimations({
     network,
-    asset,
-    receiverPublicKeyHash,
-    value,
     publicKeyHash,
-    gas
+    gas,
+    transactionParams
   });
+
+  const { isTransactionLoading, setIsTransactionLoading, successCallback, errorCallback } = useTransactionHook(
+    receiverPublicKeyHash,
+    token,
+    operation,
+    isDAppOperation,
+    additionalSuccessCallback
+  );
 
   const gasLimit = gas > EMPTY_GAS ? gas : Number(estimations?.gasLimit);
 
@@ -55,6 +69,7 @@ export const EvmConfirmationContainer: FC<Props> = ({
     gasPriceCoefficient => {
       if (isDefined(estimations?.gasPrice) && typeof gasPriceCoefficient === 'number') {
         setIsTransactionLoading(true);
+
         const gasPrice = Math.trunc(Number(estimations?.gasPrice) * gasPriceCoefficient);
 
         sendEvmTransaction({
@@ -69,7 +84,20 @@ export const EvmConfirmationContainer: FC<Props> = ({
     [estimations]
   );
 
-  return (
+  return operation === OperationsEnum.Approve &&
+    isDefined(transferParams.dAppInfo) &&
+    isNotEmptyString(transactionParams.data) ? (
+    <ApproveToken
+      isFeeLoading={isLoading}
+      onSend={onSend}
+      onDecline={onDecline}
+      isTransactionLoading={isTransactionLoading}
+      initialTransactionFee={transactionFee}
+      token={token}
+      data={transactionParams.data}
+      dAppInfo={transferParams.dAppInfo}
+    />
+  ) : (
     <Confirmation
       isFeeLoading={isLoading}
       onSend={onSend}
@@ -77,7 +105,7 @@ export const EvmConfirmationContainer: FC<Props> = ({
       isTransactionLoading={isTransactionLoading}
       receiverPublicKeyHash={receiverPublicKeyHash}
       amount={value}
-      symbol={symbol}
+      symbol={token.symbol}
       initialTransactionFee={transactionFee}
       children={children}
     />
