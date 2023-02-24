@@ -71,6 +71,7 @@ import { FullScreenLoader } from '../loader/components/full-screen-loader/full-s
 import { ComponentWithNavigationContext } from './components/component-with-navigation-context/component-with-navigation-context';
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
 import { useLoadSentCollectiblesBalance } from './hooks/use-load-sent-collectibles-balance.hook';
+import { useResetKeychainOnInstall } from './hooks/use-reset-keychain-on-install.hook';
 import { useResetLoading } from './hooks/use-reset-loading.hook';
 import { useShowSecurityScreen } from './hooks/use-show-security-sceen.hook';
 import { useTokensPriceInfo } from './hooks/use-tokens-price-info.hook';
@@ -89,6 +90,7 @@ export const Navigator: FC = () => {
   useLoadSentCollectiblesBalance();
   useResetLoading();
   useAppLockTimer();
+  useResetKeychainOnInstall();
 
   if (!isReady) {
     return <SplashScreen />;
