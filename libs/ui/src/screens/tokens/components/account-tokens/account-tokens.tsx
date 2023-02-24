@@ -89,13 +89,6 @@ export const AccountTokens: FC<Props> = ({ searchValue, newToken, setIsEmptyToke
     [searchValue, newToken]
   );
 
-  <FlatList
-    data={sortedTokens}
-    showsVerticalScrollIndicator={false}
-    renderItem={renderItem}
-    keyExtractor={keyExtractor}
-  />;
-
   return (
     <>
       {!isDefined(newToken) && (

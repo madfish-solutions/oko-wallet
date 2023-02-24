@@ -10,15 +10,7 @@ export const useAddNewTokenToAccount = () => {
     onPress?.();
 
     if (isNewToken) {
-      dispatch(
-        addNewTokenAction({
-          name: token.name,
-          symbol: token.symbol,
-          tokenAddress: token.tokenAddress,
-          decimals: token.decimals,
-          thumbnailUri: token.thumbnailUri
-        })
-      );
+      dispatch(addNewTokenAction(token));
     }
   };
 

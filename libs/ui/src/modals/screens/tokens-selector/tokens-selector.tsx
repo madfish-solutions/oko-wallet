@@ -1,7 +1,6 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC, useMemo } from 'react';
 import { ListRenderItemInfo, View } from 'react-native';
-import { useDispatch } from 'react-redux';
 
 import { IconWithBorderEnum } from '../../../components/icon-with-border/enums';
 import { Row } from '../../../components/row/row';
@@ -16,8 +15,8 @@ import { usePreviousScreenName } from '../../../hooks/use-previous-screen-name.h
 import { useSearchNewToken } from '../../../hooks/use-search-new-token.hook';
 import { useSortAccountTokensByBalance } from '../../../hooks/use-sort-tokens-by-balance.hook';
 import { Token as TokenType } from '../../../interfaces/token.interface';
+import { useAddNewTokenToAccount } from '../../../screens/tokens/hooks/use-add-new-token-to-account.hook';
 import { useTokensMarketInfoSelector } from '../../../store/tokens-market-info/token-market-info.selectors';
-import { addNewTokenAction } from '../../../store/wallet/wallet.actions';
 import {
   useGasTokenSelector,
   useSelectedNetworkSelector,
@@ -35,7 +34,6 @@ import { styles } from './tokens-selector.styles';
 const keyExtractor = ({ tokenAddress, tokenId }: TokenType) => getTokenSlug(tokenAddress, tokenId);
 
 export const TokensSelector: FC = () => {
-  const dispatch = useDispatch();
   const {
     params: { token, navigationKey }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.TokensSelector>>();
@@ -48,6 +46,7 @@ export const TokensSelector: FC = () => {
   const visibleAccountTokens = useVisibleAccountTokensAndGasTokenSelector();
 
   const { newToken, searchValue, setSearchValue, isLoadingMetadata } = useSearchNewToken();
+  const { addNewTokenToAccount } = useAddNewTokenToAccount();
 
   const { accountTokens: filteredAccountTokens } = useFilterAccountTokens(visibleAccountTokens, searchValue, newToken);
 
@@ -81,17 +80,7 @@ export const TokensSelector: FC = () => {
     const amountInDollar = getDollarValue({ amount, price, decimals });
 
     const onSelectItem = () => {
-      if (isNewToken) {
-        dispatch(
-          addNewTokenAction({
-            name: item.name,
-            symbol: item.symbol,
-            tokenAddress: item.tokenAddress,
-            decimals: item.decimals,
-            thumbnailUri: item.thumbnailUri
-          })
-        );
-      }
+      addNewTokenToAccount(item, isNewToken);
 
       if (previousScreen === ScreensEnum.Swap || previousScreen === ScreensEnum.SendToken) {
         navigate(previousScreen, { [navigationKey]: item });

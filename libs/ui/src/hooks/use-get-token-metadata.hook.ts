@@ -1,18 +1,17 @@
-import { OnEventFn } from '@rnw-community/shared';
+import { isDefined, OnEventFn } from '@rnw-community/shared';
 import { isAddress } from 'ethers/lib/utils';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { forkJoin, Subject, switchMap } from 'rxjs';
+import { Subject, switchMap } from 'rxjs';
 import { debounceTime, filter, map, tap } from 'rxjs/operators';
 
 import { getTokenInfo } from '../api/debank/debank';
 import { getDebankId } from '../api/debank/utils/get-debank-id.util';
-import { DEBOUNCE_TIME } from '../constants/defaults';
+import { DEBOUNCE_TIME, EMPTY_METADATA } from '../constants/defaults';
 import { TokenFormType } from '../interfaces/token.interface';
 import { useSelectedNetworkSelector } from '../store/wallet/wallet.selectors';
-import { getErc20TokenMetadata$ } from '../utils/get-erc20-token-metadata.util';
 
 export const useGetTokenMetadata = (onLoadMetadata: OnEventFn<TokenFormType>) => {
-  const { rpcUrl, chainId } = useSelectedNetworkSelector();
+  const { chainId } = useSelectedNetworkSelector();
   const [isLoadingMetadata, setIsLoadingMetadata] = useState(false);
 
   const getTokenMetadata$ = useMemo(() => new Subject<string>(), []);
@@ -25,18 +24,19 @@ export const useGetTokenMetadata = (onLoadMetadata: OnEventFn<TokenFormType>) =>
         tap(() => setIsLoadingMetadata(true)),
         debounceTime(DEBOUNCE_TIME),
         filter(tokenAddress => isAddress(tokenAddress)),
-        switchMap(tokenAddress =>
-          forkJoin([
-            getErc20TokenMetadata$(tokenAddress, rpcUrl),
-            getTokenInfo(tokenAddress, getDebankId(chainId))
-          ]).pipe(
-            map(([metadata, debankData]) => ({
-              ...metadata,
-              thumbnailUri: debankData?.logo_url ?? ''
-            })),
-            tap(() => setIsLoadingMetadata(false))
-          )
-        )
+        switchMap(tokenAddress => getTokenInfo(tokenAddress, getDebankId(chainId))),
+        map(debankData =>
+          isDefined(debankData)
+            ? {
+                tokenAddress: debankData.id,
+                name: debankData.name,
+                symbol: debankData.symbol,
+                decimals: debankData.decimals.toString(),
+                thumbnailUri: debankData.logo_url ?? ''
+              }
+            : EMPTY_METADATA
+        ),
+        tap(() => setIsLoadingMetadata(false))
       )
       .subscribe(onLoadMetadata);
 

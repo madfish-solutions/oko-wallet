@@ -124,7 +124,7 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
     )
     .addCase(addNewTokenAction, (state, { payload: newToken }) => {
       const { selectedAccountPublicKeyHash } = state;
-      const { tokenAddress, tokenId, ...tokenMetadata } = newToken;
+      const { tokenAddress, tokenId, isVisible, balance, ...tokenMetadata } = newToken;
       const chainId = getSelectedNetworkChainId(state);
       const tokenMetadataSlug = getTokenMetadataSlug(chainId, tokenAddress, tokenId);
       const accountTokensSlug = getAccountTokensSlug(chainId, selectedAccountPublicKeyHash);
@@ -146,8 +146,8 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
             {
               tokenId,
               tokenAddress,
-              isVisible: true,
-              balance: createEntity('0')
+              isVisible,
+              balance
             }
           ]
         }

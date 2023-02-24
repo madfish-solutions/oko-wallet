@@ -6,12 +6,20 @@ import { EMPTY_STRING } from '../constants/defaults';
 import { Token, TokenFormType } from '../interfaces/token.interface';
 import { checkTokenOnExist } from '../screens/tokens/utils/compare.util';
 import { createEntity } from '../store/utils/entity.utils';
-import { useAccountTokensAndGasTokenSelector } from '../store/wallet/wallet.selectors';
+import {
+  useAccountTokensAndGasTokenSelector,
+  useSelectedNetworkSelector,
+  useTokensMetadataSelector
+} from '../store/wallet/wallet.selectors';
+import { getSlug } from '../utils/getSlug.uitl';
+import { getTokenSlug } from '../utils/token.utils';
 
 import { useGetTokenMetadata } from './use-get-token-metadata.hook';
 
 export const useSearchNewToken = () => {
   const tokens = useAccountTokensAndGasTokenSelector();
+  const allTokensMetadata = useTokensMetadataSelector();
+  const { chainId } = useSelectedNetworkSelector();
   const [searchValue, setSearchValue] = useState(EMPTY_STRING);
   const [newToken, setNewToken] = useState<Token | null>(null);
 
@@ -20,11 +28,11 @@ export const useSearchNewToken = () => {
       setNewToken({
         tokenAddress: metadata.tokenAddress,
         decimals: Number(metadata.decimals),
-        isVisible: false,
         name: metadata.name,
         symbol: metadata.symbol,
-        balance: createEntity('0'),
-        thumbnailUri: metadata.thumbnailUri
+        thumbnailUri: metadata.thumbnailUri,
+        isVisible: true,
+        balance: createEntity('0')
       });
     }
   }, []);
@@ -37,12 +45,23 @@ export const useSearchNewToken = () => {
   );
 
   useEffect(() => {
-    if (isAddress(searchValue) && !isTokenExistOnAccount) {
-      getTokenMetadata(searchValue);
+    if (isAddress(searchValue)) {
+      const metadataKey = getSlug(chainId, getTokenSlug(searchValue));
+
+      if (!isTokenExistOnAccount && metadataKey in allTokensMetadata) {
+        setNewToken({
+          ...allTokensMetadata[metadataKey],
+          tokenAddress: searchValue,
+          isVisible: true,
+          balance: createEntity('0')
+        });
+      } else if (!isTokenExistOnAccount) {
+        getTokenMetadata(searchValue);
+      }
     } else {
       setNewToken(null);
     }
-  }, [searchValue, isTokenExistOnAccount]);
+  }, [searchValue, isTokenExistOnAccount, chainId, allTokensMetadata]);
 
   return { newToken, isLoadingMetadata, searchValue, setSearchValue };
 };
