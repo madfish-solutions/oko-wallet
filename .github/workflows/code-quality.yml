@@ -64,6 +64,13 @@ jobs:
         with:
           args: yarn e2e
 
+      - name: Upload E2E video to Slack
+        uses: adrey/slack-file-upload-action@master
+        with:
+          token: ${{ secrets.SLACK_E2E_VIDEO_UPLOADER_TOKEN }}
+          path: apps/extension-e2e/video-reports/test-run.mp4
+          channel: oko-e2e-fails
+
       - name: Upload extension artifact
         uses: actions/upload-artifact@v2
         with:
