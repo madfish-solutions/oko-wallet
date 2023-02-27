@@ -7,12 +7,16 @@ import { DEFAULT_PASSWORD, DEFAULT_HD_ACCOUNT_SEED_PHRASE } from '../utils/env.u
 
 const clearStorageMessage: BackgroundMessage = { type: E2eMessageType.ClearStorage };
 
-Before(async () => {
-  await BrowserContext.page
+Before(() =>
+  BrowserContext.page
     // @ts-ignore
     .evaluate(message => chrome.runtime.sendMessage(undefined, message), clearStorageMessage)
-    .catch(() => void 0);
-  BrowserContext.seedPhrase = DEFAULT_HD_ACCOUNT_SEED_PHRASE;
-  BrowserContext.password = DEFAULT_PASSWORD;
-  await BrowserContext.page.reload();
-});
+    .then(() => {
+      BrowserContext.seedPhrase = DEFAULT_HD_ACCOUNT_SEED_PHRASE;
+      BrowserContext.password = DEFAULT_PASSWORD;
+
+      return BrowserContext.page.reload();
+    })
+    .then(() => console.log('page was reloaded'))
+    .catch(error => console.log(error))
+);
