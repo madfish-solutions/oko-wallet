@@ -28,8 +28,8 @@ inputs:
     description: "Private key for account import for E2E tests"
     required: false
   IMPORTED_BY_PRIVATE_KEY_PUBLIC_KEY:
-  description: "Public key for account imported by private key for E2E tests"
-  required: false
+    description: "Public key for account imported by private key for E2E tests"
+    required: false
 
 runs:
   using: 'composite'
