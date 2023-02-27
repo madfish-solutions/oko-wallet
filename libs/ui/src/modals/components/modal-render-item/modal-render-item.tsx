@@ -8,6 +8,7 @@ import { IconWithBorder } from '../../../components/icon-with-border/icon-with-b
 import { Row } from '../../../components/row/row';
 import { RenderItem } from '../../../components/selector/components/render-item/render-item';
 import { Text } from '../../../components/text/text';
+import { ViewStyleProps } from '../../../interfaces/style.interface';
 import { ModalHeaderInterface } from '../../interfaces/modal-header.interface';
 
 import { styles } from './modal-render-item.styles';
@@ -17,6 +18,7 @@ interface Props extends ModalHeaderInterface, TestIDProps {
   isActive: boolean;
   onSelectItem: OnEventFn<GestureResponderEvent>;
   rightBottomComponent: ReactChild;
+  style?: ViewStyleProps;
 }
 
 export const ModalRenderItem: FC<Props> = ({
@@ -27,6 +29,7 @@ export const ModalRenderItem: FC<Props> = ({
   balance,
   onSelectItem,
   rightBottomComponent,
+  style,
   testID
 }) => (
   <RenderItem
@@ -48,5 +51,6 @@ export const ModalRenderItem: FC<Props> = ({
       </Column>
     }
     rightBottomComponent={rightBottomComponent}
+    style={style}
   />
 );

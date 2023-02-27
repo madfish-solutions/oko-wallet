@@ -101,5 +101,8 @@ export enum IconNameEnum {
   FilterYes = 'FilterYes',
   Document = 'Document',
   Circle = 'Circle',
-  RadioOn = 'RadioOn'
+  RadioOn = 'RadioOn',
+  HdAccount = 'HdAccount',
+  ImportedAccount = 'ImportedAccount',
+  LedgerAccount = 'LedgerAccount'
 }

@@ -133,7 +133,7 @@ export const Navigator: FC = () => {
             <Stack.Group screenOptions={modalScreenOptions}>
               <Stack.Screen
                 name={ScreensEnum.AccountsSelector}
-                options={{ title: 'Accounts' }}
+                options={{ title: 'My Accounts' }}
                 component={AccountsSelector}
               />
               <Stack.Screen

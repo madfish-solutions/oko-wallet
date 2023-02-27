@@ -13,19 +13,19 @@ import { styles } from './render-item.styles';
 interface Props extends TestIDProps {
   isActive: boolean;
   onSelectItem: OnEventFn<GestureResponderEvent>;
-  style?: ViewStyleProps;
   rightBottomComponent?: ReactChild;
   leftBottomComponent: ReactChild;
   leftTopComponent: ReactChild;
+  style?: ViewStyleProps;
 }
 
 export const RenderItem: FC<Props> = ({
   isActive,
   onSelectItem,
-  style,
   leftBottomComponent,
   leftTopComponent,
   rightBottomComponent = null,
+  style,
   testID
 }) => (
   <Pressable style={[styles.root, isActive && styles.active, style]} onPress={onSelectItem} testID={testID}>
