@@ -45,7 +45,7 @@ export const AccountsList: FC<Props> = ({
   isShowAccountType = false,
   testID
 }) => {
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
 
   const selectedNetworkType = useSelectedNetworkTypeSelector();
 
@@ -54,7 +54,6 @@ export const AccountsList: FC<Props> = ({
   const { filteredAccounts, setSearchValue, selectedAccountIndex } = useFilteredAccounts(accounts, selectedAccount);
 
   const onPressSettingsIcon = () => navigate(ScreensEnum.AccountsSettings);
-  const onCancelPress = () => navigate(ScreensEnum.Wallet);
 
   const renderItem = ({ item, index }: ListRenderItemInfo<AccountInterface>) => {
     const isAccountSelected = selectedAccountIndex === index;
@@ -109,7 +108,7 @@ export const AccountsList: FC<Props> = ({
       selectedItemName={selectedAccount.name}
       keyExtractor={keyExtractor}
       selectedIndex={selectedAccountIndex}
-      onCancelPress={onCancelPress}
+      onCancelPress={goBack}
       isSearchInitiallyOpened={isSearchInitiallyOpened}
     />
   );

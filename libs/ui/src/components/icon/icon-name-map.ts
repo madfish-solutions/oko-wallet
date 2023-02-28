@@ -73,6 +73,7 @@ import ReceiveSmallIcon from './assets/receive-small.svg';
 import ReceiveIcon from './assets/receive.svg';
 import Reddit from './assets/reddit.svg';
 import Refresh from './assets/refresh.svg';
+import RevealSeedPhrase from './assets/reveal-seed-phrase.svg';
 import SearchIcon from './assets/search.svg';
 import Security from './assets/security.svg';
 import See from './assets/see.svg';
@@ -216,5 +217,6 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.RadioOn]: RadioOn,
   [IconNameEnum.HdAccount]: HdAccount,
   [IconNameEnum.ImportedAccount]: ImportedAccount,
-  [IconNameEnum.LedgerAccount]: LedgerAccount
+  [IconNameEnum.LedgerAccount]: LedgerAccount,
+  [IconNameEnum.RevealSeedPhrase]: RevealSeedPhrase
 };

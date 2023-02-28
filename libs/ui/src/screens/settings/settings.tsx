@@ -82,6 +82,12 @@ export const Settings: FC = () => {
                 onPress={navigateToAccountsSettings}
                 testID={SettingsTestIDs.AccountsSettingsButton}
               />
+              <Separator />
+              <Item
+                title="Reveal Seed Phrase"
+                icon={IconNameEnum.RevealSeedPhrase}
+                onPress={navigateToSettingsGeneral}
+              />
             </ItemContainer>
 
             <Divider size={dividerSize} />

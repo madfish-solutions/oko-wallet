@@ -104,5 +104,6 @@ export enum IconNameEnum {
   RadioOn = 'RadioOn',
   HdAccount = 'HdAccount',
   ImportedAccount = 'ImportedAccount',
-  LedgerAccount = 'LedgerAccount'
+  LedgerAccount = 'LedgerAccount',
+  RevealSeedPhrase = 'RevealSeedPhrase'
 }
