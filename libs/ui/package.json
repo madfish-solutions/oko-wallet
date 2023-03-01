@@ -13,7 +13,6 @@
   "dependencies": {
     "@dicebear/collection": "^5.0.2",
     "@dicebear/core": "^5.0.2",
-    "@metamask/eth-sig-util": "^5.0.2",
     "@react-native-async-storage/async-storage": "^1.17.11",
     "@react-native-clipboard/clipboard": "^1.11.1",
     "@react-navigation/native": "^6.1.2",
@@ -21,7 +20,6 @@
     "@react-navigation/stack": "^6.3.11",
     "@reduxjs/toolkit": "^1.9.1",
     "@rnw-community/shared": "^0.48.0",
-    "@taquito/signer": "^13.0.1",
     "@taquito/taquito": "^13.0.1",
     "@taquito/utils": "^13.0.1",
     "@walletconnect/client": "^1.8.0",

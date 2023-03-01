@@ -6,7 +6,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import { PersistConfig } from 'redux-persist/lib/types';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { LocalStorage } from 'shelter';
+import { LocalStorage } from 'shared';
 
 import { IGNORED_ACTIONS } from '../constants/ignored-actions';
 import { rootStateReducer } from '../root-state.reducers';

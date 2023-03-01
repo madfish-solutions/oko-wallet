@@ -1,8 +1,7 @@
 import { signTypedData, SignTypedDataVersion } from '@metamask/eth-sig-util';
 import { ethers } from 'ethers';
 import { of } from 'rxjs';
-
-import { DAppMethodEnum } from '../../../ui/src/enums/dApp-method.enum';
+import { DAppMethodEnum } from 'shared';
 
 export const signMessageByMethod = (privateKey: string, messageToSign: string, method: string) => {
   switch (method) {
