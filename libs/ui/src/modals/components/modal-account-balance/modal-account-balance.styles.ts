@@ -6,10 +6,15 @@ import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
   text: {
-    ...typography.numbersIBMPlexSansMedium13,
     color: colors.textGrey1
   },
   amount: {
     marginRight: getCustomSize(0.25)
+  },
+  small: {
+    ...typography.numbersIBMPlexSansMedium13
+  },
+  medium: {
+    ...typography.numbersIBMPlexSansMedium15
   }
 });

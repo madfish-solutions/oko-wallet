@@ -2,7 +2,7 @@ import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { EMPTY_TOKEN, GAS_TOKEN_ADDRESS } from '../../constants/defaults';
+import { EMPTY_ACCOUNT, EMPTY_TOKEN, GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { AccountTypeEnum } from '../../enums/account-type.enum';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
@@ -75,6 +75,16 @@ export const useAllImportedAccountsSelector = (networkType: NetworkTypeEnum) => 
         ({ type, networksKeys }) => type === AccountTypeEnum.IMPORTED_ACCOUNT && isDefined(networksKeys[networkType])
       ),
     [accounts, networkType]
+  );
+};
+
+export const useUserAccountSelector = (publicKeyHash: string) => {
+  const accounts = useAllAccountsSelector();
+  const networkType = useSelectedNetworkTypeSelector();
+
+  return useMemo(
+    () => accounts.find(account => account.networksKeys[networkType]?.publicKeyHash === publicKeyHash) ?? EMPTY_ACCOUNT,
+    [accounts]
   );
 };
 

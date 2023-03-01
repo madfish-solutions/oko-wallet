@@ -14,7 +14,7 @@ import { DAppConnectionConfirmation } from '../../modals/screens/d-app-connectio
 import { DAppSignConfirmation } from '../../modals/screens/d-app-sign-confirmation/d-app-sign-confirmation';
 import { DAppTransactionConfirmation } from '../../modals/screens/d-app-transaction-confirmation/d-app-transaction-confirmation';
 import { DeleteDApp } from '../../modals/screens/delete-d-app/delete-d-app';
-import { EditAccount } from '../../modals/screens/edit-account/edit-account';
+import { EditAccountName } from '../../modals/screens/edit-account-name/edit-account-name';
 import { EditPermission } from '../../modals/screens/edit-permission/edit-permission';
 import { AddNetwork } from '../../modals/screens/network/add-network/add-network';
 import { EditNetwork } from '../../modals/screens/network/edit-network/edit-network';
@@ -36,6 +36,7 @@ import { SpecificCollectiblesList } from '../../screens/collectibles/screens/spe
 import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps';
 import { CreateANewWallet } from '../../screens/create-wallet/screens/create-a-new-wallet/create-a-new-wallet';
 import { VerifyMnemonic } from '../../screens/create-wallet/screens/verify-mnemonic/verify-mnemonic';
+import { EditAccount } from '../../screens/edit-account/edit-account';
 import { ImportWallet } from '../../screens/import-wallet/import-wallet';
 import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
@@ -111,6 +112,7 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
               <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
               <Stack.Screen name={ScreensEnum.AccountsSettings} component={AccountsSettings} />
+              <Stack.Screen name={ScreensEnum.EditAccount} component={EditAccount} />
               <Stack.Screen name={ScreensEnum.SettingsGeneral} component={SettingsGeneral} />
               <Stack.Screen name={ScreensEnum.SettingsSecurity} component={SettingsSecurity} />
               <Stack.Screen name={ScreensEnum.SettingsAboutUs} component={SettingsAboutUs} />
@@ -226,9 +228,9 @@ export const Navigator: FC = () => {
 
             <Stack.Group screenOptions={modalScreenOptionsWithBackButton}>
               <Stack.Screen
-                name={ScreensEnum.EditAccount}
+                name={ScreensEnum.EditAccountName}
                 options={{ title: 'Edit account' }}
-                component={EditAccount}
+                component={EditAccountName}
               />
               <Stack.Screen
                 name={ScreensEnum.AddAccount}

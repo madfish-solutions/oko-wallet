@@ -19,10 +19,10 @@ type Props = PropsWithChildren<{
   style?: ViewStyleProps;
 }> &
   TestIDProps &
-  Pick<PressableProps, 'onPress'>;
+  Pick<PressableProps, 'onPress' | 'disabled'>;
 
-export const Item: FC<Props> = ({ icon, iconComponent, title, onPress, children, style, testID }) => (
-  <Pressable onPress={onPress} style={[styles.root, style]} testID={testID}>
+export const Item: FC<Props> = ({ icon, iconComponent, title, onPress, children, disabled, style, testID }) => (
+  <Pressable onPress={onPress} disabled={disabled} style={[styles.root, style]} testID={testID}>
     <Row style={styles.content}>
       <Row>
         {isDefined(icon) && <Icon iconStyle={styles.icon} name={icon} />}

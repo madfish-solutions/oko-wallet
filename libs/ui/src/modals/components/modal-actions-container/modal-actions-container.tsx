@@ -24,7 +24,7 @@ export const ModalActionsContainer: FC<Props> = ({
   isCancelDisabled,
   onSubmitPress,
   onCancelPress,
-  isBackButton = true,
+  isBackButton = false,
   scrollViewRef,
   style,
   children

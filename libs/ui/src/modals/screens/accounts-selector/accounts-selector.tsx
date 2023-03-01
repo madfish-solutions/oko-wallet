@@ -19,7 +19,7 @@ import { AccountsList } from './components/accounts-list';
 
 export const AccountsSelector: FC = () => {
   const { createHdAccountForNewNetworkType } = useShelter();
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
   const dispatch = useDispatch();
   const selectedAccount = useSelectedAccountSelector();
   const accounts = useAllVisibleAccountsSelector();
@@ -38,7 +38,11 @@ export const AccountsSelector: FC = () => {
   const onAddAccount = () => navigate(ScreensEnum.AddAccount);
 
   return (
-    <ModalContainer screenTitle="My Accounts" testID={AccountsSelectorTestIDs.AccountsScreenTitle}>
+    <ModalContainer
+      screenTitle="My Accounts"
+      onHeaderCloseButtonPress={goBack}
+      testID={AccountsSelectorTestIDs.AccountsScreenTitle}
+    >
       <AccountsList
         onSelectItem={handleChangeAccount}
         onPressAddIcon={onAddAccount}

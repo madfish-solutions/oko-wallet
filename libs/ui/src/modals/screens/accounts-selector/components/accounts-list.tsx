@@ -3,14 +3,10 @@ import React, { FC } from 'react';
 import { ListRenderItemInfo, View } from 'react-native';
 import { TestIDProps } from 'src/interfaces/test-id.props';
 
+import { AccountType } from '../../../../components/account-type/account-type';
 import { CopyText } from '../../../../components/copy-text/copy-text';
-import { Icon } from '../../../../components/icon/icon';
-import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { RobotIcon } from '../../../../components/robot-icon/robot-icon';
-import { Row } from '../../../../components/row/row';
 import { Selector } from '../../../../components/selector/selector';
-import { Text } from '../../../../components/text/text';
-import { AccountTypeEnum } from '../../../../enums/account-type.enum';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useFiatTotalBalance } from '../../../../hooks/use-fiat-total-balance.hook';
 import { useFilteredAccounts } from '../../../../hooks/use-filtered-accounts.hook';
@@ -18,7 +14,6 @@ import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { AccountInterface } from '../../../../interfaces/account.interface';
 import { useSelectedNetworkTypeSelector } from '../../../../store/wallet/wallet.selectors';
 import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
-import { getCustomSize } from '../../../../styles/format-size';
 import { ModalAccountBalance } from '../../../components/modal-account-balance/modal-account-balance';
 import { ModalRenderItem } from '../../../components/modal-render-item/modal-render-item';
 
@@ -59,20 +54,6 @@ export const AccountsList: FC<Props> = ({
     const isAccountSelected = selectedAccountIndex === index;
     const publicKeyHash = getPublicKeyHash(item, selectedNetworkType);
 
-    const getIconName = (): IconNameEnum => {
-      switch (item.type) {
-        case AccountTypeEnum.IMPORTED_ACCOUNT: {
-          return IconNameEnum.ImportedAccount;
-        }
-        case AccountTypeEnum.LEDGER: {
-          return IconNameEnum.LedgerAccount;
-        }
-        default: {
-          return IconNameEnum.HdAccount;
-        }
-      }
-    };
-
     return (
       <ModalRenderItem
         name={item.name}
@@ -83,10 +64,7 @@ export const AccountsList: FC<Props> = ({
         onSelectItem={() => onSelectItem(item)}
         rightBottomComponent={
           isShowAccountType ? (
-            <Row style={styles.accountType}>
-              <Icon name={getIconName()} size={getCustomSize(2)} iconStyle={styles.accountTypeIcon} />
-              <Text style={styles.accountTypeName}>{item.type}</Text>
-            </Row>
+            <AccountType type={item.type} />
           ) : (
             <View style={styles.publicKeyHashContainer}>
               <CopyText text={publicKeyHash} />

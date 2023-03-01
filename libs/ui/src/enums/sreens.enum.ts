@@ -38,6 +38,7 @@ export enum ScreensEnum {
   AccountsSelector = 'AccountsSelector',
   NetworksSelector = 'NetworksSelector',
   EditAccount = 'EditAccount',
+  EditAccountName = 'EditAccountName',
   AddAccount = 'AddAccount',
   AddNetwork = 'AddNetwork',
   EditNetwork = 'EditNetwork',
@@ -98,6 +99,7 @@ export type ScreensParamList = {
   [ScreensEnum.AccountsSelector]: undefined;
   [ScreensEnum.NetworksSelector]: undefined;
   [ScreensEnum.EditAccount]: { publicKeyHash: string };
+  [ScreensEnum.EditAccountName]: { account: AccountInterface };
   [ScreensEnum.AddAccount]?: { wordsAmount?: SeedWordsAmount; activeId?: number };
   [ScreensEnum.AddNetwork]: undefined;
   [ScreensEnum.AddNewToken]: undefined;

@@ -1,3 +1,6 @@
+import { AccountTypeEnum } from '../enums/account-type.enum';
+import { NetworkTypeEnum } from '../enums/network-type.enum';
+import { AccountInterface } from '../interfaces/account.interface';
 import { Token } from '../interfaces/token.interface';
 import { createEntity } from '../store/utils/entity.utils';
 
@@ -33,4 +36,17 @@ export const EMPTY_TOKEN: Token = {
   isVisible: true,
   name: '',
   symbol: ''
+};
+
+export const EMPTY_ACCOUNT: AccountInterface = {
+  accountId: 9999,
+  isVisible: true,
+  name: 'Account 1',
+  networksKeys: {
+    [NetworkTypeEnum.EVM]: {
+      publicKeyHash: '',
+      publicKey: ''
+    }
+  },
+  type: AccountTypeEnum.HD_ACCOUNT
 };

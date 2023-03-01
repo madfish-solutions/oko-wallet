@@ -25,7 +25,8 @@ const goBackRoutes = [
   ScreensEnum.EditAccount,
   ScreensEnum.ActivityFilterSelector,
   ScreensEnum.SlippageTolerance,
-  ScreensEnum.SwapRoute
+  ScreensEnum.SwapRoute,
+  ScreensEnum.EditAccountName
 ];
 
 interface Props {
