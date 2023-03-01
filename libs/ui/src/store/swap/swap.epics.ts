@@ -9,7 +9,10 @@ import { getQuote, getSwapData } from '../../api/1inch/1inch';
 import { DEBOUNCE_TIME } from '../../constants/defaults';
 import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { ScreensEnum } from '../../enums/sreens.enum';
+import { OperationsEnum } from '../../screens/send-confirmation/enums';
 import { getDefaultEvmProvider } from '../../utils/get-default-evm-provider.utils';
+import { getSwapExchangeRate } from '../../utils/get-swap-exchange-rate.util';
+import { formatUnits } from '../../utils/units.utils';
 import { withSelectedAccount, withSelectedNetwork } from '../../utils/wallet.util';
 import { navigateAction } from '../root-state.actions';
 import { RootState } from '../store';
@@ -70,14 +73,20 @@ const getSwapDataEpic = (action$: Observable<Action>, state$: Observable<RootSta
           slippageTolerance
         )
       ).pipe(
-        concatMap(swapDataResponse => [
-          navigateAction(ScreensEnum.SwapConfirmation, {
+        concatMap(({ fromTokenAmount, toTokenAmount, ...swapData }) => [
+          navigateAction(ScreensEnum.SendConfirmation, {
             transferParams: {
-              receiverPublicKeyHash: swapDataResponse.to,
+              receiverPublicKeyHash: swapData.to,
               value: amount,
               token: fromToken,
-              transactionParams: swapDataResponse,
-              gas: swapDataResponse.gasLimit
+              transactionParams: swapData,
+              internalSwapDetails: {
+                toToken,
+                toTokenAmount: formatUnits(toTokenAmount, toToken.decimals).toString(),
+                exchangeRate: getSwapExchangeRate(fromToken, fromTokenAmount, toToken, toTokenAmount)
+              },
+              operation: OperationsEnum.InternalSwap,
+              gas: swapData.gasLimit
             }
           }),
           loadSwapDataAction.success()

@@ -54,10 +54,14 @@ export const getSwapData = (
     .then(
       ({
         data: {
-          tx: { gas, ...restTxParams }
+          tx: { gas, ...restTxParams },
+          fromTokenAmount,
+          toTokenAmount
         }
       }) => ({
         gasLimit: gas,
+        fromTokenAmount,
+        toTokenAmount,
         ...restTxParams
       })
     );

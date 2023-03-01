@@ -1,6 +1,6 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { isDefined, isNotEmptyString, OnEventFn } from '@rnw-community/shared';
-import React, { FC, PropsWithChildren, useCallback } from 'react';
+import React, { FC, PropsWithChildren, useCallback, useMemo } from 'react';
 
 import { useShelter } from '../../../../../../hooks/use-shelter.hook';
 import {
@@ -13,6 +13,7 @@ import { useTransactionHook } from '../../../../hooks/use-transaction.hook';
 import { EvmTransferParams, OnSend } from '../../../../types';
 import { ApproveToken } from '../../../approve-token/approve-token';
 import { Confirmation } from '../../../confirmation/confirmation';
+import { SwapSummary } from '../../../swap-summary/swap-summary';
 import { useEvmEstimations } from '../../hooks/use-evm-estimations.hook';
 import { useModifyEvmTransactionParams } from '../../hooks/use-modify-evm-transaction-params.hook';
 
@@ -84,29 +85,39 @@ export const EvmConfirmationContainer: FC<Props> = ({
     [estimations]
   );
 
+  const confirmOperationParams = useMemo(
+    () => ({
+      onSend,
+      onDecline,
+      isTransactionLoading,
+      isFeeLoading: isLoading,
+      initialTransactionFee: transactionFee
+    }),
+    [onSend, onDecline, isTransactionLoading, isLoading, transactionFee]
+  );
+
   return operation === OperationsEnum.Approve &&
     isDefined(transferParams.dAppInfo) &&
     isNotEmptyString(transactionParams.data) ? (
     <ApproveToken
-      isFeeLoading={isLoading}
-      onSend={onSend}
-      onDecline={onDecline}
-      isTransactionLoading={isTransactionLoading}
-      initialTransactionFee={transactionFee}
+      confirmOperationParams={confirmOperationParams}
       token={token}
       data={transactionParams.data}
       dAppInfo={transferParams.dAppInfo}
     />
+  ) : operation === OperationsEnum.InternalSwap && isDefined(transferParams.internalSwapDetails) ? (
+    <SwapSummary
+      confirmOperationParams={confirmOperationParams}
+      fromToken={token}
+      fromTokenAmount={value}
+      internalSwapDetails={transferParams.internalSwapDetails}
+    />
   ) : (
     <Confirmation
-      isFeeLoading={isLoading}
-      onSend={onSend}
-      onDecline={onDecline}
-      isTransactionLoading={isTransactionLoading}
+      confirmOperationParams={confirmOperationParams}
       receiverPublicKeyHash={receiverPublicKeyHash}
       amount={value}
       symbol={token.symbol}
-      initialTransactionFee={transactionFee}
       children={children}
     />
   );

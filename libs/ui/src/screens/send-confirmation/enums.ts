@@ -1,4 +1,5 @@
 export enum OperationsEnum {
   Send = 'send',
-  Approve = 'approve'
+  Approve = 'approve',
+  InternalSwap = 'internalSwap'
 }
