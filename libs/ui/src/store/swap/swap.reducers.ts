@@ -1,6 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { formatUnits, getFormattedBalance } from '../../utils/units.utils';
+import { getSwapExchangeRate } from '../../utils/get-swap-exchange-rate.util';
+import { getFormattedBalance } from '../../utils/units.utils';
 import { createEntity } from '../utils/entity.utils';
 
 import {
@@ -40,16 +41,14 @@ export const swapReducers = createReducer<SwapState>(swapInitialState, builder =
       loadQuoteAction.success,
       (state, { payload: { fromToken, toToken, fromTokenAmount, toTokenAmount, protocols } }) => {
         const outputAmount = getFormattedBalance(toTokenAmount, toToken.decimals).toString();
-        const exchangeRate = formatUnits(toTokenAmount, toToken.decimals)
-          .div(formatUnits(fromTokenAmount, fromToken.decimals))
-          .toFixed(4);
+        const exchangeRate = getSwapExchangeRate(fromToken, fromTokenAmount, toToken, toTokenAmount);
 
         return {
           ...state,
           quote: createEntity({
             outputAmount,
             routes: protocols,
-            exchangeRate: `1 ${fromToken.symbol} = ${exchangeRate} ${toToken.symbol}`
+            exchangeRate
           })
         };
       }

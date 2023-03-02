@@ -5,6 +5,7 @@ import { ParamsWithKind } from '@taquito/taquito/dist/types/operations/types';
 import { DAppInfo } from '../../interfaces/dapp-info.interface';
 import { Token } from '../../interfaces/token.interface';
 
+import { InternalSwapDetails } from './components/evm-confirmation/types';
 import { OperationsEnum } from './enums';
 
 export interface EvmTransferParams {
@@ -15,6 +16,7 @@ export interface EvmTransferParams {
   transactionParams: TransactionRequest;
   operation?: OperationsEnum;
   dAppInfo?: DAppInfo;
+  internalSwapDetails?: InternalSwapDetails;
 }
 
 export interface TezosTransferParams {

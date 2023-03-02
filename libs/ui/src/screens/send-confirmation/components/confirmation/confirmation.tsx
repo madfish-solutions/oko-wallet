@@ -17,7 +17,7 @@ import {
 } from '../../../../store/wallet/wallet.selectors';
 import { formatUnitsToString, parseUnits } from '../../../../utils/units.utils';
 import { useTransactionSpeed } from '../../hooks/use-transaction-speed.hook';
-import { OnSend } from '../../types';
+import { ConfirmOperationParams } from '../evm-confirmation/types';
 
 import { Field } from './components/field/field';
 import { FromAccount } from './components/from-account/from-account';
@@ -27,16 +27,11 @@ import { styles } from './confirmation.styles';
 import { ownGasFeeRules, requiredFieldRule } from './constants';
 
 type Props = PropsWithChildren<{
-  isFeeLoading: boolean;
-  onSend: OnSend;
-  onDecline: () => void;
-  isTransactionLoading: boolean;
   receiverPublicKeyHash: string;
   amount: string;
   symbol: string;
-  initialTransactionFee: number;
-  storageFee?: number;
-}>;
+}> &
+  ConfirmOperationParams;
 
 const defaultValues = {
   ownGasFee: '',
@@ -44,16 +39,18 @@ const defaultValues = {
 };
 
 export const Confirmation: FC<Props> = ({
-  isFeeLoading,
-  onSend,
-  onDecline,
-  isTransactionLoading,
   receiverPublicKeyHash,
   symbol,
   amount,
-  initialTransactionFee,
-  storageFee = 0,
-  children
+  children,
+  confirmOperationParams: {
+    initialTransactionFee,
+    onSend,
+    isFeeLoading,
+    isTransactionLoading,
+    onDecline,
+    storageFee = 0
+  }
 }) => {
   const account = useSelectedAccountSelector();
   const gasToken = useGasTokenSelector();

@@ -23,7 +23,6 @@ import { NetworksSelector } from '../../modals/screens/networks-selector/network
 import { RevealPrivateKey } from '../../modals/screens/reveal-private-key/reveal-private-key';
 import { RevealSeedPhrase } from '../../modals/screens/reveal-seed-phrase/reveal-seed-phrase';
 import { SlippageSettings } from '../../modals/screens/slippage-settings/slippage-settings';
-import { SwapConfirmation } from '../../modals/screens/swap-confirmation/swap-confirmation';
 import { SwapRoute } from '../../modals/screens/swap-route/swap-route';
 import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
 import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
@@ -210,11 +209,6 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.SendConfirmation}
                 options={{ title: 'Confirm Operation' }}
                 component={SendConfirmation}
-              />
-              <Stack.Screen
-                name={ScreensEnum.SwapConfirmation}
-                options={{ title: 'Confirm Operation' }}
-                component={SwapConfirmation}
               />
               <Stack.Screen
                 name={ScreensEnum.SlippageTolerance}

@@ -1,5 +1,5 @@
 import { OpKind } from '@taquito/taquito';
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useMemo } from 'react';
 
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useShelter } from '../../../../hooks/use-shelter.hook';
@@ -96,17 +96,24 @@ export const TezosConfirmation: FC<Props> = ({
     [estimations]
   );
 
+  const confirmOperationParams = useMemo(
+    () => ({
+      onSend,
+      onDecline: goBack,
+      isTransactionLoading,
+      isFeeLoading: isLoading,
+      initialTransactionFee: gasFeeSum,
+      storageFee
+    }),
+    [onSend, isTransactionLoading, isLoading, gasFeeSum]
+  );
+
   return (
     <Confirmation
-      isFeeLoading={isLoading}
-      onSend={onSend}
-      onDecline={goBack}
-      isTransactionLoading={isTransactionLoading}
-      storageFee={storageFee}
+      confirmOperationParams={confirmOperationParams}
       receiverPublicKeyHash={to}
       amount={amount}
       symbol={token.symbol}
-      initialTransactionFee={gasFeeSum}
     />
   );
 };

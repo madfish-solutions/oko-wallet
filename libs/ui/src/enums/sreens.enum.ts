@@ -8,7 +8,6 @@ import { Token } from '../interfaces/token.interface';
 import { TransferParams } from '../interfaces/transfer-params.interface';
 import { ActivityFilterEnum } from '../modals/screens/activity-filter-selector/activity-filter.enum';
 import { SendParams } from '../screens/send/types';
-import { EvmTransferParams } from '../screens/send-confirmation/types';
 
 export enum ScreensEnum {
   ImportWallet = 'ImportWallet',
@@ -67,7 +66,6 @@ export enum ScreensEnum {
   Swap = 'Swap',
   SwapRoute = 'SwapRoute',
   SlippageTolerance = 'SlippageTolerance',
-  SwapConfirmation = 'SwapConfirmation',
   EditPermission = 'EditPermission'
 }
 
@@ -132,7 +130,6 @@ export type ScreensParamList = {
   [ScreensEnum.Swap]?: { fromToken?: Token; toToken?: Token };
   [ScreensEnum.SlippageTolerance]: undefined;
   [ScreensEnum.SwapRoute]: { routes: GetQuoteResponse['protocols']; fromToken: Token; toToken: Token };
-  [ScreensEnum.SwapConfirmation]: { transferParams: EvmTransferParams };
   [ScreensEnum.EditPermission]: {
     origin: string;
     token: Token;
