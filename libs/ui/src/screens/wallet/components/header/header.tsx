@@ -10,6 +10,7 @@ import { TouchableIcon } from '../../../../components/touchable-icon/touchable-i
 import { isMobile } from '../../../../utils/platform.utils';
 
 import { styles } from './header.styles';
+import { HeaderTestIDs } from './header.test-ids';
 
 interface Props {
   changeQrCodeVisibility: OnEventFn<GestureResponderEvent>;
@@ -22,7 +23,11 @@ export const Header: FC<Props> = ({ changeQrCodeVisibility }) => {
     <HeaderContainer isSelectors>
       <Row style={styles.root}>
         {isMobile && <TouchableIcon name={IconNameEnum.Qrscan} onPress={openCameraToScanQrCode} style={styles.icon} />}
-        <TouchableIcon name={IconNameEnum.Qrcode} onPress={changeQrCodeVisibility} />
+        <TouchableIcon
+          name={IconNameEnum.Qrcode}
+          onPress={changeQrCodeVisibility}
+          testID={HeaderTestIDs.ShowQRButton}
+        />
 
         <HeaderAccountBalance style={styles.accountBalance} />
       </Row>

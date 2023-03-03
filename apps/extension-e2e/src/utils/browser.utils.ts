@@ -9,7 +9,8 @@ export const initBrowser = () =>
   launch({
     headless: false,
     executablePath: process.env.PUPPETEER_EXEC_PATH,
-    args: [`--disable-extensions-except=${EXTENSION_PATH}`, `--load-extension=${EXTENSION_PATH}`, '--no-sandbox']
+    args: [`--disable-extensions-except=${EXTENSION_PATH}`, `--load-extension=${EXTENSION_PATH}`, '--no-sandbox'],
+    defaultViewport: { width: 1366, height: 768 }
   });
 
 export const getExtensionId = async (browser: Browser) => {

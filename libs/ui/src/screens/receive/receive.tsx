@@ -26,6 +26,7 @@ import { isMobile } from '../../utils/platform.utils';
 import { share } from '../../utils/share.util';
 
 import { styles } from './receive.styles';
+import { ReceiveTestIDs } from './receive.test-ids';
 
 export const Receive: FC = () => {
   const { navigate } = useNavigation();
@@ -58,7 +59,7 @@ export const Receive: FC = () => {
 
           <Text style={styles.text}>{`Wallet Address on the ${network.name} Network`}</Text>
           <TouchableOpacity onPress={copyAddress} style={styles.addressWrapper}>
-            <Text numberOfLines={2} style={styles.address}>
+            <Text numberOfLines={2} style={styles.address} testID={ReceiveTestIDs.PublicKeyText}>
               {publicKeyHash}
             </Text>
           </TouchableOpacity>

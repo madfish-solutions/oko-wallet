@@ -1,7 +1,7 @@
 export enum NavigationBarTestIDs {
-  HomeButton = 'Navigation Bar/Home button',
-  ReceiveButton = 'Navigation Bar/Receive button',
-  SwapButton = 'Navigation Bar/Swap button',
-  SendButton = 'Navigation Bar/Send button',
-  SettingsButton = 'Navigation Bar/Settings button'
+  HomeButton = 'NavigationBar/Home button',
+  ReceiveButton = 'NavigationBar/Receive button',
+  SwapButton = 'NavigationBar/Swap button',
+  SendButton = 'NavigationBar/Send button',
+  SettingsButton = 'NavigationBar/Settings button'
 }
