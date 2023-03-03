@@ -26,6 +26,12 @@ export interface GetSwapDataResponse {
     gasPrice: string;
     gas: number;
   };
+  toTokenAmount: string;
+  fromTokenAmount: string;
 }
 
-export type SwapData = Omit<GetSwapDataResponse['tx'], 'gas'> & { gasLimit: number };
+export type SwapData = Omit<GetSwapDataResponse['tx'], 'gas'> & {
+  gasLimit: number;
+  toTokenAmount: string;
+  fromTokenAmount: string;
+};

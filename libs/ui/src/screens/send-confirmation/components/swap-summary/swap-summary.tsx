@@ -1,65 +1,54 @@
 import { OnEventFn } from '@rnw-community/shared';
 import isEmpty from 'lodash/isEmpty';
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Linking, View } from 'react-native';
+import { Image, View } from 'react-native';
 
-import { CopyText } from '../../../../components/copy-text/copy-text';
+import { Column } from '../../../../components/column/column';
 import { Divider } from '../../../../components/divider/divider';
+import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
-import { InfoBox } from '../../../../components/info-box/info-box';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 import { TextInput } from '../../../../components/text-input/text-input';
-import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
-import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { DAppInfo } from '../../../../interfaces/dapp-info.interface';
 import { Token } from '../../../../interfaces/token.interface';
 import { ModalActionsContainer } from '../../../../modals/components/modal-actions-container/modal-actions-container';
-import { DAppHeader } from '../../../../modals/screens/d-app-connection-confirmation/d-app-header/d-app-header';
-import {
-  useGasTokenSelector,
-  useSelectedAccountSelector,
-  useSelectedNetworkSelector
-} from '../../../../store/wallet/wallet.selectors';
-import { formatUnitsToString, getFormattedAllowance } from '../../../../utils/units.utils';
+import { useSlippageToleranceSelector } from '../../../../store/swap/swap.selectors';
+import { useGasTokenSelector, useSelectedAccountSelector } from '../../../../store/wallet/wallet.selectors';
+import { formatBalances } from '../../../../utils/units.utils';
 import { SelectedAccount } from '../../../send/components/selected-account/selected-account';
+import { getImageSource } from '../../../wallet/components/assets-widget/utils/get-image-source.util';
 import { useTransactionSpeed } from '../../hooks/use-transaction-speed.hook';
 import { Field } from '../confirmation/components/field/field';
 import { TransactionSpeed } from '../confirmation/components/transaction-speed/transaction-speed';
 import { ownGasFeeRules } from '../confirmation/constants';
-import { ConfirmOperationParams } from '../evm-confirmation/types';
-import { getDecodedApproveTokenData } from '../evm-confirmation/utils/get-approve-token-data.util';
+import { ConfirmOperationParams, InternalSwapDetails } from '../evm-confirmation/types';
 
-import { styles } from './approve-token.styles';
+import { styles } from './swap-summary.styles';
 
 interface Props extends ConfirmOperationParams {
-  token: Token;
-  dAppInfo: DAppInfo;
-  data: string;
+  fromToken: Token;
+  fromTokenAmount: string;
+  internalSwapDetails: InternalSwapDetails;
 }
 
-export const ApproveToken: FC<Props> = ({
-  token,
-  dAppInfo,
-  data,
+export const SwapSummary: FC<Props> = ({
+  fromToken,
+  fromTokenAmount,
+  internalSwapDetails: { toToken, toTokenAmount, exchangeRate },
   confirmOperationParams: { initialTransactionFee, onSend, isFeeLoading, isTransactionLoading }
 }) => {
-  const { goBack, navigate } = useNavigation();
+  const { goBack } = useNavigation();
+  const slippageTolerance = useSlippageToleranceSelector();
   const account = useSelectedAccountSelector();
-  const { explorerUrl } = useSelectedNetworkSelector();
   const gasToken = useGasTokenSelector();
-
-  const { spender, allowanceAmount } = useMemo(() => getDecodedApproveTokenData(data), [data]);
-  const proposedAllowanceAmount = useMemo(() => allowanceAmount, []);
 
   const {
     control,
     watch,
     formState: { errors },
     handleSubmit,
-    setValue,
     clearErrors
   } = useForm({
     mode: 'onChange',
@@ -67,11 +56,7 @@ export const ApproveToken: FC<Props> = ({
       ownGasFee: ''
     }
   });
-
-  const isConfirmButtonDisabled = !isEmpty(errors) || isTransactionLoading || isFeeLoading;
-
   const ownGasFee = watch('ownGasFee');
-
   const {
     isOwnSpeedSelected,
     correctedTransactionFee,
@@ -84,66 +69,50 @@ export const ApproveToken: FC<Props> = ({
     isGasPickerSelected,
     onGasFeePress
   } = useTransactionSpeed(ownGasFee, initialTransactionFee, clearErrors as OnEventFn<void>);
-
-  useEffect(
-    () => setValue('ownGasFee', formatUnitsToString(initialTransactionFee, gasToken.decimals)),
-    [initialTransactionFee]
-  );
+  const isConfirmButtonDisabled = !isEmpty(errors) || isTransactionLoading || isFeeLoading;
 
   const onConfirmPress = () => onSend(gasPriceCoefficient);
 
-  const goToExplorer = () => Linking.openURL(`${explorerUrl}/address/${spender}`);
-
-  const navigateToEditPermission = () =>
-    navigate(ScreensEnum.EditPermission, {
-      origin: dAppInfo.origin,
-      token,
-      proposedAllowanceAmount,
-      customAllowanceAmount: proposedAllowanceAmount === allowanceAmount ? '' : allowanceAmount,
-      spender
-    });
-
   return (
     <ModalActionsContainer
-      screenTitle="Approve token"
+      screenTitle="Summary Swap"
       submitTitle="Confirm"
       cancelTitle="Decline"
-      onCancelPress={goBack}
-      onSubmitPress={handleSubmit(onConfirmPress)}
       isSubmitDisabled={isConfirmButtonDisabled}
+      onSubmitPress={handleSubmit(onConfirmPress)}
+      onCancelPress={goBack}
       scrollViewRef={scrollViewRef}
       isBackButton={false}
     >
-      <DAppHeader favicon={dAppInfo.favicon} origin={dAppInfo.origin} />
-
-      <SelectedAccount account={account} isDisabled />
-
-      <InfoBox
-        title={`Give permission to access your ${token.symbol}?`}
-        description="By granting permission, you are allowing the following account to access your funds"
-        style={styles.permission}
-      />
-
-      <Row style={styles.spaceBetween}>
-        <Text style={styles.fieldTitle}>Granted to</Text>
-
-        <Row>
-          <CopyText text={spender} />
-          <TouchableIcon name={IconNameEnum.Tooltip} onPress={goToExplorer} style={styles.icon} />
-        </Row>
+      <Row style={styles.root}>
+        <Column style={styles.tokenInfo}>
+          <Image source={getImageSource(fromToken.thumbnailUri)} style={styles.image} />
+          <Text style={styles.symbol}>{fromToken.symbol}</Text>
+          <Text style={styles.amount}>{formatBalances(fromTokenAmount)}</Text>
+        </Column>
+        <Icon name={IconNameEnum.ArrowRight} iconStyle={styles.icon} />
+        <Column style={styles.tokenInfo}>
+          <Image source={getImageSource(toToken.thumbnailUri)} style={styles.image} />
+          <Text style={styles.symbol}>{toToken.symbol}</Text>
+          <Text style={styles.amount}>{formatBalances(toTokenAmount)}</Text>
+        </Column>
       </Row>
 
       <Divider style={styles.divider} />
 
-      <Field
-        title="Approved amount"
-        amount={Number(getFormattedAllowance(allowanceAmount, token.decimals))}
-        symbol={token.symbol}
-        iconName={IconNameEnum.EditSmall}
-        onIconPress={navigateToEditPermission}
-      />
+      <SelectedAccount account={account} isDisabled style={styles.account} />
 
-      <Divider style={styles.divider} />
+      <Column style={styles.swapInfo}>
+        <Row style={styles.swapInfoRow}>
+          <Text style={styles.textSemiBold}>Quote</Text>
+          <Text style={styles.textRegular}>{exchangeRate}</Text>
+        </Row>
+        <Divider style={[styles.divider, styles.partialDivider]} />
+        <Row style={styles.swapInfoRow}>
+          <Text style={styles.textSemiBold}>Max Slippage</Text>
+          <Text style={styles.textRegular}>{slippageTolerance} %</Text>
+        </Row>
+      </Column>
 
       <Field
         title="Max Gas fee"

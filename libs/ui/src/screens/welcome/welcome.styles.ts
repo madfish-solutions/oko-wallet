@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { extensionHeight, maximiseViewStyles } from '../../components/navigator/utils/maximise-view-options';
 import { colors } from '../../styles/colors';
 import { EXTENSION_FULL_SIZE, getCustomSize } from '../../styles/format-size';
+import { typography } from '../../styles/typography';
 import { isFullpage } from '../../utils/location.utils';
 import { isMobile } from '../../utils/platform.utils';
 
@@ -25,8 +26,22 @@ export const styles = StyleSheet.create({
       borderRadius: maximiseViewStyles.borderRadius
     })
   },
-  button: {
-    marginTop: getCustomSize(2)
+  titleContainer: {
+    marginTop: getCustomSize(5.5),
+    marginBottom: getCustomSize(1.5)
+  },
+  oko: {
+    ...typography.headlineInterBold34,
+    color: colors.orange,
+    marginRight: getCustomSize()
+  },
+  wallet: {
+    ...typography.headlineInterBold34,
+    color: colors.white
+  },
+  description: {
+    ...typography.bodyInterRegular15,
+    color: colors.textGrey2
   },
   bottomBlock: {
     backgroundColor: colors.navGrey1,
@@ -36,6 +51,9 @@ export const styles = StyleSheet.create({
     ...(isFullpage && {
       borderRadius: maximiseViewStyles.borderRadius
     })
+  },
+  button: {
+    marginTop: getCustomSize(2)
   },
   madLogo: {
     marginBottom: getCustomSize(4.25),

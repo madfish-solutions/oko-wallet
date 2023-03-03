@@ -44,8 +44,10 @@ export enum IconNameEnum {
   Share = 'Share',
   GridSettings = 'GridSettings',
   SelectedCheckbox = 'SelectedCheckbox',
+  SelectedSquareCheckboxSmall = 'SelectedSquareCheckboxSmall',
   SelectedSquareCheckbox = 'SelectedSquareCheckbox',
   EmptyCheckbox = 'EmptyCheckbox',
+  EmptySquareCheckboxSmall = 'EmptySquareCheckboxSmall',
   EmptySquareCheckbox = 'EmptySquareCheckbox',
   EmptySearch = 'EmptySearch',
   Tooltip = 'Tooltip',
@@ -105,5 +107,7 @@ export enum IconNameEnum {
   HdAccount = 'HdAccount',
   ImportedAccount = 'ImportedAccount',
   LedgerAccount = 'LedgerAccount',
-  RevealSeedPhrase = 'RevealSeedPhrase'
+  RevealSeedPhrase = 'RevealSeedPhrase',
+  IllustrationWelcomeScreen = 'IllustrationWelcomeScreen',
+  Success1 = 'Success-1'
 }

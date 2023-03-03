@@ -24,7 +24,6 @@ import { NetworksSelector } from '../../modals/screens/networks-selector/network
 import { RevealPrivateKey } from '../../modals/screens/reveal-private-key/reveal-private-key';
 import { RevealSeedPhrase } from '../../modals/screens/reveal-seed-phrase/reveal-seed-phrase';
 import { SlippageSettings } from '../../modals/screens/slippage-settings/slippage-settings';
-import { SwapConfirmation } from '../../modals/screens/swap-confirmation/swap-confirmation';
 import { SwapRoute } from '../../modals/screens/swap-route/swap-route';
 import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
 import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
@@ -64,6 +63,7 @@ import { Token } from '../../screens/token/token';
 import { Tokens } from '../../screens/tokens/tokens';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
+import { WalletCreated } from '../../screens/wallet-created/wallet-created';
 import { Welcome } from '../../screens/welcome/welcome';
 import { useShowLoaderSelector } from '../../store/settings/settings.selectors';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
@@ -109,6 +109,7 @@ export const Navigator: FC = () => {
         {isAuthorised ? (
           <>
             <Stack.Group screenOptions={{ headerShown: false }}>
+              <Stack.Screen name={ScreensEnum.WalletCreated} component={WalletCreated} />
               <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
               <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
               <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
@@ -213,11 +214,6 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.SendConfirmation}
                 options={{ title: 'Confirm Operation' }}
                 component={SendConfirmation}
-              />
-              <Stack.Screen
-                name={ScreensEnum.SwapConfirmation}
-                options={{ title: 'Confirm Operation' }}
-                component={SwapConfirmation}
               />
               <Stack.Screen
                 name={ScreensEnum.SlippageTolerance}

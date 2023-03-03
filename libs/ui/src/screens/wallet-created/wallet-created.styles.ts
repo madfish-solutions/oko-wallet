@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
       borderRadius: maximiseViewStyles.borderRadius
     })
   },
-  logoContainer: {
+  topBlock: {
     backgroundColor: colors.bgGrey1,
     flex: 1,
     justifyContent: 'center',
@@ -26,55 +26,43 @@ export const styles = StyleSheet.create({
       borderRadius: maximiseViewStyles.borderRadius
     })
   },
+  title: {
+    ...typography.headlineInterBold28,
+    marginRight: getCustomSize()
+  },
+  description: {
+    ...typography.bodyInterRegular15,
+    color: colors.textGrey2
+  },
   bottomBlock: {
     backgroundColor: colors.navGrey1,
     paddingHorizontal: getCustomSize(2),
+    paddingTop: getCustomSize(2),
+    paddingBottom: getCustomSize(isMobile ? 4 : 2),
     borderTopLeftRadius: getCustomSize(2),
     borderTopRightRadius: getCustomSize(2),
     ...(isFullpage && {
       borderRadius: maximiseViewStyles.borderRadius
     })
   },
-  password: {
-    position: 'relative',
-    width: '100%'
+  row: {
+    backgroundColor: colors.bgGrey2,
+    borderRadius: getCustomSize(1.75),
+    paddingVertical: getCustomSize(1.5),
+    paddingHorizontal: getCustomSize(1.5)
   },
-  inputContainer: {
-    position: 'relative',
-    flex: 1,
-    borderTopLeftRadius: getCustomSize(2),
-    borderTopRightRadius: getCustomSize(2),
-    paddingTop: getCustomSize(2.125),
-    marginBottom: getCustomSize(3.625)
-  },
-  iconContainer: {
-    backgroundColor: colors.bgGrey4,
-    alignSelf: 'flex-end',
-    marginBottom: getCustomSize(3.625),
-    borderRadius: getCustomSize(),
-    marginLeft: getCustomSize()
-  },
-  icon: {
-    margin: getCustomSize()
-  },
-  button: {
+  analytics: {
     marginBottom: getCustomSize(2)
   },
-  textContainer: {
-    justifyContent: 'center'
+  acceptTerms: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
-  commonText: {
-    ...typography.captionInterSemiBold11,
-    color: colors.textGrey2
-  },
-  linkText: {
-    ...typography.captionInterSemiBold11,
-    color: colors.orange,
-    textDecorationLine: 'underline',
+  text: {
+    ...typography.bodyInterSemiBold15,
     marginLeft: getCustomSize(0.5)
   },
-  madLogo: {
-    marginBottom: getCustomSize(4.25),
-    marginTop: getCustomSize(5)
+  button: {
+    marginTop: getCustomSize(4)
   }
 });

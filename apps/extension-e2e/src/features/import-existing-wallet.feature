@@ -11,7 +11,10 @@ Feature: Import existing wallet
     And I am on the AlmostDone page
     And I enter password into Password input on the AlmostDone page
     And I enter password into Password Confirm input on the AlmostDone page
-    And I press Accept Terms checkbox on the AlmostDone page
     And I press Create button on the AlmostDone page
+
+    And I am on the WalletCreated page
+    And I press Accept Terms checkbox on the WalletCreated page
+    And I press Get started button on the WalletCreated page
 
     Then I am on the Wallet page

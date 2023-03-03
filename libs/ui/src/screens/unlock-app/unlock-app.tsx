@@ -95,11 +95,9 @@ export const UnlockApp: FC = () => {
           disabled={isDisabled}
         />
         <Row style={styles.textContainer}>
-          <Text style={styles.commonText}>
-            Having troubles?
-            <Text style={styles.linkText} onPress={onResetWallet}>
-              Reset a wallet
-            </Text>
+          <Text style={styles.commonText}>Having troubles?</Text>
+          <Text style={styles.linkText} onPress={onResetWallet}>
+            Reset a wallet
           </Text>
         </Row>
         <MadFishLogo style={styles.madLogo} color={colors.bgGrey3} />

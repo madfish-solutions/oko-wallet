@@ -12,6 +12,7 @@ import ArrowRightIcon from './assets/arrow-right.svg';
 import AssetsIcon from './assets/assets.svg';
 import CheckDoneIcon from './assets/check-done.svg';
 import CheckEmptyIcon from './assets/check-empty.svg';
+import SelectedSquareCheckboxSmall from './assets/check-ok-small.svg';
 import SelectedSquareCheckbox from './assets/check-ok.svg';
 import ChevronRight from './assets/chevron-right.svg';
 import ChevronUp from './assets/chevron-up.svg';
@@ -32,6 +33,7 @@ import EditSmall from './assets/edit-small.svg';
 import EditIcon from './assets/edit.svg';
 import EmptyCheckbox from './assets/empty-checkbox.svg';
 import EmptySearch from './assets/empty-search.svg';
+import EmptySquareCheckboxSmall from './assets/empty-square-checkbox-small.svg';
 import EmptySquareCheckbox from './assets/empty-square-checkbox.svg';
 import Error from './assets/error.svg';
 import EyeClosedIcon from './assets/eye-closed.svg';
@@ -46,6 +48,7 @@ import Home from './assets/home.svg';
 import IconDisconnect from './assets/icon-disconnect.svg';
 import IconPlaceholder from './assets/icon-placeholder.svg';
 import IconWarning from './assets/icon-warning.svg';
+import IllustrationWelcomeScreen from './assets/illustration-welcome-screen.svg';
 import ImportedAccount from './assets/imported-account.svg';
 import InfoRed from './assets/info-red.svg';
 import InfoToast from './assets/info-toast.svg';
@@ -84,6 +87,7 @@ import SettingsIcon from './assets/settings.svg';
 import Share from './assets/share.svg';
 import Slider from './assets/slider.svg';
 import StakeIcon from './assets/stake.svg';
+import Success1 from './assets/success-1.svg';
 import Success from './assets/success.svg';
 import SwapSmallIcon from './assets/swap-small.svg';
 import SwapIcon from './assets/swap.svg';
@@ -156,8 +160,10 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Share]: Share,
   [IconNameEnum.GridSettings]: GridSettings,
   [IconNameEnum.SelectedCheckbox]: SelectedCheckbox,
+  [IconNameEnum.SelectedSquareCheckboxSmall]: SelectedSquareCheckboxSmall,
   [IconNameEnum.SelectedSquareCheckbox]: SelectedSquareCheckbox,
   [IconNameEnum.EmptyCheckbox]: EmptyCheckbox,
+  [IconNameEnum.EmptySquareCheckboxSmall]: EmptySquareCheckboxSmall,
   [IconNameEnum.EmptySquareCheckbox]: EmptySquareCheckbox,
   [IconNameEnum.EmptySearch]: EmptySearch,
   [IconNameEnum.Tooltip]: Tooltip,
@@ -218,5 +224,7 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.HdAccount]: HdAccount,
   [IconNameEnum.ImportedAccount]: ImportedAccount,
   [IconNameEnum.LedgerAccount]: LedgerAccount,
-  [IconNameEnum.RevealSeedPhrase]: RevealSeedPhrase
+  [IconNameEnum.RevealSeedPhrase]: RevealSeedPhrase,
+  [IconNameEnum.IllustrationWelcomeScreen]: IllustrationWelcomeScreen,
+  [IconNameEnum.Success1]: Success1
 };
