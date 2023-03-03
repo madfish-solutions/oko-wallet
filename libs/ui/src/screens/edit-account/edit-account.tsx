@@ -67,7 +67,16 @@ export const EditAccount: FC = () => {
   const changeAccountVisibility = () => dispatch(changeAccountVisibilityAction(account.accountId));
   const navigateToEditAccountName = () => navigate(ScreensEnum.EditAccountName, { account });
   const navigateToRevealPrivateKey = () =>
-    navigate(ScreensEnum.RevealPrivateKey, { publicKeyHash: getPublicKeyHash(account, networkType) });
+    navigate(ScreensEnum.ConfirmAccess, {
+      destination: {
+        screen: ScreensEnum.RevealPrivateKey,
+        options: {
+          publicKeyHash: getPublicKeyHash(account, networkType)
+        }
+      },
+      descriptionText: 'Enter your password to reveal private key',
+      submitButtonText: 'reveal private key'
+    });
 
   const isImportedAccount = account.type === AccountTypeEnum.IMPORTED_ACCOUNT;
   const isDisabledChangeAccountVisibility = publicKeyHashOfEditAccount === publicKeyHashOfSelectedAccount;

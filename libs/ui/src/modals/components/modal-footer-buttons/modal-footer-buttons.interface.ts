@@ -6,6 +6,7 @@ export interface FooterButtons {
   cancelTitle?: string;
   isSubmitDisabled?: boolean;
   isCancelDisabled?: boolean;
-  onSubmitPress: OnEventFn<GestureResponderEvent>;
-  onCancelPress: OnEventFn<GestureResponderEvent>;
+  isCancelButton?: boolean;
+  onSubmitPress?: OnEventFn<GestureResponderEvent>;
+  onCancelPress?: OnEventFn<GestureResponderEvent>;
 }

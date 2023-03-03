@@ -69,8 +69,11 @@ export enum ScreensEnum {
   SwapRoute = 'SwapRoute',
   SlippageTolerance = 'SlippageTolerance',
   SwapConfirmation = 'SwapConfirmation',
-  EditPermission = 'EditPermission'
+  EditPermission = 'EditPermission',
+  ConfirmAccess = 'ConfirmAccess'
 }
+
+export type SensetiveScreensEnum = ScreensEnum.RevealPrivateKey | ScreensEnum.RevealSeedPhrase;
 
 export type ScreensParamList = {
   [ScreensEnum.ImportWallet]?: { wordsAmount: SeedWordsAmount };
@@ -141,6 +144,14 @@ export type ScreensParamList = {
     proposedAllowanceAmount: string;
     customAllowanceAmount: string;
     spender: string;
+  };
+  [ScreensEnum.ConfirmAccess]: {
+    destination: {
+      screen: SensetiveScreensEnum;
+      options?: { publicKeyHash: string };
+    };
+    submitButtonText: string;
+    descriptionText: string;
   };
 };
 

@@ -3,7 +3,6 @@ import React, { FC, useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { Announcement } from '../../../components/announcement/announcement';
-import { NavigationBar } from '../../../components/navigation-bar/navigation-bar';
 import { Pressable } from '../../../components/pressable/pressable';
 import { ProtectLayout } from '../../../components/protect-layout/protect-layout';
 import { Text } from '../../../components/text/text';
@@ -72,7 +71,6 @@ export const RevealPrivateKey: FC = () => {
           </Pressable>
         </View>
       </ScrollView>
-      <NavigationBar />
     </ModalContainer>
   );
 };

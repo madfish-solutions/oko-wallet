@@ -10,6 +10,7 @@ import { ActivityFilterSelector } from '../../modals/screens/activity-filter-sel
 import { AddAccount } from '../../modals/screens/add-account/add-account';
 import { AddNewCollectible } from '../../modals/screens/add-new-collectible/add-new-collectible';
 import { Collectible } from '../../modals/screens/collectible/collectible';
+import { ConfirmAccess } from '../../modals/screens/confirm-access/confirm-access';
 import { DAppConnectionConfirmation } from '../../modals/screens/d-app-connection-confirmation/d-app-connection-confirmation';
 import { DAppSignConfirmation } from '../../modals/screens/d-app-sign-confirmation/d-app-sign-confirmation';
 import { DAppTransactionConfirmation } from '../../modals/screens/d-app-transaction-confirmation/d-app-transaction-confirmation';
@@ -222,6 +223,11 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.SlippageTolerance}
                 options={{ title: 'Slippage Tolerance' }}
                 component={SlippageSettings}
+              />
+              <Stack.Screen
+                name={ScreensEnum.ConfirmAccess}
+                options={{ title: 'Confirm Access' }}
+                component={ConfirmAccess}
               />
               <Stack.Screen name={ScreensEnum.SwapRoute} options={{ title: 'Route' }} component={SwapRoute} />
             </Stack.Group>

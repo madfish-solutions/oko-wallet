@@ -16,8 +16,6 @@ const goBackRoutes = [
   ScreensEnum.SendCollectiblesSelector,
   ScreensEnum.WordsAmountSelector,
   ScreensEnum.Collectible,
-  ScreensEnum.RevealPrivateKey,
-  ScreensEnum.RevealSeedPhrase,
   ScreensEnum.SettingsCurrencySelector,
   ScreensEnum.SettingsAppearanceSelector,
   ScreensEnum.SettingsResetWalletConfirm,
@@ -26,20 +24,30 @@ const goBackRoutes = [
   ScreensEnum.ActivityFilterSelector,
   ScreensEnum.SlippageTolerance,
   ScreensEnum.SwapRoute,
-  ScreensEnum.EditAccountName
+  ScreensEnum.EditAccountName,
+  ScreensEnum.ConfirmAccess,
+  ScreensEnum.RevealPrivateKey
 ];
+
+const sensetiveRoutes = [ScreensEnum.RevealPrivateKey, ScreensEnum.RevealSeedPhrase];
 
 interface Props {
   onCloseButtonPress?: OnEventFn<void>;
 }
 
 export const HeaderCloseButton: FC<Props> = ({ onCloseButtonPress }) => {
-  const { navigate, goBack } = useNavigation();
+  const { navigate, goBack, pop } = useNavigation();
   const { name } = useRoute<RouteProp<ScreensParamList>>();
 
   const onClosePress = () => {
     if (isDefined(onCloseButtonPress)) {
       return onCloseButtonPress();
+    }
+
+    if (sensetiveRoutes.includes(name)) {
+      pop();
+
+      return goBack();
     }
 
     if (goBackRoutes.includes(name)) {

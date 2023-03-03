@@ -26,6 +26,7 @@ export const ModalActionsContainer: FC<Props> = ({
   onCancelPress,
   isBackButton = false,
   scrollViewRef,
+  isCancelButton,
   style,
   children
 }) => (
@@ -42,6 +43,7 @@ export const ModalActionsContainer: FC<Props> = ({
         isSubmitDisabled={isSubmitDisabled}
         isCancelDisabled={isCancelDisabled}
         cancelTitle={cancelTitle}
+        isCancelButton={isCancelButton}
       />
     </View>
   </ModalContainer>
