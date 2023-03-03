@@ -175,9 +175,9 @@ export const CreateANewWallet: FC = () => {
           testID={CreateANewWalletTestIDs.MnemonicSavedCheckbox}
         >
           {isSelectedCheckbox ? (
-            <Icon name={IconNameEnum.SelectedSquareCheckbox} iconStyle={styles.checkbox} />
+            <Icon name={IconNameEnum.SelectedSquareCheckboxSmall} iconStyle={styles.checkbox} />
           ) : (
-            <Icon name={IconNameEnum.EmptySquareCheckbox} iconStyle={styles.checkbox} />
+            <Icon name={IconNameEnum.EmptySquareCheckboxSmall} iconStyle={styles.checkbox} />
           )}
           <Text style={styles.confirmationText}>I saved my mnemonic</Text>
         </Pressable>

@@ -9,6 +9,7 @@ import { RevealPrivateKeyPage } from './reveal-private-key.page';
 import { RevealSeedPhrasePage } from './reveal-seed-phrase.page';
 import { SettingsPage } from './settings.page';
 import { VerifyMnemonicPage } from './verify-mnemonic.page';
+import { WalletCreatedPage } from './wallet-created.page';
 import { WalletPage } from './wallet.page';
 import { WelcomePage } from './welcome.page';
 
@@ -25,5 +26,6 @@ export const Pages = {
   RevealSeedPhrase: new RevealSeedPhrasePage(),
   AccountsSelector: new AccountsSelectorPage(),
   AddNewHdAccount: new AddNewHdAccountPage(),
-  AddNewAccountBySeed: new AddNewAccountBySeedPage()
+  AddNewAccountBySeed: new AddNewAccountBySeedPage(),
+  WalletCreated: new WalletCreatedPage()
 };
