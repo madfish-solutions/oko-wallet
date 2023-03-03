@@ -6,6 +6,7 @@ import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { IconNameEnum } from '../../../icon/icon-name.enum';
 import { TouchableIcon } from '../../../touchable-icon/touchable-icon';
+import { useNavigationFromSensetiveScreens } from '../../hooks/use-navigation-from-sensetive-screens.hook';
 
 import { styles } from './header-close-button.styles';
 import { HeaderCloseButtonTestIDs } from './header-close-button.test-ids';
@@ -29,32 +30,28 @@ const goBackRoutes = [
   ScreensEnum.RevealPrivateKey
 ];
 
-const sensetiveRoutes = [ScreensEnum.RevealPrivateKey, ScreensEnum.RevealSeedPhrase];
-
 interface Props {
   onCloseButtonPress?: OnEventFn<void>;
 }
 
 export const HeaderCloseButton: FC<Props> = ({ onCloseButtonPress }) => {
-  const { navigate, goBack, pop } = useNavigation();
+  const { navigate, goBack } = useNavigation();
   const { name } = useRoute<RouteProp<ScreensParamList>>();
+
+  const { checkScreenAndRedirect } = useNavigationFromSensetiveScreens();
 
   const onClosePress = () => {
     if (isDefined(onCloseButtonPress)) {
       return onCloseButtonPress();
     }
 
-    if (sensetiveRoutes.includes(name)) {
-      pop();
-
-      return goBack();
-    }
-
-    if (goBackRoutes.includes(name)) {
-      goBack();
-    } else {
-      navigate(ScreensEnum.Wallet);
-    }
+    checkScreenAndRedirect(name, () => {
+      if (goBackRoutes.includes(name)) {
+        goBack();
+      } else {
+        navigate(ScreensEnum.Wallet);
+      }
+    });
   };
 
   return (
