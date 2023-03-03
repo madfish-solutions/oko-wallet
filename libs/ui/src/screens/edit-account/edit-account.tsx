@@ -66,7 +66,7 @@ export const EditAccount: FC = () => {
 
   const changeAccountVisibility = () => dispatch(changeAccountVisibilityAction(account.accountId));
   const navigateToEditAccountName = () => navigate(ScreensEnum.EditAccountName, { account });
-  const navigateToRevealPrivateKey = () =>
+  const navigateToConfirmAccess = () =>
     navigate(ScreensEnum.ConfirmAccess, {
       destination: {
         screen: ScreensEnum.RevealPrivateKey,
@@ -118,7 +118,7 @@ export const EditAccount: FC = () => {
         </ItemContainer>
 
         <ItemContainer style={styles.item}>
-          <Item title="Reveal Private Key" onPress={navigateToRevealPrivateKey} />
+          <Item title="Reveal Private Key" onPress={navigateToConfirmAccess} />
         </ItemContainer>
 
         {!isImportedAccount && (

@@ -44,8 +44,8 @@ export const EMPTY_ACCOUNT: AccountInterface = {
   name: 'Account 1',
   networksKeys: {
     [NetworkTypeEnum.EVM]: {
-      publicKeyHash: '',
-      publicKey: ''
+      publicKeyHash: 'empty_address',
+      publicKey: 'empty_key'
     }
   },
   type: AccountTypeEnum.HD_ACCOUNT
