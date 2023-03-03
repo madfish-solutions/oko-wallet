@@ -17,6 +17,7 @@ import { getCustomSize } from '../../styles/format-size';
 import { goToTermsOfUse } from '../settings/screens/about-us/utils/go-to-oko-links.utils';
 
 import { styles } from './wallet-created.styles';
+import { WalletCreatedTestIds } from './wallet-created.test-ids';
 
 const interpolateConfig = {
   inputRange: [0, 0.5, 1, 1.5, 2, 2.5, 3],
@@ -74,7 +75,7 @@ export const WalletCreated: FC = () => {
           </Row>
         </Pressable>
 
-        <Pressable onPress={onAcceptTermsPress}>
+        <Pressable onPress={onAcceptTermsPress} testID={WalletCreatedTestIds.AcceptTerms}>
           <Animated.View style={[styles.row, styles.acceptTerms, { transform: [{ translateX: interpolated }] }]}>
             <Row>
               <Icon name={isAcceptTerms ? IconNameEnum.SelectedSquareCheckbox : IconNameEnum.EmptySquareCheckbox} />
@@ -84,7 +85,13 @@ export const WalletCreated: FC = () => {
           </Animated.View>
         </Pressable>
 
-        <Button title="Get started" theme={ButtonThemesEnum.Secondary} onPress={navigateWallet} style={styles.button} />
+        <Button
+          title="Get started"
+          theme={ButtonThemesEnum.Secondary}
+          onPress={navigateWallet}
+          style={styles.button}
+          testID={WalletCreatedTestIds.GetStarted}
+        />
       </View>
     </View>
   );
