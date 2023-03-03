@@ -44,8 +44,10 @@ export enum IconNameEnum {
   Share = 'Share',
   GridSettings = 'GridSettings',
   SelectedCheckbox = 'SelectedCheckbox',
+  SelectedSquareCheckboxSmall = 'SelectedSquareCheckboxSmall',
   SelectedSquareCheckbox = 'SelectedSquareCheckbox',
   EmptyCheckbox = 'EmptyCheckbox',
+  EmptySquareCheckboxSmall = 'EmptySquareCheckboxSmall',
   EmptySquareCheckbox = 'EmptySquareCheckbox',
   EmptySearch = 'EmptySearch',
   Tooltip = 'Tooltip',
@@ -101,5 +103,7 @@ export enum IconNameEnum {
   FilterYes = 'FilterYes',
   Document = 'Document',
   Circle = 'Circle',
-  RadioOn = 'RadioOn'
+  RadioOn = 'RadioOn',
+  IllustrationWelcomeScreen = 'IllustrationWelcomeScreen',
+  Success1 = 'Success-1'
 }

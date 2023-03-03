@@ -27,23 +27,5 @@ export const styles = StyleSheet.create({
   },
   checkbox: {
     marginBottom: getCustomSize(3)
-  },
-  text: {
-    ...typography.captionInterSemiBold11,
-    color: colors.textGrey2
-  },
-  link: {
-    marginHorizontal: getCustomSize(0.25),
-    borderBottomWidth: getCustomSize(0.125),
-    borderBottomColor: colors.orange
-  },
-  linkingText: {
-    ...typography.captionInterSemiBold11,
-    color: colors.orange
-  },
-  error: {
-    marginTop: getCustomSize(1.25),
-    ...typography.captionInterRegular11,
-    color: colors.red
   }
 });

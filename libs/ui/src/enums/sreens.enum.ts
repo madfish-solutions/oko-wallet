@@ -50,6 +50,7 @@ export enum ScreensEnum {
   WordsAmountSelector = 'WordsAmountSelector',
   VerifyMnemonic = 'VerifyMnemonic',
   AlmostDone = 'AlmostDone',
+  WalletCreated = 'WalletCreated',
   Activity = 'Activity',
   // eslint-disable-next-line @typescript-eslint/no-shadow
   Token = 'Token',
@@ -110,6 +111,7 @@ export type ScreensParamList = {
   [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.VerifyMnemonic]: { mnemonic: string[] };
   [ScreensEnum.AlmostDone]: { mnemonic: string; currentStep: number; stepsAmount: number };
+  [ScreensEnum.WalletCreated]: undefined;
   [ScreensEnum.Activity]?: { filterType: Option<ActivityFilterEnum> };
   [ScreensEnum.ActivityFilterSelector]: { filterType: Option<ActivityFilterEnum> };
   [ScreensEnum.Token]: { tokenAddress: string; tokenId?: string };
