@@ -265,7 +265,6 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
         port.postMessage(subscription);
 
         providerSubscription = provider.on('block', async blockNumber => {
-          console.log(blockNumber);
           const result = await provider.getBlock(blockNumber);
           const modifiedResult = {
             ...result,
