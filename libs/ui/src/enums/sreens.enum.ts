@@ -73,7 +73,7 @@ export enum ScreensEnum {
   ConfirmAccess = 'ConfirmAccess'
 }
 
-export type SensetiveScreensEnum = ScreensEnum.RevealPrivateKey | ScreensEnum.RevealSeedPhrase;
+type SensetiveScreensEnum = ScreensEnum.RevealPrivateKey | ScreensEnum.RevealSeedPhrase;
 
 export type ScreensParamList = {
   [ScreensEnum.ImportWallet]?: { wordsAmount: SeedWordsAmount };
