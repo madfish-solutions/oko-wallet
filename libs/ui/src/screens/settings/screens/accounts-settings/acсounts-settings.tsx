@@ -12,9 +12,9 @@ import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { AccountInterface } from '../../../../interfaces/account.interface';
 
 import { styles } from './account-settings.styles';
-import { AccountsSettingsTestIDs } from './accounts-settings.test-ids';
 import { AccountsList } from './components/accounts-list/accounts-list';
 import { useAccountsTransformer } from './hooks/use-accounts-transformer.hook';
+import { AccountsSettingsTestIDs } from './tests/accounts-settings.test-ids';
 
 export const AccountsSettings: FC = () => {
   const { goBack, navigate } = useNavigation();

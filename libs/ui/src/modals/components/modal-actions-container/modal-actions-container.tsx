@@ -2,6 +2,7 @@ import React, { FC, PropsWithChildren, RefObject } from 'react';
 import { View, ScrollView } from 'react-native';
 
 import { ViewStyleProps } from '../../../interfaces/style.interface';
+import { TestIDProps } from '../../../interfaces/test-id.props';
 import { ModalContainer } from '../modal-container/modal-container';
 import { ModalFooterButtons } from '../modal-footer-buttons/modal-footer-buttons';
 import { FooterButtons } from '../modal-footer-buttons/modal-footer-buttons.interface';
@@ -13,8 +14,10 @@ type Props = PropsWithChildren<{
   isBackButton?: boolean;
   style?: ViewStyleProps;
   scrollViewRef?: RefObject<ScrollView>;
+  testIDButton?: string;
 }> &
-  FooterButtons;
+  FooterButtons &
+  TestIDProps;
 
 export const ModalActionsContainer: FC<Props> = ({
   screenTitle,
@@ -28,9 +31,11 @@ export const ModalActionsContainer: FC<Props> = ({
   scrollViewRef,
   isCancelButton,
   style,
-  children
+  children,
+  testIDButton,
+  testID
 }) => (
-  <ModalContainer screenTitle={screenTitle} isBackButton={isBackButton}>
+  <ModalContainer screenTitle={screenTitle} isBackButton={isBackButton} testID={testID}>
     <View style={[styles.root, style]}>
       <ScrollView ref={scrollViewRef} style={styles.content}>
         {children}
@@ -44,6 +49,7 @@ export const ModalActionsContainer: FC<Props> = ({
         isCancelDisabled={isCancelDisabled}
         cancelTitle={cancelTitle}
         isCancelButton={isCancelButton}
+        testID={testIDButton}
       />
     </View>
   </ModalContainer>

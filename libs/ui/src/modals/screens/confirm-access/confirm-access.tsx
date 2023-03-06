@@ -18,6 +18,8 @@ import { getCustomSize } from '../../../styles/format-size';
 import { isMobile, isWeb } from '../../../utils/platform.utils';
 import { ModalActionsContainer } from '../../components/modal-actions-container/modal-actions-container';
 
+import { ConfirmAccessTestIDs } from './tests/confirm-access.test-ids';
+
 interface Password {
   password: string;
 }
@@ -77,6 +79,8 @@ export const ConfirmAccess: FC = () => {
       onSubmitPress={handleSubmit(onUnlock)}
       submitTitle={routeParams.submitButtonText}
       isCancelButton={false}
+      testID={ConfirmAccessTestIDs.ConfirmAccessTitle}
+      testIDButton={ConfirmAccessTestIDs.RevealSensitiveDataButton}
     >
       <Row>
         <Controller
@@ -91,6 +95,7 @@ export const ConfirmAccess: FC = () => {
               error={errorMessage || errors.password?.message}
               onKeyPress={onEnterPress}
               onSubmitEditing={onUnlock}
+              testID={ConfirmAccessTestIDs.PasswordInput}
             />
           )}
         />

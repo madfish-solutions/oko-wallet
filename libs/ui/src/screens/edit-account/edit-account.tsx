@@ -37,6 +37,7 @@ import { Item } from '../settings/components/item/item';
 import { ItemContainer } from '../settings/components/item-container/item-container';
 
 import { styles } from './edit-account.styles';
+import { EditAccountTestIDs } from './tests/edit-account.test-ids';
 
 export const EditAccount: FC = () => {
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.EditAccount>>();
@@ -84,7 +85,7 @@ export const EditAccount: FC = () => {
   return (
     <ScreenContainer>
       <HeaderContainer isSelectors>
-        <ScreenTitle title="Edit Account" onBackButtonPress={goBack} />
+        <ScreenTitle title="Edit Account" onBackButtonPress={goBack} testID={EditAccountTestIDs.EditAccountTitle} />
       </HeaderContainer>
 
       <View style={styles.root}>
@@ -118,7 +119,11 @@ export const EditAccount: FC = () => {
         </ItemContainer>
 
         <ItemContainer style={styles.item}>
-          <Item title="Reveal Private Key" onPress={navigateToConfirmAccess} />
+          <Item
+            title="Reveal Private Key"
+            onPress={navigateToConfirmAccess}
+            testID={EditAccountTestIDs.RevealPrivateKeyButton}
+          />
         </ItemContainer>
 
         {!isImportedAccount && (

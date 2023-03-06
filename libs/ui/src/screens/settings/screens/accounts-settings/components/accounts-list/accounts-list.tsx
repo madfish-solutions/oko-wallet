@@ -15,6 +15,7 @@ import { ItemContainer } from '../../../../components/item-container/item-contai
 import { Separator } from '../../../../components/separator/separator';
 
 import { styles } from './accounts-list.styles';
+import { AccountsListTestIDs } from './accounts-list.test-ids';
 
 interface Props {
   name: string;
@@ -42,6 +43,7 @@ export const AccountsList: FC<Props> = ({ name, accounts, style }) => {
                   </IconWithBorder>
                 }
                 onPress={() => onPressAccount(getPublicKeyHash(account, networkType))}
+                testID={AccountsListTestIDs.AccountButton}
               />
               {index !== accounts.length - 1 && <Separator />}
             </React.Fragment>

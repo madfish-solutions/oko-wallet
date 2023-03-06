@@ -27,9 +27,9 @@ export const ScreenTitle: FC<Props> = ({
 }) => (
   <Column style={styles.root}>
     {isDefined(onBackButtonPress) && (
-      <TouchableIcon name={IconNameEnum.ArrowLeft} onPress={onBackButtonPress} style={styles.icon} testID={testID} />
+      <TouchableIcon name={IconNameEnum.ArrowLeft} onPress={onBackButtonPress} style={styles.icon} />
     )}
-    <Text style={[styles.title, titleStyle]} numberOfLines={numberOfLines} ellipsizeMode="tail">
+    <Text style={[styles.title, titleStyle]} numberOfLines={numberOfLines} ellipsizeMode="tail" testID={testID}>
       {title}
     </Text>
   </Column>

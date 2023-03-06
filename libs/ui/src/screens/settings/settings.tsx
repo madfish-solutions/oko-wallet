@@ -91,7 +91,12 @@ export const Settings: FC = () => {
                 testID={SettingsTestIDs.AccountsSettingsButton}
               />
               <Separator />
-              <Item title="Reveal Seed Phrase" icon={IconNameEnum.RevealSeedPhrase} onPress={navigateToConfirmAccess} />
+              <Item
+                title="Reveal Seed Phrase"
+                icon={IconNameEnum.RevealSeedPhrase}
+                onPress={navigateToConfirmAccess}
+                testID={SettingsTestIDs.RevealSeedPhraseButton}
+              />
             </ItemContainer>
 
             <Divider size={dividerSize} />
