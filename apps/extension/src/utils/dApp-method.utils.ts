@@ -187,7 +187,7 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
         if (result !== null) {
           const modifiedResult = {
             ...result,
-            cumulativeGasUsed: result.cumulativeGasUsed._hex ?? undefined,
+            cumulativeGasUsed: result.cumulativeGasUsed._hex,
             effectiveGasPrice: result.effectiveGasPrice._hex,
             gasUsed: result.gasUsed._hex
           };
