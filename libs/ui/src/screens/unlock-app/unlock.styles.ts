@@ -68,8 +68,10 @@ export const styles = StyleSheet.create({
     color: colors.textGrey2
   },
   linkText: {
+    ...typography.captionInterSemiBold11,
     color: colors.orange,
-    textDecorationLine: 'underline'
+    textDecorationLine: 'underline',
+    marginLeft: getCustomSize(0.5)
   },
   madLogo: {
     marginBottom: getCustomSize(4.25),

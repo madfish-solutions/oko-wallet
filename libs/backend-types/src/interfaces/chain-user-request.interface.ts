@@ -1,4 +1,4 @@
-export declare interface ChainUserRequest {
+export interface ChainUserRequest {
   id: string;
   chain_id: string;
 }

@@ -23,6 +23,9 @@ export const redisConfigGuard = (env = process.env): RedisConfig => {
   if ('REDIS_DB' in env) {
     config.db = env.REDIS_DB;
   }
+  if (env.REDIS_TLS === 'true') {
+    config.tls = true;
+  }
 
   return config;
 };

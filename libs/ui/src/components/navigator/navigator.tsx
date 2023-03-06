@@ -23,7 +23,6 @@ import { NetworksSelector } from '../../modals/screens/networks-selector/network
 import { RevealPrivateKey } from '../../modals/screens/reveal-private-key/reveal-private-key';
 import { RevealSeedPhrase } from '../../modals/screens/reveal-seed-phrase/reveal-seed-phrase';
 import { SlippageSettings } from '../../modals/screens/slippage-settings/slippage-settings';
-import { SwapConfirmation } from '../../modals/screens/swap-confirmation/swap-confirmation';
 import { SwapRoute } from '../../modals/screens/swap-route/swap-route';
 import { TokensSelector } from '../../modals/screens/tokens-selector/tokens-selector';
 import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
@@ -59,6 +58,7 @@ import { Token } from '../../screens/token/token';
 import { Tokens } from '../../screens/tokens/tokens';
 import { UnlockApp } from '../../screens/unlock-app/unlock-app';
 import { Wallet } from '../../screens/wallet/wallet';
+import { WalletCreated } from '../../screens/wallet-created/wallet-created';
 import { Welcome } from '../../screens/welcome/welcome';
 import { useShowLoaderSelector } from '../../store/settings/settings.selectors';
 import { useIsAuthorisedSelector } from '../../store/wallet/wallet.selectors';
@@ -68,6 +68,7 @@ import { FullScreenLoader } from '../loader/components/full-screen-loader/full-s
 import { ComponentWithNavigationContext } from './components/component-with-navigation-context/component-with-navigation-context';
 import { modalScreenOptions, modalScreenOptionsWithBackButton } from './constants/modal-screen-options';
 import { useLoadSentCollectiblesBalance } from './hooks/use-load-sent-collectibles-balance.hook';
+import { useResetKeychainOnInstall } from './hooks/use-reset-keychain-on-install.hook';
 import { useResetLoading } from './hooks/use-reset-loading.hook';
 import { useShowSecurityScreen } from './hooks/use-show-security-sceen.hook';
 import { useTokensPriceInfo } from './hooks/use-tokens-price-info.hook';
@@ -86,6 +87,7 @@ export const Navigator: FC = () => {
   useLoadSentCollectiblesBalance();
   useResetLoading();
   useAppLockTimer();
+  useResetKeychainOnInstall();
 
   if (!isReady) {
     return <SplashScreen />;
@@ -102,6 +104,7 @@ export const Navigator: FC = () => {
         {isAuthorised ? (
           <>
             <Stack.Group screenOptions={{ headerShown: false }}>
+              <Stack.Screen name={ScreensEnum.WalletCreated} component={WalletCreated} />
               <Stack.Screen name={ScreensEnum.Wallet} component={Wallet} />
               <Stack.Screen name={ScreensEnum.Receive} component={Receive} />
               <Stack.Screen name={ScreensEnum.Settings} component={Settings} />
@@ -204,11 +207,6 @@ export const Navigator: FC = () => {
                 name={ScreensEnum.SendConfirmation}
                 options={{ title: 'Confirm Operation' }}
                 component={SendConfirmation}
-              />
-              <Stack.Screen
-                name={ScreensEnum.SwapConfirmation}
-                options={{ title: 'Confirm Operation' }}
-                component={SwapConfirmation}
               />
               <Stack.Screen
                 name={ScreensEnum.SlippageTolerance}

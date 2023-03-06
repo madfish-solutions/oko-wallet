@@ -1,6 +1,6 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { isDefined } from '@rnw-community/shared';
-import React, { FC, PropsWithChildren } from 'react';
+import React, { FC, PropsWithChildren, useCallback } from 'react';
 
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
@@ -29,13 +29,13 @@ export const EvmConfirmation: FC<Props> = ({ transferParams, params, children })
     }
   };
 
-  const onDecline = () => {
+  const onDecline = useCallback(() => {
     if (isDAppOperation) {
       sendErrorToDAppAndClosePopup(params.dAppInfo.origin, params.messageId);
     }
 
     goBack();
-  };
+  }, [isDAppOperation, params?.dAppInfo?.origin, params?.messageId]);
 
   return (
     <EvmConfirmationContainer

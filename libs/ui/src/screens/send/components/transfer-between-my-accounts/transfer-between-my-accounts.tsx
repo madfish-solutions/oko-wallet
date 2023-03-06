@@ -96,7 +96,11 @@ export const TransferBetweenMyAccounts: FC = () => {
         <Pressable onPress={onTransferBetweenAccountsPress}>
           <Row>
             <Icon
-              name={isTransferBetweenAccounts ? IconNameEnum.SelectedSquareCheckbox : IconNameEnum.EmptySquareCheckbox}
+              name={
+                isTransferBetweenAccounts
+                  ? IconNameEnum.SelectedSquareCheckboxSmall
+                  : IconNameEnum.EmptySquareCheckboxSmall
+              }
               {...(isTransferBetweenAccountsDisabled && { color: colors.bgGrey5 })}
             />
             <Text style={[styles.transferBetweenAccountsText, isTransferBetweenAccountsDisabled && styles.greyText]}>

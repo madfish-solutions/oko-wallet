@@ -8,7 +8,6 @@ import { Token } from '../interfaces/token.interface';
 import { TransferParams } from '../interfaces/transfer-params.interface';
 import { ActivityFilterEnum } from '../modals/screens/activity-filter-selector/activity-filter.enum';
 import { SendParams } from '../screens/send/types';
-import { EvmTransferParams } from '../screens/send-confirmation/types';
 
 export enum ScreensEnum {
   ImportWallet = 'ImportWallet',
@@ -50,6 +49,7 @@ export enum ScreensEnum {
   WordsAmountSelector = 'WordsAmountSelector',
   VerifyMnemonic = 'VerifyMnemonic',
   AlmostDone = 'AlmostDone',
+  WalletCreated = 'WalletCreated',
   Activity = 'Activity',
   // eslint-disable-next-line @typescript-eslint/no-shadow
   Token = 'Token',
@@ -67,7 +67,6 @@ export enum ScreensEnum {
   Swap = 'Swap',
   SwapRoute = 'SwapRoute',
   SlippageTolerance = 'SlippageTolerance',
-  SwapConfirmation = 'SwapConfirmation',
   EditPermission = 'EditPermission'
 }
 
@@ -110,6 +109,7 @@ export type ScreensParamList = {
   [ScreensEnum.WordsAmountSelector]?: { wordsAmount: SeedWordsAmount };
   [ScreensEnum.VerifyMnemonic]: { mnemonic: string[] };
   [ScreensEnum.AlmostDone]: { mnemonic: string; currentStep: number; stepsAmount: number };
+  [ScreensEnum.WalletCreated]: undefined;
   [ScreensEnum.Activity]?: { filterType: Option<ActivityFilterEnum> };
   [ScreensEnum.ActivityFilterSelector]: { filterType: Option<ActivityFilterEnum> };
   [ScreensEnum.Token]: { tokenAddress: string; tokenId?: string };
@@ -132,7 +132,6 @@ export type ScreensParamList = {
   [ScreensEnum.Swap]?: { fromToken?: Token; toToken?: Token };
   [ScreensEnum.SlippageTolerance]: undefined;
   [ScreensEnum.SwapRoute]: { routes: GetQuoteResponse['protocols']; fromToken: Token; toToken: Token };
-  [ScreensEnum.SwapConfirmation]: { transferParams: EvmTransferParams };
   [ScreensEnum.EditPermission]: {
     origin: string;
     token: Token;

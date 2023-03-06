@@ -58,5 +58,6 @@ export type CreateImportedAccountParams = {
 export type SignedMessageParams = {
   publicKey: string;
   messageToSign: string;
+  method: string;
   successCallback: OnEventFn<string>;
 };

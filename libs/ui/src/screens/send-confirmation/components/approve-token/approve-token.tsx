@@ -26,33 +26,25 @@ import {
 import { formatUnitsToString, getFormattedAllowance } from '../../../../utils/units.utils';
 import { SelectedAccount } from '../../../send/components/selected-account/selected-account';
 import { useTransactionSpeed } from '../../hooks/use-transaction-speed.hook';
-import { OnSend } from '../../types';
 import { Field } from '../confirmation/components/field/field';
 import { TransactionSpeed } from '../confirmation/components/transaction-speed/transaction-speed';
 import { ownGasFeeRules } from '../confirmation/constants';
+import { ConfirmOperationParams } from '../evm-confirmation/types';
 import { getDecodedApproveTokenData } from '../evm-confirmation/utils/get-approve-token-data.util';
 
 import { styles } from './approve-token.styles';
 
-interface Props {
-  isFeeLoading: boolean;
-  onSend: OnSend;
-  onDecline: () => void;
-  isTransactionLoading: boolean;
-  initialTransactionFee: number;
+interface Props extends ConfirmOperationParams {
   token: Token;
   dAppInfo: DAppInfo;
   data: string;
 }
 
 export const ApproveToken: FC<Props> = ({
-  initialTransactionFee,
-  onSend,
-  isFeeLoading,
-  isTransactionLoading,
   token,
   dAppInfo,
-  data
+  data,
+  confirmOperationParams: { initialTransactionFee, onSend, isFeeLoading, isTransactionLoading }
 }) => {
   const { goBack, navigate } = useNavigation();
   const account = useSelectedAccountSelector();

@@ -19,6 +19,8 @@ import { generateHash$ } from '../utils/hash.utils';
 import { isWeb } from '../utils/platform.utils';
 import { setStoredValue } from '../utils/store.util';
 
+import { signMessageByMethod } from './utils/sign-message-by-method.util';
+
 export const PASSWORD_CHECK_KEY = 'app-password';
 export const SEED_PHRASE_KEY = 'seedPhrase';
 export const INITIAL_PASSWORD_HASH = '';
@@ -227,8 +229,8 @@ export class Shelter {
   static getTezosSigner$ = (publicKeyHash: string) =>
     Shelter.revealPrivateKey$(publicKeyHash).pipe(map(privateKey => new InMemorySigner(privateKey)));
 
-  static signMessage$ = (publicKeyHash: string, messageToSign: string) =>
+  static signMessage$ = (publicKeyHash: string, messageToSign: string, method: string) =>
     Shelter.revealPrivateKey$(publicKeyHash).pipe(
-      switchMap(privateKey => new ethers.Wallet(privateKey).signMessage(messageToSign))
+      switchMap(privateKey => from(signMessageByMethod(privateKey, messageToSign, method)))
     );
 }
