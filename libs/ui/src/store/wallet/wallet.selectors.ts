@@ -66,18 +66,6 @@ export const useAllHdAccountsSelector = () => {
   return useMemo(() => accounts.filter(({ type }) => type === AccountTypeEnum.HD_ACCOUNT), [accounts]);
 };
 
-export const useAllImportedAccountsSelector = (networkType: NetworkTypeEnum) => {
-  const accounts = useAllAccountsSelector();
-
-  return useMemo(
-    () =>
-      accounts.filter(
-        ({ type, networksKeys }) => type === AccountTypeEnum.IMPORTED_ACCOUNT && isDefined(networksKeys[networkType])
-      ),
-    [accounts, networkType]
-  );
-};
-
 export const useUserAccountSelector = (publicKeyHash: string) => {
   const accounts = useAllAccountsSelector();
   const networkType = useSelectedNetworkTypeSelector();
