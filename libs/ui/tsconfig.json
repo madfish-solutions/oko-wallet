@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "../",
+    "baseUrl": "./",
     "target": "es6",
     "module": "es6",
     "lib": [
@@ -16,7 +16,18 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "shared": [
+        "../shared/src"
+      ],
+      "shelter": [
+        "../shelter/src"
+      ],
+      "backend-types": [
+        "../backend-types/src"
+      ]
+    }
   },
   "exclude": [
     "node_modules",

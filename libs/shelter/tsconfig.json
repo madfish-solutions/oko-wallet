@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "../",
+    "baseUrl": "./",
     "target": "ES2020",
     "module": "commonjs",
     "lib": [
@@ -16,7 +16,12 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "shared": [
+        "../shared/src"
+      ]
+    }
   },
   "exclude": [
     "node_modules",
