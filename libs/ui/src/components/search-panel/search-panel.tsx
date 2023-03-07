@@ -42,7 +42,7 @@ const renderTextInput = <
 ) => (
   <TextInput
     field={field}
-    placeholder={placeholder ?? 'Search'}
+    placeholder={placeholder ?? SEARCH_FIELD}
     containerStyle={styles.inputContainer}
     inputStyle={styles.input}
   />
