@@ -34,8 +34,11 @@ Given(/I have imported account/, async () => {
   await Pages.AlmostDone.isVisible();
   await Pages.AlmostDone.passwordInput.type(BrowserContext.password);
   await Pages.AlmostDone.passwordConfirmInput.type(BrowserContext.password);
-  await Pages.AlmostDone.acceptTermsCheckbox.click();
   await Pages.AlmostDone.createButton.click();
+
+  await Pages.WalletCreated.isVisible();
+  await Pages.WalletCreated.acceptTermsCheckbox.click();
+  await Pages.WalletCreated.getStartedButton.click();
 
   await Pages.Wallet.isVisible();
 });

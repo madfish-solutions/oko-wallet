@@ -164,13 +164,17 @@ export const walletReducers = createReducer<WalletState>(walletInitialState, bui
 
       const stateAccountsTokens: AccountToken[] = [...(state.accountsTokens[accountTokensSlug] ?? [])];
 
-      const prevAccountTokens = stateAccountsTokens.filter(
-        accountToken =>
-          !tokenList.find(
-            tokenFormDebank =>
-              getTokenSlug(tokenFormDebank.id) === getTokenSlug(accountToken.tokenAddress, accountToken.tokenId)
-          )
-      );
+      const prevAccountTokens = stateAccountsTokens
+        .filter(
+          accountToken =>
+            !tokenList.find(
+              tokenFormDebank =>
+                getTokenSlug(tokenFormDebank.id) === getTokenSlug(accountToken.tokenAddress, accountToken.tokenId)
+            )
+        )
+        .map(currentToken =>
+          isNotEmptyString(currentToken.tokenId) ? currentToken : { ...currentToken, balance: createEntity('0') }
+        );
 
       const { gasTokenBalance, tokens, tokensMetadata } = tokenList.reduce(
         (

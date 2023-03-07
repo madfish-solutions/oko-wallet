@@ -120,7 +120,11 @@ export const Tokens: FC = () => {
 
         <Pressable onPress={onPressHideZeroBalances} style={styles.checkboxContainer}>
           <Row>
-            <Icon name={isHideZeroBalance ? IconNameEnum.SelectedSquareCheckbox : IconNameEnum.EmptySquareCheckbox} />
+            <Icon
+              name={
+                isHideZeroBalance ? IconNameEnum.SelectedSquareCheckboxSmall : IconNameEnum.EmptySquareCheckboxSmall
+              }
+            />
             <Text style={styles.checkboxText}>Hide 0 balances</Text>
           </Row>
         </Pressable>

@@ -2,25 +2,21 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import React, { FC, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { isMobile } from 'shared';
 
 import { Checkbox } from '../../components/checkbox/checkbox';
 import { Column } from '../../components/column/column';
-import { Row } from '../../components/row/row';
 import { Text } from '../../components/text/text';
 import { PasswordInput } from '../../components/text-input/components/password-input/password-input';
 import { TextInput } from '../../components/text-input/text-input';
 import { WalletCreationContainer } from '../../components/wallet-creation-container/wallet-creation-container';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
-import { useScrollToOffset } from '../../hooks/use-scroll-to-element.hook';
 import { useValidatePasswordForm } from '../../hooks/use-validate-password-form.hook';
 import { usePasswordValidation } from '../../hooks/use-validation-messages.hook';
 import { useAccountFieldRules } from '../../modals/hooks/use-validate-account-field.hook';
 import { useImportWallet } from '../../shelter/hooks/use-import-wallet.hook';
-import { setIsAnalyticsEnabled, setIsBiometricEnabled } from '../../store/settings/settings.actions';
-import { goToTermsOfUse, goToPrivatePolicy } from '../settings/screens/about-us/utils/go-to-oko-links.utils';
+import { setIsBiometricEnabled } from '../../store/settings/settings.actions';
 
 import { styles } from './almost-done.styles';
 import { AlmostDoneTestIDs } from './almost-done.test-ids';
@@ -46,11 +42,8 @@ export const AlmostDone: FC = () => {
 
   const importWallet = useImportWallet();
   const dispatch = useDispatch();
-  const { scrollViewRef, scrollToOffset } = useScrollToOffset();
 
   const [isUseFaceId, setIsUseFaceId] = useState(false);
-  const [isAcceptTerms, setIsAcceptTerms] = useState(false);
-  const [isAllowUseAnalytics, setIsAllowUseAnalytics] = useState(true);
 
   const {
     control,
@@ -85,13 +78,9 @@ export const AlmostDone: FC = () => {
   const { nameRules } = useAccountFieldRules();
 
   const handleCreateAccount = (formValue: FormTypes) => {
-    const accountName = isNotEmptyString(formValue.name.trim()) ? formValue.name.trim() : defaultAccountName;
+    if (!passwordIsNoValid) {
+      const accountName = isNotEmptyString(formValue.name.trim()) ? formValue.name.trim() : defaultAccountName;
 
-    if (!isAcceptTerms) {
-      return scrollToOffset();
-    }
-
-    if (!passwordIsNoValid && isAcceptTerms) {
       importWallet({
         seedPhrase: mnemonic,
         password: formValue.password,
@@ -99,16 +88,14 @@ export const AlmostDone: FC = () => {
         accountName
       });
 
-      dispatch(setIsAnalyticsEnabled(isAllowUseAnalytics));
       dispatch(setIsBiometricEnabled(isUseFaceId));
     }
   };
 
-  const isValidationError = (Object.keys(errors).length > 0 || !isAcceptTerms) && isSubmitted;
+  const isValidationError = Object.keys(errors).length > 0 && isSubmitted;
 
   return (
     <WalletCreationContainer
-      scrollViewRef={scrollViewRef}
       title="Almost Done"
       currentStep={currentStep}
       stepsAmount={stepsAmount}
@@ -182,42 +169,6 @@ export const AlmostDone: FC = () => {
       {isMobile && (
         <Checkbox text="Use Face ID" selected={isUseFaceId} onSelect={setIsUseFaceId} style={styles.checkbox} />
       )}
-
-      <Checkbox
-        text="Accept terms"
-        selected={isAcceptTerms}
-        onSelect={setIsAcceptTerms}
-        style={styles.checkbox}
-        testID={AlmostDoneTestIDs.AcceptTermsCheckbox}
-      >
-        <Column>
-          <Text style={styles.text}>I have read and agree to</Text>
-          <Row>
-            <Text style={styles.text}>the</Text>
-            <TouchableOpacity style={styles.link}>
-              <Text onPress={goToTermsOfUse} style={styles.linkingText}>
-                Terms of Use
-              </Text>
-            </TouchableOpacity>
-            <Text style={styles.text}>and</Text>
-            <TouchableOpacity onPress={goToPrivatePolicy} style={styles.link}>
-              <Text style={styles.linkingText}>Privacy Policy</Text>
-            </TouchableOpacity>
-          </Row>
-        </Column>
-        {!isAcceptTerms && isSubmitted && <Text style={styles.error}>You need to accept terms to create account</Text>}
-      </Checkbox>
-      <Checkbox text="Analytics" selected={isAllowUseAnalytics} onSelect={setIsAllowUseAnalytics}>
-        <Column>
-          <Text style={styles.text}>I have read and agree to</Text>
-          <Row>
-            <Text style={styles.text}>the</Text>
-            <TouchableOpacity style={styles.link}>
-              <Text style={styles.linkingText}>anonymous information collecting</Text>
-            </TouchableOpacity>
-          </Row>
-        </Column>
-      </Checkbox>
     </WalletCreationContainer>
   );
 };

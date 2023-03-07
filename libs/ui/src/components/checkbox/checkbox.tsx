@@ -28,9 +28,9 @@ export const Checkbox: FC<Props> = ({ text, selected = false, onSelect, style, c
     <Column style={style}>
       <Pressable style={styles.root} onPress={handleToggleCheckbox} testID={testID}>
         {selected ? (
-          <Icon name={IconNameEnum.SelectedSquareCheckbox} />
+          <Icon name={IconNameEnum.SelectedSquareCheckboxSmall} />
         ) : (
-          <Icon name={IconNameEnum.EmptySquareCheckbox} />
+          <Icon name={IconNameEnum.EmptySquareCheckboxSmall} />
         )}
         <Text style={styles.text}>{text}</Text>
       </Pressable>
