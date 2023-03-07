@@ -13,6 +13,7 @@ import { IconWithBorderEnum } from '../../../components/icon-with-border/enums';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { useClosePopup } from '../../../hooks/use-close-popup';
 import { AllowsRules } from '../../../interfaces/dapp-connection.interface';
 import { useDAppSelector } from '../../../store/d-apps/d-apps.selectors';
 import { showLoaderAction } from '../../../store/settings/settings.actions';
@@ -45,6 +46,8 @@ export const NetworkChangeConfirmation: FC = () => {
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.NetworkChangeConfirmation>>();
   const dAppState = useDAppSelector(params.dAppOrigin);
 
+  useClosePopup(params.messageId, params.dAppOrigin);
+
   const goToDappUrl = () => Linking.openURL(dAppState.origin);
   const dappsNetwork = networks.find(
     network => network.chainId === parseInt(params.requestedChainId.substring(2), 16).toString()
@@ -59,11 +62,7 @@ export const NetworkChangeConfirmation: FC = () => {
     sendResponseToDAppAndClosePopup(params.dAppOrigin, params.messageId, null);
     sendMessageToBackground();
   };
-  const onDecline = () => {
-    dispatch(showLoaderAction());
-
-    sendErrorToDAppAndClosePopup(params.dAppOrigin, params.messageId);
-  };
+  const onDecline = () => sendErrorToDAppAndClosePopup(params.dAppOrigin, params.messageId);
 
   return (
     <ModalContainer screenTitle="Confirm Network Change" onHeaderCloseButtonPress={onDecline}>
