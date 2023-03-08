@@ -12,6 +12,7 @@ export const enum DAppMethodEnum {
   ETH_GET_BALANCE = 'eth_getBalance',
   ETH_GET_TRANSACTION_BY_HASH = 'eth_getTransactionByHash',
   ETH_GET_TRANSACTION_RECEIPT = 'eth_getTransactionReceipt',
+  ETH_GET_TRANSACTION_COUNT = 'eth_getTransactionCount',
   ETH_GET_BLOCK_BY_NUMBER = 'eth_getBlockByNumber',
   ETH_BLOCK_NUMBER = 'eth_blockNumber',
   ETH_SIGN = 'eth_sign',
