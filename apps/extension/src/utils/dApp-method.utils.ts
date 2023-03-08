@@ -1,3 +1,4 @@
+import { BaseProvider } from '@ethersproject/providers';
 import { recoverPersonalSignature } from '@metamask/eth-sig-util';
 import { getDefaultProvider } from 'ethers';
 import { DAppMethodEnum } from 'shared/background-script';
@@ -8,7 +9,11 @@ import { DAppMessage } from '../interfaces/dapp-message.interface';
 
 import { createDAppNotificationResponse, getHexChanId } from './network.utils';
 import { getState } from './state.utils';
+import { unsafeRandomBytes } from './subscription.utils';
 import { openPopup } from './windows.utils';
+
+let subscriptionIds: string[] = [];
+let providerSubscription: BaseProvider;
 
 export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port) => {
   const state = await getState();
@@ -103,7 +108,7 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
       }
       case DAppMethodEnum.ETH_GAS_PRICE: {
         const result = await provider.getGasPrice();
-        const response = createDAppResponse(id, result);
+        const response = createDAppResponse(id, result._hex);
 
         port.postMessage(response);
 
@@ -134,7 +139,8 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
 
       case DAppMethodEnum.ETH_GET_BLOCK_BY_NUMBER: {
         const result = await provider.getBlock(data.params?.[0]);
-        const response = createDAppResponse(id, result);
+        const modifiedResult = { ...result, baseFeePerGas: result.baseFeePerGas?._hex };
+        const response = createDAppResponse(id, modifiedResult);
 
         port.postMessage(response);
 
@@ -174,12 +180,33 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
 
         port.postMessage(response);
 
-        return Promise.resolve();
+        return Promise.resolve(response);
       }
 
       case DAppMethodEnum.ETH_GET_TRANSACTION_RECEIPT: {
-        const txReceipt = await provider.getTransactionReceipt(data.params?.[0]);
-        const response = createDAppResponse(id, txReceipt);
+        const result = await provider.getTransactionReceipt(data.params?.[0]);
+        if (result !== null) {
+          const modifiedResult = {
+            ...result,
+            cumulativeGasUsed: result.cumulativeGasUsed._hex,
+            effectiveGasPrice: result.effectiveGasPrice._hex,
+            gasUsed: result.gasUsed._hex
+          };
+          const response = createDAppResponse(id, modifiedResult);
+          port.postMessage(response);
+
+          return Promise.resolve();
+        }
+
+        const response = createDAppResponse(id, result);
+        port.postMessage(response);
+
+        return Promise.resolve();
+      }
+
+      case DAppMethodEnum.ETH_GET_TRANSACTION_COUNT: {
+        const txCount = await provider.getTransactionCount(data.params?.[0], data.params?.[1]);
+        const response = createDAppResponse(id, txCount);
 
         port.postMessage(response);
 
@@ -239,6 +266,43 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
         const response = createDAppResponse(id, result);
 
         port.postMessage(response);
+
+        return Promise.resolve();
+      }
+
+      case DAppMethodEnum.ETH_SUBSCRIBE: {
+        const newSubscriptionId = unsafeRandomBytes(16);
+        subscriptionIds.push(newSubscriptionId);
+        const subscription = createDAppResponse(id, newSubscriptionId);
+
+        port.postMessage(subscription);
+
+        providerSubscription = provider.on('block', async blockNumber => {
+          const result = await provider.getBlock(blockNumber);
+          const modifiedResult = {
+            ...result,
+            baseFeePerGas: result.baseFeePerGas?._hex,
+            gasLimit: result.gasLimit._hex,
+            gasUsed: result.gasUsed._hex
+          };
+          const response = createDAppNotificationResponse(DAppMethodEnum.ETH_SUBSCRIPTION, {
+            subscription: newSubscriptionId,
+            result: modifiedResult
+          });
+          port.postMessage(response);
+        });
+
+        return Promise.resolve();
+      }
+
+      case DAppMethodEnum.ETH_UNSUBSCRIBE: {
+        if (subscriptionIds.includes(data.params?.[0])) {
+          providerSubscription.off('block');
+          subscriptionIds = subscriptionIds.filter(subscriptionId => subscriptionId !== data.params?.[0]);
+
+          const response = createDAppResponse(id, true);
+          setTimeout(() => port.postMessage(response), 1000);
+        }
 
         return Promise.resolve();
       }
