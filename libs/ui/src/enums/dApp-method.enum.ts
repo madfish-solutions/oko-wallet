@@ -22,8 +22,9 @@ export const enum DAppMethodEnum {
   //WALLET_WATCH_ASSET = 'wallet_watchAsset',
   //METAMASK_WATCH_ASSET = 'metamask_watchAsset',
   WEB3_CLIENT_VERSION = 'web3_clientVersion',
-  //ETH_SUBSCRIBE = 'eth_subscribe',
-  //ETH_UNSUBSCRIBE = "eth_unsubscribe";
+  ETH_SUBSCRIBE = 'eth_subscribe',
+  ETH_UNSUBSCRIBE = 'eth_unsubscribe',
+  ETH_SUBSCRIPTION = 'eth_subscription',
   //NEW_HEADS = 'newHeads',
   NET_VERSION = 'net_version',
   OKO_GET_PROVIDER_STATE = 'oko_getProviderState',
