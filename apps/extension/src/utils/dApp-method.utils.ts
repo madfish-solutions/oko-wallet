@@ -185,6 +185,15 @@ export const handleDAppMessage = async (message: DAppMessage, port: Runtime.Port
         return Promise.resolve();
       }
 
+      case DAppMethodEnum.ETH_GET_TRANSACTION_COUNT: {
+        const txCount = await provider.getTransactionCount(data.params?.[0], data.params?.[1]);
+        const response = createDAppResponse(id, txCount);
+
+        port.postMessage(response);
+
+        return Promise.resolve();
+      }
+
       case DAppMethodEnum.NET_VERSION: {
         const response = createDAppResponse(id, selectedNetworkChainId);
 
