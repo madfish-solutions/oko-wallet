@@ -63,6 +63,7 @@ export const sendResponseToDAppAndClosePopup = <T>(origin: string, id: string, r
 export const sendErrorToDAppAndClosePopup = (origin: string, id: string) => {
   const errorResponse = createErrorMessage(id);
   sendMessageToDAppTab(origin, errorResponse);
+  sendMessageToBackground();
 
   setTimeout(() => close(), 1000);
 };
