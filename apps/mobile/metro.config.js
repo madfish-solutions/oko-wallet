@@ -3,7 +3,7 @@ const { getDefaultConfig } = require('metro-config');
 
 const LIBS = ['ui', 'shared', 'shelter'];
 
-const watchFoldersConfiguration = LIBS.map(name => path.resolve(__dirname, `../../libs/${name}/src`));
+const watchFoldersConfiguration = LIBS.map(name => path.resolve(__dirname, `../../libs/${name}`));
 
 const nodeModulesPathsConfiguration = LIBS.map(name => path.resolve(__dirname, `../../libs/${name}/node_modules`));
 
