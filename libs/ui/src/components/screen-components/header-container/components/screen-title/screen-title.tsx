@@ -29,7 +29,7 @@ export const ScreenTitle: FC<Props> = ({
     {isDefined(onBackButtonPress) && (
       <TouchableIcon name={IconNameEnum.ArrowLeft} onPress={onBackButtonPress} style={styles.icon} />
     )}
-    <Text style={[styles.title, titleStyle]} numberOfLines={numberOfLines} ellipsizeMode="tail" testID={testID}>
+    <Text style={[styles.title, titleStyle]} numberOfLines={numberOfLines} testID={testID}>
       {title}
     </Text>
   </Column>
