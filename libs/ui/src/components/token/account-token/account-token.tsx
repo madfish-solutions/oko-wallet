@@ -51,9 +51,9 @@ export const AccountToken: FC<Props> = ({ token, showButton, theme, onPress, onP
         fiatBalance={fiatBalanceToDispaly}
         isGasToken={isGasToken}
       >
-        {isDefined(showButton) && showButton && !isGasToken && (
+        {isDefined(showButton) && showButton && !isGasToken ? (
           <Switch onPress={handleSwitch} isActive={token.isVisible} />
-        )}
+        ) : undefined}
       </TokenItem>
     </Pressable>
   );
