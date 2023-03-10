@@ -1,11 +1,10 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { TextInputKeyPressEventData, NativeSyntheticEvent } from 'react-native';
+import { Pressable, TextInputKeyPressEventData, NativeSyntheticEvent } from 'react-native';
 
 import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
-import { Pressable } from '../../../components/pressable/pressable';
 import { Row } from '../../../components/row/row';
 import { PasswordInput } from '../../../components/text-input/components/password-input/password-input';
 import { requiredFieldError } from '../../../constants/form-errors';
@@ -18,6 +17,7 @@ import { getCustomSize } from '../../../styles/format-size';
 import { isMobile, isWeb } from '../../../utils/platform.utils';
 import { ModalActionsContainer } from '../../components/modal-actions-container/modal-actions-container';
 
+import { styles } from './confirm-access.styles';
 import { ConfirmAccessTestIDs } from './tests/confirm-access.test-ids';
 
 interface Password {
@@ -82,7 +82,7 @@ export const ConfirmAccess: FC = () => {
       testID={ConfirmAccessTestIDs.ConfirmAccessTitle}
       testIDButton={ConfirmAccessTestIDs.RevealSensitiveDataButton}
     >
-      <Row>
+      <Row style={styles.root}>
         <Controller
           control={control}
           name="password"
@@ -96,12 +96,13 @@ export const ConfirmAccess: FC = () => {
               onKeyPress={onEnterPress}
               onSubmitEditing={onUnlock}
               testID={ConfirmAccessTestIDs.PasswordInput}
+              style={styles.input}
             />
           )}
         />
         {isMobile && isBiometricEnabled && (
-          <Pressable>
-            <Icon name={IconNameEnum.FaceId} size={getCustomSize(4)} />
+          <Pressable style={styles.iconContainer}>
+            <Icon name={IconNameEnum.FaceId} iconStyle={styles.icon} size={getCustomSize(4)} />
           </Pressable>
         )}
       </Row>
