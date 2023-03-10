@@ -9,8 +9,6 @@ export const useSortAccountTokensByBalance = (tokens: Token[]): Token[] =>
   useMemo(
     () =>
       tokens.sort((a, b) => {
-        const zeroBalances = new BigNumber(a.fiatBalance ?? 0).eq(0) && new BigNumber(b.fiatBalance ?? 0).eq(0);
-
         if (a.tokenAddress === GAS_TOKEN_ADDRESS) {
           return -1;
         }
@@ -18,14 +16,24 @@ export const useSortAccountTokensByBalance = (tokens: Token[]): Token[] =>
           return 1;
         }
 
-        if (zeroBalances) {
-          const tokenBalanceA = getFormattedBalance(a.balance.data, a.decimals);
-          const tokenBalanceB = getFormattedBalance(b.balance.data, b.decimals);
+        const bigNumberA = new BigNumber(a.fiatBalance ?? 0);
+        const bigNumberB = new BigNumber(b.fiatBalance ?? 0);
 
-          return Number(tokenBalanceB) - Number(tokenBalanceA);
+        const zeroBalances = bigNumberA.eq(0) && bigNumberB.eq(0);
+        const isVisibleToken = a.isVisible && b.isVisible;
+
+        if (!zeroBalances && isVisibleToken) {
+          return bigNumberB.comparedTo(bigNumberA);
         }
 
-        return Number(b.fiatBalance) - Number(a.fiatBalance);
+        if (zeroBalances && isVisibleToken) {
+          return (
+            Number(getFormattedBalance(b.balance.data, b.decimals)) -
+            Number(getFormattedBalance(a.balance.data, a.decimals))
+          );
+        }
+
+        return Number(b.isVisible) - Number(a.isVisible);
       }),
     [tokens]
   );

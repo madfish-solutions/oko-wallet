@@ -1,6 +1,6 @@
 import { AccountInterface, AccountTypeEnum, NetworkTypeEnum } from 'shared';
 
-import { Token } from '../interfaces/token.interface';
+import { Token, TokenFormType } from '../interfaces/token.interface';
 import { createEntity } from '../store/utils/entity.utils';
 
 export const EMPTY_STRING = '';
@@ -48,4 +48,12 @@ export const EMPTY_ACCOUNT: AccountInterface = {
     }
   },
   type: AccountTypeEnum.HD_ACCOUNT
+};
+
+export const EMPTY_METADATA: TokenFormType = {
+  tokenAddress: '',
+  name: '',
+  symbol: '',
+  decimals: '0',
+  thumbnailUri: ''
 };

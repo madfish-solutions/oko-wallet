@@ -1,14 +1,13 @@
 import { createAction } from '@reduxjs/toolkit';
-import { NftListResponse, TokenListResponse } from 'backend-types';
+import { NftListResponse, TokenResponse } from 'backend-types';
 import { AccountInterface } from 'shared';
 
 import { DappConnectionInfo } from '../../interfaces/dapp-connection.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
 import { TokenExtendedMetadata } from '../../interfaces/token-extended-metadata.interface';
-import { Token } from '../../interfaces/token.interface';
+import { Token, TokenFormType } from '../../interfaces/token.interface';
 import { PendingTransaction } from '../../interfaces/transaction.interfaces';
-import { TokenFormTypes } from '../../modals/screens/token/types/form-types.interface';
 import { createActions } from '../utils/action.utils';
 
 export const createHdAccountAction = createAction<AccountInterface>('wallet/CREATE_HD_ACCOUNT');
@@ -43,15 +42,15 @@ export const removeNetworkAction = createAction<{ network: NetworkInterface; isN
   'wallet/REMOVE_NETWORK'
 );
 
-export const addNewTokenAction = createAction<TokenExtendedMetadata>('wallet/ADD_NEW_TOKEN');
+export const addNewTokenAction = createAction<Token>('wallet/ADD_NEW_TOKEN');
 export const getAllUserTokensAction = createActions<
   { debankId: string; publicKeyHash: string },
-  { tokenList: TokenListResponse; debankGasTokenName: string }
+  { tokenList: TokenResponse[]; debankGasTokenName: string }
 >('wallet/GET_ALL_USER_TOKENS');
-export const addNewTokensMetadataAction = createActions<Token['tokenAddress'][], TokenFormTypes[]>(
+export const addNewTokensMetadataAction = createActions<Token['tokenAddress'][], TokenFormType[]>(
   'wallet/ADD_NEW_TOKENS_METADATA'
 );
-export const editTokenAction = createAction<TokenFormTypes>('wallet/EDIT_TOKEN');
+export const editTokenAction = createAction<TokenFormType>('wallet/EDIT_TOKEN');
 export const changeTokenVisibilityAction = createAction<Token>('wallet/CHANGE_TOKEN_VISIBILITY');
 export const sortAccountTokensByVisibility = createAction('wallet/SORT_ACCOUNT_TOKENS_BY_VISIBILITY');
 

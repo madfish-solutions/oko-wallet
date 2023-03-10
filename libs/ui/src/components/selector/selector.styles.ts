@@ -9,7 +9,9 @@ export const styles = StyleSheet.create({
     paddingHorizontal: getCustomSize(2)
   },
   button: {
-    paddingBottom: getCustomSize(isMobile ? 4 : 2),
+    paddingBottom: getCustomSize(isMobile ? 4 : 2)
+  },
+  loader: {
     paddingTop: getCustomSize(2)
   }
 });

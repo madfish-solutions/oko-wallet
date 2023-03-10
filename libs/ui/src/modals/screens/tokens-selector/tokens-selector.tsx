@@ -12,16 +12,18 @@ import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useFilterAccountTokens } from '../../../hooks/use-filter-tokens.hook';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { usePreviousScreenName } from '../../../hooks/use-previous-screen-name.hook';
+import { useSearchNewToken } from '../../../hooks/use-search-new-token.hook';
+import { useSortAccountTokensByBalance } from '../../../hooks/use-sort-tokens-by-balance.hook';
 import { Token as TokenType } from '../../../interfaces/token.interface';
+import { useAddNewTokenToAccount } from '../../../screens/tokens/hooks/use-add-new-token-to-account.hook';
 import { useTokensMarketInfoSelector } from '../../../store/tokens-market-info/token-market-info.selectors';
 import {
   useGasTokenSelector,
   useSelectedNetworkSelector,
-  useVisibleAccountTokensSelector
+  useVisibleAccountTokensAndGasTokenSelector
 } from '../../../store/wallet/wallet.selectors';
 import { checkIsGasToken } from '../../../utils/check-is-gas-token.util';
 import { getDollarValue } from '../../../utils/get-dollar-amount.util';
-import { getTokensWithBalance } from '../../../utils/get-tokens-with-balance.util';
 import { getTokenMetadataSlug } from '../../../utils/token-metadata.util';
 import { getTokenSlug } from '../../../utils/token.utils';
 import { getFormattedBalance } from '../../../utils/units.utils';
@@ -32,36 +34,37 @@ import { styles } from './tokens-selector.styles';
 const keyExtractor = ({ tokenAddress, tokenId }: TokenType) => getTokenSlug(tokenAddress, tokenId);
 
 export const TokensSelector: FC = () => {
-  const allTokensMarketInfoSelector = useTokensMarketInfoSelector();
   const {
     params: { token, navigationKey }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.TokensSelector>>();
   const { navigate } = useNavigation();
-  const { chainId } = useSelectedNetworkSelector();
-  const visibleAccountTokens = useVisibleAccountTokensSelector();
   const previousScreen = usePreviousScreenName();
-  const showOnlyTokenWithBalance = previousScreen === ScreensEnum.SendToken;
 
+  const allTokensMarketInfoSelector = useTokensMarketInfoSelector();
   const gasToken = useGasTokenSelector();
-  const accountTokensWithBalanceAndGasToken: TokenType[] = useMemo(
-    () => [gasToken, ...(showOnlyTokenWithBalance ? getTokensWithBalance(visibleAccountTokens) : visibleAccountTokens)],
-    [gasToken, visibleAccountTokens, showOnlyTokenWithBalance]
-  );
+  const { chainId } = useSelectedNetworkSelector();
+  const visibleAccountTokens = useVisibleAccountTokensAndGasTokenSelector();
 
-  const { accountTokens: filteredAccountTokens, setSearchValue } = useFilterAccountTokens(
-    accountTokensWithBalanceAndGasToken
-  );
+  const { newToken, searchValue, setSearchValue, isLoadingMetadata } = useSearchNewToken();
+  const { addNewTokenToAccount } = useAddNewTokenToAccount();
+
+  const { accountTokens: filteredAccountTokens } = useFilterAccountTokens(visibleAccountTokens, searchValue, newToken);
+
+  const sortedTokens = useSortAccountTokensByBalance(filteredAccountTokens);
 
   const selectedIndex = useMemo(
     () =>
-      filteredAccountTokens.findIndex(
-        accountToken => accountToken.tokenAddress === token?.tokenAddress && accountToken.tokenId === token?.tokenId
+      sortedTokens.findIndex(
+        accountToken =>
+          getTokenSlug(accountToken.tokenAddress, accountToken.tokenId) ===
+          getTokenSlug(token?.tokenAddress ?? '', token?.tokenId)
       ),
-    [filteredAccountTokens]
+    [sortedTokens]
   );
 
   const renderItem = ({ item, index }: ListRenderItemInfo<TokenType>) => {
     const isTokenSelected = selectedIndex === index;
+    const isNewToken = item.tokenAddress === newToken?.tokenAddress;
 
     const {
       tokenAddress,
@@ -77,6 +80,8 @@ export const TokensSelector: FC = () => {
     const amountInDollar = getDollarValue({ amount, price, decimals });
 
     const onSelectItem = () => {
+      addNewTokenToAccount(item, isNewToken);
+
       if (previousScreen === ScreensEnum.Swap || previousScreen === ScreensEnum.SendToken) {
         navigate(previousScreen, { [navigationKey]: item });
       }
@@ -114,12 +119,14 @@ export const TokensSelector: FC = () => {
   return (
     <ModalContainer screenTitle="Select Token">
       <Selector
-        data={filteredAccountTokens}
+        data={sortedTokens}
         renderItem={renderItem}
         setSearchValue={setSearchValue}
         selectedIndex={selectedIndex}
         selectedItemName={gasToken.symbol}
         keyExtractor={keyExtractor}
+        isLoading={isLoadingMetadata}
+        placeholder="Search by name or address"
         isSearchInitiallyOpened
       />
     </ModalContainer>

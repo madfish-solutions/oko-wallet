@@ -1,19 +1,22 @@
 import React, { FC, useEffect, useRef } from 'react';
-import { Animated, Easing } from 'react-native';
+import { Animated, Easing, View } from 'react-native';
 
+import { ViewStyleProps } from '../../interfaces/style.interface';
 import { Icon } from '../icon/icon';
 import { IconNameEnum } from '../icon/icon-name.enum';
 
 import { sizes } from './constants';
 import { LoaderSizeEnum } from './enums';
+import { styles } from './loader.styles';
 
 interface Props {
   color?: string;
   size?: LoaderSizeEnum;
   iconName?: IconNameEnum;
+  style?: ViewStyleProps;
 }
 
-export const Loader: FC<Props> = ({ color, iconName = IconNameEnum.Loaders, size = LoaderSizeEnum.Medium }) => {
+export const Loader: FC<Props> = ({ color, iconName = IconNameEnum.Loaders, size = LoaderSizeEnum.Medium, style }) => {
   const spinAnimation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -41,8 +44,10 @@ export const Loader: FC<Props> = ({ color, iconName = IconNameEnum.Loaders, size
   };
 
   return (
-    <Animated.View style={animatedStyle}>
-      <Icon name={iconName} size={sizes[size]} color={color} />
-    </Animated.View>
+    <View style={[styles.root, style]}>
+      <Animated.View style={animatedStyle}>
+        <Icon name={iconName} size={sizes[size]} color={color} />
+      </Animated.View>
+    </View>
   );
 };

@@ -1,6 +1,6 @@
 import { isNotEmptyString } from '@rnw-community/shared';
 import axios from 'axios';
-import { ActivityResponse, NftListResponse, TokenListResponse } from 'backend-types';
+import { ActivityResponse, NftListResponse, TokenResponse } from 'backend-types';
 
 import { GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { DATA_UPDATE_TIME } from '../../constants/update-time';
@@ -11,6 +11,16 @@ import { memoize } from '../../utils/memoize.util';
 const debankApiRequest = axios.create({
   baseURL: `${BACKEND_URL}/debank/`
 });
+
+export const getTokenInfo = memoize(
+  (tokenAddress: string, chainId: string) =>
+    debankApiRequest
+      .get<TokenResponse>('v1/token', { params: { id: tokenAddress, chain_id: chainId } })
+      .then(({ data }) => data)
+      .catch(() => null),
+  (tokenAddress, chainId) => getSlug(tokenAddress, chainId, 'token-info'),
+  DATA_UPDATE_TIME
+);
 
 export const getHistoryList = memoize(
   async (
@@ -45,7 +55,7 @@ export const getHistoryList = memoize(
 export const getTokenList = memoize(
   (publicKeyHash: string, chainId: string) =>
     debankApiRequest
-      .get<TokenListResponse>('v1/user/token_list', {
+      .get<TokenResponse[]>('v1/user/token_list', {
         params: {
           id: publicKeyHash,
           chain_id: chainId
