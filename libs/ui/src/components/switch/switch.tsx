@@ -31,7 +31,7 @@ const TURN_ON = getCustomSize(2.5);
 const TURN_OFF = 0;
 
 export const Switch: FC<Props> = ({
-  isActive,
+  isActive = true,
   onPress,
   theme = SwitchThemesEnum.Primary,
   disabled = false,

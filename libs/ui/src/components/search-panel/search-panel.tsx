@@ -1,3 +1,4 @@
+import { useIsFocused } from '@react-navigation/native';
 import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm, Controller, ControllerRenderProps, FieldValues, FieldPath } from 'react-hook-form';
@@ -21,35 +22,48 @@ interface Props {
   isEmptyList: boolean;
   setSearchValue: OnEventFn<string>;
   onPressAddIcon?: OnEventFn<GestureResponderEvent>;
-  onPressEditIcon?: OnEventFn<GestureResponderEvent>;
   onPressActivityIcon?: OnEventFn<GestureResponderEvent>;
   selectedItemName?: string;
   onSearchClose?: () => void;
   isSearchInitiallyOpened?: boolean;
-  style?: ViewStyleProps;
+  setIsShowManageTokens?: OnEventFn<boolean>;
   emptyIconStyle?: ViewStyleProps;
+  isShowManageTokensIcon?: boolean;
+  placeholder?: string;
+  style?: ViewStyleProps;
 }
 
 const renderTextInput = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >(
-  field: ControllerRenderProps<TFieldValues, TName>
-) => <TextInput field={field} placeholder="Search" containerStyle={styles.inputContainer} inputStyle={styles.input} />;
+  field: ControllerRenderProps<TFieldValues, TName>,
+  placeholder?: string
+) => (
+  <TextInput
+    field={field}
+    placeholder={placeholder ?? SEARCH_FIELD}
+    containerStyle={styles.inputContainer}
+    inputStyle={styles.input}
+  />
+);
 
 export const SearchPanel: React.FC<Props> = ({
   isEmptyList,
   setSearchValue,
   selectedItemName,
-  onSearchClose,
   isSearchInitiallyOpened = false,
   onPressAddIcon,
-  onPressEditIcon,
   onPressActivityIcon,
-  style,
-  emptyIconStyle
+  setIsShowManageTokens,
+  emptyIconStyle,
+  isShowManageTokensIcon = false,
+  placeholder,
+  style
 }) => {
   const [isShowSearchField, setIsShowSearchField] = useState(isSearchInitiallyOpened);
+  const isScreenFocused = useIsFocused();
+
   const initialSelectedItemName = useRef(selectedItemName);
 
   const { control, resetField, watch, setFocus } = useForm({
@@ -71,14 +85,24 @@ export const SearchPanel: React.FC<Props> = ({
     }
   }, [isShowSearchField]);
 
+  useEffect(() => {
+    if (!isSearchInitiallyOpened) {
+      hideSearchField();
+    }
+  }, [isScreenFocused]);
+
   const hideSearchField = useCallback(() => {
     setIsShowSearchField(false);
     resetField(SEARCH_FIELD);
-
-    onSearchClose?.();
-  }, [onSearchClose]);
+    setIsShowManageTokens?.(false);
+  }, []);
 
   const showSearchField = () => setIsShowSearchField(true);
+
+  const handlePressManageIcon = () => {
+    showSearchField();
+    setIsShowManageTokens?.(true);
+  };
 
   useEffect(() => {
     if (isDefined(selectedItemName) && selectedItemName !== initialSelectedItemName.current) {
@@ -93,7 +117,11 @@ export const SearchPanel: React.FC<Props> = ({
       <Row style={styles.wrapper}>
         {isShowSearchField ? (
           <Row style={styles.searchWrapper}>
-            <Controller control={control} name={SEARCH_FIELD} render={({ field }) => renderTextInput(field)} />
+            <Controller
+              control={control}
+              name={SEARCH_FIELD}
+              render={({ field }) => renderTextInput(field, placeholder)}
+            />
             {!isSearchInitiallyOpened && (
               <TouchableIcon name={IconNameEnum.X} onPress={hideSearchField} style={styles.close} />
             )}
@@ -102,18 +130,19 @@ export const SearchPanel: React.FC<Props> = ({
           <Row style={styles.iconsWrapper}>
             <TouchableIcon name={IconNameEnum.Search} onPress={showSearchField} />
             <Row>
+              {onPressActivityIcon && (
+                <TouchableIcon style={styles.extraIcon} name={IconNameEnum.Activity} onPress={onPressActivityIcon} />
+              )}
               {onPressAddIcon && (
                 <TouchableIcon
                   name={IconNameEnum.Add}
                   onPress={onPressAddIcon}
+                  style={styles.extraIcon}
                   testID={SearchPanelTestIDs.AccountAddingIcon}
                 />
               )}
-              {onPressEditIcon && (
-                <TouchableIcon style={styles.extraIcon} name={IconNameEnum.Edit} onPress={onPressEditIcon} />
-              )}
-              {onPressActivityIcon && (
-                <TouchableIcon style={styles.extraIcon} name={IconNameEnum.Activity} onPress={onPressActivityIcon} />
+              {isShowManageTokensIcon && (
+                <TouchableIcon style={styles.extraIcon} name={IconNameEnum.Slider} onPress={handlePressManageIcon} />
               )}
             </Row>
           </Row>

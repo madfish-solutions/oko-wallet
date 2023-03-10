@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import { ListRenderItemInfo, View } from 'react-native';
 
 import { Announcement } from '../../../../../../components/announcement/announcement';
@@ -12,6 +12,7 @@ import { Pressable } from '../../../../../../components/pressable/pressable';
 import { Row } from '../../../../../../components/row/row';
 import { Selector } from '../../../../../../components/selector/selector';
 import { Text } from '../../../../../../components/text/text';
+import { EMPTY_STRING } from '../../../../../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../../../../../enums/sreens.enum';
 import { useFilterAccountTokens } from '../../../../../../hooks/use-filter-tokens.hook';
 import { useNavigation } from '../../../../../../hooks/use-navigation.hook';
@@ -36,6 +37,7 @@ export const CollectiblesSelector: FC = () => {
     params: { token }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.SendCollectiblesSelector>>();
   const { navigate } = useNavigation();
+
   const { name } = useSelectedNetworkSelector();
   const collectibles = useCollectiblesSelector();
   const accountCollectiblesWithBalance = useMemo(
@@ -44,7 +46,9 @@ export const CollectiblesSelector: FC = () => {
   );
   const gasToken = useGasTokenSelector();
 
-  const { accountTokens: accountCollectibles, setSearchValue } = useFilterAccountTokens(accountCollectiblesWithBalance);
+  const [searchValue, setSearchValue] = useState(EMPTY_STRING);
+
+  const { accountTokens: accountCollectibles } = useFilterAccountTokens(accountCollectiblesWithBalance, searchValue);
 
   const selectedIndex = useMemo(
     () =>

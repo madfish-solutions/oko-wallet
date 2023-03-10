@@ -1,4 +1,4 @@
-import { Token } from '../interfaces/token.interface';
+import { Token, TokenFormType } from '../interfaces/token.interface';
 import { createEntity } from '../store/utils/entity.utils';
 
 export const EMPTY_STRING = '';
@@ -33,4 +33,12 @@ export const EMPTY_TOKEN: Token = {
   isVisible: true,
   name: '',
   symbol: ''
+};
+
+export const EMPTY_METADATA: TokenFormType = {
+  tokenAddress: '',
+  name: '',
+  symbol: '',
+  decimals: '0',
+  thumbnailUri: ''
 };

@@ -21,7 +21,8 @@ import { getCustomSize } from '../../styles/format-size';
 import { getFilteredActivity } from '../../utils/filter-activity.util';
 import { sleep } from '../../utils/sleep.util';
 import { EmptySearchIcon } from '../icon/components/empty-search-icon/empty-search-icon';
-import { WrappedLoader } from '../loader/components/wrapped-loader/wrapped-loader';
+import { LoaderSizeEnum } from '../loader/enums';
+import { Loader } from '../loader/loader';
 import { Text } from '../text/text';
 
 import { styles } from './activity-section-list.styles';
@@ -140,7 +141,8 @@ export const ActivitySectionList: FC<Props> = ({ publicKeyHash, chainId, filterT
     }
   };
 
-  const renderListFooterComponent = () => <>{isLoading && <WrappedLoader style={styles.loading} />}</>;
+  const renderListFooterComponent = () =>
+    isLoading ? <Loader size={LoaderSizeEnum.Large} style={styles.loading} /> : null;
 
   const renderListEmptyComponent = () => <>{!isLoading && <EmptySearchIcon size={emptyIconSize} />}</>;
 

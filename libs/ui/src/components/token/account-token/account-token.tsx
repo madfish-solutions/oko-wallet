@@ -1,10 +1,8 @@
-import { isDefined } from '@rnw-community/shared';
+import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
-import { Pressable } from 'react-native';
+import { GestureResponderEvent, Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { ScreensEnum } from '../../../enums/sreens.enum';
-import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { Token } from '../../../interfaces/token.interface';
 import { getImageSource } from '../../../screens/wallet/components/assets-widget/utils/get-image-source.util';
 import { changeTokenVisibilityAction } from '../../../store/wallet/wallet.actions';
@@ -19,26 +17,31 @@ interface Props {
   token: Token;
   showButton?: boolean;
   theme?: TokenItemThemesEnum;
+  onPress?: OnEventFn<GestureResponderEvent>;
+  onPressSwitch?: OnEventFn<void>;
+  isNewToken?: boolean;
 }
 
-export const AccountToken: FC<Props> = ({ token, showButton, theme }) => {
+export const AccountToken: FC<Props> = ({ token, showButton, theme, onPress, onPressSwitch, isNewToken = false }) => {
   const dispatch = useDispatch();
-  const { navigate } = useNavigation();
 
-  const { thumbnailUri, symbol, name, tokenAddress, fiatBalance } = token;
+  const { thumbnailUri, symbol, name, tokenAddress, fiatBalance, decimals } = token;
 
   const isGasToken = checkIsGasToken(tokenAddress);
   const fiatBalanceToDispaly = getFiatBalanceToDisplay(token.balance.data, fiatBalance ?? 0);
-  const formattedBalance = getFormattedBalance(token.balance.data, token.decimals);
+  const formattedBalance = getFormattedBalance(token.balance.data, decimals);
   const imageSource = getImageSource(thumbnailUri);
 
-  const handleTokenVisibility = () => dispatch(changeTokenVisibilityAction(token));
+  const handleSwitch = () => {
+    if (!isNewToken) {
+      dispatch(changeTokenVisibilityAction(token));
+    }
 
-  const navigateToTokenDetails = () =>
-    navigate(ScreensEnum.Token, { tokenAddress: token.tokenAddress, tokenId: token.tokenId });
+    onPressSwitch?.();
+  };
 
   return (
-    <Pressable onPress={navigateToTokenDetails}>
+    <Pressable onPress={onPress}>
       <TokenItem
         imageSource={imageSource}
         balance={formattedBalance}
@@ -49,7 +52,7 @@ export const AccountToken: FC<Props> = ({ token, showButton, theme }) => {
         isGasToken={isGasToken}
       >
         {isDefined(showButton) && showButton && !isGasToken ? (
-          <Switch onPress={handleTokenVisibility} isActive={token.isVisible} />
+          <Switch onPress={handleSwitch} isActive={token.isVisible} />
         ) : undefined}
       </TokenItem>
     </Pressable>

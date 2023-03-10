@@ -24,8 +24,6 @@ import { RevealPrivateKey } from '../../modals/screens/reveal-private-key/reveal
 import { RevealSeedPhrase } from '../../modals/screens/reveal-seed-phrase/reveal-seed-phrase';
 import { SlippageSettings } from '../../modals/screens/slippage-settings/slippage-settings';
 import { SwapRoute } from '../../modals/screens/swap-route/swap-route';
-import { AddNewToken } from '../../modals/screens/token/add-token/add-token';
-import { EditToken } from '../../modals/screens/token/edit-token/edit-token';
 import { TokensSelector } from '../../modals/screens/tokens-selector/tokens-selector';
 import { WordsAmountSelector } from '../../modals/screens/words-amount-selector/words-amount-selector';
 import { Activity } from '../../screens/activity/activity';
@@ -36,7 +34,6 @@ import { ConnectToDapps } from '../../screens/connect-to-dapps/connect-to-dapps'
 import { CreateANewWallet } from '../../screens/create-wallet/screens/create-a-new-wallet/create-a-new-wallet';
 import { VerifyMnemonic } from '../../screens/create-wallet/screens/verify-mnemonic/verify-mnemonic';
 import { ImportWallet } from '../../screens/import-wallet/import-wallet';
-import { ManageTokens } from '../../screens/manage-tokens/manage-tokens';
 import { Receive } from '../../screens/receive/receive';
 import { ScanQrCode } from '../../screens/scan-qr-code/scan-qr-code';
 import { CollectiblesSelector as SendCollectiblesSelector } from '../../screens/send/screens/send-collectible/components/collectibles-selector/collectibles-selector';
@@ -118,7 +115,6 @@ export const Navigator: FC = () => {
               <Stack.Screen name={ScreensEnum.SendToken} component={SendToken} />
               <Stack.Screen name={ScreensEnum.SendCollectible} component={SendCollectible} />
               <Stack.Screen name={ScreensEnum.Swap} component={Swap} />
-              <Stack.Screen name={ScreensEnum.ManageTokens} component={ManageTokens} />
               <Stack.Screen name={ScreensEnum.ConnectToDapps} component={ConnectToDapps} />
               <Stack.Screen name={ScreensEnum.Tokens} component={Tokens} />
               <Stack.Screen name={ScreensEnum.ScanQrCode} component={ScanQrCode} />
@@ -241,12 +237,6 @@ export const Navigator: FC = () => {
                 options={{ title: 'Edit network' }}
                 component={EditNetwork}
               />
-              <Stack.Screen
-                name={ScreensEnum.AddNewToken}
-                options={{ title: 'Add new token' }}
-                component={AddNewToken}
-              />
-              <Stack.Screen name={ScreensEnum.EditToken} options={{ title: 'Edit token' }} component={EditToken} />
               <Stack.Screen
                 name={ScreensEnum.AddNewCollectible}
                 options={{ title: 'Add new Collectible' }}

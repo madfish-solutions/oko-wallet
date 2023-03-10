@@ -1,4 +1,4 @@
-import { ChainUserRequest, TokenListResponse } from 'backend';
+import { ChainUserRequest, TokenResponse } from 'backend';
 import { NextFunction, Request, Response, Router } from 'express';
 import { ExpirationConfig } from 'express-redis-cache';
 import { query } from 'express-validator';
@@ -21,7 +21,7 @@ const expire: ExpirationConfig = {
 const cacheHandlers = [routeCache.route({ expire })];
 
 const getUserTokenList = (req: Request, res: Response, next: NextFunction) =>
-  proxyDeBankRequest<ChainUserRequest, TokenListResponse>('user/token_list', req.query)
+  proxyDeBankRequest<ChainUserRequest, TokenResponse[]>('user/token_list', req.query)
     .then(data => res.status(200).send(data))
     .catch(next);
 

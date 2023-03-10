@@ -1,3 +1,13 @@
+export interface TokenResponse {
+  decimals: number;
+  id: string;
+  logo_url: string | null;
+  name: string;
+  raw_amount: number;
+  symbol: string;
+  chain: string;
+}
+
 export declare interface NftListResponse {
   id: string;
   contract_id: string;
