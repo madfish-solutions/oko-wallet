@@ -1,5 +1,6 @@
 import React, { FC, useMemo } from 'react';
 import { ScrollView } from 'react-native';
+import { AccountInterface } from 'shared';
 
 import { Column } from '../../../../components/column/column';
 import { NavigationBar } from '../../../../components/navigation-bar/navigation-bar';
@@ -9,7 +10,6 @@ import { ScreenContainer } from '../../../../components/screen-components/screen
 import { SearchPanel } from '../../../../components/search-panel/search-panel';
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { AccountInterface } from '../../../../interfaces/account.interface';
 
 import { styles } from './account-settings.styles';
 import { AccountsList } from './components/accounts-list/accounts-list';

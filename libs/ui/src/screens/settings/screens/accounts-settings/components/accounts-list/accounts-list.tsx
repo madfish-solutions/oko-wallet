@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
+import { AccountInterface } from 'shared';
 
 import { IconWithBorderEnum } from '../../../../../../components/icon-with-border/enums';
 import { IconWithBorder } from '../../../../../../components/icon-with-border/icon-with-border';
 import { RobotIcon } from '../../../../../../components/robot-icon/robot-icon';
 import { ScreensEnum } from '../../../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../../../hooks/use-navigation.hook';
-import { AccountInterface } from '../../../../../../interfaces/account.interface';
 import { ViewStyleProps } from '../../../../../../interfaces/style.interface';
 import { useSelectedNetworkTypeSelector } from '../../../../../../store/wallet/wallet.selectors';
 import { getPublicKeyHash } from '../../../../../../store/wallet/wallet.utils';

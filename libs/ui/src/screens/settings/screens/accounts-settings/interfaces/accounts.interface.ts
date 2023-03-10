@@ -1,4 +1,4 @@
-import { AccountInterface } from '../../../../../interfaces/account.interface';
+import { AccountInterface } from 'shared';
 
 export interface AccountsTransformer {
   hd: AccountInterface[];

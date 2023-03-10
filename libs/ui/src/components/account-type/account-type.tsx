@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
+import { AccountTypeEnum } from 'shared';
 
-import { AccountTypeEnum } from '../../enums/account-type.enum';
 import { getCustomSize } from '../../styles/format-size';
 import { getIconName } from '../../types/get-account-type.util';
 import { Icon } from '../icon/icon';
