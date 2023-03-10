@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { Divider } from '../../../components/divider/divider';
 import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
+import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useGasTokenSelector, useSelectedNetworkSelector } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
 import { ModalContainer } from '../../components/modal-container/modal-container';
@@ -13,11 +14,13 @@ import { NetworksList } from './components/networks-list';
 import { styles } from './networks-selector.styles';
 
 export const NetworksSelector: FC = () => {
+  const { goBack } = useNavigation();
+
   const selectedNetwork = useSelectedNetworkSelector();
   const { balance } = useGasTokenSelector();
 
   return (
-    <ModalContainer screenTitle="Networks">
+    <ModalContainer screenTitle="Networks" onHeaderCloseButtonPress={goBack}>
       <ModalHeader
         name={selectedNetwork.name}
         balanceTitle="Gas balance"

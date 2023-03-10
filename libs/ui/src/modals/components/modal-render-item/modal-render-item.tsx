@@ -1,5 +1,5 @@
 import { OnEventFn } from '@rnw-community/shared';
-import React, { FC, ReactChild } from 'react';
+import React, { FC, ReactElement } from 'react';
 import { GestureResponderEvent } from 'react-native';
 
 import { Column } from '../../../components/column/column';
@@ -7,6 +7,7 @@ import { IconWithBorder } from '../../../components/icon-with-border/icon-with-b
 import { Row } from '../../../components/row/row';
 import { RenderItem } from '../../../components/selector/components/render-item/render-item';
 import { Text } from '../../../components/text/text';
+import { ViewStyleProps } from '../../../interfaces/style.interface';
 import { TestIDProps } from '../../../interfaces/test-id.props';
 import { ModalHeaderInterface } from '../../interfaces/modal-header.interface';
 
@@ -16,7 +17,9 @@ import { AccountTabsTestIDs } from './modal-render-item.test-ids';
 interface Props extends ModalHeaderInterface, TestIDProps {
   isActive: boolean;
   onSelectItem: OnEventFn<GestureResponderEvent>;
-  rightBottomComponent: ReactChild;
+  rightBottomComponent: ReactElement;
+  rightTopComponent?: ReactElement;
+  style?: ViewStyleProps;
 }
 
 export const ModalRenderItem: FC<Props> = ({
@@ -27,6 +30,8 @@ export const ModalRenderItem: FC<Props> = ({
   balance,
   onSelectItem,
   rightBottomComponent,
+  rightTopComponent,
+  style,
   testID
 }) => (
   <RenderItem
@@ -48,5 +53,7 @@ export const ModalRenderItem: FC<Props> = ({
       </Column>
     }
     rightBottomComponent={rightBottomComponent}
+    rightTopComponent={rightTopComponent}
+    style={style}
   />
 );

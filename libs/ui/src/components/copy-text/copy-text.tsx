@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
 import { TouchableOpacity } from 'react-native';
 
-import { useToast } from '../../hooks/use-toast.hook';
+import { useCopyToClipboard } from '../../hooks/use-copy-to-clipboard.hook';
 import { TextStyleProps } from '../../interfaces/style.interface';
-import { handleSetValueToClipboard } from '../../utils/copy-to-clipboard.util';
 import { shortize } from '../../utils/shortize.util';
 import { Text } from '../text/text';
 
@@ -17,22 +16,8 @@ interface Props {
   textStyles?: TextStyleProps;
 }
 
-const TOAST_DURATION_OF_COPY = 1000;
-
 export const CopyText: FC<Props> = ({ text, isShortize = true, numberOfLines, style, textStyles }) => {
-  const { showSuccessToast } = useToast();
-
-  const copy = () => {
-    handleSetValueToClipboard(text);
-
-    showSuccessToast({
-      message: 'Copied',
-      duration: TOAST_DURATION_OF_COPY,
-      data: {
-        isShowTimerLine: false
-      }
-    });
-  };
+  const copy = useCopyToClipboard({ text });
 
   return (
     <TouchableOpacity onPress={copy} style={[styles.root, style]}>

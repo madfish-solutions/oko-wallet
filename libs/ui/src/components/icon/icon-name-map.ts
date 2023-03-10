@@ -43,14 +43,17 @@ import FilterNo from './assets/filter-no.svg';
 import FilterYes from './assets/filter-yes.svg';
 import GasIcon from './assets/gas.svg';
 import GridSettings from './assets/grid-settings.svg';
+import HdAccount from './assets/hd-account.svg';
 import Home from './assets/home.svg';
 import IconDisconnect from './assets/icon-disconnect.svg';
 import IconPlaceholder from './assets/icon-placeholder.svg';
 import IconWarning from './assets/icon-warning.svg';
 import IllustrationWelcomeScreen from './assets/illustration-welcome-screen.svg';
+import ImportedAccount from './assets/imported-account.svg';
 import InfoRed from './assets/info-red.svg';
 import InfoToast from './assets/info-toast.svg';
 import Info from './assets/info.svg';
+import LedgerAccount from './assets/ledger-account.svg';
 import LoadersIcon from './assets/loaders.svg';
 import LockClosed from './assets/lock-closed.svg';
 import LockOpen from './assets/lock-open.svg';
@@ -73,6 +76,7 @@ import ReceiveSmallIcon from './assets/receive-small.svg';
 import ReceiveIcon from './assets/receive.svg';
 import Reddit from './assets/reddit.svg';
 import Refresh from './assets/refresh.svg';
+import RevealSeedPhrase from './assets/reveal-seed-phrase.svg';
 import SearchIcon from './assets/search.svg';
 import Security from './assets/security.svg';
 import See from './assets/see.svg';
@@ -217,6 +221,10 @@ export const iconNameMap: Record<IconNameEnum, FC<SvgProps>> = {
   [IconNameEnum.Document]: Document,
   [IconNameEnum.Circle]: Circle,
   [IconNameEnum.RadioOn]: RadioOn,
+  [IconNameEnum.HdAccount]: HdAccount,
+  [IconNameEnum.ImportedAccount]: ImportedAccount,
+  [IconNameEnum.LedgerAccount]: LedgerAccount,
+  [IconNameEnum.RevealSeedPhrase]: RevealSeedPhrase,
   [IconNameEnum.IllustrationWelcomeScreen]: IllustrationWelcomeScreen,
   [IconNameEnum.Success1]: Success1
 };

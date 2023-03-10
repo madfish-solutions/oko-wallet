@@ -104,6 +104,10 @@ export enum IconNameEnum {
   Document = 'Document',
   Circle = 'Circle',
   RadioOn = 'RadioOn',
+  HdAccount = 'HdAccount',
+  ImportedAccount = 'ImportedAccount',
+  LedgerAccount = 'LedgerAccount',
+  RevealSeedPhrase = 'RevealSeedPhrase',
   IllustrationWelcomeScreen = 'IllustrationWelcomeScreen',
   Success1 = 'Success-1'
 }

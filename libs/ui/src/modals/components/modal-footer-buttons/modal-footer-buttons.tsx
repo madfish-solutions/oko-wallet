@@ -1,3 +1,5 @@
+import { useNavigation } from '@react-navigation/native';
+import { isDefined } from '@rnw-community/shared';
 import React, { FC } from 'react';
 
 import { Button } from '../../../components/button/button';
@@ -18,28 +20,37 @@ export const ModalFooterButtons: FC<Props> = ({
   isCancelDisabled,
   submitTitle,
   cancelTitle = 'Cancel',
+  isCancelButton = true,
   onSubmitPress,
   onCancelPress,
   style,
   testID
-}) => (
-  <Row style={[styles.root, style]}>
-    <Button
-      disabled={isCancelDisabled}
-      theme={ButtonThemesEnum.Primary}
-      size={ButtonSizeEnum.Large}
-      title={cancelTitle}
-      onPress={onCancelPress}
-      style={[styles.button, styles.cancelButton]}
-    />
-    <Button
-      disabled={isSubmitDisabled}
-      theme={ButtonThemesEnum.Secondary}
-      size={ButtonSizeEnum.Large}
-      title={submitTitle}
-      onPress={onSubmitPress}
-      style={styles.button}
-      testID={testID}
-    />
-  </Row>
-);
+}) => {
+  const { goBack } = useNavigation();
+
+  return (
+    <Row style={[styles.root, style]}>
+      {isCancelButton && (
+        <Button
+          disabled={isCancelDisabled}
+          theme={ButtonThemesEnum.Primary}
+          size={ButtonSizeEnum.Large}
+          title={cancelTitle}
+          onPress={onCancelPress ?? goBack}
+          style={[styles.button, styles.cancelButton]}
+        />
+      )}
+      {isDefined(onSubmitPress) && (
+        <Button
+          disabled={isSubmitDisabled}
+          theme={ButtonThemesEnum.Secondary}
+          size={ButtonSizeEnum.Large}
+          title={submitTitle}
+          onPress={onSubmitPress}
+          style={styles.button}
+          testID={testID}
+        />
+      )}
+    </Row>
+  );
+};

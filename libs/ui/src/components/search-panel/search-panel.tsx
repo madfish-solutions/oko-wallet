@@ -22,6 +22,7 @@ interface Props {
   isEmptyList: boolean;
   setSearchValue: OnEventFn<string>;
   onPressAddIcon?: OnEventFn<GestureResponderEvent>;
+  onPressSettingsIcon?: OnEventFn<GestureResponderEvent>;
   onPressActivityIcon?: OnEventFn<GestureResponderEvent>;
   selectedItemName?: string;
   onSearchClose?: () => void;
@@ -54,6 +55,7 @@ export const SearchPanel: React.FC<Props> = ({
   selectedItemName,
   isSearchInitiallyOpened = false,
   onPressAddIcon,
+  onPressSettingsIcon,
   onPressActivityIcon,
   setIsShowManageTokens,
   emptyIconStyle,
@@ -130,6 +132,13 @@ export const SearchPanel: React.FC<Props> = ({
           <Row style={styles.iconsWrapper}>
             <TouchableIcon name={IconNameEnum.Search} onPress={showSearchField} />
             <Row>
+              {onPressSettingsIcon && (
+                <TouchableIcon
+                  name={IconNameEnum.User}
+                  onPress={onPressSettingsIcon}
+                  testID={SearchPanelTestIDs.AccountSettingsIcon}
+                />
+              )}
               {onPressActivityIcon && (
                 <TouchableIcon style={styles.extraIcon} name={IconNameEnum.Activity} onPress={onPressActivityIcon} />
               )}

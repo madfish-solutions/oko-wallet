@@ -5,7 +5,7 @@ import { getCustomSize } from '../../../styles/format-size';
 import { typography } from '../../../styles/typography';
 
 export const styles = StyleSheet.create({
-  wrapper: {
+  root: {
     width: '100%'
   },
   icon: {
@@ -18,6 +18,10 @@ export const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1
+  },
+  row: {
+    justifyContent: 'space-between',
+    alignItems: 'flex-start'
   },
   balanceTitle: {
     ...typography.numbersIBMPlexSansRegular11,

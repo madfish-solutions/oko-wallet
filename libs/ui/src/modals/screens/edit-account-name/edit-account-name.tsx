@@ -10,12 +10,12 @@ import { editAccountNameAction } from '../../../store/wallet/wallet.actions';
 import { ModalActionsContainer } from '../../components/modal-actions-container/modal-actions-container';
 import { useAccountFieldRules } from '../../hooks/use-validate-account-field.hook';
 
-import { styles } from './edit-account.styles';
+import { styles } from './edit-account-name.styles';
 
-export const EditAccount: FC = () => {
+export const EditAccountName: FC = () => {
   const {
     params: { account }
-  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.EditAccount>>();
+  } = useRoute<RouteProp<ScreensParamList, ScreensEnum.EditAccountName>>();
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
   const { nameRules } = useAccountFieldRules();

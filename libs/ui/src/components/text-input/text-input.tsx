@@ -83,7 +83,7 @@ export const TextInput = <
   const [isFocused, setIsFocused] = useState(false);
 
   const isLabel = isDefined(label);
-  const isError = isDefined(error);
+  const isError = isNotEmptyString(error);
   const isPrompt = isDefined(prompt);
   const isNumberKeyboardType = keyboardType === 'numeric' || keyboardType === 'number-pad';
 

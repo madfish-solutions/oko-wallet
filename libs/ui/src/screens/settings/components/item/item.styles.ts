@@ -5,6 +5,7 @@ import { typography } from '../../../../styles/typography';
 
 export const styles = StyleSheet.create({
   root: {
+    justifyContent: 'center',
     height: getCustomSize(6),
     padding: getCustomSize(1.5)
   },

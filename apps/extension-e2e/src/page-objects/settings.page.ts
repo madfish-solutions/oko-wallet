@@ -4,8 +4,10 @@ import { createPageElement } from '../utils/search.utils';
 
 export class SettingsPage extends Page {
   accountsSettingsButton = createPageElement(SettingsTestIDs.AccountsSettingsButton);
+  revealSeedPhraseButton = createPageElement(SettingsTestIDs.AccountsSettingsButton);
 
   async isVisible() {
     await this.accountsSettingsButton.waitForDisplayed();
+    await this.revealSeedPhraseButton.waitForDisplayed();
   }
 }

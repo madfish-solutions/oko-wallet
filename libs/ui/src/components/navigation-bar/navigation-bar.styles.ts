@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
     paddingBottom: getCustomSize(isWeb ? 2 : 4),
     backgroundColor: colors.navGrey1,
     borderTopLeftRadius: getCustomSize(1.75),
-    borderTopRightRadius: getCustomSize(1.75)
+    borderTopRightRadius: getCustomSize(1.75),
+    marginTop: 'auto'
   }
 });

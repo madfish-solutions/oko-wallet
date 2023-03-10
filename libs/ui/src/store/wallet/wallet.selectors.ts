@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { AccountTypeEnum, NetworkTypeEnum, AccountInterface } from 'shared';
 
-import { EMPTY_TOKEN, GAS_TOKEN_ADDRESS } from '../../constants/defaults';
+import { EMPTY_ACCOUNT, EMPTY_TOKEN, GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
 import { NetworkInterface } from '../../interfaces/network.interface';
@@ -64,15 +64,13 @@ export const useAllHdAccountsSelector = () => {
   return useMemo(() => accounts.filter(({ type }) => type === AccountTypeEnum.HD_ACCOUNT), [accounts]);
 };
 
-export const useAllImportedAccountsSelector = (networkType: NetworkTypeEnum) => {
+export const useUserAccountSelector = (publicKeyHash: string) => {
   const accounts = useAllAccountsSelector();
+  const networkType = useSelectedNetworkTypeSelector();
 
   return useMemo(
-    () =>
-      accounts.filter(
-        ({ type, networksKeys }) => type === AccountTypeEnum.IMPORTED_ACCOUNT && isDefined(networksKeys[networkType])
-      ),
-    [accounts, networkType]
+    () => accounts.find(account => account.networksKeys[networkType]?.publicKeyHash === publicKeyHash) ?? EMPTY_ACCOUNT,
+    [accounts]
   );
 };
 

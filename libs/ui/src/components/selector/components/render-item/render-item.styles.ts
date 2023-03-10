@@ -12,11 +12,11 @@ export const styles = StyleSheet.create({
     paddingLeft: getCustomSize(1),
     paddingRight: getCustomSize(1.5),
     borderRadius: getCustomSize(2),
-    borderWidth: getCustomSize(0.25),
-    borderColor: colors.bgGrey2
+    backgroundColor: colors.bgGrey2
   },
   active: {
-    backgroundColor: colors.bgGrey2
+    borderWidth: getCustomSize(0.125),
+    borderColor: colors.orange
   },
   wrapper: {
     justifyContent: 'space-between',

@@ -1,9 +1,9 @@
-import { OnEventFn } from '@rnw-community/shared';
+import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React from 'react';
 import { View, FlatList, FlatListProps, GestureResponderEvent } from 'react-native';
 
-import { LoaderSizeEnum } from '../loader/enums';
-import { Loader } from '../loader/loader';
+import { Button } from '../button/button';
+import { ButtonThemesEnum } from '../button/enums';
 import { SearchPanel } from '../search-panel/search-panel';
 
 import { useFlatListRef } from './hooks/use-flat-list-ref.hook';
@@ -13,6 +13,8 @@ import { getItemLayout as getItemLayoutBase } from './utils/get-item-layout.util
 interface Props<T extends object> extends Pick<FlatListProps<T>, 'renderItem' | 'keyExtractor' | 'getItemLayout'> {
   selectedItemName: string;
   onPressAddIcon?: OnEventFn<GestureResponderEvent>;
+  onPressSettingsIcon?: OnEventFn<GestureResponderEvent>;
+  onCancelPress?: OnEventFn<GestureResponderEvent>;
   setSearchValue: OnEventFn<string>;
   data: T[];
   selectedIndex: number;
@@ -26,6 +28,8 @@ export const Selector = <T extends object>({
   data,
   renderItem,
   onPressAddIcon,
+  onPressSettingsIcon,
+  onCancelPress,
   setSearchValue,
   keyExtractor,
   selectedItemName,
@@ -42,6 +46,7 @@ export const Selector = <T extends object>({
     <View style={styles.root}>
       <SearchPanel
         onPressAddIcon={onPressAddIcon}
+        onPressSettingsIcon={onPressSettingsIcon}
         setSearchValue={setSearchValue}
         selectedItemName={selectedItemName}
         isSearchInitiallyOpened={isSearchInitiallyOpened}
@@ -49,17 +54,19 @@ export const Selector = <T extends object>({
         placeholder={placeholder}
       />
 
-      {isLoading ? (
-        <Loader size={LoaderSizeEnum.Large} style={styles.loader} />
-      ) : (
-        <FlatList
-          ref={flatListRef}
-          getItemLayout={getItemLayout}
-          data={data}
-          showsVerticalScrollIndicator={false}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-        />
+      <FlatList
+        ref={flatListRef}
+        getItemLayout={getItemLayout}
+        data={data}
+        showsVerticalScrollIndicator={false}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+      />
+
+      {isDefined(onCancelPress) && (
+        <View style={styles.button}>
+          <Button title="Cancel" onPress={onCancelPress} theme={ButtonThemesEnum.Primary} />
+        </View>
       )}
     </View>
   );

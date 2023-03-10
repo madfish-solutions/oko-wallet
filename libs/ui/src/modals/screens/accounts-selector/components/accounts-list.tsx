@@ -1,15 +1,16 @@
-import { isDefined, OnEventFn, isNotEmptyString } from '@rnw-community/shared';
+import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { ListRenderItemInfo, View } from 'react-native';
 import { AccountInterface } from 'shared';
 
+import { AccountType } from '../../../../components/account-type/account-type';
 import { CopyText } from '../../../../components/copy-text/copy-text';
-import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { RobotIcon } from '../../../../components/robot-icon/robot-icon';
 import { Selector } from '../../../../components/selector/selector';
-import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
+import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useFiatTotalBalance } from '../../../../hooks/use-fiat-total-balance.hook';
 import { useFilteredAccounts } from '../../../../hooks/use-filtered-accounts.hook';
+import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { TestIDProps } from '../../../../interfaces/test-id.props';
 import { useSelectedNetworkTypeSelector } from '../../../../store/wallet/wallet.selectors';
 import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
@@ -22,8 +23,9 @@ interface Props extends TestIDProps {
   accounts: AccountInterface[];
   selectedAccount: AccountInterface;
   onSelectItem: OnEventFn<AccountInterface>;
-  onEdit?: OnEventFn<AccountInterface>;
   onPressAddIcon?: OnEventFn;
+  isShowAccountType?: boolean;
+  rightBottomComponent?: React.ReactElement;
   isSearchInitiallyOpened?: boolean;
 }
 
@@ -33,15 +35,20 @@ export const AccountsList: FC<Props> = ({
   accounts,
   selectedAccount,
   onSelectItem,
-  onEdit,
   onPressAddIcon,
   isSearchInitiallyOpened = false,
+  isShowAccountType = false,
   testID
 }) => {
-  const { accountsBalanceInUsd } = useFiatTotalBalance();
+  const { navigate, goBack } = useNavigation();
+
   const selectedNetworkType = useSelectedNetworkTypeSelector();
 
+  const { accountsBalanceInUsd } = useFiatTotalBalance();
+
   const { filteredAccounts, setSearchValue, selectedAccountIndex } = useFilteredAccounts(accounts, selectedAccount);
+
+  const onPressSettingsIcon = () => navigate(ScreensEnum.AccountsSettings);
 
   const renderItem = ({ item, index }: ListRenderItemInfo<AccountInterface>) => {
     const isAccountSelected = selectedAccountIndex === index;
@@ -56,16 +63,12 @@ export const AccountsList: FC<Props> = ({
         balance={<ModalAccountBalance balance={accountsBalanceInUsd[item.accountId]} />}
         onSelectItem={() => onSelectItem(item)}
         rightBottomComponent={
-          isDefined(onEdit) ? (
-            <TouchableIcon name={IconNameEnum.Edit} onPress={() => onEdit(item)} />
+          isShowAccountType ? (
+            <AccountType type={item.type} />
           ) : (
-            <>
-              {isNotEmptyString(publicKeyHash) && (
-                <View style={styles.publicKeyHashContainer}>
-                  <CopyText text={publicKeyHash} />
-                </View>
-              )}
-            </>
+            <View style={styles.publicKeyHashContainer}>
+              <CopyText text={publicKeyHash} />
+            </View>
           )
         }
         testID={testID}
@@ -76,12 +79,14 @@ export const AccountsList: FC<Props> = ({
   return (
     <Selector
       onPressAddIcon={onPressAddIcon}
+      onPressSettingsIcon={onPressSettingsIcon}
       data={filteredAccounts}
       renderItem={renderItem}
       setSearchValue={setSearchValue}
       selectedItemName={selectedAccount.name}
       keyExtractor={keyExtractor}
       selectedIndex={selectedAccountIndex}
+      onCancelPress={goBack}
       isSearchInitiallyOpened={isSearchInitiallyOpened}
     />
   );

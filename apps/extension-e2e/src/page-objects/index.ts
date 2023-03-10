@@ -3,7 +3,9 @@ import { AccountsSettingsPage } from './accounts-settings.page';
 import { AddNewAccountBySeedPage } from './add-new-account-by-seed.page';
 import { AddNewHdAccountPage } from './add-new-hd-account.page';
 import { AlmostDonePage } from './almost-done.page';
+import { ConfirmAccessPage } from './confirm-access.page';
 import { CreateNewWalletPage } from './create-new-wallet.page';
+import { EditAccountPage } from './edit-account.page';
 import { ImportExistingWalletPage } from './import-existing-wallet.page';
 import { RevealPrivateKeyPage } from './reveal-private-key.page';
 import { RevealSeedPhrasePage } from './reveal-seed-phrase.page';
@@ -27,5 +29,7 @@ export const Pages = {
   AccountsSelector: new AccountsSelectorPage(),
   AddNewHdAccount: new AddNewHdAccountPage(),
   AddNewAccountBySeed: new AddNewAccountBySeedPage(),
-  WalletCreated: new WalletCreatedPage()
+  WalletCreated: new WalletCreatedPage(),
+  EditAccount: new EditAccountPage(),
+  ConfirmAccess: new ConfirmAccessPage()
 };

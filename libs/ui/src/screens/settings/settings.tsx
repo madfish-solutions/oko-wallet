@@ -41,6 +41,14 @@ export const Settings: FC = () => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
 
   const navigateToAccountsSettings = () => navigate(ScreensEnum.AccountsSettings);
+  const navigateToConfirmAccess = () =>
+    navigate(ScreensEnum.ConfirmAccess, {
+      destination: {
+        screen: ScreensEnum.RevealSeedPhrase
+      },
+      descriptionText: 'Enter your password to reveal seed phrase',
+      submitButtonText: 'reveal seed phrase'
+    });
   const navigateToSettingsGeneral = () => navigate(ScreensEnum.SettingsGeneral);
   const navigateToSettingsSecurity = () => navigate(ScreensEnum.SettingsSecurity);
   const navigateToSettingsAboutUs = () => navigate(ScreensEnum.SettingsAboutUs);
@@ -81,6 +89,13 @@ export const Settings: FC = () => {
                 title="Accounts Settings"
                 onPress={navigateToAccountsSettings}
                 testID={SettingsTestIDs.AccountsSettingsButton}
+              />
+              <Separator />
+              <Item
+                title="Reveal Seed Phrase"
+                icon={IconNameEnum.RevealSeedPhrase}
+                onPress={navigateToConfirmAccess}
+                testID={SettingsTestIDs.RevealSeedPhraseButton}
               />
             </ItemContainer>
 

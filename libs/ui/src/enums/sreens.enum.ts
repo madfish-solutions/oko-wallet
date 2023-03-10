@@ -38,6 +38,7 @@ export enum ScreensEnum {
   AccountsSelector = 'AccountsSelector',
   NetworksSelector = 'NetworksSelector',
   EditAccount = 'EditAccount',
+  EditAccountName = 'EditAccountName',
   AddAccount = 'AddAccount',
   AddNetwork = 'AddNetwork',
   EditNetwork = 'EditNetwork',
@@ -68,8 +69,12 @@ export enum ScreensEnum {
   Swap = 'Swap',
   SwapRoute = 'SwapRoute',
   SlippageTolerance = 'SlippageTolerance',
-  EditPermission = 'EditPermission'
+  SwapConfirmation = 'SwapConfirmation',
+  EditPermission = 'EditPermission',
+  ConfirmAccess = 'ConfirmAccess'
 }
+
+type SensitiveScreensEnum = ScreensEnum.RevealPrivateKey | ScreensEnum.RevealSeedPhrase;
 
 export type ScreensParamList = {
   [ScreensEnum.ImportWallet]?: { wordsAmount: SeedWordsAmount };
@@ -97,7 +102,8 @@ export type ScreensParamList = {
   [ScreensEnum.Unlock]: undefined;
   [ScreensEnum.AccountsSelector]: undefined;
   [ScreensEnum.NetworksSelector]: undefined;
-  [ScreensEnum.EditAccount]: { account: AccountInterface };
+  [ScreensEnum.EditAccount]: { publicKeyHash: string };
+  [ScreensEnum.EditAccountName]: { account: AccountInterface };
   [ScreensEnum.AddAccount]?: { wordsAmount?: SeedWordsAmount; activeId?: number };
   [ScreensEnum.AddNetwork]: undefined;
   [ScreensEnum.AddNewToken]: undefined;
@@ -139,6 +145,14 @@ export type ScreensParamList = {
     proposedAllowanceAmount: string;
     customAllowanceAmount: string;
     spender: string;
+  };
+  [ScreensEnum.ConfirmAccess]: {
+    destination: {
+      screen: SensitiveScreensEnum;
+      options?: { publicKeyHash: string };
+    };
+    submitButtonText: string;
+    descriptionText: string;
   };
 };
 
