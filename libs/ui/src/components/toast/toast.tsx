@@ -4,6 +4,7 @@ import { Animated, Easing, GestureResponderEvent, View } from 'react-native';
 import { ToastProps } from 'react-native-toast-notifications/lib/typescript/toast';
 
 import { ToastsEnum } from '../../enums/toasts.enums';
+import { ToastData } from '../../interfaces/toast.interface';
 import { hapticFeedback } from '../../utils/taptic-engine/taptic-engine.util';
 import { Column } from '../column/column';
 import { Icon } from '../icon/icon';
@@ -14,11 +15,6 @@ import { TouchableIcon } from '../touchable-icon/touchable-icon';
 
 import { themes } from './constants/themes';
 import { styles } from './toast.styles';
-
-export interface ToastData {
-  description?: string | JSX.Element;
-  isShowTimerLine?: boolean;
-}
 
 interface Props extends Pick<ToastProps, 'message'> {
   type: ToastsEnum;

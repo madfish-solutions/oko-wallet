@@ -3,9 +3,9 @@ import { isDefined } from '@rnw-community/shared';
 import { getDefaultProvider } from 'ethers';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { TokenStandardEnum } from 'shared';
 
 import { Erc1155Abi__factory, Erc20Abi__factory, Erc721Abi__factory } from '../../contract-types';
-import { TokenStandardEnum } from '../../enums/token-standard.enum';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { Token } from '../../interfaces/token.interface';
 

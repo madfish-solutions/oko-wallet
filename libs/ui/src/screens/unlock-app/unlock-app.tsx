@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, NativeSyntheticEvent, Pressable, TextInputKeyPressEventData, View } from 'react-native';
+import { isMobile, isIOS, isWeb } from 'shared';
 
 import { Button } from '../../components/button/button';
 import { ButtonThemesEnum } from '../../components/button/enums';
@@ -15,7 +16,6 @@ import { useUnlock } from '../../hooks/use-unlock.hook';
 import { useBiometricEnabledSelector } from '../../store/settings/settings.selectors';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
-import { isMobile, isIOS, isWeb } from '../../utils/platform.utils';
 import { MadFishLogo } from '../settings/components/mad-fish-logo/mad-fish-logo';
 
 import { usePasswordLock } from './hooks/use-password-lock.hook';

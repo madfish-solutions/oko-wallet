@@ -1,5 +1,6 @@
+import { isMobile, isWeb } from 'shared';
+
 import { isFullpage } from '../../../utils/location.utils';
-import { isMobile, isWeb } from '../../../utils/platform.utils';
 import { extensionHeight } from '../../navigator/utils/maximise-view-options';
 
 const isExtensionOpen = isWeb && !isFullpage;

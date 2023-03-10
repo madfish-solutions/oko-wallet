@@ -1,0 +1,12 @@
+export { Shelter } from './classes/shelter';
+export { useBackgroundMessager } from './messagers/hooks/use-background-messager.hook';
+export { BackgroundMessager } from './messagers/background-messager';
+export type { BackgroundMessage } from './messagers/types/background-message.type';
+export { BackgroundMessageType } from './messagers/enums/background-message-type.enum';
+export { E2eMessageType } from './messagers/enums/e2e-message-type.enum';
+export { generateHdAccount, derivationPathByNetworkType } from './utils/generate-hd-account.util';
+export { getKeys } from './utils/generate-tezos-hd-account.util';
+export { getDefaultEvmProvider } from './utils/get-default-evm-provider.utils';
+export { resetStore$ } from './utils/keychain.utils';
+export { createTezosToolkit, createReadOnlyTezosToolkit } from './utils/tezos-toolkit.utils';
+export { INITIAL_PASSWORD_HASH, PASSWORD_CHECK_KEY, SEED_PHRASE_KEY } from './constants/defaults';

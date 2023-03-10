@@ -2,7 +2,7 @@ import { isEmptyString } from '@rnw-community/shared';
 import React, { FC, PropsWithChildren } from 'react';
 import { FlatList, ListRenderItemInfo, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { TestIDProps } from 'src/interfaces/test-id.props';
+import { AccountInterface } from 'shared';
 
 import { Button } from '../../../../../../components/button/button';
 import { ButtonSizeEnum, ButtonThemesEnum } from '../../../../../../components/button/enums';
@@ -20,8 +20,8 @@ import { TouchableIcon } from '../../../../../../components/touchable-icon/touch
 import { ScreensEnum } from '../../../../../../enums/sreens.enum';
 import { useFilteredAccounts } from '../../../../../../hooks/use-filtered-accounts.hook';
 import { useNavigation } from '../../../../../../hooks/use-navigation.hook';
-import { useShelter } from '../../../../../../hooks/use-shelter.hook';
-import { AccountInterface } from '../../../../../../interfaces/account.interface';
+import { TestIDProps } from '../../../../../../interfaces/test-id.props';
+import { useCreateHdAccountForNewNetworkType } from '../../../../../../shelter/hooks/use-create-hd-account-for-new-network-type.hook';
 import { changeAccountVisibilityAction } from '../../../../../../store/wallet/wallet.actions';
 import {
   useSelectedAccountSelector,
@@ -42,7 +42,7 @@ const keyExtractor = (account: AccountInterface) => account.accountId.toString()
 export const AccountsContainer: FC<Props> = ({ accounts, children }) => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
-  const { createHdAccountForNewNetworkType } = useShelter();
+  const createHdAccountForNewNetworkType = useCreateHdAccountForNewNetworkType();
   const selectedAccount = useSelectedAccountSelector();
   const selectedNetworkType = useSelectedNetworkTypeSelector();
   const networkType = useSelectedNetworkTypeSelector();

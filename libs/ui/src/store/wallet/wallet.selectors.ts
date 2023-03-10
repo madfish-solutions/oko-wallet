@@ -1,13 +1,11 @@
 import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { AccountTypeEnum, NetworkTypeEnum, AccountInterface } from 'shared';
 
 import { EMPTY_TOKEN, GAS_TOKEN_ADDRESS } from '../../constants/defaults';
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
-import { AccountTypeEnum } from '../../enums/account-type.enum';
-import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { TransactionStatusEnum } from '../../enums/transactions.enum';
-import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { Token } from '../../interfaces/token.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';

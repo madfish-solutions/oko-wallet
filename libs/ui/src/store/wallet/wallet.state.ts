@@ -1,10 +1,12 @@
+import { AccountInterface } from 'shared';
+
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { defaultTokensMetadata } from '../../constants/tokens';
 import { AccountToken } from '../../interfaces/account-token.interface';
-import { AccountInterface, Transaction } from '../../interfaces/account.interface';
 import { DappConnectionInfo } from '../../interfaces/dapp-connection.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { TokenMetadata } from '../../interfaces/token-metadata.interface';
+import { Transaction } from '../../interfaces/transaction.interfaces';
 import { LoadableEntityState } from '../interfaces/loadable-entity-state.interface';
 
 type NetworkChainIdWithTokenAddress = string;

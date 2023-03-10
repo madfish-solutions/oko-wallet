@@ -2,7 +2,7 @@ import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { isDefined, isNotEmptyString, OnEventFn } from '@rnw-community/shared';
 import React, { FC, PropsWithChildren, useCallback, useMemo } from 'react';
 
-import { useShelter } from '../../../../../../hooks/use-shelter.hook';
+import { useSendEvmTransaction } from '../../../../../../shelter/hooks/use-send-evm-transaction.hook';
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector
@@ -34,7 +34,6 @@ export const EvmConfirmationContainer: FC<Props> = ({
 }) => {
   const publicKeyHash = useSelectedAccountPublicKeyHashSelector();
   const network = useSelectedNetworkSelector();
-  const { sendEvmTransaction } = useShelter();
   const {
     token,
     receiverPublicKeyHash,
@@ -45,6 +44,7 @@ export const EvmConfirmationContainer: FC<Props> = ({
   } = transferParams;
 
   const transactionParams = useModifyEvmTransactionParams(initialTransactionParams);
+  const sendEvmTransaction = useSendEvmTransaction();
 
   const { estimations, isLoading } = useEvmEstimations({
     network,

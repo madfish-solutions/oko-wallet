@@ -3,6 +3,7 @@ import { isDefined, isNotEmptyString } from '@rnw-community/shared';
 import React, { FC, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
+import { isMobile } from 'shared';
 
 import { Checkbox } from '../../components/checkbox/checkbox';
 import { Column } from '../../components/column/column';
@@ -11,12 +12,11 @@ import { PasswordInput } from '../../components/text-input/components/password-i
 import { TextInput } from '../../components/text-input/text-input';
 import { WalletCreationContainer } from '../../components/wallet-creation-container/wallet-creation-container';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
-import { useShelter } from '../../hooks/use-shelter.hook';
 import { useValidatePasswordForm } from '../../hooks/use-validate-password-form.hook';
 import { usePasswordValidation } from '../../hooks/use-validation-messages.hook';
 import { useAccountFieldRules } from '../../modals/hooks/use-validate-account-field.hook';
+import { useImportWallet } from '../../shelter/hooks/use-import-wallet.hook';
 import { setIsBiometricEnabled } from '../../store/settings/settings.actions';
-import { isMobile } from '../../utils/platform.utils';
 
 import { styles } from './almost-done.styles';
 import { AlmostDoneTestIDs } from './almost-done.test-ids';
@@ -40,7 +40,7 @@ export const AlmostDone: FC = () => {
     params: { mnemonic, currentStep, stepsAmount }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.AlmostDone>>();
 
-  const { importWallet } = useShelter();
+  const importWallet = useImportWallet();
   const dispatch = useDispatch();
 
   const [isUseFaceId, setIsUseFaceId] = useState(false);

@@ -1,9 +1,9 @@
 import { isDefined, OnEventFn } from '@rnw-community/shared';
 import React from 'react';
 import { Pressable, View } from 'react-native';
-import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { useNavigation } from '../../hooks/use-navigation.hook';
+import { TestIDProps } from '../../interfaces/test-id.props';
 import { Button } from '../button/button';
 import { ButtonSizeEnum, ButtonThemesEnum } from '../button/enums';
 import { Column } from '../column/column';

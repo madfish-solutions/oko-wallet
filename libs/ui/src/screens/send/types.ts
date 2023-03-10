@@ -1,4 +1,5 @@
-import { AccountInterface } from '../../interfaces/account.interface';
+import { AccountInterface } from 'shared';
+
 import { Token } from '../../interfaces/token.interface';
 
 export interface FormTypes {

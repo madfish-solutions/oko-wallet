@@ -1,8 +1,8 @@
 import { from } from 'rxjs';
+import { getDefaultEvmProvider } from 'shelter';
 
 import { ONE_INCH_ROUTER_ADDRESS } from '../../api/1inch/constants';
 import { Erc20Abi__factory } from '../../contract-types';
-import { getDefaultEvmProvider } from '../../utils/get-default-evm-provider.utils';
 
 export const loadTokenAllowance$ = (rpcUrl: string, publicKeyHash: string, tokenAddress: string) => {
   const provider = getDefaultEvmProvider(rpcUrl);

@@ -4,9 +4,9 @@ import { BatchOperation } from '@taquito/taquito';
 import React, { useState } from 'react';
 import { Linking } from 'react-native';
 import { useDispatch } from 'react-redux';
+import { NetworkTypeEnum } from 'shared';
 
 import { ToastDescription } from '../../../components/toast-description/toast-description';
-import { NetworkTypeEnum } from '../../../enums/network-type.enum';
 import { ScreensEnum } from '../../../enums/sreens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useToast } from '../../../hooks/use-toast.hook';

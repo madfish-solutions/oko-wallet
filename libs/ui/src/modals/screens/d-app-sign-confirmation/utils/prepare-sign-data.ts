@@ -1,6 +1,5 @@
 import { ethers } from 'ethers';
-
-import { DAppMethodEnum } from '../../../../enums/dApp-method.enum';
+import { DAppMethodEnum } from 'shared';
 
 const prepareSignData = (signData: string) => {
   try {

@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
-import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { Button } from '../../../components/button/button';
 import { ButtonSizeEnum, ButtonThemesEnum } from '../../../components/button/enums';
 import { Row } from '../../../components/row/row';
 import { ViewStyleProps } from '../../../interfaces/style.interface';
+import { TestIDProps } from '../../../interfaces/test-id.props';
 
 import { FooterButtons } from './modal-footer-buttons.interface';
 import { styles } from './modal-footer-buttons.styles';

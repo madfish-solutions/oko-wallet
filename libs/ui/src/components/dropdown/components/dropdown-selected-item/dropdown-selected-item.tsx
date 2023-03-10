@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { PressableProps } from 'react-native';
-import { TestIDProps } from 'src/interfaces/test-id.props';
 
+import { TestIDProps } from '../../../../interfaces/test-id.props';
 import { getCustomSize } from '../../../../styles/format-size';
 import { Icon } from '../../../icon/icon';
 import { IconNameEnum } from '../../../icon/icon-name.enum';

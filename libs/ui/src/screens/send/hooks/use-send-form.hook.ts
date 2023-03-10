@@ -1,10 +1,10 @@
 import { isDefined } from '@rnw-community/shared';
-import { useCallback, useEffect } from 'react';
-import { UseFormClearErrors, UseFormSetValue, UseFormTrigger } from 'react-hook-form/dist/types/form';
+import { useEffect, useCallback } from 'react';
+import { UseFormSetValue, UseFormTrigger, UseFormClearErrors } from 'react-hook-form/dist/types/form';
 import { useDispatch } from 'react-redux';
+import { AccountInterface } from 'shared';
 
 import { useToast } from '../../../hooks/use-toast.hook';
-import { AccountInterface } from '../../../interfaces/account.interface';
 import { Token } from '../../../interfaces/token.interface';
 import { sendAssetAction } from '../../../store/wallet/wallet.actions';
 import {

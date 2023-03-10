@@ -8,7 +8,7 @@ import { Pressable } from '../../../../../components/pressable/pressable';
 import { Text } from '../../../../../components/text/text';
 import { TextInput as CustomTextInput } from '../../../../../components/text-input/text-input';
 import { useNavigation } from '../../../../../hooks/use-navigation.hook';
-import { useShelter } from '../../../../../hooks/use-shelter.hook';
+import { useCreateImportedAccount } from '../../../../../shelter/hooks/use-create-imported-account.hook';
 import { useAllAccountsSelector, useSelectedNetworkTypeSelector } from '../../../../../store/wallet/wallet.selectors';
 import { handleSetValueToClipboard } from '../../../../../utils/copy-to-clipboard.util';
 import { generateHdAccountFromPrivateKey } from '../../../../../utils/generate-hd-account-from-private-key.util';
@@ -24,7 +24,7 @@ interface FormTypes {
 
 export const PrivateKey: FC = () => {
   const { goBack } = useNavigation();
-  const { createImportedAccount } = useShelter();
+  const createImportedAccount = useCreateImportedAccount();
   const networkType = useSelectedNetworkTypeSelector();
   const accounts = useAllAccountsSelector();
   const { nameRules, privateKeyRules } = useAccountFieldRules();

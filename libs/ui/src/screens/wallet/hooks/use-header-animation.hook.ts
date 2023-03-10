@@ -1,10 +1,10 @@
 import { useNavigationState } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
+import { isWeb } from 'shared';
 
 import { useScrollToOffset } from '../../../hooks/use-scroll-to-element.hook';
 import { isFullpage } from '../../../utils/location.utils';
-import { isWeb } from '../../../utils/platform.utils';
 import { HIDE_QR_CODE, MIDDLE_VALUE, SHOW_QR_CODE } from '../constants/dimensions';
 
 export const useHeaderAnimation = () => {

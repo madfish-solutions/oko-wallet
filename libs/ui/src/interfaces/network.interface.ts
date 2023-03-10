@@ -1,5 +1,6 @@
+import { NetworkTypeEnum } from 'shared';
+
 import { IconNameEnum } from '../components/icon/icon-name.enum';
-import { NetworkTypeEnum } from '../enums/network-type.enum';
 
 import { GasTokenMetadata } from './token.interface';
 

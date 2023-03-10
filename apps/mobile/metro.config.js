@@ -1,6 +1,12 @@
 const path = require('path');
 const { getDefaultConfig } = require('metro-config');
 
+const LIBS = ['ui', 'shared', 'shelter'];
+
+const watchFoldersConfiguration = LIBS.map(name => path.resolve(__dirname, `../../libs/${name}`));
+
+const nodeModulesPathsConfiguration = LIBS.map(name => path.resolve(__dirname, `../../libs/${name}/node_modules`));
+
 module.exports = (async () => {
 
     const {
@@ -17,14 +23,12 @@ module.exports = (async () => {
         }),
         babelTransformerPath: require.resolve('react-native-svg-transformer')
     },
-    watchFolders: [
-        path.resolve(__dirname, '../../libs/ui'),
-    ],
+    watchFolders: watchFoldersConfiguration,
     resolver: {
         disableHierarchicalLookup: true,
         nodeModulesPaths: [
             path.resolve(__dirname, 'node_modules'),
-            path.resolve(__dirname, '../../libs/ui/node_modules')
+            ...nodeModulesPathsConfiguration
         ],
         extraNodeModules: new Proxy(
             {},

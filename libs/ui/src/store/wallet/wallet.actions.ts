@@ -1,12 +1,13 @@
 import { createAction } from '@reduxjs/toolkit';
 import { NftListResponse, TokenResponse } from 'backend-types';
+import { AccountInterface } from 'shared';
 
-import { AccountInterface, PendingTransaction } from '../../interfaces/account.interface';
 import { DappConnectionInfo } from '../../interfaces/dapp-connection.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
 import { TokenExtendedMetadata } from '../../interfaces/token-extended-metadata.interface';
 import { Token, TokenFormType } from '../../interfaces/token.interface';
+import { PendingTransaction } from '../../interfaces/transaction.interfaces';
 import { createActions } from '../utils/action.utils';
 
 export const createHdAccountAction = createAction<AccountInterface>('wallet/CREATE_HD_ACCOUNT');

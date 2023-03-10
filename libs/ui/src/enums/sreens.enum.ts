@@ -1,7 +1,8 @@
+import { AccountInterface } from 'shared';
+
 import { GetQuoteResponse } from '../api/1inch/types';
 import { Option } from '../components/dropdown/option.interface';
 import { SeedWordsAmount } from '../constants/seed-words-amount';
-import { AccountInterface } from '../interfaces/account.interface';
 import { DAppInfo, DAppTransactionInfo } from '../interfaces/dapp-info.interface';
 import { NetworkInterface } from '../interfaces/network.interface';
 import { Token } from '../interfaces/token.interface';
