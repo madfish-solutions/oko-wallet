@@ -1,10 +1,9 @@
 import { isDefined } from '@rnw-community/shared';
+import { AccountInterface, NetworkTypeEnum } from 'shared';
 
 import { NETWORKS_DEFAULT_LIST } from '../../constants/networks';
 import { TOKENS_DEFAULT_LIST } from '../../constants/tokens';
-import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { AccountToken } from '../../interfaces/account-token.interface';
-import { AccountInterface } from '../../interfaces/account.interface';
 import { Token } from '../../interfaces/token.interface';
 import { initialAccount } from '../../mocks/account.interface.mock';
 import { getAccountTokensSlug } from '../../utils/address.util';

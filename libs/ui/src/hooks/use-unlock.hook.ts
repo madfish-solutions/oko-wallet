@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { of, Subject, interval } from 'rxjs';
+import { Subject, of, interval } from 'rxjs';
 import { switchMap, tap, delayWhen } from 'rxjs/operators';
+import { Shelter } from 'shelter';
 
 import { MAX_PASSWORD_ATTEMPTS } from '../constants/security';
-import { Shelter } from '../shelter/shelter';
 import { enterPassword } from '../store/security/security-actions';
 import { usePasswordWrongAttemptsSelector } from '../store/security/security-selectors';
 import { hideLoaderAction, showLoaderAction } from '../store/settings/settings.actions';

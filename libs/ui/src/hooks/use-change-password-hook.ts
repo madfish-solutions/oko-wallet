@@ -2,8 +2,8 @@ import { OnEventFn } from '@rnw-community/shared';
 import { useEffect, useMemo } from 'react';
 import { Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { Shelter } from 'shelter';
 
-import { Shelter } from '../shelter/shelter';
 import { useAllAccountsSelector } from '../store/wallet/wallet.selectors';
 import { getSensitiveDataKeys } from '../utils/sensitive-data.util';
 

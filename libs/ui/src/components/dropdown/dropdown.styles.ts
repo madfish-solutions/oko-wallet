@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
+import { isMobile } from 'shared';
 
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { typography } from '../../styles/typography';
-import { isMobile } from '../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   container: {

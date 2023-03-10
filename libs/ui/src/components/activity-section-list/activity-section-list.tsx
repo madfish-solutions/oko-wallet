@@ -7,6 +7,7 @@ import {
   SectionListData,
   SectionListRenderItem
 } from 'react-native';
+import { isWeb, isMobile } from 'shared';
 
 import { getDebankId } from '../../api/debank/utils/get-debank-id.util';
 import { DEBOUNCE_TIME } from '../../constants/defaults';
@@ -18,7 +19,6 @@ import { ActivityFilterEnum } from '../../modals/screens/activity-filter-selecto
 import { ActivityItem } from '../../screens/activity/components/activity-item';
 import { getCustomSize } from '../../styles/format-size';
 import { getFilteredActivity } from '../../utils/filter-activity.util';
-import { isMobile, isWeb } from '../../utils/platform.utils';
 import { sleep } from '../../utils/sleep.util';
 import { EmptySearchIcon } from '../icon/components/empty-search-icon/empty-search-icon';
 import { WrappedLoader } from '../loader/components/wrapped-loader/wrapped-loader';

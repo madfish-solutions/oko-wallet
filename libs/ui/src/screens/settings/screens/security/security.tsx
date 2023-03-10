@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
+import { isMobile } from 'shared';
 
 import { Divider } from '../../../../components/divider/divider';
 import { DropdownSelectedItem } from '../../../../components/dropdown/components/dropdown-selected-item/dropdown-selected-item';
@@ -14,7 +15,6 @@ import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { setIsBiometricEnabled } from '../../../../store/settings/settings.actions';
 import { useBiometricEnabledSelector, useLockTimePeriodSelector } from '../../../../store/settings/settings.selectors';
 import { getCustomSize } from '../../../../styles/format-size';
-import { isMobile } from '../../../../utils/platform.utils';
 import { Item } from '../../components/item/item';
 import { ItemContainer } from '../../components/item-container/item-container';
 import { styles } from '../../settings.styles';

@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 import { withLatestFrom } from 'rxjs/operators';
+import { AccountInterface } from 'shared';
 
 import { NETWORKS_DEFAULT_LIST } from '../constants/networks';
-import { AccountInterface } from '../interfaces/account.interface';
 import { NetworkInterface } from '../interfaces/network.interface';
 import { initialAccount } from '../mocks/account.interface.mock';
 import { WalletRootState } from '../store/wallet/wallet.state';

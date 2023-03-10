@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Linking, View } from 'react-native';
+import { isIOS, isWeb } from 'shared';
 
 import { Divider } from '../../components/divider/divider';
 import { Icon } from '../../components/icon/icon';
@@ -22,7 +23,6 @@ import { useSelectedAccountPublicKeyHashSelector } from '../../store/wallet/wall
 import { getCustomSize } from '../../styles/format-size';
 import { isFullpage } from '../../utils/location.utils';
 import { openFullViewPage } from '../../utils/open-maximise-screen.util';
-import { isIOS, isWeb } from '../../utils/platform.utils';
 
 import EasterEgg from './assets/easter-egg.svg';
 import { Item } from './components/item/item';

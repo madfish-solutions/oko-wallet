@@ -1,9 +1,9 @@
 import { isDefined } from '@rnw-community/shared';
 import { isAddress } from 'ethers/lib/utils';
 import { useMemo, useState } from 'react';
+import { AccountInterface } from 'shared';
 
 import { EMPTY_STRING } from '../constants/defaults';
-import { AccountInterface } from '../interfaces/account.interface';
 import { useSelectedNetworkTypeSelector } from '../store/wallet/wallet.selectors';
 
 export const useFilteredAccounts = (accounts: AccountInterface[], selectedAccount?: AccountInterface) => {

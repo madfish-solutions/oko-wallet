@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { Text as TextBase, TextProps } from 'react-native';
-import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { TextStyleProps } from '../../interfaces/style.interface';
+import { TestIDProps } from '../../interfaces/test-id.props';
 
 import { styles } from './text.styles';
 

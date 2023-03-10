@@ -1,4 +1,5 @@
-import { RootState, LocalStorage, initialRootState } from 'ui/background-script';
+import { LocalStorage } from 'shared/background-script';
+import { RootState, initialRootState } from 'ui/background-script';
 
 export const getState = async () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

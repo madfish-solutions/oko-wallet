@@ -130,8 +130,10 @@ export const TextInput = <
 
   return (
     <View style={containerStyle}>
-      {isLabel && <Label title={label} isOptional={!required} style={labelContainerStyle} textStyle={labelTextStyle} />}
-      {isPrompt && <Prompt title={prompt} handlePrompt={handlePrompt} />}
+      {isLabel && (
+        <Label title={label ?? ''} isOptional={!required} style={labelContainerStyle} textStyle={labelTextStyle} />
+      )}
+      {isPrompt && <Prompt title={prompt ?? ''} handlePrompt={handlePrompt} />}
       <View
         style={[
           styles.inputContainer,

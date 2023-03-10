@@ -2,17 +2,17 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
+import { NetworkTypeEnum } from 'shared';
 
 import { ButtonWithIcon } from '../../../../components/button-with-icon/button-with-icon';
 import { ButtonWithIconSizeEnum } from '../../../../components/button-with-icon/enums';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { NETWORK_CHAIN_IDS_BY_NETWORK_TYPE } from '../../../../constants/networks';
 import { MainnetRpcEnum } from '../../../../constants/rpc';
-import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
-import { useShelter } from '../../../../hooks/use-shelter.hook';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
+import { useCreateHdAccountForNewNetworkType } from '../../../../shelter/hooks/use-create-hd-account-for-new-network-type.hook';
 import { editNetworkAction, removeNetworkAction } from '../../../../store/wallet/wallet.actions';
 import { useAllNetworksSelector, useSelectedAccountSelector } from '../../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../../styles/format-size';
@@ -27,7 +27,7 @@ import { styles } from './edit-network.styles';
 export const EditNetwork: FC = () => {
   const { goBack } = useNavigation();
   const dispatch = useDispatch();
-  const { createHdAccountForNewNetworkType } = useShelter();
+  const createHdAccountForNewNetworkType = useCreateHdAccountForNewNetworkType();
   const selectedAccount = useSelectedAccountSelector();
   const networks = useAllNetworksSelector();
   const {

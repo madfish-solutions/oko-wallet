@@ -8,7 +8,7 @@ import { ProtectLayout } from '../../../components/protect-layout/protect-layout
 import { Text } from '../../../components/text/text';
 import { SECURITY_TIME } from '../../../constants/defaults';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
-import { useShelter } from '../../../hooks/use-shelter.hook';
+import { useRevealPrivateKey } from '../../../shelter/hooks/use-reveal-private-key.hook';
 import { handleSetValueToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
@@ -16,13 +16,14 @@ import { styles } from './reveal-private-key.styles';
 import { RevealPrivateKeyTestIDs } from './reveal-private-key.test-ids';
 
 export const RevealPrivateKey: FC = () => {
-  const [isShowProtectLayout, setIsShowProtectLayout] = useState(true);
-  const [privateKey, setPrivateKey] = useState('');
-
   const {
     params: { publicKeyHash }
   } = useRoute<RouteProp<ScreensParamList, ScreensEnum.RevealPrivateKey>>();
-  const { revealPrivateKey } = useShelter();
+
+  const [isShowProtectLayout, setIsShowProtectLayout] = useState(true);
+  const [privateKey, setPrivateKey] = useState('');
+
+  const revealPrivateKey = useRevealPrivateKey();
 
   const getPrivateKey = () => {
     revealPrivateKey({

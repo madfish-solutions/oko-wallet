@@ -2,10 +2,10 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { View, Pressable } from 'react-native';
-import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { ScreensParamList } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
+import { TestIDProps } from '../../../../interfaces/test-id.props';
 import { Row } from '../../../row/row';
 import { Text } from '../../../text/text';
 import { useNavigationFromSensetiveScreens } from '../../hooks/use-navigation-from-sensetive-screens.hook';

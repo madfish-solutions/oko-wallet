@@ -1,10 +1,10 @@
 import { OnEventFn } from '@rnw-community/shared';
 import React, { FC, useEffect } from 'react';
 import { GestureResponderEvent, TouchableOpacity } from 'react-native';
+import { isMobile } from 'shared';
 
 import { isFullpage } from '../../utils/location.utils';
 import { openFullViewPage } from '../../utils/open-maximise-screen.util';
-import { isMobile } from '../../utils/platform.utils';
 import { Icon } from '../icon/icon';
 import { IconNameEnum } from '../icon/icon-name.enum';
 import { Text } from '../text/text';

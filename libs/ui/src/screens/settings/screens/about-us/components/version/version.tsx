@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
+import { isMobile } from 'shared';
 
 import { Text } from '../../../../../../components/text/text';
-import { isMobile } from '../../../../../../utils/platform.utils';
 import { Item } from '../../../../components/item/item';
 import { ItemContainer } from '../../../../components/item-container/item-container';
 

@@ -1,7 +1,6 @@
 import { OnEventFn } from '@rnw-community/shared';
 import React, { FC, ReactElement } from 'react';
 import { GestureResponderEvent } from 'react-native';
-import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { Column } from '../../../components/column/column';
 import { IconWithBorder } from '../../../components/icon-with-border/icon-with-border';
@@ -9,6 +8,7 @@ import { Row } from '../../../components/row/row';
 import { RenderItem } from '../../../components/selector/components/render-item/render-item';
 import { Text } from '../../../components/text/text';
 import { ViewStyleProps } from '../../../interfaces/style.interface';
+import { TestIDProps } from '../../../interfaces/test-id.props';
 import { ModalHeaderInterface } from '../../interfaces/modal-header.interface';
 
 import { styles } from './modal-render-item.styles';

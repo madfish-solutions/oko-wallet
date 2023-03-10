@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
+import { isMobile } from 'shared';
 
 import { getCustomSize } from '../../../styles/format-size';
-import { isMobile } from '../../../utils/platform.utils';
 
 export const styles = StyleSheet.create({
   root: {

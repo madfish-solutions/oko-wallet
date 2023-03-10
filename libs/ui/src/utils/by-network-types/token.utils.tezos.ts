@@ -1,13 +1,12 @@
 import { from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { NetworkTypeEnum, AccountInterface } from 'shared';
+import { createReadOnlyTezosToolkit } from 'shelter';
 
-import { NetworkTypeEnum } from '../../enums/network-type.enum';
 import { TezosTokenTypeEnum } from '../../enums/tezos-token-type.enum';
-import { AccountInterface } from '../../interfaces/account.interface';
 import { NetworkInterface } from '../../interfaces/network.interface';
 import { Token } from '../../interfaces/token.interface';
-import { getString } from '../get-string.utils';
-import { createReadOnlyTezosToolkit } from '../tezos-toolkit.utils';
+import { getString } from '../../utils/get-string.utils';
 
 export const loadTezosGasTokenBalance$ = (
   { rpcUrl }: NetworkInterface,

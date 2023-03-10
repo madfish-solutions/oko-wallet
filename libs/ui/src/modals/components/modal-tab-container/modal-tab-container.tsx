@@ -1,8 +1,8 @@
 import React, { FC, PropsWithChildren } from 'react';
 import { ScrollView } from 'react-native';
-import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { ViewStyleProps } from '../../../interfaces/style.interface';
+import { TestIDProps } from '../../../interfaces/test-id.props';
 import { ModalContainer } from '../modal-container/modal-container';
 
 import { styles } from './modal-tab-container.styles';

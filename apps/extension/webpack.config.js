@@ -43,6 +43,15 @@ const cssLoaderConfiguration = {
     use: ['style-loader', 'css-loader']
 };
 
+const LIBS = ['ui', 'shared', 'shelter'];
+
+const aliasConfiguration = LIBS.reduce((acc, name) => ({
+    ...acc,
+    [name]: path.resolve(__dirname, `../../libs/${name}/src`),
+}), {});
+
+const modulesConfiguration = LIBS.map(name => path.resolve(__dirname, `../../libs/${name}/node_modules`));
+
 module.exports = {
     target: 'web',
 
@@ -74,12 +83,13 @@ module.exports = {
     resolve: {
         mainFields: ['browser', 'main', 'module'],
         alias: {
-            'react-native$': 'react-native-web'
+            'react-native$': 'react-native-web',
+            ...aliasConfiguration
         },
         plugins: [new TsconfigPathsPlugin()],
         modules: [
             path.resolve(__dirname, 'node_modules'),
-            path.resolve(__dirname, '../../libs/ui/node_modules')
+            ...modulesConfiguration
         ],
         extensions: ['.web.ts', '.web.tsx', '.web.mjs', '.web.js', '.web.jsx', '.ts', '.tsx', '.mjs', '.js', '.jsx'],
         fallback: {
@@ -118,7 +128,7 @@ module.exports = {
                         ]
                     }
                 },
-                {from: '../../libs/ui/node_modules/wasm-themis/src/libthemis.wasm', to: 'scripts/libthemis.wasm'}
+                {from: '../../libs/shelter/node_modules/wasm-themis/src/libthemis.wasm', to: 'scripts/libthemis.wasm'}
             ]
         }),
         new HtmlWebpackPlugin({
