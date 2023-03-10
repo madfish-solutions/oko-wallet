@@ -1,7 +1,6 @@
 import { isDefined } from '@rnw-community/shared';
 import React, { FC, PropsWithChildren, ReactChild } from 'react';
 import { PressableProps } from 'react-native';
-import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
@@ -9,6 +8,7 @@ import { Pressable } from '../../../../components/pressable/pressable';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
+import { TestIDProps } from '../../../../interfaces/test-id.props';
 
 import { styles } from './item.styles';
 

@@ -1,8 +1,8 @@
 import React, { FC, PropsWithChildren } from 'react';
 import { Pressable as PressableBase, PressableProps, PressableStateCallbackType } from 'react-native';
-import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { ViewStyleProps } from '../../interfaces/style.interface';
+import { TestIDProps } from '../../interfaces/test-id.props';
 
 type Props = PropsWithChildren<{
   opacity?: boolean;

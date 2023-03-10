@@ -1,7 +1,7 @@
 import { isDefined, OnEventFn, isNotEmptyString } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { ListRenderItemInfo, View } from 'react-native';
-import { TestIDProps } from 'src/interfaces/test-id.props';
+import { AccountInterface } from 'shared';
 
 import { CopyText } from '../../../../components/copy-text/copy-text';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
@@ -10,7 +10,7 @@ import { Selector } from '../../../../components/selector/selector';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
 import { useFiatTotalBalance } from '../../../../hooks/use-fiat-total-balance.hook';
 import { useFilteredAccounts } from '../../../../hooks/use-filtered-accounts.hook';
-import { AccountInterface } from '../../../../interfaces/account.interface';
+import { TestIDProps } from '../../../../interfaces/test-id.props';
 import { useSelectedNetworkTypeSelector } from '../../../../store/wallet/wallet.selectors';
 import { getPublicKeyHash } from '../../../../store/wallet/wallet.utils';
 import { ModalAccountBalance } from '../../../components/modal-account-balance/modal-account-balance';

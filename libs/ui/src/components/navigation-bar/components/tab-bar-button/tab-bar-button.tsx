@@ -1,10 +1,10 @@
 import { emptyFn, OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { TestIDProps } from 'src/interfaces/test-id.props';
 
 import { ScreensEnum } from '../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
+import { TestIDProps } from '../../../../interfaces/test-id.props';
 import { colors } from '../../../../styles/colors';
 import { Icon } from '../../../icon/icon';
 import { IconProps } from '../../../icon/icon.interface';

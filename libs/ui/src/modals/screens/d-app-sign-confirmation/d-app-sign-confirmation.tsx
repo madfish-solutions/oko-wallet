@@ -4,9 +4,9 @@ import React, { FC } from 'react';
 import { InfoBox } from '../../../components/info-box/info-box';
 import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
 import { useClosePopup } from '../../../hooks/use-close-popup';
-import { useShelter } from '../../../hooks/use-shelter.hook';
 import { FromAccount } from '../../../screens/send-confirmation/components/confirmation/components/from-account/from-account';
 import { SelectedNetwork } from '../../../screens/send-confirmation/components/confirmation/components/selected-network/selected-network';
+import { useSignMessage } from '../../../shelter/hooks/use-sign-message.hook';
 import { useSelectedAccountSelector } from '../../../store/wallet/wallet.selectors';
 import {
   sendErrorToDAppAndClosePopup,
@@ -21,7 +21,7 @@ import { getMessageToSign } from './utils/prepare-sign-data';
 export const DAppSignConfirmation: FC = () => {
   const { params } = useRoute<RouteProp<ScreensParamList, ScreensEnum.DAppSignConfirmation>>();
   const selectedAccount = useSelectedAccountSelector();
-  const { signMessage } = useShelter();
+  const signMessage = useSignMessage();
   useClosePopup(params.messageId, params.dAppInfo.origin);
 
   const onDecline = () => sendErrorToDAppAndClosePopup(params.dAppInfo.origin, params.messageId);

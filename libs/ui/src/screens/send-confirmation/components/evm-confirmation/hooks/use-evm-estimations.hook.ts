@@ -1,8 +1,8 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { useEffect, useMemo, useState } from 'react';
+import { getDefaultEvmProvider } from 'shelter';
 
 import { NetworkInterface } from '../../../../../interfaces/network.interface';
-import { getDefaultEvmProvider } from '../../../../../utils/get-default-evm-provider.utils';
 import { EMPTY_GAS } from '../../../constants';
 import { getGasLimit } from '../utils/get-gas-limit.util';
 import { modifyGasLimit } from '../utils/modify-gas-limit.util';

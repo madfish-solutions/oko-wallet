@@ -1,4 +1,4 @@
-import { TokenStandardEnum } from '../enums/token-standard.enum';
+import { TokenStandardEnum } from 'shared';
 
 export interface TokenMetadata {
   name: string;

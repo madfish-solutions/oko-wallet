@@ -3,12 +3,12 @@ import isEmpty from 'lodash/isEmpty';
 import React, { FC, PropsWithChildren, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { View } from 'react-native';
+import { NetworkTypeEnum } from 'shared';
 
 import { CopyText } from '../../../../components/copy-text/copy-text';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 import { TextInput } from '../../../../components/text-input/text-input';
-import { NetworkTypeEnum } from '../../../../enums/network-type.enum';
 import { ModalActionsContainer } from '../../../../modals/components/modal-actions-container/modal-actions-container';
 import {
   useGasTokenSelector,

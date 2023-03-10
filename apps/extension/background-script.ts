@@ -1,12 +1,7 @@
 import './shim.js';
 
-import {
-  BackgroundMessage,
-  BackgroundMessageType,
-  E2eMessageType,
-  POPUP_OPEN,
-  POPUP_CLOSED
-} from 'ui/background-script';
+import { BackgroundMessage, BackgroundMessageType, E2eMessageType } from 'shelter/background-script';
+import { POPUP_OPEN, POPUP_CLOSED } from 'ui/background-script';
 import { Runtime, runtime, scripting, storage } from 'webextension-polyfill';
 
 import { CONTENT_SCRIPT_PORT_NAME } from './src/constants/content-script';

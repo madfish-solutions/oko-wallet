@@ -29,6 +29,12 @@
       ],
       "ui/inpage": [
         "../../libs/ui/src/inpage"
+      ],
+      "shelter/background-script": [
+        "../../libs/shelter/src/background-script"
+      ],
+      "shared/background-script": [
+        "../../libs/shared/src/background-script"
       ]
     }
   },

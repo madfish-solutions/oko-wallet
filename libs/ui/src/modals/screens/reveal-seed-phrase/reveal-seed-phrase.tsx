@@ -9,7 +9,7 @@ import { MnemonicActionButton } from '../../../components/mnemonic-action-button
 import { NavigationBar } from '../../../components/navigation-bar/navigation-bar';
 import { Text } from '../../../components/text/text';
 import { SECURITY_TIME } from '../../../constants/defaults';
-import { useShelter } from '../../../hooks/use-shelter.hook';
+import { useRevealSeedPhrase } from '../../../shelter/hooks/use-reveal-seed-phrase.hook';
 import { handleSetValueToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 
@@ -23,7 +23,7 @@ export const RevealSeedPhrase: FC = () => {
   const [isShowProtectLayout, setIsShowProtectLayout] = useState(true);
   const [seedPhrase, setSeedPhrase] = useState<string[]>(initialSeedPhraseValue);
 
-  const { revealSeedPhrase } = useShelter();
+  const revealSeedPhrase = useRevealSeedPhrase();
 
   const handleHideLayout = () => {
     revealSeedPhrase({

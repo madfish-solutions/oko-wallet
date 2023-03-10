@@ -1,14 +1,7 @@
 import { useToast as useToastBase } from 'react-native-toast-notifications';
-import { ToastProps } from 'react-native-toast-notifications/lib/typescript/toast';
 
-import { ToastData } from '../components/toast/toast';
 import { ToastsEnum } from '../enums/toasts.enums';
-
-export interface Toast {
-  message: ToastProps['message'];
-  duration?: number;
-  data?: ToastData;
-}
+import { Toast } from '../interfaces/toast.interface';
 
 interface ToastBase extends Toast {
   type: ToastsEnum;

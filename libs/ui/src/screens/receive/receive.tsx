@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
+import { isMobile } from 'shared';
 
 import { Column } from '../../components/column/column';
 import { IconNameEnum } from '../../components/icon/icon-name.enum';
@@ -22,7 +23,6 @@ import {
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
 import { handleSetValueToClipboard } from '../../utils/copy-to-clipboard.util';
-import { isMobile } from '../../utils/platform.utils';
 import { share } from '../../utils/share.util';
 
 import { styles } from './receive.styles';

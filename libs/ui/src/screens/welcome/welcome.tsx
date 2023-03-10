@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { View } from 'react-native';
+import { isMobile } from 'shared';
 
 import { Button } from '../../components/button/button';
 import { ButtonThemesEnum } from '../../components/button/enums';
@@ -12,7 +13,6 @@ import { ScreensEnum } from '../../enums/sreens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';
-import { isMobile } from '../../utils/platform.utils';
 import { MadFishLogo } from '../settings/components/mad-fish-logo/mad-fish-logo';
 
 import { styles } from './welcome.styles';

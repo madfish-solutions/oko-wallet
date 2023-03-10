@@ -1,7 +1,6 @@
 import { of } from 'rxjs';
+import { NetworkTypeEnum, AccountInterface } from 'shared';
 
-import { NetworkTypeEnum } from '../../enums/network-type.enum';
-import { AccountInterface } from '../../interfaces/account.interface';
 import { SendAssetPayload } from '../../interfaces/send-asset-action-payload.interface';
 import { getTransactionParams } from '../../screens/send-confirmation/components/evm-confirmation/utils/get-transaction-params.util';
 import { getPublicKeyHash } from '../../store/wallet/wallet.utils';

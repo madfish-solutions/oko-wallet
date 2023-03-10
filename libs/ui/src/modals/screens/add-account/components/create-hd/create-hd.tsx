@@ -5,7 +5,7 @@ import { Column } from '../../../../../components/column/column';
 import { TextInput } from '../../../../../components/text-input/text-input';
 import { ScreensEnum } from '../../../../../enums/sreens.enum';
 import { useNavigation } from '../../../../../hooks/use-navigation.hook';
-import { useShelter } from '../../../../../hooks/use-shelter.hook';
+import { useCreateHdAccount } from '../../../../../shelter/hooks/use-create-hd-account.hook';
 import { ModalFooterButtons } from '../../../../components/modal-footer-buttons/modal-footer-buttons';
 import { useAccountNameControl } from '../../hooks/use-account-name-control.hook';
 
@@ -13,7 +13,7 @@ import { styles } from './create-hd.styles';
 import { AddHdAccountTestIDs } from './create-hd.test-ids';
 
 export const CreateHD: FC = () => {
-  const { createHdAccount } = useShelter();
+  const createHdAccount = useCreateHdAccount();
   const { navigate, goBack } = useNavigation();
   const { control, nameRules, defaultValue, handleSubmit, errors, isSubmitSuccessful } = useAccountNameControl();
 
