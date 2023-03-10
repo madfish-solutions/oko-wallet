@@ -2,6 +2,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Pressable, TextInputKeyPressEventData, NativeSyntheticEvent } from 'react-native';
+import { isMobile, isWeb } from 'shared';
 
 import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
@@ -14,7 +15,6 @@ import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useBiometricEnabledSelector } from '../../../store/settings/settings.selectors';
 import { useSelectedAccountPublicKeyHashSelector } from '../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../styles/format-size';
-import { isMobile, isWeb } from '../../../utils/platform.utils';
 import { ModalActionsContainer } from '../../components/modal-actions-container/modal-actions-container';
 
 import { styles } from './confirm-access.styles';

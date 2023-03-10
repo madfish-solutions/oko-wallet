@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
+import { AccountTypeEnum } from 'shared';
 
-import { AccountTypeEnum } from '../../../../../enums/account-type.enum';
 import { useFilteredAccounts } from '../../../../../hooks/use-filtered-accounts.hook';
 import { useAllAccountsSelector } from '../../../../../store/wallet/wallet.selectors';
 import { AccountsTransformer } from '../interfaces/accounts.interface';

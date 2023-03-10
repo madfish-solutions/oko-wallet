@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-
-import { Shelter } from '../shelter/shelter';
+import { Shelter } from 'shelter';
 
 export const useConfirmAccess = () => {
   const [isLocked, setIsLocked] = useState(true);

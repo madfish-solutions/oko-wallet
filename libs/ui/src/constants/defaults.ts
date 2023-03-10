@@ -1,6 +1,5 @@
-import { AccountTypeEnum } from '../enums/account-type.enum';
-import { NetworkTypeEnum } from '../enums/network-type.enum';
-import { AccountInterface } from '../interfaces/account.interface';
+import { AccountInterface, AccountTypeEnum, NetworkTypeEnum } from 'shared';
+
 import { Token } from '../interfaces/token.interface';
 import { createEntity } from '../store/utils/entity.utils';
 

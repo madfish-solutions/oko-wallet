@@ -2,6 +2,8 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC, useMemo } from 'react';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
+import { AccountTypeEnum } from 'shared';
+import { derivationPathByNetworkType } from 'shelter';
 
 import { AccountType } from '../../components/account-type/account-type';
 import { CopyText } from '../../components/copy-text/copy-text';
@@ -15,7 +17,6 @@ import { HeaderContainer } from '../../components/screen-components/header-conta
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { Switch } from '../../components/switch/switch';
 import { Text } from '../../components/text/text';
-import { AccountTypeEnum } from '../../enums/account-type.enum';
 import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
 import { useCopyToClipboard } from '../../hooks/use-copy-to-clipboard.hook';
 import { useFiatTotalBalance } from '../../hooks/use-fiat-total-balance.hook';
@@ -32,7 +33,6 @@ import {
 } from '../../store/wallet/wallet.selectors';
 import { getPublicKeyHash } from '../../store/wallet/wallet.utils';
 import { getCustomSize } from '../../styles/format-size';
-import { derivationPathByNetworkType } from '../../utils/generate-hd-account.util';
 import { Item } from '../settings/components/item/item';
 import { ItemContainer } from '../settings/components/item-container/item-container';
 
