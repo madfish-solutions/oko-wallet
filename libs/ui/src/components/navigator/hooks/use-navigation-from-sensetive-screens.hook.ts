@@ -1,4 +1,4 @@
-import { ScreensEnum } from '../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../enums/screens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 
 const sensitiveRoutes = [ScreensEnum.RevealPrivateKey, ScreensEnum.RevealSeedPhrase];

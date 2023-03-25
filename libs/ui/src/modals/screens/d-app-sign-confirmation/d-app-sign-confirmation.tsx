@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 
 import { InfoBox } from '../../../components/info-box/info-box';
-import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../enums/screens.enum';
 import { useClosePopup } from '../../../hooks/use-close-popup';
 import { FromAccount } from '../../../screens/send-confirmation/components/confirmation/components/from-account/from-account';
 import { SelectedNetwork } from '../../../screens/send-confirmation/components/confirmation/components/selected-network/selected-network';

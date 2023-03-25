@@ -17,7 +17,7 @@ import { Text } from '../../../../components/text/text';
 import { ErrorField } from '../../../../components/text-input/components/error-field/error-field';
 import { Label } from '../../../../components/text-input/components/label/label';
 import { TextInput } from '../../../../components/text-input/text-input';
-import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../../enums/screens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useAllAccountsWithoutSelectedSelector } from '../../../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../../../styles/format-size';

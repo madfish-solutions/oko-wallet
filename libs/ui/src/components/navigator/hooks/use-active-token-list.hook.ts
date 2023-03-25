@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { getDebankId } from '../../../api/debank/utils/get-debank-id.util';
 import { DATA_UPDATE_TIME } from '../../../constants/update-time';
-import { ScreensEnum } from '../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../enums/screens.enum';
 import { useCurrentRoute } from '../../../hooks/use-current-route.hook';
 import { useTimerEffect } from '../../../hooks/use-timer-effect.hook';
 import { getAllUserTokensAction } from '../../../store/wallet/wallet.actions';

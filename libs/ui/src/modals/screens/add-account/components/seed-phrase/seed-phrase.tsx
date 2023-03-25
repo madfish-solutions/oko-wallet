@@ -15,7 +15,7 @@ import { Pressable } from '../../../../../components/pressable/pressable';
 import { Row } from '../../../../../components/row/row';
 import { Text } from '../../../../../components/text/text';
 import { TextInput as CustomTextInput } from '../../../../../components/text-input/text-input';
-import { ScreensEnum, ScreensParamList } from '../../../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../../../enums/screens.enum';
 import { useImportSeedPhrase } from '../../../../../hooks/use-import-seed-phrase.hook';
 import { useNavigation } from '../../../../../hooks/use-navigation.hook';
 import { useCreateImportedAccount } from '../../../../../shelter/hooks/use-create-imported-account.hook';

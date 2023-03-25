@@ -8,7 +8,7 @@ import { RenderItem } from '../../../components/selector/components/render-item/
 import { Selector } from '../../../components/selector/selector';
 import { Text } from '../../../components/text/text';
 import { Token } from '../../../components/token/token';
-import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../enums/screens.enum';
 import { useFilterAccountTokens } from '../../../hooks/use-filter-tokens.hook';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { usePreviousScreenName } from '../../../hooks/use-previous-screen-name.hook';

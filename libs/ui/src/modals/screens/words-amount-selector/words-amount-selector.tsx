@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 
 import { Dropdown } from '../../../components/dropdown/dropdown';
 import { SeedWordsAmount, words } from '../../../constants/seed-words-amount';
-import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../enums/screens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { usePreviousScreenName } from '../../../hooks/use-previous-screen-name.hook';
 import { ModalContainer } from '../../components/modal-container/modal-container';

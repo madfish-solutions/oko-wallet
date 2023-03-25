@@ -11,7 +11,7 @@ import { Paste } from '../../components/paste/paste';
 import { Row } from '../../components/row/row';
 import { Text } from '../../components/text/text';
 import { WalletCreationContainer } from '../../components/wallet-creation-container/wallet-creation-container';
-import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../enums/screens.enum';
 import { useImportSeedPhrase } from '../../hooks/use-import-seed-phrase.hook';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { getCustomSize } from '../../styles/format-size';

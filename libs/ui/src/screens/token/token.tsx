@@ -8,7 +8,7 @@ import { HeaderContainer } from '../../components/screen-components/header-conta
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { Tabs } from '../../components/tabs/tabs';
 import { DATA_UPDATE_TIME } from '../../constants/update-time';
-import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../enums/screens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useTimerEffect } from '../../hooks/use-timer-effect.hook';
 import { ViewStyleProps } from '../../interfaces/style.interface';

@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { ONE_INCH_GAS_TOKEN_ADDRESS } from '../../../../api/1inch/constants';
 import { get1inchTokenAddress } from '../../../../api/1inch/utils/get-1inch-token-address.util';
-import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../../enums/screens.enum';
 import { TokenMetadata } from '../../../../interfaces/token-metadata.interface';
 import { addNewTokensMetadataAction } from '../../../../store/wallet/wallet.actions';
 import { useSelectedNetworkSelector, useTokensMetadataSelector } from '../../../../store/wallet/wallet.selectors';

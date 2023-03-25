@@ -7,7 +7,7 @@ import { Pressable } from '../../../components/pressable/pressable';
 import { ProtectLayout } from '../../../components/protect-layout/protect-layout';
 import { Text } from '../../../components/text/text';
 import { SECURITY_TIME } from '../../../constants/defaults';
-import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../enums/screens.enum';
 import { useRevealPrivateKey } from '../../../shelter/hooks/use-reveal-private-key.hook';
 import { handleSetValueToClipboard } from '../../../utils/copy-to-clipboard.util';
 import { ModalContainer } from '../../components/modal-container/modal-container';

@@ -1,7 +1,7 @@
 import { ParamListBase } from '@react-navigation/native';
 import { createAction } from '@reduxjs/toolkit';
 
-import { ScreensParamList } from '../enums/sreens.enum';
+import { ScreensParamList } from '../enums/screens.enum';
 
 import { createActions } from './utils/action.utils';
 

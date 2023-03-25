@@ -7,7 +7,7 @@ import { TextInput } from 'react-native-gesture-handler';
 
 import { SECURITY_TIME } from '../constants/defaults';
 import { allMnemonicLengthValue, maxWordsLength, SeedWordsAmount, words } from '../constants/seed-words-amount';
-import { ScreensEnum } from '../enums/sreens.enum';
+import { ScreensEnum } from '../enums/screens.enum';
 import { handleSetValueToClipboard } from '../utils/copy-to-clipboard.util';
 
 import { useNavigation } from './use-navigation.hook';

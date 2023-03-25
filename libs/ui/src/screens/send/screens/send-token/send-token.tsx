@@ -9,7 +9,7 @@ import { HeaderContainer } from '../../../../components/screen-components/header
 import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
 import { ScreenScrollView } from '../../../../components/screen-components/screen-scroll-view/screen-scroll-view';
 import { getValueWithMaxNumberOfDecimals } from '../../../../components/text-input/utils/get-value-with-max-number-of-decimals.util';
-import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../../enums/screens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useTokenFiatBalance } from '../../../../hooks/use-token-fiat-balance.hook';
 import { useAllAccountsWithoutSelectedSelector, useGasTokenSelector } from '../../../../store/wallet/wallet.selectors';

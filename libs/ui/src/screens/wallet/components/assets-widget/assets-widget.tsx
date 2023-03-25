@@ -8,7 +8,7 @@ import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Row } from '../../../../components/row/row';
 import { AccountToken } from '../../../../components/token/account-token/account-token';
 import { WidgetContainer } from '../../../../components/widget-container/widget-container';
-import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../../enums/screens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useSortAccountTokensByBalance } from '../../../../hooks/use-sort-tokens-by-balance.hook';
 import { TestIDProps } from '../../../../interfaces/test-id.props';

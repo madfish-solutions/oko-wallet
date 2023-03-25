@@ -1,7 +1,7 @@
 import React, { FC, PropsWithChildren, RefObject } from 'react';
 import { ScrollView } from 'react-native';
 
-import { ScreensEnum } from '../../enums/sreens.enum';
+import { ScreensEnum } from '../../enums/screens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import {
   FooterNavigationButtons,

@@ -12,7 +12,7 @@ import { ScreenContainer } from '../../../../components/screen-components/screen
 import { SearchPanel } from '../../../../components/search-panel/search-panel';
 import { Text } from '../../../../components/text/text';
 import { EMPTY_STRING } from '../../../../constants/defaults';
-import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../../enums/screens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useSelectedAccountDAppsListSelector } from '../../../../store/d-apps/d-apps.selectors';
 import { DAppState } from '../../../../store/d-apps/d-apps.state';

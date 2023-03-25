@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { IconNameEnum } from '../../../../../components/icon/icon-name.enum';
 import { modernCivilizationDidNotReachThisNetwork } from '../../../../../components/toast/constants/toast-messages';
-import { ScreensEnum } from '../../../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../../../enums/screens.enum';
 import { useSwapSupported } from '../../../../../hooks/use-swap-supported.hook';
 
 export interface TokenNavigationBarOption {

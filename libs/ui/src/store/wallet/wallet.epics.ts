@@ -6,7 +6,7 @@ import { Action } from 'ts-action';
 import { ofType, toPayload } from 'ts-action-operators';
 
 import { getAllUserNftList, getTokenList } from '../../api/debank/debank';
-import { ScreensEnum } from '../../enums/sreens.enum';
+import { ScreensEnum } from '../../enums/screens.enum';
 import { getErc20TokenMetadata$ } from '../../utils/get-erc20-token-metadata.util';
 import { parseTezosTransferParams } from '../../utils/parse-tezos-transfer-params.utils';
 import { getGasTokenBalance$, getTokenBalance$ } from '../../utils/token.utils';

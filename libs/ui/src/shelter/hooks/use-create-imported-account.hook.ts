@@ -4,7 +4,7 @@ import { catchError, of, Subject, switchMap, tap } from 'rxjs';
 import { NetworkTypeEnum, HdAccount } from 'shared';
 import { Shelter } from 'shelter';
 
-import { ScreensEnum } from '../../enums/sreens.enum';
+import { ScreensEnum } from '../../enums/screens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useToast } from '../../hooks/use-toast.hook';
 import { hideLoaderAction, showLoaderAction } from '../../store/settings/settings.actions';

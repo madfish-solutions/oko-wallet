@@ -3,7 +3,7 @@ import { Controller } from 'react-hook-form';
 
 import { Column } from '../../../../../components/column/column';
 import { TextInput } from '../../../../../components/text-input/text-input';
-import { ScreensEnum } from '../../../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../../../enums/screens.enum';
 import { useNavigation } from '../../../../../hooks/use-navigation.hook';
 import { useCreateHdAccount } from '../../../../../shelter/hooks/use-create-hd-account.hook';
 import { ModalFooterButtons } from '../../../../components/modal-footer-buttons/modal-footer-buttons';

@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 
 import { Dropdown } from '../../../components/dropdown/dropdown';
 import { Option } from '../../../components/dropdown/option.interface';
-import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../enums/screens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { ModalContainer } from '../../components/modal-container/modal-container';
 

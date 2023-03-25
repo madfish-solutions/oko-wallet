@@ -9,7 +9,7 @@ import { HeaderContainer } from '../../../../components/screen-components/header
 import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
 import { ScreenScrollView } from '../../../../components/screen-components/screen-scroll-view/screen-scroll-view';
 import { Switch } from '../../../../components/switch/switch';
-import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../../enums/screens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { setIsAnalyticsEnabled } from '../../../../store/settings/settings.actions';
 import { useAnalyticsEnabledSelector } from '../../../../store/settings/settings.selectors';

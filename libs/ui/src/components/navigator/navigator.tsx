@@ -1,7 +1,7 @@
 import { NavigationContainer, NavigationContainerRef, DarkTheme } from '@react-navigation/native';
 import React, { FC, createRef } from 'react';
 
-import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../enums/screens.enum';
 import { useAppLockTimer } from '../../hooks/use-app-lock-timer.hook';
 import { useLockApp } from '../../hooks/use-lock-app.hook';
 import { usePersistedNavigationState } from '../../hooks/use-persisted-navigation-state.hook';

@@ -7,7 +7,7 @@ import { IconNameEnum } from '../../../../../../../../components/icon/icon-name.
 import { Row } from '../../../../../../../../components/row/row';
 import { Text } from '../../../../../../../../components/text/text';
 import { Token } from '../../../../../../../../components/token/token';
-import { ScreensEnum } from '../../../../../../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../../../../../../enums/screens.enum';
 import { useNavigation } from '../../../../../../../../hooks/use-navigation.hook';
 import { Token as TokenType } from '../../../../../../../../interfaces/token.interface';
 import { getCustomSize } from '../../../../../../../../styles/format-size';

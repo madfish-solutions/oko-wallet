@@ -9,7 +9,7 @@ import { ofType, toPayload } from 'ts-action-operators';
 
 import { getQuote, getSwapData } from '../../api/1inch/1inch';
 import { DEBOUNCE_TIME } from '../../constants/defaults';
-import { ScreensEnum } from '../../enums/sreens.enum';
+import { ScreensEnum } from '../../enums/screens.enum';
 import { OperationsEnum } from '../../screens/send-confirmation/enums';
 import { getSwapExchangeRate } from '../../utils/get-swap-exchange-rate.util';
 import { formatUnits } from '../../utils/units.utils';

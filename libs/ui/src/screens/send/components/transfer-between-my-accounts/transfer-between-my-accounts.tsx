@@ -15,7 +15,7 @@ import { Label } from '../../../../components/text-input/components/label/label'
 import { Prompt } from '../../../../components/text-input/components/prompt/prompt';
 import { TextInput } from '../../../../components/text-input/text-input';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
-import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../../enums/screens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useToast } from '../../../../hooks/use-toast.hook';
 import { useCreateHdAccountForNewNetworkType } from '../../../../shelter/hooks/use-create-hd-account-for-new-network-type.hook';

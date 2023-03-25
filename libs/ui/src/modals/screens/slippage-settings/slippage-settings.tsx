@@ -7,7 +7,7 @@ import { Warning } from '../../../components/announcement/components/warning/war
 import { FragmentSelector } from '../../../components/fragment-selector/fragment-selector';
 import { Text } from '../../../components/text/text';
 import { TextInput } from '../../../components/text-input/text-input';
-import { ScreensEnum } from '../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../enums/screens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { setSlippageToleranceAction } from '../../../store/swap/swap.actions';
 import { useSlippageToleranceSelector } from '../../../store/swap/swap.selectors';

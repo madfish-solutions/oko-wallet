@@ -10,7 +10,7 @@ import { HeaderContainer } from '../../components/screen-components/header-conta
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { Text } from '../../components/text/text';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
-import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../enums/screens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { ACTIVITIES_TYPES } from '../../modals/screens/activity-filter-selector/constants';
 import {

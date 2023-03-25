@@ -12,7 +12,7 @@ import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 import { TextInput } from '../../../../components/text-input/text-input';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
-import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../../enums/screens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { DAppInfo } from '../../../../interfaces/dapp-info.interface';
 import { Token } from '../../../../interfaces/token.interface';

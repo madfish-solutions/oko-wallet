@@ -12,7 +12,7 @@ import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { IconWithBorderEnum } from '../../../components/icon-with-border/enums';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
-import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../enums/screens.enum';
 import { useClosePopup } from '../../../hooks/use-close-popup';
 import { AllowsRules } from '../../../interfaces/dapp-connection.interface';
 import { useDAppSelector } from '../../../store/d-apps/d-apps.selectors';

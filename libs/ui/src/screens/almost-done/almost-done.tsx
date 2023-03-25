@@ -11,7 +11,7 @@ import { Text } from '../../components/text/text';
 import { PasswordInput } from '../../components/text-input/components/password-input/password-input';
 import { TextInput } from '../../components/text-input/text-input';
 import { WalletCreationContainer } from '../../components/wallet-creation-container/wallet-creation-container';
-import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../enums/screens.enum';
 import { useValidatePasswordForm } from '../../hooks/use-validate-password-form.hook';
 import { usePasswordValidation } from '../../hooks/use-validation-messages.hook';
 import { useAccountFieldRules } from '../../modals/hooks/use-validate-account-field.hook';

@@ -4,7 +4,7 @@ import { AccountInterface } from 'shared';
 import { IconWithBorderEnum } from '../../../../../../components/icon-with-border/enums';
 import { IconWithBorder } from '../../../../../../components/icon-with-border/icon-with-border';
 import { RobotIcon } from '../../../../../../components/robot-icon/robot-icon';
-import { ScreensEnum } from '../../../../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../../../../enums/screens.enum';
 import { useNavigation } from '../../../../../../hooks/use-navigation.hook';
 import { ViewStyleProps } from '../../../../../../interfaces/style.interface';
 import { useSelectedNetworkTypeSelector } from '../../../../../../store/wallet/wallet.selectors';

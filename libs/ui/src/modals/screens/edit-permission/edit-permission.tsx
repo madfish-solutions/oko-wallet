@@ -14,7 +14,7 @@ import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { InfoBox } from '../../../components/info-box/info-box';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
-import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../enums/screens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useScrollToOffset } from '../../../hooks/use-scroll-to-element.hook';
 import { useTokenFiatBalance } from '../../../hooks/use-token-fiat-balance.hook';

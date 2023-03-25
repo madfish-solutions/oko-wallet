@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 import { NetworkTypeEnum } from 'shared';
 
-import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../enums/screens.enum';
 import { useSelectedNetworkTypeSelector } from '../../store/wallet/wallet.selectors';
 
 import { EvmConfirmation } from './components/evm-confirmation/evm-confirmation';

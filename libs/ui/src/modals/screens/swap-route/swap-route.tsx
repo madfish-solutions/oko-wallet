@@ -7,7 +7,7 @@ import { Loader } from '../../../components/loader/loader';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
 import { Token } from '../../../components/token/token';
-import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../enums/screens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { getCustomSize } from '../../../styles/format-size';
 import { ModalActionContainer } from '../../components/modal-action-container/modal-action-container';

@@ -17,7 +17,7 @@ import { ScreenContainer } from '../../components/screen-components/screen-conta
 import { ScreenScrollView } from '../../components/screen-components/screen-scroll-view/screen-scroll-view';
 import { Text } from '../../components/text/text';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
-import { ScreensEnum } from '../../enums/sreens.enum';
+import { ScreensEnum } from '../../enums/screens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useSelectedAccountPublicKeyHashSelector } from '../../store/wallet/wallet.selectors';
 import { getCustomSize } from '../../styles/format-size';

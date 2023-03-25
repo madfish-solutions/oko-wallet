@@ -17,7 +17,7 @@ import { HeaderContainer } from '../../components/screen-components/header-conta
 import { ScreenContainer } from '../../components/screen-components/screen-container/screen-container';
 import { Switch } from '../../components/switch/switch';
 import { Text } from '../../components/text/text';
-import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../enums/screens.enum';
 import { useCopyToClipboard } from '../../hooks/use-copy-to-clipboard.hook';
 import { useFiatTotalBalance } from '../../hooks/use-fiat-total-balance.hook';
 import { useNavigation } from '../../hooks/use-navigation.hook';

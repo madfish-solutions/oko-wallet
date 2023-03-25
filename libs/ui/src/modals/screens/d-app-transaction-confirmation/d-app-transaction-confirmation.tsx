@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import React, { FC, useMemo } from 'react';
 
 import { FLOAT_ZERO_STRING } from '../../../constants/defaults';
-import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../enums/screens.enum';
 import { useClosePopup } from '../../../hooks/use-close-popup';
 import { EvmConfirmation } from '../../../screens/send-confirmation/components/evm-confirmation/evm-confirmation';
 import { EMPTY_GAS } from '../../../screens/send-confirmation/constants';

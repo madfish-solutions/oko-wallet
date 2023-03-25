@@ -1,7 +1,7 @@
 import { isDefined } from '@rnw-community/shared';
 import { useEffect } from 'react';
 
-import { ScreensEnum } from '../enums/sreens.enum';
+import { ScreensEnum } from '../enums/screens.enum';
 import { isPopup } from '../utils/location.utils';
 import { openFullViewPage } from '../utils/open-maximise-screen.util';
 

@@ -8,7 +8,7 @@ import { NetworkTypeEnum } from 'shared';
 
 import { CHAINS_JSON, DEBOUNCE_TIME } from '../../../../constants/defaults';
 import { httpsRegx } from '../../../../constants/regex-validation';
-import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../../enums/screens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useToast } from '../../../../hooks/use-toast.hook';
 import { NetworkInterface } from '../../../../interfaces/network.interface';

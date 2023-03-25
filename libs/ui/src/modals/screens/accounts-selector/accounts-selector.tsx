@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { AccountInterface } from 'shared';
 
-import { ScreensEnum } from '../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../enums/screens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useCreateHdAccountForNewNetworkType } from '../../../shelter/hooks/use-create-hd-account-for-new-network-type.hook';
 import { changeAccountAction } from '../../../store/wallet/wallet.actions';
