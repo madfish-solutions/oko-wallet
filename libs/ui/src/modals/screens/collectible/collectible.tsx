@@ -12,7 +12,7 @@ import { CopyText } from '../../../components/copy-text/copy-text';
 import { Icon } from '../../../components/icon/icon';
 import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { InfoItem } from '../../../components/info-item/info-item';
-import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../enums/screens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useToast } from '../../../hooks/use-toast.hook';
 import { loadAccountTokenBalanceAction, deleteCollectibleAction } from '../../../store/wallet/wallet.actions';

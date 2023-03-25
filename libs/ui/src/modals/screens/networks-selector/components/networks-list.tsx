@@ -7,7 +7,7 @@ import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Selector } from '../../../../components/selector/selector';
 import { TouchableIcon } from '../../../../components/touchable-icon/touchable-icon';
 import { EMPTY_STRING } from '../../../../constants/defaults';
-import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../../enums/screens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
 import { useCreateHdAccountForNewNetworkType } from '../../../../shelter/hooks/use-create-hd-account-for-new-network-type.hook';

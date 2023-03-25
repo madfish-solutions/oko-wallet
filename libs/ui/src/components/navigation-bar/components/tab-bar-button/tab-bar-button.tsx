@@ -2,7 +2,7 @@ import { emptyFn, OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { TouchableOpacity } from 'react-native';
 
-import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../../enums/screens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { TestIDProps } from '../../../../interfaces/test-id.props';
 import { colors } from '../../../../styles/colors';

@@ -3,7 +3,7 @@ import { OnEventFn } from '@rnw-community/shared';
 import React, { FC } from 'react';
 import { View, Pressable } from 'react-native';
 
-import { ScreensParamList } from '../../../../enums/sreens.enum';
+import { ScreensParamList } from '../../../../enums/screens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { TestIDProps } from '../../../../interfaces/test-id.props';
 import { Row } from '../../../row/row';

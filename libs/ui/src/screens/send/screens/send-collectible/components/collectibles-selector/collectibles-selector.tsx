@@ -13,7 +13,7 @@ import { Row } from '../../../../../../components/row/row';
 import { Selector } from '../../../../../../components/selector/selector';
 import { Text } from '../../../../../../components/text/text';
 import { EMPTY_STRING } from '../../../../../../constants/defaults';
-import { ScreensEnum, ScreensParamList } from '../../../../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../../../../enums/screens.enum';
 import { useFilterAccountTokens } from '../../../../../../hooks/use-filter-tokens.hook';
 import { useNavigation } from '../../../../../../hooks/use-navigation.hook';
 import { Token } from '../../../../../../interfaces/token.interface';

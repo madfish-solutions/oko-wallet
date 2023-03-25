@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { FC } from 'react';
 import { AccountInterface } from 'shared';
 
-import { ScreensEnum, ScreensParamList } from '../../../../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../../../../enums/screens.enum';
 import { useNavigation } from '../../../../../../hooks/use-navigation.hook';
 import { usePreviousScreenName } from '../../../../../../hooks/use-previous-screen-name.hook';
 import { ModalContainer } from '../../../../../../modals/components/modal-container/modal-container';

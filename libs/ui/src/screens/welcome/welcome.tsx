@@ -9,7 +9,7 @@ import { IconNameEnum } from '../../components/icon/icon-name.enum';
 import { Row } from '../../components/row/row';
 import { Text } from '../../components/text/text';
 import { windowWidth } from '../../constants/dimensions';
-import { ScreensEnum } from '../../enums/sreens.enum';
+import { ScreensEnum } from '../../enums/screens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { colors } from '../../styles/colors';
 import { getCustomSize } from '../../styles/format-size';

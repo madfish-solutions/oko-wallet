@@ -9,7 +9,7 @@ import { IconNameEnum } from '../../../components/icon/icon-name.enum';
 import { Row } from '../../../components/row/row';
 import { PasswordInput } from '../../../components/text-input/components/password-input/password-input';
 import { requiredFieldError } from '../../../constants/form-errors';
-import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../enums/screens.enum';
 import { useConfirmAccess } from '../../../hooks/use-confirm-access.hook';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useBiometricEnabledSelector } from '../../../store/settings/settings.selectors';

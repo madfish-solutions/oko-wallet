@@ -4,7 +4,7 @@ import { parse } from 'query-string';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { isWeb, getStoredValue, setStoredValue } from 'shared';
 
-import { ScreensEnum } from '../enums/sreens.enum';
+import { ScreensEnum } from '../enums/screens.enum';
 import { Mutable } from '../types/mutable.type';
 import { createNavigationRoute } from '../utils/navigation.utils';
 

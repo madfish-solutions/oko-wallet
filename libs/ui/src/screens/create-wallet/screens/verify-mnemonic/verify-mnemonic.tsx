@@ -8,7 +8,7 @@ import { Column } from '../../../../components/column/column';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 import { WalletCreationContainer } from '../../../../components/wallet-creation-container/wallet-creation-container';
-import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../../enums/screens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 
 import { shuffledInitialState, wordsInitialState } from './state';

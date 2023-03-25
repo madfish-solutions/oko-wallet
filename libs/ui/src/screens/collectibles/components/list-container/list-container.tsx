@@ -8,7 +8,7 @@ import { ScreenTitle } from '../../../../components/screen-components/header-con
 import { HeaderContainer } from '../../../../components/screen-components/header-container/header-container';
 import { ScreenContainer } from '../../../../components/screen-components/screen-container/screen-container';
 import { SearchPanel } from '../../../../components/search-panel/search-panel';
-import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../../enums/screens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token } from '../../../../interfaces/token.interface';
 import { ActivityFilterEnum } from '../../../../modals/screens/activity-filter-selector/activity-filter.enum';

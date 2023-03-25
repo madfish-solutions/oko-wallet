@@ -7,7 +7,7 @@ import { AccountType } from '../../../../components/account-type/account-type';
 import { CopyText } from '../../../../components/copy-text/copy-text';
 import { RobotIcon } from '../../../../components/robot-icon/robot-icon';
 import { Selector } from '../../../../components/selector/selector';
-import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../../enums/screens.enum';
 import { useFiatTotalBalance } from '../../../../hooks/use-fiat-total-balance.hook';
 import { useFilteredAccounts } from '../../../../hooks/use-filtered-accounts.hook';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';

@@ -5,7 +5,7 @@ import { catchError, concatMap, tap } from 'rxjs/operators';
 
 import { getApproveData } from '../../../api/1inch/1inch';
 import { ONE_INCH_ICON, ONE_INCH_ROUTER_ADDRESS, ONE_INCH_SITE } from '../../../api/1inch/constants';
-import { ScreensEnum } from '../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../enums/screens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { useToast } from '../../../hooks/use-toast.hook';
 import { Token } from '../../../interfaces/token.interface';

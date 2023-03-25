@@ -4,7 +4,7 @@ import React, { FC } from 'react';
 import { getDebankId } from '../../../../api/debank/utils/get-debank-id.util';
 import { ActivitySectionList } from '../../../../components/activity-section-list/activity-section-list';
 import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
-import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../../enums/screens.enum';
 import {
   useSelectedAccountPublicKeyHashSelector,
   useSelectedNetworkSelector

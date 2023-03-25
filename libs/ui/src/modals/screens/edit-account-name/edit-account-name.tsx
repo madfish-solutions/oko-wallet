@@ -4,7 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
 import { TextInput } from '../../../components/text-input/text-input';
-import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../enums/screens.enum';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { editAccountNameAction } from '../../../store/wallet/wallet.actions';
 import { ModalActionsContainer } from '../../components/modal-actions-container/modal-actions-container';

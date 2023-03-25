@@ -15,7 +15,7 @@ import { Text } from '../../../../components/text/text';
 import { WalletCreationContainer } from '../../../../components/wallet-creation-container/wallet-creation-container';
 import { SECURITY_TIME } from '../../../../constants/defaults';
 import { MnemonicLengthEnum, words } from '../../../../constants/seed-words-amount';
-import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../../enums/screens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useScrollToOffset } from '../../../../hooks/use-scroll-to-element.hook';
 import { handleSetValueToClipboard } from '../../../../utils/copy-to-clipboard.util';

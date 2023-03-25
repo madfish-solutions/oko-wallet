@@ -10,7 +10,7 @@ import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
 import { AccountToken } from '../../../../components/token/account-token/account-token';
 import { TokenItemThemesEnum } from '../../../../components/token/token-item/enums';
-import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../../enums/screens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { useSortAccountTokensByBalance } from '../../../../hooks/use-sort-tokens-by-balance.hook';
 import { Token as TokenInterface } from '../../../../interfaces/token.interface';

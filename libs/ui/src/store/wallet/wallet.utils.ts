@@ -36,6 +36,7 @@ export const updateAccountsGasTokensState = (
 };
 
 export const updateAccountsTokensState = (state: WalletState, account: AccountInterface) => {
+  console.log('updateAccountsTokensState');
   const accountTokens = getDefaultAccountTokens(state, account);
   const prepareAccountTokens = accountTokens && {
     [accountTokens.accountTokensSlug]: accountTokens.defaultAccountTokens
@@ -45,6 +46,7 @@ export const updateAccountsTokensState = (state: WalletState, account: AccountIn
 };
 
 const getDefaultAccountTokens = (state: WalletState, account: AccountInterface) => {
+  console.log('getDefaultAccountTokens');
   const { networks, selectedNetworkRpcUrl } = state;
   const chainId = getSelectedNetworkChainId(state);
   const accountTokensSlug = getAccountTokensSlug(chainId, getPublicKeyHash(account, getSelectedNetworkType(state)));
@@ -69,11 +71,16 @@ export const updateAccountTokenState = (
   token: Token,
   updateFunc: (token: AccountToken) => Partial<AccountToken>
 ): WalletState => {
+  console.log('updateAccountTokenState');
   const { selectedAccountPublicKeyHash, accountsTokens } = state;
   const chainId = getSelectedNetworkChainId(state);
   const accountTokensSlug = getAccountTokensSlug(chainId, selectedAccountPublicKeyHash);
   const tokenSlug = getTokenSlug(token.tokenAddress, token.tokenId);
   const targetAccountTokens = accountsTokens[accountTokensSlug];
+  console.log('accountTokensSlug', accountTokensSlug);
+  console.log('tokenSlug', tokenSlug);
+  console.log('targetAccountTokens', targetAccountTokens);
+  console.log('state', state);
 
   if (typeof targetAccountTokens === 'undefined') {
     return state;

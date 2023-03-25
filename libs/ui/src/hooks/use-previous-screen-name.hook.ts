@@ -1,6 +1,6 @@
 import { useNavigationState } from '@react-navigation/native';
 
-import { ScreensEnum } from '../enums/sreens.enum';
+import { ScreensEnum } from '../enums/screens.enum';
 
 export const usePreviousScreenName = () => {
   const routes = useNavigationState(state => state.routes);

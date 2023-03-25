@@ -9,7 +9,7 @@ import { ButtonWithIconSizeEnum } from '../../../../components/button-with-icon/
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { NETWORK_CHAIN_IDS_BY_NETWORK_TYPE } from '../../../../constants/networks';
 import { MainnetRpcEnum } from '../../../../constants/rpc';
-import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../../enums/screens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { NetworkInterface } from '../../../../interfaces/network.interface';
 import { useCreateHdAccountForNewNetworkType } from '../../../../shelter/hooks/use-create-hd-account-for-new-network-type.hook';

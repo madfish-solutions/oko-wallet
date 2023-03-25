@@ -14,7 +14,7 @@ import { IconWithBorder } from '../../../components/icon-with-border/icon-with-b
 import { RobotIcon } from '../../../components/robot-icon/robot-icon';
 import { Row } from '../../../components/row/row';
 import { Text } from '../../../components/text/text';
-import { ScreensEnum, ScreensParamList } from '../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../enums/screens.enum';
 import { useClosePopup } from '../../../hooks/use-close-popup';
 import { useNavigation } from '../../../hooks/use-navigation.hook';
 import { AllowsRules } from '../../../interfaces/dapp-connection.interface';

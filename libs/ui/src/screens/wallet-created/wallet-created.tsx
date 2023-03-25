@@ -10,7 +10,7 @@ import { Pressable } from '../../components/pressable/pressable';
 import { Row } from '../../components/row/row';
 import { Text } from '../../components/text/text';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
-import { ScreensEnum } from '../../enums/sreens.enum';
+import { ScreensEnum } from '../../enums/screens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { setIsAnalyticsEnabled } from '../../store/settings/settings.actions';
 import { getCustomSize } from '../../styles/format-size';

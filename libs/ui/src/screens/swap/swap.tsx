@@ -23,7 +23,7 @@ import { Text } from '../../components/text/text';
 import { Label } from '../../components/text-input/components/label/label';
 import { getValueWithMaxNumberOfDecimals } from '../../components/text-input/utils/get-value-with-max-number-of-decimals.util';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
-import { ScreensEnum, ScreensParamList } from '../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../enums/screens.enum';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import { useToast } from '../../hooks/use-toast.hook';
 import { useTokenFiatBalance } from '../../hooks/use-token-fiat-balance.hook';

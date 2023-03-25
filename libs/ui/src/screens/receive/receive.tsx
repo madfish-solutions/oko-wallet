@@ -13,7 +13,7 @@ import { ScreenContainer } from '../../components/screen-components/screen-conta
 import { ScreenScrollView } from '../../components/screen-components/screen-scroll-view/screen-scroll-view';
 import { Text } from '../../components/text/text';
 import { TouchableIcon } from '../../components/touchable-icon/touchable-icon';
-import { ScreensEnum } from '../../enums/sreens.enum';
+import { ScreensEnum } from '../../enums/screens.enum';
 import { useDelayedEffect } from '../../hooks/use-delayed-effect.hook';
 import { useNavigation } from '../../hooks/use-navigation.hook';
 import {

@@ -8,7 +8,7 @@ import {
   settingsStackScreens,
   swapStackScreens,
   walletStackScreens
-} from '../../enums/sreens.enum';
+} from '../../enums/screens.enum';
 import { useShowSwapDisabledToast } from '../../hooks/use-show-swap-disabled-toast';
 import { useSwapSupported } from '../../hooks/use-swap-supported.hook';
 import { IconNameEnum } from '../icon/icon-name.enum';

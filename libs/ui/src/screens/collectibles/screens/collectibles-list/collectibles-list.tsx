@@ -6,7 +6,7 @@ import { CollectibleImage } from '../../../../components/collectible-image/colle
 import { Icon } from '../../../../components/icon/icon';
 import { IconNameEnum } from '../../../../components/icon/icon-name.enum';
 import { Text } from '../../../../components/text/text';
-import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../../enums/screens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { Token } from '../../../../interfaces/token.interface';
 import { CollectibleRenderItem } from '../../components/collectible-render-item/collectible-render-item';

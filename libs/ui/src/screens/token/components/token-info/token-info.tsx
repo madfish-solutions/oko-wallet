@@ -5,7 +5,7 @@ import { ScrollView } from 'react-native';
 import { CopyText } from '../../../../components/copy-text/copy-text';
 import { InfoItem } from '../../../../components/info-item/info-item';
 import { GAS_TOKEN_ADDRESS } from '../../../../constants/defaults';
-import { ScreensEnum, ScreensParamList } from '../../../../enums/sreens.enum';
+import { ScreensEnum, ScreensParamList } from '../../../../enums/screens.enum';
 import { useCurrentTokenSelector, useSelectedNetworkSelector } from '../../../../store/wallet/wallet.selectors';
 import { getString } from '../../../../utils/get-string.utils';
 import { getTokenDetailsUrl } from '../../../../utils/get-token-details-url.util';

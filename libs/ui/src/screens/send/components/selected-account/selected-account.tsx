@@ -13,7 +13,7 @@ import { IconWithBorder } from '../../../../components/icon-with-border/icon-wit
 import { RobotIcon } from '../../../../components/robot-icon/robot-icon';
 import { Row } from '../../../../components/row/row';
 import { Text } from '../../../../components/text/text';
-import { ScreensEnum } from '../../../../enums/sreens.enum';
+import { ScreensEnum } from '../../../../enums/screens.enum';
 import { useNavigation } from '../../../../hooks/use-navigation.hook';
 import { ViewStyleProps } from '../../../../interfaces/style.interface';
 import { ModalGasToken } from '../../../../modals/components/modal-gas-token/modal-gas-token';
